@@ -4,10 +4,8 @@
 package de.audi.app.data.core.online;
 
 interface IErrorHandler {
-    default public void showPopup(int n, int n2) {
-    }
+    public void showPopup(int var1, int var2);
 
-    default public void showUnlockPopup() {
-    }
+    public void showUnlockPopup();
 }
 

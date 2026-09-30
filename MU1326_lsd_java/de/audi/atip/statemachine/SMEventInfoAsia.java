@@ -4,6 +4,6 @@
 package de.audi.atip.statemachine;
 
 public interface SMEventInfoAsia {
-    public static final int MAPVICSMAIN_BEACON_FIGURE;
+    public static final int MAPVICSMAIN_BEACON_FIGURE = 900000;
 }
 

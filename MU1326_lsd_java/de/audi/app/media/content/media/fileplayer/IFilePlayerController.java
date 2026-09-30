@@ -6,34 +6,24 @@ package de.audi.app.media.content.media.fileplayer;
 import de.audi.app.media.content.media.fileplayer.FilePlayerSession;
 
 public interface IFilePlayerController {
-    default public boolean activateFilePlayer() {
-    }
+    public boolean activateFilePlayer();
 
-    default public FilePlayerSession getActiveSession() {
-    }
+    public FilePlayerSession getActiveSession();
 
-    default public boolean isActiveSession(FilePlayerSession filePlayerSession) {
-    }
+    public boolean isActiveSession(FilePlayerSession var1);
 
-    default public void attachSession(FilePlayerSession filePlayerSession) {
-    }
+    public void attachSession(FilePlayerSession var1);
 
-    default public void detachActiveSession() {
-    }
+    public void detachActiveSession();
 
-    default public void restoreLastAudioContext() {
-    }
+    public void restoreLastAudioContext();
 
-    default public void releaseAudio() {
-    }
+    public void releaseAudio();
 
-    default public void addSessionToPendingList(FilePlayerSession filePlayerSession) {
-    }
+    public void addSessionToPendingList(FilePlayerSession var1);
 
-    default public boolean removeSessionFromPendingList(FilePlayerSession filePlayerSession) {
-    }
+    public boolean removeSessionFromPendingList(FilePlayerSession var1);
 
-    default public FilePlayerSession removeHighPrioSessionFromPendingList() {
-    }
+    public FilePlayerSession removeHighPrioSessionFromPendingList();
 }
 

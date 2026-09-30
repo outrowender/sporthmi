@@ -28,16 +28,15 @@ implements DSAKeyPairGenerator {
     protected int keySize = 512;
     protected SecureRandom random;
     protected DSAParams params;
-    private static final BigInteger TWO = BigInteger.valueOf(0);
-    private static final int PRIME_CERTAINTY;
+    private static final BigInteger TWO = BigInteger.valueOf(2L);
+    private static final int PRIME_CERTAINTY = 8;
     static /* synthetic */ Class class$0;
 
     public KeyPairGeneratorDSA() {
         super("DSA");
     }
 
-    @Override
-    public void initialize(DSAParams dSAParams, SecureRandom secureRandom) {
+    public void initialize(DSAParams dSAParams, SecureRandom secureRandom) throws InvalidParameterException {
         if (!this.isDSAParamsValid(dSAParams)) {
             throw new InvalidParameterException("K039c");
         }
@@ -45,8 +44,7 @@ implements DSAKeyPairGenerator {
         this.random = secureRandom;
     }
 
-    @Override
-    public void initialize(AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom) {
+    public void initialize(AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom) throws InvalidAlgorithmParameterException {
         DSAParameterSpec dSAParameterSpec = null;
         try {
             if (!(algorithmParameterSpec instanceof DSAParameterSpec)) {
@@ -60,8 +58,7 @@ implements DSAKeyPairGenerator {
         }
     }
 
-    @Override
-    public void initialize(int n, boolean bl, SecureRandom secureRandom) {
+    public void initialize(int n, boolean bl, SecureRandom secureRandom) throws InvalidParameterException {
         if (n < 512 || n > 1024 || n % 64 != 0) {
             this.throwCorrectInvalidParameterException("K0191");
         }
@@ -89,8 +86,7 @@ implements DSAKeyPairGenerator {
         }
     }
 
-    @Override
-    public void initialize(int n, SecureRandom secureRandom) {
+    public void initialize(int n, SecureRandom secureRandom) throws InvalidParameterException {
         this.initialize(n, false, secureRandom);
     }
 
@@ -117,7 +113,6 @@ implements DSAKeyPairGenerator {
         return bigInteger2.modPow(bigInteger, this.params.getP());
     }
 
-    @Override
     public KeyPair generateKeyPair() {
         if (this.params == null) {
             this.generateParameters();

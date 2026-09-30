@@ -28,22 +28,22 @@ extends AbstractSystemCallCommand {
         this.routeInfoReduced = 3;
         int[][] nArrayArray = new int[4][];
         int[] nArray = new int[2];
-        super.getClass();
+        this.getClass();
         nArray[0] = 0;
         nArray[1] = 3;
         nArrayArray[0] = nArray;
         int[] nArray2 = new int[2];
-        super.getClass();
+        this.getClass();
         nArray2[0] = 1;
         nArray2[1] = 0;
         nArrayArray[1] = nArray2;
         int[] nArray3 = new int[2];
-        super.getClass();
+        this.getClass();
         nArray3[0] = 2;
         nArray3[1] = 0;
         nArrayArray[2] = nArray3;
         int[] nArray4 = new int[2];
-        super.getClass();
+        this.getClass();
         nArray4[0] = 3;
         nArray4[1] = 1;
         nArrayArray[3] = nArray4;
@@ -52,21 +52,20 @@ extends AbstractSystemCallCommand {
         this.naviService = naviService;
     }
 
-    @Override
     public void execute() {
         int n = SDSUtils.translate(this.routeInfoOption, this.routeInfoOptionToMapServiceIdMapping);
-        if (n == 128) {
+        if (n == Integer.MIN_VALUE) {
             this.logger.log(10000, "[%1#execute] routeInfoOption=%2 is unknown!", (Object)this.getName(), (long)this.routeInfoOption);
-            this.sendResult(1100742656);
+            this.sendResult(40001);
             return;
         }
-        this.logger.log(-2137614336, "[%1#execute] Setting route info option on navi service with mapServiceId=%2 (routeInfoOption=%3)!", (Object)this.getName(), (long)n, (long)this.routeInfoOption);
+        this.logger.log(10000000, "[%1#execute] Setting route info option on navi service with mapServiceId=%2 (routeInfoOption=%3)!", (Object)this.getName(), (long)n, (long)this.routeInfoOption);
         byte by = this.naviService.setSdsRouteInfo(n);
         if (by != 0) {
             this.logger.log(10000, "[%1#execute] Navi service returned error!", (Object)this.getName());
-            this.sendResult(1100742656);
+            this.sendResult(40001);
         } else {
-            this.sendResult(1083965440);
+            this.sendResult(40000);
         }
     }
 }

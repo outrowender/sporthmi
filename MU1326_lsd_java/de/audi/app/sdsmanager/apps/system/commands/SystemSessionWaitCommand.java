@@ -25,20 +25,18 @@ implements ISystemSessionStartCommand {
         this.popupHelper = iSDSPopupHelper;
     }
 
-    @Override
     public void execute() {
         if (this.sdsHandlerService.isSDSVolumeSettingActive()) {
-            this.logger.log(-2137614336, "%1#execute: Volume setting dialog is active or ending, returning OK without requesting audio connections!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: Volume setting dialog is active or ending, returning OK without requesting audio connections!", (Object)this.getName());
             this.sendResult(this.sdsHandlerService.isSDSPaused() ? 3002 : 3000);
             return;
         }
-        this.logger.log(-2137614336, "%1#execute: Requesting audio connections and waiting for them to start!", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: Requesting audio connections and waiting for them to start!", (Object)this.getName());
         this.audioHandler.requestSDSAudioConnections();
     }
 
-    @Override
     public void responseRequestAudioConnections(boolean bl) {
-        this.logger.log(-2137614336, "%1#responseRequestAudioConnections: ok=%2, dialog is now active!", (Object)this.getName(), (Object)String.valueOf(bl));
+        this.logger.log(10000000, "%1#responseRequestAudioConnections: ok=%2, dialog is now active!", (Object)this.getName(), (Object)String.valueOf(bl));
         this.sdsManager.setSDSActive(true);
         this.sdsManager.notifyExternalListenersSessionStarted();
         boolean bl2 = this.sdsHandlerService.isSDSPaused();

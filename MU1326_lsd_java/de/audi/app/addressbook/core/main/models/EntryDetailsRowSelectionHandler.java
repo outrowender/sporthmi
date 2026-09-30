@@ -12,10 +12,10 @@ import de.audi.app.addressbook.core.main.interapp.NaviGateway;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public class EntryDetailsRowSelectionHandler {
-    static final int ACTION_DIAL;
-    static final int ACTION_PREPARE;
-    static final int ACTION_DIAL_PORSCHE;
-    static final int ACTION_PREPARE_PORSCHE;
+    static final int ACTION_DIAL = 0;
+    static final int ACTION_PREPARE = 1;
+    static final int ACTION_DIAL_PORSCHE = 1;
+    static final int ACTION_PREPARE_PORSCHE = 0;
 
     public static boolean entryDetailsRowSelected(AbstractAddressBookApplication abstractAddressBookApplication, ADBEntryDetailsListRow aDBEntryDetailsListRow) {
         return EntryDetailsRowSelectionHandler.entryDetailsRowSelected(abstractAddressBookApplication, aDBEntryDetailsListRow, 0);
@@ -52,7 +52,7 @@ public class EntryDetailsRowSelectionHandler {
                     }
                     return true;
                 }
-                abstractAddressBookApplication.getLog().log(1078071040, "EntryDetailsRowSelectionHandler#entryDetailsRowSelected(): messaging service not available or messaging (email) not ready!");
+                abstractAddressBookApplication.getLog().log(1000000, "EntryDetailsRowSelectionHandler#entryDetailsRowSelected(): messaging service not available or messaging (email) not ready!");
                 return false;
             }
             case 3: 

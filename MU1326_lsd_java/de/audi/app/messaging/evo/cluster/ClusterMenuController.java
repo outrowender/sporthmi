@@ -5,15 +5,17 @@ package de.audi.app.messaging.evo.cluster;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.dsi.messaging.DsiMessagingEmptyListener;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
-import de.audi.app.messaging.evo.cluster.ClusterMenuController$1;
-import de.audi.app.messaging.evo.cluster.ClusterMenuController$2;
-import de.audi.app.messaging.evo.cluster.ClusterMenuController$MyDsiMessagingListener;
+import de.audi.app.messaging.core.util.Logs;
 import de.audi.atip.interapp.combi.mmisync.MMICombiMenuStatesServiceListener;
-import de.audi.atip.log.LogChannel;
+import org.dsi.ifc.messaging.MessagingAccount;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -31,15 +33,13 @@ extends AbstractMessagingComponent {
         this.isOfficeMenuItemVisible = false;
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         if (this.isOfficeMenuItemVisible) {
-            abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new ClusterMenuController$MyDsiMessagingListener(this, null));
+            abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new MyDsiMessagingListener());
         }
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -50,11 +50,38 @@ extends AbstractMessagingComponent {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         String string = ServiceFilterBuilder.createFilterString("objectClass", (class$de$audi$atip$interapp$combi$mmisync$MMICombiMenuStatesServiceListener == null ? (class$de$audi$atip$interapp$combi$mmisync$MMICombiMenuStatesServiceListener = ClusterMenuController.class$("de.audi.atip.interapp.combi.mmisync.MMICombiMenuStatesServiceListener")) : class$de$audi$atip$interapp$combi$mmisync$MMICombiMenuStatesServiceListener).getName());
         Filter filter = this.bundleContext.createFilter(string);
-        ClusterMenuController$1 clusterMenuController$1 = new ClusterMenuController$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)clusterMenuController$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void addService(ServiceReference serviceReference, Object object) {
+                Object object2 = ClusterMenuController.this.lock;
+                synchronized (object2) {
+                    ClusterMenuController.this.clusterMenuService = (MMICombiMenuStatesServiceListener)object;
+                    ClusterMenuController.this.dispatchOfficeMenuItemState(ClusterMenuController.this.computeOfficeMenuItemState());
+                }
+            }
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void removeService(ServiceReference serviceReference, Object object) {
+                Object object2 = ClusterMenuController.this.lock;
+                synchronized (object2) {
+                    try {
+                        ClusterMenuController.this.dispatchOfficeMenuItemState(ClusterMenuController.this.defaultOfficeMenuItemState);
+                    }
+                    finally {
+                        ClusterMenuController.this.clusterMenuService = null;
+                    }
+                }
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     private int computeOfficeMenuItemState() {
@@ -68,12 +95,23 @@ extends AbstractMessagingComponent {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void dispatchOfficeMenuItemState(int n) {
+    private void dispatchOfficeMenuItemState(final int n) {
         Object object = this.lock;
         synchronized (object) {
-            MMICombiMenuStatesServiceListener mMICombiMenuStatesServiceListener = this.clusterMenuService;
+            final MMICombiMenuStatesServiceListener mMICombiMenuStatesServiceListener = this.clusterMenuService;
             if (mMICombiMenuStatesServiceListener != null) {
-                this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new ClusterMenuController$2(this, n, mMICombiMenuStatesServiceListener));
+                this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+                    public void run() {
+                        ClusterMenuController.this.log.log(1000000, "[ClusterMenuController#dispatchOfficeMenuItemState] officeMenuItemState = %1", (long)n);
+                        try {
+                            mMICombiMenuStatesServiceListener.updateMenuState(13, n);
+                        }
+                        catch (Exception exception) {
+                            Logs.logException(ClusterMenuController.this.log, exception, "[ClusterMenuController#dispatchOfficeMenuItemState]");
+                        }
+                    }
+                });
             }
         }
     }
@@ -87,46 +125,25 @@ extends AbstractMessagingComponent {
         }
     }
 
-    static /* synthetic */ Object access$100(ClusterMenuController clusterMenuController) {
-        return clusterMenuController.lock;
-    }
+    private class MyDsiMessagingListener
+    extends DsiMessagingEmptyListener {
+        private MyDsiMessagingListener() {
+        }
 
-    static /* synthetic */ MMICombiMenuStatesServiceListener access$202(ClusterMenuController clusterMenuController, MMICombiMenuStatesServiceListener mMICombiMenuStatesServiceListener) {
-        clusterMenuController.clusterMenuService = mMICombiMenuStatesServiceListener;
-        return clusterMenuController.clusterMenuService;
-    }
-
-    static /* synthetic */ int access$300(ClusterMenuController clusterMenuController) {
-        return clusterMenuController.computeOfficeMenuItemState();
-    }
-
-    static /* synthetic */ void access$400(ClusterMenuController clusterMenuController, int n) {
-        clusterMenuController.dispatchOfficeMenuItemState(n);
-    }
-
-    static /* synthetic */ int access$500(ClusterMenuController clusterMenuController) {
-        return clusterMenuController.defaultOfficeMenuItemState;
-    }
-
-    static /* synthetic */ LogChannel access$600(ClusterMenuController clusterMenuController) {
-        return clusterMenuController.log;
-    }
-
-    static /* synthetic */ LogChannel access$700(ClusterMenuController clusterMenuController) {
-        return clusterMenuController.log;
-    }
-
-    static /* synthetic */ LogChannel access$800(ClusterMenuController clusterMenuController) {
-        return clusterMenuController.log;
-    }
-
-    static /* synthetic */ LogChannel access$900(ClusterMenuController clusterMenuController) {
-        return clusterMenuController.log;
-    }
-
-    static /* synthetic */ int access$1002(ClusterMenuController clusterMenuController, int n) {
-        clusterMenuController.numEmailAccounts = n;
-        return clusterMenuController.numEmailAccounts;
+        public void updateMessagingAccounts(MessagingAccount[] messagingAccountArray, int n) {
+            int n2 = 0;
+            if (messagingAccountArray != null) {
+                ClusterMenuController.this.log.log(10000000, "[ClusterMenuController#updateMessagingAccounts] accounts.length = %1", (long)messagingAccountArray.length);
+                for (int i2 = 0; i2 < messagingAccountArray.length; ++i2) {
+                    if (!messagingAccountArray[i2].isSupportsEMail()) continue;
+                    ++n2;
+                }
+            } else {
+                ClusterMenuController.this.log.log(100000, "[ClusterMenuController#updateMessagingAccounts] accounts[] is NULL");
+            }
+            ClusterMenuController.this.numEmailAccounts = n2;
+            ClusterMenuController.this.dispatchOfficeMenuItemState(ClusterMenuController.this.computeOfficeMenuItemState());
+        }
     }
 }
 

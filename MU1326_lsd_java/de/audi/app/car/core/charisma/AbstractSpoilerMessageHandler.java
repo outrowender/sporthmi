@@ -29,19 +29,16 @@ implements ISpoilerMessageHandler {
         this.isAutoHideByGuide = bl;
     }
 
-    @Override
     public void init() {
     }
 
-    @Override
     public void deinit() {
     }
 
-    @Override
     public void showMessage(int n) {
         IHMIServiceApp iHMIServiceApp = this.application.getFrameworkAccess().getHmiServiceApp();
         if (this.isMessageSupported(n)) {
-            this.logChannel.log(1078071040, "[SpoilerMessageHandler#showMessage] messageID='%1'", (long)n);
+            this.logChannel.log(1000000, "[SpoilerMessageHandler#showMessage] messageID='%1'", (long)n);
             this.currentMessageID = n;
             int n2 = this.getPartialPopupID(n);
             if (-1 != this.visiblePartialPopupID && (0 == n || n2 != this.visiblePartialPopupID)) {
@@ -51,14 +48,14 @@ implements ISpoilerMessageHandler {
                 this.visiblePartialPopupID = -1;
             }
             if (0 != n) {
-                iHMIServiceApp.getChoiceModel(-600831744).setValue(n);
+                iHMIServiceApp.getChoiceModel(602332).setValue(n);
             }
             if (0 < n) {
                 this.visiblePartialPopupID = n2;
                 iHMIServiceApp.showPartialPopup(0, n2);
             }
         } else {
-            this.logChannel.log(1078071040, "[SpoilerMessageHandler#showMessage] messageID='%1' rejected - not supported", (long)n);
+            this.logChannel.log(1000000, "[SpoilerMessageHandler#showMessage] messageID='%1' rejected - not supported", (long)n);
             if (-1 != this.visiblePartialPopupID) {
                 iHMIServiceApp.removePartialPopup(0, this.visiblePartialPopupID);
                 this.visiblePartialPopupID = -1;
@@ -66,18 +63,15 @@ implements ISpoilerMessageHandler {
         }
     }
 
-    @Override
     public void updateMessage() {
-        this.logChannel.log(1078071040, "[SpoilerMessageHandler#updateMessage] called.");
+        this.logChannel.log(1000000, "[SpoilerMessageHandler#updateMessage] called.");
         if (0 != this.currentMessageID) {
             this.showMessage(this.currentMessageID);
         }
     }
 
-    protected abstract boolean isMessageSupported(int n) {
-    }
+    protected abstract boolean isMessageSupported(int var1);
 
-    protected abstract int getPartialPopupID(int n) {
-    }
+    protected abstract int getPartialPopupID(int var1);
 }
 

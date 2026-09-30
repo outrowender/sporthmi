@@ -22,22 +22,20 @@ extends AbstractLockingEvaluator {
         this.speedEvaluator = new SpeedLockingEvaluator(this.logChannel);
     }
 
-    @Override
     public boolean evaluateSpeedDefinition() {
-        this.logChannel.log(-2137614336, "LockingEvaluator#evaluateSpeedDefinition() --> Entered.");
+        this.logChannel.log(10000000, "LockingEvaluator#evaluateSpeedDefinition() --> Entered.");
         SpeedEvaluationRequirements speedEvaluationRequirements = new SpeedEvaluationRequirements(this.speedThresholdExeeded);
         return this.speedEvaluator.evaluate(speedEvaluationRequirements);
     }
 
-    @Override
     public boolean evaluateNhtsaDefinition() {
-        this.logChannel.log(-2137614336, "LockingEvaluator#evaluateNhtsaDefinition() --> Entered.");
+        this.logChannel.log(10000000, "LockingEvaluator#evaluateNhtsaDefinition() --> Entered.");
         if (this.generalVehicleStateDsi == null || this.carVehicleStateDsi == null || this.dynamicVehicleInfoMidFrequent == null || this.dynamicVehicleInfoMidFrequentViewOptions == null) {
-            this.logChannel.log(1078071040, "LockingEvaluator#evaluateConditions() <-- Returning 'false' as at least one DSI ist not available or hasn't sent any data yet. No locking due to missing information");
+            this.logChannel.log(1000000, "LockingEvaluator#evaluateConditions() <-- Returning 'false' as at least one DSI ist not available or hasn't sent any data yet. No locking due to missing information");
             return false;
         }
         if (!this.clamp15) {
-            this.logChannel.log(-2137614336, "LockingEvaluator#evaluateNhtsaDefinition() - Clamp15 is off, no locking (clamp15=%1)", this.clamp15);
+            this.logChannel.log(10000000, "LockingEvaluator#evaluateNhtsaDefinition() - Clamp15 is off, no locking (clamp15=%1)", this.clamp15);
             return false;
         }
         int n = this.automaticGearShiftTransMode;
@@ -51,14 +49,12 @@ extends AbstractLockingEvaluator {
         return this.nhtsaEvaluator.evaluate(nhtsaEvaluationRequirements);
     }
 
-    @Override
     public boolean evaluateEngineOffDefinition() {
-        this.logChannel.log(-2137614336, "LockingEvaluator#evaluateEngineOffDefinition() --> Entered.");
-        this.logChannel.log(-1601830656, "LockingEvaluator#evaluateEngineOffDefinition() - Engine OFF definition is not implemented, no locking.");
+        this.logChannel.log(10000000, "LockingEvaluator#evaluateEngineOffDefinition() --> Entered.");
+        this.logChannel.log(100000, "LockingEvaluator#evaluateEngineOffDefinition() - Engine OFF definition is not implemented, no locking.");
         return false;
     }
 
-    @Override
     public boolean isNowPlayingScreenLockedByNhtsaCoding() {
         int n = LockingBitWrapper.getFunctionalBitState(166);
         int n2 = LockingBitWrapper.getFunctionalBitState(167);

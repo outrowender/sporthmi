@@ -4,13 +4,13 @@
 package de.audi.atip.interapp.combi.bap.audio.data;
 
 public final class CombiBAPAudioSourceAttributes {
-    public static final int ATTRIBUTE_BUILT_IN_BUT_NOT_READY;
-    public static final int ATTRIBUTE_MEDIA_AUDIO_SOURCE_ERROR;
-    public static final int ATTRIBUTE_MEDIA_IS_NOT_PLAYABLE;
-    public static final int ATTRIBUTE_MEDIA_IS_NOT_READABLE;
-    public static final int ATTRIBUTE_MEDIA_IS_BEING_LOADED;
-    public static final int ATTRIBUTE_IMPORT_RUNNING;
-    public static final int ATTRIBUTE_MEDIUM_DOES_NOT_SUPPORTS_BROWSER_LIST_DF_42;
+    public static final int ATTRIBUTE_BUILT_IN_BUT_NOT_READY = 1;
+    public static final int ATTRIBUTE_MEDIA_AUDIO_SOURCE_ERROR = 2;
+    public static final int ATTRIBUTE_MEDIA_IS_NOT_PLAYABLE = 4;
+    public static final int ATTRIBUTE_MEDIA_IS_NOT_READABLE = 8;
+    public static final int ATTRIBUTE_MEDIA_IS_BEING_LOADED = 16;
+    public static final int ATTRIBUTE_IMPORT_RUNNING = 32;
+    public static final int ATTRIBUTE_MEDIUM_DOES_NOT_SUPPORTS_BROWSER_LIST_DF_42 = 64;
     private boolean builtInButNotReady = false;
     private boolean mediaAudioSourceError = false;
     private boolean mediaIsNotPlayable = false;
@@ -135,7 +135,7 @@ public final class CombiBAPAudioSourceAttributes {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         CombiBAPAudioSourceAttributes combiBAPAudioSourceAttributes = (CombiBAPAudioSourceAttributes)object;
@@ -161,7 +161,7 @@ public final class CombiBAPAudioSourceAttributes {
     }
 
     public String toString() {
-        return new StringBuffer().append("CombiBAPAudioSourceAttributes [builtInButNotReady=").append(this.builtInButNotReady).append(", mediaAudioSourceError=").append(this.mediaAudioSourceError).append(", mediaIsNotPlayable=").append(this.mediaIsNotPlayable).append(", mediaIsNotReadable=").append(this.mediaIsNotReadable).append(", mediaIsBeingLoaded=").append(this.mediaIsBeingLoaded).append(", importRunning=").append(this.importRunning).append(", mediumDoesNotSupportBrowserList=").append(this.mediumDoesNotSupportBrowserList).append("]").toString();
+        return "CombiBAPAudioSourceAttributes [builtInButNotReady=" + this.builtInButNotReady + ", mediaAudioSourceError=" + this.mediaAudioSourceError + ", mediaIsNotPlayable=" + this.mediaIsNotPlayable + ", mediaIsNotReadable=" + this.mediaIsNotReadable + ", mediaIsBeingLoaded=" + this.mediaIsBeingLoaded + ", importRunning=" + this.importRunning + ", mediumDoesNotSupportBrowserList=" + this.mediumDoesNotSupportBrowserList + "]";
     }
 
     private static boolean hasAttribute(int n, int n2) {

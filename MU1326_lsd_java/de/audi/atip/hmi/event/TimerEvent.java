@@ -8,7 +8,7 @@ import de.audi.atip.hmi.event.ATIPEventListener;
 
 public class TimerEvent
 extends ATIPEvent {
-    private static final int EVENT_ID;
+    private static final int EVENT_ID = 19001;
 
     public TimerEvent(ATIPEventListener aTIPEventListener) {
         super(aTIPEventListener, 19001);

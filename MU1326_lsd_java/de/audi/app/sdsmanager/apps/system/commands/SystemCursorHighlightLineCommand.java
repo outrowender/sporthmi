@@ -21,11 +21,10 @@ extends AbstractSystemCallCommand {
         this.index = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: index=%2", (Object)this.getName(), (long)this.index);
+        this.logger.log(10000000, "%1#execute: index=%2", (Object)this.getName(), (long)this.index);
         int[] nArray = new int[]{3000, 3004, 3001};
-        this.logger.log(-2137614336, "%1#execute: Setting choice index %2 with pageEvent %3 and answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)this.index, (long)0);
+        this.logger.log(10000000, "%1#execute: Setting choice index %2 with pageEvent %3 and answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)this.index, 10L);
         this.hmiService.fireSDSEvent(0, 10, this.index, nArray);
         this.processingFinished();
     }

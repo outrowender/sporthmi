@@ -7,10 +7,8 @@ import de.audi.atip.interapp.audio.ATIPAudioRoute;
 import org.dsi.ifc.media.DSIMediaRouter;
 
 public interface ATIPMediaRouterService {
-    default public void setAudioRoutes(ATIPAudioRoute[] aTIPAudioRouteArray) {
-    }
+    public void setAudioRoutes(ATIPAudioRoute[] var1);
 
-    default public void setDSIMediaRouter(DSIMediaRouter dSIMediaRouter) {
-    }
+    public void setDSIMediaRouter(DSIMediaRouter var1);
 }
 

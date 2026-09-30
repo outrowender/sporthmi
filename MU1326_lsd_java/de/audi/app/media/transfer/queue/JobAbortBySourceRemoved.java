@@ -12,25 +12,22 @@ import de.audi.atip.log.LogChannel;
 
 public class JobAbortBySourceRemoved
 extends JobAbort {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobAbortBySourceRemoved";
 
     public JobAbortBySourceRemoved(LogChannel logChannel, TransferController transferController, MediaDSIRecorderControllerImpl mediaDSIRecorderControllerImpl, AbstractMediaBrowser abstractMediaBrowser, TransferLockHandler transferLockHandler) {
         super(logChannel, transferController, mediaDSIRecorderControllerImpl, abstractMediaBrowser, transferLockHandler);
     }
 
-    @Override
     public int getType() {
         return 7;
     }
 
-    @Override
     public String getName() {
         return "AbortSourceRemoved";
     }
 
-    @Override
     public void start() {
-        this.logger.log(1078071040, "[%1.start]", (Object)"JobAbortBySourceRemoved");
+        this.logger.log(1000000, "[%1.start]", (Object)LOGCLASS);
     }
 }
 

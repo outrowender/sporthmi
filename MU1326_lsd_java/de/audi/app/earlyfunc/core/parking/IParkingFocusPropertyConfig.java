@@ -6,7 +6,6 @@ package de.audi.app.earlyfunc.core.parking;
 import de.audi.app.earlyfunc.core.parking.ParkingFocusPropertyCollection;
 
 public interface IParkingFocusPropertyConfig {
-    default public void configureFocusProperties(ParkingFocusPropertyCollection parkingFocusPropertyCollection) {
-    }
+    public void configureFocusProperties(ParkingFocusPropertyCollection var1);
 }
 

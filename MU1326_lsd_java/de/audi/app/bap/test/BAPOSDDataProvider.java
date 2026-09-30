@@ -23,7 +23,6 @@ implements IOSDDataProvider {
         this.module = abstractBAPModule;
     }
 
-    @Override
     public String getName() {
         Buffer buffer = new Buffer();
         buffer.append("AppBAP - ");
@@ -32,7 +31,6 @@ implements IOSDDataProvider {
         return buffer.toString();
     }
 
-    @Override
     public String[] getData() {
         ArrayList arrayList = new ArrayList(200);
         Buffer buffer = new Buffer();
@@ -66,7 +64,6 @@ implements IOSDDataProvider {
         return arrayList;
     }
 
-    @Override
     public void setTestSupport(ITestSupportSession iTestSupportSession) {
     }
 }

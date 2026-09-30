@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.atip.utils.Preconditions
  */
 package de.audi.atip.utils.eventbus;
 
@@ -17,9 +14,9 @@ class EventSubscriber {
     private final SubscriberExceptionHandler subscriberExceptionHandler;
 
     EventSubscriber(Object object, Method method, SubscriberExceptionHandler subscriberExceptionHandler) {
-        Preconditions.checkNotNull((Object)object);
-        Preconditions.checkNotNull((Object)method);
-        Preconditions.checkNotNull((Object)subscriberExceptionHandler);
+        Preconditions.checkNotNull(object);
+        Preconditions.checkNotNull(method);
+        Preconditions.checkNotNull(subscriberExceptionHandler);
         this.target = object;
         this.method = method;
         this.subscriberExceptionHandler = subscriberExceptionHandler;
@@ -31,10 +28,10 @@ class EventSubscriber {
             this.method.invoke(this.target, new Object[]{object});
         }
         catch (IllegalArgumentException illegalArgumentException) {
-            throw new Error(new StringBuffer().append("Method rejected target/argument: ").append(object).toString(), illegalArgumentException);
+            throw new Error("Method rejected target/argument: " + object, illegalArgumentException);
         }
         catch (IllegalAccessException illegalAccessException) {
-            throw new Error(new StringBuffer().append("Method became inaccessible: ").append(object).toString(), illegalAccessException);
+            throw new Error("Method became inaccessible: " + object, illegalAccessException);
         }
         catch (InvocationTargetException invocationTargetException) {
             this.subscriberExceptionHandler.handleException(invocationTargetException.getCause(), this);
@@ -42,7 +39,7 @@ class EventSubscriber {
     }
 
     public String toString() {
-        return new StringBuffer().append("[wrapper ").append(this.method).append("]").toString();
+        return "[wrapper " + this.method + "]";
     }
 
     public int hashCode() {

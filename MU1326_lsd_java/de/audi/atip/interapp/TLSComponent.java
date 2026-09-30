@@ -4,9 +4,9 @@
 package de.audi.atip.interapp;
 
 public class TLSComponent {
-    public static final int DAB_ADD;
-    public static final int FM_ADD;
-    public static final int MEM_ADD;
+    public static final int DAB_ADD = 0;
+    public static final int FM_ADD = 1000;
+    public static final int MEM_ADD = 10000;
     private int tlsID;
     private int tunerComponent;
     private int freq;

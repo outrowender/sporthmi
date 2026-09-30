@@ -22,11 +22,10 @@ extends AbstractSystemCallCommand {
         this.destinationType = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: destinationType=%2", (Object)this.getName(), (long)this.destinationType);
+        this.logger.log(10000000, "%1#execute: destinationType=%2", (Object)this.getName(), (long)this.destinationType);
         int n = NaviSDSUtils.getNaviDestType(this.destinationType);
-        this.logger.log(-2137614336, "%1#execute: Move cursor position to destType %2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: Move cursor position to destType %2!", (Object)this.getName(), (long)n);
         this.naviService.nextDestinationInput(n);
         this.processingFinished();
     }

@@ -56,7 +56,7 @@ implements TimerListener {
         Integer n3 = new Integer(n);
         if (this.watchedParameters.containsKey(n3)) {
             if (this.logChannel.isDebug()) {
-                this.logChannel.log(-2137614336, "[RangeModelSynchronizer('%1')#notifyUpdateReceived()] attributeID='%2' , updateValue='%3'", (Object)this.name, (long)n, (long)n2);
+                this.logChannel.log(10000000, "[RangeModelSynchronizer('%1')#notifyUpdateReceived()] attributeID='%2' , updateValue='%3'", (Object)this.name, (long)n, (long)n2);
             }
             ((WatchedRangeParameter)this.watchedParameters.get(n3)).notifyDSIUpdateReceived(n2, this.rangeModelWatcherListener);
             if (this.isNoParameterBlocked(false)) {
@@ -70,7 +70,7 @@ implements TimerListener {
 
     private void activateAllDSISetter() {
         if (this.logChannel.isDebug()) {
-            this.logChannel.log(-2137614336, "[RangeModelSynchronizer('%1')#activateAllDSISetter] all registered attributes are permitted to be sent to DSI ", (Object)this.name);
+            this.logChannel.log(10000000, "[RangeModelSynchronizer('%1')#activateAllDSISetter] all registered attributes are permitted to be sent to DSI ", (Object)this.name);
         }
         Iterator iterator = this.watchedParameters.keySet().iterator();
         while (iterator.hasNext()) {
@@ -101,7 +101,7 @@ implements TimerListener {
 
     public synchronized void blockAllAttributes() {
         if (this.logChannel.isDebug()) {
-            this.logChannel.log(-2137614336, "[RangeModelSynchronizer('%1')#blockAllAttributes] all registered attributes are blocking sends to DSI ", (Object)this.name);
+            this.logChannel.log(10000000, "[RangeModelSynchronizer('%1')#blockAllAttributes] all registered attributes are blocking sends to DSI ", (Object)this.name);
         }
         Iterator iterator = this.watchedParameters.keySet().iterator();
         while (iterator.hasNext()) {
@@ -116,28 +116,27 @@ implements TimerListener {
             WatchedRangeParameter watchedRangeParameter = (WatchedRangeParameter)this.watchedParameters.get(iterator.next());
             if (watchedRangeParameter.isDsiSetterBlocked()) {
                 if (this.logChannel.isDebug()) {
-                    this.logChannel.log(-2137614336, "[RangeModelSynchronizer('%1')#isNoParameterBlocked()] attribute ('%2') blocks calling DSI to set value: dsiSetterBlocked=true", (Object)this.name, (long)watchedRangeParameter.getAttributeID());
+                    this.logChannel.log(10000000, "[RangeModelSynchronizer('%1')#isNoParameterBlocked()] attribute ('%2') blocks calling DSI to set value: dsiSetterBlocked=true", (Object)this.name, (long)watchedRangeParameter.getAttributeID());
                 }
                 return false;
             }
             if (!bl || watchedRangeParameter.isValueChange()) continue;
             if (this.logChannel.isDebug()) {
-                this.logChannel.log(-2137614336, "[RangeModelSynchronizer('%1')#isNoParameterBlocked()] attribute ('%2') blocks calling DSI to set value: isValueChange=false", (Object)this.name, (long)watchedRangeParameter.getAttributeID());
+                this.logChannel.log(10000000, "[RangeModelSynchronizer('%1')#isNoParameterBlocked()] attribute ('%2') blocks calling DSI to set value: isValueChange=false", (Object)this.name, (long)watchedRangeParameter.getAttributeID());
             }
             return false;
         }
         return true;
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logChannel.log(-2137614336, "[RangeModelSynchronizer('%1')#fireTimer()]: reset temp values", (Object)this.name);
+        this.logChannel.log(10000000, "[RangeModelSynchronizer('%1')#fireTimer()]: reset temp values", (Object)this.name);
         this.resetAllAttributes();
     }
 
     private synchronized void resetAllAttributes() {
         if (this.logChannel.isDebug()) {
-            this.logChannel.log(-2137614336, "[RangeModelSynchronizer('%1')#resetAllAttributes] all registered attributes are resetted to last acknowledged value", (Object)this.name);
+            this.logChannel.log(10000000, "[RangeModelSynchronizer('%1')#resetAllAttributes] all registered attributes are resetted to last acknowledged value", (Object)this.name);
         }
         Iterator iterator = this.watchedParameters.keySet().iterator();
         while (iterator.hasNext()) {
@@ -146,7 +145,6 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

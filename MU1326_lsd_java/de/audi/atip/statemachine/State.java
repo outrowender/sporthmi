@@ -10,24 +10,24 @@ import java.util.List;
 public final class State
 implements Cloneable {
     private static final int[] EMPTY_INT_LIST = new int[0];
-    private static final int MAX_POOL_SIZE;
-    public static final int COMPOSITE_FLAG;
-    public static final int ENTER_ACTION_FLAG;
-    public static final int EXIT_ACTION_FLAG;
-    public static final int MEDIATOR_FLAG;
-    public static final int HISTORY_FLAG;
-    public static final int SHALLOW_HISTORY_FLAG;
-    public static final int DEEP_HISTORY_FLAG;
-    public static final int SMM_SLOT_FLAG;
-    public static final int INCLUDE_FLAG;
-    public static final int INCLUDE_SLOT_FLAG;
-    public static final int FOCUS_GAINED_ACTION_FLAG;
-    public static final int FOCUS_LOST_ACTION_FLAG;
-    public static final int SDCOMP_PROMPT;
-    public static final int SDCOMP_COMMAND;
-    public static final int SDCOMP_COMMAND_NO_INHERIT;
-    public static final int ENTERED_ACTION_FLAG;
-    private static List objPool;
+    private static final int MAX_POOL_SIZE = 128;
+    public static final int COMPOSITE_FLAG = 1;
+    public static final int ENTER_ACTION_FLAG = 2;
+    public static final int EXIT_ACTION_FLAG = 4;
+    public static final int MEDIATOR_FLAG = 8;
+    public static final int HISTORY_FLAG = 16;
+    public static final int SHALLOW_HISTORY_FLAG = 48;
+    public static final int DEEP_HISTORY_FLAG = 80;
+    public static final int SMM_SLOT_FLAG = 129;
+    public static final int INCLUDE_FLAG = 257;
+    public static final int INCLUDE_SLOT_FLAG = 593;
+    public static final int FOCUS_GAINED_ACTION_FLAG = 1024;
+    public static final int FOCUS_LOST_ACTION_FLAG = 2048;
+    public static final int SDCOMP_PROMPT = 4096;
+    public static final int SDCOMP_COMMAND = 8192;
+    public static final int SDCOMP_COMMAND_NO_INHERIT = 24576;
+    public static final int ENTERED_ACTION_FLAG = 32768;
+    private static List objPool = new ArrayList(128);
     private int stateID = -1;
     private int superstateID = -1;
     private int[] triggerEventList = EMPTY_INT_LIST;
@@ -183,7 +183,7 @@ implements Cloneable {
     }
 
     public boolean hasEnteredAction() {
-        return (this.flags & 0x800000) != 0;
+        return (this.flags & 0x8000) != 0;
     }
 
     public boolean hasExitAction() {
@@ -278,10 +278,6 @@ implements Cloneable {
         buffer.append("screenID=").append(this.screenID).append(", ");
         buffer.append("flags=").append(this.flags).append("]");
         return buffer.toString();
-    }
-
-    static {
-        objPool = new ArrayList(128);
     }
 }
 

@@ -40,7 +40,7 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
                 return "SignalQuality2 (0x14)";
             }
         }
-        return new StringBuffer().append("UnhandledService(").append(n).append(")").toString();
+        return "UnhandledService(" + n + ")";
     }
 
     private static Buffer getSupportedServiceArrayBuffer(boolean[] blArray) {
@@ -90,7 +90,6 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null;
     }
@@ -103,30 +102,29 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
         return false;
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone2 combiBAPServicePhone2 = this.getCombiService();
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         if (combiBAPServicePhone2 == null) {
-            this.log.log(-1601830656, "[BAPPropertyTel2MobileServiceSupport#update] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTel2MobileServiceSupport#update] CombiBAPServicePhone is null --> NOP!");
             return;
         }
         if (iGlobalTelephoneStateStruct == null) {
-            this.log.log(-1601830656, "[BAPPropertyTel2MobileServiceSupport#update] state is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTel2MobileServiceSupport#update] state is null --> NOP!");
             return;
         }
         if (iGlobalTelephoneStateStruct.getNadInstanceState() != null) {
             if (TelBAPManagerTel2Utils.telModeSupportsData(iGlobalTelephoneStateStruct.getNadInstanceState().getTelMode()) || !iGlobalTelephoneStateStruct.getNadInstanceState().isPhoneReady()) {
                 boolean[] blArray = new boolean[]{true, BAPPropertyTel2MobileServiceSupport.isRegisterStateSupported(iGlobalTelephoneStateStruct), BAPPropertyTel2MobileServiceSupport.isLockStateSupported(iGlobalTelephoneStateStruct), BAPPropertyTel2MobileServiceSupport.isNetworkProviderSupported(iGlobalTelephoneStateStruct), BAPPropertyTel2MobileServiceSupport.isSignalQualitySupported(iGlobalTelephoneStateStruct), true, true};
                 if (this.checkSupportedServicesChanged(blArray)) {
-                    this.log.log(1078071040, "[BAPPropertyTel2MobileServiceSupport#update] %1", (Object)BAPPropertyTel2MobileServiceSupport.getSupportedServiceArrayBuffer(this.supportedServices));
+                    this.log.log(1000000, "[BAPPropertyTel2MobileServiceSupport#update] %1", (Object)BAPPropertyTel2MobileServiceSupport.getSupportedServiceArrayBuffer(this.supportedServices));
                     combiBAPServicePhone2.updateMobileServiceSupport(this.supportedServices);
                 }
             } else {
-                this.log.log(-1601830656, "[BAPPropertyTel2MobileServiceSupport#update] Invalid TelMode=%1 --> NOP!", (long)iGlobalTelephoneStateStruct.getNadInstanceState().getTelMode());
+                this.log.log(100000, "[BAPPropertyTel2MobileServiceSupport#update] Invalid TelMode=%1 --> NOP!", (long)iGlobalTelephoneStateStruct.getNadInstanceState().getTelMode());
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTel2MobileServiceSupport#update] NAD Instance is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTel2MobileServiceSupport#update] NAD Instance is null --> NOP!");
         }
     }
 }

@@ -6,43 +6,30 @@ package de.audi.atip.mmicombi;
 import de.audi.atip.hmi.view.IAnimation;
 
 public interface IMMICombiAnimationInfo {
-    default public void setAnimation(IAnimation iAnimation) {
-    }
+    public void setAnimation(IAnimation var1);
 
-    default public IAnimation getAnimation() {
-    }
+    public IAnimation getAnimation();
 
-    default public int getInternalAnimationType() {
-    }
+    public int getInternalAnimationType();
 
-    default public int getMMICombiSyncAnimationType(int n) {
-    }
+    public int getMMICombiSyncAnimationType(int var1);
 
-    default public long getPlannedDuration() {
-    }
+    public long getPlannedDuration();
 
-    default public long getCurrentAnimationDuration() {
-    }
+    public long getCurrentAnimationDuration();
 
-    default public void setPlannedStartTime(long l) {
-    }
+    public void setPlannedStartTime(long var1);
 
-    default public long getPlannedStartTime() {
-    }
+    public long getPlannedStartTime();
 
-    default public long getRealStartTime() {
-    }
+    public long getRealStartTime();
 
-    default public boolean isRunning() {
-    }
+    public boolean isRunning();
 
-    default public boolean isFinished() {
-    }
+    public boolean isFinished();
 
-    default public String getAnnotation(int n) {
-    }
+    public String getAnnotation(int var1);
 
-    default public void setFinished(boolean bl) {
-    }
+    public void setFinished(boolean var1);
 }
 

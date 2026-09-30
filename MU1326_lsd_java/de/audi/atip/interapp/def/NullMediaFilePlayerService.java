@@ -15,12 +15,10 @@ implements IMediaFilePlayerService {
         super(logChannel, "NullMediaFilePlayerService");
     }
 
-    @Override
     public void open(IMediaFilePlayerSession iMediaFilePlayerSession) {
         super.log("open");
     }
 
-    @Override
     public void close(IMediaFilePlayerSession iMediaFilePlayerSession) {
         super.log("close");
     }

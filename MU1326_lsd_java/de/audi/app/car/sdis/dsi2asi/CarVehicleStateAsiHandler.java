@@ -30,7 +30,7 @@ public class CarVehicleStateAsiHandler {
         }
         try {
             int n = this.sdisBase.updateVisibility(carViewOption, (short)32);
-            this.logChannel.log(1078071040, "[SDISCarStatusDistributor#updateKeyDataVisibilityState] %1 -> %2", (Object)carViewOption, (long)n);
+            this.logChannel.log(1000000, "[SDISCarStatusDistributor#updateKeyDataVisibilityState] %1 -> %2", (Object)carViewOption, (long)n);
             this.asiUpdater.updateKeyDataVisibilityState(n);
         }
         catch (MethodException methodException) {
@@ -44,7 +44,7 @@ public class CarVehicleStateAsiHandler {
         }
         int[] nArray = new int[]{keyData.getActualValue(), keyData.getActiveKey(), keyData.getTargetValue()};
         try {
-            this.logChannel.log(1078071040, "[SDISCarStatusDistributor#updateKeyData] Send update to devices %1", (Object)nArray);
+            this.logChannel.log(1000000, "[SDISCarStatusDistributor#updateKeyData] Send update to devices %1", (Object)nArray);
             this.asiUpdater.updateKeyData(nArray);
         }
         catch (MethodException methodException) {
@@ -55,7 +55,7 @@ public class CarVehicleStateAsiHandler {
     protected void updateOilLevelDataVisibilityState(CarViewOption carViewOption) {
         try {
             int n = this.sdisBase.updateVisibility(carViewOption, (short)18);
-            this.logChannel.log(1078071040, "[SDISCarStatusDistributor#updateOilLevelDataVisibilityState]  Send update to devices %1 -> %2", (Object)carViewOption, (long)n);
+            this.logChannel.log(1000000, "[SDISCarStatusDistributor#updateOilLevelDataVisibilityState]  Send update to devices %1 -> %2", (Object)carViewOption, (long)n);
             this.asiUpdater.updateOilLevelDataVisibilityState(n);
         }
         catch (MethodException methodException) {
@@ -68,7 +68,7 @@ public class CarVehicleStateAsiHandler {
             IntBaseType intBaseType = oilLevelData.getRefillVolume() != null ? new IntBaseType(oilLevelData.getRefillVolume().getValue(), oilLevelData.getRefillVolume().getUnit(), -1) : new IntBaseType();
             de.esolutions.fw.comm.asi.hmisync.car.service.OilLevelData oilLevelData2 = new de.esolutions.fw.comm.asi.hmisync.car.service.OilLevelData(oilLevelData.getLevel(), intBaseType, oilLevelData.getWarnings(), oilLevelData.isOilsystem(), oilLevelData.isBargraph());
             try {
-                this.logChannel.log(1078071040, "[SDISCarStatusDistributor#updateOilLevelData] Send update to devices %1", (Object)oilLevelData2);
+                this.logChannel.log(1000000, "[SDISCarStatusDistributor#updateOilLevelData] Send update to devices %1", (Object)oilLevelData2);
                 this.asiUpdater.updateOilLevelData(oilLevelData2);
             }
             catch (MethodException methodException) {
@@ -82,7 +82,7 @@ public class CarVehicleStateAsiHandler {
             return;
         }
         try {
-            this.logChannel.log(1078071040, "[SDISCarStatusDistributor#updateVinData] Send update to devices %1", (Object)string);
+            this.logChannel.log(1000000, "[SDISCarStatusDistributor#updateVinData] Send update to devices %1", (Object)string);
             this.asiUpdater.updateVinData(string);
         }
         catch (MethodException methodException) {
@@ -96,7 +96,7 @@ public class CarVehicleStateAsiHandler {
         }
         try {
             int n = this.sdisBase.updateVisibility(carViewOption, (short)19);
-            this.logChannel.log(1078071040, "[SDISCarStatusDistributor#updateVinDataVisibilityState] %1 -> %2", (Object)carViewOption, (long)n);
+            this.logChannel.log(1000000, "[SDISCarStatusDistributor#updateVinDataVisibilityState] %1 -> %2", (Object)carViewOption, (long)n);
             this.asiUpdater.updateVinDataVisibilityState(n);
         }
         catch (MethodException methodException) {

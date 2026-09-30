@@ -6,27 +6,18 @@ package de.audi.app.messaging.core.folderbrowsing;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
+import de.audi.app.messaging.core.dsi.messaging.DsiMessagingEmptyListener;
 import de.audi.app.messaging.core.folderbrowsing.AbstractEntryListRowData;
-import de.audi.app.messaging.core.folderbrowsing.EntryList$1;
-import de.audi.app.messaging.core.folderbrowsing.EntryList$2;
-import de.audi.app.messaging.core.folderbrowsing.EntryList$FolderChangeRequest;
-import de.audi.app.messaging.core.folderbrowsing.EntryList$FolderNavigatorObserver;
-import de.audi.app.messaging.core.folderbrowsing.EntryList$MyDsiMessagingListener;
-import de.audi.app.messaging.core.folderbrowsing.EntryList$MyI18NTarget;
-import de.audi.app.messaging.core.folderbrowsing.EntryList$MyMenuModelListener;
-import de.audi.app.messaging.core.folderbrowsing.EntryList$MyMsgListener;
-import de.audi.app.messaging.core.folderbrowsing.EntryList$MyTiledListModelListener;
 import de.audi.app.messaging.core.folderbrowsing.EntryListRow;
 import de.audi.app.messaging.core.folderbrowsing.Folder;
 import de.audi.app.messaging.core.folderbrowsing.FolderNavigator;
 import de.audi.app.messaging.core.folderbrowsing.Folders;
 import de.audi.app.messaging.core.folderbrowsing.IEntryListObserver;
 import de.audi.app.messaging.core.folderbrowsing.IEntryPropertyFactory;
-import de.audi.app.messaging.core.folderbrowsing.IEntryPropertyFactory$NullFactory;
+import de.audi.app.messaging.core.folderbrowsing.IFolderNavigatorObserver;
 import de.audi.app.messaging.core.folderbrowsing.ListDataRequest;
 import de.audi.app.messaging.core.folderbrowsing.ListDataResponse;
 import de.audi.app.messaging.core.folderbrowsing.ListEntriesCommand;
-import de.audi.app.messaging.core.folderbrowsing.ListEntriesCommand$ResultHandler;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
@@ -34,16 +25,20 @@ import de.audi.app.messaging.core.util.Arrays;
 import de.audi.app.messaging.core.util.ListEntries;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.util.Times;
-import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.model.ModelGroup;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultTiledListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.TiledListModelApp;
+import de.audi.atip.hmi.model.menu.MenuModelListener;
 import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.hmi.model.update.ModelTrigger;
 import de.audi.atip.hmi.modelaccess.HMIModelApp;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.i18n.I18NTarget;
+import de.audi.atip.i18n.Language;
+import de.audi.atip.msg.MsgListener;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,17 +53,22 @@ import org.dsi.ifc.messaging.MessagingAccount;
 
 public final class EntryList
 extends AbstractMessagingComponent {
-    private static final int DEFAULT_REQUEST_PADDING;
-    private static final long OPERATION_TIMEOUT;
-    private static final int OPERATION_STATE_CHANGE_BEGIN_OR_CONTINUE;
-    private static final int OPERATION_STATE_CHANGE_CONTINUE_AND_EXTEND;
-    private static final int OPERATION_STATE_CHANGE_TERMINATE_OK;
-    private static final int OPERATION_STATE_CHANGE_TERMINATE_FAILED;
+    private static final int DEFAULT_REQUEST_PADDING = 20;
+    private static final long OPERATION_TIMEOUT = 190000L;
+    private static final int OPERATION_STATE_CHANGE_BEGIN_OR_CONTINUE = 0;
+    private static final int OPERATION_STATE_CHANGE_CONTINUE_AND_EXTEND = 1;
+    private static final int OPERATION_STATE_CHANGE_TERMINATE_OK = 2;
+    private static final int OPERATION_STATE_CHANGE_TERMINATE_FAILED = 3;
     private final TiledListModelApp listModel;
     private final ModelGroup folderContentModelGroup = new ModelGroup();
     private final Collection folderContentModelGroupCandidates = new ArrayList(16);
     private final CopyOnWriteArrayList entryListObservers = new CopyOnWriteArrayList();
-    private final ListEntriesCommand$ResultHandler commandResultHandler = new EntryList$1(this);
+    private final ListEntriesCommand.ResultHandler commandResultHandler = new ListEntriesCommand.ResultHandler(){
+
+        public void handleResult(ListDataResponse listDataResponse) {
+            EntryList.this.handleCommandResult(listDataResponse);
+        }
+    };
     private int operationState = 1;
     private final Timer operationTimer = this.createOperationTimer();
     private boolean ignoreUpdates = false;
@@ -76,39 +76,37 @@ extends AbstractMessagingComponent {
     public boolean awaitFolderChange = false;
     private boolean isDeletionMode = false;
     private EntryListRow focusedRow;
-    private IEntryPropertyFactory entryPropertyFactory = new IEntryPropertyFactory$NullFactory();
+    private IEntryPropertyFactory entryPropertyFactory = new IEntryPropertyFactory.NullFactory();
     private Folder currentFolder = Folder.FOLDER_NONE;
     private int lastRequestId = -1;
-    private EntryList$FolderChangeRequest queuedFolderChangeRequest = null;
+    private FolderChangeRequest queuedFolderChangeRequest = null;
     static /* synthetic */ Class class$de$audi$atip$msg$MsgListener;
     static /* synthetic */ Class class$de$audi$atip$i18n$I18NTarget;
 
     public EntryList(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.listModel = this.framework.getHmiServiceApp().getTiledListModel(-1382866688);
+        this.listModel = this.framework.getHmiServiceApp().getTiledListModel(2200493);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             super.init(abstractMsgApplication);
-            this.listModel.setListener(new EntryList$MyTiledListModelListener(this, null));
+            this.listModel.setListener(new MyTiledListModelListener());
             this.registerForModelGroup(this.listModel.getMenu());
             this.registerForModelGroup(this.listModel);
-            this.listModel.getMenu().setListener(new EntryList$MyMenuModelListener(this, null));
-            abstractMsgApplication.getFolderNavigator().addObserver(new EntryList$FolderNavigatorObserver(this, null));
-            abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new EntryList$MyDsiMessagingListener(this, null));
+            this.listModel.getMenu().setListener(new MyMenuModelListener());
+            abstractMsgApplication.getFolderNavigator().addObserver(new FolderNavigatorObserver());
+            abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new MyDsiMessagingListener());
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void dispose() {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
@@ -117,14 +115,13 @@ extends AbstractMessagingComponent {
         }
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
-            iServiceRegistry.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = EntryList.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)new EntryList$MyMsgListener(this, null), ServiceProperties.createServiceProperties());
+            iServiceRegistry.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = EntryList.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)new MyMsgListener(), ServiceProperties.createServiceProperties());
             Dictionary dictionary = ServiceProperties.createServiceProperties();
             dictionary.put("LANG_COMPONENT_TYPE", "LANG_COMPONENT_HMI");
-            iServiceRegistry.registerService((class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = EntryList.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName(), (Object)new EntryList$MyI18NTarget(this, null), dictionary);
+            iServiceRegistry.registerService((class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = EntryList.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName(), (Object)new MyI18NTarget(), dictionary);
         }
         catch (Exception exception) {
             Logs.logException(this.log, exception, "[EntryList#connect]");
@@ -137,7 +134,7 @@ extends AbstractMessagingComponent {
     public void setEntryPropertyFactory(IEntryPropertyFactory iEntryPropertyFactory) {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
-            this.log.log(-2137614336, "[EntryList#setEntryPropertyFactory] entryPropertyFactory = %1", (Object)iEntryPropertyFactory);
+            this.log.log(10000000, "[EntryList#setEntryPropertyFactory] entryPropertyFactory = %1", (Object)iEntryPropertyFactory);
             this.entryPropertyFactory = iEntryPropertyFactory;
         }
     }
@@ -155,18 +152,18 @@ extends AbstractMessagingComponent {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void setQueuedFolderChangeRequest(EntryList$FolderChangeRequest entryList$FolderChangeRequest) {
+    public void setQueuedFolderChangeRequest(FolderChangeRequest folderChangeRequest) {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
-            this.log.log(1078071040, "[EntryList#setQueuedFolderChangeRequest] folderChangeRequest = %1", (Object)String.valueOf(entryList$FolderChangeRequest));
-            this.queuedFolderChangeRequest = entryList$FolderChangeRequest;
+            this.log.log(1000000, "[EntryList#setQueuedFolderChangeRequest] folderChangeRequest = %1", (Object)String.valueOf(folderChangeRequest));
+            this.queuedFolderChangeRequest = folderChangeRequest;
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private EntryList$FolderChangeRequest getQueuedFolderChangeRequest() {
+    private FolderChangeRequest getQueuedFolderChangeRequest() {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             return this.queuedFolderChangeRequest;
@@ -179,7 +176,7 @@ extends AbstractMessagingComponent {
     public void setAwaitFolderChange(boolean bl) {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
-            this.log.log(1078071040, "[EntryList#setAwaitFolderChange] awaitFolderChange = %1, this.awaitFolderChange = %2, this.isFolderChangeInProgress = %3", bl, this.awaitFolderChange, this.isFolderChangeInProgress);
+            this.log.log(1000000, "[EntryList#setAwaitFolderChange] awaitFolderChange = %1, this.awaitFolderChange = %2, this.isFolderChangeInProgress = %3", bl, this.awaitFolderChange, this.isFolderChangeInProgress);
             boolean bl2 = this.awaitFolderChange;
             this.awaitFolderChange = bl;
             if (!bl2 && bl) {
@@ -196,7 +193,7 @@ extends AbstractMessagingComponent {
     public void setIgnoreUpdates(boolean bl) {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
-            this.log.log(-2137614336, "[EntryList#setIgnoreUpdates] ignoreUpdates = %1", bl);
+            this.log.log(10000000, "[EntryList#setIgnoreUpdates] ignoreUpdates = %1", bl);
             this.ignoreUpdates = bl;
         }
     }
@@ -221,7 +218,7 @@ extends AbstractMessagingComponent {
     private void handleHmiSettingsChanged() {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
-            this.log.log(-2137614336, "[EntryList#handleHmiSettingsChanged] currentFolder.isValid() = %1 ", this.currentFolder.isValid());
+            this.log.log(10000000, "[EntryList#handleHmiSettingsChanged] currentFolder.isValid() = %1 ", this.currentFolder.isValid());
             if (this.currentFolder.isValid()) {
                 try {
                     this.setUnsynchedOperationState(0);
@@ -245,14 +242,14 @@ extends AbstractMessagingComponent {
                 boolean bl;
                 ListDataRequest listDataRequest;
                 if (this.log.isInfo()) {
-                    this.log.log(1078071040, "[EntryList#handleCommandResult] lastRequestId = %2, listDataResponse = %1", (Object)listDataResponse, (long)this.lastRequestId);
+                    this.log.log(1000000, "[EntryList#handleCommandResult] lastRequestId = %2, listDataResponse = %1", (Object)listDataResponse, (long)this.lastRequestId);
                 }
                 boolean bl2 = (listDataRequest = listDataResponse.getListDataRequest()).getModelRequestId() != -1;
                 boolean bl3 = this.isFolderMatch(listDataResponse);
                 if (bl2 || bl3) {
                     this.updateListModel(listDataResponse, bl3);
                 } else if (this.log.isInfo()) {
-                    this.log.log(1078071040, "[EntryList#handleCommandResult] Response does not pertain to a model request or does not pertain to the current folder. Skipping list model update.");
+                    this.log.log(1000000, "[EntryList#handleCommandResult] Response does not pertain to a model request or does not pertain to the current folder. Skipping list model update.");
                 }
                 boolean bl4 = bl = listDataResponse.getResult() == 0;
                 if (bl && this.getQueuedFolderChangeRequest() != null) {
@@ -308,7 +305,7 @@ extends AbstractMessagingComponent {
 
     private void updateListModel(ListDataResponse listDataResponse, boolean bl) {
         ListChangedInformation listChangedInformation;
-        this.log.log(-2137614336, "[EntryList#updateListModel]");
+        this.log.log(10000000, "[EntryList#updateListModel]");
         ListDataRequest listDataRequest = listDataResponse.getListDataRequest();
         BaseListModelApp baseListModelApp = this.listModel.getCopy();
         if (listDataRequest.hasListChanged()) {
@@ -332,7 +329,7 @@ extends AbstractMessagingComponent {
     }
 
     private void setFocus(ListDataResponse listDataResponse, EntryListRow[] entryListRowArray) {
-        this.log.log(-2137614336, "[EntryList#setFocus]");
+        this.log.log(10000000, "[EntryList#setFocus]");
         boolean bl = false;
         ListDataRequest listDataRequest = listDataResponse.getListDataRequest();
         if (this.isFolderChangeResponse(listDataResponse)) {
@@ -343,7 +340,7 @@ extends AbstractMessagingComponent {
                 entryListRow = this.findSubFolderToFocus(entryListRowArray, folder);
             }
             if (entryListRow != null) {
-                this.log.log(-2137614336, "[EntryList#setFocus] Setting cursor to subfolder after folder up-change.");
+                this.log.log(10000000, "[EntryList#setFocus] Setting cursor to subfolder after folder up-change.");
                 this.listModel.getMenu().setFocusedItem(this.listModel.getID(), FocusAdvice.VIEWPORT_SECOND_POSITION, entryListRow.getUniqueID());
             } else {
                 bl = true;
@@ -353,7 +350,7 @@ extends AbstractMessagingComponent {
                 EntryListRow entryListRow = listDataRequest.getFocusedRow();
                 EntryListRow entryListRow2 = this.findRowToFocus(entryListRowArray, entryListRow);
                 if (entryListRow2 != null) {
-                    this.log.log(-2137614336, "[EntryList#setFocus] Setting cursor to previously focused item after list change.");
+                    this.log.log(10000000, "[EntryList#setFocus] Setting cursor to previously focused item after list change.");
                     this.listModel.getMenu().setFocusedItem(this.listModel.getID(), FocusAdvice.KEEP_POSITION, entryListRow2.getUniqueID());
                     this.emitItemToSelect(entryListRow2);
                 }
@@ -362,10 +359,10 @@ extends AbstractMessagingComponent {
             }
         }
         if (bl) {
-            this.log.log(-2137614336, "[EntryList#setFocus] Resetting cursor position.");
+            this.log.log(10000000, "[EntryList#setFocus] Resetting cursor position.");
             this.listModel.getMenu().trigger(ModelTrigger.RESET_CURSOR_POS);
         } else {
-            this.log.log(-2137614336, "[EntryList#setFocus] Not resetting cursor position.");
+            this.log.log(10000000, "[EntryList#setFocus] Not resetting cursor position.");
         }
     }
 
@@ -375,7 +372,7 @@ extends AbstractMessagingComponent {
     public void signalListReady(boolean bl) {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
-            this.log.log(1078071040, "[EntryList#signalListReady] isReady = %1", bl);
+            this.log.log(1000000, "[EntryList#signalListReady] isReady = %1", bl);
             int n = bl ? 1 : 0;
             this.listModel.setStatus(n);
         }
@@ -384,7 +381,7 @@ extends AbstractMessagingComponent {
     private void changeOperationState(int n) {
         boolean bl;
         int n2;
-        this.log.log(1078071040, "[EntryList#changeOperationState] this.operationState = %1, operationStateChange = %2", (long)this.operationState, (long)n);
+        this.log.log(1000000, "[EntryList#changeOperationState] this.operationState = %1, operationStateChange = %2", (long)this.operationState, (long)n);
         switch (n) {
             case 0: 
             case 1: {
@@ -421,24 +418,24 @@ extends AbstractMessagingComponent {
         } else if (bl && n == 1) {
             this.operationTimer.cancel();
             this.operationTimer.start();
-            EntryList$FolderChangeRequest entryList$FolderChangeRequest = this.getQueuedFolderChangeRequest();
+            FolderChangeRequest folderChangeRequest = this.getQueuedFolderChangeRequest();
             this.setQueuedFolderChangeRequest(null);
-            this.msgApp.getAccountManager().selectAccount(entryList$FolderChangeRequest.getAccountId());
-            this.msgApp.getFolderNavigator().changeFolderDirect(entryList$FolderChangeRequest.getFolderId(), true);
+            this.msgApp.getAccountManager().selectAccount(folderChangeRequest.getAccountId());
+            this.msgApp.getFolderNavigator().changeFolderDirect(folderChangeRequest.getFolderId(), true);
         }
         if (this.operationState != n2) {
             this.operationState = n2;
-            this.msgApp.getModelAccess().setOperationStateChoice(529735936, n2);
+            this.msgApp.getModelAccess().setOperationStateChoice(2200351, n2);
             this.emitIndicateOperationState(n2);
         }
     }
 
     private void setUnsynchedOperationState(int n) {
-        this.log.log(-2137614336, "[EntryList#logUnsyncedOperationState] operationState = %1", (long)n);
+        this.log.log(10000000, "[EntryList#logUnsyncedOperationState] operationState = %1", (long)n);
     }
 
     private void clear() {
-        this.log.log(-2137614336, "[EntryList#clear]");
+        this.log.log(10000000, "[EntryList#clear]");
         this.listModel.removeAll();
     }
 
@@ -464,7 +461,7 @@ extends AbstractMessagingComponent {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             EvoListRow evoListRow;
-            this.log.log(-2137614336, "[EntryList#selectEntry] index = %1", (long)n);
+            this.log.log(10000000, "[EntryList#selectEntry] index = %1", (long)n);
             boolean bl = false;
             if (n >= 0 && n < this.getLength() && (evoListRow = this.listModel.getRow(n)) != null) {
                 this.entrySelected(evoListRow);
@@ -475,13 +472,13 @@ extends AbstractMessagingComponent {
     }
 
     public void toggleEntryRow(EntryListRow entryListRow, int n, boolean bl) {
-        this.log.log(-2137614336, "[EntryList#toggleEntryRow]");
+        this.log.log(10000000, "[EntryList#toggleEntryRow]");
         entryListRow.toggleRow(entryListRow, bl);
         this.listModel.setRow(n, entryListRow);
     }
 
     public void deselectAllRows() {
-        this.log.log(-2137614336, "[EntryList#deselectAllRows]");
+        this.log.log(10000000, "[EntryList#deselectAllRows]");
         try {
             for (int i2 = 0; i2 < this.listModel.getLength(); ++i2) {
                 EntryListRow entryListRow = (EntryListRow)this.listModel.getRow(i2);
@@ -490,7 +487,7 @@ extends AbstractMessagingComponent {
             }
         }
         catch (Exception exception) {
-            this.log.log(1078071040, "[EntryList#deselectAllRows]", (Throwable)exception);
+            this.log.log(1000000, "[EntryList#deselectAllRows]", (Throwable)exception);
         }
     }
 
@@ -502,7 +499,7 @@ extends AbstractMessagingComponent {
     }
 
     private void autoLoadListItems(boolean bl, ListChangedInformation listChangedInformation) {
-        this.log.log(-2137614336, "[EntryList#autoLoadListItems]");
+        this.log.log(10000000, "[EntryList#autoLoadListItems]");
         int n = listChangedInformation != null ? listChangedInformation.getListSize() : this.getLength();
         boolean bl2 = this.focusedRow != null && (!bl || this.isKeepOffsetChange(listChangedInformation));
         int n2 = Math.max(0, n - 1);
@@ -518,14 +515,14 @@ extends AbstractMessagingComponent {
     }
 
     private void loadListItems(int n, int n2, int n3, boolean bl, ListChangedInformation listChangedInformation) {
-        this.log.log(-2137614336, "[EntryList#loadListItems]");
+        this.log.log(10000000, "[EntryList#loadListItems]");
         ListDataRequest listDataRequest = new ListDataRequest(++this.lastRequestId, n3, n, n2, bl, listChangedInformation, this.focusedRow, this.listModel.getMenu().getAdvice());
         new ListEntriesCommand(this.msgApp, this.commandResultHandler, listDataRequest).schedule();
     }
 
     private void folderSelected(ListEntry listEntry) {
         FolderEntry folderEntry = listEntry.getFolderEntry();
-        this.log.log(-2137614336, "[EntryList#folderSelected] folderEntry = %1", (Object)folderEntry);
+        this.log.log(10000000, "[EntryList#folderSelected] folderEntry = %1", (Object)folderEntry);
         this.setSelectedItemTypeModel(false);
         FolderNavigator folderNavigator = this.msgApp.getFolderNavigator();
         folderNavigator.changeFolderDown(folderEntry);
@@ -561,7 +558,7 @@ extends AbstractMessagingComponent {
                 if (n2 >= 0 && n2 < entryListRowArray.length) {
                     entryListRow = entryListRowArray[n2];
                 }
-                this.log.log(-2137614336, "[EntryList#findSubFolderToFocus] subFolderId = %1, indexToFocus = %2, rowToFocus = %3", (Object)String.valueOf(n), (Object)String.valueOf(n2), (Object)String.valueOf(entryListRow));
+                this.log.log(10000000, "[EntryList#findSubFolderToFocus] subFolderId = %1, indexToFocus = %2, rowToFocus = %3", (Object)String.valueOf(n), (Object)String.valueOf(n2), (Object)String.valueOf(entryListRow));
             }
         }
         catch (Exception exception) {
@@ -601,7 +598,7 @@ extends AbstractMessagingComponent {
                 this.log.log(10000, "[EntryList#findRowToFocus] Error trying to find item to focus: ", (Throwable)exception);
             }
         }
-        this.log.log(-2137614336, "[EntryList#findRowToFocus] rowToFocus = %1", (Object)String.valueOf(entryListRow2));
+        this.log.log(10000000, "[EntryList#findRowToFocus] rowToFocus = %1", (Object)String.valueOf(entryListRow2));
         return entryListRow2;
     }
 
@@ -632,7 +629,7 @@ extends AbstractMessagingComponent {
     private void entrySelected(EvoListRow evoListRow) {
         EntryListRow entryListRow = (EntryListRow)evoListRow;
         ListEntry listEntry = entryListRow.getListEntry();
-        this.log.log(1078071040, "[EntryList#entrySelected] listEntry = %1", (Object)listEntry);
+        this.log.log(1000000, "[EntryList#entrySelected] listEntry = %1", (Object)listEntry);
         this.setFocusedItem(entryListRow);
         if (!ListEntries.isMessage(listEntry)) {
             this.folderSelected(listEntry);
@@ -641,18 +638,36 @@ extends AbstractMessagingComponent {
     }
 
     public void setSelectedItemTypeModel(boolean bl) {
-        this.log.log(1078071040, "[EntryList#setSelectedItemTypeModel] isMessage = %1", bl);
+        this.log.log(1000000, "[EntryList#setSelectedItemTypeModel] isMessage = %1", bl);
         int n = bl ? 1 : 0;
-        this.framework.getHmiServiceApp().getChoiceModel(546513152).setValue(n);
+        this.framework.getHmiServiceApp().getChoiceModel(2200352).setValue(n);
     }
 
     private Timer createOperationTimer() {
-        EntryList$2 entryList$2 = new EntryList$2(this);
-        return new Timer("(EntryList)", 0, true, entryList$2);
+        TimerListener timerListener = new TimerListener(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void fireTimer(Timer timer) {
+                Object object = EntryList.this.messagingBundleContext.getMessagingHmiLock();
+                synchronized (object) {
+                    EntryList.this.log.log(10000, "[EntryList#fireTimer] Operation timed out.");
+                    if (EntryList.this.operationState == 0) {
+                        EntryList.this.changeOperationState(3);
+                    }
+                }
+            }
+
+            public void cancelTimer(Timer timer) {
+                EntryList.this.log.log(10000000, "[EntryList#cancelTimer]");
+            }
+        };
+        return new Timer("(EntryList)", 190000L, true, timerListener);
     }
 
     private void setFocusedItem(EntryListRow entryListRow) {
-        this.log.log(-2137614336, "[EntryList#setFocusedItem] row = %1", (Object)entryListRow);
+        this.log.log(10000000, "[EntryList#setFocusedItem] row = %1", (Object)entryListRow);
         this.focusedRow = entryListRow;
         if (this.focusedRow != null) {
             this.emitIndicateItemFocused(this.focusedRow);
@@ -664,12 +679,12 @@ extends AbstractMessagingComponent {
     }
 
     public void addObserver(IEntryListObserver iEntryListObserver) {
-        this.log.log(-2137614336, "[EntryList#addObserver] observer = %1", (Object)iEntryListObserver);
+        this.log.log(10000000, "[EntryList#addObserver] observer = %1", (Object)iEntryListObserver);
         this.entryListObservers.add(iEntryListObserver);
     }
 
     private void emitIndicateItemFocused(EntryListRow entryListRow) {
-        this.log.log(-2137614336, "[EntryList#emitIndicateItemFocused]");
+        this.log.log(10000000, "[EntryList#emitIndicateItemFocused]");
         Iterator iterator = this.entryListObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -682,7 +697,7 @@ extends AbstractMessagingComponent {
     }
 
     private void emitIndicateItemSelected(ListEntry listEntry, long l) {
-        this.log.log(-2137614336, "[EntryList#emitIndicateItemSelected]");
+        this.log.log(10000000, "[EntryList#emitIndicateItemSelected]");
         Iterator iterator = this.entryListObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -695,7 +710,7 @@ extends AbstractMessagingComponent {
     }
 
     private void emitIndicateItemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.log.log(-2137614336, "[EntryList#emitIndicateItemSelected]");
+        this.log.log(10000000, "[EntryList#emitIndicateItemSelected]");
         Iterator iterator = this.entryListObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -708,7 +723,7 @@ extends AbstractMessagingComponent {
     }
 
     private void emitIndicateListDataResponseOnFolderChange() {
-        this.log.log(-2137614336, "[EntryList#emitIndicateListDataResponseOnFolderChange]");
+        this.log.log(10000000, "[EntryList#emitIndicateListDataResponseOnFolderChange]");
         Iterator iterator = this.entryListObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -721,7 +736,7 @@ extends AbstractMessagingComponent {
     }
 
     private void emitIndicateOperationState(int n) {
-        this.log.log(-2137614336, "[EntryList#emitIndicateOperationState]");
+        this.log.log(10000000, "[EntryList#emitIndicateOperationState]");
         Iterator iterator = this.entryListObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -734,7 +749,7 @@ extends AbstractMessagingComponent {
     }
 
     private void emitItemToSelect(EvoListRow evoListRow) {
-        this.log.log(-2137614336, "[EntryList#emitItemToSelect]");
+        this.log.log(10000000, "[EntryList#emitItemToSelect]");
         Iterator iterator = this.entryListObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -746,10 +761,6 @@ extends AbstractMessagingComponent {
         }
     }
 
-    static /* synthetic */ void access$000(EntryList entryList, ListDataResponse listDataResponse) {
-        entryList.handleCommandResult(listDataResponse);
-    }
-
     static /* synthetic */ Class class$(String string) {
         try {
             return Class.forName(string);
@@ -759,169 +770,201 @@ extends AbstractMessagingComponent {
         }
     }
 
-    static /* synthetic */ MessagingBundleContext access$700(EntryList entryList) {
-        return entryList.messagingBundleContext;
+    private class MyI18NTarget
+    implements I18NTarget {
+        private MyI18NTarget() {
+        }
+
+        public void setLanguage(Language language) {
+            if (EntryList.this.log.isInfo()) {
+                EntryList.this.log.log(1000000, "[EntryList#setLanguage] language = %1", (Object)String.valueOf(language));
+            }
+            EntryList.this.handleHmiSettingsChanged();
+        }
     }
 
-    static /* synthetic */ LogChannel access$800(EntryList entryList) {
-        return entryList.log;
+    private class MyMsgListener
+    implements MsgListener {
+        private MyMsgListener() {
+        }
+
+        public void processMsg(int n) {
+            if (n == 11) {
+                EntryList.this.log.log(1000000, "[EntryList#processMsg] message = %1 (UNITS_CHANGED)", (long)n);
+                EntryList.this.handleHmiSettingsChanged();
+            }
+        }
     }
 
-    static /* synthetic */ int access$900(EntryList entryList) {
-        return entryList.operationState;
+    public static final class FolderChangeRequest {
+        private final int accountId;
+        private final int folderId;
+
+        public FolderChangeRequest(int n, int n2) {
+            this.accountId = n;
+            this.folderId = n2;
+        }
+
+        public int getAccountId() {
+            return this.accountId;
+        }
+
+        public int getFolderId() {
+            return this.folderId;
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer();
+            buffer.append("FolderChangeRequest {");
+            buffer.append("accountId = ").append(this.getAccountId());
+            buffer.append(", folderId = ").append(this.getFolderId());
+            buffer.append('}');
+            return buffer.toString();
+        }
     }
 
-    static /* synthetic */ void access$1000(EntryList entryList, int n) {
-        entryList.changeOperationState(n);
+    private final class MyMenuModelListener
+    implements MenuModelListener {
+        private MyMenuModelListener() {
+        }
+
+        public void itemFocused(int n, int n2, long l, int n3) {
+            EntryList.this.log.log(1000000, "[EntryList#MyMenuModelListener#itemFocused] model = %1", (long)n2);
+            if (n2 != EntryList.this.listModel.getID()) {
+                EntryList.this.setFocusedItem(null);
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$1100(EntryList entryList) {
-        return entryList.log;
+    private class MyDsiMessagingListener
+    extends DsiMessagingEmptyListener {
+        private MyDsiMessagingListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void indicateListChanged(ListChangedInformation listChangedInformation) {
+            Object object = EntryList.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                try {
+                    EntryList.this.log.log(10000000, "[EntryList#indicateListChanged]");
+                    if (!EntryList.this.ignoreUpdates) {
+                        EntryList.this.setUnsynchedOperationState(0);
+                        EntryList.this.autoLoadListItems(true, listChangedInformation);
+                    } else {
+                        EntryList.this.log.log(100000, "[EntryList#indicateListChanged] Context information on current folder is invalid. Ignoring call.");
+                    }
+                }
+                catch (Exception exception) {
+                    Logs.logException(EntryList.this.log, exception, "[EntryList#indicateListChanged]");
+                    EntryList.this.setUnsynchedOperationState(3);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ MessagingBundleContext access$1200(EntryList entryList) {
-        return entryList.messagingBundleContext;
+    private final class FolderNavigatorObserver
+    extends IFolderNavigatorObserver.EmptyImplementation {
+        private FolderNavigatorObserver() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void indicateFolderChange(boolean bl) {
+            Object object = EntryList.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                EntryList.this.log.log(10000000, "[EntryList#indicateFolderChange] inProgress = %1", bl);
+                EntryList.this.isFolderChangeInProgress = true;
+                if (bl) {
+                    EntryList.this.changeOperationState(0);
+                    EntryList.this.setAwaitFolderChange(false);
+                } else if (!EntryList.this.currentFolder.isValid()) {
+                    EntryList.this.changeOperationState(3);
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateCurrentFolder(Folder folder) {
+            Object object = EntryList.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                EntryList.this.log.log(10000000, "[EntryList#updateCurrentFolder] currentFolder = %1", (Object)folder);
+                EntryList.this.currentFolder = folder;
+                boolean bl = folder.isValid();
+                EntryList.this.setIgnoreUpdates(!bl);
+                if (!bl) {
+                    EntryList.this.clear();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$1300(EntryList entryList) {
-        return entryList.log;
-    }
+    private class MyTiledListModelListener
+    extends DefaultTiledListModelListener {
+        private MyTiledListModelListener() {
+        }
 
-    static /* synthetic */ LogChannel access$1400(EntryList entryList) {
-        return entryList.log;
-    }
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            Object object = EntryList.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                EntryList.this.log.log(1000000, "[EntryList#itemSelected] index = %2, row = %1", (Object)evoListRow, (long)n2);
+                if (evoListRow == null) {
+                    EntryList.this.log.log(100000, "[EntryList#MyTiledListModelListener#itemSelected] selectedRow is null!");
+                } else if (!EntryList.this.isDeletionMode) {
+                    EntryList.this.entrySelected(evoListRow);
+                    EntryList.this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n4);
+                } else {
+                    EntryList.this.emitIndicateItemSelected(evoListRow, n, n2, n3, n4);
+                }
+            }
+        }
 
-    static /* synthetic */ boolean access$1500(EntryList entryList) {
-        return entryList.isDeletionMode;
-    }
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            Object object = EntryList.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                EntryList.this.log.log(1000000, "[EntryList#itemFocused] index = %2, row = %1", (Object)evoListRow, (long)n2);
+                EntryList.this.setFocusedItem((EntryListRow)evoListRow);
+            }
+        }
 
-    static /* synthetic */ void access$1600(EntryList entryList, EvoListRow evoListRow) {
-        entryList.entrySelected(evoListRow);
-    }
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void requestItems(int n, int n2, int n3, int n4, int n5) {
+            Object object = EntryList.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                try {
+                    EntryList.this.log.log(1000000, "[EntryList#requestItems] startIndex = %1, length = %2, requestID = %3", (long)n, (long)n2, (long)n3);
+                    EntryList.this.setUnsynchedOperationState(0);
+                    EntryList.this.loadListItems(n, n2, n3, false, null);
+                }
+                catch (Exception exception) {
+                    Logs.logException(EntryList.this.log, exception, "[EntryList#requestItems]");
+                    EntryList.this.setUnsynchedOperationState(3);
+                }
+            }
+        }
 
-    static /* synthetic */ IFrameworkAccess access$1700(EntryList entryList) {
-        return entryList.framework;
-    }
-
-    static /* synthetic */ void access$1800(EntryList entryList, EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        entryList.emitIndicateItemSelected(evoListRow, n, n2, n3, n4);
-    }
-
-    static /* synthetic */ MessagingBundleContext access$1900(EntryList entryList) {
-        return entryList.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$2000(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ void access$2100(EntryList entryList, EntryListRow entryListRow) {
-        entryList.setFocusedItem(entryListRow);
-    }
-
-    static /* synthetic */ MessagingBundleContext access$2200(EntryList entryList) {
-        return entryList.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$2300(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ void access$2400(EntryList entryList, int n) {
-        entryList.setUnsynchedOperationState(n);
-    }
-
-    static /* synthetic */ void access$2500(EntryList entryList, int n, int n2, int n3, boolean bl, ListChangedInformation listChangedInformation) {
-        entryList.loadListItems(n, n2, n3, bl, listChangedInformation);
-    }
-
-    static /* synthetic */ LogChannel access$2600(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ MessagingBundleContext access$2700(EntryList entryList) {
-        return entryList.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$2800(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ TiledListModelApp access$2900(EntryList entryList) {
-        return entryList.listModel;
-    }
-
-    static /* synthetic */ LogChannel access$3000(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ MessagingBundleContext access$3100(EntryList entryList) {
-        return entryList.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$3200(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ Folder access$3300(EntryList entryList) {
-        return entryList.currentFolder;
-    }
-
-    static /* synthetic */ MessagingBundleContext access$3400(EntryList entryList) {
-        return entryList.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$3500(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ Folder access$3302(EntryList entryList, Folder folder) {
-        entryList.currentFolder = folder;
-        return entryList.currentFolder;
-    }
-
-    static /* synthetic */ void access$3600(EntryList entryList) {
-        entryList.clear();
-    }
-
-    static /* synthetic */ MessagingBundleContext access$3700(EntryList entryList) {
-        return entryList.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$3800(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ boolean access$3900(EntryList entryList) {
-        return entryList.ignoreUpdates;
-    }
-
-    static /* synthetic */ void access$4000(EntryList entryList, boolean bl, ListChangedInformation listChangedInformation) {
-        entryList.autoLoadListItems(bl, listChangedInformation);
-    }
-
-    static /* synthetic */ LogChannel access$4100(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ LogChannel access$4200(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ LogChannel access$4300(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ void access$4400(EntryList entryList) {
-        entryList.handleHmiSettingsChanged();
-    }
-
-    static /* synthetic */ LogChannel access$4500(EntryList entryList) {
-        return entryList.log;
-    }
-
-    static /* synthetic */ LogChannel access$4600(EntryList entryList) {
-        return entryList.log;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void unrequestItems(int n, int n2, int n3, int n4) {
+            Object object = EntryList.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                EntryList.this.log.log(1000000, "[EntryList#unrequestItems] startIndex = %1, length = %2", (long)n, (long)n2);
+                EntryList.this.listModel.clearRows(n, n2);
+            }
+        }
     }
 }
 

@@ -6,7 +6,6 @@ package de.audi.app.car.common.lang;
 import de.audi.atip.i18n.Language;
 
 public interface ILanguageUpdateListener {
-    default public void setLanguage(Language language) {
-    }
+    public void setLanguage(Language var1);
 }
 

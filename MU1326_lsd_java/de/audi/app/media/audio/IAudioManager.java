@@ -7,92 +7,65 @@ import de.audi.app.media.audio.IAudioStateListener;
 import de.audi.atip.interapp.audio.ToneService;
 
 public interface IAudioManager {
-    public static final int AUDIO_STATE_UNDEFINED;
-    public static final int AUDIO_STATE_STARTED;
-    public static final int AUDIO_STATE_PAUSED;
-    public static final int AUDIO_STATE_FADEDIN;
-    public static final int AUDIO_STATE_STOPPED;
-    public static final int AUDIO_STATE_ERROR;
+    public static final int AUDIO_STATE_UNDEFINED = 0;
+    public static final int AUDIO_STATE_STARTED = 2;
+    public static final int AUDIO_STATE_PAUSED = 3;
+    public static final int AUDIO_STATE_FADEDIN = 4;
+    public static final int AUDIO_STATE_STOPPED = 5;
+    public static final int AUDIO_STATE_ERROR = 6;
 
-    default public void requestAudioFocus() {
-    }
+    public void requestAudioFocus();
 
-    default public void switchAudioFocusToTuner() {
-    }
+    public void switchAudioFocusToTuner();
 
-    default public void switchAudioFocusToTV() {
-    }
+    public void switchAudioFocusToTV();
 
-    default public boolean hasAudioFocus() {
-    }
+    public boolean hasAudioFocus();
 
-    default public boolean hasFrontAudioFocus() {
-    }
+    public boolean hasFrontAudioFocus();
 
-    default public boolean hasRearSeatAudioFocus() {
-    }
+    public boolean hasRearSeatAudioFocus();
 
-    default public boolean hasRearSeatAudioFocusOnly() {
-    }
+    public boolean hasRearSeatAudioFocusOnly();
 
-    default public void requestAudio(int n, boolean bl) {
-    }
+    public void requestAudio(int var1, boolean var2);
 
-    default public boolean requestAudio(int n, boolean bl, boolean bl2) {
-    }
+    public boolean requestAudio(int var1, boolean var2, boolean var3);
 
-    default public void requestEntSuppression() {
-    }
+    public void requestEntSuppression();
 
-    default public void releaseAudio() {
-    }
+    public void releaseAudio();
 
-    default public void fadeTo() {
-    }
+    public void fadeTo();
 
-    default public void addAudioContextListener(IAudioStateListener iAudioStateListener) {
-    }
+    public void addAudioContextListener(IAudioStateListener var1);
 
-    default public void removeAudioContextListener(IAudioStateListener iAudioStateListener) {
-    }
+    public void removeAudioContextListener(IAudioStateListener var1);
 
-    default public void requestVolumelock(String string) {
-    }
+    public void requestVolumelock(String var1);
 
-    default public void releaseVolumelock(String string) {
-    }
+    public void releaseVolumelock(String var1);
 
-    default public boolean resumeAudio(boolean bl) {
-    }
+    public boolean resumeAudio(boolean var1);
 
-    default public boolean isStandbyMuted() {
-    }
+    public boolean isStandbyMuted();
 
-    default public boolean isMuted() {
-    }
+    public boolean isMuted();
 
-    default public boolean isBtMuted() {
-    }
+    public boolean isBtMuted();
 
-    default public void mute() {
-    }
+    public void mute();
 
-    default public void demute() {
-    }
+    public void demute();
 
-    default public void btMute() {
-    }
+    public void btMute();
 
-    default public void btDemute() {
-    }
+    public void btDemute();
 
-    default public void requestSdisConnectionsIfRequired(int n) {
-    }
+    public void requestSdisConnectionsIfRequired(int var1);
 
-    default public void switchSDISAudioFocusToTV() {
-    }
+    public void switchSDISAudioFocusToTV();
 
-    default public ToneService getToneService() {
-    }
+    public ToneService getToneService();
 }
 

@@ -8,8 +8,7 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.hmi.modelaccess.ResourceLocatorModelApp;
 import de.audi.atip.log.LogChannel;
-import de.audi.atip.onlinelogo.OnlineLogoItem$OnlineLogoIOWrapper;
-import de.audi.atip.onlinelogo.OnlineLogoItem$OnlineLogoIOWrapperImpl;
+import de.audi.atip.onlinelogo.FileCheckSumCalculator;
 import java.io.File;
 
 public class OnlineLogoItem {
@@ -17,7 +16,7 @@ public class OnlineLogoItem {
     private final String path;
     private String checksum = null;
     private final LogChannel logChannel;
-    private OnlineLogoItem$OnlineLogoIOWrapper ioWrapper;
+    private OnlineLogoIOWrapper ioWrapper;
     private final String defaultPath;
     private final IFrameworkAccess frameworkAccess;
 
@@ -26,10 +25,10 @@ public class OnlineLogoItem {
         this.model = hMIModelApp;
         this.path = string;
         this.defaultPath = string2;
-        this.ioWrapper = new OnlineLogoItem$OnlineLogoIOWrapperImpl(null);
+        this.ioWrapper = new OnlineLogoIOWrapperImpl();
         this.frameworkAccess = iFrameworkAccess;
         this.updateModelPath();
-        logChannel.log(1078071040, "OnlineLogoItem#OnlineLogoItem(): called with path = %1, default path = %2", (Object)this.path, (Object)this.defaultPath);
+        logChannel.log(1000000, "OnlineLogoItem#OnlineLogoItem(): called with path = %1, default path = %2", (Object)this.path, (Object)this.defaultPath);
     }
 
     private void updateModelPath() {
@@ -38,7 +37,7 @@ public class OnlineLogoItem {
         if (!file.exists()) {
             string = this.defaultPath;
         }
-        this.logChannel.log(1078071040, "OnlineLogoItem#updateModelPath: %1", (Object)string);
+        this.logChannel.log(1000000, "OnlineLogoItem#updateModelPath: %1", (Object)string);
         if (this.model != null) {
             if (this.model instanceof LabelModelApp) {
                 ((LabelModelApp)this.model).setText(string);
@@ -49,7 +48,7 @@ public class OnlineLogoItem {
     }
 
     public void update(String string, String string2) {
-        this.logChannel.log(1078071040, new StringBuffer().append("OnlineLogoItem#update() ").append(string).append(" checksum:").append(string2).toString());
+        this.logChannel.log(1000000, "OnlineLogoItem#update() " + string + " checksum:" + string2);
         if (string2 == null || string == null) {
             this.deleteDownloadedFile();
             this.updateModelPath();
@@ -60,10 +59,10 @@ public class OnlineLogoItem {
             }
             if (this.checksum == null) {
                 this.checksum = this.computeChecksum(this.path);
-                this.logChannel.log(1078071040, "OnlineLogoItem#update(): computing checksum");
+                this.logChannel.log(1000000, "OnlineLogoItem#update(): computing checksum");
             }
             if (this.checksum == null || !this.checksum.equals(string2)) {
-                this.logChannel.log(1078071040, "OnlineLogoItem#update(): checksums do not match, computed is %1, provided is %2", (Object)this.checksum, (Object)string2);
+                this.logChannel.log(1000000, "OnlineLogoItem#update(): checksums do not match, computed is %1, provided is %2", (Object)this.checksum, (Object)string2);
                 this.frameworkAccess.getOnlineLogoProvider().downloadLogoItem(string, this.path, this);
             }
         }
@@ -76,14 +75,14 @@ public class OnlineLogoItem {
     private void deleteDownloadedFile() {
         File file;
         if (this.path != null && this.defaultPath != null && !this.path.equals(this.defaultPath) && (file = new File(this.path)).exists()) {
-            this.logChannel.log(1078071040, "OnlineLogoItem#deleteDownloadedFile: deleting file %1", (Object)this.path);
+            this.logChannel.log(1000000, "OnlineLogoItem#deleteDownloadedFile: deleting file %1", (Object)this.path);
             try {
                 if (!file.delete()) {
-                    this.logChannel.log(-1601830656, "OnlineLogoItem#deleteDownloadedFile: file could not be deleted");
+                    this.logChannel.log(100000, "OnlineLogoItem#deleteDownloadedFile: file could not be deleted");
                 }
             }
             catch (Exception exception) {
-                this.logChannel.log(-1601830656, "OnlineLogoItem#deleteDownloadedFile: exception %1", (Throwable)exception);
+                this.logChannel.log(100000, "OnlineLogoItem#deleteDownloadedFile: exception %1", (Throwable)exception);
             }
         }
     }
@@ -96,13 +95,30 @@ public class OnlineLogoItem {
     }
 
     public void updateFinished() {
-        this.logChannel.log(1078071040, "OnlineLogoItem: Logo update finished");
+        this.logChannel.log(1000000, "OnlineLogoItem: Logo update finished");
         this.updateModelPath();
     }
 
     public void setVisible(boolean bl) {
-        this.logChannel.log(-2137614336, new StringBuffer().append("OnlineLogoItem#setVisible() image: ").append(this.path).append(" visibility: ").append(bl).toString());
+        this.logChannel.log(10000000, "OnlineLogoItem#setVisible() image: " + this.path + " visibility: " + bl);
         this.model.setStatus(bl ? 0 : 2);
+    }
+
+    private static abstract class OnlineLogoIOWrapper {
+        private OnlineLogoIOWrapper() {
+        }
+
+        public abstract String computeChecksum(String var1);
+    }
+
+    private static final class OnlineLogoIOWrapperImpl
+    extends OnlineLogoIOWrapper {
+        private OnlineLogoIOWrapperImpl() {
+        }
+
+        public String computeChecksum(String string) {
+            return new FileCheckSumCalculator().calcChecksum(string);
+        }
     }
 }
 

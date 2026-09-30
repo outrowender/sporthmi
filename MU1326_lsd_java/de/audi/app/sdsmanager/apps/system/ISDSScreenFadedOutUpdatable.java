@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.system;
 
 public interface ISDSScreenFadedOutUpdatable {
-    default public void updateSDSScreenFadedOut(int n) {
-    }
+    public void updateSDSScreenFadedOut(int var1);
 }
 

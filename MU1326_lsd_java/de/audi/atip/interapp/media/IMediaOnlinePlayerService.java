@@ -6,10 +6,8 @@ package de.audi.atip.interapp.media;
 import de.audi.atip.interapp.media.IMediaOnlinePlayerSession;
 
 public interface IMediaOnlinePlayerService {
-    default public void open(IMediaOnlinePlayerSession iMediaOnlinePlayerSession) {
-    }
+    public void open(IMediaOnlinePlayerSession var1);
 
-    default public void close(IMediaOnlinePlayerSession iMediaOnlinePlayerSession) {
-    }
+    public void close(IMediaOnlinePlayerSession var1);
 }
 

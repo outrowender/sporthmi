@@ -10,7 +10,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class APNSpellersHandler
 implements SpellerListener {
-    private static final char STAR;
+    private static final char STAR = '*';
     protected final LogChannel log;
     protected final SpellerModelApp apnSpeller;
     protected final SpellerModelApp apnSpeller2;
@@ -57,33 +57,32 @@ implements SpellerListener {
         this.passwordSpeller2.resetListener();
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         if (n == this.apnSpeller.getID()) {
-            this.log.log(-2137614336, "AbstractDataProfile#textChanged(): APN: %1", (Object)string);
+            this.log.log(10000000, "AbstractDataProfile#textChanged(): APN: %1", (Object)string);
             this.updateSpellerStatusApn(string);
         } else if (n == this.apnSpeller2.getID()) {
-            this.log.log(-2137614336, "AbstractDataProfile#textChanged(): APN: %1", (Object)string);
+            this.log.log(10000000, "AbstractDataProfile#textChanged(): APN: %1", (Object)string);
             if (string.length() <= this.apnSpeller.getMaxLength()) {
                 this.apnSpeller.setText(string);
             }
             this.updateSpellerStatusApn(string);
             this.apnSpeller2.fireEvent(n2);
         } else if (n == this.usernameSpeller.getID()) {
-            this.log.log(-2137614336, "AbstractDataProfile#textChanged(): user namer: %1", (Object)string);
+            this.log.log(10000000, "AbstractDataProfile#textChanged(): user namer: %1", (Object)string);
             this.updateSpellerStatusUsername(string);
         } else if (n == this.usernameSpeller2.getID()) {
-            this.log.log(-2137614336, "AbstractDataProfile#textChanged(): user namer: %1", (Object)string);
+            this.log.log(10000000, "AbstractDataProfile#textChanged(): user namer: %1", (Object)string);
             if (string.length() <= this.usernameSpeller.getMaxLength()) {
                 this.usernameSpeller.setText(string);
             }
             this.updateSpellerStatusUsername(string);
             this.usernameSpeller2.fireEvent(n2);
         } else if (n == this.passwordSpeller.getID()) {
-            this.log.log(-2137614336, "AbstractDataProfile#textChanged(): password: %1", (Object)string);
+            this.log.log(10000000, "AbstractDataProfile#textChanged(): password: %1", (Object)string);
             this.updateSpellerStatusPassword(string);
         } else if (n == this.passwordSpeller2.getID()) {
-            this.log.log(-2137614336, "AbstractDataProfile#textChanged(): password: %1", (Object)string);
+            this.log.log(10000000, "AbstractDataProfile#textChanged(): password: %1", (Object)string);
             if (string.length() <= this.passwordSpeller.getMaxLength()) {
                 this.passwordSpeller.setText(string);
             }
@@ -122,23 +121,18 @@ implements SpellerListener {
         this.updateSpellerStatusPassword(string);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 

@@ -30,7 +30,6 @@ implements IDispatcherManager {
         this.externalDispatcher.start();
     }
 
-    @Override
     public void dispose() {
         super.dispose();
         this.commandListManager.destroy();
@@ -40,17 +39,14 @@ implements IDispatcherManager {
         this.framework.getDispatcherManager().destroyDispatcher(this.externalDispatcher.getDispatcherName());
     }
 
-    @Override
     public CommandListManager getCommandListManager() {
         return this.commandListManager;
     }
 
-    @Override
     public DispatcherBase getInternalTaskDispatcher() {
         return this.internalDispatcher;
     }
 
-    @Override
     public DispatcherBase getExternalTaskDispatcher() {
         return this.externalDispatcher;
     }

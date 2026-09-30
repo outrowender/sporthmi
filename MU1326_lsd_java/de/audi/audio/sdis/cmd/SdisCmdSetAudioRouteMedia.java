@@ -21,10 +21,9 @@ extends Command {
         this.smartphoneChoice = audioEnv.framework.getHMIService().getChoiceModel(4451);
     }
 
-    @Override
     public void execute() {
         int n = this.smartphoneChoice.getValue();
-        this.logger.log(-2137614336, "[SdisCmdSetAudioRouteMedia.execute] smartphoneEntertainmentSource: %1", (long)n);
+        this.logger.log(10000000, "[SdisCmdSetAudioRouteMedia.execute] smartphoneEntertainmentSource: %1", (long)n);
         switch (n) {
             case 1: {
                 SdisCmdSetAudioRouteMedia.mediaRoute[0] = new AudioRoute(4, 1, 0);
@@ -42,7 +41,7 @@ extends Command {
                 SdisCmdSetAudioRouteMedia.mediaRoute[0] = new AudioRoute(1, 1, 0);
             }
         }
-        this.logger.log(-2137614336, "[SdisCmdSetAudioRouteMedia.execute] -> DSIMediaRouter.setAudioRoutes() VIRTUALCHANNEL_MEDIA PHYSICALCHANNEL_MPL1");
+        this.logger.log(10000000, "[SdisCmdSetAudioRouteMedia.execute] -> DSIMediaRouter.setAudioRoutes() VIRTUALCHANNEL_MEDIA PHYSICALCHANNEL_MPL1");
         this.dsiMediaRouter.setAudioRoutes(mediaRoute);
         this.commandList.commandFinished();
     }

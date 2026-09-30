@@ -8,10 +8,9 @@ import de.audi.atip.interapp.media.IMediaSDSService;
 
 public class MediaPlayModeEvo
 implements IMediaPlayModeStrategy {
-    private static final int PLAYMODE_MIX_OFF;
-    private static final int PLAYMODE_MIX_ON;
+    private static final int PLAYMODE_MIX_OFF = 0;
+    private static final int PLAYMODE_MIX_ON = 1;
 
-    @Override
     public boolean executePlayMode(int n, IMediaSDSService iMediaSDSService) {
         switch (n) {
             case 1: {

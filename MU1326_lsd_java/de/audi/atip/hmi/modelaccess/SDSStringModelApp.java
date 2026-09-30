@@ -7,10 +7,8 @@ import de.audi.atip.hmi.model.HMIModel;
 
 public interface SDSStringModelApp
 extends HMIModel {
-    default public void setValue(String string) {
-    }
+    public void setValue(String var1);
 
-    default public String getValue() {
-    }
+    public String getValue();
 }
 

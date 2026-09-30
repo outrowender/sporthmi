@@ -14,11 +14,11 @@ import org.dsi.ifc.search.Token;
 
 public class TelFavoriteSearchResultRow
 extends AbstractTelSearchResultRow {
-    static final int MAX_COLUMNS;
-    private static final int COL_NAME;
-    private static final int COL_NUMBER;
-    private static final int COL_PROPERTIES;
-    private static final int COL_PHONE_NUMBER_TYPE;
+    static final int MAX_COLUMNS = 4;
+    private static final int COL_NAME = 0;
+    private static final int COL_NUMBER = 1;
+    private static final int COL_PROPERTIES = 2;
+    private static final int COL_PHONE_NUMBER_TYPE = 3;
     private final int phoneNumberType;
 
     public TelFavoriteSearchResultRow(SearchResult searchResult, LogChannel logChannel) {
@@ -27,7 +27,7 @@ extends AbstractTelSearchResultRow {
         this.setHighlightTextCell(0, this.getHighlightedNameCell());
         this.setHighlightTextCell(1, this.getHighlightedNumberCell());
         this.setInteger(3, ADBModelUtils.getIconTypeForPhoneNumber(this.phoneNumberType));
-        this.setPropertyCell(2, PropertyListCell.create(-1635178174, new int[]{1052831299, -2040561860}));
+        this.setPropertyCell(2, PropertyListCell.create(1110018462, new int[]{1139720254, 1014980486}));
     }
 
     private int getPhoneNumberType(SearchResult searchResult) {
@@ -43,7 +43,6 @@ extends AbstractTelSearchResultRow {
         return this.getSearchResult().getDataId();
     }
 
-    @Override
     public EvoListRow copy() {
         return new TelFavoriteSearchResultRow(this.getSearchResult(), this.log);
     }

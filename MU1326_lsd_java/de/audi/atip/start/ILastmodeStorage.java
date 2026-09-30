@@ -4,64 +4,44 @@
 package de.audi.atip.start;
 
 public interface ILastmodeStorage {
-    default public int getBrightness() {
-    }
+    public int getBrightness();
 
-    default public int getKombiBrightness() {
-    }
+    public int getKombiBrightness();
 
-    default public int getTemperature() {
-    }
+    public int getTemperature();
 
-    default public int getPressure() {
-    }
+    public int getPressure();
 
-    default public int getDistance() {
-    }
+    public int getDistance();
 
-    default public int getSpeed() {
-    }
+    public int getSpeed();
 
-    default public int getConsumption() {
-    }
+    public int getConsumption();
 
-    default public int getConsumptionElectro() {
-    }
+    public int getConsumptionElectro();
 
-    default public int getVolume() {
-    }
+    public int getVolume();
 
-    default public int getSkin() {
-    }
+    public int getSkin();
 
-    default public void setBrightness(int n, boolean bl) {
-    }
+    public void setBrightness(int var1, boolean var2);
 
-    default public void setKombiBrightness(int n, boolean bl) {
-    }
+    public void setKombiBrightness(int var1, boolean var2);
 
-    default public void setTemperature(int n, boolean bl) {
-    }
+    public void setTemperature(int var1, boolean var2);
 
-    default public void setConsumption(int n, boolean bl) {
-    }
+    public void setConsumption(int var1, boolean var2);
 
-    default public void setConsumptionElectro(int n, boolean bl) {
-    }
+    public void setConsumptionElectro(int var1, boolean var2);
 
-    default public void setDistance(int n, boolean bl) {
-    }
+    public void setDistance(int var1, boolean var2);
 
-    default public void setSpeed(int n, boolean bl) {
-    }
+    public void setSpeed(int var1, boolean var2);
 
-    default public void setPressure(int n, boolean bl) {
-    }
+    public void setPressure(int var1, boolean var2);
 
-    default public void setVolume(int n, boolean bl) {
-    }
+    public void setVolume(int var1, boolean var2);
 
-    default public void setSkin(int n) {
-    }
+    public void setSkin(int var1);
 }
 

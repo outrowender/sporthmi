@@ -14,22 +14,18 @@ extends AbstractVINComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(CarViewOption carViewOption) {
         VehicleStatesHelper.updateVinAndKeyDataVisibilityFromVin(carViewOption, this.getMenuEntryVisibilityState(carViewOption), this.getApplication());
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(182, (short)19);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(182);
     }
 
-    @Override
     public int getID() {
         return 7;
     }

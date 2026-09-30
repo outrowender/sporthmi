@@ -12,7 +12,7 @@ import de.audi.app.sdsmanager.SDSAudioHandler;
 import de.audi.app.sdsmanager.SDSCommandListSupplier;
 import de.audi.app.sdsmanager.SDSDispatcher;
 import de.audi.app.sdsmanager.SDSHMIListener;
-import de.audi.app.sdsmanager.SDSModelAccess$SDSModelBank;
+import de.audi.app.sdsmanager.SDSModelAccess;
 import de.audi.app.sdsmanager.SpeechSMEventDispatcher;
 import de.audi.app.sdsmanager.apps.SDSAdapter;
 import de.audi.app.sdsmanager.apps.SDSAppFactory;
@@ -194,21 +194,19 @@ implements ServiceTrackerCustomizer {
         SDSDebugHandler.createSingletonInstance(bundleContext, "AppSDS-Debug");
         SDSSettingsHandlerNotification.createSingletonInstance(bundleContext, "AppSDS-Settings");
         SDSValueGapHandlerNotificationBuilder.createSingletonInstances(bundleContext, this.sdsAdapter);
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#start: Done!");
+        this.lc.log(10000000, "SDSManagerBaseActivator#start: Done!");
     }
 
-    protected abstract void registerSysCallAP(BundleContext bundleContext) {
-    }
+    protected abstract void registerSysCallAP(BundleContext var1);
 
     protected SDSHMIListener createSDSHMIListener(IFrameworkAccess iFrameworkAccess, AppSDSManager appSDSManager, SpeechRecognitionHandler speechRecognitionHandler, SpeechTTSHandler speechTTSHandler, IDynamicLists iDynamicLists, ISDSGrammarState iSDSGrammarState, ISDSPopupHelper iSDSPopupHelper, SDSAudioHandler sDSAudioHandler, MobileSpeechRecognitionHandler mobileSpeechRecognitionHandler, SDSTimeoutHandler sDSTimeoutHandler, ISDSDispatcher iSDSDispatcher) {
         return new SDSHMIListener(iFrameworkAccess, appSDSManager, speechRecognitionHandler, speechTTSHandler, iDynamicLists, iSDSGrammarState, iSDSPopupHelper, sDSAudioHandler, mobileSpeechRecognitionHandler, iSDSDispatcher);
     }
 
-    protected abstract SLMRulesMap createSLMRulesMap() {
-    }
+    protected abstract SLMRulesMap createSLMRulesMap();
 
     protected void createApplications() {
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#createApplications: called");
+        this.lc.log(10000000, "SDSManagerBaseActivator#createApplications: called");
         this.createPopupHelper();
         this.initCommandListManagers();
         this.dispatcher = new SDSDispatcher();
@@ -296,33 +294,32 @@ implements ServiceTrackerCustomizer {
         return new SDSServiceImpl(appSDSManager, sDSHandlerService, hMIService, speechTTSHandler, sDSAppFactory, mobileSpeechRecognitionHandler);
     }
 
-    protected abstract SDSStrategyAbstractFactory createSDSStrategyAbstractFactory() {
-    }
+    protected abstract SDSStrategyAbstractFactory createSDSStrategyAbstractFactory();
 
     protected void registerServices() {
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#registerServices: Registering HMIApplication and I18NTarget!");
+        this.lc.log(10000000, "SDSManagerBaseActivator#registerServices: Registering HMIApplication and I18NTarget!");
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", "SDSManager");
         hashtable.put("moduleID", new Integer(14));
         hashtable.put("LANG_COMPONENT_TYPE", "LANG_COMPONENT_SDS");
         super.registerService(new String[]{(class$de$audi$atip$hmi$HMIApplication == null ? (class$de$audi$atip$hmi$HMIApplication = SDSManagerBaseActivator.class$("de.audi.atip.hmi.HMIApplication")) : class$de$audi$atip$hmi$HMIApplication).getName(), (class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = SDSManagerBaseActivator.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName()}, (Object)this.sdsHMIListener, (Dictionary)hashtable);
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#registerServices: Registering SDS service!");
+        this.lc.log(10000000, "SDSManagerBaseActivator#registerServices: Registering SDS service!");
         SDSServiceImpl sDSServiceImpl = this.createSDSServiceImpl(this.sdsManager, this.sdsAdapter, this.framework.getHMIService(), this.speechTTSHandler, this.sdsAppFactory, this.mobileSpeechRecHandler);
         super.registerService((class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName(), (Object)sDSServiceImpl, (Dictionary)hashtable);
         if (sDSServiceImpl == null) {
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#createApplications: sdsService null!");
+            this.lc.log(10000000, "SDSManagerBaseActivator#createApplications: sdsService null!");
         } else if (this.speechRecHandler == null) {
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#createApplications: spech rec handler null!");
+            this.lc.log(10000000, "SDSManagerBaseActivator#createApplications: spech rec handler null!");
         } else {
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#createApplications: sr handler set!");
+            this.lc.log(10000000, "SDSManagerBaseActivator#createApplications: sr handler set!");
             sDSServiceImpl.setSpeechRecHandler(this.speechRecHandler);
         }
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#registerServices: Registering message listener and power event listener!");
+        this.lc.log(10000000, "SDSManagerBaseActivator#registerServices: Registering message listener and power event listener!");
         super.registerService(new String[]{(class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = SDSManagerBaseActivator.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = SDSManagerBaseActivator.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName()}, (Object)this.sdsAdapter, (Dictionary)hashtable);
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#registerServices: Registering DSI (mobile) speech recognition listener!");
+        this.lc.log(10000000, "SDSManagerBaseActivator#registerServices: Registering DSI (mobile) speech recognition listener!");
         super.registerDSIListener((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = SDSManagerBaseActivator.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), this.speechRecListener, (class$org$dsi$ifc$speechrec$DSISpeechRecListener == null ? (class$org$dsi$ifc$speechrec$DSISpeechRecListener = SDSManagerBaseActivator.class$("org.dsi.ifc.speechrec.DSISpeechRecListener")) : class$org$dsi$ifc$speechrec$DSISpeechRecListener).getName(), 0);
         super.registerDSIListener((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = SDSManagerBaseActivator.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), this.mobileSpeechRecListener, (class$org$dsi$ifc$telephone$DSIMobileSpeechRecognitionListener == null ? (class$org$dsi$ifc$telephone$DSIMobileSpeechRecognitionListener = SDSManagerBaseActivator.class$("org.dsi.ifc.telephone.DSIMobileSpeechRecognitionListener")) : class$org$dsi$ifc$telephone$DSIMobileSpeechRecognitionListener).getName(), 0);
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#registerServices: Registering SDSListener service!");
+        this.lc.log(10000000, "SDSManagerBaseActivator#registerServices: Registering SDSListener service!");
         super.registerService((class$de$audi$app$sdsmanager$common$SDSListener == null ? (class$de$audi$app$sdsmanager$common$SDSListener = SDSManagerBaseActivator.class$("de.audi.app.sdsmanager.common.SDSListener")) : class$de$audi$app$sdsmanager$common$SDSListener).getName(), (Object)this.sdsAdapter, null);
         super.registerService((class$de$audi$atip$interapp$ADBSDSServiceListener == null ? (class$de$audi$atip$interapp$ADBSDSServiceListener = SDSManagerBaseActivator.class$("de.audi.atip.interapp.ADBSDSServiceListener")) : class$de$audi$atip$interapp$ADBSDSServiceListener).getName(), (Object)this.sdsAppFactory.getSDSHandlerADB(), null);
         super.registerService((class$de$audi$atip$interapp$media$IMediaServiceListener == null ? (class$de$audi$atip$interapp$media$IMediaServiceListener = SDSManagerBaseActivator.class$("de.audi.atip.interapp.media.IMediaServiceListener")) : class$de$audi$atip$interapp$media$IMediaServiceListener).getName(), (Object)this.sdsAppFactory.getSDSHandlerMedia(), null);
@@ -339,7 +336,7 @@ implements ServiceTrackerCustomizer {
         super.registerService((class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutServiceListener == null ? (class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutServiceListener = SDSManagerBaseActivator.class$("de.audi.atip.interapp.messaging.IMultipleMessageReadoutServiceListener")) : class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutServiceListener).getName(), (Object)this.sdsAppFactory.getSDSHandlerMessaging(), null);
         super.registerService((class$de$audi$atip$interapp$online$IOnlineSDSMyAudiServiceListener == null ? (class$de$audi$atip$interapp$online$IOnlineSDSMyAudiServiceListener = SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOnlineSDSMyAudiServiceListener")) : class$de$audi$atip$interapp$online$IOnlineSDSMyAudiServiceListener).getName(), (Object)this.sdsAppFactory.getSDSHandlerNavi().getNaviServiceListener(), null);
         super.registerService((class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener == null ? (class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener = SDSManagerBaseActivator.class$("de.audi.atip.interapp.terminalmode.ITerminalModeUpdateListener")) : class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener).getName(), (Object)this.sdsAppFactory.getTerminalModeSDSHandler(), null);
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#registerServices: Registering TTSASR service!");
+        this.lc.log(10000000, "SDSManagerBaseActivator#registerServices: Registering TTSASR service!");
         super.registerService((class$de$audi$atip$statemachine$sds$TTSASR == null ? (class$de$audi$atip$statemachine$sds$TTSASR = SDSManagerBaseActivator.class$("de.audi.atip.statemachine.sds.TTSASR")) : class$de$audi$atip$statemachine$sds$TTSASR).getName(), (Object)this.ttsASR, null);
         Hashtable hashtable2 = new Hashtable();
         hashtable2.put("AUDIO_CLIENT_ID", HMIAudioService.CLIENT_SDS);
@@ -349,10 +346,10 @@ implements ServiceTrackerCustomizer {
         hashtable3.put("ApplicationName", "SDS");
         super.registerService((class$de$audi$atip$interapp$tts$TTSListener == null ? (class$de$audi$atip$interapp$tts$TTSListener = SDSManagerBaseActivator.class$("de.audi.atip.interapp.tts.TTSListener")) : class$de$audi$atip$interapp$tts$TTSListener).getName(), (Object)this.speechTTSListener, (Dictionary)hashtable3);
         Hashtable hashtable4 = new Hashtable();
-        SDSModelAccess$SDSModelBank sDSModelAccess$SDSModelBank = this.sdsHMIListener.getModelAccess().getModels();
+        SDSModelAccess.SDSModelBank sDSModelBank = this.sdsHMIListener.getModelAccess().getModels();
         hashtable4.put("ApplicationName", "SDSManager");
-        hashtable4.put("moduleID", new Integer(sDSModelAccess$SDSModelBank.getId()));
-        super.registerService((class$de$audi$atip$hmi$HMIModelBank == null ? (class$de$audi$atip$hmi$HMIModelBank = SDSManagerBaseActivator.class$("de.audi.atip.hmi.HMIModelBank")) : class$de$audi$atip$hmi$HMIModelBank).getName(), (Object)sDSModelAccess$SDSModelBank, (Dictionary)hashtable4);
+        hashtable4.put("moduleID", new Integer(sDSModelBank.getId()));
+        super.registerService((class$de$audi$atip$hmi$HMIModelBank == null ? (class$de$audi$atip$hmi$HMIModelBank = SDSManagerBaseActivator.class$("de.audi.atip.hmi.HMIModelBank")) : class$de$audi$atip$hmi$HMIModelBank).getName(), (Object)sDSModelBank, (Dictionary)hashtable4);
     }
 
     private void initTrackers(BundleContext bundleContext) {
@@ -364,9 +361,8 @@ implements ServiceTrackerCustomizer {
         return new String[]{(class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceSDS == null ? (class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceSDS = SDSManagerBaseActivator.class$("de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceSDS")) : class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceSDS).getName(), (class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = SDSManagerBaseActivator.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService).getName(), (class$org$dsi$ifc$speechrec$DSISpeechRec == null ? (class$org$dsi$ifc$speechrec$DSISpeechRec = SDSManagerBaseActivator.class$("org.dsi.ifc.speechrec.DSISpeechRec")) : class$org$dsi$ifc$speechrec$DSISpeechRec).getName(), (class$org$dsi$ifc$telephone$DSIMobileSpeechRecognition == null ? (class$org$dsi$ifc$telephone$DSIMobileSpeechRecognition = SDSManagerBaseActivator.class$("org.dsi.ifc.telephone.DSIMobileSpeechRecognition")) : class$org$dsi$ifc$telephone$DSIMobileSpeechRecognition).getName(), (class$de$audi$atip$interapp$ADBSDSService == null ? (class$de$audi$atip$interapp$ADBSDSService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.ADBSDSService")) : class$de$audi$atip$interapp$ADBSDSService).getName(), (class$de$audi$atip$interapp$MapService == null ? (class$de$audi$atip$interapp$MapService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.MapService")) : class$de$audi$atip$interapp$MapService).getName(), (class$de$audi$atip$interapp$NaviSDSPOIOnlineService == null ? (class$de$audi$atip$interapp$NaviSDSPOIOnlineService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.NaviSDSPOIOnlineService")) : class$de$audi$atip$interapp$NaviSDSPOIOnlineService).getName(), (class$de$audi$atip$interapp$media$IMediaSDSService == null ? (class$de$audi$atip$interapp$media$IMediaSDSService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.media.IMediaSDSService")) : class$de$audi$atip$interapp$media$IMediaSDSService).getName(), (class$de$audi$atip$interapp$NaviService == null ? (class$de$audi$atip$interapp$NaviService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.NaviService")) : class$de$audi$atip$interapp$NaviService).getName(), (class$de$audi$atip$phone$ITelServiceSDS == null ? (class$de$audi$atip$phone$ITelServiceSDS = SDSManagerBaseActivator.class$("de.audi.atip.phone.ITelServiceSDS")) : class$de$audi$atip$phone$ITelServiceSDS).getName(), (class$de$audi$atip$interapp$TunerService == null ? (class$de$audi$atip$interapp$TunerService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.TunerService")) : class$de$audi$atip$interapp$TunerService).getName(), (class$de$audi$atip$interapp$OnlineService == null ? (class$de$audi$atip$interapp$OnlineService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.OnlineService")) : class$de$audi$atip$interapp$OnlineService).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = SDSManagerBaseActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), (class$de$audi$atip$interapp$tts$TTSService == null ? (class$de$audi$atip$interapp$tts$TTSService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.tts.TTSService")) : class$de$audi$atip$interapp$tts$TTSService).getName(), (class$de$audi$atip$interapp$IMessagingDictationService == null ? (class$de$audi$atip$interapp$IMessagingDictationService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.IMessagingDictationService")) : class$de$audi$atip$interapp$IMessagingDictationService).getName(), (class$de$audi$atip$interapp$IMessagingReadoutService == null ? (class$de$audi$atip$interapp$IMessagingReadoutService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.IMessagingReadoutService")) : class$de$audi$atip$interapp$IMessagingReadoutService).getName(), (class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutService == null ? (class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.messaging.IMultipleMessageReadoutService")) : class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutService).getName(), (class$de$audi$atip$interapp$ISdsConnectivityService == null ? (class$de$audi$atip$interapp$ISdsConnectivityService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.ISdsConnectivityService")) : class$de$audi$atip$interapp$ISdsConnectivityService).getName(), (class$de$audi$atip$interapp$online$IOnlineSDSMyAudiService == null ? (class$de$audi$atip$interapp$online$IOnlineSDSMyAudiService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOnlineSDSMyAudiService")) : class$de$audi$atip$interapp$online$IOnlineSDSMyAudiService).getName(), (class$de$audi$atip$mmicombi$IViewSizeManager == null ? (class$de$audi$atip$mmicombi$IViewSizeManager = SDSManagerBaseActivator.class$("de.audi.atip.mmicombi.IViewSizeManager")) : class$de$audi$atip$mmicombi$IViewSizeManager).getName(), (class$de$audi$atip$interapp$car$CarSDSService == null ? (class$de$audi$atip$interapp$car$CarSDSService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.car.CarSDSService")) : class$de$audi$atip$interapp$car$CarSDSService).getName(), (class$de$audi$atip$interapp$online$IOnlineDestinationService == null ? (class$de$audi$atip$interapp$online$IOnlineDestinationService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOnlineDestinationService")) : class$de$audi$atip$interapp$online$IOnlineDestinationService).getName(), (class$de$audi$atip$interapp$online$IOperatorCallSDSService == null ? (class$de$audi$atip$interapp$online$IOperatorCallSDSService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOperatorCallSDSService")) : class$de$audi$atip$interapp$online$IOperatorCallSDSService).getName(), (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext = SDSManagerBaseActivator.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContext")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext).getName(), (class$de$audi$atip$interapp$AppInfoKrService == null ? (class$de$audi$atip$interapp$AppInfoKrService = SDSManagerBaseActivator.class$("de.audi.atip.interapp.AppInfoKrService")) : class$de$audi$atip$interapp$AppInfoKrService).getName()};
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#stop: called");
+        this.lc.log(10000000, "SDSManagerBaseActivator#stop: called");
         if (this.sdsAudioHandler != null) {
             this.sdsAudioHandler.stop();
         }
@@ -406,11 +402,11 @@ implements ServiceTrackerCustomizer {
     }
 
     protected Object addingServiceByName(ServiceReference serviceReference, Object object) {
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: sr=%1", (Object)serviceReference);
+        this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: sr=%1", (Object)serviceReference);
         for (String string : (String[])serviceReference.getProperty("objectClass")) {
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: className=%1!", (Object)string);
+            this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: className=%1!", (Object)string);
             if (string.equals((class$org$dsi$ifc$speechrec$DSISpeechRec == null ? SDSManagerBaseActivator.class$("org.dsi.ifc.speechrec.DSISpeechRec") : class$org$dsi$ifc$speechrec$DSISpeechRec).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding DSISpeechRec!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding DSISpeechRec!");
                 this.speechRecServiceReference = serviceReference;
                 DSISpeechRec dSISpeechRec = (DSISpeechRec)object;
                 this.speechRecListener.setDSI(dSISpeechRec);
@@ -419,7 +415,7 @@ implements ServiceTrackerCustomizer {
                 return dSISpeechRec;
             }
             if (string.equals((class$org$dsi$ifc$telephone$DSIMobileSpeechRecognition == null ? SDSManagerBaseActivator.class$("org.dsi.ifc.telephone.DSIMobileSpeechRecognition") : class$org$dsi$ifc$telephone$DSIMobileSpeechRecognition).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding DSIMobileSpeechRecognition!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding DSIMobileSpeechRecognition!");
                 DSIMobileSpeechRecognition dSIMobileSpeechRecognition = (DSIMobileSpeechRecognition)object;
                 this.mobileSpeechRecListener.setDSI(dSIMobileSpeechRecognition);
                 return dSIMobileSpeechRecognition;
@@ -430,7 +426,7 @@ implements ServiceTrackerCustomizer {
                     this.bundleContext.ungetService(serviceReference);
                     return null;
                 }
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding TTS service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding TTS service!");
                 TTSSDSService tTSSDSService = (TTSSDSService)object;
                 this.speechTTSHandler.setTTSService(tTSSDSService);
                 this.sdsAdapter.setTTSReady(true);
@@ -438,32 +434,32 @@ implements ServiceTrackerCustomizer {
                 return tTSSDSService;
             }
             if (string.equals((class$de$audi$atip$interapp$ADBSDSService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.ADBSDSService") : class$de$audi$atip$interapp$ADBSDSService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding ADB service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding ADB service!");
                 ADBSDSService aDBSDSService = (ADBSDSService)object;
                 this.sdsAppFactory.getSDSHandlerADB().setADBService(aDBSDSService);
                 this.sdsAppFactory.getSDSHandlerNavi().setADBService(aDBSDSService);
                 return aDBSDSService;
             }
             if (string.equals((class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceSDS == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceSDS") : class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceSDS).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding combi BAP SDS service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding combi BAP SDS service!");
                 CombiBAPServiceSDS combiBAPServiceSDS = (CombiBAPServiceSDS)object;
                 this.sdsHMIListener.setCombiBAPServiceSDS(combiBAPServiceSDS);
                 return combiBAPServiceSDS;
             }
             if (string.equals((class$de$audi$atip$interapp$MapService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.MapService") : class$de$audi$atip$interapp$MapService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding map service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding map service!");
                 MapService mapService = (MapService)object;
                 this.sdsAppFactory.getSDSHandlerNavi().setMapService(mapService);
                 return mapService;
             }
             if (string.equals((class$de$audi$atip$interapp$media$IMediaSDSService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.media.IMediaSDSService") : class$de$audi$atip$interapp$media$IMediaSDSService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding media SDS service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding media SDS service!");
                 IMediaSDSService iMediaSDSService = (IMediaSDSService)object;
                 this.sdsAppFactory.getSDSHandlerMedia().setMediaSDSService(iMediaSDSService);
                 return iMediaSDSService;
             }
             if (string.equals((class$de$audi$atip$interapp$NaviService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.NaviService") : class$de$audi$atip$interapp$NaviService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding navi service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding navi service!");
                 NaviService naviService = (NaviService)object;
                 this.sdsAppFactory.getSDSHandlerNavi().setNaviService(naviService);
                 this.sdsAppFactory.getSDSHandlerADB().setNaviService(naviService);
@@ -471,80 +467,80 @@ implements ServiceTrackerCustomizer {
                 return naviService;
             }
             if (string.equals((class$de$audi$atip$interapp$NaviSDSPOIOnlineService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.NaviSDSPOIOnlineService") : class$de$audi$atip$interapp$NaviSDSPOIOnlineService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding navi SDS POI online service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding navi SDS POI online service!");
                 NaviSDSPOIOnlineService naviSDSPOIOnlineService = (NaviSDSPOIOnlineService)object;
                 this.sdsAppFactory.getSDSHandlerNavi().setPOIOnlineService(naviSDSPOIOnlineService);
                 return naviSDSPOIOnlineService;
             }
             if (string.equals((class$de$audi$atip$phone$ITelServiceSDS == null ? SDSManagerBaseActivator.class$("de.audi.atip.phone.ITelServiceSDS") : class$de$audi$atip$phone$ITelServiceSDS).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding phone service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding phone service!");
                 ITelServiceSDS iTelServiceSDS = (ITelServiceSDS)object;
                 this.sdsAppFactory.getSDSHandlerPhone().setPhoneService(iTelServiceSDS);
                 this.sdsAppFactory.getSDSHandlerMessageDictation().setPhoneService(iTelServiceSDS);
                 return iTelServiceSDS;
             }
             if (string.equals((class$de$audi$atip$interapp$TunerService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.TunerService") : class$de$audi$atip$interapp$TunerService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding tuner service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding tuner service!");
                 TunerService tunerService = (TunerService)object;
                 this.sdsAppFactory.getSDSHandlerTuner().setTunerService(tunerService);
                 return tunerService;
             }
             if (string.equals((class$de$audi$atip$interapp$OnlineService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.OnlineService") : class$de$audi$atip$interapp$OnlineService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding online service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding online service!");
                 OnlineService onlineService = (OnlineService)object;
                 this.sdsAppFactory.getSDSHandlerRemoteHMI().setOnlineService(onlineService);
                 return onlineService;
             }
             if (string.equals((class$de$audi$atip$interapp$IMessagingDictationService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.IMessagingDictationService") : class$de$audi$atip$interapp$IMessagingDictationService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding messaging service (dictate)!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding messaging service (dictate)!");
                 IMessagingDictationService iMessagingDictationService = (IMessagingDictationService)object;
                 this.sdsAppFactory.getSDSHandlerMessageDictation().setMessagingDictationService(iMessagingDictationService);
                 return iMessagingDictationService;
             }
             if (string.equals((class$de$audi$atip$interapp$IMessagingReadoutService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.IMessagingReadoutService") : class$de$audi$atip$interapp$IMessagingReadoutService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding messaging service (readout)!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding messaging service (readout)!");
                 IMessagingReadoutService iMessagingReadoutService = (IMessagingReadoutService)object;
                 this.sdsAppFactory.getSDSHandlerMessaging().setMessagingReadoutService(iMessagingReadoutService);
                 return iMessagingReadoutService;
             }
             if (string.equals((class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.messaging.IMultipleMessageReadoutService") : class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding messaging service (multiple readout)!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding messaging service (multiple readout)!");
                 IMultipleMessageReadoutService iMultipleMessageReadoutService = (IMultipleMessageReadoutService)object;
                 this.sdsAppFactory.getSDSHandlerMessaging().setMultipleMessageReadoutService(iMultipleMessageReadoutService);
                 return iMultipleMessageReadoutService;
             }
             if (string.equals((class$de$audi$atip$interapp$ISdsConnectivityService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.ISdsConnectivityService") : class$de$audi$atip$interapp$ISdsConnectivityService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding messaging service (readout)!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding messaging service (readout)!");
                 ISdsConnectivityService iSdsConnectivityService = (ISdsConnectivityService)object;
                 this.sdsAppFactory.getSDSHandlerSystem().setConnectivityService(iSdsConnectivityService);
                 return iSdsConnectivityService;
             }
             if (string.equals((class$de$audi$atip$interapp$online$IOnlineSDSMyAudiService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOnlineSDSMyAudiService") : class$de$audi$atip$interapp$online$IOnlineSDSMyAudiService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding myAudi service!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding myAudi service!");
                 IOnlineSDSMyAudiService iOnlineSDSMyAudiService = (IOnlineSDSMyAudiService)object;
                 this.sdsAppFactory.getSDSHandlerNavi().setMyAudiService(iOnlineSDSMyAudiService);
                 return iOnlineSDSMyAudiService;
             }
             if (string.equals((class$de$audi$atip$interapp$car$CarSDSService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.car.CarSDSService") : class$de$audi$atip$interapp$car$CarSDSService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding remaining range listener to CarSDSService!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding remaining range listener to CarSDSService!");
                 CarSDSService carSDSService = (CarSDSService)object;
                 carSDSService.addRemainingRangeListener(this.sdsAppFactory.getSDSHandlerNavi());
                 return carSDSService;
             }
             if (string.equals((class$de$audi$atip$interapp$online$IOnlineDestinationService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOnlineDestinationService") : class$de$audi$atip$interapp$online$IOnlineDestinationService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding OnlineDestinationService!");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding OnlineDestinationService!");
                 IOnlineDestinationService iOnlineDestinationService = (IOnlineDestinationService)object;
                 this.sdsAppFactory.getSDSHandlerNavi().setOnlineDestinationService(iOnlineDestinationService);
                 return iOnlineDestinationService;
             }
             if (string.equals((class$de$audi$atip$interapp$online$IOperatorCallSDSService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOperatorCallSDSService") : class$de$audi$atip$interapp$online$IOperatorCallSDSService).getName())) {
-                this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding OperatorCallService");
+                this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding OperatorCallService");
                 IOperatorCallSDSService iOperatorCallSDSService = (IOperatorCallSDSService)object;
                 this.sdsAppFactory.getSDSHandlerNavi().setOperatorCallService(iOperatorCallSDSService);
                 return iOperatorCallSDSService;
             }
             if (!string.equals((class$de$audi$atip$interapp$AppInfoKrService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.AppInfoKrService") : class$de$audi$atip$interapp$AppInfoKrService).getName())) continue;
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#addingServiceByName: Adding AppInfoKrService");
+            this.lc.log(10000000, "SDSManagerBaseActivator#addingServiceByName: Adding AppInfoKrService");
             AppInfoKrService appInfoKrService = (AppInfoKrService)object;
             this.sdsAppFactory.getSDSHandlerNavi().setAppInfoKrService(appInfoKrService);
             return appInfoKrService;
@@ -552,31 +548,30 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#addingService: sr=%1", (Object)serviceReference);
+        this.lc.log(10000000, "SDSManagerBaseActivator#addingService: sr=%1", (Object)serviceReference);
         Object object = super.getBundleContext().getService(serviceReference);
         if (object instanceof HMIAudioService) {
             if (!HMIAudioService.CLIENT_SDS.equals(serviceReference.getProperty("AUDIO_CLIENT_ID"))) {
                 this.bundleContext.ungetService(serviceReference);
                 return null;
             }
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#addingService: Adding HMI audio service!");
+            this.lc.log(10000000, "SDSManagerBaseActivator#addingService: Adding HMI audio service!");
             this.sdsAudioHandler.setAudioService((HMIAudioService)object);
             return object;
         }
         if (object instanceof AudioDrawerContext) {
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#addingService: Adding HMI audio drawer context service!");
+            this.lc.log(10000000, "SDSManagerBaseActivator#addingService: Adding HMI audio drawer context service!");
             this.sdsAudioHandler.setAudioDrawerContextService((AudioDrawerContext)object);
             return object;
         }
         if (object instanceof SwDiagnosisManager) {
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#addingService: Adding SW diagnosis!");
+            this.lc.log(10000000, "SDSManagerBaseActivator#addingService: Adding SW diagnosis!");
             ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)this.swDiagnosisManger);
             return object;
         }
         if (object instanceof IViewSizeManager) {
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#addingService: Adding view size manager!");
+            this.lc.log(10000000, "SDSManagerBaseActivator#addingService: Adding view size manager!");
             IViewSizeManager iViewSizeManager = (IViewSizeManager)object;
             iViewSizeManager.addViewSizeListener(this.sdsHMIListener);
             this.popupHelper.setViewSizeManager(iViewSizeManager);
@@ -585,29 +580,27 @@ implements ServiceTrackerCustomizer {
         return this.addingServiceByName(serviceReference, object);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
-        this.lc.log(-1601830656, "[SDSManagerBaseActivator#modifiedService] called => NOP!");
+        this.lc.log(100000, "[SDSManagerBaseActivator#modifiedService] called => NOP!");
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] sr=%1, svc=%2 ", (Object)serviceReference, object);
+        this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] sr=%1, svc=%2 ", (Object)serviceReference, object);
         if (object instanceof HMIAudioService && HMIAudioService.CLIENT_SDS.equals(serviceReference.getProperty("AUDIO_CLIENT_ID"))) {
-            this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] AudioManagerInstance");
+            this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] AudioManagerInstance");
             this.sdsAudioHandler.unsetAudioService();
         } else if (object instanceof AudioDrawerContext) {
             this.sdsAudioHandler.unsetAudioDrawerContextService();
         } else if (object instanceof SwDiagnosisManager) {
-            this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] Removing SwDiagnosisManager!");
+            this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] Removing SwDiagnosisManager!");
             ((SwDiagnosisManager)object).removeDiagGateway((AbstractSwDiagnosis)this.swDiagnosisManger);
         } else if (object instanceof IViewSizeManager) {
-            this.lc.log(-2137614336, "SDSManagerBaseActivator#removedService: Removing view size manager!");
+            this.lc.log(10000000, "SDSManagerBaseActivator#removedService: Removing view size manager!");
             this.popupHelper.unsetViewSizeManager();
         } else {
             for (String string : (String[])serviceReference.getProperty("objectClass")) {
                 if (string.equals((class$org$dsi$ifc$speechrec$DSISpeechRec == null ? SDSManagerBaseActivator.class$("org.dsi.ifc.speechrec.DSISpeechRec") : class$org$dsi$ifc$speechrec$DSISpeechRec).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] DSISpeechRec instance removed, unsetting DSI and aborting session!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] DSISpeechRec instance removed, unsetting DSI and aborting session!");
                     this.speechRecHandler.unsetDSISR();
                     this.sdsAppFactory.getSDSHandlerNavi().setSpeechDSIStatus(false);
                     this.sdsAdapter.setSDSReady(false);
@@ -617,121 +610,121 @@ implements ServiceTrackerCustomizer {
                         this.setCommandListReferences();
                         this.reinitCommandList();
                         this.framework.startDSIService((class$org$dsi$ifc$speechrec$DSISpeechRec == null ? SDSManagerBaseActivator.class$("org.dsi.ifc.speechrec.DSISpeechRec") : class$org$dsi$ifc$speechrec$DSISpeechRec).getName(), 0);
-                        this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] DSISpeechRec instance - FW done, calling ungetService!");
+                        this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] DSISpeechRec instance - FW done, calling ungetService!");
                         continue;
                     }
-                    this.lc.log(-1601830656, "[SDSManagerBaseActivator#removedService] DSISpeechRec instance - FW is null, NOT calling ungetService!");
+                    this.lc.log(100000, "[SDSManagerBaseActivator#removedService] DSISpeechRec instance - FW is null, NOT calling ungetService!");
                     return;
                 }
                 if (string.equals((class$org$dsi$ifc$telephone$DSIMobileSpeechRecognition == null ? SDSManagerBaseActivator.class$("org.dsi.ifc.telephone.DSIMobileSpeechRecognition") : class$org$dsi$ifc$telephone$DSIMobileSpeechRecognition).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] DSIMobileSpeechRecognition instanced removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] DSIMobileSpeechRecognition instanced removed!");
                     this.mobileSpeechRecHandler.unsetDSI();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$tts$TTSService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.tts.TTSService") : class$de$audi$atip$interapp$tts$TTSService).getName())) {
                     Object object2 = serviceReference.getProperty("TTS_CLIENT_ID");
                     if (!TTSService.CLIENT_ID_SDS.equals(object2)) continue;
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] TTSService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] TTSService instance removed!");
                     this.speechTTSHandler.unsetTTSService();
                     this.sdsAdapter.setTTSReady(false);
                     this.sdsManager.abortSDSSession(true);
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$ADBSDSService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.ADBSDSService") : class$de$audi$atip$interapp$ADBSDSService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] ADBSDSService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] ADBSDSService instance removed!");
                     this.sdsAppFactory.getSDSHandlerADB().unsetADBService();
                     this.sdsAppFactory.getSDSHandlerNavi().unsetADBService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceSDS == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceSDS") : class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceSDS).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] CombiBAPServiceSDS instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] CombiBAPServiceSDS instance removed!");
                     this.sdsHMIListener.setCombiBAPServiceSDS(null);
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$media$IMediaSDSService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.media.IMediaSDSService") : class$de$audi$atip$interapp$media$IMediaSDSService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] MediaSDSService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] MediaSDSService instance removed!");
                     this.sdsAppFactory.getSDSHandlerMedia().unsetMediaSDSService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$MapService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.MapService") : class$de$audi$atip$interapp$MapService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] MapService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] MapService instance removed!");
                     this.sdsAppFactory.getSDSHandlerNavi().unsetMapService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$NaviSDSPOIOnlineService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.NaviSDSPOIOnlineService") : class$de$audi$atip$interapp$NaviSDSPOIOnlineService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] NaviSDSPOIOnlineService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] NaviSDSPOIOnlineService instance removed!");
                     this.sdsAppFactory.getSDSHandlerNavi().unsetPOIOnlineService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$NaviService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.NaviService") : class$de$audi$atip$interapp$NaviService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] NaviService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] NaviService instance removed!");
                     this.sdsAppFactory.getSDSHandlerNavi().unsetNaviService();
                     this.sdsAppFactory.getSDSHandlerADB().unsetNaviService();
                     this.sdsHMIListener.unsetNaviService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$phone$ITelServiceSDS == null ? SDSManagerBaseActivator.class$("de.audi.atip.phone.ITelServiceSDS") : class$de$audi$atip$phone$ITelServiceSDS).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] PhoneService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] PhoneService instance removed!");
                     this.sdsAppFactory.getSDSHandlerPhone().unsetPhoneService();
                     this.sdsAppFactory.getSDSHandlerMessageDictation().unsetPhoneService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$TunerService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.TunerService") : class$de$audi$atip$interapp$TunerService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] TunerService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] TunerService instance removed!");
                     this.sdsAppFactory.getSDSHandlerTuner().unsetTunerService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$OnlineService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.OnlineService") : class$de$audi$atip$interapp$OnlineService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] OnlineService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] OnlineService instance removed!");
                     this.sdsAppFactory.getSDSHandlerRemoteHMI().unsetOnlineService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$IMessagingDictationService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.IMessagingDictationService") : class$de$audi$atip$interapp$IMessagingDictationService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] IMessagingDictationService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] IMessagingDictationService instance removed!");
                     this.sdsAppFactory.getSDSHandlerMessageDictation().unsetMessagingDictationService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$IMessagingReadoutService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.IMessagingReadoutService") : class$de$audi$atip$interapp$IMessagingReadoutService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] IMessagingReadoutService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] IMessagingReadoutService instance removed!");
                     this.sdsAppFactory.getSDSHandlerMessaging().unsetMessagingReadoutService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.messaging.IMultipleMessageReadoutService") : class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] IMultipleMessageReadoutService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] IMultipleMessageReadoutService instance removed!");
                     this.sdsAppFactory.getSDSHandlerMessaging().unsetMultipleMessageReadoutService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$online$IOnlineSDSMyAudiService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOnlineSDSMyAudiService") : class$de$audi$atip$interapp$online$IOnlineSDSMyAudiService).getName())) {
-                    this.lc.log(-2137614336, "SDSManagerBaseActivator#removedService: IOnlineSDSMyAudiService instance removed!");
+                    this.lc.log(10000000, "SDSManagerBaseActivator#removedService: IOnlineSDSMyAudiService instance removed!");
                     this.sdsAppFactory.getSDSHandlerNavi().unsetMyAudiService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$ISdsConnectivityService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.ISdsConnectivityService") : class$de$audi$atip$interapp$ISdsConnectivityService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] ISdsConnectivityService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] ISdsConnectivityService instance removed!");
                     this.sdsAppFactory.getSDSHandlerSystem().unsetConnectivityService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$online$IOnlineDestinationService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOnlineDestinationService") : class$de$audi$atip$interapp$online$IOnlineDestinationService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] IOnlineDestinationService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] IOnlineDestinationService instance removed!");
                     this.sdsAppFactory.getSDSHandlerNavi().unsetOnlineDestinationService();
                     continue;
                 }
                 if (string.equals((class$de$audi$atip$interapp$online$IOperatorCallSDSService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.online.IOperatorCallSDSService") : class$de$audi$atip$interapp$online$IOperatorCallSDSService).getName())) {
-                    this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] IOperatorCallSDSService instance removed!");
+                    this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] IOperatorCallSDSService instance removed!");
                     this.sdsAppFactory.getSDSHandlerNavi().unsetOperatorCallService();
                     continue;
                 }
                 if (!string.equals((class$de$audi$atip$interapp$AppInfoKrService == null ? SDSManagerBaseActivator.class$("de.audi.atip.interapp.AppInfoKrService") : class$de$audi$atip$interapp$AppInfoKrService).getName())) continue;
-                this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] AppInfoKrService instance removed!");
+                this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] AppInfoKrService instance removed!");
                 this.sdsAppFactory.getSDSHandlerNavi().unsetAppInfoKrService();
             }
         }
         this.bundleContext.ungetService(serviceReference);
-        this.lc.log(-2137614336, "[SDSManagerBaseActivator#removedService] Done.");
+        this.lc.log(10000000, "[SDSManagerBaseActivator#removedService] Done.");
     }
 
     private void initCommandListManagers() {
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#initCommandListManagers: called");
+        this.lc.log(10000000, "SDSManagerBaseActivator#initCommandListManagers: called");
         if (dsiCallCmdListManager != null) {
             dsiCallCmdListManager.abortExecution("SDS_DSI_CALLS_RECOVERY", null, false);
             dsiCallCmdListManager.destroy();
@@ -746,13 +739,13 @@ implements ServiceTrackerCustomizer {
     }
 
     private void startCommandListManagers() {
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#startCommandListManagers: called");
+        this.lc.log(10000000, "SDSManagerBaseActivator#startCommandListManagers: called");
         dsiCallCmdListManager.start();
         SDSManagerBaseActivator.getSysCallCmdListManager().start();
     }
 
     private void setCommandListReferences() {
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#setCommandListReferences: called");
+        this.lc.log(10000000, "SDSManagerBaseActivator#setCommandListReferences: called");
         this.sdsHMIListener.setCommandListManager(dsiCallCmdListManager);
         this.sdsAppFactory.setCommandListManager(dsiCallCmdListManager);
         this.speechRecListener.setCommandListManager(dsiCallCmdListManager);
@@ -760,7 +753,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private void initCommandList() {
-        this.lc.log(-2137614336, "SDSManagerBaseActivator#initCommandList: called");
+        this.lc.log(10000000, "SDSManagerBaseActivator#initCommandList: called");
         CommandList commandList = new CommandList(dsiCallCmdListManager);
         commandList.add(new CommandSpeechDSIInit(Logger.getCommandLog(), this.speechRecHandler, this.framework, this.sdsAdapter, this.sdsAppFactory.getSDSHandlerNavi(), this.timeout));
         commandList.execute("INIT_SPEECH_DSI");
@@ -768,12 +761,12 @@ implements ServiceTrackerCustomizer {
 
     private void reinitCommandList() {
         Object object;
-        this.lc.log(-2137614336, "[SDSManagerBaseActivator#reinitCommandList] called");
+        this.lc.log(10000000, "[SDSManagerBaseActivator#reinitCommandList] called");
         if (this.lc.isDebug()) {
             object = this.framework.getLanguageMgr();
             Language language = object == null ? null : object.getCurrentLanguage("LANG_COMPONENT_SDS");
             String string = language != null ? language.getHmiCode() : "de_DE";
-            this.lc.log(-2137614336, "[SDSManagerBaseActivator#reinitCommandList] sdsLanguageStr=%1", (Object)string);
+            this.lc.log(10000000, "[SDSManagerBaseActivator#reinitCommandList] sdsLanguageStr=%1", (Object)string);
         }
         if (dsiCallCmdListManager == null) {
             this.lc.log(10000, "[SDSManagerBaseActivator#reinitCommandList] No dsiCallCmdListManager available!");

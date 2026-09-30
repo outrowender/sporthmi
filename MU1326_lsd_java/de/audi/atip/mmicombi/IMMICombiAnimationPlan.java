@@ -8,40 +8,28 @@ import de.audi.atip.mmicombi.IMMICombiAnimationInfo;
 import java.util.List;
 
 public interface IMMICombiAnimationPlan {
-    default public int getStartTime() {
-    }
+    public int getStartTime();
 
-    default public int getCombiDelay() {
-    }
+    public int getCombiDelay();
 
-    default public int getHmiDelay() {
-    }
+    public int getHmiDelay();
 
-    default public List getPlannedAnimations() {
-    }
+    public List getPlannedAnimations();
 
-    default public String getAnnotation(int n) {
-    }
+    public String getAnnotation(int var1);
 
-    default public boolean isFinished() {
-    }
+    public boolean isFinished();
 
-    default public void addPlannedAnimation(IMMICombiAnimationInfo iMMICombiAnimationInfo) {
-    }
+    public void addPlannedAnimation(IMMICombiAnimationInfo var1);
 
-    default public boolean isAnimationPartOfCurrentPlan(IAnimation iAnimation) {
-    }
+    public boolean isAnimationPartOfCurrentPlan(IAnimation var1);
 
-    default public void animationFinished(IMMICombiAnimationInfo iMMICombiAnimationInfo) {
-    }
+    public void animationFinished(IMMICombiAnimationInfo var1);
 
-    default public boolean isActivationNeeded(IMMICombiAnimationInfo iMMICombiAnimationInfo) {
-    }
+    public boolean isActivationNeeded(IMMICombiAnimationInfo var1);
 
-    default public void setViewSizeRequestPending(boolean bl) {
-    }
+    public void setViewSizeRequestPending(boolean var1);
 
-    default public void setSkin(int n) {
-    }
+    public void setSkin(int var1);
 }
 

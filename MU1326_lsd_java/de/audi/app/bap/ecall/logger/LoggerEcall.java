@@ -10,19 +10,18 @@ import de.audi.atip.log.NullLogChannel;
 
 public final class LoggerEcall
 extends AbstractBAPLogger {
-    private static final String LOG_CH_PREFIX;
-    private static final String LOG_CH_ECALL;
-    private static final String LOG_CH_ECALL_BAPDATA;
+    private static final String LOG_CH_PREFIX = "App.BAPEcall";
+    private static final String LOG_CH_ECALL = "Ecall";
+    private static final String LOG_CH_ECALL_BAPDATA = "Ecall.BAPData";
     private final LogChannel logEcall;
     private final LogChannel logEcallBAPData;
 
     public LoggerEcall(IFrameworkAccess iFrameworkAccess) {
-        AbstractBAPLogger.init(iFrameworkAccess, "App.BAPEcall");
-        this.logEcall = iFrameworkAccess.getLogChannel(LoggerEcall.createLogChannelName("Ecall"));
-        this.logEcallBAPData = iFrameworkAccess.getLogChannel(LoggerEcall.createLogChannelName("Ecall.BAPData"));
+        AbstractBAPLogger.init(iFrameworkAccess, LOG_CH_PREFIX);
+        this.logEcall = iFrameworkAccess.getLogChannel(LoggerEcall.createLogChannelName(LOG_CH_ECALL));
+        this.logEcallBAPData = iFrameworkAccess.getLogChannel(LoggerEcall.createLogChannelName(LOG_CH_ECALL_BAPDATA));
     }
 
-    @Override
     public LogChannel getLog(int n) {
         LogChannel logChannel;
         switch (n) {
@@ -40,7 +39,6 @@ extends AbstractBAPLogger {
         return logChannel;
     }
 
-    @Override
     public LogChannel getLogBAPData(int n) {
         LogChannel logChannel;
         switch (n) {

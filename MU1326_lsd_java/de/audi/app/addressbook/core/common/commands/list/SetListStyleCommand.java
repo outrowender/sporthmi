@@ -16,9 +16,8 @@ extends AbstractADBCommand {
         super(aDBApplication);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "SetListStyleCommand#execute()");
+        this.logger.log(10000000, "SetListStyleCommand#execute()");
         boolean bl = this.adbDSIAccess.setListStyle(0, 1, 0);
         if (!bl) {
             this.logger.log(10000, "SetListStyleCommand#execute(): dsi call was not successful, finishing command.");
@@ -26,9 +25,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setListStyleResult(int n) {
-        this.logger.log(-2137614336, "SetListStyleCommand#setListStyleResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "SetListStyleCommand#setListStyleResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

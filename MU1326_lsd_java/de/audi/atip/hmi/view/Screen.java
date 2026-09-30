@@ -22,124 +22,85 @@ extends KeyListener,
 TouchPadEventListener,
 GestureEventListener,
 ProximityEventListener {
-    public static final int EVENTPROCESSING_DEFAULT;
-    public static final int EVENTPROCESSING_HIDDEN;
+    public static final int EVENTPROCESSING_DEFAULT = 0;
+    public static final int EVENTPROCESSING_HIDDEN = 1;
 
-    default public HMIView[] getViews() {
-    }
+    public HMIView[] getViews();
 
-    default public void setViews(int[] nArray, HMIView[][] hMIViewArray) {
-    }
+    public void setViews(int[] var1, HMIView[][] var2);
 
-    default public void setReplacementWidgets(int[] nArray, HMIView[][] hMIViewArray) {
-    }
+    public void setReplacementWidgets(int[] var1, HMIView[][] var2);
 
-    default public int[] getConditionIDs() {
-    }
+    public int[] getConditionIDs();
 
-    default public int[] getReplacementIDs() {
-    }
+    public int[] getReplacementIDs();
 
-    default public HMIView[][] getReplacementWidgets() {
-    }
+    public HMIView[][] getReplacementWidgets();
 
-    default public int getPriority() {
-    }
+    public int getPriority();
 
-    default public void disconnecting() {
-    }
+    public void disconnecting();
 
-    default public void connected(IScreenData iScreenData) {
-    }
+    public void connected(IScreenData var1);
 
-    default public void updateContexts(long[] lArray) {
-    }
+    public void updateContexts(long[] var1);
 
-    default public void updatedColorScheme(int n) {
-    }
+    public void updatedColorScheme(int var1);
 
-    default public int getID() {
-    }
+    public int getID();
 
-    default public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void processModelUpdateEvent(ModelUpdateEvent var1);
 
-    default public void processSDSEvent(SDSEvent sDSEvent) {
-    }
+    public void processSDSEvent(SDSEvent var1);
 
-    default public void setTerminal(HMITerminal hMITerminal) {
-    }
+    public void setTerminal(HMITerminal var1);
 
-    default public void setState(int[] nArray) {
-    }
+    public void setState(int[] var1);
 
-    default public HMITerminal getTerminal() {
-    }
+    public HMITerminal getTerminal();
 
-    default public int getTerminalID() {
-    }
+    public int getTerminalID();
 
-    default public void setLocked(boolean bl) {
-    }
+    public void setLocked(boolean var1);
 
-    default public AbstractScreenFactory getScreenFactory() {
-    }
+    public AbstractScreenFactory getScreenFactory();
 
-    default public void paint() {
-    }
+    public void paint();
 
-    default public int getEventProcessing() {
-    }
+    public int getEventProcessing();
 
-    default public int getCacheBehaviour() {
-    }
+    public int getCacheBehaviour();
 
-    default public int getEventID(int n) {
-    }
+    public int getEventID(int var1);
 
-    default public void setModelIDs(int[] nArray) {
-    }
+    public void setModelIDs(int[] var1);
 
-    default public void setEventIDs(int[] nArray) {
-    }
+    public void setEventIDs(int[] var1);
 
-    default public boolean hasErrorOccured() {
-    }
+    public boolean hasErrorOccured();
 
-    default public int getScreenType() {
-    }
+    public int getScreenType();
 
-    default public void setScreenType(int n) {
-    }
+    public void setScreenType(int var1);
 
-    default public int[] getViewIDs() {
-    }
+    public int[] getViewIDs();
 
-    default public void showPartialPopups(int[] nArray) {
-    }
+    public void showPartialPopups(int[] var1);
 
-    default public void hidePartialPopups(int[] nArray) {
-    }
+    public void hidePartialPopups(int[] var1);
 
-    default public void hideNotScreenChangeSurvivingPopups() {
-    }
+    public void hideNotScreenChangeSurvivingPopups();
 
-    default public void unitsChanged(UnitChangedEvent unitChangedEvent) {
-    }
+    public void unitsChanged(UnitChangedEvent var1);
 
-    default public void bitmapLoaded(AsyncBitmapEvent asyncBitmapEvent) {
-    }
+    public void bitmapLoaded(AsyncBitmapEvent var1);
 
-    default public boolean isPartialPopupBlocked(IPartialPopupController iPartialPopupController) {
-    }
+    public boolean isPartialPopupBlocked(IPartialPopupController var1);
 
-    default public boolean areAllPartialPopupsAllowed() {
-    }
+    public boolean areAllPartialPopupsAllowed();
 
-    default public boolean isConnected() {
-    }
+    public boolean isConnected();
 
-    default public int[] getCurrentColorPalette() {
-    }
+    public int[] getCurrentColorPalette();
 }
 

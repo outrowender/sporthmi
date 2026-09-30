@@ -4,19 +4,14 @@
 package de.audi.atip.interapp.media;
 
 public interface IMediaDrawerElement {
-    default public String getName() {
-    }
+    public String getName();
 
-    default public int getID() {
-    }
+    public int getID();
 
-    default public int getIconID() {
-    }
+    public int getIconID();
 
-    default public boolean isSelected() {
-    }
+    public boolean isSelected();
 
-    default public boolean isFocused() {
-    }
+    public boolean isFocused();
 }
 

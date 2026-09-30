@@ -4,94 +4,69 @@
 package de.audi.app.sdsmanager.apps.dictate;
 
 import de.audi.app.sdsmanager.apps.ISDSApplication;
-import de.audi.atip.interapp.ADBSDSService$EmailAddressDetails;
+import de.audi.atip.interapp.ADBSDSService;
 import de.audi.atip.interapp.IMessagingDictationService;
 import de.audi.atip.phone.ITelServiceSDS;
 import java.util.LinkedList;
 
 public interface MessageDictationHandler
 extends ISDSApplication {
-    public static final int TXT_TYPE_BODY_ADD;
-    public static final int TXT_TYPE_SUBJECT_ADD;
-    public static final int TXT_TYPE_BODY_REPLACE;
-    public static final int TXT_TYPE_SUBJECT_NEW;
-    public static final int TXT_TYPE_BODY_NEW;
-    public static final int TXT_TYPE_SUBJECT_REPLACE;
-    public static final int TXT_TYPE_SUBJECT_RESET;
+    public static final int TXT_TYPE_BODY_ADD = 0;
+    public static final int TXT_TYPE_SUBJECT_ADD = 1;
+    public static final int TXT_TYPE_BODY_REPLACE = 2;
+    public static final int TXT_TYPE_SUBJECT_NEW = 3;
+    public static final int TXT_TYPE_BODY_NEW = 4;
+    public static final int TXT_TYPE_SUBJECT_REPLACE = 5;
+    public static final int TXT_TYPE_SUBJECT_RESET = 6;
 
-    default public void setMessagingDictationService(IMessagingDictationService iMessagingDictationService) {
-    }
+    public void setMessagingDictationService(IMessagingDictationService var1);
 
-    default public IMessagingDictationService getMessagingDictationService() {
-    }
+    public IMessagingDictationService getMessagingDictationService();
 
-    default public void unsetMessagingDictationService() {
-    }
+    public void unsetMessagingDictationService();
 
-    default public void setPhoneService(ITelServiceSDS iTelServiceSDS) {
-    }
+    public void setPhoneService(ITelServiceSDS var1);
 
-    default public void unsetPhoneService() {
-    }
+    public void unsetPhoneService();
 
-    default public int getActivationState() {
-    }
+    public int getActivationState();
 
-    default public void setStopRequested(boolean bl) {
-    }
+    public void setStopRequested(boolean var1);
 
-    default public void clearBody() {
-    }
+    public void clearBody();
 
-    default public void signalStartOfSpeech() {
-    }
+    public void signalStartOfSpeech();
 
-    default public void signalEndOfSpeech() {
-    }
+    public void signalEndOfSpeech();
 
-    default public String getCurrentRecipient() {
-    }
+    public String getCurrentRecipient();
 
-    default public void clearSubject() {
-    }
+    public void clearSubject();
 
-    default public void evaluateCompositionState() {
-    }
+    public void evaluateCompositionState();
 
-    default public void setDictationStep(int n) {
-    }
+    public void setDictationStep(int var1);
 
-    default public void handleDictationResult(LinkedList linkedList) {
-    }
+    public void handleDictationResult(LinkedList var1);
 
-    default public void undoLastInsertion() {
-    }
+    public void undoLastInsertion();
 
-    default public void positionBodyCursor(int n) {
-    }
+    public void positionBodyCursor(int var1);
 
-    default public void positionSubjectCursor(int n) {
-    }
+    public void positionSubjectCursor(int var1);
 
-    default public void dictationStarted() {
-    }
+    public void dictationStarted();
 
-    default public void dictationStopped() {
-    }
+    public void dictationStopped();
 
-    default public void updateEmailList(String[] stringArray) {
-    }
+    public void updateEmailList(String[] var1);
 
-    default public void setEmailAddressDetails(ADBSDSService$EmailAddressDetails aDBSDSService$EmailAddressDetails) {
-    }
+    public void setEmailAddressDetails(ADBSDSService.EmailAddressDetails var1);
 
-    default public ADBSDSService$EmailAddressDetails getEmailAddressDetails() {
-    }
+    public ADBSDSService.EmailAddressDetails getEmailAddressDetails();
 
-    default public int getMessageType() {
-    }
+    public int getMessageType();
 
-    default public boolean isDictationRunning() {
-    }
+    public boolean isDictationRunning();
 }
 

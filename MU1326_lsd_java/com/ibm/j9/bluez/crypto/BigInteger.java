@@ -7,7 +7,7 @@ final class BigInteger {
     private static BigInteger ZERO = new BigInteger(0, new int[0]);
     private static BigInteger ONE = BigInteger.valueOf(1);
     private static int POS = 0;
-    private static int NEG = 128;
+    private static int NEG = Integer.MIN_VALUE;
     private static int MSDMASK = ~NEG;
     private int signNmsd;
     private int[] digits;
@@ -31,7 +31,7 @@ final class BigInteger {
         int n4 = 0;
         while (n4 <= n) {
             l = (long)nArray2[n4] * l2 + l;
-            nArray[n4++] = (int)(l & 0);
+            nArray[n4++] = (int)(l & Integer.MAX_VALUE);
             l >>>= 31;
         }
         if (l != 0L) {
@@ -64,12 +64,12 @@ final class BigInteger {
         var7_9 = this.digits.length - 1;
         ** GOTO lbl22
         {
-            var8_5 = var8_5 << 8 | (var4_4 > 0 ? (long)var2_2[var3_3++] & 0 : 0L);
+            var8_5 = var8_5 << 8 | (var4_4 > 0 ? (long)var2_2[var3_3++] & 255L : 0L);
             var6_8 += 8;
             --var4_4;
             do {
                 if (var6_8 < 31) continue block0;
-                this.digits[var7_9--] = (int)(var8_5 >>> var6_8 - 31) & -129;
+                this.digits[var7_9--] = (int)(var8_5 >>> var6_8 - 31) & 0x7FFFFFFF;
                 var6_8 -= 31;
 lbl22:
                 // 2 sources
@@ -84,7 +84,7 @@ lbl22:
             this.digits[v0] = this.digits[v0] ^ (2 << var11_10) - 1;
             while (--var13_12 >= 0) {
                 v1 = var13_12;
-                this.digits[v1] = this.digits[v1] ^ -129;
+                this.digits[v1] = this.digits[v1] ^ 0x7FFFFFFF;
             }
             this.signNmsd = BigInteger.POS | this.digits.length;
             var14_14 = this.add(BigInteger.ONE);
@@ -198,13 +198,13 @@ lbl22:
         int n8 = 0;
         while (n8 <= n3) {
             n7 = nArray2[n8] + nArray3[n8] + n7;
-            nArray4[n8] = n7 & 0xFFFFFF7F;
+            nArray4[n8] = n7 & Integer.MAX_VALUE;
             n7 >>>= 31;
             ++n8;
         }
         while (n7 != 0 && n8 <= n6) {
             n7 = nArray[n8] + n7;
-            nArray4[n8] = n7 & 0xFFFFFF7F;
+            nArray4[n8] = n7 & Integer.MAX_VALUE;
             n7 >>>= 31;
             ++n8;
         }
@@ -276,13 +276,13 @@ lbl22:
         n4 = 0;
         while (n4 <= n3) {
             n8 = nArray2[n4] - nArray3[n4] - n8;
-            nArray[n4] = n8 & 0xFFFFFF7F;
+            nArray[n4] = n8 & Integer.MAX_VALUE;
             n8 >>>= 31;
             ++n4;
         }
         while (n8 != 0 && n4 <= n2) {
             n8 = nArray2[n4] - n8;
-            nArray[n4] = n8 & 0xFFFFFF7F;
+            nArray[n4] = n8 & Integer.MAX_VALUE;
             n8 >>>= 31;
             ++n4;
         }
@@ -306,7 +306,7 @@ lbl22:
             int n7 = 0;
             while (n3 <= n2) {
                 int n8 = this.digits[n3];
-                nArray[n7] = n6 | n8 << 31 - n4 & 0xFFFFFF7F;
+                nArray[n7] = n6 | n8 << 31 - n4 & Integer.MAX_VALUE;
                 n6 = n8 >>> n4;
                 ++n7;
                 ++n3;
@@ -334,7 +334,7 @@ lbl22:
         int n8 = 0;
         while (n8 <= n2) {
             int n9 = nArray[n8];
-            nArray2[n3 + n8] = n9 << n4 & 0xFFFFFF7F | n7;
+            nArray2[n3 + n8] = n9 << n4 & Integer.MAX_VALUE | n7;
             n7 = n9 >>> n5;
             ++n8;
         }
@@ -406,7 +406,7 @@ lbl22:
                 --n5;
                 ++n6;
             }
-            nArray[n7++] = (int)l & 0xFFFFFF7F;
+            nArray[n7++] = (int)l & Integer.MAX_VALUE;
             l = (l >>> 31) + (l2 << 32);
             l2 = 0L;
         }
@@ -518,7 +518,7 @@ lbl22:
         long l = 0L;
         int n3 = 0;
         while (n3 <= n) {
-            nArray2[n3] = (int)(l |= (long)nArray[n3] << n2) & 0xFFFFFF7F;
+            nArray2[n3] = (int)(l |= (long)nArray[n3] << n2) & Integer.MAX_VALUE;
             l >>>= 31;
             ++n3;
         }
@@ -526,9 +526,6 @@ lbl22:
         return nArray2;
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private static Object divBig(BigInteger bigInteger, BigInteger bigInteger2, int n, int n2, int n3, boolean bl) {
         long l;
         int[] nArray = bigInteger.digits;
@@ -551,7 +548,7 @@ lbl22:
         int n7 = n4 - n5;
         int n8 = 0;
         boolean bl2 = (n & 1) != 0;
-        while (l2 < 0) {
+        while (l2 < 0x40000000L) {
             ++n6;
             l2 <<= 1;
         }
@@ -566,20 +563,20 @@ lbl22:
         while (n8 > n5) {
             long l5 = nArray[n8];
             l = (l5 << 31) + (long)nArray[n8 - 1];
-            int n9 = l5 == l3 ? 0 : (int)(l / l3);
-            long l6 = (l - n9 * l3 << 31) + (long)nArray[n8 - 2];
-            long l7 = l4 * n9;
-            while (l7 > l6) {
-                l7 -= l4;
-                l6 += l3 << 31;
-                --n9;
+            long l6 = l5 == l3 ? Integer.MAX_VALUE : l / l3;
+            long l7 = (l - l6 * l3 << 31) + (long)nArray[n8 - 2];
+            long l8 = l4 * l6;
+            while (l8 > l7) {
+                l8 -= l4;
+                l7 += l3 << 31;
+                --l6;
             }
-            int n10 = BigInteger.divSub(nArray, n8 - n5 - 1, nArray2, n5, n9);
-            if (bl2 && n10 != 0) {
+            int n9 = BigInteger.divSub(nArray, n8 - n5 - 1, nArray2, n5, l6);
+            if (bl2 && n9 != 0) {
                 if (nArray3 == null) {
                     nArray3 = new int[n7 + 1];
                 }
-                nArray3[n7] = n10;
+                nArray3[n7] = n9;
             }
             --n7;
             --n8;
@@ -594,7 +591,7 @@ lbl22:
             l = 0L;
             while (n8 >= 0) {
                 l = l << 31 | (long)nArray[n8];
-                nArray[n8] = (int)(l >> n6 & 0);
+                nArray[n8] = (int)(l >> n6 & Integer.MAX_VALUE);
                 --n8;
             }
             while (n4 >= 0 && nArray[n4] == 0) {
@@ -625,11 +622,11 @@ lbl22:
                 n3 = 0;
                 while (n3 <= n2) {
                     int n5 = n4;
-                    nArray[n5] = nArray[n5] - ((int)(l2 += (long)nArray2[n3] * l) & 0xFFFFFF7F);
+                    nArray[n5] = nArray[n5] - ((int)(l2 += (long)nArray2[n3] * l) & Integer.MAX_VALUE);
                     if (nArray[n5] < 0) {
                         int n6 = n4;
-                        nArray[n6] = nArray[n6] & 0xFFFFFF7F;
-                        l2 += 0;
+                        nArray[n6] = nArray[n6] & Integer.MAX_VALUE;
+                        l2 += 0x80000000L;
                     }
                     l2 >>>= 31;
                     ++n4;
@@ -643,18 +640,18 @@ lbl22:
             return (int)l;
         }
         int n8 = n4;
-        nArray[n8] = (int)((long)nArray[n8] + 0);
+        nArray[n8] = (int)((long)nArray[n8] + 0x80000000L);
         l2 = 0L;
         n4 = n;
         n3 = 0;
         while (n3 <= n2) {
-            nArray[n4] = (int)(l2 += (long)nArray[n4] + (long)nArray2[n3]) & 0xFFFFFF7F;
+            nArray[n4] = (int)(l2 += (long)nArray[n4] + (long)nArray2[n3]) & Integer.MAX_VALUE;
             l2 >>>= 31;
             ++n4;
             ++n3;
         }
         if (l2 != 0L) {
-            nArray[n4] = nArray[n4] + (int)l2 & 0xFFFFFF7F;
+            nArray[n4] = nArray[n4] + (int)l2 & Integer.MAX_VALUE;
         }
         return (int)(l - 1L);
     }
@@ -696,15 +693,15 @@ lbl22:
         int n3 = bigInteger.bitLength();
         if (bigInteger2 != null) {
             int n4 = bigInteger2.signNmsd & MSDMASK;
-            long l = (long)(n2 > n4 ? n2 : n4) * 0 + (long)n4 + 0;
+            long l = (long)(n2 > n4 ? n2 : n4) * 2L + (long)n4 + 2L;
             n = (int)l + 1;
-            if (l > 0) {
+            if (l > Integer.MAX_VALUE) {
                 throw new ArithmeticException("Overflow in power");
             }
         } else {
             long l = (long)n2 << n3;
             n = (int)l + 1;
-            if (n3 >= 31 || l > 0) {
+            if (n3 >= 31 || l > Integer.MAX_VALUE) {
                 throw new ArithmeticException("Overflow in power");
             }
         }

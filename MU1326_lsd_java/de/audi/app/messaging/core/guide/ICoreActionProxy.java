@@ -4,42 +4,31 @@
 package de.audi.app.messaging.core.guide;
 
 public interface ICoreActionProxy {
-    public static final int TRANSITION_TYPE_ENTER;
-    public static final int TRANSITION_TYPE_EXIT;
-    public static final int SEARCHABLE_VIEW_FOLDER_CONTENTS;
-    public static final int SEARCHABLE_VIEW_RECIPIENTS;
+    public static final int TRANSITION_TYPE_ENTER = 0;
+    public static final int TRANSITION_TYPE_EXIT = 1;
+    public static final int SEARCHABLE_VIEW_FOLDER_CONTENTS = 0;
+    public static final int SEARCHABLE_VIEW_RECIPIENTS = 1;
 
-    default public void parentFolderSelected(int n) {
-    }
+    public void parentFolderSelected(int var1);
 
-    default public void messageCompositionEntered(int n) {
-    }
+    public void messageCompositionEntered(int var1);
 
-    default public void readoutScreensExited(int n) {
-    }
+    public void readoutScreensExited(int var1);
 
-    default public void templateReplacementExited(int n) {
-    }
+    public void templateReplacementExited(int var1);
 
-    default public void templateListEntered(int n) {
-    }
+    public void templateListEntered(int var1);
 
-    default public void onlineLicenseCheckEntered(int n) {
-    }
+    public void onlineLicenseCheckEntered(int var1);
 
-    default public void onlineLicenseCheckExited(int n) {
-    }
+    public void onlineLicenseCheckExited(int var1);
 
-    default public void officeEnteredFromMainWizard(int n) {
-    }
+    public void officeEnteredFromMainWizard(int var1);
 
-    default public void searchableViewTransition(int n, int n2, int n3) {
-    }
+    public void searchableViewTransition(int var1, int var2, int var3);
 
-    default public void detailViewTransition(int n, int n2) {
-    }
+    public void detailViewTransition(int var1, int var2);
 
-    default public void messageCompositionTransition(int n, int n2) {
-    }
+    public void messageCompositionTransition(int var1, int var2);
 }
 

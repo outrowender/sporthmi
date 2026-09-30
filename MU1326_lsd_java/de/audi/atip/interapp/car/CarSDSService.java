@@ -6,10 +6,8 @@ package de.audi.atip.interapp.car;
 import de.audi.atip.interapp.car.ICarRemainingRangeListener;
 
 public interface CarSDSService {
-    default public void addRemainingRangeListener(ICarRemainingRangeListener iCarRemainingRangeListener) {
-    }
+    public void addRemainingRangeListener(ICarRemainingRangeListener var1);
 
-    default public void removeRemainingRangeListener(ICarRemainingRangeListener iCarRemainingRangeListener) {
-    }
+    public void removeRemainingRangeListener(ICarRemainingRangeListener var1);
 }
 

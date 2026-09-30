@@ -14,12 +14,10 @@ implements ENIServiceEcall {
         super(logChannel, "ENIServiceEcall");
     }
 
-    @Override
     public void confirmExpirationWarning() {
         this.log();
     }
 
-    @Override
     public void confirmEcallExpirated() {
         this.log();
     }

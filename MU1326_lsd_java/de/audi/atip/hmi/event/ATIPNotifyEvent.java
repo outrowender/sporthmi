@@ -9,12 +9,12 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class ATIPNotifyEvent
 extends ATIPEvent {
-    public static final int FIRST_ID;
-    public static final int TIMER_FIRED;
-    public static final int TIMER_CANCELLED;
-    public static final int BITMAP_PRELOADED;
-    public static final int XY_ID;
-    public static final int LAST_ID;
+    public static final int FIRST_ID = 10601;
+    public static final int TIMER_FIRED = 10601;
+    public static final int TIMER_CANCELLED = 10602;
+    public static final int BITMAP_PRELOADED = 10603;
+    public static final int XY_ID = 10604;
+    public static final int LAST_ID = 10604;
 
     public ATIPNotifyEvent(ATIPEventListener aTIPEventListener, int n) {
         super(aTIPEventListener, n);

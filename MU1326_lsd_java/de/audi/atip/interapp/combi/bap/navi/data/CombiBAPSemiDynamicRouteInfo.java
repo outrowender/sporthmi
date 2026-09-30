@@ -4,7 +4,7 @@
 package de.audi.atip.interapp.combi.bap.navi.data;
 
 public final class CombiBAPSemiDynamicRouteInfo {
-    private static final int INVALID;
+    private static final int INVALID = -1;
     boolean trafficImpactOnCurrentRoute;
     boolean alternativeRouteAvailable;
     int delayHour;

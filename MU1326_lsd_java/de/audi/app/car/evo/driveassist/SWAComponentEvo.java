@@ -13,22 +13,18 @@ extends AbstractSWAComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(SWAViewOptions sWAViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(841484544, this.getMenuEntryVisibilityState(sWAViewOptions.getBrightness()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600114, this.getMenuEntryVisibilityState(sWAViewOptions.getBrightness()));
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(841484544, (short)5);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600114, (short)5);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(841484544);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600114);
     }
 
-    @Override
     public int getID() {
         return 4;
     }

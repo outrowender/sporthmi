@@ -13,7 +13,7 @@ import org.dsi.ifc.telephoneng.CallStackEntry;
 
 public class TelEvoCallStackRow
 extends AbstractCallStackEntryRow {
-    public static final int MAX_COLUMNS;
+    public static final int MAX_COLUMNS = 10;
 
     public TelEvoCallStackRow(CallStackEntry callStackEntry, LogChannel logChannel, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         super(new ListCell[10], callStackEntry, logChannel, iGlobalTelephoneStateStruct);
@@ -23,18 +23,18 @@ extends AbstractCallStackEntryRow {
     private PropertyListCell getPropertyCell(ListCell[] listCellArray) {
         ArrayList arrayList = new ArrayList(3);
         boolean bl = this.callStackEntry != null && this.callStackEntry.getClNumber() != null && this.callStackEntry.getClNumber().length() > 0;
-        arrayList.add(new Integer(bl ? -2040561860 : -1708374768));
+        arrayList.add(new Integer(bl ? 1014980486 : 272968858));
         if (this.callStackEntry != null && this.callStackEntry.getClEntryOrigin() == 1) {
-            arrayList.add(new Integer(-1704199780));
+            arrayList.add(new Integer(-1661375590));
         }
         if (this.callStackEntry != null && this.callStackEntry.getAdbEntryID() > 0L) {
-            arrayList.add(new Integer(553997474));
+            arrayList.add(new Integer(-1571551967));
         }
         int[] nArray = new int[arrayList.size()];
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             nArray[i2] = (Integer)arrayList.get(i2);
         }
-        return new PropertyListCell(-1635178174, nArray);
+        return new PropertyListCell(1110018462, nArray);
     }
 }
 

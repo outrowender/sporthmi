@@ -7,16 +7,12 @@ import de.audi.remotehmi.IRemoteHMISpeechCommand;
 
 public interface IRemoteHMISpeechTopicCommand
 extends IRemoteHMISpeechCommand {
-    default public String getLabel() {
-    }
+    public String getLabel();
 
-    default public String getPrompt() {
-    }
+    public String getPrompt();
 
-    default public String[] getPrompts() {
-    }
+    public String[] getPrompts();
 
-    default public String getContext() {
-    }
+    public String getContext();
 }
 

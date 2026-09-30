@@ -34,7 +34,6 @@ implements IMediaBluetoothStateProvider {
         super(iBluetoothApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return this.attributeNotifications;
     }
@@ -52,7 +51,6 @@ implements IMediaBluetoothStateProvider {
         return buffer.toString();
     }
 
-    @Override
     public void updateBTState(int n, int n2) {
         if (n2 != 1) {
             return;
@@ -61,7 +59,6 @@ implements IMediaBluetoothStateProvider {
         this.updateState();
     }
 
-    @Override
     public void updateA2DPUserSetting(boolean bl, int n) {
         if (n != 1) {
             return;
@@ -70,24 +67,22 @@ implements IMediaBluetoothStateProvider {
         this.updateState();
     }
 
-    @Override
     public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
         if (n != 1 || trustedDeviceArray == null) {
             return;
         }
         boolean bl = false;
         for (int i2 = 0; i2 < trustedDeviceArray.length; ++i2) {
-            if ((trustedDeviceArray[i2].getActiveServiceTypes() & 0x100) == 0) continue;
+            if ((trustedDeviceArray[i2].getActiveServiceTypes() & 0x10000) == 0) continue;
             bl = true;
         }
         this.connected = bl;
         this.updateState();
     }
 
-    @Override
     public void updateReconnectIndicator(ReconnectInfo reconnectInfo, int n) {
         if (n == 1 && reconnectInfo != null) {
-            this.reconnecting = (reconnectInfo.getReconnectIndicator() & 0x100) != 0;
+            this.reconnecting = (reconnectInfo.getReconnectIndicator() & 0x10000) != 0;
             this.updateState();
         }
     }
@@ -97,49 +92,43 @@ implements IMediaBluetoothStateProvider {
             return;
         }
         int n = !this.on ? 0 : (!this.a2dp ? 1 : (this.connected ? 2 : (this.reconnecting ? 3 : 4)));
-        this.log.log(-2137614336, "MediaBluetoothStateProvider#updateState(): New media state: %1", (long)n);
+        this.log.log(10000000, "MediaBluetoothStateProvider#updateState(): New media state: %1", (long)n);
         this.media.updateBluetoothState(n);
     }
 
-    @Override
     public void connectionProcessStarted() {
         this.isConnectionOngoing = true;
         this.updateActionState();
     }
 
-    @Override
     public void connectionProcessStopped() {
         this.isConnectionOngoing = false;
         this.updateActionState();
     }
 
-    @Override
     public void inquiryStarted() {
         this.isInquriyOngoing = true;
         this.updateActionState();
     }
 
-    @Override
     public void inquiryStopped() {
         this.isInquriyOngoing = false;
         this.updateActionState();
     }
 
-    @Override
     public void serviceDiscoveryStarted() {
         this.isServiceDiscoveryOngoing = true;
         this.updateActionState();
     }
 
-    @Override
     public void serviceDiscoveryStopped() {
         this.isServiceDiscoveryOngoing = false;
         this.updateActionState();
     }
 
     private void updateActionState() {
-        this.log.log(-2137614336, "MediaBluetoothStateProvider#updateActionState(): Current actions: connection=%1, inquiry=%2, service discovery=%3", this.isConnectionOngoing, this.isInquriyOngoing, this.isServiceDiscoveryOngoing);
-        this.log.log(-2137614336, "MediaBluetoothStateProvider#updateActionState(): Current media state: action running=%1", this.isActionOngoing);
+        this.log.log(10000000, "MediaBluetoothStateProvider#updateActionState(): Current actions: connection=%1, inquiry=%2, service discovery=%3", this.isConnectionOngoing, this.isInquriyOngoing, this.isServiceDiscoveryOngoing);
+        this.log.log(10000000, "MediaBluetoothStateProvider#updateActionState(): Current media state: action running=%1", this.isActionOngoing);
         if (this.media != null) {
             if (this.isConnectionOngoing || this.isInquriyOngoing || this.isServiceDiscoveryOngoing) {
                 if (!this.isActionOngoing) {
@@ -153,7 +142,6 @@ implements IMediaBluetoothStateProvider {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IMediaBluetoothStateListener) {
@@ -164,7 +152,6 @@ implements IMediaBluetoothStateProvider {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IMediaBluetoothStateListener) {
             this.media = null;
@@ -173,7 +160,6 @@ implements IMediaBluetoothStateProvider {
         super.removedService(serviceReference, object);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IMediaBluetoothStateListener) {
             this.media = (IMediaBluetoothStateListener)object;
@@ -181,13 +167,11 @@ implements IMediaBluetoothStateProvider {
         super.modifiedService(serviceReference, object);
     }
 
-    @Override
     public void init() {
         super.init();
         this.tracker.open();
     }
 
-    @Override
     public void deinit() {
         this.tracker.close();
         super.deinit();

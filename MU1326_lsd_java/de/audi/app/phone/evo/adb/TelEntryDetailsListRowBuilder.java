@@ -11,16 +11,14 @@ import org.dsi.ifc.organizer.AdbEntry;
 
 public class TelEntryDetailsListRowBuilder
 extends AbstractADBEntryDetailsListRowBuilder {
-    @Override
     public ADBEntryDetailsListRow createTelDetailsRow(AdbEntry adbEntry, int n) {
         if (adbEntry != null && adbEntry.phoneData != null && adbEntry.phoneData[n] != null && ADBUtils.isEmpty(adbEntry.phoneData[n].number)) {
             return null;
         }
-        PropertyListCell propertyListCell = PropertyListCell.create(-1635178174, new int[]{-2040561860});
+        PropertyListCell propertyListCell = PropertyListCell.create(1110018462, new int[]{1014980486});
         return new ADBEntryDetailsListRow(0, adbEntry, n, propertyListCell, null);
     }
 
-    @Override
     public ADBEntryDetailsListRow createAddressDetailsRow(AdbEntry adbEntry, int n) {
         return null;
     }

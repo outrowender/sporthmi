@@ -13,49 +13,34 @@ import de.audi.atip.interapp.SDSService;
 import de.audi.atip.keyhandling.IVirtualGUIManager;
 
 public interface IKeyEventDistributor {
-    default public void setSDSService(SDSService sDSService) {
-    }
+    public void setSDSService(SDSService var1);
 
-    default public void keyPressed(KeyEvent keyEvent) {
-    }
+    public void keyPressed(KeyEvent var1);
 
-    default public void keyReleased(KeyEvent keyEvent) {
-    }
+    public void keyReleased(KeyEvent var1);
 
-    default public void keyTurned(WheelButtonEvent wheelButtonEvent) {
-    }
+    public void keyTurned(WheelButtonEvent var1);
 
-    default public void keyMoved(JoystickEvent joystickEvent) {
-    }
+    public void keyMoved(JoystickEvent var1);
 
-    default public void touchPadPositionMoved(TouchEvent touchEvent) {
-    }
+    public void touchPadPositionMoved(TouchEvent var1);
 
-    default public void touchPadPressed(TouchEvent touchEvent) {
-    }
+    public void touchPadPressed(TouchEvent var1);
 
-    default public void touchPadReleased(TouchEvent touchEvent) {
-    }
+    public void touchPadReleased(TouchEvent var1);
 
-    default public void touchPadCharactersRecognized(TouchEvent touchEvent) {
-    }
+    public void touchPadCharactersRecognized(TouchEvent var1);
 
-    default public void touchPadAbandoned(TouchEvent touchEvent) {
-    }
+    public void touchPadAbandoned(TouchEvent var1);
 
-    default public void touchPadPalmRecognized(TouchEvent touchEvent) {
-    }
+    public void touchPadPalmRecognized(TouchEvent var1);
 
-    default public void touchPadApproached(TouchEvent touchEvent) {
-    }
+    public void touchPadApproached(TouchEvent var1);
 
-    default public void triggerGestureEvent(GestureEvent gestureEvent) {
-    }
+    public void triggerGestureEvent(GestureEvent var1);
 
-    default public void triggerProximityEvent(ProximityEvent proximityEvent) {
-    }
+    public void triggerProximityEvent(ProximityEvent var1);
 
-    default public void setHardkeyListeners(IVirtualGUIManager iVirtualGUIManager) {
-    }
+    public void setHardkeyListeners(IVirtualGUIManager var1);
 }
 

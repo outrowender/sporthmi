@@ -4,7 +4,6 @@
 package de.audi.app.media.content.media;
 
 public interface IPlayerDataListener {
-    default public void responseFidForPlaylistEntryID(long l, long l2) {
-    }
+    public void responseFidForPlaylistEntryID(long var1, long var3);
 }
 

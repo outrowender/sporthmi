@@ -15,23 +15,22 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 702: {
                 this.createEuRefinementScreenSelectListElementWorkFlow(commandList);
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId %2 is in range of refinement screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId %2 is in range of refinement screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
             }
         }
         return commandList;
     }
 
     private void createEuRefinementScreenSelectListElementWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createEuRefinementScreenSelectListElementWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createEuRefinementScreenSelectListElementWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
         this.spellerStack.pop();
     }

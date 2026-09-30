@@ -3,85 +3,65 @@
  */
 package de.audi.atip.interapp;
 
-import de.audi.atip.interapp.NaviADBService$LocationInputHandler;
 import de.audi.atip.metrics.GeoMetric;
 import de.audi.atip.preset.DefinitionRequest;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public interface NaviADBService {
-    default public void setDestination(byte[] byArray, String string) {
-    }
+    public void setDestination(byte[] var1, String var2);
 
-    default public void setDestination(AdbEntry adbEntry, int n, String string) {
-    }
+    public void setDestination(AdbEntry var1, int var2, String var3);
 
-    default public void setDestination(LocationInputHandler locationInputHandler, AdbEntry adbEntry, int n, String string) {
-    }
+    public void setDestination(LocationInputHandler var1, AdbEntry var2, int var3, String var4);
 
-    default public void setDestination(String string, String string2, String string3) {
-    }
+    public void setDestination(String var1, String var2, String var3);
 
-    default public void showDestinationInMap(byte[] byArray, String string) {
-    }
+    public void showDestinationInMap(byte[] var1, String var2);
 
-    default public void showDestinationInMap(String string, String string2, String string3) {
-    }
+    public void showDestinationInMap(String var1, String var2, String var3);
 
-    default public void parkNearDestination(byte[] byArray, String string) {
-    }
+    public void parkNearDestination(byte[] var1, String var2);
 
-    default public void parkNearDestination(String string, String string2, String string3) {
-    }
+    public void parkNearDestination(String var1, String var2, String var3);
 
-    default public void poiNearDestination(byte[] byArray, String string) {
-    }
+    public void poiNearDestination(byte[] var1, String var2);
 
-    default public void poiNearDestination(String string, String string2, String string3) {
-    }
+    public void poiNearDestination(String var1, String var2, String var3);
 
-    default public void editLocation(LocationInputHandler locationInputHandler, byte[] byArray) {
-    }
+    public void editLocation(LocationInputHandler var1, byte[] var2);
 
-    default public void editLocation(LocationInputHandler locationInputHandler, AdbEntry adbEntry, int n) {
-    }
+    public void editLocation(LocationInputHandler var1, AdbEntry var2, int var3);
 
-    default public void enterPreviewMap(int n, int n2) {
-    }
+    public void enterPreviewMap(int var1, int var2);
 
-    default public void focusPreviewMap(byte[] byArray) {
-    }
+    public void focusPreviewMap(byte[] var1);
 
-    default public void focusPreviewMap(String string, String string2) {
-    }
+    public void focusPreviewMap(String var1, String var2);
 
-    default public void focusPreviewMap(AdbEntry adbEntry, int n) {
-    }
+    public void focusPreviewMap(AdbEntry var1, int var2);
 
-    default public void exitPreviewMap() {
-    }
+    public void exitPreviewMap();
 
-    default public void addToFavorites(byte[] byArray, String string) {
-    }
+    public void addToFavorites(byte[] var1, String var2);
 
-    default public void addToFavorites(String string, String string2, String string3) {
-    }
+    public void addToFavorites(String var1, String var2, String var3);
 
-    default public void definePreset(DefinitionRequest definitionRequest, byte[] byArray, String string) {
-    }
+    public void definePreset(DefinitionRequest var1, byte[] var2, String var3);
 
-    default public void definePreset(DefinitionRequest definitionRequest, String string, String string2, String string3) {
-    }
+    public void definePreset(DefinitionRequest var1, String var2, String var3, String var4);
 
-    default public String[] getLocationName(byte[] byArray) {
-    }
+    public String[] getLocationName(byte[] var1);
 
-    default public String getLocationNameSingleLine(byte[] byArray) {
-    }
+    public String getLocationNameSingleLine(byte[] var1);
 
-    default public GeoMetric convertDecimalsToGeoMetric(String string, String string2) {
-    }
+    public GeoMetric convertDecimalsToGeoMetric(String var1, String var2);
 
-    default public byte[] resolveGeoCoords(int n, int n2, String string) {
+    public byte[] resolveGeoCoords(int var1, int var2, String var3);
+
+    public static interface LocationInputHandler {
+        public void updateLocation(byte[] var1);
+
+        public void sessionClosed();
     }
 }
 

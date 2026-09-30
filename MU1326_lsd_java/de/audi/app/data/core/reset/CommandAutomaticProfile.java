@@ -24,23 +24,21 @@ extends AbstractDataCommand {
         this.profileHandler = iDataApplication.getDataProfile();
     }
 
-    @Override
     public void execute() {
         if (this.dsi != null) {
             this.dsi.automaticProfile(-1);
         } else {
-            this.logger.log(-1601830656, "CommandAutomaticProfile#execute(): dsi is NULL");
+            this.logger.log(100000, "CommandAutomaticProfile#execute(): dsi is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void automaticProfileResponse(int n, CDataProfile cDataProfile, int n2) {
-        this.logger.log(1078071040, "CommandAutomaticProfile#automaticProfileResponse(): %1; result=%2", (Object)cDataProfile, (long)n2);
+        this.logger.log(1000000, "CommandAutomaticProfile#automaticProfileResponse(): %1; result=%2", (Object)cDataProfile, (long)n2);
         if (this.profileHandler != null) {
             this.profileHandler.automaticProfileResponse(cDataProfile);
         } else {
-            this.logger.log(-1601830656, "CommandAutomaticProfile#automaticProfileResponse(): profileHandler is null");
+            this.logger.log(100000, "CommandAutomaticProfile#automaticProfileResponse(): profileHandler is null");
         }
         this.commandList.commandFinished();
     }

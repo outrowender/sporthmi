@@ -5,8 +5,11 @@ package de.audi.app.terminalmode.keyevents;
 
 import de.audi.app.terminalmode.util.Enum;
 
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
 public class Key
-extends Enum {
+extends Enum<Key> {
     public static final Key DDS_SELECT = new Key("DDS_SELECT");
     public static final Key BACK = new Key("BACK");
     public static final Key SOFTKEY_EAST = new Key("SOFTKEY_EAST");

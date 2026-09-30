@@ -14,24 +14,24 @@ import java.util.Map;
 
 public class Topology
 implements ITelTopology {
-    private static final int DO_NOT_USE;
-    private static final int SWITCH_IN_PROGRESS;
-    private static final int ROLE_PRIMARY;
-    private static final int ROLE_ASSOCIATED;
-    private static final int ROLE_DATA;
-    public static final int USAGE_NONE;
+    private static final int DO_NOT_USE = -1;
+    private static final int SWITCH_IN_PROGRESS = -2;
+    private static final int ROLE_PRIMARY = 65536;
+    private static final int ROLE_ASSOCIATED = 131072;
+    private static final int ROLE_DATA = 196608;
+    public static final int USAGE_NONE = -1;
     private int dsiInstanceIdNad = -1;
     private int dsiInstanceIdHfp1 = -1;
     private int dsiInstanceIdHfp2 = -1;
-    private static final TopologyArray initState;
-    static final int[] PRIMARY_DATA_ASSOCIATED;
-    static final int[] PRIMARY_ASSOCIATED_DATA;
-    static final int[] ASSOCIATED_DATA_PRIMARY;
-    static final int[] ASSOCIATED_PRIMARY_DATA;
-    static final int[] DATA_ASSOCIATED_PRIMARY;
-    static final int[] DATA_PRIMARY_ASSOCIATED;
-    private static final int[] DEFAULT_ROLE_ASSIGNMENT;
-    private static final Map topologyToRoleMap;
+    private static final TopologyArray initState = new TopologyArray(new int[]{-2, -2, -2});
+    static final int[] PRIMARY_DATA_ASSOCIATED = new int[]{65536, 196608, 131072};
+    static final int[] PRIMARY_ASSOCIATED_DATA = new int[]{65536, 131072, 196608};
+    static final int[] ASSOCIATED_DATA_PRIMARY = new int[]{131072, 196608, 65536};
+    static final int[] ASSOCIATED_PRIMARY_DATA = new int[]{131072, 65536, 196608};
+    static final int[] DATA_ASSOCIATED_PRIMARY = new int[]{196608, 131072, 65536};
+    static final int[] DATA_PRIMARY_ASSOCIATED = new int[]{196608, 65536, 131072};
+    private static final int[] DEFAULT_ROLE_ASSIGNMENT = PRIMARY_ASSOCIATED_DATA;
+    private static final Map topologyToRoleMap = new HashMap();
     private final TopologyArray topologyArray;
     private final LogChannel log;
     private final boolean secondPhoneFeatureSupported;
@@ -131,7 +131,6 @@ implements ITelTopology {
         this.topologyArray = new TopologyArray(nArray);
     }
 
-    @Override
     public int[] getTopology() {
         return PhoneUtils.cloneIntArray(this.topologyArray.getArray());
     }
@@ -140,7 +139,7 @@ implements ITelTopology {
         if (topologyToRoleMap.containsKey(this.topologyArray)) {
             return PhoneUtils.cloneIntArray((int[])topologyToRoleMap.get(this.topologyArray));
         }
-        this.log.log(-1601830656, "[Topology#getRoles] no roles defined for topology %1", (Object)this.topologyArray);
+        this.log.log(100000, "[Topology#getRoles] no roles defined for topology %1", (Object)this.topologyArray);
         return PhoneUtils.cloneIntArray(DEFAULT_ROLE_ASSIGNMENT);
     }
 
@@ -152,7 +151,6 @@ implements ITelTopology {
         return Topology.getSwitchedSlotTopology(this.topologyArray.getArray(), n, n2, this.secondPhoneFeatureSupported);
     }
 
-    @Override
     public boolean isInitState() {
         return initState.equals(this.topologyArray);
     }
@@ -179,7 +177,7 @@ implements ITelTopology {
                         continue block5;
                     }
                     default: {
-                        this.log.log(-1601830656, "[Topology#getRoles] Unknown DSI USAGE Constant: %1", (long)nArray[i2]);
+                        this.log.log(100000, "[Topology#getRoles] Unknown DSI USAGE Constant: %1", (long)nArray[i2]);
                     }
                 }
             }
@@ -187,7 +185,7 @@ implements ITelTopology {
     }
 
     private String getMeDeviceName(int n) {
-        String string = this.dsiInstanceIdNad != -1 && n == this.dsiInstanceIdNad ? "NAD" : (this.dsiInstanceIdHfp1 != -1 && n == this.dsiInstanceIdHfp1 ? "HFP1" : (this.dsiInstanceIdHfp2 != -1 && n == this.dsiInstanceIdHfp2 ? "HFP2" : (n == -1 ? "NotInUse" : (n == -2 ? "SwitchInProgress" : new StringBuffer().append("Unknown device ").append(n).toString()))));
+        String string = this.dsiInstanceIdNad != -1 && n == this.dsiInstanceIdNad ? "NAD" : (this.dsiInstanceIdHfp1 != -1 && n == this.dsiInstanceIdHfp1 ? "HFP1" : (this.dsiInstanceIdHfp2 != -1 && n == this.dsiInstanceIdHfp2 ? "HFP2" : (n == -1 ? "NotInUse" : (n == -2 ? "SwitchInProgress" : "Unknown device " + n))));
         return string;
     }
 
@@ -202,15 +200,6 @@ implements ITelTopology {
     }
 
     static {
-        initState = new TopologyArray(new int[]{-2, -2, -2});
-        PRIMARY_DATA_ASSOCIATED = new int[]{256, 768, 512};
-        PRIMARY_ASSOCIATED_DATA = new int[]{256, 512, 768};
-        ASSOCIATED_DATA_PRIMARY = new int[]{512, 768, 256};
-        ASSOCIATED_PRIMARY_DATA = new int[]{512, 256, 768};
-        DATA_ASSOCIATED_PRIMARY = new int[]{768, 512, 256};
-        DATA_PRIMARY_ASSOCIATED = new int[]{768, 256, 512};
-        DEFAULT_ROLE_ASSIGNMENT = PRIMARY_ASSOCIATED_DATA;
-        topologyToRoleMap = new HashMap();
         topologyToRoleMap.put(new TopologyArray(new int[]{0, 1, 2}), PRIMARY_ASSOCIATED_DATA);
         topologyToRoleMap.put(new TopologyArray(new int[]{0, 2, 1}), PRIMARY_DATA_ASSOCIATED);
         topologyToRoleMap.put(new TopologyArray(new int[]{1, 2, 0}), DATA_PRIMARY_ASSOCIATED);

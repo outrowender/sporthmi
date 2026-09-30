@@ -18,10 +18,9 @@ extends MenuModelEventBusinessAdapter {
         this.focus = intLightCurrentFocus;
     }
 
-    @Override
     public boolean processItemFocused(int n, MenuModelHandler menuModelHandler) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[IntLightMenuEventBusiness#processItemFocused] Focus has changed to menuItemID = %1", (long)n);
+            this.getLogChannel().log(1000000, "[IntLightMenuEventBusiness#processItemFocused] Focus has changed to menuItemID = %1", (long)n);
         }
         this.focus.setFocus(n);
         return true;

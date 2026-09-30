@@ -15,28 +15,24 @@ extends RangeModelHandlerAdapter {
         super(rangeModelApp, logChannel);
     }
 
-    @Override
     public void updateOnAdjustment(int n) {
         if (this.getBusiness() != null) {
             this.getRangeEventBusiness().processAdjustment(n, (RangeModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnKeyPressed(int n) {
         if (this.getBusiness() != null) {
             this.getRangeEventBusiness().processKeyPressed(n, (ButtonModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnKeyReleased(int n) {
         if (this.getBusiness() != null) {
             this.getRangeEventBusiness().processKeyReleased(n, (ButtonModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnKeyTyped(int n) {
         if (this.getBusiness() != null) {
             this.getRangeEventBusiness().processKeyTyped(n, (ButtonModelHandler)this);

@@ -38,7 +38,6 @@ implements IPicklist {
         }
     }
 
-    @Override
     public int[] getGraphGroupSizes() {
         int n = this.elements.length;
         int[] nArray = new int[n];
@@ -48,7 +47,6 @@ implements IPicklist {
         return nArray;
     }
 
-    @Override
     public int[] getGraphGroupIndexes() {
         int n = this.elements.length;
         int[] nArray = new int[n];
@@ -58,7 +56,6 @@ implements IPicklist {
         return nArray;
     }
 
-    @Override
     public IPicklistElement get(int n) {
         if (n < 0 || n >= this.elements.length) {
             return null;
@@ -66,12 +63,10 @@ implements IPicklist {
         return this.elements[n];
     }
 
-    @Override
     public int getSize() {
         return this.elements == null ? 0 : this.elements.length;
     }
 
-    @Override
     public IPicklistSlot getSlot(int n, int n2) {
         if (n < 0 || n >= this.elements.length) {
             return null;
@@ -90,12 +85,10 @@ implements IPicklist {
         return iPicklistSlotArray[n2];
     }
 
-    @Override
     public IPicklistElement[] getElements() {
         return this.elements;
     }
 
-    @Override
     public int getPositionForSlotIndex(int n) {
         if (SDSUtils.isEmpty(this.entryIndexMapping) || n < 0 || n >= this.entryIndexMapping.length) {
             return -1;
@@ -103,18 +96,15 @@ implements IPicklist {
         return this.entryIndexMapping[n];
     }
 
-    @Override
     public void setLastRecogLine(boolean bl, int n) {
         this.lineSelectedByNumber = bl;
         this.lastRecogLineNumber = n;
     }
 
-    @Override
     public int getLastRecogLineNumber() {
         return this.lastRecogLineNumber;
     }
 
-    @Override
     public boolean isLineSelectedByNumber() {
         return this.lineSelectedByNumber;
     }
@@ -123,7 +113,6 @@ implements IPicklist {
         return SDSUtils.toString((Object[])this.elements, true);
     }
 
-    @Override
     public IPicklist getRearrangedPicklist(int[] nArray) {
         if (nArray.length <= 0) {
             return null;

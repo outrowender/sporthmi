@@ -19,53 +19,43 @@ Range2DModelHandler {
         rangeModel2DApp.setRangeListener(this);
     }
 
-    @Override
     public void updateOnAdjustment(int n, int n2) {
     }
 
-    @Override
     public void setValueHit(int n, int n2, int n3, int n4) {
         if (this.getHandledModelID() == n) {
             this.updateOnAdjustment(n2, n3);
         }
     }
 
-    @Override
     public RangeModel2DApp getRange2DModel() {
         return (RangeModel2DApp)this.getHandledModel();
     }
 
-    @Override
     public Range2DModelEventBusiness getRange2DEventBusiness() {
         return (Range2DModelEventBusiness)this.getBusiness();
     }
 
-    @Override
     public void updateRangeModel2DLimits(int n, int n2, int n3, int n4, int n5, int n6) {
         this.getRange2DModel().setLimitsXY(n, n2, n4, n5, n3, n6);
     }
 
-    @Override
     public void updateRangeModel2DLimitsX(int n, int n2, int n3) {
         this.getRange2DModel().setLimitsX(n, n2, n3);
     }
 
-    @Override
     public void updateRangeModel2DLimitsY(int n, int n2, int n3) {
         this.getRange2DModel().setLimitsY(n, n2, n3);
     }
 
-    @Override
     public void updateRange2DModelValue(int n, int n2) {
         this.getRange2DModel().setValue(n, n2);
     }
 
-    @Override
     public void updateRangeModelValueX(int n) {
         this.getRange2DModel().setValue(n, this.getRange2DModel().getValueY());
     }
 
-    @Override
     public void updateRangeModelValueY(int n) {
         this.getRange2DModel().setValue(this.getRange2DModel().getValueX(), n);
     }

@@ -15,12 +15,10 @@ extends SearchResultFormatterADB {
         super(aDBInterAppService, navigationEnv);
     }
 
-    @Override
     protected void setPropertyCell(NaviSearchResultListRow naviSearchResultListRow) {
         naviSearchResultListRow.setPropertiesColumn(null);
     }
 
-    @Override
     protected PropertyListCell createPropertyListCell(int n) {
         return null;
     }

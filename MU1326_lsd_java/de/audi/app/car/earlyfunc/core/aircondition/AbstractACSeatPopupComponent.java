@@ -5,22 +5,23 @@ package de.audi.app.car.earlyfunc.core.aircondition;
 
 import de.audi.app.car.common.adapter.AbstractDSICarAirConditionAdapter;
 import de.audi.app.car.common.app.ICarApplication;
+import de.audi.app.car.common.comp.AbstractCarComponent;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
+import de.audi.app.car.common.sync.IRangeModelSyncListener;
+import de.audi.app.car.common.sync.IRangeModelSyncParameterAccess;
+import de.audi.app.car.common.sync.RangeModelSynchronizer;
 import de.audi.app.car.earlyfunc.core.aircondition.ACSeatPartialPopupHandler;
 import de.audi.app.car.earlyfunc.core.aircondition.ACSeatPopupConfigurationHandler;
-import de.audi.app.car.earlyfunc.core.aircondition.AbstractACSeatPopupComponent$ACAirDistributionChoiceListener;
-import de.audi.app.car.earlyfunc.core.aircondition.AbstractACSeatPopupComponent$ACFanSpeedRangeListener;
-import de.audi.app.car.earlyfunc.core.aircondition.AbstractACSeatPopupComponent$ACSeatHeaterDistributionRangeListener;
-import de.audi.app.car.earlyfunc.core.aircondition.AbstractACSeatPopupComponent$ACSeatHeaterRangeListener;
-import de.audi.app.car.earlyfunc.core.aircondition.AbstractACSeatPopupComponent$ACSeatVentilationDistributionRangeListener;
-import de.audi.app.car.earlyfunc.core.aircondition.AbstractACSeatPopupComponent$ACSeatVentilationRangeListener;
-import de.audi.app.car.earlyfunc.core.aircondition.AbstractACSeatPopupComponent$NoResponseTimerListener;
+import de.audi.atip.hmi.model.ChoiceListener;
+import de.audi.atip.hmi.model.DefaultRangeListener;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.MetricsModelApp;
 import de.audi.atip.hmi.modelaccess.RangeModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.metrics.Temperature;
 import de.audi.atip.power.IPowerManager;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
@@ -33,38 +34,38 @@ import org.dsi.ifc.caraircondition.AirconTemp;
 
 public abstract class AbstractACSeatPopupComponent
 extends AbstractDSICarAirConditionAdapter {
-    public static final short CODING_ID;
-    private static final int RANGE_SEAT_DIST_MIN;
-    private static final int RANGE_SEAT_DIST_MAX;
-    private static final int RANGE_SEAT_DIST_STEP;
-    private static final int RANGE_SEAT_LEVEL_MIN;
-    private static final int RANGE_SEAT_LEVEL_MAX;
-    private static final int RANGE_SEAT_LEVEL_STEP;
-    private static final int TEMPERATURE_MIN;
-    private static final int TEMPERATURE_MAX;
-    private static final float FAHRENHEIT_STEP;
-    private static final float CELSIUS_STEP;
-    private static final float FAHRENHEIT_MIN_TEMPERATURE;
-    private static final float FAHRENHEIT_MAX_TEMPERATURE;
-    private static final float CELSIUS_MIN_TEMPERATURE;
-    private static final float CELSIUS_MAX_TEMPERATURE;
-    private static final int CELSIUS_MIN_TEMPERATURE_DSI_VALUE;
-    private static final int CELSIUS_MAX_TEMPERATURE_DSI_VALUE;
-    private static final int FAHRENHEIT_MIN_TEMPERATURE_DSI_VALUE;
-    private static final int FAHRENHEIT_MAX_TEMPERATURE_DSI_VALUE;
-    private static final int LABEL_LO;
-    private static final int LABEL_TEMP;
-    private static final int LABEL_HI;
-    private static final int AIRCON_SEAT_AUTO_LEVEL;
-    protected static final int ZONES_ZONE1;
-    protected static final int ZONES_ZONE2;
-    protected static final int ZONES_ZONE3;
-    protected static final int ZONES_ZONE4;
+    public static final short CODING_ID = 8;
+    private static final int RANGE_SEAT_DIST_MIN = -3;
+    private static final int RANGE_SEAT_DIST_MAX = 3;
+    private static final int RANGE_SEAT_DIST_STEP = 3;
+    private static final int RANGE_SEAT_LEVEL_MIN = 0;
+    private static final int RANGE_SEAT_LEVEL_MAX = 3;
+    private static final int RANGE_SEAT_LEVEL_STEP = 1;
+    private static final int TEMPERATURE_MIN = 2;
+    private static final int TEMPERATURE_MAX = 26;
+    private static final float FAHRENHEIT_STEP = 0.25f;
+    private static final float CELSIUS_STEP = 0.1f;
+    private static final float FAHRENHEIT_MIN_TEMPERATURE = 50.0f;
+    private static final float FAHRENHEIT_MAX_TEMPERATURE = 97.0f;
+    private static final float CELSIUS_MIN_TEMPERATURE = 10.0f;
+    private static final float CELSIUS_MAX_TEMPERATURE = 35.5f;
+    private static final int CELSIUS_MIN_TEMPERATURE_DSI_VALUE = 60;
+    private static final int CELSIUS_MAX_TEMPERATURE_DSI_VALUE = 180;
+    private static final int FAHRENHEIT_MIN_TEMPERATURE_DSI_VALUE = 40;
+    private static final int FAHRENHEIT_MAX_TEMPERATURE_DSI_VALUE = 136;
+    private static final int LABEL_LO = 0;
+    private static final int LABEL_TEMP = 1;
+    private static final int LABEL_HI = 2;
+    private static final int AIRCON_SEAT_AUTO_LEVEL = 255;
+    protected static final int ZONES_ZONE1 = 1;
+    protected static final int ZONES_ZONE2 = 2;
+    protected static final int ZONES_ZONE3 = 4;
+    protected static final int ZONES_ZONE4 = 8;
     private final ACSeatPopupConfigurationHandler configurationHandler;
     private volatile AirconMasterViewOptions currentViewOptionsMaster;
     private volatile AirconRowViewOptions currentViewOptionsRow1;
     private volatile AirconRowViewOptions currentViewOptionsRow2;
-    private static final String LOGCHANNEL_NAME;
+    private static final String LOGCHANNEL_NAME = "App.EarlyFunc.AirCondition.Seat";
     private MetricsModelApp tempMetricsModelZone1;
     private MetricsModelApp tempMetricsModelZone2;
     private MetricsModelApp tempMetricsModelZone3;
@@ -77,30 +78,30 @@ extends AbstractDSICarAirConditionAdapter {
     private ChoiceModelApp tempLabelModelZone2;
     private ChoiceModelApp tempLabelModelZone3;
     private ChoiceModelApp tempLabelModelZone4;
-    private AbstractACSeatPopupComponent$ACSeatVentilationRangeListener ventilationZone1;
-    private AbstractACSeatPopupComponent$ACSeatVentilationRangeListener ventilationZone2;
-    private AbstractACSeatPopupComponent$ACSeatVentilationRangeListener ventilationZone3;
-    private AbstractACSeatPopupComponent$ACSeatVentilationRangeListener ventilationZone4;
-    private AbstractACSeatPopupComponent$ACSeatVentilationDistributionRangeListener ventilationDistributionZone1;
-    private AbstractACSeatPopupComponent$ACSeatVentilationDistributionRangeListener ventilationDistributionZone2;
-    private AbstractACSeatPopupComponent$ACSeatVentilationDistributionRangeListener ventilationDistributionZone3;
-    private AbstractACSeatPopupComponent$ACSeatVentilationDistributionRangeListener ventilationDistributionZone4;
-    private AbstractACSeatPopupComponent$ACSeatHeaterRangeListener heaterZone1;
-    private AbstractACSeatPopupComponent$ACSeatHeaterRangeListener heaterZone2;
-    private AbstractACSeatPopupComponent$ACSeatHeaterRangeListener heaterZone3;
-    private AbstractACSeatPopupComponent$ACSeatHeaterRangeListener heaterZone4;
-    private AbstractACSeatPopupComponent$ACSeatHeaterDistributionRangeListener heaterDistributionZone1;
-    private AbstractACSeatPopupComponent$ACSeatHeaterDistributionRangeListener heaterDistributionZone2;
-    private AbstractACSeatPopupComponent$ACSeatHeaterDistributionRangeListener heaterDistributionZone3;
-    private AbstractACSeatPopupComponent$ACSeatHeaterDistributionRangeListener heaterDistributionZone4;
-    private AbstractACSeatPopupComponent$ACFanSpeedRangeListener fanSpeedZone1;
-    private AbstractACSeatPopupComponent$ACFanSpeedRangeListener fanSpeedZone2;
-    private AbstractACSeatPopupComponent$ACFanSpeedRangeListener fanSpeedZone3;
-    private AbstractACSeatPopupComponent$ACFanSpeedRangeListener fanSpeedZone4;
-    private AbstractACSeatPopupComponent$ACAirDistributionChoiceListener airDistributionZone1;
-    private AbstractACSeatPopupComponent$ACAirDistributionChoiceListener airDistributionZone2;
-    private AbstractACSeatPopupComponent$ACAirDistributionChoiceListener airDistributionZone3;
-    private AbstractACSeatPopupComponent$ACAirDistributionChoiceListener airDistributionZone4;
+    private ACSeatVentilationRangeListener ventilationZone1;
+    private ACSeatVentilationRangeListener ventilationZone2;
+    private ACSeatVentilationRangeListener ventilationZone3;
+    private ACSeatVentilationRangeListener ventilationZone4;
+    private ACSeatVentilationDistributionRangeListener ventilationDistributionZone1;
+    private ACSeatVentilationDistributionRangeListener ventilationDistributionZone2;
+    private ACSeatVentilationDistributionRangeListener ventilationDistributionZone3;
+    private ACSeatVentilationDistributionRangeListener ventilationDistributionZone4;
+    private ACSeatHeaterRangeListener heaterZone1;
+    private ACSeatHeaterRangeListener heaterZone2;
+    private ACSeatHeaterRangeListener heaterZone3;
+    private ACSeatHeaterRangeListener heaterZone4;
+    private ACSeatHeaterDistributionRangeListener heaterDistributionZone1;
+    private ACSeatHeaterDistributionRangeListener heaterDistributionZone2;
+    private ACSeatHeaterDistributionRangeListener heaterDistributionZone3;
+    private ACSeatHeaterDistributionRangeListener heaterDistributionZone4;
+    private ACFanSpeedRangeListener fanSpeedZone1;
+    private ACFanSpeedRangeListener fanSpeedZone2;
+    private ACFanSpeedRangeListener fanSpeedZone3;
+    private ACFanSpeedRangeListener fanSpeedZone4;
+    private ACAirDistributionChoiceListener airDistributionZone1;
+    private ACAirDistributionChoiceListener airDistributionZone2;
+    private ACAirDistributionChoiceListener airDistributionZone3;
+    private ACAirDistributionChoiceListener airDistributionZone4;
     private LogChannel logMSC;
     private ACSeatPartialPopupHandler partialPopupHandler;
     private IPowerManager powerManager;
@@ -108,73 +109,67 @@ extends AbstractDSICarAirConditionAdapter {
     private ArrayList pendingRequestTypes = new ArrayList();
     private ArrayList pendingRequests = new ArrayList();
     private Timer timerNoResponse;
-    private static final int QUEUE_BEGIN;
-    private static final int ACTION_INVALID;
-    private static final int ACTION_REQUEST;
-    private static final int ACTION_UPDATE;
+    private static final int QUEUE_BEGIN = 0;
+    private static final int ACTION_INVALID = -1;
+    private static final int ACTION_REQUEST = 0;
+    private static final int ACTION_UPDATE = 1;
 
     public AbstractACSeatPopupComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.EarlyFunc.AirCondition.Seat");
+        super(iCarApplication, LOGCHANNEL_NAME);
         this.logMSC = iCarApplication.getFrameworkAccess().getLogChannel("App.EarlyFunc.AirCondition.Seat.MSC");
         this.configurationHandler = new ACSeatPopupConfigurationHandler(this.getLogChannel());
         this.partialPopupHandler = new ACSeatPartialPopupHandler(iCarApplication, this, this.getLogChannel());
         this.powerManager = this.getApplication().getFrameworkAccess().getPowerMgr();
-        this.timerNoResponse = new Timer("TimerNoResponse", 0, true, new AbstractACSeatPopupComponent$NoResponseTimerListener(this));
+        this.timerNoResponse = new Timer("TimerNoResponse", 4000L, true, new NoResponseTimerListener());
     }
 
-    @Override
     public void init() {
         super.init();
         this.partialPopupHandler.init(this.getPPIDs());
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.partialPopupHandler.deinit();
         this.powerManager.setExtendedPowerState(102, 0);
     }
 
-    @Override
     protected void dsiAvailable(boolean bl) {
         if (!bl) {
-            this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#dsiAvailable] dsi not available, reset the extended power state");
+            this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#dsiAvailable] dsi not available, reset the extended power state");
             this.powerManager.setExtendedPowerState(102, 0);
         }
     }
 
-    @Override
     public String getName() {
         return "AirConditionSeatPopup";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{92, 93}, new int[]{2, 152, 168, 170, 69, 70, 167, 169, 63, 64, 25, 31, 26, 32, 24, 30}), new CarDSIAttributesSet(1, new int[]{92, 94}, new int[]{172, 174, 71, 72, 171, 173, 65, 66, 37, 43, 38, 44, 36, 42}), new CarDSIAttributesSet(2, new int[]{92, 95}, new int[0])};
     }
 
-    @Override
     protected void initModels() {
-        this.tempMetricsModelZone1 = this.getMetricsModel(794624);
-        this.tempMetricsModelZone2 = this.getMetricsModel(51126272);
-        this.tempMetricsModelZone3 = this.getMetricsModel(101457920);
-        this.tempMetricsModelZone4 = this.getMetricsModel(151789568);
+        this.tempMetricsModelZone1 = this.getMetricsModel(0x200C00);
+        this.tempMetricsModelZone2 = this.getMetricsModel(2100227);
+        this.tempMetricsModelZone3 = this.getMetricsModel(2100230);
+        this.tempMetricsModelZone4 = this.getMetricsModel(2100233);
         this.tempMetricsModelZone1.setMetric(new Temperature(0.0f, 1));
         this.tempMetricsModelZone2.setMetric(new Temperature(0.0f, 1));
         this.tempMetricsModelZone3.setMetric(new Temperature(0.0f, 1));
         this.tempMetricsModelZone4.setMetric(new Temperature(0.0f, 1));
-        this.tempLimitModelZone1 = this.getRangeModel(-16048128);
-        this.tempLimitModelZone2 = this.getRangeModel(0x20C2000);
-        this.tempLimitModelZone3 = this.getRangeModel(84680704);
-        this.tempLimitModelZone4 = this.getRangeModel(135012352);
+        this.tempLimitModelZone1 = this.getRangeModel(2100223);
+        this.tempLimitModelZone2 = this.getRangeModel(0x200C02);
+        this.tempLimitModelZone3 = this.getRangeModel(2100229);
+        this.tempLimitModelZone4 = this.getRangeModel(2100232);
         this.tempLimitModelZone1.setLimits(2, 26, 1);
         this.tempLimitModelZone2.setLimits(2, 26, 1);
         this.tempLimitModelZone3.setLimits(2, 26, 1);
         this.tempLimitModelZone4.setLimits(2, 26, 1);
-        this.tempLabelModelZone1 = this.getChoiceModel(1275928576);
-        this.tempLabelModelZone2 = this.getChoiceModel(1242374144);
-        this.tempLabelModelZone3 = this.getChoiceModel(1292705792);
-        this.tempLabelModelZone4 = this.getChoiceModel(1259151360);
+        this.tempLabelModelZone1 = this.getChoiceModel(2100556);
+        this.tempLabelModelZone2 = this.getChoiceModel(2100554);
+        this.tempLabelModelZone3 = this.getChoiceModel(2100557);
+        this.tempLabelModelZone4 = this.getChoiceModel(2100555);
         this.tempLabelModelZone1.setValue(1);
         this.tempLabelModelZone2.setValue(1);
         this.tempLabelModelZone3.setValue(1);
@@ -183,30 +178,30 @@ extends AbstractDSICarAirConditionAdapter {
     }
 
     private void initACRangeListener() {
-        this.ventilationZone1 = new AbstractACSeatPopupComponent$ACSeatVentilationRangeListener(this, this.getRangeModel(-83156992), this.getChoiceModel(-519233536), 1);
-        this.ventilationZone2 = new AbstractACSeatPopupComponent$ACSeatVentilationRangeListener(this, this.getRangeModel(-66379776), this.getChoiceModel(-670228480), 2);
-        this.ventilationZone3 = new AbstractACSeatPopupComponent$ACSeatVentilationRangeListener(this, this.getRangeModel(-49602560), this.getChoiceModel(671948800), 4);
-        this.ventilationZone4 = new AbstractACSeatPopupComponent$ACSeatVentilationRangeListener(this, this.getRangeModel(-32825344), this.getChoiceModel(638394368), 8);
-        this.ventilationDistributionZone1 = new AbstractACSeatPopupComponent$ACSeatVentilationDistributionRangeListener(this, this.getRangeModel(1980506112), 1);
-        this.ventilationDistributionZone2 = new AbstractACSeatPopupComponent$ACSeatVentilationDistributionRangeListener(this, this.getRangeModel(1963728896), 2);
-        this.ventilationDistributionZone3 = new AbstractACSeatPopupComponent$ACSeatVentilationDistributionRangeListener(this, this.getRangeModel(0x220D2000), 4);
-        this.ventilationDistributionZone4 = new AbstractACSeatPopupComponent$ACSeatVentilationDistributionRangeListener(this, this.getRangeModel(588062720), 8);
-        this.heaterZone1 = new AbstractACSeatPopupComponent$ACSeatHeaterRangeListener(this, this.getRangeModel(-150265856), this.getChoiceModel(655171584), 1);
-        this.heaterZone2 = new AbstractACSeatPopupComponent$ACSeatHeaterRangeListener(this, this.getRangeModel(-133488640), this.getChoiceModel(-687005696), 2);
-        this.heaterZone3 = new AbstractACSeatPopupComponent$ACSeatHeaterRangeListener(this, this.getRangeModel(-116711424), this.getChoiceModel(621617152), 4);
-        this.heaterZone4 = new AbstractACSeatPopupComponent$ACSeatHeaterRangeListener(this, this.getRangeModel(-99934208), this.getChoiceModel(722280448), 8);
-        this.heaterDistributionZone1 = new AbstractACSeatPopupComponent$ACSeatHeaterDistributionRangeListener(this, this.getRangeModel(1930174464), 1);
-        this.heaterDistributionZone2 = new AbstractACSeatPopupComponent$ACSeatHeaterDistributionRangeListener(this, this.getRangeModel(1946951680), 2);
-        this.heaterDistributionZone3 = new AbstractACSeatPopupComponent$ACSeatHeaterDistributionRangeListener(this, this.getRangeModel(554508288), 4);
-        this.heaterDistributionZone4 = new AbstractACSeatPopupComponent$ACSeatHeaterDistributionRangeListener(this, this.getRangeModel(604839936), 8);
-        this.fanSpeedZone1 = new AbstractACSeatPopupComponent$ACFanSpeedRangeListener(this, 1, 25, this.getChoiceModel(2114723840), this.getRangeModel(-351592448));
-        this.fanSpeedZone2 = new AbstractACSeatPopupComponent$ACFanSpeedRangeListener(this, 2, 31, this.getChoiceModel(2097946624), this.getRangeModel(-318038016));
-        this.fanSpeedZone3 = new AbstractACSeatPopupComponent$ACFanSpeedRangeListener(this, 4, 37, this.getChoiceModel(-267706368), this.getRangeModel(-284483584));
-        this.fanSpeedZone4 = new AbstractACSeatPopupComponent$ACFanSpeedRangeListener(this, 8, 43, this.getChoiceModel(-234151936), this.getRangeModel(-250929152));
-        this.airDistributionZone1 = new AbstractACSeatPopupComponent$ACAirDistributionChoiceListener(this, this.getChoiceModel(-217374720), this.getChoiceModel(0x200D2000), 1);
-        this.airDistributionZone2 = new AbstractACSeatPopupComponent$ACAirDistributionChoiceListener(this, this.getChoiceModel(-200597504), this.getChoiceModel(520953856), 2);
-        this.airDistributionZone3 = new AbstractACSeatPopupComponent$ACAirDistributionChoiceListener(this, this.getChoiceModel(-183820288), this.getChoiceModel(1359814656), 4);
-        this.airDistributionZone4 = new AbstractACSeatPopupComponent$ACAirDistributionChoiceListener(this, this.getChoiceModel(-167043072), this.getChoiceModel(1343037440), 8);
+        this.ventilationZone1 = new ACSeatVentilationRangeListener(this.getRangeModel(2100219), this.getChoiceModel(2100705), 1);
+        this.ventilationZone2 = new ACSeatVentilationRangeListener(this.getRangeModel(2100220), this.getChoiceModel(2100696), 2);
+        this.ventilationZone3 = new ACSeatVentilationRangeListener(this.getRangeModel(2100221), this.getChoiceModel(2100520), 4);
+        this.ventilationZone4 = new ACSeatVentilationRangeListener(this.getRangeModel(2100222), this.getChoiceModel(2100518), 8);
+        this.ventilationDistributionZone1 = new ACSeatVentilationDistributionRangeListener(this.getRangeModel(2100342), 1);
+        this.ventilationDistributionZone2 = new ACSeatVentilationDistributionRangeListener(this.getRangeModel(2100341), 2);
+        this.ventilationDistributionZone3 = new ACSeatVentilationDistributionRangeListener(this.getRangeModel(0x200D22), 4);
+        this.ventilationDistributionZone4 = new ACSeatVentilationDistributionRangeListener(this.getRangeModel(2100515), 8);
+        this.heaterZone1 = new ACSeatHeaterRangeListener(this.getRangeModel(2100215), this.getChoiceModel(2100519), 1);
+        this.heaterZone2 = new ACSeatHeaterRangeListener(this.getRangeModel(2100216), this.getChoiceModel(2100695), 2);
+        this.heaterZone3 = new ACSeatHeaterRangeListener(this.getRangeModel(2100217), this.getChoiceModel(2100517), 4);
+        this.heaterZone4 = new ACSeatHeaterRangeListener(this.getRangeModel(2100218), this.getChoiceModel(2100523), 8);
+        this.heaterDistributionZone1 = new ACSeatHeaterDistributionRangeListener(this.getRangeModel(2100339), 1);
+        this.heaterDistributionZone2 = new ACSeatHeaterDistributionRangeListener(this.getRangeModel(2100340), 2);
+        this.heaterDistributionZone3 = new ACSeatHeaterDistributionRangeListener(this.getRangeModel(2100513), 4);
+        this.heaterDistributionZone4 = new ACSeatHeaterDistributionRangeListener(this.getRangeModel(2100516), 8);
+        this.fanSpeedZone1 = new ACFanSpeedRangeListener(1, 25, this.getChoiceModel(2100350), this.getRangeModel(2100203));
+        this.fanSpeedZone2 = new ACFanSpeedRangeListener(2, 31, this.getChoiceModel(2100349), this.getRangeModel(2100205));
+        this.fanSpeedZone3 = new ACFanSpeedRangeListener(4, 37, this.getChoiceModel(2100208), this.getRangeModel(2100207));
+        this.fanSpeedZone4 = new ACFanSpeedRangeListener(8, 43, this.getChoiceModel(2100210), this.getRangeModel(2100209));
+        this.airDistributionZone1 = new ACAirDistributionChoiceListener(this.getChoiceModel(2100211), this.getChoiceModel(0x200D20), 1);
+        this.airDistributionZone2 = new ACAirDistributionChoiceListener(this.getChoiceModel(2100212), this.getChoiceModel(2100511), 2);
+        this.airDistributionZone3 = new ACAirDistributionChoiceListener(this.getChoiceModel(2100213), this.getChoiceModel(2100561), 4);
+        this.airDistributionZone4 = new ACAirDistributionChoiceListener(this.getChoiceModel(2100214), this.getChoiceModel(2100560), 8);
         this.ventilationZone1.init(0, 3, 1);
         this.ventilationZone2.init(0, 3, 1);
         this.ventilationZone3.init(0, 3, 1);
@@ -233,7 +228,6 @@ extends AbstractDSICarAirConditionAdapter {
         this.airDistributionZone4.init();
     }
 
-    @Override
     protected void deinitModels() {
         this.ventilationZone1.deinit();
         this.ventilationZone2.deinit();
@@ -259,20 +253,19 @@ extends AbstractDSICarAirConditionAdapter {
         this.airDistributionZone2.deinit();
         this.airDistributionZone3.deinit();
         this.airDistributionZone4.deinit();
-        this.getChoiceModel(-519233536).resetListener();
-        this.getChoiceModel(-670228480).resetListener();
-        this.getChoiceModel(671948800).resetListener();
-        this.getChoiceModel(638394368).resetListener();
-        this.getChoiceModel(655171584).resetListener();
-        this.getChoiceModel(-687005696).resetListener();
-        this.getChoiceModel(621617152).resetListener();
-        this.getChoiceModel(722280448).resetListener();
+        this.getChoiceModel(2100705).resetListener();
+        this.getChoiceModel(2100696).resetListener();
+        this.getChoiceModel(2100520).resetListener();
+        this.getChoiceModel(2100518).resetListener();
+        this.getChoiceModel(2100519).resetListener();
+        this.getChoiceModel(2100695).resetListener();
+        this.getChoiceModel(2100517).resetListener();
+        this.getChoiceModel(2100523).resetListener();
     }
 
-    @Override
     public void updateAirconViewOptionsMaster(AirconMasterViewOptions airconMasterViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconComponent#updateAirconViewOptionsMaster] airconMasterViewOptions='%1', valid='%2'", (Object)(null != airconMasterViewOptions ? this.formatViewOptionsLog(airconMasterViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconComponent#updateAirconViewOptionsMaster] airconMasterViewOptions='%1', valid='%2'", (Object)(null != airconMasterViewOptions ? this.formatViewOptionsLog(airconMasterViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconMasterViewOptions) {
             this.currentViewOptionsMaster = airconMasterViewOptions;
@@ -283,10 +276,9 @@ extends AbstractDSICarAirConditionAdapter {
         }
     }
 
-    @Override
     public void updateAirconViewOptionsRow1(AirconRowViewOptions airconRowViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconComponent#updateAirconViewOptionsRow1] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconComponent#updateAirconViewOptionsRow1] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconRowViewOptions) {
             this.currentViewOptionsRow1 = airconRowViewOptions;
@@ -294,10 +286,9 @@ extends AbstractDSICarAirConditionAdapter {
         }
     }
 
-    @Override
     public void updateAirconViewOptionsRow2(AirconRowViewOptions airconRowViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconComponent#updateAirconViewOptionsRow2] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconComponent#updateAirconViewOptionsRow2] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconRowViewOptions) {
             this.currentViewOptionsRow2 = airconRowViewOptions;
@@ -305,7 +296,6 @@ extends AbstractDSICarAirConditionAdapter {
         }
     }
 
-    @Override
     public String getCurrentViewOptions() {
         Buffer buffer = new Buffer();
         buffer.append("Master: ");
@@ -320,33 +310,29 @@ extends AbstractDSICarAirConditionAdapter {
         return buffer.toString();
     }
 
-    @Override
     public void updateAirconTempZone1(AirconTemp airconTemp, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconTempZone1] temp='%1', valid='%2'", (Object)airconTemp, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconTempZone1] temp='%1', valid='%2'", (Object)airconTemp, (long)n);
         if (n == 1) {
             this.updateAirconTemp(this.tempMetricsModelZone1, this.tempLabelModelZone1, airconTemp);
         }
     }
 
-    @Override
     public void updateAirconTempZone2(AirconTemp airconTemp, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconTempZone2] temp='%1', valid='%2'", (Object)airconTemp, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconTempZone2] temp='%1', valid='%2'", (Object)airconTemp, (long)n);
         if (n == 1) {
             this.updateAirconTemp(this.tempMetricsModelZone2, this.tempLabelModelZone2, airconTemp);
         }
     }
 
-    @Override
     public void updateAirconTempZone3(AirconTemp airconTemp, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconTempZone3] temp='%1', valid='%2'", (Object)airconTemp, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconTempZone3] temp='%1', valid='%2'", (Object)airconTemp, (long)n);
         if (n == 1) {
             this.updateAirconTemp(this.tempMetricsModelZone3, this.tempLabelModelZone3, airconTemp);
         }
     }
 
-    @Override
     public void updateAirconTempZone4(AirconTemp airconTemp, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconTempZone4] temp='%1', valid='%2'", (Object)airconTemp, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconTempZone4] temp='%1', valid='%2'", (Object)airconTemp, (long)n);
         if (n == 1) {
             this.updateAirconTemp(this.tempMetricsModelZone4, this.tempLabelModelZone4, airconTemp);
         }
@@ -373,16 +359,16 @@ extends AbstractDSICarAirConditionAdapter {
     }
 
     private float mapToMetricsTemperatureValue(int n, int n2) {
-        int n3 = 8257;
-        int n4 = 3650;
-        int n5 = -842216387;
+        float f2 = 10.0f;
+        float f3 = 35.5f;
+        float f4 = 0.1f;
         if (n2 == 1) {
-            n3 = 18498;
-            n4 = 49730;
-            n5 = 32830;
+            f2 = 50.0f;
+            f3 = 97.0f;
+            f4 = 0.25f;
         }
-        float f2 = (float)n * n5 + n3;
-        return AbstractACSeatPopupComponent.clip(f2, (float)n3, (float)n4);
+        float f5 = (float)n * f4 + f2;
+        return AbstractACSeatPopupComponent.clip(f5, f2, f3);
     }
 
     private int mapToMetricsTemperatureUnit(int n) {
@@ -392,236 +378,208 @@ extends AbstractDSICarAirConditionAdapter {
         return 1;
     }
 
-    @Override
     public void updateAirconAirVolumeZone1(AirconAirVolume airconAirVolume, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconAirVolumeZone1] airVolume='%1', valid='%2'", (Object)airconAirVolume, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconAirVolumeZone1] airVolume='%1', valid='%2'", (Object)airconAirVolume, (long)n);
         if (n == 1) {
             this.fanSpeedZone1.updateAirconAirVolume(airconAirVolume);
         }
     }
 
-    @Override
     public void updateAirconAirVolumeZone2(AirconAirVolume airconAirVolume, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconAirVolumeZone2] airVolume='%1', valid='%2'", (Object)airconAirVolume, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconAirVolumeZone2] airVolume='%1', valid='%2'", (Object)airconAirVolume, (long)n);
         if (n == 1) {
             this.fanSpeedZone2.updateAirconAirVolume(airconAirVolume);
         }
     }
 
-    @Override
     public void updateAirconAirVolumeZone3(AirconAirVolume airconAirVolume, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconAirVolumeZone3] airVolume='%1', valid='%2'", (Object)airconAirVolume, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconAirVolumeZone3] airVolume='%1', valid='%2'", (Object)airconAirVolume, (long)n);
         if (n == 1) {
             this.fanSpeedZone3.updateAirconAirVolume(airconAirVolume);
         }
     }
 
-    @Override
     public void updateAirconAirVolumeZone4(AirconAirVolume airconAirVolume, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconAirVolumeZone4] airVolume='%1', valid='%2'", (Object)airconAirVolume, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconAirVolumeZone4] airVolume='%1', valid='%2'", (Object)airconAirVolume, (long)n);
         if (n == 1) {
             this.fanSpeedZone4.updateAirconAirVolume(airconAirVolume);
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterZone1(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterZone1] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterZone1] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.heaterZone1.updateACSeatSetting(n, n2);
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterZone2(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterZone2] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterZone2] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.heaterZone2.updateACSeatSetting(n, n2);
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterZone3(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterZone3] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterZone3] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.heaterZone3.updateACSeatSetting(n, n2);
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterZone4(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterZone4] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterZone4] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.heaterZone4.updateACSeatSetting(n, n2);
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterDistributionZone1(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             this.heaterDistributionZone1.updateACSeatSetting(n);
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterDistributionZone2(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             this.heaterDistributionZone2.updateACSeatSetting(n);
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterDistributionZone3(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             this.heaterDistributionZone3.updateACSeatSetting(n);
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterDistributionZone4(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatHeaterDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             this.heaterDistributionZone4.updateACSeatSetting(n);
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationZone1(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationZone1] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationZone1] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.ventilationZone1.updateACSeatSetting(n, n2);
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationZone2(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationZone2] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationZone2] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.ventilationZone2.updateACSeatSetting(n, n2);
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationZone3(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationZone3] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationZone3] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.ventilationZone3.updateACSeatSetting(n, n2);
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationZone4(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationZone4] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationZone4] state='%1' seatVentilation='%2', valid='%3'", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.ventilationZone4.updateACSeatSetting(n, n2);
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationDistributionZone1(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             this.ventilationDistributionZone1.updateACSeatSetting(n);
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationDistributionZone2(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             this.ventilationDistributionZone2.updateACSeatSetting(n);
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationDistributionZone3(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             this.ventilationDistributionZone3.updateACSeatSetting(n);
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationDistributionZone4(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSeatVentilationDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             this.ventilationDistributionZone4.updateACSeatSetting(n);
         }
     }
 
-    @Override
     public void updateAirconAirDistributionZone1(AirconAirDistribution airconAirDistribution, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconAirDistributionZone1] distribution='%1', valid='%2'", (Object)airconAirDistribution, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconAirDistributionZone1] distribution='%1', valid='%2'", (Object)airconAirDistribution, (long)n);
         if (n == 1) {
             this.airDistributionZone1.updateAirDistribution(airconAirDistribution);
         }
     }
 
-    @Override
     public void updateAirconAirDistributionZone2(AirconAirDistribution airconAirDistribution, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconAirDistributionZone2] distribution='%1', valid='%2'", (Object)airconAirDistribution, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconAirDistributionZone2] distribution='%1', valid='%2'", (Object)airconAirDistribution, (long)n);
         if (n == 1) {
             this.airDistributionZone2.updateAirDistribution(airconAirDistribution);
         }
     }
 
-    @Override
     public void updateAirconAirDistributionZone3(AirconAirDistribution airconAirDistribution, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconAirDistributionZone3] distribution='%1', valid='%2'", (Object)airconAirDistribution, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconAirDistributionZone3] distribution='%1', valid='%2'", (Object)airconAirDistribution, (long)n);
         if (n == 1) {
             this.airDistributionZone3.updateAirDistribution(airconAirDistribution);
         }
     }
 
-    @Override
     public void updateAirconAirDistributionZone4(AirconAirDistribution airconAirDistribution, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconAirDistributionZone4] distribution='%1', valid='%2'", (Object)airconAirDistribution, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconAirDistributionZone4] distribution='%1', valid='%2'", (Object)airconAirDistribution, (long)n);
         if (n == 1) {
             this.airDistributionZone4.updateAirDistribution(airconAirDistribution);
         }
     }
 
-    @Override
     public void updateAirconSystemOnOffRow1(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#updateAirconSystemOnOffRow1] systemOnOff='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#updateAirconSystemOnOffRow1] systemOnOff='%1', valid='%2'", bl, (long)n);
         if (n == 1) {
             this.systemOnOffRow1 = bl;
         }
     }
 
-    @Override
     public void requestAirconPopup(AirconContent airconContent) {
-        this.logMSC.log(1078071040, "<--- requestAirconPopup(%1)", (Object)this.printAirconContent(airconContent));
+        this.logMSC.log(1000000, "<--- requestAirconPopup(%1)", (Object)this.printAirconContent(airconContent));
         if (!this.isPopupEmpty(airconContent)) {
             this.powerManager.setExtendedPowerState(102, 0);
         }
         this.enqueRequest(0, airconContent);
     }
 
-    @Override
     public void updateAirconContent(AirconContent airconContent, int n) {
-        this.logMSC.log(1078071040, "<--- updateAirconContent(%1)", (Object)this.printAirconContent(airconContent));
+        this.logMSC.log(1000000, "<--- updateAirconContent(%1)", (Object)this.printAirconContent(airconContent));
         this.enqueRequest(1, airconContent);
     }
 
-    @Override
     public void acknowlegdeAirconPopup(AirconContent airconContent) {
-        this.logMSC.log(1078071040, "<--- acknowlegdeAirconPopup(%1)", (Object)this.printAirconContent(airconContent));
+        this.logMSC.log(1000000, "<--- acknowlegdeAirconPopup(%1)", (Object)this.printAirconContent(airconContent));
         if (this.isPopupEmpty(airconContent)) {
             this.powerManager.setExtendedPowerState(103, 0);
         }
     }
 
     public void showAirconPopup(AirconContent airconContent) {
-        this.logMSC.log(1078071040, "---> showAirconPopup(%1)", (Object)this.printAirconContent(airconContent));
+        this.logMSC.log(1000000, "---> showAirconPopup(%1)", (Object)this.printAirconContent(airconContent));
         this.getDSI().showAirconPopup(airconContent);
     }
 
     public void cancelAirconPopup(AirconContent airconContent, int n) {
-        this.logMSC.log(1078071040, "---> cancelAirconPopup(%1)", (Object)this.printAirconContent(airconContent));
+        this.logMSC.log(1000000, "---> cancelAirconPopup(%1)", (Object)this.printAirconContent(airconContent));
         this.getDSI().cancelAirconPopup(airconContent, n);
     }
 
@@ -641,17 +599,13 @@ extends AbstractDSICarAirConditionAdapter {
         return stringBuffer.toString();
     }
 
-    public abstract Integer getPPIDfromContent(Integer n, int n2) {
-    }
+    public abstract Integer getPPIDfromContent(Integer var1, int var2);
 
-    public abstract int getDSIIdFromPPID(int n) {
-    }
+    public abstract int getDSIIdFromPPID(int var1);
 
-    public abstract int getZoneFromPPID(int n) {
-    }
+    public abstract int getZoneFromPPID(int var1);
 
-    public abstract int[] getPPIDs() {
-    }
+    public abstract int[] getPPIDs();
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -664,18 +618,18 @@ extends AbstractDSICarAirConditionAdapter {
             if (this.timerNoResponse.isRunning()) {
                 this.timerNoResponse.cancel();
             }
-            this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#processNextRequest] Requests in queue: %1", (long)this.pendingRequests.size());
+            this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#processNextRequest] Requests in queue: %1", (long)this.pendingRequests.size());
             if (!this.pendingRequests.isEmpty()) {
                 this.pendingRequestTypes.remove(0);
                 this.pendingRequests.remove(0);
             } else {
-                this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#processNextRequest] Stop Remove - Empty queue");
+                this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#processNextRequest] Stop Remove - Empty queue");
             }
             if (!this.pendingRequests.isEmpty()) {
                 n = (Integer)this.pendingRequestTypes.get(0);
                 airconContent = (AirconContent)this.pendingRequests.get(0);
             } else {
-                this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#processNextRequest] Stop Process - Empty queue");
+                this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#processNextRequest] Stop Process - Empty queue");
             }
         }
         this.doRequest(n, airconContent);
@@ -685,20 +639,20 @@ extends AbstractDSICarAirConditionAdapter {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void enqueRequest(int n, AirconContent airconContent) {
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#enqueRequest] Requests in queue: %1", (long)this.pendingRequests.size());
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#enqueRequest] Requests in queue: %1", (long)this.pendingRequests.size());
         ArrayList arrayList = this.pendingRequests;
         synchronized (arrayList) {
             if (!this.isPopupEmpty(airconContent)) {
-                this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#enqueRequest] Added to pending request queue");
+                this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#enqueRequest] Added to pending request queue");
                 this.pendingRequests.add(airconContent);
                 this.pendingRequestTypes.add(new Integer(n));
                 if (this.pendingRequests.size() == 1) {
-                    this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#enqueRequest] Triggered processing");
+                    this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#enqueRequest] Triggered processing");
                     this.doRequest(n, airconContent);
                 }
             } else if (n == 0) {
                 if (this.pendingRequests.size() > 1) {
-                    this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#enqueRequest] Flush queue, added request, waiting for Handler to finish");
+                    this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#enqueRequest] Flush queue, added request, waiting for Handler to finish");
                     int n2 = (Integer)this.pendingRequestTypes.get(0);
                     AirconContent airconContent2 = (AirconContent)this.pendingRequests.get(0);
                     this.pendingRequests.clear();
@@ -708,7 +662,7 @@ extends AbstractDSICarAirConditionAdapter {
                     this.pendingRequests.add(airconContent);
                     this.pendingRequestTypes.add(new Integer(n));
                 } else {
-                    this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#enqueRequest] First request in queue, triggered processing");
+                    this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#enqueRequest] First request in queue, triggered processing");
                     this.pendingRequests.add(airconContent);
                     this.pendingRequestTypes.add(new Integer(n));
                     this.doRequest(n, airconContent);
@@ -723,7 +677,7 @@ extends AbstractDSICarAirConditionAdapter {
         stringBuffer.append(n);
         stringBuffer.append(" Request = ");
         stringBuffer.append(airconContent == null ? "null" : airconContent.toString());
-        this.getLogChannel().log(1078071040, "[AbstractACSeatPopupComponent#doRequest]  %1", (Object)stringBuffer.toString());
+        this.getLogChannel().log(1000000, "[AbstractACSeatPopupComponent#doRequest]  %1", (Object)stringBuffer.toString());
         switch (n) {
             case -1: {
                 break;
@@ -739,7 +693,7 @@ extends AbstractDSICarAirConditionAdapter {
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[AbstractACSeatPopupComponent#doRequest] Unknown action type");
+                this.getLogChannel().log(100000, "[AbstractACSeatPopupComponent#doRequest] Unknown action type");
             }
         }
     }
@@ -756,7 +710,7 @@ extends AbstractDSICarAirConditionAdapter {
     private void triggerEmergencyFlush() {
         ArrayList arrayList = this.pendingRequests;
         synchronized (arrayList) {
-            this.getLogChannel().log(-1601830656, "[AbstractACSeatPopupComponent#triggerEmergencyFlush] Flushing queues");
+            this.getLogChannel().log(100000, "[AbstractACSeatPopupComponent#triggerEmergencyFlush] Flushing queues");
             if (!this.pendingRequests.isEmpty()) {
                 this.showAirconPopup(new AirconContent());
                 this.pendingRequests.clear();
@@ -766,48 +720,373 @@ extends AbstractDSICarAirConditionAdapter {
         }
     }
 
-    static /* synthetic */ void access$000(AbstractACSeatPopupComponent abstractACSeatPopupComponent, String string, int n, int n2, boolean bl) {
-        abstractACSeatPopupComponent.logModelData(string, n, n2, bl);
+    private class ACFanSpeedRangeListener
+    extends DefaultRangeListener
+    implements IRangeModelSyncListener,
+    ChoiceListener {
+        private final int dsiZone;
+        private final int dsiAttribute;
+        private final ChoiceModelApp autoChoiceModel;
+        private final RangeModelApp rangeModel;
+        private RangeModelSynchronizer rangeModelSynchronizer;
+        private int airVolumeAuto = 0;
+        private int airVolume = 0;
+        private static final int FAN_SPEED_MIN = 0;
+        private static final int FAN_SPEED_MAX = 10;
+        private static final int FAN_SPEED_STEP = 1;
+        private final Object mutex = new Object();
+
+        public ACFanSpeedRangeListener(int n, int n2, ChoiceModelApp choiceModelApp, RangeModelApp rangeModelApp) {
+            this.dsiZone = n;
+            this.dsiAttribute = n2;
+            this.autoChoiceModel = choiceModelApp;
+            this.rangeModel = rangeModelApp;
+        }
+
+        public void init() {
+            this.autoChoiceModel.setChoiceListener(this);
+            this.rangeModel.setLimits(0, 10, 1);
+            this.rangeModel.setRangeListener(this);
+            String string = new StringBuffer().append("fanSpeedSynchronizerZone").append(Integer.toString(this.dsiZone)).toString();
+            this.rangeModelSynchronizer = new RangeModelSynchronizer(string, this, 1000L, AbstractACSeatPopupComponent.this.getLogChannel());
+            this.rangeModelSynchronizer.addWatchedAttribute(this.dsiAttribute, true, this.rangeModel);
+        }
+
+        public void deinit() {
+            this.autoChoiceModel.resetListener();
+            this.rangeModelSynchronizer.clear();
+        }
+
+        public void setDSIParameter(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
+            AirconAirVolume airconAirVolume = this.createAirVolume(iRangeModelSyncParameterAccess.getCurrentValue(), this.airVolumeAuto);
+            this.sendACSeatSettingToDSI(airconAirVolume);
+        }
+
+        public void updateRangeModelByTurningRotary(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
+            this.updateRangeModel(iRangeModelSyncParameterAccess);
+        }
+
+        public void updateRangeModelByDSINotitification(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
+            this.updateRangeModel(iRangeModelSyncParameterAccess);
+        }
+
+        private void updateRangeModel(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
+            if (AbstractACSeatPopupComponent.this.getLogChannel().isInfo()) {
+                AbstractACSeatPopupComponent.this.logModelData("[ACFanSpeedRangeListener#updateRangeModel]", iRangeModelSyncParameterAccess.getRangeModelID(), iRangeModelSyncParameterAccess.getCurrentValue(), true);
+            }
+            AbstractACSeatPopupComponent.this.getRangeModel(iRangeModelSyncParameterAccess.getRangeModelID()).setValue(iRangeModelSyncParameterAccess.getCurrentValue());
+        }
+
+        public void decrement(int n, int n2, int n3) {
+            this.setAirVolumeAuto(false);
+            this.rangeModelSynchronizer.notifyDecrement(this.dsiAttribute, n2);
+        }
+
+        public void increment(int n, int n2, int n3) {
+            this.setAirVolumeAuto(false);
+            this.rangeModelSynchronizer.notifyIncrement(this.dsiAttribute, n2);
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            if (n == this.autoChoiceModel.getID()) {
+                AbstractACSeatPopupComponent.this.logModelData("[ACFanSpeedRangeListener#itemSelected]", n, n2, true);
+                this.setAirVolumeAuto(n2 == 1);
+                this.sendACSeatSettingToDSI(this.createAirVolume());
+            } else {
+                AbstractACSeatPopupComponent.this.logModelData("[ACFanSpeedRangeListener#itemSelected]", n, n2, false);
+            }
+        }
+
+        public void itemFocused(int n, int n2, int n3, int n4) {
+        }
+
+        private void setAirVolumeAuto(boolean bl) {
+            this.airVolumeAuto = bl ? 1 : 0;
+        }
+
+        protected void sendACSeatSettingToDSI(AirconAirVolume airconAirVolume) {
+            AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[ACFanSpeedRangeListener#sendACSeatSettingToDSI] dsi.setAirconAirVolume() : zone='%1' , airVolume='%2'", (Object)new Integer(this.dsiZone), (Object)airconAirVolume);
+            AbstractACSeatPopupComponent.this.getDSI().setAirconAirVolume(this.dsiZone, airconAirVolume);
+            if ((this.dsiZone == 1 && AbstractACSeatPopupComponent.this.configurationHandler.isDriverSideLeft() || this.dsiZone == 2 && !AbstractACSeatPopupComponent.this.configurationHandler.isDriverSideLeft()) && AbstractACSeatPopupComponent.this.systemOnOffRow1 && airconAirVolume.getAirVolume() == 0) {
+                AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[ACFanSpeedRangeListener#sendACSeatSettingToDSI] dsi.setAirconSystemOnOffRow(ROW1) state=false");
+                AbstractACSeatPopupComponent.this.getDSI().setAirconSystemOnOffRow(1, false);
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        private AirconAirVolume createAirVolume() {
+            Object object = this.mutex;
+            synchronized (object) {
+                return this.createAirVolume(this.airVolume, this.airVolumeAuto);
+            }
+        }
+
+        private AirconAirVolume createAirVolume(int n, int n2) {
+            AirconAirVolume airconAirVolume = new AirconAirVolume();
+            airconAirVolume.airVolume = n;
+            airconAirVolume.airVolumeAuto = n2;
+            return airconAirVolume;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateAirconAirVolume(AirconAirVolume airconAirVolume) {
+            this.autoChoiceModel.setValue(airconAirVolume.getAirVolumeAuto());
+            this.rangeModelSynchronizer.notifyUpdateReceived(this.dsiAttribute, airconAirVolume.getAirVolume());
+            Object object = this.mutex;
+            synchronized (object) {
+                this.airVolume = airconAirVolume.getAirVolume();
+                this.airVolumeAuto = airconAirVolume.getAirVolumeAuto();
+            }
+        }
     }
 
-    static /* synthetic */ void access$100(AbstractACSeatPopupComponent abstractACSeatPopupComponent, String string, int n, int n2, boolean bl) {
-        abstractACSeatPopupComponent.logModelData(string, n, n2, bl);
+    class NoResponseTimerListener
+    extends DefaultTimerListener {
+        NoResponseTimerListener() {
+        }
+
+        public void fireTimer(Timer timer) {
+            AbstractACSeatPopupComponent.this.getLogChannel().log(100000, "[NoResponseTimerListener##fireTimer]: no response after 4 sec, flushing all queues");
+            AbstractACSeatPopupComponent.this.triggerEmergencyFlush();
+        }
+
+        public void cancelTimer(Timer timer) {
+            AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[NoResponseTimerListener#cancelTimer]: got response, cancel timer");
+        }
     }
 
-    static /* synthetic */ void access$200(AbstractACSeatPopupComponent abstractACSeatPopupComponent, String string, int n, int n2, boolean bl) {
-        abstractACSeatPopupComponent.logModelData(string, n, n2, bl);
+    private class ACSeatHeaterRangeListener
+    extends AbstractDefaultACSeatRangeListener {
+        public ACSeatHeaterRangeListener(RangeModelApp rangeModelApp, ChoiceModelApp choiceModelApp, int n) {
+            super(rangeModelApp, choiceModelApp, n);
+        }
+
+        protected void sendACSeatSettingToDSI(int n, int n2) {
+            AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[ACSeatHeaterRangeListener#sendACSeatSettingToDSI] dsi.setAirconSeatHeater zone=%1 ventilationState=%2 ventilationLevel=%3", (long)this.getDSIZone(), (long)n, (long)n2);
+            AbstractACSeatPopupComponent.this.getDSI().setAirconSeatHeater(this.getDSIZone(), n, n2);
+        }
     }
 
-    static /* synthetic */ void access$300(AbstractACSeatPopupComponent abstractACSeatPopupComponent, String string, int n, int n2, boolean bl) {
-        abstractACSeatPopupComponent.logModelData(string, n, n2, bl);
+    private class ACSeatVentilationRangeListener
+    extends AbstractDefaultACSeatRangeListener {
+        public ACSeatVentilationRangeListener(RangeModelApp rangeModelApp, ChoiceModelApp choiceModelApp, int n) {
+            super(rangeModelApp, choiceModelApp, n);
+        }
+
+        protected void sendACSeatSettingToDSI(int n, int n2) {
+            AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[ACSeatVentilationRangeListener#sendACSeatSettingToDSI] dsi.setAirconSeatVentilation zone=%1 ventilationState=%2 ventilationLevel=%3", (long)this.getDSIZone(), (long)n, (long)n2);
+            AbstractACSeatPopupComponent.this.getDSI().setAirconSeatVentilation(this.getDSIZone(), n, n2);
+        }
     }
 
-    static /* synthetic */ void access$400(AbstractACSeatPopupComponent abstractACSeatPopupComponent, String string, int n, int n2, boolean bl) {
-        abstractACSeatPopupComponent.logModelData(string, n, n2, bl);
+    private class ACAirDistributionChoiceListener
+    extends DefaultChoiceListener {
+        private static final int HMI_DISTRIBUTION_BITMASK_TOP = 1;
+        private static final int HMI_DISTRIBUTION_BITMASK_MIDDLE = 2;
+        private static final int HMI_DISTRIBUTION_BITMASK_BOTTOM = 4;
+        private static final int DSI_ZONE_INACTIVE = 0;
+        private static final int DSI_ZONE_ACTIVE = 12;
+        private static final int AUTO_OFF = 0;
+        private static final int AUTO_ON = 1;
+        private final ChoiceModelApp distributionModel;
+        private final ChoiceModelApp distributionAutoModel;
+        private final int zone;
+        private volatile boolean distributionAuto = false;
+
+        public ACAirDistributionChoiceListener(ChoiceModelApp choiceModelApp, ChoiceModelApp choiceModelApp2, int n) {
+            this.distributionModel = choiceModelApp;
+            this.distributionAutoModel = choiceModelApp2;
+            choiceModelApp2.setValue(0);
+            this.zone = n;
+        }
+
+        public void init() {
+            this.distributionModel.setChoiceListener(this);
+        }
+
+        public void deinit() {
+            this.distributionModel.resetListener();
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            if (n == this.distributionModel.getID()) {
+                AbstractACSeatPopupComponent.this.logModelData("[ACAirDistributionChoiceListener#itemSelected]", n, n2, true);
+                int n5 = this.zone;
+                AirconAirDistribution airconAirDistribution = new AirconAirDistribution();
+                airconAirDistribution.footwell = this.calculateZoneState(n2, 4);
+                airconAirDistribution.body = this.calculateZoneState(n2, 2);
+                airconAirDistribution.up = this.calculateZoneState(n2, 1);
+                airconAirDistribution.automode = this.distributionAuto;
+                AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[ACAirDistributionChoiceListener#itemSelected] dsi.setAirconAirDistribution() : zone='%1' , airDistribution='%2'", (Object)new Integer(n5), (Object)airconAirDistribution);
+                AbstractACSeatPopupComponent.this.getDSI().setAirconAirDistribution(n5, airconAirDistribution);
+            } else {
+                AbstractACSeatPopupComponent.this.logModelData("[ACAirDistributionChoiceListener#itemSelected]", n, n2, false);
+            }
+        }
+
+        public void updateAirDistribution(AirconAirDistribution airconAirDistribution) {
+            int n = 0;
+            n = airconAirDistribution.footwell > 0 ? n | 4 : n;
+            n = airconAirDistribution.body > 0 ? n | 2 : n;
+            n = airconAirDistribution.up > 0 ? n | 1 : n;
+            AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[ACAirDistributionChoiceListener#updateAirDistribution] update air distribution model : hmiDistribution='%1' , modelID='%2'", (long)n, (long)this.distributionModel.getID());
+            this.distributionModel.setValue(n);
+            this.distributionAutoModel.setValue(airconAirDistribution.isAutomode() ? 1 : 0);
+            this.distributionAuto = airconAirDistribution.isAutomode();
+        }
+
+        private int calculateZoneState(int n, int n2) {
+            return (n & n2) == n2 ? 12 : 0;
+        }
     }
 
-    static /* synthetic */ RangeModelApp access$500(AbstractACSeatPopupComponent abstractACSeatPopupComponent, int n) {
-        return abstractACSeatPopupComponent.getRangeModel(n);
+    private abstract class AbstractACSeatSettingRangeListener
+    extends DefaultRangeListener {
+        private final RangeModelApp acSeatSettingRangeModel;
+        private final int zone;
+        private int min;
+        private int max;
+        private int stepWidth;
+
+        public AbstractACSeatSettingRangeListener(RangeModelApp rangeModelApp, int n) {
+            this.acSeatSettingRangeModel = rangeModelApp;
+            this.zone = n;
+        }
+
+        public void init(int n, int n2, int n3) {
+            this.initRange(n, n2, n3);
+            this.getAcSeatSettingRangeModel().setLimits(n, n2, n3);
+            this.getAcSeatSettingRangeModel().setRangeListener(this);
+        }
+
+        private void initRange(int n, int n2, int n3) {
+            this.min = n;
+            this.max = n2;
+            this.stepWidth = n3;
+        }
+
+        public void deinit() {
+            this.getAcSeatSettingRangeModel().resetListener();
+        }
+
+        public void decrement(int n, int n2, int n3) {
+            AbstractACSeatPopupComponent.this.logModelData("[AbstractACSeatSettingRangeListener#decrement]", n, n2, true);
+            this.modifyACSeatSetting(-n2);
+        }
+
+        public void increment(int n, int n2, int n3) {
+            AbstractACSeatPopupComponent.this.logModelData("[AbstractACSeatSettingRangeListener#increment]", n, n2, true);
+            this.modifyACSeatSetting(n2);
+        }
+
+        private void modifyACSeatSetting(int n) {
+            int n2 = this.getAcSeatSettingRangeModel().getValue() + n;
+            n2 = AbstractCarComponent.clip(n2, this.min, this.max);
+            this.sendACSeatSettingToDSI(n2);
+        }
+
+        protected abstract void sendACSeatSettingToDSI(int var1);
+
+        public void updateACSeatSetting(int n, int n2) {
+            int n3 = AbstractCarComponent.clip(n2, this.min, this.max);
+            AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[AbstractACSeatSettingRangeListener#updateACSeatSetting] update ac setting model : updatedACSeatSetting='%1' , modelID='%2'", (long)n2, (long)this.getAcSeatSettingRangeModel().getID());
+            this.getAcSeatSettingRangeModel().setValue(n3);
+        }
+
+        public void updateACSeatSetting(int n) {
+            int n2 = AbstractCarComponent.clip(n, this.min, this.max);
+            AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[AbstractACSeatSettingRangeListener#updateACSeatSetting] update ac setting model : updatedACSeatSetting='%1' , modelID='%2'", (long)n, (long)this.getAcSeatSettingRangeModel().getID());
+            this.getAcSeatSettingRangeModel().setValue(n2);
+        }
+
+        protected RangeModelApp getAcSeatSettingRangeModel() {
+            return this.acSeatSettingRangeModel;
+        }
+
+        public int getDSIZone() {
+            return this.zone;
+        }
     }
 
-    static /* synthetic */ void access$600(AbstractACSeatPopupComponent abstractACSeatPopupComponent, String string, int n, int n2, boolean bl) {
-        abstractACSeatPopupComponent.logModelData(string, n, n2, bl);
+    private abstract class AbstractDefaultACSeatRangeListener
+    extends AbstractACSeatSettingRangeListener
+    implements ChoiceListener {
+        private static final int DSI_MIN = 0;
+        private static final int DSI_MAX = 6;
+        private static final int HMI_MIN = 0;
+        private static final int HMI_MAX = 3;
+        private static final int HMI_AUTO_LEVEL_OFF = 0;
+        private static final int HMI_AUTO_LEVEL_ON = 1;
+        private int currentVentilationLevelDSI;
+        private ChoiceModelApp autoChoiceModel;
+
+        public AbstractDefaultACSeatRangeListener(RangeModelApp rangeModelApp, ChoiceModelApp choiceModelApp, int n) {
+            super(rangeModelApp, n);
+            this.currentVentilationLevelDSI = 0;
+            this.autoChoiceModel = choiceModelApp;
+        }
+
+        public void init(int n, int n2, int n3) {
+            super.init(n, n2, n3);
+            this.autoChoiceModel.setChoiceListener(this);
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            int n5;
+            AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[AbstractDefaultACSeatRangeListener#itemSelected] modelID=%1 itemID=%2", (long)n, (long)n2);
+            int n6 = n5 = n2 == 1 ? 255 : this.currentVentilationLevelDSI;
+            int n7 = n2 == 1 ? 2 : (n5 == 0 ? 0 : 1);
+            this.sendACSeatSettingToDSI(n7, n5);
+        }
+
+        public void itemFocused(int n, int n2, int n3, int n4) {
+        }
+
+        protected void sendACSeatSettingToDSI(int n) {
+            int n2 = AbstractCarComponent.clip(n * 2, 0, 6);
+            int n3 = n2 == 0 ? 0 : 1;
+            this.sendACSeatSettingToDSI(n3, n2);
+        }
+
+        protected abstract void sendACSeatSettingToDSI(int var1, int var2);
+
+        public void updateACSeatSetting(int n, int n2) {
+            if (n == 2 || n2 == 255) {
+                this.autoChoiceModel.setValue(1);
+                AbstractACSeatPopupComponent.this.getLogChannel().log(1000000, "[AbstractDefaultACSeatRangeListener#updateACSeatSetting] update ac setting model : updatedACSeatSetting='%1' , modelID='%2'", (long)n, (long)this.getAcSeatSettingRangeModel().getID());
+                this.getAcSeatSettingRangeModel().setValue(0);
+            } else {
+                this.autoChoiceModel.setValue(0);
+                this.currentVentilationLevelDSI = n2;
+                super.updateACSeatSetting(AbstractCarComponent.clip(n2 / 2, 0, 3));
+            }
+        }
     }
 
-    static /* synthetic */ void access$700(AbstractACSeatPopupComponent abstractACSeatPopupComponent, String string, int n, int n2, boolean bl) {
-        abstractACSeatPopupComponent.logModelData(string, n, n2, bl);
+    private class ACSeatHeaterDistributionRangeListener
+    extends AbstractACSeatSettingRangeListener {
+        public ACSeatHeaterDistributionRangeListener(RangeModelApp rangeModelApp, int n) {
+            super(rangeModelApp, n);
+        }
+
+        protected void sendACSeatSettingToDSI(int n) {
+            AbstractACSeatPopupComponent.this.getDSI().setAirconSeatHeaterDistribution(this.getDSIZone(), n);
+        }
     }
 
-    static /* synthetic */ ACSeatPopupConfigurationHandler access$800(AbstractACSeatPopupComponent abstractACSeatPopupComponent) {
-        return abstractACSeatPopupComponent.configurationHandler;
-    }
+    private class ACSeatVentilationDistributionRangeListener
+    extends AbstractACSeatSettingRangeListener {
+        public ACSeatVentilationDistributionRangeListener(RangeModelApp rangeModelApp, int n) {
+            super(rangeModelApp, n);
+        }
 
-    static /* synthetic */ boolean access$900(AbstractACSeatPopupComponent abstractACSeatPopupComponent) {
-        return abstractACSeatPopupComponent.systemOnOffRow1;
-    }
-
-    static /* synthetic */ void access$1000(AbstractACSeatPopupComponent abstractACSeatPopupComponent) {
-        abstractACSeatPopupComponent.triggerEmergencyFlush();
+        protected void sendACSeatSettingToDSI(int n) {
+            AbstractACSeatPopupComponent.this.getDSI().setAirconSeatVentilationDistribution(this.getDSIZone(), n);
+        }
     }
 }
 

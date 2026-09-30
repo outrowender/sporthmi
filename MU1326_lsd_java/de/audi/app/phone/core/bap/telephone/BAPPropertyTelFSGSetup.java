@@ -6,23 +6,21 @@ package de.audi.app.phone.core.bap.telephone;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceProvider;
 import de.audi.app.phone.core.bap.AbstractTel1EnqueuedBAPPropertyHandler;
-import de.audi.app.phone.core.bap.telephone.BAPPropertyTelFSGSetup$BAPTerminalModeUpdateListener;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone;
 import de.audi.atip.interapp.combi.bap.phone.data.FsgSetup;
-import de.audi.atip.interapp.combi.bap.phone.data.FsgSetup$Builder;
 import de.audi.atip.interapp.phone.IEcallState;
 import de.audi.atip.interapp.terminalmode.DefaultTerminalModeUpdateListener;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.interapp.terminalmode.TerminalModeDevice;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 class BAPPropertyTelFSGSetup
 extends AbstractTel1EnqueuedBAPPropertyHandler {
-    private static final int E_SIM_CODED_NEVER;
-    private static final int E_SIM_CODED_ALWAYS;
-    private static final int E_SIM_CODED_SERVICE_DEPENDENT;
+    private static final int E_SIM_CODED_NEVER = 1;
+    private static final int E_SIM_CODED_ALWAYS = 2;
+    private static final int E_SIM_CODED_SERVICE_DEPENDENT = 0;
     private final boolean cableConnectionToMobilePossible;
     protected volatile FsgSetup fsgSetup;
     private final boolean nadCoded;
@@ -67,7 +65,7 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         this.btTelephoneSupportCoded = this.frameworkAccess.getSysApp().getDiagnosisCOD().isBluetoothPhoneAvailable();
         this.isCarplayPossible = this.frameworkAccess.getSysApp().getAdaptationANP().isAppleDIO();
         this.isAndroidAutoPossible = this.frameworkAccess.getSysApp().getAdaptationANP().isGoogleGAL();
-        this.tmUpdateListener = new BAPPropertyTelFSGSetup$BAPTerminalModeUpdateListener(this, null);
+        this.tmUpdateListener = new BAPTerminalModeUpdateListener();
         this.terminalModeUpdateListnerService = new PhoneServiceProvider((class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener == null ? (class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener = BAPPropertyTelFSGSetup.class$("de.audi.atip.interapp.terminalmode.ITerminalModeUpdateListener")) : class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener).getName(), this.tmUpdateListener, null, iTelApplication.getBundleContext(), this.log);
         this.eSIMCoding = this.frameworkAccess.getSysConstManager().getAdaptationANP().getESIMUUsage();
     }
@@ -81,20 +79,18 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         this.simCardModeSwitch = bl3;
         this.bluetoothCoded = bl4;
         this.btTelephoneSupportCoded = bl5;
-        this.tmUpdateListener = new BAPPropertyTelFSGSetup$BAPTerminalModeUpdateListener(this, null);
+        this.tmUpdateListener = new BAPTerminalModeUpdateListener();
         this.terminalModeUpdateListnerService = new PhoneServiceProvider((class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener == null ? (class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener = BAPPropertyTelFSGSetup.class$("de.audi.atip.interapp.terminalmode.ITerminalModeUpdateListener")) : class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener).getName(), this.tmUpdateListener, null, iTelApplication.getBundleContext(), this.log);
         this.isCarplayPossible = bl6;
         this.isAndroidAutoPossible = bl7;
         this.eSIMCoding = n;
     }
 
-    @Override
     public void init() {
         this.terminalModeUpdateListnerService.startService();
         super.init();
     }
 
-    @Override
     public void deinit() {
         this.terminalModeUpdateListnerService.stopService();
         super.deinit();
@@ -180,12 +176,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         return iEcallState != null && iEcallState.isLowPrioritySOSEmergencyCallType();
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return true;
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
@@ -195,24 +189,24 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         boolean bl2 = this.isInternalSimCardReaderAvailable(n2, bl);
         boolean bl3 = this.isHfpConnectionAvailable();
         boolean bl4 = this.isRsapConnectionToMobilePossible(n2, bl);
-        FsgSetup$Builder fsgSetup$Builder = FsgSetup.builder();
-        fsgSetup$Builder.setInternalSimCardReaderPresent(bl2);
-        super.getClass();
-        fsgSetup$Builder.setCableConnectionPossible(false);
-        fsgSetup$Builder.setHfpConnectionPossible(bl3);
-        fsgSetup$Builder.setRsapConnectionPossible(bl4);
-        fsgSetup$Builder.setAppleLinkConnectionPossible(this.isCarplayPossible);
-        fsgSetup$Builder.setGoogleLinkConnectionPossible(this.isAndroidAutoPossible);
-        fsgSetup$Builder.setMobileConnectionType(n);
-        FsgSetup fsgSetup = fsgSetup$Builder.build();
+        FsgSetup.Builder builder = FsgSetup.builder();
+        builder.setInternalSimCardReaderPresent(bl2);
+        this.getClass();
+        builder.setCableConnectionPossible(false);
+        builder.setHfpConnectionPossible(bl3);
+        builder.setRsapConnectionPossible(bl4);
+        builder.setAppleLinkConnectionPossible(this.isCarplayPossible);
+        builder.setGoogleLinkConnectionPossible(this.isAndroidAutoPossible);
+        builder.setMobileConnectionType(n);
+        FsgSetup fsgSetup = builder.build();
         if (combiBAPServicePhone != null) {
             if (!fsgSetup.equals(this.fsgSetup)) {
-                this.log.log(1078071040, "[BAPPropertyTelFSGSetup#update] %1", (Object)fsgSetup);
+                this.log.log(1000000, "[BAPPropertyTelFSGSetup#update] %1", (Object)fsgSetup);
                 combiBAPServicePhone.updateFsgSetup(fsgSetup);
                 this.fsgSetup = fsgSetup;
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTelFSGSetup#update] combi service is null! --> NOP!");
+            this.log.log(100000, "[BAPPropertyTelFSGSetup#update] combi service is null! --> NOP!");
         }
     }
 
@@ -225,42 +219,29 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         }
     }
 
-    static /* synthetic */ LogChannel access$100(BAPPropertyTelFSGSetup bAPPropertyTelFSGSetup) {
-        return bAPPropertyTelFSGSetup.log;
-    }
+    private class BAPTerminalModeUpdateListener
+    extends DefaultTerminalModeUpdateListener {
+        private BAPTerminalModeUpdateListener() {
+        }
 
-    static /* synthetic */ boolean access$200(BAPPropertyTelFSGSetup bAPPropertyTelFSGSetup) {
-        return bAPPropertyTelFSGSetup.isCarplayActive;
-    }
-
-    static /* synthetic */ boolean access$300(BAPPropertyTelFSGSetup bAPPropertyTelFSGSetup) {
-        return bAPPropertyTelFSGSetup.isAndroidAutoActive;
-    }
-
-    static /* synthetic */ boolean access$202(BAPPropertyTelFSGSetup bAPPropertyTelFSGSetup, boolean bl) {
-        bAPPropertyTelFSGSetup.isCarplayActive = bl;
-        return bAPPropertyTelFSGSetup.isCarplayActive;
-    }
-
-    static /* synthetic */ boolean access$302(BAPPropertyTelFSGSetup bAPPropertyTelFSGSetup, boolean bl) {
-        bAPPropertyTelFSGSetup.isAndroidAutoActive = bl;
-        return bAPPropertyTelFSGSetup.isAndroidAutoActive;
-    }
-
-    static /* synthetic */ LogChannel access$400(BAPPropertyTelFSGSetup bAPPropertyTelFSGSetup) {
-        return bAPPropertyTelFSGSetup.log;
-    }
-
-    static /* synthetic */ void access$500(BAPPropertyTelFSGSetup bAPPropertyTelFSGSetup) {
-        bAPPropertyTelFSGSetup.enqueueUpdate();
-    }
-
-    static /* synthetic */ LogChannel access$600(BAPPropertyTelFSGSetup bAPPropertyTelFSGSetup) {
-        return bAPPropertyTelFSGSetup.log;
-    }
-
-    static /* synthetic */ void access$700(BAPPropertyTelFSGSetup bAPPropertyTelFSGSetup) {
-        bAPPropertyTelFSGSetup.enqueueUpdate();
+        public void updateActiveDeviceState(TerminalModeDevice terminalModeDevice) {
+            if (terminalModeDevice == null) {
+                BAPPropertyTelFSGSetup.this.log.log(10000, "BAPTerminalModeUpdateListener#updateActiveDeviceState pActiveDevice is null");
+                return;
+            }
+            boolean bl = BAPPropertyTelFSGSetup.this.isCarplayActive;
+            boolean bl2 = BAPPropertyTelFSGSetup.this.isAndroidAutoActive;
+            BAPPropertyTelFSGSetup.this.isCarplayActive = terminalModeDevice.isActive() && terminalModeDevice.getConnectionMethod() == 1;
+            BAPPropertyTelFSGSetup.this.isAndroidAutoActive = terminalModeDevice.isActive() && terminalModeDevice.getConnectionMethod() == 2;
+            if (bl != BAPPropertyTelFSGSetup.this.isCarplayActive) {
+                BAPPropertyTelFSGSetup.this.log.log(10000000, "[BAPTerminalModeUpdateListener#updateActiveDeviceState] changed. sending update to combi. isCarplayActive=%1", BAPPropertyTelFSGSetup.this.isCarplayActive);
+                BAPPropertyTelFSGSetup.this.enqueueUpdate();
+            }
+            if (bl2 != BAPPropertyTelFSGSetup.this.isAndroidAutoActive) {
+                BAPPropertyTelFSGSetup.this.log.log(10000000, "[BAPTerminalModeUpdateListener#updateActiveDeviceState] changed. sending update to combi. isAndroidAutoActive=%1", BAPPropertyTelFSGSetup.this.isAndroidAutoActive);
+                BAPPropertyTelFSGSetup.this.enqueueUpdate();
+            }
+        }
     }
 }
 

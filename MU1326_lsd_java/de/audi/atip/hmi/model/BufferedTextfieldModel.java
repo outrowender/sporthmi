@@ -24,22 +24,18 @@ TextfieldModelGUI {
         super(new TextfieldModel(n, n2), new TextfieldModel(n, n2));
     }
 
-    @Override
     public void setButtonListener(ButtonListener buttonListener) {
         this.textfieldModel.setButtonListener(buttonListener);
     }
 
-    @Override
     public void setPressed(boolean bl) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public boolean getPressed() {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public void setText1(String string) {
         this.getCurrent().setText1(string);
         if (this.isTransactionRunning()) {
@@ -47,12 +43,10 @@ TextfieldModelGUI {
         }
     }
 
-    @Override
     public String getText1() {
         return this.textfieldModel.getText1();
     }
 
-    @Override
     public void setText2(String string) {
         this.getCurrent().setText2(string);
         if (this.isTransactionRunning()) {
@@ -60,12 +54,10 @@ TextfieldModelGUI {
         }
     }
 
-    @Override
     public String getText2() {
         return this.textfieldModel.getText2();
     }
 
-    @Override
     public void setTexts(String string, String string2) {
         this.getCurrent().setTexts(string, string2);
         if (this.isTransactionRunning()) {
@@ -73,43 +65,35 @@ TextfieldModelGUI {
         }
     }
 
-    @Override
     public void beginTransaction() {
         this.textsChanged = 0;
         super.beginTransaction();
     }
 
-    @Override
     public void endTransaction() {
         super.endTransaction();
         this.textfieldModel.fireModelUpdateEvent(1, this.textsChanged);
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
         this.textfieldModel.keyPressed(n, n2);
     }
 
-    @Override
     public void keyReleased(int n, int n2) {
         this.textfieldModel.keyReleased(n, n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2) {
         this.textfieldModel.keyTyped(n, n2);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2) {
     }
 
-    @Override
     public int getBitmapRessourceID() {
         return this.textfieldModel.getBitmapRessourceID();
     }
 
-    @Override
     public void setBitmapResourceID(int n) {
         this.textfieldModel.setBitmapResourceID(n);
     }

@@ -8,12 +8,6 @@ import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceProvider;
 import de.audi.app.phone.core.audio.ITelAudioCmdListener;
 import de.audi.app.phone.core.audio.TelAudioCmdDefaultListener;
-import de.audi.app.phone.core.audio.TelHMIAudioServiceCmdListener$1;
-import de.audi.app.phone.core.audio.TelHMIAudioServiceCmdListener$2;
-import de.audi.app.phone.core.audio.TelHMIAudioServiceCmdListener$3;
-import de.audi.app.phone.core.audio.TelHMIAudioServiceCmdListener$4;
-import de.audi.app.phone.core.audio.TelHMIAudioServiceCmdListener$5;
-import de.audi.app.phone.core.audio.TelHMIAudioServiceCmdListener$6;
 import de.audi.atip.audio.HMIAudioService;
 import de.audi.atip.audio.HMIAudioServiceListener;
 import de.audi.atip.log.LogChannel;
@@ -39,7 +33,6 @@ HMIAudioServiceListener {
         this.cmdListManager = commandListManager;
     }
 
-    @Override
     public void init() {
         Hashtable hashtable = new Hashtable();
         hashtable.put("AUDIO_CLIENT_ID", HMIAudioService.CLIENT_PHONE);
@@ -47,70 +40,130 @@ HMIAudioServiceListener {
         this.hmiAudioServiceListener.startService();
     }
 
-    @Override
     public void deinit() {
         if (this.hmiAudioServiceListener != null) {
             this.hmiAudioServiceListener.stopService();
         }
     }
 
-    @Override
-    public void updateAMAvailable(boolean bl) {
-        this.log.log(-2137614336, "[TelHMIAudioServiceCmdListener#updateAMAvailable] available=%1", bl);
-        CommandResponse.execute(this, new TelHMIAudioServiceCmdListener$1(this, bl));
+    public void updateAMAvailable(final boolean bl) {
+        this.log.log(10000000, "[TelHMIAudioServiceCmdListener#updateAMAvailable] available=%1", bl);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ITelAudioCmdListener iTelAudioCmdListener = TelHMIAudioServiceCmdListener.this.defaultListener;
+                try {
+                    iTelAudioCmdListener = (ITelAudioCmdListener)dSIListener;
+                }
+                catch (ClassCastException classCastException) {
+                    TelHMIAudioServiceCmdListener.this.log.log(10000, "[TelHMIAudioServiceCmdListener#updateAMAvailable] %1", (Throwable)classCastException);
+                }
+                iTelAudioCmdListener.updateAMAvailable(bl);
+            }
+        });
     }
 
-    @Override
-    public void stopConnection(int n, int n2) {
-        this.log.log(-2137614336, "[TelHMIAudioServiceCmdListener#stopConnection] connection=%1, hmiTerminal=%2", (long)n, (long)n2);
-        CommandResponse.execute(this, new TelHMIAudioServiceCmdListener$2(this, n, n2));
+    public void stopConnection(final int n, final int n2) {
+        this.log.log(10000000, "[TelHMIAudioServiceCmdListener#stopConnection] connection=%1, hmiTerminal=%2", (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ITelAudioCmdListener iTelAudioCmdListener = TelHMIAudioServiceCmdListener.this.defaultListener;
+                try {
+                    iTelAudioCmdListener = (ITelAudioCmdListener)dSIListener;
+                }
+                catch (ClassCastException classCastException) {
+                    TelHMIAudioServiceCmdListener.this.log.log(10000, "[TelHMIAudioServiceCmdListener#stopConnection] %1", (Throwable)classCastException);
+                }
+                iTelAudioCmdListener.stopConnection(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void pauseConnection(int n, int n2) {
-        this.log.log(-2137614336, "[TelHMIAudioServiceCmdListener#pauseConnection] connection=%1, hmiTerminal=%2", (long)n, (long)n2);
-        CommandResponse.execute(this, new TelHMIAudioServiceCmdListener$3(this, n, n2));
+    public void pauseConnection(final int n, final int n2) {
+        this.log.log(10000000, "[TelHMIAudioServiceCmdListener#pauseConnection] connection=%1, hmiTerminal=%2", (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ITelAudioCmdListener iTelAudioCmdListener = TelHMIAudioServiceCmdListener.this.defaultListener;
+                try {
+                    iTelAudioCmdListener = (ITelAudioCmdListener)dSIListener;
+                }
+                catch (ClassCastException classCastException) {
+                    TelHMIAudioServiceCmdListener.this.log.log(10000, "[TelHMIAudioServiceCmdListener#pauseConnection] %1", (Throwable)classCastException);
+                }
+                iTelAudioCmdListener.pauseConnection(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void startConnection(int n, int n2) {
-        this.log.log(-2137614336, "[TelHMIAudioServiceCmdListener#startConnection] connection=%1, hmiTerminal=%2", (long)n, (long)n2);
-        CommandResponse.execute(this, new TelHMIAudioServiceCmdListener$4(this, n, n2));
+    public void startConnection(final int n, final int n2) {
+        this.log.log(10000000, "[TelHMIAudioServiceCmdListener#startConnection] connection=%1, hmiTerminal=%2", (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ITelAudioCmdListener iTelAudioCmdListener = TelHMIAudioServiceCmdListener.this.defaultListener;
+                try {
+                    iTelAudioCmdListener = (ITelAudioCmdListener)dSIListener;
+                }
+                catch (ClassCastException classCastException) {
+                    TelHMIAudioServiceCmdListener.this.log.log(10000, "[TelHMIAudioServiceCmdListener#startConnection] %1", (Throwable)classCastException);
+                }
+                iTelAudioCmdListener.startConnection(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void errorConnection(int n, int n2, int n3) {
-        this.log.log(-2137614336, "[TelHMIAudioServiceCmdListener#errorConnection] connection=%1, hmiTerminal=%2, errorCode=%3", (long)n, (long)n2, (long)n3);
-        CommandResponse.execute(this, new TelHMIAudioServiceCmdListener$5(this, n, n2, n3));
+    public void errorConnection(final int n, final int n2, final int n3) {
+        this.log.log(10000000, "[TelHMIAudioServiceCmdListener#errorConnection] connection=%1, hmiTerminal=%2, errorCode=%3", (long)n, (long)n2, (long)n3);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ITelAudioCmdListener iTelAudioCmdListener = TelHMIAudioServiceCmdListener.this.defaultListener;
+                try {
+                    iTelAudioCmdListener = (ITelAudioCmdListener)dSIListener;
+                }
+                catch (ClassCastException classCastException) {
+                    TelHMIAudioServiceCmdListener.this.log.log(10000, "[TelHMIAudioServiceCmdListener#errorConnection] %1", (Throwable)classCastException);
+                }
+                iTelAudioCmdListener.errorConnection(n, n2, n3);
+            }
+        });
     }
 
-    @Override
-    public void fadedIn(int n, int n2) {
-        this.log.log(-2137614336, "[TelHMIAudioServiceCmdListener#fadedIn] connection=%1, hmiTerminal=%2", (long)n, (long)n2);
-        CommandResponse.execute(this, new TelHMIAudioServiceCmdListener$6(this, n, n2));
+    public void fadedIn(final int n, final int n2) {
+        this.log.log(10000000, "[TelHMIAudioServiceCmdListener#fadedIn] connection=%1, hmiTerminal=%2", (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ITelAudioCmdListener iTelAudioCmdListener = TelHMIAudioServiceCmdListener.this.defaultListener;
+                try {
+                    iTelAudioCmdListener = (ITelAudioCmdListener)dSIListener;
+                }
+                catch (ClassCastException classCastException) {
+                    TelHMIAudioServiceCmdListener.this.log.log(10000, "[TelHMIAudioServiceCmdListener#fadedIn] %1", (Throwable)classCastException);
+                }
+                iTelAudioCmdListener.fadedIn(n, n2);
+            }
+        });
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.defaultListener;
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.cmdListManager.getActiveCommandList();
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.log;
     }
 
-    @Override
     public String getHandlerName() {
         return "TelHMIAudioServiceCmdListener";
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
     }
 
@@ -121,34 +174,6 @@ HMIAudioServiceListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ ITelAudioCmdListener access$000(TelHMIAudioServiceCmdListener telHMIAudioServiceCmdListener) {
-        return telHMIAudioServiceCmdListener.defaultListener;
-    }
-
-    static /* synthetic */ LogChannel access$100(TelHMIAudioServiceCmdListener telHMIAudioServiceCmdListener) {
-        return telHMIAudioServiceCmdListener.log;
-    }
-
-    static /* synthetic */ LogChannel access$200(TelHMIAudioServiceCmdListener telHMIAudioServiceCmdListener) {
-        return telHMIAudioServiceCmdListener.log;
-    }
-
-    static /* synthetic */ LogChannel access$300(TelHMIAudioServiceCmdListener telHMIAudioServiceCmdListener) {
-        return telHMIAudioServiceCmdListener.log;
-    }
-
-    static /* synthetic */ LogChannel access$400(TelHMIAudioServiceCmdListener telHMIAudioServiceCmdListener) {
-        return telHMIAudioServiceCmdListener.log;
-    }
-
-    static /* synthetic */ LogChannel access$500(TelHMIAudioServiceCmdListener telHMIAudioServiceCmdListener) {
-        return telHMIAudioServiceCmdListener.log;
-    }
-
-    static /* synthetic */ LogChannel access$600(TelHMIAudioServiceCmdListener telHMIAudioServiceCmdListener) {
-        return telHMIAudioServiceCmdListener.log;
     }
 }
 

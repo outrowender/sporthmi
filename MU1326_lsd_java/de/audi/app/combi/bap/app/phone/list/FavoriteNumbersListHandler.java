@@ -14,14 +14,12 @@ extends AbstractManagedListHandler {
         super(combiModulePhone, "FavoriteNumbersListHandler");
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
         super.getNextListPosForConsecutiveIds(n, n2);
     }
 
-    @Override
     public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "[FavoriteNumbersListHandler#getNextListPosResult]");
+        this.logChannel.log(10000000, "[FavoriteNumbersListHandler#getNextListPosResult]");
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(54);
         GetNextListPos_Result getNextListPos_Result = new GetNextListPos_Result();
         getNextListPos_Result.getNextListPos_Result = bl ? 0 : 1;

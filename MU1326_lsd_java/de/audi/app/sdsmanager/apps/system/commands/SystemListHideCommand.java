@@ -25,13 +25,12 @@ extends AbstractSystemCallCommand {
         this.listMode = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
         int n = this.popupHelper.getHelpScreenPopupMapping(this.listMode);
-        this.logger.log(-2137614336, "%1#execute: popupMappingID=%1", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: popupMappingID=%1", (Object)this.getName(), (long)n);
         if (n == -1) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled listMode %2!", (Object)this.getName(), (long)this.listMode);
+            this.logger.log(100000, "%1#execute: Unhandled listMode %2!", (Object)this.getName(), (long)this.listMode);
             this.processingFinished();
             return;
         }

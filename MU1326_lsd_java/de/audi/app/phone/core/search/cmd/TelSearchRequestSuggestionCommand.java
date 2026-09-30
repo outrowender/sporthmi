@@ -22,19 +22,18 @@ extends AbstractTelSearchCmd {
         this.query = searchQuery;
     }
 
-    @Override
     public void execute() {
         if (this.dsiSearch != null) {
-            this.logger.log(1078071040, "[TelSearchRequestSuggestionCommand#execute] query=%1", (Object)this.query);
+            this.logger.log(1000000, "[TelSearchRequestSuggestionCommand#execute] query=%1", (Object)this.query);
             this.dsiSearch.requestSuggestion(this.query);
         } else {
-            this.logger.log(-1601830656, "[TelSearchRequestSuggestionCommand#execute] DSISearch is null --> NOP!");
+            this.logger.log(100000, "[TelSearchRequestSuggestionCommand#execute] DSISearch is null --> NOP!");
             this.getCommandList().commandFinished();
         }
     }
 
     public void requestSuggestionResult(int n, Suggestion[] suggestionArray) {
-        this.logger.log(1078071040, "[TelSearchRequestSuggestionCommand#requestSuggestionResult] success=%2, suggestions=%1", (Object)Converter.array2String(suggestionArray), (long)n);
+        this.logger.log(1000000, "[TelSearchRequestSuggestionCommand#requestSuggestionResult] success=%2, suggestions=%1", (Object)Converter.array2String(suggestionArray), (long)n);
         this.listener.updateSuggestion(suggestionArray);
         this.getCommandList().commandFinished();
     }

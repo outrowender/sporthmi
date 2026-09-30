@@ -19,18 +19,18 @@ import org.dsi.ifc.navigation.LIValueListElement;
 public class PoiStackListRow
 extends LiValueListRow
 implements IStackDetailsRowBuilder {
-    private static final int COLUMN_ICON;
-    public static final int COLUMN_TEXT;
-    private static final int COLUMN_LAYOUT;
-    private static final int COLUMN_PROPERTIES;
-    private static final int COLUMN_COUNT;
+    private static final int COLUMN_ICON = 0;
+    public static final int COLUMN_TEXT = 1;
+    private static final int COLUMN_LAYOUT = 2;
+    private static final int COLUMN_PROPERTIES = 3;
+    private static final int COLUMN_COUNT = 4;
 
     public PoiStackListRow(IconHandler iconHandler, LIValueListElement lIValueListElement, int n) {
         super(n, 4, lIValueListElement);
         int n2 = iconHandler.resolvePOIIconResourceID(lIValueListElement.getIconIndex(), lIValueListElement.getSubIconIndex());
         IconCell iconCell = new IconCell(new HMIResourceLocator(n2));
         this.setIconCell(0, iconCell);
-        PropertyListCell propertyListCell = PropertyListCell.create(1308021667, new int[0]);
+        PropertyListCell propertyListCell = PropertyListCell.create(-1546389939, new int[0]);
         this.setPropertyCell(3, propertyListCell);
         Buffer buffer = new Buffer(lIValueListElement.data);
         if (Util.isHURegionNAR() && PoiUtil.isPoi24h(lIValueListElement)) {
@@ -44,7 +44,6 @@ implements IStackDetailsRowBuilder {
         super(poiStackListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new PoiStackListRow(this);
     }

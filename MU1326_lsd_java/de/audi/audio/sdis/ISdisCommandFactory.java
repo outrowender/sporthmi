@@ -9,79 +9,54 @@ import de.esolutions.fw.comm.asi.hmisync.audio.VolumeLockState;
 import org.dsi.ifc.media.AudioRoute;
 
 public interface ISdisCommandFactory {
-    default public Command cmdAudioRouteA2LS() {
-    }
+    public Command cmdAudioRouteA2LS();
 
-    default public Command cmdAudioRouteMedia(AudioRoute audioRoute) {
-    }
+    public Command cmdAudioRouteMedia(AudioRoute var1);
 
-    default public Command cmdStartStreaming() {
-    }
+    public Command cmdStartStreaming();
 
-    default public Command cmdStopStreaming(boolean bl) {
-    }
+    public Command cmdStopStreaming(boolean var1);
 
-    default public Command cmdRequestConf(int n) {
-    }
+    public Command cmdRequestConf(int var1);
 
-    default public Command cmdRequestConf(int n, int n2) {
-    }
+    public Command cmdRequestConf(int var1, int var2);
 
-    default public Command cmdAudioFocus(int n) {
-    }
+    public Command cmdAudioFocus(int var1);
 
-    default public Command cmdFrontAudioFocus(int n) {
-    }
+    public Command cmdFrontAudioFocus(int var1);
 
-    default public Command cmdWaitUntilRadioAudible() {
-    }
+    public Command cmdWaitUntilRadioAudible();
 
-    default public Command cmdWaitUntilTVAudible() {
-    }
+    public Command cmdWaitUntilTVAudible();
 
-    default public Command cmdWaitUntilA2LSAudible() {
-    }
+    public Command cmdWaitUntilA2LSAudible();
 
-    default public Command cmdRegister() {
-    }
+    public Command cmdRegister();
 
-    default public Command cmdUnregister() {
-    }
+    public Command cmdUnregister();
 
-    default public Command cmdSleep() {
-    }
+    public Command cmdSleep();
 
-    default public Command cmdSleep(int n) {
-    }
+    public Command cmdSleep(int var1);
 
-    default public Command cmdResponseEnableA2LS(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public Command cmdResponseEnableA2LS(ASIHMISyncAudioReply var1);
 
-    default public Command cmdRequestA2LS() {
-    }
+    public Command cmdRequestA2LS();
 
-    default public Command cmdReleaseA2LS() {
-    }
+    public Command cmdReleaseA2LS();
 
-    default public Command cmdSendA2LSReady(int n) {
-    }
+    public Command cmdSendA2LSReady(int var1);
 
-    default public Command cmdSendReady(int n) {
-    }
+    public Command cmdSendReady(int var1);
 
-    default public Command cmdSendInChange(int n) {
-    }
+    public Command cmdSendInChange(int var1);
 
-    default public Command cmdReleaseSdisAudioConnections() {
-    }
+    public Command cmdReleaseSdisAudioConnections();
 
-    default public Command cmdSendLockState(VolumeLockState volumeLockState) {
-    }
+    public Command cmdSendLockState(VolumeLockState var1);
 
-    default public Command cmdFrontLastMode(int n) {
-    }
+    public Command cmdFrontLastMode(int var1);
 
-    default public Command cmdDemute() {
-    }
+    public Command cmdDemute();
 }
 

@@ -21,9 +21,8 @@ extends AbstractSystemCallCommand {
         this.number = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] called, number=%2", (Object)this.getName(), (long)this.number);
+        this.logger.log(10000000, "[%1#execute] called, number=%2", (Object)this.getName(), (long)this.number);
         for (int i2 = 1; i2 <= this.number; ++i2) {
             this.nBestStorage.retrieveLatestNBestListHistory(true);
         }

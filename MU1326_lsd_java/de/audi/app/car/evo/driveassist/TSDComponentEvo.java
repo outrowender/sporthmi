@@ -13,25 +13,21 @@ extends AbstractTSDComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(TSDViewOptions tSDViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1389885184, this.getMenuEntryVisibilityState(tSDViewOptions.getRoadSignFilter()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(807930112, this.getMenuEntryVisibilityState(tSDViewOptions.getTrailerSpeedLimit()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600237, this.getMenuEntryVisibilityState(tSDViewOptions.getRoadSignFilter()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600112, this.getMenuEntryVisibilityState(tSDViewOptions.getTrailerSpeedLimit()));
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1389885184, (short)30);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(807930112, (short)30);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600237, (short)30);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600112, (short)30);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1389885184);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(807930112);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600237);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600112);
     }
 
-    @Override
     public int getID() {
         return 19;
     }

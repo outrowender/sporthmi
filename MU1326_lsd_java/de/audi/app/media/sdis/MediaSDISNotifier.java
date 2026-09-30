@@ -28,7 +28,7 @@ import org.dsi.ifc.media.Capabilities;
 
 public class MediaSDISNotifier
 implements IMediaSDISNotifier {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaSDISNotifier";
     private final LogChannel logger;
     private volatile ASIHMISyncMediaAbstractBaseService asiProvider;
     private volatile MediaActiveSourceState activeSourceState;
@@ -40,23 +40,22 @@ implements IMediaSDISNotifier {
     }
 
     public void init(ASIHMISyncMediaAbstractBaseService aSIHMISyncMediaAbstractBaseService) {
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaSDISNotifier");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.asiProvider = aSIHMISyncMediaAbstractBaseService;
         try {
             this.asiProvider.updateASIVersion("4.8.2");
         }
         catch (MethodException methodException) {
-            this.logger.log(1078071040, "[%1.init]", (Object)"MediaSDISNotifier", (Throwable)methodException);
+            this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaSDISNotifier");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updateSourceList(Map map) {
-        this.logger.log(1078071040, "[%1.updateSourceList]", (Object)"MediaSDISNotifier");
+        this.logger.log(1000000, "[%1.updateSourceList]", (Object)LOGCLASS);
         Set set = map.keySet();
         ArrayList arrayList = new ArrayList();
         int n = 0;
@@ -70,7 +69,7 @@ implements IMediaSDISNotifier {
                 if (mediaSourceSlot.getSource() == 0) continue;
                 arrayList.add(mediaSourceSlot);
                 if (this.logger.isInfo()) {
-                    this.logger.log(1078071040, "[%1.updateSourceList] [%2] %3", (Object)"MediaSDISNotifier", (Object)Integer.toString(n), (Object)mediaSourceSlot);
+                    this.logger.log(1000000, "[%1.updateSourceList] [%2] %3", (Object)LOGCLASS, (Object)Integer.toString(n), (Object)mediaSourceSlot);
                 }
                 ++n;
             }
@@ -83,10 +82,9 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updateActiveSourceState(ActiveSourceState activeSourceState) {
         try {
-            this.logger.log(1078071040, "[%1.updateActiveSourceState] pState: '%2'.", (Object)"MediaSDISNotifier", (Object)activeSourceState);
+            this.logger.log(1000000, "[%1.updateActiveSourceState] pState: '%2'.", (Object)LOGCLASS, (Object)activeSourceState);
             MediaActiveSourceState mediaActiveSourceState = new MediaActiveSourceState();
             mediaActiveSourceState.setSlot(this.getSDISSlotFromSlot(activeSourceState.getSlot()));
             switch (activeSourceState.getState()) {
@@ -107,7 +105,7 @@ implements IMediaSDISNotifier {
                 }
             }
             this.activeSourceState = mediaActiveSourceState;
-            this.logger.log(1078071040, "[%1.updateActiveSourceState] sourceState: '%2'.", (Object)"MediaSDISNotifier", (Object)mediaActiveSourceState);
+            this.logger.log(1000000, "[%1.updateActiveSourceState] sourceState: '%2'.", (Object)LOGCLASS, (Object)mediaActiveSourceState);
             this.asiProvider.updateActiveSlotState(mediaActiveSourceState);
         }
         catch (Exception exception) {
@@ -115,9 +113,8 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updateMix(boolean bl) {
-        this.logger.log(1078071040, "[%1.updateMix]", (Object)"MediaSDISNotifier");
+        this.logger.log(1000000, "[%1.updateMix]", (Object)LOGCLASS);
         try {
             this.asiProvider.updateMix(bl);
         }
@@ -126,9 +123,8 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updateRepeatTitle(boolean bl) {
-        this.logger.log(1078071040, "[%1.updateRepeatTitle]", (Object)"MediaSDISNotifier");
+        this.logger.log(1000000, "[%1.updateRepeatTitle]", (Object)LOGCLASS);
         try {
             this.asiProvider.updateRepeatTitle(bl);
         }
@@ -137,10 +133,9 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updateRepeatMode(int n) {
         int n2;
-        this.logger.log(1078071040, "[%1.updateRepeatMode] mode=%2", (Object)"MediaSDISNotifier", (long)n);
+        this.logger.log(1000000, "[%1.updateRepeatMode] mode=%2", (Object)LOGCLASS, (long)n);
         switch (n) {
             case 0: {
                 n2 = 0;
@@ -155,12 +150,12 @@ implements IMediaSDISNotifier {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "[%1.updateRepeatMode] Unknown repeat mode! (Default: OFF)", (Object)"MediaSDISNotifier");
+                this.logger.log(100000, "[%1.updateRepeatMode] Unknown repeat mode! (Default: OFF)", (Object)LOGCLASS);
                 n2 = 0;
             }
         }
         try {
-            this.logger.log(1078071040, "[%1.updateASIRepeatMode: %2]", (Object)"MediaSDISNotifier", (long)n2);
+            this.logger.log(1000000, "[%1.updateASIRepeatMode: %2]", (Object)LOGCLASS, (long)n2);
             this.asiProvider.updateRepeatState(n);
         }
         catch (Exception exception) {
@@ -168,10 +163,9 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updatePlaybackState(int n) {
         int n2;
-        this.logger.log(1078071040, "[%1.updatePlaybackState]", (Object)"MediaSDISNotifier");
+        this.logger.log(1000000, "[%1.updatePlaybackState]", (Object)LOGCLASS);
         switch (n) {
             case 2: {
                 n2 = 1;
@@ -202,7 +196,7 @@ implements IMediaSDISNotifier {
             }
         }
         try {
-            this.logger.log(1078071040, "[%1.updateASIPlaybackState: %2]", (Object)"MediaSDISNotifier", (long)n2);
+            this.logger.log(1000000, "[%1.updateASIPlaybackState: %2]", (Object)LOGCLASS, (long)n2);
             this.asiProvider.updatePlaybackState((byte)n2);
         }
         catch (Exception exception) {
@@ -210,9 +204,8 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updatePlayingPosition(PlayingTrack playingTrack, PlayTime playTime) {
-        this.logger.log(-2137614336, "[%1.updatePlayingPosition] %2, %3", (Object)"MediaSDISNotifier", (Object)playingTrack, (Object)playTime);
+        this.logger.log(10000000, "[%1.updatePlayingPosition] %2, %3", (Object)LOGCLASS, (Object)playingTrack, (Object)playTime);
         MediaPlayTime mediaPlayTime = new MediaPlayTime();
         if (playingTrack != null && playTime != null) {
             mediaPlayTime.setId(playingTrack.getEntryID());
@@ -231,17 +224,16 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updatePlayerCapabilities(Capabilities capabilities) {
         int n = 0;
         if (capabilities.browseWhilePlay) {
             n |= 4;
         }
         if (capabilities.detailInfos) {
-            n |= 0x100;
+            n |= 0x10000;
         }
         if (capabilities.extendedPlayView) {
-            n |= 0x1000;
+            n |= 0x100000;
         }
         if (capabilities.fastBwd) {
             n |= 0x10;
@@ -256,16 +248,16 @@ implements IMediaSDISNotifier {
             n |= 0x200;
         }
         if (capabilities.playbackModes) {
-            n |= 0x800000;
+            n |= 0x8000;
         }
         if (capabilities.playSimilarEntries) {
-            n |= 0x400;
+            n |= 0x40000;
         }
         if (capabilities.playTime) {
-            n |= 0x2000;
+            n |= 0x200000;
         }
         if (capabilities.playView) {
-            n |= 0x200;
+            n |= 0x20000;
         }
         if (capabilities.resume) {
             n |= 0x400;
@@ -298,10 +290,10 @@ implements IMediaSDISNotifier {
             n |= 0x1000;
         }
         if (capabilities.totalPlaytime) {
-            n |= 0x800;
+            n |= 0x80000;
         }
         if (capabilities.playbackModeToggle) {
-            n |= 0x4000;
+            n |= 0x400000;
         }
         try {
             this.asiProvider.updatePlayerCapabilities(n);
@@ -311,9 +303,8 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updatePlayingTrack(MediaDetailInfo mediaDetailInfo, String string) {
-        this.logger.log(1078071040, "[%1.updatePlayingTrack] pDetailInfo:'%2', pCoverURL:'%3'.", (Object)"MediaSDISNotifier", (Object)mediaDetailInfo, (Object)string);
+        this.logger.log(1000000, "[%1.updatePlayingTrack] pDetailInfo:'%2', pCoverURL:'%3'.", (Object)LOGCLASS, (Object)mediaDetailInfo, (Object)string);
         MediaEntry mediaEntry = new MediaEntry();
         if (mediaDetailInfo != null) {
             mediaEntry.id = mediaDetailInfo.getEntryID();
@@ -338,7 +329,7 @@ implements IMediaSDISNotifier {
             mediaEntry.coverUrl = "";
         }
         try {
-            this.logger.log(1078071040, "[%1.updatePlayingTrack] ASI entry:'%2'.", (Object)"MediaSDISNotifier", (Object)mediaEntry);
+            this.logger.log(1000000, "[%1.updatePlayingTrack] ASI entry:'%2'.", (Object)LOGCLASS, (Object)mediaEntry);
             this.asiProvider.updatePlayingTrack(mediaEntry);
         }
         catch (Exception exception) {
@@ -346,9 +337,8 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updatePlayListState(boolean bl, long l, int n, int n2) {
-        this.logger.log(1078071040, "[%1.updatePlayListState]", (Object)"MediaSDISNotifier");
+        this.logger.log(1000000, "[%1.updatePlayListState]", (Object)LOGCLASS);
         MediaPlaylistState mediaPlaylistState = new MediaPlaylistState();
         mediaPlaylistState.flags = 256;
         if ((n2 & 4) == 4) {
@@ -363,7 +353,7 @@ implements IMediaSDISNotifier {
         mediaPlaylistState.id = l;
         mediaPlaylistState.size = n;
         try {
-            this.logger.log(1078071040, "[%1.updatePlayListState] state: '%2'.", (Object)"MediaSDISNotifier", (Object)mediaPlaylistState);
+            this.logger.log(1000000, "[%1.updatePlayListState] state: '%2'.", (Object)LOGCLASS, (Object)mediaPlaylistState);
             this.asiProvider.updateListState(mediaPlaylistState);
         }
         catch (Exception exception) {
@@ -371,15 +361,14 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updatePlayListInvalidState() {
-        this.logger.log(1078071040, "[%1.updatePlayListInvalidState]", (Object)"MediaSDISNotifier");
+        this.logger.log(1000000, "[%1.updatePlayListInvalidState]", (Object)LOGCLASS);
         MediaPlaylistState mediaPlaylistState = new MediaPlaylistState();
         mediaPlaylistState.flags = 258;
         mediaPlaylistState.id = 0L;
         mediaPlaylistState.size = 0;
         try {
-            this.logger.log(1078071040, "[%1.updatePlayListInvalidState] state: '%2'.", (Object)"MediaSDISNotifier", (Object)mediaPlaylistState);
+            this.logger.log(1000000, "[%1.updatePlayListInvalidState] state: '%2'.", (Object)LOGCLASS, (Object)mediaPlaylistState);
             this.asiProvider.updateListState(mediaPlaylistState);
         }
         catch (Exception exception) {
@@ -387,10 +376,9 @@ implements IMediaSDISNotifier {
         }
     }
 
-    @Override
     public void updatePlaybackPossible(boolean bl) {
         try {
-            this.logger.log(1078071040, "[%1.updatePlaybackPossible] possible: '%2'.", (Object)"MediaSDISNotifier", (Object)(bl ? "TRUE" : "FALSE"));
+            this.logger.log(1000000, "[%1.updatePlaybackPossible] possible: '%2'.", (Object)LOGCLASS, (Object)(bl ? "TRUE" : "FALSE"));
             this.asiProvider.updatePlaybackPossible(bl ? 0 : -1);
         }
         catch (Exception exception) {
@@ -436,7 +424,7 @@ implements IMediaSDISNotifier {
             }
             case 3: {
                 if (iSourceSlot.getMediaType() == 24 && !this.iPodIsSupportedOnSDIS) {
-                    this.logger.log(1078071040, "[%1.getSDISStateOfSlot] iPod is not supported on SDIS. (idx='%2'). Set SDIS state: 'SOURCE_STATE_NOT_SUPPORTED'.", (Object)"MediaSDISNotifier", (long)iSourceSlot.getIndex());
+                    this.logger.log(1000000, "[%1.getSDISStateOfSlot] iPod is not supported on SDIS. (idx='%2'). Set SDIS state: 'SOURCE_STATE_NOT_SUPPORTED'.", (Object)LOGCLASS, (long)iSourceSlot.getIndex());
                     n = 5;
                     break;
                 }
@@ -552,9 +540,8 @@ implements IMediaSDISNotifier {
         return n;
     }
 
-    @Override
     public void enableTemporalChildLock(boolean bl) {
-        this.logger.log(1078071040, "[%1.enableTemporalChildLock] isEnabled: %2", (Object)"MediaSDISNotifier", (Object)bl);
+        this.logger.log(1000000, "[%1.enableTemporalChildLock] isEnabled: %2", (Object)LOGCLASS, (Object)bl);
         try {
             MediaActiveSourceState mediaActiveSourceState = new MediaActiveSourceState();
             mediaActiveSourceState.setSlot(this.activeSourceState.getSlot());

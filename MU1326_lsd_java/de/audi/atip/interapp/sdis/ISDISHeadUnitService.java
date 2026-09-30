@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.sdis;
 
 public interface ISDISHeadUnitService {
-    default public void resetLanguage() {
-    }
+    public void resetLanguage();
 }
 

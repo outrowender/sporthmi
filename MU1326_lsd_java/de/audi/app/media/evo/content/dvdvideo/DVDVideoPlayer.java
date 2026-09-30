@@ -44,7 +44,7 @@ VirtualButtonListener,
 ISourceSlotListener,
 IActionProxyListener,
 TimerListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DVDVideoPlayer";
     private final DVDVideoPlayerViewList dvdPlayerList;
     private final DVDVideoSettingsAudioStream settingsAudioStream;
     private final DVDVideoSettingsSubtitle settingsSubtitle;
@@ -63,52 +63,49 @@ TimerListener {
         super(iMediaTerminal, iContent, iMediaDSIPlayerController, true);
         this.pmBlockingHandler = new PMBlockingHandler(this, iMediaTerminal.getLogger(), iMediaTerminal.getDSIBaseController());
         this.manualSeekHandler = new ManualSeekHandler(iMediaTerminal, this, false);
-        this.settingsAudioStream = new DVDVideoSettingsAudioStream(iMediaTerminal, iMediaDSIPlayerController, this.getBaseListModel(1360069376), this.getChoiceModel(-217120000), this.getChoiceModel(1628439296), this.getChoiceModel(1645216512), this.getChoiceModel(957350656));
-        this.settingsSubtitle = new DVDVideoSettingsSubtitle(iMediaTerminal, iMediaDSIPlayerController, this.getBaseListModel(1393623808), this.getChoiceModel(1376846592), this.getLabelModel(1343292160));
-        this.settingsVideoFormat = new VideoFormatSettingEvo(iMediaTerminal, iMediaDSIPlayerController, 1259209472, new int[]{0, 1, 2, 3, 4, 5}, 170);
+        this.settingsAudioStream = new DVDVideoSettingsAudioStream(iMediaTerminal, iMediaDSIPlayerController, this.getBaseListModel(201041), this.getChoiceModel(200691), this.getChoiceModel(200801), this.getChoiceModel(200802), this.getChoiceModel(200761));
+        this.settingsSubtitle = new DVDVideoSettingsSubtitle(iMediaTerminal, iMediaDSIPlayerController, this.getBaseListModel(201043), this.getChoiceModel(201042), this.getLabelModel(201040));
+        this.settingsVideoFormat = new VideoFormatSettingEvo(iMediaTerminal, iMediaDSIPlayerController, 200267, new int[]{0, 1, 2, 3, 4, 5}, 170);
         this.dvdPlayerList = new DVDVideoPlayerViewList(iMediaTerminal, this);
         this.blockingMaskHandler = new BlockingMaskHandler(iMediaTerminal);
         this.trackTimeModelGroup = new ModelGroup();
-        this.autoPlayTimer = new Timer("DVDVideoPlayerAutoPlayTimer", 0, false, this);
+        this.autoPlayTimer = new Timer("DVDVideoPlayerAutoPlayTimer", 3000L, false, this);
     }
 
-    @Override
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         super.init();
         this.dvdPlayerList.init();
-        this.getVirtualButtonModelModel(-468778240).setVirtualButtonListener(this);
-        this.getButtonModel(-535887104).setButtonListener(this);
-        this.getVirtualButtonModelModel(-1341127936).setVirtualButtonListener(this);
-        RangeModelApp rangeModelApp = this.getRangeModel(-284228864);
+        this.getVirtualButtonModelModel(200676).setVirtualButtonListener(this);
+        this.getButtonModel(200672).setButtonListener(this);
+        this.getVirtualButtonModelModel(200880).setVirtualButtonListener(this);
+        RangeModelApp rangeModelApp = this.getRangeModel(200687);
         rangeModelApp.setLimits(0, 100, 1);
         rangeModelApp.setValue(0);
-        this.trackTimeModelGroup.add(this.getModel(-301006080));
-        this.trackTimeModelGroup.add(this.getModel(-250674432));
+        this.trackTimeModelGroup.add(this.getModel(200686));
+        this.trackTimeModelGroup.add(this.getModel(200689));
         this.trackTimeModelGroup.add(rangeModelApp);
     }
 
-    @Override
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         super.deinit();
         this.dvdPlayerList.deinit();
-        this.getVirtualButtonModelModel(-468778240).setVirtualButtonListener(null);
-        this.getButtonModel(-535887104).setButtonListener(null);
-        this.getVirtualButtonModelModel(-1341127936).setVirtualButtonListener(null);
+        this.getVirtualButtonModelModel(200676).setVirtualButtonListener(null);
+        this.getButtonModel(200672).setButtonListener(null);
+        this.getVirtualButtonModelModel(200880).setVirtualButtonListener(null);
         this.trackTimeModelGroup.removeAll();
     }
 
-    @Override
     public void resetSettings() {
         this.settingsVideoFormat.resetSetting(this.getActiveSlot() != null);
     }
 
     public void activate(IActivationContext iActivationContext) {
-        this.logger.main().log(1078071040, "[%1.activate]", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
         EmptyPlaybackModeHandler emptyPlaybackModeHandler = new EmptyPlaybackModeHandler(this.getTerminal(), this, true);
         super.activate(iActivationContext, emptyPlaybackModeHandler);
-        this.getChoiceModel(1997538048).setValue(0);
+        this.getChoiceModel(200823).setValue(0);
         this.manualSeekHandler.activate();
         this.getTerminal().addActionProxyListener(new int[]{31, 30}, (IActionProxyListener)this);
         this.addTrackListener(this);
@@ -137,9 +134,8 @@ TimerListener {
         this.getActiveSlot().getSource().addSlotListener(this, true);
     }
 
-    @Override
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate]", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.manualSeekHandler.deactivate();
         this.getTerminal().removeActionProxyListener(this);
         this.settingsVideoFormat.deactivate();
@@ -151,45 +147,43 @@ TimerListener {
         }
         super.deactivate();
         this.clearDetailInfo();
-        this.getChoiceModel(1997538048).setValue(0);
+        this.getChoiceModel(200823).setValue(0);
         this.dvdPlayerList.deactivate();
     }
 
     private void clearDetailInfo() {
-        this.logger.main().log(1078071040, "[%1.clearDetailInfo]", (Object)"DVDVideoPlayer");
-        this.getLabelModel(-368114944).setText("");
-        this.getChoiceModel(-351337728).setValue(0);
+        this.logger.main().log(1000000, "[%1.clearDetailInfo]", (Object)LOGCLASS);
+        this.getLabelModel(200682).setText("");
+        this.getChoiceModel(200683).setValue(0);
     }
 
     public void vehicleMoving(boolean bl) {
-        this.logger.main().log(1078071040, "[%2.vehicleMoving] '%1'.", bl, (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%2.vehicleMoving] '%1'.", bl, (Object)LOGCLASS);
         this.moving = bl;
         this.enableDisplayable(!bl);
         this.checkForAutoPlay();
     }
 
     private void enableDisplayable(boolean bl) {
-        this.logger.hmi().log(1078071040, "[%2.enableDisplayable] '%1'.", bl, (Object)"DVDVideoPlayer");
+        this.logger.hmi().log(1000000, "[%2.enableDisplayable] '%1'.", bl, (Object)LOGCLASS);
         if (bl) {
-            this.getChoiceModel(-670104832).setValue(this.hmiDisplayContext);
+            this.getChoiceModel(200664).setValue(this.hmiDisplayContext);
         } else {
-            this.getChoiceModel(-670104832).setValue(0);
+            this.getChoiceModel(200664).setValue(0);
         }
     }
 
-    @Override
     public void touchEvent(int n, int n2, int n3) {
         if (this.logger.main().isInfo()) {
             Buffer buffer = new Buffer();
             buffer.append("'").append(n).append("','(").append(n2).append(",").append(n3).append("'");
-            this.logger.main().log(1078071040, "[%1.touchEvent] %2", (Object)"DVDVideoPlayer", (Object)buffer);
+            this.logger.main().log(1000000, "[%1.touchEvent] %2", (Object)LOGCLASS, (Object)buffer);
         }
         this.getDSIPlayer().touchEvent(n == 0 ? 0 : 1, n2, n3);
     }
 
-    @Override
     public void executeMenuCommand(int n) {
-        this.logger.main().log(1078071040, "[%1.executeDVDCommand] command=%2", (Object)"DVDVideoPlayer", (long)n);
+        this.logger.main().log(1000000, "[%1.executeDVDCommand] command=%2", (Object)LOGCLASS, (long)n);
         this.getDSIPlayer().executeMenuCmd(n);
         if (n == 1) {
             if (this.getTerminal().getAudioManager().hasFrontAudioFocus()) {
@@ -200,46 +194,39 @@ TimerListener {
         }
     }
 
-    @Override
     protected void playerStartupComplete() {
-        this.logger.main().log(1078071040, "[%1.playerStartupComplete]", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.playerStartupComplete]", (Object)LOGCLASS);
         super.playerStartupComplete();
-        this.logger.main().log(1078071040, "[%1.playerStartupComplete] Activate play view", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.playerStartupComplete] Activate play view", (Object)LOGCLASS);
         this.dvdPlayerList.activate();
     }
 
-    @Override
     protected final boolean supportsPlaymodes() {
         return this.capabilities.playbackModes;
     }
 
-    @Override
     public void detailInfoChanged(MediaDetailInfo mediaDetailInfo) {
-        this.getLabelModel(-368114944).setText(mediaDetailInfo.getTitle().getI18NString());
-        this.getChoiceModel(-351337728).setValue(mediaDetailInfo.getTitle().getI18NKey());
+        this.getLabelModel(200682).setText(mediaDetailInfo.getTitle().getI18NString());
+        this.getChoiceModel(200683).setValue(mediaDetailInfo.getTitle().getI18NKey());
     }
 
-    @Override
     public void trackChanged(boolean bl, boolean bl2, PlayingTrack playingTrack, PlayTime playTime) {
-        this.getLabelModel(-301006080).setText(playTime.getRestrictedPlayTimeStr());
-        this.getLabelModel(-250674432).setText(playTime.getRemainTimeStr());
-        this.getRangeModel(-284228864).setValue(playTime.getProgress());
+        this.getLabelModel(200686).setText(playTime.getRestrictedPlayTimeStr());
+        this.getLabelModel(200689).setText(playTime.getRemainTimeStr());
+        this.getRangeModel(200687).setValue(playTime.getProgress());
         this.trackTimeModelGroup.flush();
     }
 
-    @Override
     public void coverArtChanged(ResourceLocator resourceLocator) {
     }
 
-    @Override
     public void updateSubtitleList(int[] nArray) {
-        this.logger.dsi().log(1078071040, "[%1.updateSubtitleList]", (Object)"DVDVideoPlayer");
+        this.logger.dsi().log(1000000, "[%1.updateSubtitleList]", (Object)LOGCLASS);
         this.settingsSubtitle.updateSubtitleList(nArray);
     }
 
-    @Override
     public void updateActiveSubtitle(int n) {
-        this.logger.dsi().log(1078071040, "[%1.updateAudioSubtitle] '%2'", (Object)"DVDVideoPlayer", (long)n);
+        this.logger.dsi().log(1000000, "[%1.updateAudioSubtitle] '%2'", (Object)LOGCLASS, (long)n);
         this.settingsSubtitle.updateActiveSubtitle(n);
     }
 
@@ -247,15 +234,13 @@ TimerListener {
         this.getDSIPlayer().setSubtitleLanguage(n);
     }
 
-    @Override
     public void updateAudioStreamList(AudioStream[] audioStreamArray) {
-        this.logger.dsi().log(1078071040, "[%1.updateAudioStreamList]", (Object)"DVDVideoPlayer");
+        this.logger.dsi().log(1000000, "[%1.updateAudioStreamList]", (Object)LOGCLASS);
         this.settingsAudioStream.updateAudioStreamList(audioStreamArray);
     }
 
-    @Override
     public void updateActiveAudioStream(int n) {
-        this.logger.dsi().log(1078071040, "[%1.updateActiveAudioStream] '%2'", (Object)"DVDVideoPlayer", (long)n);
+        this.logger.dsi().log(1000000, "[%1.updateActiveAudioStream] '%2'", (Object)LOGCLASS, (long)n);
         this.settingsAudioStream.updateActiveAudioStream(n);
     }
 
@@ -263,220 +248,185 @@ TimerListener {
         this.getDSIPlayer().setAudioStream(n);
     }
 
-    @Override
     public void updateVideoFormat(int n) {
-        this.logger.main().log(1078071040, "[%1.updateVideoFormat] '%2'", (Object)"DVDVideoPlayer", (long)n);
+        this.logger.main().log(1000000, "[%1.updateVideoFormat] '%2'", (Object)LOGCLASS, (long)n);
         this.settingsVideoFormat.setActiveVideoFormat(n);
     }
 
-    @Override
     public void responseTempPMLRequest(int n) {
-        this.logger.main().log(1078071040, "[%1.responseTempPMLRequest] '%2'", (Object)"DVDVideoPlayer", (long)n);
+        this.logger.main().log(1000000, "[%1.responseTempPMLRequest] '%2'", (Object)LOGCLASS, (long)n);
         super.responseTempPMLRequest(n);
         this.pmBlockingHandler.setBlockedByTempPM(n);
     }
 
     public void denyTempPMLRequest() {
-        this.logger.main().log(1078071040, "[%1.denyTempPMLRequest]", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.denyTempPMLRequest]", (Object)LOGCLASS);
         this.getDSIPlayer().denyTempPMLRequest();
     }
 
     public void updatePMLBlock(boolean bl) {
-        this.logger.main().log(1078071040, "[%1.updatePMLBlock] '%2'", (Object)"DVDVideoPlayer", (Object)bl);
+        this.logger.main().log(1000000, "[%1.updatePMLBlock] '%2'", (Object)LOGCLASS, (Object)bl);
         this.pmBlockingHandler.setBlockedByMediumPM(bl);
     }
 
-    @Override
     public void indicationDvdEvent(int n) {
         super.indicationDvdEvent(n);
         if (n == 1) {
             this.dvdMenuEntered = true;
-            this.logger.main().log(-2137614336, "[%1.indicationDvdEvent] DVDEVENT_MENU_SELECTION.", (Object)"DVDVideoPlayer");
+            this.logger.main().log(10000000, "[%1.indicationDvdEvent] DVDEVENT_MENU_SELECTION.", (Object)LOGCLASS);
         } else {
-            this.logger.main().log(-2137614336, "[%1.indicationDvdEvent] DVDEVENT_MENU_SELECTION leaved.", (Object)"DVDVideoPlayer");
+            this.logger.main().log(10000000, "[%1.indicationDvdEvent] DVDEVENT_MENU_SELECTION leaved.", (Object)LOGCLASS);
             this.dvdMenuEntered = false;
         }
-        this.logger.main().log(-2137614336, "[%1.indicationDvdEvent] DVD_EVENT: %2", (Object)"DVDVideoPlayer", (long)n);
+        this.logger.main().log(10000000, "[%1.indicationDvdEvent] DVD_EVENT: %2", (Object)LOGCLASS, (long)n);
         this.checkForAutoPlay();
     }
 
-    @Override
     public void error(int n) {
-        this.logger.main().log(-1601830656, "[%1.error] requestType='%2'", (Object)"DVDVideoPlayer", (long)n);
+        this.logger.main().log(100000, "[%1.error] requestType='%2'", (Object)LOGCLASS, (long)n);
         if (n == 1005) {
             this.dvdPlayerList.unblockAfterSelection();
         }
         super.error(n);
     }
 
-    @Override
     public void rearSeatAudioFocusChanged(boolean bl) {
         super.rearSeatAudioFocusChanged(bl);
         this.checkForAutoPlay();
     }
 
-    @Override
     public void audioFocusChanged(boolean bl) {
-        this.logger.main().log(1078071040, "[%1.audioFocusChanged] hasAudioFocus: '%2'", (Object)"DVDVideoPlayer", (Object)bl);
+        this.logger.main().log(1000000, "[%1.audioFocusChanged] hasAudioFocus: '%2'", (Object)LOGCLASS, (Object)bl);
         super.audioFocusChanged(bl);
         this.checkForAutoPlay();
     }
 
-    @Override
     public boolean startSeek(boolean bl) {
         if (this.dvdMenuEntered) {
-            this.logger.main().log(1078071040, "[%1.startSeek] dvdMenuEntered -> Block seeking.", (Object)"DVDVideoPlayer");
+            this.logger.main().log(1000000, "[%1.startSeek] dvdMenuEntered -> Block seeking.", (Object)LOGCLASS);
             this.blockingMaskHandler.showBlockedIcon();
             return false;
         }
         return super.startSeek(bl);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         switch (n) {
             case 200676: {
-                this.logger.main().log(1078071040, "[%1.keyTyped] DVD_VIDEO_JOYSTICK_VIRTUAL_BUTTON", (Object)"DVDVideoPlayer", (long)n);
+                this.logger.main().log(1000000, "[%1.keyTyped] DVD_VIDEO_JOYSTICK_VIRTUAL_BUTTON", (Object)LOGCLASS, (long)n);
                 this.getDSIPlayer().executeMenuCmd(2);
                 this.getTerminal().getAudioManager().resumeAudio(true);
                 break;
             }
             case 200672: {
-                this.logger.main().log(1078071040, "[%1.keyTyped] VIDEO_FW_MENU_BUTTON.", (Object)"DVDVideoPlayer", (long)n);
+                this.logger.main().log(1000000, "[%1.keyTyped] VIDEO_FW_MENU_BUTTON.", (Object)LOGCLASS, (long)n);
                 if (this.blockingMaskHandler.isMenuBlocked()) {
                     return;
                 }
                 this.getDSIPlayer().executeMenuCmd(1);
                 this.getTerminal().getAudioManager().resumeAudio(true);
-                this.getModel(-535887104).fireEvent(n3);
+                this.getModel(200672).fireEvent(n3);
                 break;
             }
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
-        this.logger.main().log(1078071040, "[%1.decrement] menu UP on dds turn.", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.decrement] menu UP on dds turn.", (Object)LOGCLASS);
         this.executeMenuCommand(3);
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
-        this.logger.main().log(1078071040, "[%1.increment] menu DOWN on dds turn.", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.increment] menu DOWN on dds turn.", (Object)LOGCLASS);
         this.executeMenuCommand(4);
     }
 
-    @Override
     public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5, int n6) {
     }
 
-    @Override
     public void touchPadReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchPadPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void stickN(int n, int n2) {
-        this.logger.main().log(1078071040, "[%1.stickN] joystick up pressed.", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.stickN] joystick up pressed.", (Object)LOGCLASS);
         this.getDSIPlayer().executeMenuCmd(3);
     }
 
-    @Override
     public void stickNW(int n, int n2) {
     }
 
-    @Override
     public void stickW(int n, int n2) {
-        this.logger.main().log(1078071040, "[%1.stickW] joystick left pressed.", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.stickW] joystick left pressed.", (Object)LOGCLASS);
         this.getDSIPlayer().executeMenuCmd(6);
     }
 
-    @Override
     public void stickSW(int n, int n2) {
     }
 
-    @Override
     public void stickS(int n, int n2) {
-        this.logger.main().log(1078071040, "[%1.stickS] joystick down pressed.", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.stickS] joystick down pressed.", (Object)LOGCLASS);
         this.getDSIPlayer().executeMenuCmd(4);
     }
 
-    @Override
     public void stickSE(int n, int n2) {
     }
 
-    @Override
     public void stickE(int n, int n2) {
-        this.logger.main().log(1078071040, "[%1.stickE] joystick right pressed.", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.stickE] joystick right pressed.", (Object)LOGCLASS);
         this.getDSIPlayer().executeMenuCmd(5);
     }
 
-    @Override
     public void stickNE(int n, int n2) {
     }
 
-    @Override
     public void stickIdle(int n, int n2) {
     }
 
-    @Override
     public void touchScreenMoved(int n, int n2, int n3, int n4, int n5, int n6) {
     }
 
-    @Override
     public void touchScreenPressed(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void touchScreenLongPressed(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void touchScreenReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void touchScreenDoubleClick(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void touchScreenPinch(int n, float f2, int n2, int n3, int n4) {
     }
 
-    @Override
     public void touchScreenRotate(int n, short s, int n2) {
     }
 
-    @Override
     public void responseCmdBlocked(int n) {
-        this.logger.main().log(1078071040, "[%1.responseCmdBlocked] '%2'", (Object)"DVDVideoPlayer", (long)n);
+        this.logger.main().log(1000000, "[%1.responseCmdBlocked] '%2'", (Object)LOGCLASS, (long)n);
         this.blockingMaskHandler.showBlockedIcon();
         this.notifyPlayerCommandIsBlocked();
     }
 
-    @Override
     public void updateCmdBlockingMask(int n) {
         this.blockingMaskHandler.setBlockingMask(n);
     }
 
-    @Override
     public void slotsChanged(ISource iSource) {
-        this.logger.main().log(1078071040, "[%1.slotsChanged]", (Object)"DVDVideoPlayer");
+        this.logger.main().log(1000000, "[%1.slotsChanged]", (Object)LOGCLASS);
         if (null == this.getActiveSlot()) {
             return;
         }
@@ -493,16 +443,15 @@ TimerListener {
         this.previousActiveSlotError = n;
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         switch (n) {
             case 30: {
-                this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed] AP_METHOD_PLAYER_SEEKTOTIME_ENTER", (Object)"DVDVideoPlayer");
+                this.logger.main().log(1000000, "[%1.actionProxyCallPerformed] AP_METHOD_PLAYER_SEEKTOTIME_ENTER", (Object)LOGCLASS);
                 this.manualSeekHandler.manualSeekModeEnter();
                 break;
             }
             case 31: {
-                this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed] AP_METHOD_PLAYER_SEEKTOTIME_LEFT", (Object)"DVDVideoPlayer");
+                this.logger.main().log(1000000, "[%1.actionProxyCallPerformed] AP_METHOD_PLAYER_SEEKTOTIME_LEFT", (Object)LOGCLASS);
                 this.manualSeekHandler.manualSeekModeLeave(false);
                 break;
             }
@@ -511,44 +460,41 @@ TimerListener {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("DVDVideoPlayer").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 
-    @Override
     public void playbackFolderChanged(MediaListEntry[] mediaListEntryArray) {
     }
 
     private void checkForAutoPlay() {
-        this.logger.main().log(-2137614336, "[%1.checkForAutoPlay] rearSeatAudioFocus: %2 vehicleMoving: %3 dvdMenuEntered: %4", (Object)"DVDVideoPlayer", (Object)this.rearSeatAudioFocus, (Object)this.moving, (Object)this.dvdMenuEntered);
+        this.logger.main().log(10000000, "[%1.checkForAutoPlay] rearSeatAudioFocus: %2 vehicleMoving: %3 dvdMenuEntered: %4", (Object)LOGCLASS, (Object)this.rearSeatAudioFocus, (Object)this.moving, (Object)this.dvdMenuEntered);
         if (!this.getTerminal().getAudioManager().hasFrontAudioFocus()) {
-            this.logger.main().log(-2137614336, "[%1.checkForAutoPlay] No auto play because of no audio focus.", (Object)"DVDVideoPlayer");
+            this.logger.main().log(10000000, "[%1.checkForAutoPlay] No auto play because of no audio focus.", (Object)LOGCLASS);
             return;
         }
         if (!this.rearSeatAudioFocus && this.moving && this.dvdMenuEntered) {
-            this.logger.main().log(-2137614336, "[%1.checkForAutoPlay] Vehicle moving. Auto play.", (Object)"DVDVideoPlayer");
+            this.logger.main().log(10000000, "[%1.checkForAutoPlay] Vehicle moving. Auto play.", (Object)LOGCLASS);
             if (!this.autoPlayTimer.isRunning()) {
                 this.autoPlayTimer.run();
-                this.logger.main().log(-2137614336, "[%1.checkForAutoPlay] DVDVideoPlayerAutoPlayTimer: Started.", (Object)"DVDVideoPlayer");
+                this.logger.main().log(10000000, "[%1.checkForAutoPlay] DVDVideoPlayerAutoPlayTimer: Started.", (Object)LOGCLASS);
                 this.autoPlayTimer.start();
             }
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logger.main().log(-2137614336, "[%1.fireTimer] DVDVideoPlayerAutoPlayTimer: Fired. dvdMenuEntered: %2, vehicleMoving: %3", (Object)"DVDVideoPlayer", (Object)this.dvdMenuEntered, (Object)this.moving);
+        this.logger.main().log(10000000, "[%1.fireTimer] DVDVideoPlayerAutoPlayTimer: Fired. dvdMenuEntered: %2, vehicleMoving: %3", (Object)LOGCLASS, (Object)this.dvdMenuEntered, (Object)this.moving);
         if (!this.rearSeatAudioFocus && this.moving && this.dvdMenuEntered && this.isPlaying()) {
-            this.logger.main().log(-2137614336, "[%1.fireTimer] DVDVideoPlayerAutoPlayTimer: Execute MENUCMD_MENU_ENTER Command", (Object)"DVDVideoPlayer");
+            this.logger.main().log(10000000, "[%1.fireTimer] DVDVideoPlayerAutoPlayTimer: Execute MENUCMD_MENU_ENTER Command", (Object)LOGCLASS);
             this.getDSIPlayer().executeMenuCmd(2);
         } else {
             timer.cancel();
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-        this.logger.main().log(-2137614336, "[%1.cancelTimer] DVDVideoPlayerAutoPlayTimer cancelled.", (Object)"DVDVideoPlayer");
+        this.logger.main().log(10000000, "[%1.cancelTimer] DVDVideoPlayerAutoPlayTimer cancelled.", (Object)LOGCLASS);
     }
 }
 

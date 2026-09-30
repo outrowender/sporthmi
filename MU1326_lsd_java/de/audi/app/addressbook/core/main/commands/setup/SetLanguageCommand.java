@@ -18,9 +18,8 @@ extends AbstractADBCommand {
         this.language = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "SetLanguageCommand#execute(): language: %1", (Object)this.language);
+        this.logger.log(1000000, "SetLanguageCommand#execute(): language: %1", (Object)this.language);
         boolean bl = this.adbDSIAccess.setLanguage(this.language);
         if (!bl) {
             this.logger.log(10000, "SetLanguageCommand#execute(): dsi call was not successful, finishing command.");
@@ -28,9 +27,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setLanguageResult(int n) {
-        this.logger.log(1078071040, "SetLanguageCommand#setLanguageResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "SetLanguageCommand#setLanguageResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

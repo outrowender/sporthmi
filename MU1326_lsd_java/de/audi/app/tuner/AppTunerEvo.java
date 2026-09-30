@@ -41,14 +41,14 @@ public class AppTunerEvo {
             this.searchGui = new SearchGUI(appTuner.getBasics(), this.radioSearch, this.frequencySearch, (TrufflesCommandHandler)object, appTuner.getMemory());
             this.radioSearch.setActiveGuiSearchHandler(this.searchGui);
             this.searchDataProvider = new RadioSearchDataProvider(appTuner.getBasics(), appTuner.getMemory(), (TrufflesCommandHandler)object, this.searchGui);
-            appTuner.register(((RadioSearchDataProvider)this.searchDataProvider).searchListener, -2138570496);
+            appTuner.register(((RadioSearchDataProvider)this.searchDataProvider).searchListener, 100480);
             appTuner.getHMIApplication().addListener(((SearchGUI)this.searchGui).hmiAppListener);
         } else {
             this.radioSearch = null;
             this.searchGui = null;
             this.searchDataProvider = null;
             this.frequencySearch = null;
-            appTuner.getBasics().getModels().getSpellerModel(1518862592).setStatus(0);
+            appTuner.getBasics().getModels().getSpellerModel(100442).setStatus(0);
         }
         object = appTuner.getMemory();
         appTuner.getCombiTunerListener().setFavortieListHandler((IMemoryList)object);

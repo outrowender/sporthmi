@@ -1,12 +1,10 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.app.bap.utils;
 
-import de.audi.app.bap.utils.NullObjectFactory$1;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,15 +14,16 @@ public final class NullObjectFactory {
     private static final Map DEFAULT_VALUES;
 
     public static Object makeNullObjectFor(Class clazz) {
-        return Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new NullObjectFactory$1());
+        return Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new InvocationHandler(){
+
+            public Object invoke(Object object, Method method, Object[] objectArray) throws Throwable {
+                return NullObjectFactory.defaultValueFor(method.getReturnType());
+            }
+        });
     }
 
     private static Object defaultValueFor(Class clazz) {
         return DEFAULT_VALUES.get(clazz);
-    }
-
-    static /* synthetic */ Object access$000(Class clazz) {
-        return NullObjectFactory.defaultValueFor(clazz);
     }
 
     static {

@@ -6,16 +6,12 @@ package de.audi.app.data.core.profile;
 import org.dsi.ifc.networking.CDataProfile;
 
 public interface IDataProfile {
-    default public void discardProfileEdits() {
-    }
+    public void discardProfileEdits();
 
-    default public void automaticProfileResponse(CDataProfile cDataProfile) {
-    }
+    public void automaticProfileResponse(CDataProfile var1);
 
-    default public void updateSimState(boolean bl, boolean bl2, boolean bl3) {
-    }
+    public void updateSimState(boolean var1, boolean var2, boolean var3);
 
-    default public void esimActiveCheckIfisProfileStateAvailable(boolean bl) {
-    }
+    public void esimActiveCheckIfisProfileStateAvailable(boolean var1);
 }
 

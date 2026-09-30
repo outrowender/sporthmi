@@ -40,7 +40,6 @@ implements CombiBAPArrayElement {
         return this.entryId;
     }
 
-    @Override
     public int getPosID() {
         return this.entryPosition + 1;
     }
@@ -110,7 +109,6 @@ implements CombiBAPArrayElement {
         return buffer.toString();
     }
 
-    @Override
     public boolean hasSameContent(CombiBAPArrayElement combiBAPArrayElement) {
         if (combiBAPArrayElement == this) {
             return true;
@@ -122,7 +120,6 @@ implements CombiBAPArrayElement {
         return false;
     }
 
-    @Override
     public int getDiffRecordAddress(CombiBAPArrayElement combiBAPArrayElement) {
         int n = 0;
         if (combiBAPArrayElement == this) {

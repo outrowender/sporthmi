@@ -6,7 +6,6 @@ package de.audi.app.sdsmanager.common;
 import de.audi.app.sdsmanager.syscall.ISystemCall;
 
 public interface SDSListener {
-    default public void processCommand(ISystemCall iSystemCall) {
-    }
+    public void processCommand(ISystemCall var1);
 }
 

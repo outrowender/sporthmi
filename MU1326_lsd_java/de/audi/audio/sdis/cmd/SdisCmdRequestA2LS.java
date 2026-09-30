@@ -17,7 +17,6 @@ extends Command {
         this.setName("SdisCmdRequestA2LS");
     }
 
-    @Override
     public void execute() {
         this.audioService.requestAndFadeToConnection(308, 0);
         this.commandList.commandFinished();

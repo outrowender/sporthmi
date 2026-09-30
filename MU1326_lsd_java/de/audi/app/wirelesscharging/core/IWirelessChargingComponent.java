@@ -4,10 +4,8 @@
 package de.audi.app.wirelesscharging.core;
 
 public interface IWirelessChargingComponent {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 }
 

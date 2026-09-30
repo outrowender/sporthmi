@@ -20,13 +20,13 @@ public class EvoVehicleModelAccess
 extends CoreVehicleModelAccess {
     private final BaseListModelApp posList;
     private final LogChannel logChannel;
-    private static final int ROW_COUNTRY;
-    private static final int ROW_CITY;
-    private static final int ROW_STREET_OR_LATLONG;
-    private static final int COLS;
-    private static final int COL_ICON;
-    private static final int COL_TEXT;
-    private static final int COL_TYPE;
+    private static final int ROW_COUNTRY = 0;
+    private static final int ROW_CITY = 1;
+    private static final int ROW_STREET_OR_LATLONG = 2;
+    private static final int COLS = 3;
+    private static final int COL_ICON = 0;
+    private static final int COL_TEXT = 1;
+    private static final int COL_TYPE = 2;
     private String country = "";
     private String countryAbr = "";
     private String city = "";
@@ -37,11 +37,10 @@ extends CoreVehicleModelAccess {
     public EvoVehicleModelAccess(NavigationEnv navigationEnv) {
         super(navigationEnv);
         this.logChannel = navigationEnv.getGuidanceLogChannel();
-        this.posList = navigationEnv.getBaseListModel(-1943796224);
+        this.posList = navigationEnv.getBaseListModel(402572);
         this.posList.removeAll();
     }
 
-    @Override
     public void updateCountryNCity(String string, String string2, String string3) {
         super.updateCountryNCity(string, string2, string3);
         this.country = string;
@@ -51,7 +50,7 @@ extends CoreVehicleModelAccess {
 
     private EvoListRow getRowCountry() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "EvoVehicleModelAccess#getRowCountry(%1)", (Object)this.country);
+            this.logChannel.log(100000000, "EvoVehicleModelAccess#getRowCountry(%1)", (Object)this.country);
         }
         EvoListRow evoListRow = new EvoListRow(0L, 3);
         evoListRow.setHMIResourceLocator(0, null);
@@ -63,7 +62,7 @@ extends CoreVehicleModelAccess {
     private EvoListRow getRowCity(boolean bl) {
         Object object;
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "EvoVehicleModelAccess#getRowCity(%1)", (Object)this.city);
+            this.logChannel.log(100000000, "EvoVehicleModelAccess#getRowCity(%1)", (Object)this.city);
         }
         String string = this.city;
         if (bl) {
@@ -74,7 +73,7 @@ extends CoreVehicleModelAccess {
             }
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "EvoVehicleModelAccess#getRowCity(%1)", (Object)string);
+            this.logChannel.log(100000000, "EvoVehicleModelAccess#getRowCity(%1)", (Object)string);
         }
         object = new EvoListRow(1L, 3);
         ((EvoListRow)object).setHMIResourceLocator(0, null);
@@ -83,21 +82,19 @@ extends CoreVehicleModelAccess {
         return object;
     }
 
-    @Override
     public void updateStreet(String string) {
         super.updateStreet(string);
         this.street = string;
     }
 
     public EvoListRow getRowStreet() {
-        EvoListRow evoListRow = new EvoListRow(0, 3);
+        EvoListRow evoListRow = new EvoListRow(2L, 3);
         evoListRow.setHMIResourceLocator(0, null);
         evoListRow.setText(1, this.street);
         evoListRow.setInteger(2, 0);
         return evoListRow;
     }
 
-    @Override
     public void updateSatInfo(String string, String string2, int n, int n2, int n3, int n4) {
         super.updateSatInfo(string, string2, n, n2, n3, n4);
         this.latitude = string;
@@ -106,11 +103,11 @@ extends CoreVehicleModelAccess {
 
     private EvoListRow getRowLatLong() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "EvoVehicleModelAccess#getRowLatLong(%1, %2)", (Object)this.latitude, (Object)this.longitude);
+            this.logChannel.log(100000000, "EvoVehicleModelAccess#getRowLatLong(%1, %2)", (Object)this.latitude, (Object)this.longitude);
         }
-        EvoListRow evoListRow = new EvoListRow(0, 3);
+        EvoListRow evoListRow = new EvoListRow(2L, 3);
         evoListRow.setHMIResourceLocator(0, null);
-        evoListRow.setText(1, new StringBuffer().append(this.latitude).append(" / ").append(this.longitude).toString());
+        evoListRow.setText(1, this.latitude + " / " + this.longitude);
         evoListRow.setInteger(2, 0);
         return evoListRow;
     }
@@ -123,10 +120,9 @@ extends CoreVehicleModelAccess {
         return evoListRow;
     }
 
-    @Override
     public void buildRows() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "EvoVehicleModelAccess#buildRows");
+            this.logChannel.log(100000000, "EvoVehicleModelAccess#buildRows");
         }
         BaseListModelApp baseListModelApp = this.posList.getEmptyCopy();
         if (!Util.isHURegionAsia()) {
@@ -155,7 +151,7 @@ extends CoreVehicleModelAccess {
         } else {
             NavLocation navLocation = Vehicle.getInstance().getVehicleLocationDescription();
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "EvoVehicleModelAccess#buildRows for Asia vehicleLocation = %1", (Object)LocationFormatter.formatLocationShort(navLocation));
+                this.logChannel.log(100000000, "EvoVehicleModelAccess#buildRows for Asia vehicleLocation = %1", (Object)LocationFormatter.formatLocationShort(navLocation));
             }
             LocationFormattingResponse locationFormattingResponse = AddressFormatter.formatTwoLines(navLocation, this.env);
             baseListModelApp.append(this.getAsiaRow(0, locationFormattingResponse.getFirstLineAsText()));

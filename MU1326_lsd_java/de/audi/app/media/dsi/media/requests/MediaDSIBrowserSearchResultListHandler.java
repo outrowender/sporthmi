@@ -12,13 +12,12 @@ import org.dsi.ifc.media.DSIMediaBrowser;
 
 public class MediaDSIBrowserSearchResultListHandler
 extends AbstractQueuedRequestHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaDSIBrowserSearchResultListHandler";
 
     public MediaDSIBrowserSearchResultListHandler(LogChannel logChannel, int n) {
         super(logChannel, true, n);
     }
 
-    @Override
     protected boolean sendRequest(IRequestParameter iRequestParameter, DSIBase dSIBase, int n) {
         try {
             RequestParameterList requestParameterList = (RequestParameterList)iRequestParameter;
@@ -26,14 +25,13 @@ extends AbstractQueuedRequestHandler {
             return true;
         }
         catch (Exception exception) {
-            this.getLogChannel().log(-1601830656, "[%1.sendRequest] Error on requesting list: %2", (Object)"MediaDSIBrowserSearchResultListHandler", (Throwable)exception);
+            this.getLogChannel().log(100000, "[%1.sendRequest] Error on requesting list: %2", (Object)LOGCLASS, (Throwable)exception);
             return false;
         }
     }
 
-    @Override
     protected String getLogClass() {
-        return "MediaDSIBrowserSearchResultListHandler";
+        return LOGCLASS;
     }
 }
 

@@ -18,15 +18,14 @@ import de.vw.mib.bap.requests.StatusProperty;
 
 public class InitializationManagerEcall
 extends AbstractBAPModuleInitializationManagerASG {
-    private static final int SUPPORTED_LSG_CLASS;
-    private static final int SUPPORTED_LSG_SUB_CLASS;
+    private static final int SUPPORTED_LSG_CLASS = 51;
+    private static final int SUPPORTED_LSG_SUB_CLASS = 0;
     private final BAPConfig supportedConfig = BAPConfig.getInstance(51, 0, BAPVersion.getInstance(3, 1), LSGVersion.getInstance(3, 5));
 
     public InitializationManagerEcall(AbstractBAPModuleASG abstractBAPModuleASG, IDSIBAPController iDSIBAPController, IPowerState iPowerState) {
         super(abstractBAPModuleASG, iDSIBAPController, iPowerState);
     }
 
-    @Override
     protected BAPConfig bapConfigFromResetSerializer(BAPEntity bAPEntity) {
         BAP_Config_Reset bAP_Config_Reset = (BAP_Config_Reset)bAPEntity;
         int n = bAP_Config_Reset.lsg_Class;
@@ -36,7 +35,6 @@ extends AbstractBAPModuleInitializationManagerASG {
         return BAPConfig.getInstance(n, n2, bAPVersion, lSGVersion);
     }
 
-    @Override
     protected BAPConfig bapConfigFromStatusSerializer(StatusProperty statusProperty) {
         BAP_Config_Status bAP_Config_Status = (BAP_Config_Status)statusProperty;
         int n = bAP_Config_Status.lsg_Class;
@@ -46,20 +44,17 @@ extends AbstractBAPModuleInitializationManagerASG {
         return BAPConfig.getInstance(n, n2, bAPVersion, lSGVersion);
     }
 
-    @Override
     protected boolean isBapConfigSupported(BAPConfig bAPConfig) {
         return this.supportedConfig.isCompatibleWith(bAPConfig);
     }
 
-    @Override
     public void appStateChanged(String string, int n) {
-        this.logChannel.log(1078071040, "[InitializationManagerEcall#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
+        this.logChannel.log(1000000, "[InitializationManagerEcall#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
         if ("AppBapEcall".equals(string)) {
             this.processAppStateChanged(n);
         }
     }
 
-    @Override
     public String appStatesToString() {
         Buffer buffer = new Buffer();
         buffer.append("appStateECall = ");
@@ -68,7 +63,6 @@ extends AbstractBAPModuleInitializationManagerASG {
         return buffer.toString();
     }
 
-    @Override
     public void updateOperationState() {
     }
 }

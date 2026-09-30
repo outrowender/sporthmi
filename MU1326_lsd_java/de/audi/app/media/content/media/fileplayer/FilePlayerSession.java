@@ -14,7 +14,6 @@ implements IMediaFilePlayerSession {
         super(logChannel, iMediaFilePlayerSession);
     }
 
-    @Override
     public void updateVideoContext(int n) {
         ((IMediaFilePlayerSession)this.clientSession).updateVideoContext(n);
     }

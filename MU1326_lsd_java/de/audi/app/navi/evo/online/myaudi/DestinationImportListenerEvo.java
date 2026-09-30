@@ -18,9 +18,8 @@ extends AbstractNaviMyAudiImportListener {
         super(navigationEnv, naviMyAudiImportImpl);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "%1#itemSelected - row=%2", (Object)CLASS_NAME, (Object)evoListRow);
+        this.logChannel.log(10000000, "%1#itemSelected - row=%2", (Object)CLASS_NAME, (Object)evoListRow);
         this.myAudiImporter.portalEntrySelected(evoListRow.getUniqueID());
         this.contactsList.setSelectedIndex(n2);
         this.env.fireModelEvent(n, n4);

@@ -10,17 +10,16 @@ import de.audi.atip.log.LogChannel;
 
 public class AudioDuckResponse
 extends AbstractCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AudioDuckResponse";
     private final IAndroidAuto2AudioHandler callbackHandler;
 
     public AudioDuckResponse(LogChannel logChannel, IContext iContext, IAndroidAuto2AudioHandler iAndroidAuto2AudioHandler) {
-        super(logChannel, "AudioDuckResponse", iContext);
+        super(logChannel, LOGCLASS, iContext);
         this.callbackHandler = iAndroidAuto2AudioHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1.execute]", (Object)"AudioDuckResponse");
+        this.logger.log(10000000, "[%1.execute]", (Object)LOGCLASS);
         this.callbackHandler.responseUpdateMode();
         this.getCommandList().commandFinished();
     }

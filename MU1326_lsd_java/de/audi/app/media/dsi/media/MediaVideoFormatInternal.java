@@ -9,14 +9,14 @@ import de.audi.atip.log.LogChannel;
 
 public class MediaVideoFormatInternal
 implements IMediaVideoFormat {
-    private static final String LOGCLASS;
-    public static final int HMI_VIDEO_FORMAT_ID_ORIGINAL;
-    public static final int HMI_VIDEO_FORMAT_ID_47_20_CINEMASCOPE_5_4;
-    public static final int HMI_VIDEO_FORMAT_ID_14_9_ZOOM;
-    public static final int HMI_VIDEO_FORMAT_ID_16_9_WIDESCREEN;
-    public static final int HMI_VIDEO_FORMAT_ID_4_3_STANDARD_4_3;
-    public static final int HMI_VIDEO_FORMAT_ID_AUTOMATIC;
-    public static final int HMI_VIDEO_FORMAT_ID_UNDEFINED;
+    private static final String LOGCLASS = "MediaVideoFormatInternal";
+    public static final int HMI_VIDEO_FORMAT_ID_ORIGINAL = 5;
+    public static final int HMI_VIDEO_FORMAT_ID_47_20_CINEMASCOPE_5_4 = 4;
+    public static final int HMI_VIDEO_FORMAT_ID_14_9_ZOOM = 3;
+    public static final int HMI_VIDEO_FORMAT_ID_16_9_WIDESCREEN = 2;
+    public static final int HMI_VIDEO_FORMAT_ID_4_3_STANDARD_4_3 = 1;
+    public static final int HMI_VIDEO_FORMAT_ID_AUTOMATIC = 0;
+    public static final int HMI_VIDEO_FORMAT_ID_UNDEFINED = -1;
     protected final LogChannel logger;
     private final IMediaDSIPlayerController dsiPlayerController;
 
@@ -25,7 +25,6 @@ implements IMediaVideoFormat {
         this.dsiPlayerController = iMediaDSIPlayerController;
     }
 
-    @Override
     public boolean setVideoFormat(int n) {
         return this.dsiPlayerController.setVideoFormat(MediaVideoFormatInternal.getDSIVideoFormatID(n));
     }
@@ -54,7 +53,6 @@ implements IMediaVideoFormat {
         return 5;
     }
 
-    @Override
     public int getHMIVideoFormatID(int n) {
         switch (n) {
             case 3: {

@@ -27,7 +27,6 @@ extends AbstractRequestParameter {
         this.retry = bl;
     }
 
-    @Override
     public boolean equals(Object object) {
         try {
             RequestParameterList requestParameterList = (RequestParameterList)object;
@@ -38,7 +37,6 @@ extends AbstractRequestParameter {
         }
     }
 
-    @Override
     public int hashCode() {
         return new Long(this.entryID).hashCode() + new Integer(this.clientId).hashCode();
     }
@@ -59,7 +57,6 @@ extends AbstractRequestParameter {
         return this.index;
     }
 
-    @Override
     public int getClientID() {
         return this.clientId;
     }

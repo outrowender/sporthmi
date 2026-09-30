@@ -6,15 +6,17 @@ package de.audi.app.messaging.core.addressbook;
 import de.audi.app.addressbook.core.common.ADBDbgUtils;
 import de.audi.app.addressbook.core.common.ADBEntryDetailsListRow;
 import de.audi.app.addressbook.core.common.AbstractADBHandler;
+import de.audi.app.addressbook.core.common.commands.ADBDSIAccess;
+import de.audi.app.addressbook.core.common.commands.ADBDSIListener;
 import de.audi.app.addressbook.core.common.search.ADBSearch;
 import de.audi.app.addressbook.core.common.search.ADBSearchListRow;
 import de.audi.app.addressbook.core.common.search.organizer.ADBOrganizerSearch;
 import de.audi.app.messaging.core.addressbook.AdbModelUpdater;
 import de.audi.app.messaging.core.addressbook.AdbViewListener;
-import de.audi.app.messaging.core.addressbook.MessagingAdbHandler$1;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.IMessagingComponent;
 import de.audi.app.messaging.core.component.MessagingComponentCollection;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
@@ -23,8 +25,14 @@ import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.interapp.NaviADBService;
 import org.dsi.ifc.messaging.MatchedAddress;
 import org.dsi.ifc.organizer.AdbViewSize;
+import org.dsi.ifc.organizer.DSIAdbEdit;
+import org.dsi.ifc.organizer.DSIAdbList;
+import org.dsi.ifc.organizer.DSIAdbSetup;
+import org.dsi.ifc.organizer.DSIAdbUserProfile;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -59,19 +67,16 @@ implements IMessagingComponent {
         this.subcomponents.add(new AdbViewListener(messagingBundleContext, "App.Messaging.Main"));
     }
 
-    @Override
     public void addComponent(IMessagingComponent iMessagingComponent) {
         this.subcomponents.add(iMessagingComponent);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         this.init();
         this.msgApp = abstractMsgApplication;
         this.subcomponents.initAll(abstractMsgApplication);
     }
 
-    @Override
     public void dispose() {
         this.subcomponents.disposeAll();
         try {
@@ -88,7 +93,6 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             this.subcomponents.connectAll(iServiceRegistry);
@@ -103,7 +107,6 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void disconnect() {
         try {
             this.subcomponents.disconnectAll();
@@ -113,7 +116,7 @@ implements IMessagingComponent {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         ServiceFilterBuilder serviceFilterBuilder = new ServiceFilterBuilder();
         serviceFilterBuilder.beginOr();
         serviceFilterBuilder.beginAnd();
@@ -136,15 +139,55 @@ implements IMessagingComponent {
         serviceFilterBuilder.endOr();
         String string = serviceFilterBuilder.createFilterString();
         Filter filter = this.bundleContext.createFilter(string);
-        MessagingAdbHandler$1 messagingAdbHandler$1 = new MessagingAdbHandler$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)messagingAdbHandler$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                if (object instanceof DSIAdbEdit) {
+                    ADBDSIAccess aDBDSIAccess = MessagingAdbHandler.this.getADBDSIAccess();
+                    ADBDSIListener aDBDSIListener = MessagingAdbHandler.this.getADBDSIListener();
+                    aDBDSIAccess.setDSIAdbEdit((DSIAdbEdit)object, aDBDSIListener);
+                } else if (object instanceof DSIAdbList) {
+                    ADBDSIAccess aDBDSIAccess = MessagingAdbHandler.this.getADBDSIAccess();
+                    ADBDSIListener aDBDSIListener = MessagingAdbHandler.this.getADBDSIListener();
+                    aDBDSIAccess.setDSIAdbList((DSIAdbList)object, aDBDSIListener);
+                } else if (object instanceof DSIAdbUserProfile) {
+                    ADBDSIAccess aDBDSIAccess = MessagingAdbHandler.this.getADBDSIAccess();
+                    ADBDSIListener aDBDSIListener = MessagingAdbHandler.this.getADBDSIListener();
+                    aDBDSIAccess.setDSIAdbUserProfile((DSIAdbUserProfile)object, aDBDSIListener);
+                } else if (object instanceof DSIAdbSetup) {
+                    ADBDSIAccess aDBDSIAccess = MessagingAdbHandler.this.getADBDSIAccess();
+                    ADBDSIListener aDBDSIListener = MessagingAdbHandler.this.getADBDSIListener();
+                    aDBDSIAccess.setDSIAdbSetup((DSIAdbSetup)object, aDBDSIListener);
+                } else {
+                    MessagingAdbHandler.this.setADBNaviService((NaviADBService)object);
+                }
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                if (object instanceof DSIAdbEdit) {
+                    ADBDSIListener aDBDSIListener = MessagingAdbHandler.this.getADBDSIListener();
+                    MessagingAdbHandler.this.getADBDSIAccess().clearDSIAdbEdit(aDBDSIListener);
+                } else if (object instanceof DSIAdbList) {
+                    ADBDSIListener aDBDSIListener = MessagingAdbHandler.this.getADBDSIListener();
+                    MessagingAdbHandler.this.getADBDSIAccess().clearDSIAdbList(aDBDSIListener);
+                } else if (object instanceof DSIAdbUserProfile) {
+                    ADBDSIListener aDBDSIListener = MessagingAdbHandler.this.getADBDSIListener();
+                    MessagingAdbHandler.this.getADBDSIAccess().clearDSIAdbUserProfile(aDBDSIListener);
+                } else if (object instanceof DSIAdbSetup) {
+                    ADBDSIListener aDBDSIListener = MessagingAdbHandler.this.getADBDSIListener();
+                    MessagingAdbHandler.this.getADBDSIAccess().clearDSIAdbSetup(aDBDSIListener);
+                } else {
+                    MessagingAdbHandler.this.setADBNaviService(null);
+                }
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     public AdbModelUpdater getModelUpdater() {
         return this.adbModelUpdater;
     }
 
-    @Override
     public int getAdbMode() {
         return this.adbMode;
     }
@@ -165,33 +208,28 @@ implements IMessagingComponent {
         return this.isAdbReady;
     }
 
-    @Override
     public int getInitStartupCompleteMask() {
         return 229;
     }
 
-    @Override
     public ADBOrganizerSearch getADBOrganizerSearch() {
         return this.msgApp.getOrganizerSearch();
     }
 
-    @Override
     public void handleInvalidData(int n, boolean bl) {
-        this.log.log(1078071040, "MessagingAdbHandler#handleInvalidData(): reason: %2, reloadMainList: %1", bl, (Object)ADBDbgUtils.dbgInvalidDataReason(n));
+        this.log.log(1000000, "MessagingAdbHandler#handleInvalidData(): reason: %2, reloadMainList: %1", bl, (Object)ADBDbgUtils.dbgInvalidDataReason(n));
         if (bl) {
             this.msgApp.getOrganizerSearch().refreshFromStart();
         }
     }
 
-    @Override
     public void entrySelected(ADBSearch aDBSearch, ADBSearchListRow aDBSearchListRow, int n, int n2) {
-        this.log.log(1078071040, "MessagingAdbHandler#entrySelected(): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
+        this.log.log(1000000, "MessagingAdbHandler#entrySelected(): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
         this.msgApp.getOrganizerSearch().entrySelected(aDBSearch, aDBSearchListRow, this.getAdbMode(), n, n2);
     }
 
-    @Override
     public void detailsSelected(ADBEntryDetailsListRow aDBEntryDetailsListRow, int n, int n2) {
-        this.log.log(1078071040, "[MessagingAdbHandler#detailsSelected] listRow = %1", (Object)aDBEntryDetailsListRow);
+        this.log.log(1000000, "[MessagingAdbHandler#detailsSelected] listRow = %1", (Object)aDBEntryDetailsListRow);
         String string = "";
         switch (aDBEntryDetailsListRow.getDataType()) {
             case 0: {
@@ -209,28 +247,25 @@ implements IMessagingComponent {
         this.framework.getHMIService().getModel(n).fireEvent(n2);
     }
 
-    @Override
     public void setAdbReady(boolean bl) {
-        this.log.log(1078071040, "MessagingAdbHandler#setAdbReady(): ready: %1", bl);
+        this.log.log(1000000, "MessagingAdbHandler#setAdbReady(): ready: %1", bl);
         this.isAdbReady = bl;
         if (bl) {
             this.msgApp.getOrganizerSearch().startSearch();
         }
         int n = bl ? 1 : 0;
-        this.framework.getHmiServiceApp().getChoiceModel(1519526144).setValue(n);
+        this.framework.getHmiServiceApp().getChoiceModel(2200154).setValue(n);
     }
 
-    @Override
     public void updateNewEntryAvailable(boolean bl) {
-        this.log.log(1078071040, "MessagingAdbHandler#updateNewEntryAvailable(): available: %1", bl);
+        this.log.log(1000000, "MessagingAdbHandler#updateNewEntryAvailable(): available: %1", bl);
         int n = bl ? 1 : 0;
-        this.framework.getHmiServiceApp().getChoiceModel(1502748928).setValue(n);
+        this.framework.getHmiServiceApp().getChoiceModel(2200153).setValue(n);
     }
 
-    @Override
     public void updateViewSizes(AdbViewSize adbViewSize) {
         boolean bl = adbViewSize.phone == 0;
-        this.log.log(1078071040, "MessagingAdbHandler#updateViewSizes(): adbPhoneViewEmpty: %1", bl);
+        this.log.log(1000000, "MessagingAdbHandler#updateViewSizes(): adbPhoneViewEmpty: %1", bl);
     }
 
     public int getCurrentViewType() {

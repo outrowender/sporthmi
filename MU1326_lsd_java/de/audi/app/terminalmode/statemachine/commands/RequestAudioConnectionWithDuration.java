@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.audio.IAudioManager
  */
 package de.audi.app.terminalmode.statemachine.commands;
 
@@ -25,9 +22,8 @@ extends AbstractCommand {
         this.duration = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)this.getName());
+        this.logger.log(1000000, "[%1.execute]", (Object)this.getName());
         this.audioManager.requestAudio(this.audioConnection, this.duration);
         this.commandList.commandFinished();
     }

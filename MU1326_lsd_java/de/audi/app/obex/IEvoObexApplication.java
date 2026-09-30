@@ -8,7 +8,6 @@ import de.audi.app.obex.core.IObexApplication;
 
 public interface IEvoObexApplication
 extends IObexApplication {
-    default public IEvoConnectivity getEvoConnectivity() {
-    }
+    public IEvoConnectivity getEvoConnectivity();
 }
 

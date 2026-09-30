@@ -9,10 +9,8 @@ import de.audi.app.media.content.IContentContext;
 import de.audi.app.media.dsi.media.IMediaDSIPlayerController;
 
 public interface IContentProvider {
-    default public boolean provideContent(int n) {
-    }
+    public boolean provideContent(int var1);
 
-    default public IContent createContent(int n, IContentContext iContentContext, IMediaTerminal iMediaTerminal, IMediaDSIPlayerController iMediaDSIPlayerController) {
-    }
+    public IContent createContent(int var1, IContentContext var2, IMediaTerminal var3, IMediaDSIPlayerController var4);
 }
 

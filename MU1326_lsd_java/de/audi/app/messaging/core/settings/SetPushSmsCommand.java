@@ -4,8 +4,8 @@
 package de.audi.app.messaging.core.settings;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.dsi.messagingconfig.AbstractDsiMessagingConfigCommand;
-import de.audi.app.messaging.core.settings.SetPushSmsCommand$1;
 import de.audi.tghu.command.Command;
 
 final class SetPushSmsCommand
@@ -17,9 +17,8 @@ extends AbstractDsiMessagingConfigCommand {
         this.pushSms = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SetPushSmsCommand#execute]");
+        this.logger.log(10000000, "[SetPushSmsCommand#execute]");
         try {
             this.dsiMessagingConfigAccess.requestSetPushSms(this.pushSms);
         }
@@ -29,9 +28,8 @@ extends AbstractDsiMessagingConfigCommand {
         }
     }
 
-    @Override
     public void responseSetPushSms(int n) {
-        this.logger.log(-2137614336, "[SetPushSmsCommand#responseSetPushSms] result = %1", (long)n);
+        this.logger.log(10000000, "[SetPushSmsCommand#responseSetPushSms] result = %1", (long)n);
         this.signalResult(n == 0);
     }
 
@@ -40,7 +38,7 @@ extends AbstractDsiMessagingConfigCommand {
      */
     private void signalResult(boolean bl) {
         try {
-            this.logger.log(-2137614336, "[SetPushSmsCommand#signalResult] isResultOk = %1", bl);
+            this.logger.log(10000000, "[SetPushSmsCommand#signalResult] isResultOk = %1", bl);
         }
         catch (Exception exception) {
             this.logException("[SetPushSmsCommand#signalResult]", exception);
@@ -50,13 +48,14 @@ extends AbstractDsiMessagingConfigCommand {
         }
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new SetPushSmsCommand$1(this, this.msgApp);
-    }
+        return new AbstractMessagingCommand(this.msgApp){
 
-    static /* synthetic */ void access$000(SetPushSmsCommand setPushSmsCommand, boolean bl) {
-        setPushSmsCommand.signalResult(bl);
+            public void execute() {
+                this.logger.log(10000000, "[SetPushSmsErrorCommand#execute]");
+                SetPushSmsCommand.this.signalResult(false);
+            }
+        };
     }
 }
 

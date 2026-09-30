@@ -8,47 +8,45 @@ import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.folderbrowsing.EntryList;
 import de.audi.app.messaging.core.folderbrowsing.Folder;
+import de.audi.app.messaging.core.folderbrowsing.IFolderNavigatorObserver;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
+import de.audi.app.messaging.core.setup.ISetupManagerObserver;
 import de.audi.app.messaging.core.setup.SetupManager;
-import de.audi.app.messaging.evo.folderbrowsing.FolderPathDisplay$FolderNavigatorObserver;
-import de.audi.app.messaging.evo.folderbrowsing.FolderPathDisplay$SetupManagerObserver;
 import de.audi.atip.hmi.IHMIServiceApp;
-import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.messaging.MessagingAccount;
 
 public final class FolderPathDisplay
 extends AbstractMessagingComponent {
-    private static final int FOLDER_TEXT_IDX_NONE;
-    private static final int FOLDER_TEXT_IDX_ROOT_MOBILE_DYNAMIC;
-    private static final int FOLDER_TEXT_IDX_ROOT_MOBILE_STATIC;
-    private static final int FOLDER_TEXT_IDX_ROOT_SIM;
-    private static final int FOLDER_TEXT_IDX_DELETED;
-    private static final int FOLDER_TEXT_IDX_DRAFT;
-    private static final int FOLDER_TEXT_IDX_INBOX;
-    private static final int FOLDER_TEXT_IDX_OUTBOX;
-    private static final int FOLDER_TEXT_IDX_SENT;
-    private static final int FOLDER_TEXT_IDX_USER;
+    private static final int FOLDER_TEXT_IDX_NONE = 0;
+    private static final int FOLDER_TEXT_IDX_ROOT_MOBILE_DYNAMIC = 1;
+    private static final int FOLDER_TEXT_IDX_ROOT_MOBILE_STATIC = 2;
+    private static final int FOLDER_TEXT_IDX_ROOT_SIM = 3;
+    private static final int FOLDER_TEXT_IDX_DELETED = 4;
+    private static final int FOLDER_TEXT_IDX_DRAFT = 5;
+    private static final int FOLDER_TEXT_IDX_INBOX = 6;
+    private static final int FOLDER_TEXT_IDX_OUTBOX = 7;
+    private static final int FOLDER_TEXT_IDX_SENT = 8;
+    private static final int FOLDER_TEXT_IDX_USER = 9;
 
     public FolderPathDisplay(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         IHMIServiceApp iHMIServiceApp = this.framework.getHmiServiceApp();
         EntryList entryList = abstractMsgApplication.getEntryList();
-        entryList.registerForModelGroup(iHMIServiceApp.getLabelModel(-2087509760));
-        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(-2037178112));
-        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(-2053955328));
-        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(-2070732544));
-        abstractMsgApplication.getFolderNavigator().addObserver(new FolderPathDisplay$FolderNavigatorObserver(this, null));
-        abstractMsgApplication.getSetupManager().addObserver(new FolderPathDisplay$SetupManagerObserver(this, null));
+        entryList.registerForModelGroup(iHMIServiceApp.getLabelModel(2200451));
+        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(2200454));
+        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(2200453));
+        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(2200452));
+        abstractMsgApplication.getFolderNavigator().addObserver(new FolderNavigatorObserver());
+        abstractMsgApplication.getSetupManager().addObserver(new SetupManagerObserver());
     }
 
     private void setCurrentPathModels() {
         Object object;
-        this.log.log(-2137614336, "[FolderPathDisplay#setCurrentPathModels]");
+        this.log.log(10000000, "[FolderPathDisplay#setCurrentPathModels]");
         Folder folder = this.msgApp.getFolderNavigator().getCurrentFolder();
         boolean bl = false;
         String string = null;
@@ -64,13 +62,13 @@ extends AbstractMessagingComponent {
             n = AccountManager.getAccountTextType(bl, string2);
         }
         object = this.framework.getHmiServiceApp();
-        object.getLabelModel(-2087509760).setText(string2);
-        object.getChoiceModel(-2037178112).setValue(n);
+        object.getLabelModel(2200451).setText(string2);
+        object.getChoiceModel(2200454).setValue(n);
         int n3 = FolderPathDisplay.getFolderTextIdx(n, n2);
-        object.getChoiceModel(-2053955328).setValue(n3);
+        object.getChoiceModel(2200453).setValue(n3);
         int n4 = this.msgApp.getFolderNavigator().getParentFolderType();
         int n5 = FolderPathDisplay.getFolderTextIdx(n, n4);
-        object.getChoiceModel(-2070732544).setValue(n5);
+        object.getChoiceModel(2200452).setValue(n5);
     }
 
     private static int getFolderTextIdx(int n, int n2) {
@@ -119,16 +117,26 @@ extends AbstractMessagingComponent {
         return n3;
     }
 
-    static /* synthetic */ LogChannel access$200(FolderPathDisplay folderPathDisplay) {
-        return folderPathDisplay.log;
+    private final class SetupManagerObserver
+    implements ISetupManagerObserver {
+        private SetupManagerObserver() {
+        }
+
+        public void indicateConfigurationChanged() {
+            FolderPathDisplay.this.log.log(10000000, "[FolderPathDisplay#indicateConfigurationChanged]");
+            FolderPathDisplay.this.setCurrentPathModels();
+        }
     }
 
-    static /* synthetic */ void access$300(FolderPathDisplay folderPathDisplay) {
-        folderPathDisplay.setCurrentPathModels();
-    }
+    private final class FolderNavigatorObserver
+    extends IFolderNavigatorObserver.EmptyImplementation {
+        private FolderNavigatorObserver() {
+        }
 
-    static /* synthetic */ LogChannel access$400(FolderPathDisplay folderPathDisplay) {
-        return folderPathDisplay.log;
+        public void updateCurrentFolder(Folder folder) {
+            FolderPathDisplay.this.log.log(10000000, "[FolderPathDisplay#updateCurrentFolder]");
+            FolderPathDisplay.this.setCurrentPathModels();
+        }
     }
 }
 

@@ -4,10 +4,8 @@
 package de.audi.atip.hmi.combi.ddp2;
 
 public interface CombiConnectorDDP2 {
-    default public void paint(int n) {
-    }
+    public void paint(int var1);
 
-    default public boolean processMFLEvents() {
-    }
+    public boolean processMFLEvents();
 }
 

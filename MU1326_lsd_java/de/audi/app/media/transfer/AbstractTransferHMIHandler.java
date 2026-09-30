@@ -17,7 +17,7 @@ public abstract class AbstractTransferHMIHandler
 extends AbstractMediaTerminalComponent
 implements ITransferLockListener,
 ServiceTrackerCustomizer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractTransferHMIHandler";
     protected LogChannel logger;
     private volatile ITransferController transferController;
     private IServiceTracker serviceTracker;
@@ -30,21 +30,20 @@ ServiceTrackerCustomizer {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"AbstractTransferHMIHandler");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.serviceTracker.open();
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"AbstractTransferHMIHandler");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.serviceTracker.close();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.logger.log(1078071040, "[%1.addingService]", (Object)"AbstractTransferHMIHandler");
+        this.logger.log(1000000, "[%1.addingService]", (Object)LOGCLASS);
         Object object = this.getTerminal().getServiceManager().getService(serviceReference);
         if (!(object instanceof ITransferController)) {
-            this.logger.log(1078071040, "[%1.addingService] unwanted service", (Object)"AbstractTransferHMIHandler");
+            this.logger.log(1000000, "[%1.addingService] unwanted service", (Object)LOGCLASS);
             this.getTerminal().getServiceManager().releaseService(serviceReference);
             return object;
         }
@@ -53,32 +52,26 @@ ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         this.transferControllerUnavailable();
         this.getTerminal().getServiceManager().releaseService(serviceReference);
     }
 
-    public abstract void transferControllerAvailable() {
-    }
+    public abstract void transferControllerAvailable();
 
-    public abstract void transferControllerUnavailable() {
-    }
+    public abstract void transferControllerUnavailable();
 
-    @Override
     public void blockImportFunctionality() {
-        this.logger.log(1078071040, "[%1.blockImportFunctionality]", (Object)"AbstractTransferHMIHandler");
-        this.getChoiceModel(1796080384).setValue(1);
+        this.logger.log(1000000, "[%1.blockImportFunctionality]", (Object)LOGCLASS);
+        this.getChoiceModel(200299).setValue(1);
     }
 
-    @Override
     public void unblockImportFunctionality() {
-        this.logger.log(1078071040, "[%1.unblockImportFunctionality]", (Object)"AbstractTransferHMIHandler");
-        this.getChoiceModel(1796080384).setValue(0);
+        this.logger.log(1000000, "[%1.unblockImportFunctionality]", (Object)LOGCLASS);
+        this.getChoiceModel(200299).setValue(0);
     }
 
     protected ITransferController getTransferController() {

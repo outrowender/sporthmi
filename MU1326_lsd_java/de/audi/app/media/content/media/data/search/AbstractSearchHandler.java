@@ -23,31 +23,30 @@ extends AbstractGuiSearchHandler {
     }
 
     public void deinit() {
-        this.lc.log(1078071040, "[%1.deinit]", (Object)this.getLogClass());
+        this.lc.log(1000000, "[%1.deinit]", (Object)this.getLogClass());
         this.registryFormatter.clear();
     }
 
     public void activate() {
-        this.lc.log(1078071040, "[%1.activate]", (Object)this.getLogClass());
+        this.lc.log(1000000, "[%1.activate]", (Object)this.getLogClass());
         this.registerListeners();
         this.reset();
     }
 
     public void deactivate() {
-        this.lc.log(1078071040, "[%1.deactivate]", (Object)this.getLogClass());
+        this.lc.log(1000000, "[%1.deactivate]", (Object)this.getLogClass());
         this.appSearch.cancelQuery();
         this.release();
     }
 
     public void reset() {
-        this.lc.log(1078071040, "[%1.reset]", (Object)this.getLogClass());
+        this.lc.log(1000000, "[%1.reset]", (Object)this.getLogClass());
         this.mdlSpellerSearchText.clear();
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "[%1.textChanged '%2']", (Object)this.getLogClass(), (Object)string);
+            this.lc.log(10000000, "[%1.textChanged '%2']", (Object)this.getLogClass(), (Object)string);
         }
         this.appSearch.setActiveGuiSearchHandler(this);
         if (null != string && string.length() > 0) {
@@ -57,11 +56,10 @@ extends AbstractGuiSearchHandler {
         }
     }
 
-    @Override
     public void refreshQuery() {
         String string = this.mdlSpellerSearchText.getText();
         if (null != string && string.length() > 0) {
-            this.lc.log(1078071040, "[%1.refreshQuery] text='%2'", (Object)this.getLogClass(), (Object)string);
+            this.lc.log(1000000, "[%1.refreshQuery] text='%2'", (Object)this.getLogClass(), (Object)string);
             super.refreshQuery();
         }
     }
@@ -70,11 +68,9 @@ extends AbstractGuiSearchHandler {
         this.registerListeners();
     }
 
-    @Override
     public void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
     }
 
-    @Override
     public void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
     }
 
@@ -86,7 +82,7 @@ extends AbstractGuiSearchHandler {
         boolean bl2;
         boolean bl3 = bl2 = this.availabilityChoice.getValue() == 1 != bl;
         if (bl2) {
-            this.lc.log(1078071040, "[%1.setSourceDataAvailability] '%2'", (Object)this.getLogClass(), (Object)String.valueOf(bl));
+            this.lc.log(1000000, "[%1.setSourceDataAvailability] '%2'", (Object)this.getLogClass(), (Object)String.valueOf(bl));
             this.availabilityChoice.setValue(bl ? 1 : 0);
             if (!bl) {
                 this.appSearch.cancelQuery();
@@ -94,7 +90,6 @@ extends AbstractGuiSearchHandler {
         }
     }
 
-    protected abstract String getLogClass() {
-    }
+    protected abstract String getLogClass();
 }
 

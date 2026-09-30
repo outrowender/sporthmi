@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(25, "Connectivity", System.getProperty("variant.skin", "EvoHighScale"), new ConnectivityModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new ConnectivityScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new ConnectivityConditionBank((ConnectivityScreenFactory)this.getScreenFactory());

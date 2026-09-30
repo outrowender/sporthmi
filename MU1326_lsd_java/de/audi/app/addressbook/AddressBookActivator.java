@@ -19,19 +19,16 @@ extends AbstractAddressBookActivator {
     static /* synthetic */ Class class$de$audi$atip$interapp$ADBRemoteHMIService;
     static /* synthetic */ Class class$de$audi$atip$preset$IAppPresetDefinitionHandler;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         ((AddressBookEvoApplication)this.appAdr).init(bundleContext);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         ((AddressBookEvoApplication)this.appAdr).deinit(this.bundleContext);
         super.stop(bundleContext);
     }
 
-    @Override
     protected void registerServices() {
         super.registerServices();
         AddressBookEvoActionProxyImpl addressBookEvoActionProxyImpl = new AddressBookEvoActionProxyImpl(this.log, this.appAdr);
@@ -42,7 +39,6 @@ extends AbstractAddressBookActivator {
         this.registerService((class$de$audi$atip$preset$IAppPresetDefinitionHandler == null ? (class$de$audi$atip$preset$IAppPresetDefinitionHandler = AddressBookActivator.class$("de.audi.atip.preset.IAppPresetDefinitionHandler")) : class$de$audi$atip$preset$IAppPresetDefinitionHandler).getName(), (Object)addressBookEvoPresetHandler, (Dictionary)AddressBookActivator.createServiceProperties());
     }
 
-    @Override
     protected AbstractAddressBookApplication createAddressBookApplication(IFrameworkAccess iFrameworkAccess) {
         return new AddressBookEvoApplication(iFrameworkAccess);
     }

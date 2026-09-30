@@ -18,7 +18,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public class ServiceManagerImpl
 implements IServiceManager {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "ServiceManagerImpl";
     private final BundleContext osgiBundleContext;
     private final IFrameworkAccess framework;
     private final LogChannel logger;
@@ -33,7 +33,6 @@ implements IServiceManager {
         this.framework = iFrameworkAccess;
     }
 
-    @Override
     public IServiceTracker createServiceTracker(Class clazz, ServiceTrackerCustomizer serviceTrackerCustomizer) {
         if (clazz == null || serviceTrackerCustomizer == null) {
             throw new IllegalArgumentException();
@@ -41,7 +40,6 @@ implements IServiceManager {
         return new ServiceTrackerImpl(this.osgiBundleContext, clazz, serviceTrackerCustomizer);
     }
 
-    @Override
     public ServiceReference[] getServiceReferences(Class clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException();
@@ -50,21 +48,19 @@ implements IServiceManager {
             return this.osgiBundleContext.getServiceReferences(clazz.getName(), null);
         }
         catch (Exception exception) {
-            this.logger.log(-1601830656, "[%1.getServiceReferences] %2.", (Object)"ServiceManagerImpl", (Throwable)exception);
+            this.logger.log(100000, "[%1.getServiceReferences] %2.", (Object)LOGCLASS, (Throwable)exception);
             return new ServiceReference[0];
         }
     }
 
-    @Override
     public final ServiceRegistration registerService(Class clazz, Object object, Dictionary dictionary) {
         if (clazz == null || object == null || dictionary == null) {
             throw new IllegalArgumentException();
         }
-        this.logger.log(-2137614336, "[%1.registerService] '%2'.", (Object)"ServiceManagerImpl", (Object)ServiceManagerImpl.getClassnameWithoutPackage(clazz.getName()));
+        this.logger.log(10000000, "[%1.registerService] '%2'.", (Object)LOGCLASS, (Object)ServiceManagerImpl.getClassnameWithoutPackage(clazz.getName()));
         return this.osgiBundleContext.registerService(clazz.getName(), object, dictionary);
     }
 
-    @Override
     public void unregisterService(ServiceRegistration serviceRegistration) {
         try {
             serviceRegistration.unregister();
@@ -74,9 +70,8 @@ implements IServiceManager {
         }
     }
 
-    @Override
     public final ServiceRegistration registerDSIListener(int n, String string, DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.registerDSIListener] [%2,%3]", (Object)"ServiceManagerImpl", (Object)ServiceManagerImpl.getClassnameWithoutPackage(string), (long)n);
+        this.logger.log(1000000, "[%1.registerDSIListener] [%2,%3]", (Object)LOGCLASS, (Object)ServiceManagerImpl.getClassnameWithoutPackage(string), (long)n);
         if (string == null || dSIListener == null) {
             throw new IllegalArgumentException();
         }
@@ -86,7 +81,6 @@ implements IServiceManager {
         return this.registerService(class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = ServiceManagerImpl.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener, dSIListener, hashtable);
     }
 
-    @Override
     public Object getService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             throw new IllegalArgumentException();
@@ -94,7 +88,6 @@ implements IServiceManager {
         return this.osgiBundleContext.getService(serviceReference);
     }
 
-    @Override
     public void releaseService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             throw new IllegalArgumentException();
@@ -102,15 +95,13 @@ implements IServiceManager {
         this.osgiBundleContext.ungetService(serviceReference);
     }
 
-    @Override
     public boolean startDSIService(String string, int n) {
-        this.logger.log(1078071040, "[%1.startDSIService] [%2,%3]", (Object)"ServiceManagerImpl", (Object)ServiceManagerImpl.getClassnameWithoutPackage(string), (long)n);
+        this.logger.log(1000000, "[%1.startDSIService] [%2,%3]", (Object)LOGCLASS, (Object)ServiceManagerImpl.getClassnameWithoutPackage(string), (long)n);
         return this.framework.startDSIService(string, n);
     }
 
-    @Override
     public void stopDSIService(String string, int n) {
-        this.logger.log(1078071040, "[%1.stopDSIService] [%2,%3]", (Object)"ServiceManagerImpl", (Object)ServiceManagerImpl.getClassnameWithoutPackage(string), (long)n);
+        this.logger.log(1000000, "[%1.stopDSIService] [%2,%3]", (Object)LOGCLASS, (Object)ServiceManagerImpl.getClassnameWithoutPackage(string), (long)n);
         this.framework.stopDSIService(string, n);
     }
 
@@ -125,7 +116,6 @@ implements IServiceManager {
         return this.framework;
     }
 
-    @Override
     public BundleContext getBundleContext() {
         return this.osgiBundleContext;
     }

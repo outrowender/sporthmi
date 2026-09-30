@@ -20,7 +20,7 @@ public final class ListDelta {
     private final Map changedElementsRecordAddresses = new HashMap(5);
     private final int oldListSize;
     private volatile boolean fullRangeUpdateNeeded = false;
-    private static final byte FULL_RANGE_UPDATE_THRESHOLD;
+    private static final byte FULL_RANGE_UPDATE_THRESHOLD = 15;
 
     private ListDelta(int n) {
         this.oldListSize = n;

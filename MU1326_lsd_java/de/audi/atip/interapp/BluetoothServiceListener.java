@@ -4,13 +4,10 @@
 package de.audi.atip.interapp;
 
 public interface BluetoothServiceListener {
-    default public void updateBluetoothState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-    }
+    public void updateBluetoothState(boolean var1, boolean var2, boolean var3, boolean var4);
 
-    default public void btActionStarted() {
-    }
+    public void btActionStarted();
 
-    default public void btActionFinished() {
-    }
+    public void btActionFinished();
 }
 

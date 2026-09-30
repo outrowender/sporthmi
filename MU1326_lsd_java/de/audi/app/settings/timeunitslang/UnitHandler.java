@@ -22,12 +22,12 @@ import org.dsi.ifc.global.CarViewOption;
 public final class UnitHandler
 implements ChoiceListener,
 PowerEventListener {
-    public static final int STATE_FUNCTIONAL;
-    public static final int STATE_INVISIBLE;
-    public static final int STATE_DISABLED;
+    public static final int STATE_FUNCTIONAL = 0;
+    public static final int STATE_INVISIBLE = 1;
+    public static final int STATE_DISABLED = 2;
     private volatile UnitmasterViewOptions unitMasterViewOpt;
     private volatile RDKViewOptions rDKviewOptions;
-    protected static final int UNIT_INVAILID;
+    protected static final int UNIT_INVAILID = -1;
     private final SettingsEnv env;
     private final LogChannel lc;
     private ChoiceModelApp unitsVisibilityModel;
@@ -49,12 +49,11 @@ PowerEventListener {
         this.env.getChoiceModel(4014).setChoiceListener(this);
         this.env.getChoiceModel(4015).setChoiceListener(this);
         this.env.getChoiceModel(4020).setChoiceListener(this);
-        this.unitsVisibilityModel = this.env.getChoiceModel(1875447808);
-        this.unitsDisclaimer = this.env.getChoiceModel(130682880);
+        this.unitsVisibilityModel = this.env.getChoiceModel(1100143);
+        this.unitsDisclaimer = this.env.getChoiceModel(1100295);
         this.prefillModels();
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         switch (n) {
             case 4016: {
@@ -88,44 +87,39 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
     private void setTemperatureUnit(int n) {
-        this.lc.log(1078071040, "UnitHandler#setTemperatureUnit: '%1'", (Object)(n == 0 ? "\u00b0C" : "\u00b0F"));
+        this.lc.log(1000000, "UnitHandler#setTemperatureUnit: '%1'", (Object)(n == 0 ? "\u00b0C" : "\u00b0F"));
         int n2 = n == 0 ? 0 : 1;
-        this.lc.log(1078071040, "UnitHandler#setTemperatureUnit: dsi.setTemperatureUnit(%1)", (long)n2);
+        this.lc.log(1000000, "UnitHandler#setTemperatureUnit: dsi.setTemperatureUnit(%1)", (long)n2);
         this.env.getDSIManager().getDSI().setTemperatureUnit(n2);
     }
 
     private void setDistanceUnit(int n) {
-        this.lc.log(1078071040, "UnitHandler#setDistanceUnit: '%1'", (Object)(n == 0 ? "km" : "mi"));
+        this.lc.log(1000000, "UnitHandler#setDistanceUnit: '%1'", (Object)(n == 0 ? "km" : "mi"));
         int n2 = n == 0 ? 0 : 1;
-        this.lc.log(1078071040, "UnitHandler#setDistanceUnit: dsi.setDistanceUnit(%1)", (long)n2);
+        this.lc.log(1000000, "UnitHandler#setDistanceUnit: dsi.setDistanceUnit(%1)", (long)n2);
         this.env.getDSIManager().getDSI().setDistanceUnit(n2);
     }
 
     private void setSpeedUnit(int n) {
-        this.lc.log(1078071040, "UnitHandler#setSpeedUnit: '%1'", (Object)(n == 0 ? "km/h" : "mph"));
+        this.lc.log(1000000, "UnitHandler#setSpeedUnit: '%1'", (Object)(n == 0 ? "km/h" : "mph"));
         int n2 = n == 0 ? 0 : 1;
-        this.lc.log(1078071040, "UnitHandler#setSpeedUnit: dsi.setSpeedUnit( %1 )", (long)n2);
+        this.lc.log(1000000, "UnitHandler#setSpeedUnit: dsi.setSpeedUnit( %1 )", (long)n2);
         this.env.getDSIManager().getDSI().setSpeedUnit(n2);
         if (this.env.getVariantMapper().shouldLinkSpeedAndDistance()) {
             this.env.getDSIManager().getDSI().setDistanceUnit(n2 == 0 ? 0 : 1);
@@ -133,7 +127,7 @@ PowerEventListener {
     }
 
     private void setPressureUnit(int n) {
-        this.lc.log(1078071040, "UnitHandler#setPressureUnit: '%1'", (long)n);
+        this.lc.log(1000000, "UnitHandler#setPressureUnit: '%1'", (long)n);
         int n2 = 0;
         switch (n) {
             case 0: {
@@ -149,12 +143,12 @@ PowerEventListener {
                 break;
             }
         }
-        this.lc.log(1078071040, "UnitHandler#setPressureUnit: dsi.setPressureUnit(%1)", (long)n2);
+        this.lc.log(1000000, "UnitHandler#setPressureUnit: dsi.setPressureUnit(%1)", (long)n2);
         this.env.getDSIManager().getDSI().setPressureUnit(n2);
     }
 
     private void setVolumeUnit(int n) {
-        this.lc.log(1078071040, "UnitHandler#setVolumeUnit: '%1'", (long)n);
+        this.lc.log(1000000, "UnitHandler#setVolumeUnit: '%1'", (long)n);
         int n2 = 2;
         switch (n) {
             case 0: {
@@ -170,12 +164,12 @@ PowerEventListener {
                 break;
             }
         }
-        this.lc.log(1078071040, "UnitHandler#setVolumeUnit: dsi.setVolumeUnit(%1)", (long)n2);
+        this.lc.log(1000000, "UnitHandler#setVolumeUnit: dsi.setVolumeUnit(%1)", (long)n2);
         this.env.getDSIManager().getDSI().setVolumeUnit(n2);
     }
 
     private void setConsumptionPetrolUnit(int n) {
-        this.lc.log(-2137614336, "UnitHandler#setConsumptionUnit: '%1'", (long)n);
+        this.lc.log(10000000, "UnitHandler#setConsumptionUnit: '%1'", (long)n);
         int n2 = 0;
         switch (n) {
             case 0: {
@@ -195,12 +189,12 @@ PowerEventListener {
                 break;
             }
         }
-        this.lc.log(-2137614336, "UnitHandler#setConsumptionUnit: dsi.setConsumptionPetrolUnit(%1)", (long)n2);
+        this.lc.log(10000000, "UnitHandler#setConsumptionUnit: dsi.setConsumptionPetrolUnit(%1)", (long)n2);
         this.env.getDSIManager().getDSI().setConsumptionPetrolUnit(n2);
     }
 
     private void setConsumptionElektroUnit(int n) {
-        this.lc.log(-2137614336, "UnitHandler#setConsumptionElektrolUnit: '%1'", (long)n);
+        this.lc.log(10000000, "UnitHandler#setConsumptionElektrolUnit: '%1'", (long)n);
         int n2 = 20;
         switch (n) {
             case 0: {
@@ -220,7 +214,7 @@ PowerEventListener {
                 break;
             }
         }
-        this.lc.log(-2137614336, "UnitHandler#setConsumptionUnit: dsi.setConsumptionElektrolUnit(%1)", (long)n2);
+        this.lc.log(10000000, "UnitHandler#setConsumptionUnit: dsi.setConsumptionElektrolUnit(%1)", (long)n2);
         this.env.getDSIManager().getDSI().setConsumptionElectricUnit(n2);
     }
 
@@ -396,30 +390,30 @@ PowerEventListener {
     }
 
     public void updateUnitmasterViewOptions(UnitmasterViewOptions unitmasterViewOptions) {
-        this.lc.log(1078071040, "UnitHandler#updateUnitmasterViewOptions(%1, %2)", (Object)unitmasterViewOptions);
+        this.lc.log(1000000, "UnitHandler#updateUnitmasterViewOptions(%1, %2)", (Object)unitmasterViewOptions);
         this.unitMasterViewOpt = unitmasterViewOptions;
         if (this.unitMasterViewOpt != null) {
             if (this.env.getFw().getSysConstManager().getCarFuncAdaptation().isMenuDisplayActivated((short)23)) {
-                this.setAvailChoice(-842461184, this.unitMasterViewOpt.getDateFormat());
-                this.setAvailChoice(-792129536, this.unitMasterViewOpt.getClockFormat());
+                this.setAvailChoice(1100237, this.unitMasterViewOpt.getDateFormat());
+                this.setAvailChoice(1100240, this.unitMasterViewOpt.getClockFormat());
                 this.timeHandler.setUnitmasterViewOptions(unitmasterViewOptions);
             } else {
-                this.env.getChoiceModel(-842461184).setValue(1);
-                this.env.getChoiceModel(-792129536).setValue(1);
+                this.env.getChoiceModel(1100237).setValue(1);
+                this.env.getChoiceModel(1100240).setValue(1);
             }
-            this.setAvailChoice(1942556672, this.unitMasterViewOpt.getDistanceUnit());
-            this.setAvailChoice(2009665536, this.unitMasterViewOpt.getSpeedUnit());
-            this.setAvailChoice(2043219968, this.unitMasterViewOpt.getTemperatureUnit());
-            this.setAvailChoice(1909002240, this.unitMasterViewOpt.getConsumptionPetrolUnit());
-            this.setAvailChoice(-574025728, this.unitMasterViewOpt.getConsumptionElectricUnit());
-            this.setAvailChoice(2076774400, this.unitMasterViewOpt.getVolumeUnit());
+            this.setAvailChoice(1100147, this.unitMasterViewOpt.getDistanceUnit());
+            this.setAvailChoice(1100151, this.unitMasterViewOpt.getSpeedUnit());
+            this.setAvailChoice(1100153, this.unitMasterViewOpt.getTemperatureUnit());
+            this.setAvailChoice(1100145, this.unitMasterViewOpt.getConsumptionPetrolUnit());
+            this.setAvailChoice(1100253, this.unitMasterViewOpt.getConsumptionElectricUnit());
+            this.setAvailChoice(1100155, this.unitMasterViewOpt.getVolumeUnit());
             this.setPressureAvailChoice();
             this.applyUnitsVisibility();
         }
     }
 
     private void applyUnitsVisibility() {
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1875447808);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1100143);
         try {
             if (this.env.getFw().getSysConstManager().getCarFuncAdaptation().isMenuDisplayActivated((short)23)) {
                 int n = 1;
@@ -489,7 +483,7 @@ PowerEventListener {
     }
 
     private void setPressureAvailChoice() {
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1976111104);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1100149);
         if (this.unitMasterViewOpt == null || this.rDKviewOptions == null) {
             choiceModelApp.setValue(1);
             return;
@@ -558,19 +552,15 @@ PowerEventListener {
         this.updateUnitmasterViewOptions(unitmasterViewOptions);
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         if (this.unitsVisibilityModel.getValue() != 1) {
             if (bl2) {

@@ -4,7 +4,6 @@
 package de.audi.app.media.selection;
 
 public interface IFavoritePlayerSelectionListener {
-    default public void playFavoriteSelectionDone(boolean bl) {
-    }
+    public void playFavoriteSelectionDone(boolean var1);
 }
 

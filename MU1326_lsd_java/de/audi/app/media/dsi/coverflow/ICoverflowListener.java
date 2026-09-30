@@ -6,44 +6,36 @@ package de.audi.app.media.dsi.coverflow;
 import de.audi.app.media.dsi.coverflow.MediaAlbumInfo;
 
 public interface ICoverflowListener {
-    public static final byte STATE_BROWSER_UNKNOWN;
-    public static final byte STATE_BROWSER_INITIALIZED;
-    public static final byte STATE_BROWSER_ACTIVE;
-    public static final byte STATE_BROWSER_SCROLLING;
-    public static final byte STATE_BROWSER_SELECTING;
-    public static final byte STATE_BROWSER_PREVIEW;
-    public static final byte STATE_BROWSER_ANIMATION_OPEN;
-    public static final byte STATE_BROWSER_ANIMATION_CLOSE;
-    public static final byte STATE_BROWSER_ANIMATION_ENTRY;
-    public static final byte STATE_BROWSER_ANIMATION_PREVIEW_OPEN;
-    public static final byte STATE_BROWSER_ANIMATION_PREVIEW_CLOSE;
-    public static final byte STATE_BROWSER_ANIMATION_PREVIEW_SCROLLING;
-    public static final byte STATE_BROWSER_SINGLE;
-    public static final byte SCROLLMODE_NORMAL;
-    public static final byte SCROLLMODE_FAST;
+    public static final byte STATE_BROWSER_UNKNOWN = 0;
+    public static final byte STATE_BROWSER_INITIALIZED = 1;
+    public static final byte STATE_BROWSER_ACTIVE = 2;
+    public static final byte STATE_BROWSER_SCROLLING = 3;
+    public static final byte STATE_BROWSER_SELECTING = 4;
+    public static final byte STATE_BROWSER_PREVIEW = 5;
+    public static final byte STATE_BROWSER_ANIMATION_OPEN = 6;
+    public static final byte STATE_BROWSER_ANIMATION_CLOSE = 7;
+    public static final byte STATE_BROWSER_ANIMATION_ENTRY = 8;
+    public static final byte STATE_BROWSER_ANIMATION_PREVIEW_OPEN = 9;
+    public static final byte STATE_BROWSER_ANIMATION_PREVIEW_CLOSE = 10;
+    public static final byte STATE_BROWSER_ANIMATION_PREVIEW_SCROLLING = 11;
+    public static final byte STATE_BROWSER_SINGLE = 12;
+    public static final byte SCROLLMODE_NORMAL = 0;
+    public static final byte SCROLLMODE_FAST = 1;
 
-    default public void responseSelectedAlbum(long l) {
-    }
+    public void responseSelectedAlbum(long var1);
 
-    default public void responseAlbumIdxForFid(long l, long l2) {
-    }
+    public void responseAlbumIdxForFid(long var1, long var3);
 
-    default public void updateBrowserState(int n) {
-    }
+    public void updateBrowserState(int var1);
 
-    default public void updateFocusedEntry(MediaAlbumInfo mediaAlbumInfo) {
-    }
+    public void updateFocusedEntry(MediaAlbumInfo var1);
 
-    default public void updateNumEntries(long l) {
-    }
+    public void updateNumEntries(long var1);
 
-    default public void updateScrollMode(int n) {
-    }
+    public void updateScrollMode(int var1);
 
-    default public void updateListPosition(long l) {
-    }
+    public void updateListPosition(long var1);
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3);
 }
 

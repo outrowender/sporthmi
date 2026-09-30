@@ -7,7 +7,6 @@ import de.audi.atip.interapp.combi.bap.CombiBAPService;
 
 public interface CombiBAPServiceSDS
 extends CombiBAPService {
-    default public void updateSDSState(int n) {
-    }
+    public void updateSDSState(int var1);
 }
 

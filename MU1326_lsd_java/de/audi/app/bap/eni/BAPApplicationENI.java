@@ -13,7 +13,6 @@ extends AbstractBAPApplication {
         super(iFrameworkAccess, new LoggerENI(iFrameworkAccess));
     }
 
-    @Override
     public String getName() {
         return "ENI";
     }

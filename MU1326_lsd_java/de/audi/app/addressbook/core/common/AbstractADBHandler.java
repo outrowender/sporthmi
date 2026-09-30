@@ -47,14 +47,14 @@ ADBStateListener {
         ADBStartupHandler aDBStartupHandler = new ADBStartupHandler(this.log, this);
         this.adbDSIAccess = new ADBDSIAccess(this.log, aDBStartupHandler);
         this.adbDSIDefaultListener = this.getNewADBDSIDefaultListener(this.log, aDBStartupHandler, this);
-        this.cmdListMgr = new CommandListManager(new StringBuffer().append(super.getClass().getName()).append("_CommandListManager").toString(), this.framework, this.cmdListLog, null, null);
+        this.cmdListMgr = new CommandListManager(this.getClass().getName() + "_CommandListManager", this.framework, this.cmdListLog, null, null);
         this.cmdListMgr.start();
         this.adbDSIListener = new ADBDSIListener(this.cmdListMgr, this.adbDSIDefaultListener);
         this.adbStateHandler = this.getNewADBStateHandler(this.log);
     }
 
     public void destroy() {
-        this.log.log(1078071040, "AbstractADBHandler#destroy()");
+        this.log.log(1000000, "AbstractADBHandler#destroy()");
         this.adbDSIAccess = null;
         this.adbDSIDefaultListener = null;
         this.adbDSIListener = null;
@@ -70,22 +70,18 @@ ADBStateListener {
         return this.currentEntry;
     }
 
-    @Override
     public void setFocusedEntryId(long l) {
         this.focusedEntryId = l;
     }
 
-    @Override
     public long getFocusedEntryId() {
         return this.focusedEntryId;
     }
 
-    @Override
     public void setFocusedEntryType(int n) {
         this.focusedEntryType = n;
     }
 
-    @Override
     public int getFocusedEntryType() {
         return this.focusedEntryType;
     }
@@ -102,88 +98,69 @@ ADBStateListener {
         return this.framework.getHmiServiceApp();
     }
 
-    @Override
     public ADBOrganizerSearch getADBOrganizerSearch() {
         return null;
     }
 
-    @Override
     public IFrameworkAccess getFramework() {
         return this.framework;
     }
 
-    @Override
     public ADBDSIAccess getADBDSIAccess() {
         return this.adbDSIAccess;
     }
 
-    @Override
     public LogChannel getLog() {
         return this.log;
     }
 
-    @Override
     public CommandListManager getCommandListManager() {
         return this.cmdListMgr;
     }
 
-    @Override
     public ADBDSIListener getADBDSIListener() {
         return this.adbDSIListener;
     }
 
-    @Override
     public ADBDSIDefaultListener getADBDSIDefaultListener() {
         return this.adbDSIDefaultListener;
     }
 
-    @Override
     public ADBStateHandler getAdbStateHandler() {
         return this.adbStateHandler;
     }
 
-    @Override
     public int getAdbMode() {
         return 0;
     }
 
-    @Override
     public void entrySelected(ADBSearch aDBSearch, ADBSearchListRow aDBSearchListRow, int n, int n2) {
     }
 
-    @Override
     public void detailsSelected(ADBEntryDetailsListRow aDBEntryDetailsListRow, int n, int n2) {
     }
 
-    @Override
     public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n) {
     }
 
-    @Override
     public void updateDownloadState(int n, int n2) {
     }
 
-    @Override
     public void updateDownloadState2ndPhone(int n, int n2) {
     }
 
-    @Override
     public void updateNewEntryAvailable(boolean bl) {
     }
 
-    @Override
     public void updateNewPublicProfileEntryAvailable(boolean bl) {
     }
 
-    @Override
     public void updateNewTopDestEntryAvailable(boolean bl) {
     }
 
-    @Override
     public void updateNewPublicProfileTopDestEntryAvailable(boolean bl) {
     }
 
-    @Override
     public void updateViewSizes(AdbViewSize adbViewSize) {
     }
 }

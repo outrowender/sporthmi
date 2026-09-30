@@ -27,66 +27,58 @@ extends AbstractADBHandler {
         this.adbComponent = telADBHandler;
     }
 
-    @Override
     public int getInitStartupCompleteMask() {
         return 229;
     }
 
-    @Override
     public void handleInvalidData(int n, boolean bl) {
         this.adbComponent.handleInvalidData(n, bl);
     }
 
-    @Override
     public void setAdbReady(boolean bl) {
-        this.log.log(1078071040, "[TelAddressbookHandlerImpl#setAdbReady] ready=%1", bl);
+        this.log.log(1000000, "[TelAddressbookHandlerImpl#setAdbReady] ready=%1", bl);
         this.adbComponent.setAdbReady(bl);
     }
 
-    @Override
     public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n) {
-        this.log.log(1078071040, "[TelAddressbookHandlerImpl#updateProfileInfo] profileInfo=%1, indexOfActiveProfile=%2", (Object)Converter.array2String(profileInfoArray), (long)n);
+        this.log.log(1000000, "[TelAddressbookHandlerImpl#updateProfileInfo] profileInfo=%1, indexOfActiveProfile=%2", (Object)Converter.array2String(profileInfoArray), (long)n);
         if (profileInfoArray != null) {
             if (n >= 0 && n < profileInfoArray.length) {
                 ProfileInfo profileInfo = profileInfoArray[n];
                 this.adbComponent.updateActiveProfile(profileInfo);
             } else {
-                this.log.log(-1601830656, "[TelAddressbookHandlerImpl#updateProfileInfo] invalid index %1", (long)n);
+                this.log.log(100000, "[TelAddressbookHandlerImpl#updateProfileInfo] invalid index %1", (long)n);
             }
         } else {
-            this.log.log(-1601830656, "[TelAddressbookHandlerImpl#updateProfileInfo] profileInfo is null!");
+            this.log.log(100000, "[TelAddressbookHandlerImpl#updateProfileInfo] profileInfo is null!");
         }
     }
 
-    @Override
     protected ADBDSIDefaultListener getNewADBDSIDefaultListener(LogChannel logChannel, ADBStartupHandler aDBStartupHandler, ADBApplication aDBApplication) {
         return new TelADBDSIDefaultListener(this, logChannel, aDBStartupHandler, aDBApplication);
     }
 
     void profileDeleted(int n) {
-        this.log.log(1078071040, "[TelAddressbookHandlerImpl#profileDeleted] profileId=%1", (long)n);
+        this.log.log(1000000, "[TelAddressbookHandlerImpl#profileDeleted] profileId=%1", (long)n);
         this.adbComponent.profileDeleted(n);
     }
 
     void updateSortOrder(int n, int n2) {
-        this.log.log(1078071040, "[TelAddressbookHandlerImpl#updateSortOrder] sortOrder=%1, validFlag=%2", (long)n, (long)n2);
+        this.log.log(1000000, "[TelAddressbookHandlerImpl#updateSortOrder] sortOrder=%1, validFlag=%2", (long)n, (long)n2);
         this.adbComponent.updateSortOrder(n, n2);
     }
 
-    @Override
     public void entrySelected(ADBSearch aDBSearch, ADBSearchListRow aDBSearchListRow, int n, int n2) {
-        this.log.log(1078071040, "TelAddressbookHandlerImpl#entrySelected(): adbSearch %1", (Object)aDBSearch);
+        this.log.log(1000000, "TelAddressbookHandlerImpl#entrySelected(): adbSearch %1", (Object)aDBSearch);
         this.adbComponent.entrySelected(aDBSearch, aDBSearchListRow, n, n2);
     }
 
-    @Override
     public ADBOrganizerSearch getADBOrganizerSearch() {
         return this.adbComponent.getOrganizerSearch();
     }
 
-    @Override
     public void detailsSelected(ADBEntryDetailsListRow aDBEntryDetailsListRow, int n, int n2) {
-        this.log.log(1078071040, "TelAddressbookHandlerImpl#detailsSelected(): entryDetailsRow %1", (Object)aDBEntryDetailsListRow);
+        this.log.log(1000000, "TelAddressbookHandlerImpl#detailsSelected(): entryDetailsRow %1", (Object)aDBEntryDetailsListRow);
         this.adbComponent.detailsSelected(aDBEntryDetailsListRow, n, n2);
     }
 }

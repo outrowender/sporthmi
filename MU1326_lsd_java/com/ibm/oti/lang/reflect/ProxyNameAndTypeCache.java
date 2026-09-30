@@ -14,7 +14,7 @@ class ProxyNameAndTypeCache {
             n = 13;
         }
         this.elementSize = 0;
-        this.threshold = (int)((float)n * -1007343553);
+        this.threshold = (int)((float)n * 0.66f);
         this.keyTable = new int[n][];
         this.valueTable = new int[n];
     }

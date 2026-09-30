@@ -38,7 +38,6 @@ implements ICharismaIndividualSettingsProxy {
         }
     }
 
-    @Override
     public boolean hasClients() {
         return 0 < this.clients.size();
     }
@@ -46,17 +45,16 @@ implements ICharismaIndividualSettingsProxy {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void registerClient(ICharismaIndividualSettingsClient iCharismaIndividualSettingsClient) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[CharismaIndividualSettingsProxy#registerClient] ...");
+            this.logChannel.log(1000000, "[CharismaIndividualSettingsProxy#registerClient] ...");
         }
         Object object = this.mutex;
         synchronized (object) {
             if (!this.clients.contains(iCharismaIndividualSettingsClient)) {
                 this.clients.add(iCharismaIndividualSettingsClient);
             } else {
-                this.logChannel.log(-1601830656, "[CharismaIndividualSettingsProxy#registerClient] Client already registered.");
+                this.logChannel.log(100000, "[CharismaIndividualSettingsProxy#registerClient] Client already registered.");
             }
         }
     }
@@ -64,10 +62,9 @@ implements ICharismaIndividualSettingsProxy {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void unregisterClient(ICharismaIndividualSettingsClient iCharismaIndividualSettingsClient) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[CharismaIndividualSettingsProxy#unregisterClient] ...");
+            this.logChannel.log(1000000, "[CharismaIndividualSettingsProxy#unregisterClient] ...");
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -78,10 +75,9 @@ implements ICharismaIndividualSettingsProxy {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void invokeSaveIndividualSettingsRequest() {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[CharismaIndividualSettingsProxy#invokeSaveIndividualSettingsRequest] ...");
+            this.logChannel.log(1000000, "[CharismaIndividualSettingsProxy#invokeSaveIndividualSettingsRequest] ...");
         }
         Object object = this.mutex;
         synchronized (object) {

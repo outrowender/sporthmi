@@ -7,19 +7,14 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface EngineeringActionProxy
 extends ActionProxy {
-    default public void EngineeringTestProxy(int n) {
-    }
+    public void EngineeringTestProxy(int var1);
 
-    default public void startSystemUpTimer(int n) {
-    }
+    public void startSystemUpTimer(int var1);
 
-    default public void stopSystemUpTimer(int n) {
-    }
+    public void stopSystemUpTimer(int var1);
 
-    default public void enterREM(int n) {
-    }
+    public void enterREM(int var1);
 
-    default public void leaveREM(int n) {
-    }
+    public void leaveREM(int var1);
 }
 

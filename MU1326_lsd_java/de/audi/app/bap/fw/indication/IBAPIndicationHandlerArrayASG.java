@@ -8,13 +8,10 @@ import de.vw.mib.bap.requests.ChangedArray;
 import de.vw.mib.bap.requests.StatusArray;
 
 public interface IBAPIndicationHandlerArrayASG {
-    default public void processIndicationChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, ChangedArray changedArray) {
-    }
+    public void processIndicationChangedArray(BAPFunctionArrayASG var1, ChangedArray var2);
 
-    default public void processIndicationStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, StatusArray statusArray) {
-    }
+    public void processIndicationStatusArray(BAPFunctionArrayASG var1, StatusArray var2);
 
-    default public void processIndicationStatusArrayAck(BAPFunctionArrayASG bAPFunctionArrayASG, StatusArray statusArray) {
-    }
+    public void processIndicationStatusArrayAck(BAPFunctionArrayASG var1, StatusArray var2);
 }
 

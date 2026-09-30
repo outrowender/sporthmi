@@ -4,7 +4,6 @@
 package de.audi.app.media.dsi.media;
 
 public interface IMediaLanguageListener {
-    default public void updatePreferredLanguage(String string) {
-    }
+    public void updatePreferredLanguage(String var1);
 }
 

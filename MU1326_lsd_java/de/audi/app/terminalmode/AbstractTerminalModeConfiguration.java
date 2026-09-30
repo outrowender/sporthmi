@@ -29,57 +29,46 @@ IDiagnosisDataProvider {
         this.fw = iFrameworkAccess;
     }
 
-    @Override
     public boolean isTerminalMode() {
         return this.terminalMode;
     }
 
-    @Override
     public boolean hasKnob() {
         return false;
     }
 
-    @Override
     public boolean hasTouchpad() {
         return false;
     }
 
-    @Override
     public boolean hasTouchscreenHigh() {
         return false;
     }
 
-    @Override
     public boolean hasTouchscreenLow() {
         return false;
     }
 
-    @Override
     public boolean hasTouchscreen() {
         return this.hasTouchscreenHigh() || this.hasTouchscreenLow();
     }
 
-    @Override
     public boolean isRightHandDrive() {
         return this.rightHandDrive;
     }
 
-    @Override
     public boolean isAutoConnect() {
         return false;
     }
 
-    @Override
     public String getDiagKey() {
         return "Configuration";
     }
 
-    @Override
     public String getDiagValue() {
         return this.toString();
     }
 
-    @Override
     public int getScreenResolutionX() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -92,27 +81,22 @@ IDiagnosisDataProvider {
         return 1024;
     }
 
-    @Override
     public int getScreenResolutionY() {
         return 480;
     }
 
-    @Override
     public int getWindowResolutionX() {
         return this.getScreenResolutionX();
     }
 
-    @Override
     public int getWindowResolutionY() {
         return this.getScreenResolutionY();
     }
 
-    @Override
     public int getTouchPadResolutionX() {
         return this.getSquareTouchPadResolution();
     }
 
-    @Override
     public int getTouchPadResolutionY() {
         return this.getSquareTouchPadResolution();
     }
@@ -132,7 +116,6 @@ IDiagnosisDataProvider {
         return 256;
     }
 
-    @Override
     public int getPhysicalDisplayHeight() {
         switch (this.fw.getSysConst(522)) {
             case 2: {
@@ -142,7 +125,6 @@ IDiagnosisDataProvider {
         return 91;
     }
 
-    @Override
     public int getPhysicalDisplayWidth() {
         switch (this.fw.getSysConst(522)) {
             case 2: {
@@ -152,7 +134,6 @@ IDiagnosisDataProvider {
         return 152;
     }
 
-    @Override
     public int getDSICarPlayScreenResolution() {
         switch (this.fw.getScreenRes()) {
             case 2: 
@@ -172,27 +153,22 @@ IDiagnosisDataProvider {
         return 0;
     }
 
-    @Override
     public int getCarPlayPhysicalDisplayHeight() {
         return this.getPhysicalDisplayHeight();
     }
 
-    @Override
     public int getCarPlayPhysicalDisplayWidth() {
         return this.getPhysicalDisplayWidth();
     }
 
-    @Override
     public int getScreenOffsetX() {
         return 0;
     }
 
-    @Override
     public int getScreenOffsetY() {
         return 0;
     }
 
-    @Override
     public boolean isTouchScreenInputWidget() {
         return this.hasTouchscreen();
     }
@@ -205,27 +181,22 @@ IDiagnosisDataProvider {
         return buffer.toString();
     }
 
-    @Override
     public boolean supportsDeletionOfConnectedDevices() {
         return false;
     }
 
-    @Override
     public boolean hasBothPhoneMFLKeys() {
         return false;
     }
 
-    @Override
     public boolean usesOldMediaConnector() {
         return false;
     }
 
-    @Override
     public int applicationOffset() {
         return 0;
     }
 
-    @Override
     public boolean hasTwoVirtualButtonModels() {
         return true;
     }
@@ -234,7 +205,6 @@ IDiagnosisDataProvider {
         return this.fw;
     }
 
-    @Override
     public boolean isOnHoldWhenPhoneCallActive() {
         return false;
     }

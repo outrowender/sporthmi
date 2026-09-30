@@ -9,7 +9,6 @@ import de.audi.tghu.addressbook.sm.AddressBookSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new AddressBookSMM[8];
         if (this.framework.isFrontMU()) {

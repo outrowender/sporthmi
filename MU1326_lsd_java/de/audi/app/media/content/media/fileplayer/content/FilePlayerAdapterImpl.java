@@ -16,8 +16,8 @@ import org.dsi.ifc.media.EntryInfo;
 
 public class FilePlayerAdapterImpl
 extends NullPlayer {
-    private static final String LOGCLASS;
-    private static final int INVALID_SESSION_TYPE;
+    private static final String LOGCLASS = "FilePlayerAdapterImpl";
+    private static final int INVALID_SESSION_TYPE = -1;
     private final IFilePlayer filePlayer;
     private final LogChannel logger;
     private final CopyOnWriteArrayList trackListeners;
@@ -30,33 +30,31 @@ extends NullPlayer {
     }
 
     public void activate() {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"FilePlayerAdapterImpl");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
     }
 
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"FilePlayerAdapterImpl");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.trackListeners.clear();
         this.activeSessionType = -1;
     }
 
-    @Override
     public void addTrackListener(IPlayerTrackListener iPlayerTrackListener) {
-        this.logger.log(1078071040, "[%1.addTrackListener] '%2'", (Object)"FilePlayerAdapterImpl", (Object)iPlayerTrackListener);
+        this.logger.log(1000000, "[%1.addTrackListener] '%2'", (Object)LOGCLASS, (Object)iPlayerTrackListener);
         this.trackListeners.add(iPlayerTrackListener);
     }
 
-    @Override
     public void removeTrackListener(IPlayerTrackListener iPlayerTrackListener) {
-        this.logger.log(1078071040, "[%1.removeTrackListener] '%2'", (Object)"FilePlayerAdapterImpl", (Object)iPlayerTrackListener);
+        this.logger.log(1000000, "[%1.removeTrackListener] '%2'", (Object)LOGCLASS, (Object)iPlayerTrackListener);
         this.trackListeners.remove(iPlayerTrackListener);
     }
 
     public void updateActiveSessionType(int n) {
         if (this.activeSessionType == n) {
-            this.logger.log(1078071040, "[%1.updateActiveSessionType] Not changed.", (Object)"FilePlayerAdapterImpl");
+            this.logger.log(1000000, "[%1.updateActiveSessionType] Not changed.", (Object)LOGCLASS);
             return;
         }
-        this.logger.log(1078071040, "[%1.updateActiveSessionType] '%2'", (Object)"FilePlayerAdapterImpl", (Object)(n == 0 ? "BOARDBOOK" : "RINGTONE"));
+        this.logger.log(1000000, "[%1.updateActiveSessionType] '%2'", (Object)LOGCLASS, (Object)(n == 0 ? "BOARDBOOK" : "RINGTONE"));
         this.activeSessionType = n;
         this.notifyActiveSessionTypeChanged();
     }
@@ -71,7 +69,7 @@ extends NullPlayer {
                 ((IPlayerTrackListener)iterator.next()).detailInfoChanged(mediaDetailInfo);
             }
             catch (Exception exception) {
-                this.logger.log(-1601830656, "[%1.notifyActiveSessionTypeChanged]", (Object)"FilePlayerAdapterImpl", (Throwable)exception);
+                this.logger.log(100000, "[%1.notifyActiveSessionTypeChanged]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
@@ -79,15 +77,14 @@ extends NullPlayer {
     private FilePlayerSession getActiveSession() {
         FilePlayerSession filePlayerSession = this.filePlayer.getState().getActiveSession();
         if (filePlayerSession == null || filePlayerSession.getOnState() != 1) {
-            this.logger.log(1078071040, "[%1.getActiveSession] No session active.", (Object)"FilePlayerAdapterImpl");
+            this.logger.log(1000000, "[%1.getActiveSession] No session active.", (Object)LOGCLASS);
             return null;
         }
         return filePlayerSession;
     }
 
-    @Override
     public void pause() {
-        this.logger.log(1078071040, "[%1.pause]", (Object)"FilePlayerAdapterImpl");
+        this.logger.log(1000000, "[%1.pause]", (Object)LOGCLASS);
         FilePlayerSession filePlayerSession = this.getActiveSession();
         if (filePlayerSession == null) {
             return;
@@ -95,9 +92,8 @@ extends NullPlayer {
         filePlayerSession.getSessionPlayer().pause();
     }
 
-    @Override
     public void resume() {
-        this.logger.log(1078071040, "[%1.resume]", (Object)"FilePlayerAdapterImpl");
+        this.logger.log(1000000, "[%1.resume]", (Object)LOGCLASS);
         FilePlayerSession filePlayerSession = this.getActiveSession();
         if (filePlayerSession == null) {
             return;
@@ -105,7 +101,6 @@ extends NullPlayer {
         filePlayerSession.getSessionPlayer().resume();
     }
 
-    @Override
     public boolean isPlaying() {
         FilePlayerSession filePlayerSession = this.getActiveSession();
         if (filePlayerSession == null) {
@@ -114,9 +109,8 @@ extends NullPlayer {
         return filePlayerSession.getState() == 2;
     }
 
-    @Override
     public boolean startSeek(boolean bl) {
-        this.logger.log(1078071040, "[%1.startSeek]", (Object)"FilePlayerAdapterImpl");
+        this.logger.log(1000000, "[%1.startSeek]", (Object)LOGCLASS);
         FilePlayerSession filePlayerSession = this.getActiveSession();
         if (filePlayerSession == null) {
             return false;
@@ -125,14 +119,12 @@ extends NullPlayer {
         return true;
     }
 
-    @Override
     public boolean stopSeek(boolean bl) {
-        this.logger.log(1078071040, "[%1.stopSeek]", (Object)"FilePlayerAdapterImpl");
+        this.logger.log(1000000, "[%1.stopSeek]", (Object)LOGCLASS);
         this.resume();
         return true;
     }
 
-    @Override
     public boolean isSeeking() {
         FilePlayerSession filePlayerSession = this.getActiveSession();
         if (filePlayerSession == null) {
@@ -141,9 +133,8 @@ extends NullPlayer {
         return filePlayerSession.getState() == 4;
     }
 
-    @Override
     public boolean skip(boolean bl, int n) {
-        this.logger.log(1078071040, "[%1.skip] '%2','%3'", (Object)"FilePlayerAdapterImpl", (Object)(bl ? "FORWARD" : "BACKWARD"), (long)n);
+        this.logger.log(1000000, "[%1.skip] '%2','%3'", (Object)LOGCLASS, (Object)(bl ? "FORWARD" : "BACKWARD"), (long)n);
         FilePlayerSession filePlayerSession = this.getActiveSession();
         if (filePlayerSession == null) {
             return false;

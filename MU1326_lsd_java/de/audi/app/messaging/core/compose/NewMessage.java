@@ -8,20 +8,14 @@ import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.compose.ICompositionValidator;
 import de.audi.app.messaging.core.compose.INewMessageObserver;
 import de.audi.app.messaging.core.compose.INewMessagePropertyFactory;
-import de.audi.app.messaging.core.compose.INewMessagePropertyFactory$NullFactory;
 import de.audi.app.messaging.core.compose.Message;
 import de.audi.app.messaging.core.compose.MessageCreator;
-import de.audi.app.messaging.core.compose.NewMessage$1;
-import de.audi.app.messaging.core.compose.NewMessage$DiagPlugIn;
-import de.audi.app.messaging.core.compose.NewMessage$MessagingDictationServiceListener;
-import de.audi.app.messaging.core.compose.NewMessage$MyDsiMessagingListener;
-import de.audi.app.messaging.core.compose.NewMessage$MyMenuModelListener;
-import de.audi.app.messaging.core.compose.NewMessage$MyTextEditorListenerDD;
 import de.audi.app.messaging.core.compose.SelectedRecipientList;
 import de.audi.app.messaging.core.compose.SendMessageController;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
 import de.audi.app.messaging.core.dictation.MessagingDictationService;
 import de.audi.app.messaging.core.drafts.SaveDraftController;
+import de.audi.app.messaging.core.dsi.messaging.DsiMessagingEmptyListener;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.recipients.RecipientListRow;
 import de.audi.app.messaging.core.swdiagnosis.IDiagPlugIn;
@@ -31,15 +25,17 @@ import de.audi.app.messaging.core.templates.SaveTemplateController;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.util.MessageContacts;
 import de.audi.app.messaging.core.util.Strings;
-import de.audi.atip.base.IFrameworkAccess;
+import de.audi.atip.hmi.model.DefaultTextEditorListenerDD;
 import de.audi.atip.hmi.model.PropertyListCell;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
+import de.audi.atip.hmi.model.menu.MenuModelListener;
 import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.hmi.model.property.PropertyModelApp;
 import de.audi.atip.hmi.model.texteditor.DoubleCursor;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.TextEditorModelDDApp;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.interapp.IMessagingDictationService;
+import de.audi.atip.interapp.IMessagingDictationServiceListener;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -47,25 +43,34 @@ import org.dsi.ifc.messaging.AttachmentInformation;
 import org.dsi.ifc.messaging.MatchedAddress;
 import org.dsi.ifc.messaging.MessageDetails;
 import org.dsi.ifc.messaging.MessagingAccount;
+import org.dsi.ifc.messaging.StatusInformation;
 
 public final class NewMessage
 extends AbstractMessagingComponent
 implements IDiagProvider {
-    static final int CHAR_LIMIT_SMS;
-    static final int CHAR_LIMIT_EMAIL_SUBJECT;
-    static final int CHAR_LIMIT_EMAIL_BODY;
-    public static final String MESSAGE_ID_NONE;
-    private static final ICompositionValidator DEFAULT_SEND_VALIDATOR;
-    private static final int SEND_BUTTON_DISABLED;
-    private static final int SEND_BUTTON_ENABLED;
-    public static final int MENU_ITEM_RECIPIENTS;
-    public static final int MENU_ITEM_SUBJECT;
-    public static final int MENU_ITEM_BODY;
-    public static final int MENU_ITEM_SEND;
-    public static final int MENU_ITEM_ABORT;
-    private static final int MENU_ITEM_NONE;
-    private static final int LIST_MODEL_ID_NONE;
-    private static final int LIST_ROW_ID_NONE;
+    static final int CHAR_LIMIT_SMS = 700;
+    static final int CHAR_LIMIT_EMAIL_SUBJECT = 255;
+    static final int CHAR_LIMIT_EMAIL_BODY = 8192;
+    public static final String MESSAGE_ID_NONE = "";
+    private static final ICompositionValidator DEFAULT_SEND_VALIDATOR = new ICompositionValidator(){
+
+        public boolean isValid(NewMessage newMessage) {
+            boolean bl = !newMessage.getSelectedRecipientList().isEmpty();
+            boolean bl2 = !Strings.isNullOrEmpty(newMessage.getBody());
+            boolean bl3 = newMessage.getAttachments().length > 0;
+            return bl && (bl2 || bl3);
+        }
+    };
+    private static final int SEND_BUTTON_DISABLED = 0;
+    private static final int SEND_BUTTON_ENABLED = 1;
+    public static final int MENU_ITEM_RECIPIENTS = 0;
+    public static final int MENU_ITEM_SUBJECT = 1;
+    public static final int MENU_ITEM_BODY = 2;
+    public static final int MENU_ITEM_SEND = 3;
+    public static final int MENU_ITEM_ABORT = 4;
+    private static final int MENU_ITEM_NONE = -1;
+    private static final int LIST_MODEL_ID_NONE = -1;
+    private static final int LIST_ROW_ID_NONE = -1;
     private final MessageCreator messageCreator;
     private final SelectedRecipientList selectedRecipientList;
     private final TextEditorModelDDApp subjectTextEditor;
@@ -74,7 +79,7 @@ implements IDiagProvider {
     private final SaveDraftController saveDraftController;
     private final SaveTemplateController saveTemplateController;
     private final DeleteTemplateController deleteTemplateController;
-    private volatile INewMessagePropertyFactory newMessagePropertyFactory = new INewMessagePropertyFactory$NullFactory();
+    private volatile INewMessagePropertyFactory newMessagePropertyFactory = new INewMessagePropertyFactory.NullFactory();
     private volatile ICompositionValidator sendValidator = DEFAULT_SEND_VALIDATOR;
     private String quotedText = "";
     private AttachmentInformation[] attachments = new AttachmentInformation[0];
@@ -84,7 +89,7 @@ implements IDiagProvider {
     private volatile int hmiMessageId = 0;
     private String draftId = "";
     private volatile boolean isDictationDialogActive = false;
-    private static final int VOICE_DATA_IDLE;
+    private static final int VOICE_DATA_IDLE = 0;
     private int voiceDataProcessingState = 0;
     private CopyOnWriteArrayList newMessageObservers = new CopyOnWriteArrayList();
     private boolean moveOtherRecipientsToCC = false;
@@ -92,8 +97,8 @@ implements IDiagProvider {
 
     public NewMessage(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.subjectTextEditor = this.framework.getHmiServiceApp().getTextEditorModelDD(-1349312256).getSyncedModel();
-        this.bodyTextEditor = this.framework.getHmiServiceApp().getTextEditorModelDD(-1198317312).getSyncedModel();
+        this.subjectTextEditor = this.framework.getHmiServiceApp().getTextEditorModelDD(2200495).getSyncedModel();
+        this.bodyTextEditor = this.framework.getHmiServiceApp().getTextEditorModelDD(2200504).getSyncedModel();
         this.messageCreator = new MessageCreator(messagingBundleContext);
         this.selectedRecipientList = new SelectedRecipientList(messagingBundleContext);
         this.sendMessageController = new SendMessageController(messagingBundleContext);
@@ -108,29 +113,27 @@ implements IDiagProvider {
         this.addComponent(this.deleteTemplateController);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        this.framework.getHmiServiceApp().getMenuModel(831725824).setListener(new NewMessage$MyMenuModelListener(this, null));
-        NewMessage$MyTextEditorListenerDD newMessage$MyTextEditorListenerDD = new NewMessage$MyTextEditorListenerDD(this, null);
-        this.subjectTextEditor.addListener(newMessage$MyTextEditorListenerDD);
-        this.bodyTextEditor.addListener(newMessage$MyTextEditorListenerDD);
+        this.framework.getHmiServiceApp().getMenuModel(2200369).setListener(new MyMenuModelListener());
+        MyTextEditorListenerDD myTextEditorListenerDD = new MyTextEditorListenerDD();
+        this.subjectTextEditor.addListener(myTextEditorListenerDD);
+        this.bodyTextEditor.addListener(myTextEditorListenerDD);
         MessagingDictationService messagingDictationService = abstractMsgApplication.getMessagingDictationService();
         if (messagingDictationService != null) {
-            messagingDictationService.addListener(new NewMessage$MessagingDictationServiceListener(this, null));
+            messagingDictationService.addListener(new MessagingDictationServiceListener());
         }
-        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new NewMessage$MyDsiMessagingListener(this, null));
+        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new MyDsiMessagingListener());
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
     }
 
-    @Override
     public void dispose() {
         super.dispose();
         this.clear();
     }
 
     public void setPropertyFactory(INewMessagePropertyFactory iNewMessagePropertyFactory) {
-        this.log.log(-2137614336, "[NewMessage#setPropertyFactory] newMessagePropertyFactory = %1", (Object)iNewMessagePropertyFactory);
+        this.log.log(10000000, "[NewMessage#setPropertyFactory] newMessagePropertyFactory = %1", (Object)iNewMessagePropertyFactory);
         this.newMessagePropertyFactory = iNewMessagePropertyFactory;
     }
 
@@ -151,13 +154,13 @@ implements IDiagProvider {
     }
 
     public void clear() {
-        this.log.log(-2137614336, "[NewMessage#clear]");
+        this.log.log(10000000, "[NewMessage#clear]");
         this.selectedRecipientList.clear(0);
-        this.setSubject("");
-        this.setBody("");
+        this.setSubject(MESSAGE_ID_NONE);
+        this.setBody(MESSAGE_ID_NONE);
         this.setAttachments(null);
-        this.quotedText = "";
-        this.setDraftId("");
+        this.quotedText = MESSAGE_ID_NONE;
+        this.setDraftId(MESSAGE_ID_NONE);
         this.setRightDrawerOptions();
         this.setSendButtonActivation();
         this.setDirtyBit();
@@ -168,7 +171,7 @@ implements IDiagProvider {
     }
 
     private void beginNewMessage() {
-        this.log.log(-2137614336, "[NewMessage#beginNewMessage]");
+        this.log.log(10000000, "[NewMessage#beginNewMessage]");
         this.assignNewHmiMessageId();
         this.setInitialChangeId(this.getChangeId());
     }
@@ -178,30 +181,30 @@ implements IDiagProvider {
     }
 
     public void setCursorPosition(int n) {
-        this.log.log(-2137614336, "[NewMessage#setCursorPosition] menuItem = %1", (long)n);
+        this.log.log(10000000, "[NewMessage#setCursorPosition] menuItem = %1", (long)n);
         this.setCursorPosition(n, -1, -1L);
     }
 
     private void setCursorPosition(int n, int n2, long l) {
-        this.log.log(-2137614336, "[NewMessage#setCursorPosition] menuItem = %1, listModelId = %2, listRowId = %3", (long)n, (long)n2, l);
+        this.log.log(10000000, "[NewMessage#setCursorPosition] menuItem = %1, listModelId = %2, listRowId = %3", (long)n, (long)n2, l);
         boolean bl = n2 != -1;
         int n3 = bl ? n2 : n;
         long l2 = bl ? l : -1L;
-        MenuModelApp menuModelApp = this.framework.getHmiServiceApp().getMenuModel(831725824);
+        MenuModelApp menuModelApp = this.framework.getHmiServiceApp().getMenuModel(2200369);
         menuModelApp.setFocusedItem(n3, FocusAdvice.KEEP_POSITION, l2);
     }
 
     public void setSendButtonActivation() {
-        this.log.log(-2137614336, "[NewMessage#setSendButtonActivation]");
+        this.log.log(10000000, "[NewMessage#setSendButtonActivation]");
         int n = 0;
         if (this.sendValidator.isValid(this)) {
             n = 1;
         }
-        this.framework.getHMIService().getButtonModel(-1483595520).setStatus(n);
+        this.framework.getHMIService().getButtonModel(2200231).setStatus(n);
     }
 
     public boolean isSendButtonEnabled() {
-        int n = this.framework.getHMIService().getButtonModel(-1483595520).getStatus();
+        int n = this.framework.getHMIService().getButtonModel(2200231).getStatus();
         return n == 1;
     }
 
@@ -209,51 +212,51 @@ implements IDiagProvider {
         boolean bl;
         boolean bl2 = bl = this.selectedRecipientList.isEmpty() && Strings.isNullOrEmpty(this.getSubject()) && Strings.isNullOrEmpty(this.getBody()) && this.attachments.length == 0;
         if (this.isBufferClean != bl) {
-            this.log.log(-2137614336, "[NewMessage#setDirtyBit] State change: this.isBufferClean = %1", bl);
+            this.log.log(10000000, "[NewMessage#setDirtyBit] State change: this.isBufferClean = %1", bl);
             this.isBufferClean = bl;
             int n = this.isBufferClean ? 0 : 1;
-            this.framework.getHmiServiceApp().getChoiceModel(2056397056).setValue(n);
+            this.framework.getHmiServiceApp().getChoiceModel(2200186).setValue(n);
         }
     }
 
     private void signalSubjectLength() {
-        this.log.log(-2137614336, "[NewMessage#signalSubjectLength]");
+        this.log.log(10000000, "[NewMessage#signalSubjectLength]");
         boolean bl = this.msgApp.getAccountManager().isEmailMode();
         int n = bl ? 8192 : 700;
-        this.framework.getHmiServiceApp().getLabelModel(1586700544).setText(String.valueOf(255));
+        this.framework.getHmiServiceApp().getLabelModel(2200414).setText(String.valueOf(255));
         this.subjectTextEditor.setMaxLength(255);
         int n2 = this.getSubject().length() > 255 ? 1 : 0;
-        this.framework.getHMIService().getChoiceModel(1569923328).setValue(n2);
+        this.framework.getHMIService().getChoiceModel(2200413).setValue(n2);
         this.emitIndicateMessageLength(255 - this.getSubject().length(), n - this.getBody().length());
     }
 
     private void signalBodyLength() {
-        this.log.log(-2137614336, "[NewMessage#signalBodyLength]");
+        this.log.log(10000000, "[NewMessage#signalBodyLength]");
         boolean bl = this.msgApp.getAccountManager().isEmailMode();
         int n = bl ? 8192 : 700;
-        this.framework.getHmiServiceApp().getLabelModel(-846061312).setText(String.valueOf(n));
+        this.framework.getHmiServiceApp().getLabelModel(2200269).setText(String.valueOf(n));
         this.bodyTextEditor.setMaxLength(n);
         int n2 = this.getBody().length() > n ? 1 : 0;
-        this.framework.getHMIService().getChoiceModel(-829284096).setValue(n2);
+        this.framework.getHMIService().getChoiceModel(2200270).setValue(n2);
         this.emitIndicateMessageLength(255 - this.getSubject().length(), n - this.getBody().length());
     }
 
     private void setRightDrawerOptions() {
         PropertyListCell propertyListCell = this.newMessagePropertyFactory.create(!this.msgApp.getAccountManager().isEmailMode());
-        this.log.log(-2137614336, "[NewMessage#setRightDrawerOptions] Setting properties = %1", (Object)propertyListCell);
-        PropertyModelApp propertyModelApp = this.framework.getHmiServiceApp().getPropertyModel(-292413184);
+        this.log.log(10000000, "[NewMessage#setRightDrawerOptions] Setting properties = %1", (Object)propertyListCell);
+        PropertyModelApp propertyModelApp = this.framework.getHmiServiceApp().getPropertyModel(2200302);
         propertyModelApp.setProperties(propertyListCell.getCategory(), propertyListCell.getProperties());
     }
 
     private void autoPositionCursor() {
         if (!this.isAutoPositionCursorNeeded) {
-            this.log.log(-2137614336, "[NewMessage#autoPositionCursor] is not needed");
+            this.log.log(10000000, "[NewMessage#autoPositionCursor] is not needed");
             return;
         }
         boolean bl = this.msgApp.getAccountManager().isEmailMode();
         int n = 0;
         n = this.voiceDataProcessingState != 0 ? 4 : (this.selectedRecipientList.isEmpty() ? 0 : (bl && Strings.isNullOrEmpty(this.getSubject()) ? 1 : (Strings.isNullOrEmpty(this.getBody()) && (bl || this.attachments.length <= 0) ? 2 : 3)));
-        this.log.log(-2137614336, "[NewMessage#autoPositionCursor] menuItem = %1", (long)n);
+        this.log.log(10000000, "[NewMessage#autoPositionCursor] menuItem = %1", (long)n);
         this.setCursorPosition(n);
     }
 
@@ -266,7 +269,7 @@ implements IDiagProvider {
     }
 
     public void useTemplate(String string) {
-        this.log.log(-2137614336, "[NewMessage#useTemplate]");
+        this.log.log(10000000, "[NewMessage#useTemplate]");
         String string2 = null;
         if (Strings.isNullOrEmpty(string)) {
             string2 = this.quotedText;
@@ -282,22 +285,22 @@ implements IDiagProvider {
     }
 
     public void insertBodyText(String string) {
-        this.log.log(-2137614336, "[NewMessage#insertBodyText]");
+        this.log.log(10000000, "[NewMessage#insertBodyText]");
         this.bodyTextEditor.insert(string);
         this.bodyChanged(false);
     }
 
     public void setAttachments(AttachmentInformation[] attachmentInformationArray) {
-        String string = "";
+        String string = MESSAGE_ID_NONE;
         if (attachmentInformationArray == null || attachmentInformationArray.length == 0) {
-            this.log.log(-2137614336, "[NewMessage#setAttachmentInformation] attachments null or empty.");
+            this.log.log(10000000, "[NewMessage#setAttachmentInformation] attachments null or empty.");
             this.attachments = new AttachmentInformation[0];
         } else {
-            this.log.log(-2137614336, "[NewMessage#setAttachmentInformation] attachments[0] = %1", (Object)attachmentInformationArray[0]);
+            this.log.log(10000000, "[NewMessage#setAttachmentInformation] attachments[0] = %1", (Object)attachmentInformationArray[0]);
             this.attachments = attachmentInformationArray;
             string = attachmentInformationArray[0].getName();
         }
-        this.framework.getHMIService().getLabelModel(-2104352512).setText(string);
+        this.framework.getHMIService().getLabelModel(2200194).setText(string);
         this.setDirtyBit();
         this.contentChanged();
     }
@@ -307,7 +310,7 @@ implements IDiagProvider {
     }
 
     private void assignNewHmiMessageId() {
-        this.log.log(-2137614336, "[NewMessage#assignNewHmiMessageId] this.hmiMessageId = %1", (long)this.hmiMessageId);
+        this.log.log(10000000, "[NewMessage#assignNewHmiMessageId] this.hmiMessageId = %1", (long)this.hmiMessageId);
         ++this.hmiMessageId;
     }
 
@@ -316,7 +319,7 @@ implements IDiagProvider {
     }
 
     public void setInitialChangeId(int n) {
-        this.log.log(-2137614336, "[NewMessage#setInitialChangeId] initialChangeId = %1", (long)n);
+        this.log.log(10000000, "[NewMessage#setInitialChangeId] initialChangeId = %1", (long)n);
         this.initialChangeId = n;
     }
 
@@ -328,16 +331,16 @@ implements IDiagProvider {
         ++this.changeId;
         this.setChangeModel(true);
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[NewMessage#incrementChangeId] New changeId = %1", (long)this.changeId);
+            this.log.log(10000000, "[NewMessage#incrementChangeId] New changeId = %1", (long)this.changeId);
         }
     }
 
     private void setChangeModel(boolean bl) {
-        this.framework.getHmiServiceApp().getChoiceModel(-1449975552).setValue(bl ? 1 : 0);
+        this.framework.getHmiServiceApp().getChoiceModel(2200489).setValue(bl ? 1 : 0);
     }
 
     private void setDraftId(String string) {
-        this.log.log(-2137614336, "[NewMessage#setDraftId] draftId = %1", (Object)string);
+        this.log.log(10000000, "[NewMessage#setDraftId] draftId = %1", (Object)string);
         this.draftId = string;
     }
 
@@ -353,14 +356,14 @@ implements IDiagProvider {
         int n = messagingAccount.getAccountID();
         String string = this.getDraftId();
         int n2 = messagingAccount.isSupportsEMail() ? 2 : 1;
-        MatchedAddress matchedAddress = new MatchedAddress("", "", 0L, null);
+        MatchedAddress matchedAddress = new MatchedAddress(MESSAGE_ID_NONE, MESSAGE_ID_NONE, 0L, null);
         MatchedAddress[] matchedAddressArray = MessageContacts.toArray(this.selectedRecipientList.getRecipientsTo());
         MatchedAddress[] matchedAddressArray2 = MessageContacts.toArray(this.selectedRecipientList.getRecipientsCc());
         MatchedAddress[] matchedAddressArray3 = MessageContacts.toArray(this.selectedRecipientList.getRecipientsBcc());
         String string2 = this.getTruncatedSubject();
         long l = 0L;
         int n3 = 2;
-        String string3 = "";
+        String string3 = MESSAGE_ID_NONE;
         String string4 = this.getTruncatedBody();
         AttachmentInformation[] attachmentInformationArray = this.getAttachments();
         int n4 = 2;
@@ -371,7 +374,7 @@ implements IDiagProvider {
     }
 
     public void prepareEditMessage(MessageDetails messageDetails) {
-        this.log.log(-2137614336, "[NewMessage#prepareEditMessage]");
+        this.log.log(10000000, "[NewMessage#prepareEditMessage]");
         this.clear();
         this.selectedRecipientList.addRecipientsTo(messageDetails.getRecipientsTo());
         this.selectedRecipientList.addRecipientsCc(messageDetails.getRecipientsCc());
@@ -380,7 +383,7 @@ implements IDiagProvider {
         this.setBody(messageDetails.getBody());
         this.setAttachments(messageDetails.getAttachments());
         boolean bl = messageDetails.getMessageStatus() == 2;
-        this.setDraftId(bl ? messageDetails.getMessageID() : "");
+        this.setDraftId(bl ? messageDetails.getMessageID() : MESSAGE_ID_NONE);
         this.setDirtyBit();
         this.contentChanged();
         this.beginNewMessage();
@@ -388,7 +391,7 @@ implements IDiagProvider {
     }
 
     void prepareForwardMessage(MessageDetails messageDetails) {
-        this.log.log(-2137614336, "[NewMessage#prepareForwardMessage]");
+        this.log.log(10000000, "[NewMessage#prepareForwardMessage]");
         this.clear();
         String string = this.msgApp.getTextLookup().getForwardPrefix();
         String string2 = this.addSubjectPrefix(messageDetails.getSubject(), string);
@@ -404,7 +407,7 @@ implements IDiagProvider {
 
     void prepareReplyToMessage(MessageDetails messageDetails, boolean bl) {
         boolean bl2;
-        this.log.log(-2137614336, "[NewMessage#prepareReplyToMessage] replyAll = %1", bl);
+        this.log.log(10000000, "[NewMessage#prepareReplyToMessage] replyAll = %1", bl);
         this.clear();
         MatchedAddress matchedAddress = messageDetails.getSender();
         boolean bl3 = bl2 = matchedAddress != null && !Strings.isNullOrEmpty(matchedAddress.getAddress());
@@ -458,7 +461,7 @@ implements IDiagProvider {
     }
 
     public void recipientCountChanged(int n) {
-        this.log.log(-2137614336, "[NewMessage#recipientCountChanged] selectedRecipientList.isEmpty() = %1, removeIndex = %2", this.selectedRecipientList.isEmpty(), (long)n);
+        this.log.log(10000000, "[NewMessage#recipientCountChanged] selectedRecipientList.isEmpty() = %1, removeIndex = %2", this.selectedRecipientList.isEmpty(), (long)n);
         this.setSendButtonActivation();
         this.setDirtyBit();
         this.contentChanged();
@@ -471,7 +474,7 @@ implements IDiagProvider {
                 int n2 = n - 1;
                 RecipientListRow recipientListRow = this.selectedRecipientList.getRow(n2);
                 if (recipientListRow == null) {
-                    this.log.log(-1601830656, "[SelectedRecipientList#recipientCountChanged] Cannot focus recipient at index = %1", (long)n2);
+                    this.log.log(100000, "[SelectedRecipientList#recipientCountChanged] Cannot focus recipient at index = %1", (long)n2);
                 } else {
                     this.setCursorPosition(-1, this.selectedRecipientList.getListModel().getID(), recipientListRow.getUniqueID());
                 }
@@ -484,18 +487,18 @@ implements IDiagProvider {
     }
 
     public void setSubject(String string) {
-        this.log.log(-2137614336, "[NewMessage#setSubject] subject = %1", (Object)string);
+        this.log.log(10000000, "[NewMessage#setSubject] subject = %1", (Object)string);
         this.subjectTextEditor.setText(string, -1);
         this.subjectChanged(false);
     }
 
     public boolean exceedsMaxSubjectLength() {
-        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(1569923328);
+        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(2200413);
         return choiceModelApp.getValue() == 1;
     }
 
     public boolean exceedsMaxBodyLength() {
-        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(-829284096);
+        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(2200270);
         return choiceModelApp.getValue() == 1;
     }
 
@@ -530,7 +533,7 @@ implements IDiagProvider {
     }
 
     public void setBody(String string, int n) {
-        this.log.log(-2137614336, "[NewMessage#setBody]");
+        this.log.log(10000000, "[NewMessage#setBody]");
         this.bodyTextEditor.setText(string, n);
         this.bodyChanged(false);
     }
@@ -548,7 +551,7 @@ implements IDiagProvider {
     }
 
     public void subjectChanged(boolean bl) {
-        this.framework.getHMIService().getLabelModel(1267933440).setText(this.getSubject());
+        this.framework.getHMIService().getLabelModel(2200395).setText(this.getSubject());
         this.setDirtyBit();
         this.contentChanged();
         this.signalSubjectLength();
@@ -558,7 +561,7 @@ implements IDiagProvider {
     }
 
     public void bodyChanged(boolean bl) {
-        this.framework.getHMIService().getLabelModel(-1936580352).setText(this.getBody());
+        this.framework.getHMIService().getLabelModel(2200204).setText(this.getBody());
         this.setSendButtonActivation();
         this.setDirtyBit();
         this.contentChanged();
@@ -569,19 +572,19 @@ implements IDiagProvider {
     }
 
     private void subjectEditorTextChanged() {
-        this.log.log(1078071040, "[NewMessage#subjectEditorTextChanged]");
+        this.log.log(1000000, "[NewMessage#subjectEditorTextChanged]");
         this.subjectChanged(true);
     }
 
     private void bodyEditorTextChanged() {
-        this.log.log(1078071040, "[NewMessage#bodyEditorTextChanged]");
+        this.log.log(1000000, "[NewMessage#bodyEditorTextChanged]");
         this.bodyChanged(true);
     }
 
     public void indicateDraftSaved(Message message, String string) {
         this.hmiMessageId = this.getHmiMessageId();
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[NewMessage#indicateDraftSaved] getHmiMessageId() = %1, message.getHmiMessageId() = %2, draftId = %3", (Object)String.valueOf(this.hmiMessageId), (Object)String.valueOf(message.getHmiMessageId()), (Object)String.valueOf(string));
+            this.log.log(10000000, "[NewMessage#indicateDraftSaved] getHmiMessageId() = %1, message.getHmiMessageId() = %2, draftId = %3", (Object)String.valueOf(this.hmiMessageId), (Object)String.valueOf(message.getHmiMessageId()), (Object)String.valueOf(string));
         }
         if (this.hmiMessageId == message.getHmiMessageId()) {
             this.setDraftId(string);
@@ -589,11 +592,11 @@ implements IDiagProvider {
     }
 
     public void indicateMessageDownload() {
-        this.log.log(-2137614336, "[NewMessage#indicateMessageDownload]");
+        this.log.log(10000000, "[NewMessage#indicateMessageDownload]");
         boolean bl = this.getAttachments() != null && this.getAttachments().length > 0;
         String string = this.msgApp.getTextLookup().getAttachmentsDiscardedHint();
         if (!Strings.isNullOrEmpty(string) && bl) {
-            this.log.log(1078071040, "[NewMessage#indicateMessageDownload] attachments available -> add text");
+            this.log.log(1000000, "[NewMessage#indicateMessageDownload] attachments available -> add text");
             DoubleCursor doubleCursor = this.bodyTextEditor.getCursor();
             doubleCursor.setCursorMode(1);
             doubleCursor.setCursorPos(-1);
@@ -607,7 +610,7 @@ implements IDiagProvider {
     }
 
     private void setDictationDialogActive(boolean bl) {
-        this.log.log(-2137614336, "[NewMessage#setDictationDialogActive] isDictationDialogActive = %1", bl);
+        this.log.log(10000000, "[NewMessage#setDictationDialogActive] isDictationDialogActive = %1", bl);
         boolean bl2 = this.isDictationDialogActive() && !bl;
         this.isDictationDialogActive = bl;
         if (bl2) {
@@ -616,12 +619,12 @@ implements IDiagProvider {
     }
 
     public void addObserver(INewMessageObserver iNewMessageObserver) {
-        this.log.log(-2137614336, "[NewMessage#addObserver] observer = %1", (Object)iNewMessageObserver);
+        this.log.log(10000000, "[NewMessage#addObserver] observer = %1", (Object)iNewMessageObserver);
         this.newMessageObservers.add(iNewMessageObserver);
     }
 
     private void emitMessageCleared() {
-        this.log.log(-2137614336, "[NewMessage#emitMessageCleared]");
+        this.log.log(10000000, "[NewMessage#emitMessageCleared]");
         Iterator iterator = this.newMessageObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -634,7 +637,7 @@ implements IDiagProvider {
     }
 
     private void emitIndicateMessageLength(int n, int n2) {
-        this.log.log(-2137614336, "[NewMessage#emitIndicateMessageLength]");
+        this.log.log(10000000, "[NewMessage#emitIndicateMessageLength]");
         Iterator iterator = this.newMessageObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -654,61 +657,85 @@ implements IDiagProvider {
         this.setIsAutoPositionCursorNeeded(true);
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
-        return new IDiagPlugIn[]{new NewMessage$DiagPlugIn(this)};
+        return new IDiagPlugIn[]{new DiagPlugIn()};
     }
 
-    static /* synthetic */ LogChannel access$400(NewMessage newMessage) {
-        return newMessage.log;
+    final class DiagPlugIn
+    implements IDiagPlugIn {
+        DiagPlugIn() {
+        }
+
+        public void cmdSetBodyExampleText() {
+            String[][] stringArray = new String[][]{{"Hallo"}, {".", "!"}, {" "}, {"Stehe", "Schlehe", "Sehe", "Gehe"}, {" "}, {"gerade"}, {" "}, {"im Stau", "am Bau", "genau"}, {"."}, {" "}, {"Komme"}, {" "}, {"sp\u00e4ter", "\u00c4ther"}, {"."}};
+            NewMessage.this.bodyTextEditor.setText(stringArray, -1);
+            NewMessage.this.bodyChanged(false);
+        }
+
+        public void cmdSetBodyByLength(int n) {
+            String string = "Hallo! Stehe gerade im Stau. Komme sp\u00e4ter. ";
+            Buffer buffer = new Buffer(n);
+            for (int i2 = 0; i2 < n; ++i2) {
+                buffer.append(string.charAt(i2 % string.length()));
+            }
+            NewMessage.this.bodyTextEditor.setText(buffer.toString(), -1);
+            NewMessage.this.bodyChanged(false);
+        }
     }
 
-    static /* synthetic */ IFrameworkAccess access$500(NewMessage newMessage) {
-        return newMessage.framework;
+    private class MyMenuModelListener
+    implements MenuModelListener {
+        private MyMenuModelListener() {
+        }
+
+        public void itemFocused(int n, int n2, long l, int n3) {
+            NewMessage.this.log.log(1000000, "[NewMessage#itemFocused] menuItemID = %1", (long)n);
+            NewMessage.this.framework.getHmiServiceApp().getChoiceModel(2200400).setValue(n);
+        }
     }
 
-    static /* synthetic */ void access$600(NewMessage newMessage) {
-        newMessage.subjectEditorTextChanged();
+    private final class MyDsiMessagingListener
+    extends DsiMessagingEmptyListener {
+        private MyDsiMessagingListener() {
+        }
+
+        public void indicateMessageStatus(StatusInformation statusInformation) {
+            NewMessage.this.log.log(10000000, "[NewMessage#indicateMessageStatus]");
+            if (statusInformation.getStatus() == 1) {
+                String string = statusInformation.getMessageId();
+                if (NewMessage.this.getDraftId().equals(string)) {
+                    NewMessage.this.log.log(1000000, "[NewMessage#indicateMessageStatus] The draft this message is backed by has been deleted, clearing cached draft ID.");
+                    NewMessage.this.setDraftId(NewMessage.MESSAGE_ID_NONE);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$700(NewMessage newMessage) {
-        newMessage.bodyEditorTextChanged();
+    private class MyTextEditorListenerDD
+    extends DefaultTextEditorListenerDD {
+        private MyTextEditorListenerDD() {
+        }
+
+        public void textChanged(int n, int n2, int n3) {
+            if (n == 2200495) {
+                NewMessage.this.subjectEditorTextChanged();
+            } else if (n == 2200504) {
+                NewMessage.this.bodyEditorTextChanged();
+            } else {
+                NewMessage.this.log.log(10000, "[NewMessage#textChanged] Unexpected modelID = %1", (long)n);
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$800(NewMessage newMessage) {
-        return newMessage.log;
-    }
+    private final class MessagingDictationServiceListener
+    extends IMessagingDictationServiceListener.EmptyImplementation {
+        private MessagingDictationServiceListener() {
+        }
 
-    static /* synthetic */ LogChannel access$900(NewMessage newMessage) {
-        return newMessage.log;
-    }
-
-    static /* synthetic */ void access$1000(NewMessage newMessage, boolean bl) {
-        newMessage.setDictationDialogActive(bl);
-    }
-
-    static /* synthetic */ LogChannel access$1100(NewMessage newMessage) {
-        return newMessage.log;
-    }
-
-    static /* synthetic */ String access$1200(NewMessage newMessage) {
-        return newMessage.getDraftId();
-    }
-
-    static /* synthetic */ LogChannel access$1300(NewMessage newMessage) {
-        return newMessage.log;
-    }
-
-    static /* synthetic */ void access$1400(NewMessage newMessage, String string) {
-        newMessage.setDraftId(string);
-    }
-
-    static /* synthetic */ TextEditorModelDDApp access$1500(NewMessage newMessage) {
-        return newMessage.bodyTextEditor;
-    }
-
-    static {
-        DEFAULT_SEND_VALIDATOR = new NewMessage$1();
+        public void updateCompositionState(IMessagingDictationService.CompositionState compositionState) {
+            NewMessage.this.log.log(10000000, "[NewMessage#updateCompositionState] compositionState.isDialogActive() = %1", compositionState.isDialogActive());
+            NewMessage.this.setDictationDialogActive(compositionState.isDialogActive());
+        }
     }
 }
 

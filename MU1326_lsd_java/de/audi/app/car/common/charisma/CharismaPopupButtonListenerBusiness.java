@@ -18,10 +18,9 @@ extends ButtonModelEventBusinessAdapter {
         this.popupHandler = charismaPopupHandler;
     }
 
-    @Override
     public boolean processKeyTyped(int n, ButtonModelHandler buttonModelHandler) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[CharismaButtonListenerBusiness#processKeyTyped] DDS push on Charisma Screen");
+            this.getLogChannel().log(1000000, "[CharismaButtonListenerBusiness#processKeyTyped] DDS push on Charisma Screen");
         }
         return this.popupHandler.buttonPopupRequest();
     }

@@ -7,7 +7,6 @@ import de.audi.tghu.info.app.IInfoSMEventConstants;
 
 public class InfoSMEventConstantsImplEvo
 implements IInfoSMEventConstants {
-    @Override
     public int mapToVariant(int n) {
         int n2 = -1;
         return n2;

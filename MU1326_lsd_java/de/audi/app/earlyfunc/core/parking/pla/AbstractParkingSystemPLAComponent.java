@@ -36,24 +36,23 @@ implements IParkingSpotSelection {
     private IPLAMessageHandler messageHandler;
     private IPLAPopinHandler popinHandler;
     private IPLAAdditionalInfoHandler additionalInfoHandler;
-    private static final int PLA_HMI_STATE_OFF;
-    private static final int PLA_HMI_STATE_STANDBY;
-    private static final int PLA_HMI_STATE_SEARCH_ACTIVE;
-    private static final int PLA_HMI_STATE_PARKIN_SELECTION;
-    private static final int PLA_HMI_STATE_PARKOUT_SELECTION;
-    private static final int PLA_HMI_STATE_PARKIN_ACTIVE;
-    private static final int PLA_HMI_STATE_PARKOUT_ACTIVE;
-    private static final int PLA_HMI_STATE_RESUME;
+    private static final int PLA_HMI_STATE_OFF = 0;
+    private static final int PLA_HMI_STATE_STANDBY = 1;
+    private static final int PLA_HMI_STATE_SEARCH_ACTIVE = 2;
+    private static final int PLA_HMI_STATE_PARKIN_SELECTION = 3;
+    private static final int PLA_HMI_STATE_PARKOUT_SELECTION = 4;
+    private static final int PLA_HMI_STATE_PARKIN_ACTIVE = 5;
+    private static final int PLA_HMI_STATE_PARKOUT_ACTIVE = 6;
+    private static final int PLA_HMI_STATE_RESUME = 7;
     private PLATestSupportHandler testSupportHandler;
     private PLAInterappServiceHandler plaWidgetComService;
-    private static final int DRAWER_VISIBLE;
-    private static final int DRAWER_INVISIBLE;
+    private static final int DRAWER_VISIBLE = 0;
+    private static final int DRAWER_INVISIBLE = 1;
 
     public AbstractParkingSystemPLAComponent(ICarApplication iCarApplication, IParkingSystemController iParkingSystemController) {
         super(iCarApplication, iParkingSystemController, "App.EarlyFunc.Parking.PLA");
     }
 
-    @Override
     public void init() {
         this.testSupportHandler = new PLATestSupportHandler(this.getApplication(), this.getLogChannel());
         this.testSupportHandler.init();
@@ -72,7 +71,6 @@ implements IParkingSpotSelection {
         this.controller.registerParkingSystemComponent(this);
     }
 
-    @Override
     public void deinit() {
         this.controller.unregisterParkingSystemComponent(this);
         this.resetKeyConsumptionStrategy();
@@ -86,15 +84,12 @@ implements IParkingSpotSelection {
         this.testSupportHandler.deinit();
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     public String getName() {
         return "Parking system PLA";
     }
@@ -103,67 +98,52 @@ implements IParkingSpotSelection {
         return new int[0];
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[0], new int[]{54, 59, 60, 61, 62})};
     }
 
-    protected abstract int getDefaultMessagePartialPopupID() {
-    }
+    protected abstract int getDefaultMessagePartialPopupID();
 
-    protected abstract int getSplitscreenCenteredMessagePartialPopupID() {
-    }
+    protected abstract int getSplitscreenCenteredMessagePartialPopupID();
 
-    protected abstract int getSingleLineMessagePartialPopupID() {
-    }
+    protected abstract int getSingleLineMessagePartialPopupID();
 
-    protected abstract int getOPSStandaloneLeftMessagePartialPopupID() {
-    }
+    protected abstract int getOPSStandaloneLeftMessagePartialPopupID();
 
-    protected abstract int getOPSStandaloneRightMessagePartialPopupID() {
-    }
+    protected abstract int getOPSStandaloneRightMessagePartialPopupID();
 
-    protected abstract int getStartParkOutMessagePartialPopupID() {
-    }
+    protected abstract int getStartParkOutMessagePartialPopupID();
 
-    protected abstract int getPLAPartialPopupID() {
-    }
+    protected abstract int getPLAPartialPopupID();
 
-    public abstract IPopupKeyConsuptionStrategy getPLAPopupConsumptionStrategy(boolean bl) {
-    }
+    public abstract IPopupKeyConsuptionStrategy getPLAPopupConsumptionStrategy(boolean var1);
 
-    public abstract IPopupKeyConsuptionStrategy getDefaultPLAPopupConsumptionStrategy() {
-    }
+    public abstract IPopupKeyConsuptionStrategy getDefaultPLAPopupConsumptionStrategy();
 
-    @Override
     public void setActive(boolean bl, DisplayContent displayContent) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemPLAComponent#setActive] active=%1, displayContent=%2", bl, (Object)displayContent);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemPLAComponent#setActive] active=%1, displayContent=%2", bl, (Object)displayContent);
         this.updateCurrentDisplayContent(displayContent, true);
     }
 
-    @Override
     public int[] getSupportedDSIPopupIDs() {
         return new int[]{1, 2, 3, 4, 7, 8, 10, 11, 13, 14, 15, 16, 17, 18};
     }
 
-    @Override
     public int getParkingSystemID() {
         return 16;
     }
 
-    @Override
     public void updatePDCPLAMessage(int n, int n2) {
-        this.getLogChannel().log(1078071040, "---> dsiListener.updatePDCPLAMessage(%1, %2)", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "---> dsiListener.updatePDCPLAMessage(%1, %2)", (long)n, (long)n2);
         if (n2 == 1) {
             this.messageHandler.showMessage(n);
             this.testSupportHandler.updateDSIPLAMessage(n);
         }
     }
 
-    @Override
     public void updatePDCPLAStatus(PDCPLAStatus pDCPLAStatus, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "---> dsiListener.updatePDCPLAStatus(%1, %2)", (Object)(pDCPLAStatus != null ? this.formatViewOptionsLog(pDCPLAStatus.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "---> dsiListener.updatePDCPLAStatus(%1, %2)", (Object)(pDCPLAStatus != null ? this.formatViewOptionsLog(pDCPLAStatus.toString()) : "null"), (long)n);
         }
         if (n == 1) {
             this.plaStatus = pDCPLAStatus;
@@ -198,11 +178,11 @@ implements IParkingSpotSelection {
     private void blockUserInteraction(boolean bl) {
         Object object;
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemPLAComponent#blockUserInteraction] blocking user interaction '%1'", bl);
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemPLAComponent#blockUserInteraction] blocking user interaction '%1'", bl);
         }
         try {
             object = this.getPLAPopupConsumptionStrategy(bl);
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemPLAComponent#blockUserInteraction] Set PopupKeyConsumptionStrategy: %1", object);
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemPLAComponent#blockUserInteraction] Set PopupKeyConsumptionStrategy: %1", object);
             this.getApplication().getFrameworkAccess().getHmiServiceApp().setPopupKeyConsuptionStrategy((IPopupKeyConsuptionStrategy)object);
         }
         catch (Exception exception) {
@@ -210,7 +190,7 @@ implements IParkingSpotSelection {
         }
         if (bl) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSystemPLAComponent#blockUserInteraction] Close OptionDrawer.");
+                this.getLogChannel().log(1000000, "[AbstractParkingSystemPLAComponent#blockUserInteraction] Close OptionDrawer.");
             }
             object = this.getApplication().getFrameworkAccess().getHMIService();
             DrawerEvent drawerEvent = new DrawerEvent(object.getRootWindow(0), 2);
@@ -221,7 +201,7 @@ implements IParkingSpotSelection {
     private void resetKeyConsumptionStrategy() {
         IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy = this.getDefaultPLAPopupConsumptionStrategy();
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemPLAComponent#resetKeyConsumptionStrategy] PopupKeyConsumptionStrategy: %1", (Object)iPopupKeyConsuptionStrategy);
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemPLAComponent#resetKeyConsumptionStrategy] PopupKeyConsumptionStrategy: %1", (Object)iPopupKeyConsuptionStrategy);
         }
         try {
             this.getApplication().getFrameworkAccess().getHmiServiceApp().setPopupKeyConsuptionStrategy(iPopupKeyConsuptionStrategy);
@@ -233,7 +213,7 @@ implements IParkingSpotSelection {
 
     private void setExtendedPowerState(boolean bl) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemPLAComponent#setExtendedPowerState] setExtendedPowerState: %1", (long)(bl ? 0 : 0));
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemPLAComponent#setExtendedPowerState] setExtendedPowerState: %1", bl ? 150L : 151L);
         }
         try {
             this.getApplication().getFrameworkAccess().getPowerMgr().setExtendedPowerState(bl ? 150 : 151, 0);
@@ -285,17 +265,15 @@ implements IParkingSpotSelection {
         this.getChoiceModel(3916).setValue(n);
     }
 
-    @Override
     public void updatePDCPLABargraph(PDCPLABargraph pDCPLABargraph, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "---> dsiListener.updatePDCPLABargraph(%1, %2)", (Object)pDCPLABargraph, (long)n);
+            this.getLogChannel().log(1000000, "---> dsiListener.updatePDCPLABargraph(%1, %2)", (Object)pDCPLABargraph, (long)n);
         }
     }
 
-    @Override
     public void updatePDCPLAParkmodeSelection(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "---> dsiListener.updatePDCPLAParkmodeSelection(%1, %2)", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "---> dsiListener.updatePDCPLAParkmodeSelection(%1, %2)", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.parkingSpotHandler.updateSelectedParkingSpot(n);
@@ -303,31 +281,27 @@ implements IParkingSpotSelection {
         }
     }
 
-    @Override
     public void updatePDCPLASystemState(PDCPLASystemState pDCPLASystemState, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "---> dsiListener.updatePDCPLASystemState(%1, %2)", (Object)pDCPLASystemState, (long)n);
+            this.getLogChannel().log(1000000, "---> dsiListener.updatePDCPLASystemState(%1, %2)", (Object)pDCPLASystemState, (long)n);
         }
     }
 
-    @Override
     public void updateParkingSystemViewOptions(ParkingSystemViewOptions parkingSystemViewOptions, int n) {
         super.updateParkingSystemViewOptions(parkingSystemViewOptions, n);
     }
 
-    @Override
     protected void dsiAvailable(boolean bl) {
         if (!bl) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemPLAComponent#dsiAvailable] dsi not available, remove possible userInteraction-blocking");
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemPLAComponent#dsiAvailable] dsi not available, remove possible userInteraction-blocking");
             this.resetKeyConsumptionStrategy();
             this.setExtendedPowerState(false);
         }
     }
 
-    @Override
     public void spotPreSelected(int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "<--- dsi.setPDCPLAPreSelection(%1)", (long)n);
+            this.getLogChannel().log(1000000, "<--- dsi.setPDCPLAPreSelection(%1)", (long)n);
         }
         if (this.getDSI() != null) {
             this.getDSI().setPDCPLAPreSelection(n);
@@ -335,10 +309,9 @@ implements IParkingSpotSelection {
         }
     }
 
-    @Override
     public void spotSelected(int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "<--- dsi.setPDCPLAParkMode(%1)", (long)n);
+            this.getLogChannel().log(1000000, "<--- dsi.setPDCPLAParkMode(%1)", (long)n);
         }
         if (this.getDSI() != null) {
             this.getDSI().setPDCPLAParkMode(n);
@@ -357,7 +330,7 @@ implements IParkingSpotSelection {
     public void canceledByHMI() {
         PDCPLASystemState pDCPLASystemState = new PDCPLASystemState(false, false);
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "<--- dsi.setPDCPLASystemState(%1)", (Object)pDCPLASystemState);
+            this.getLogChannel().log(1000000, "<--- dsi.setPDCPLASystemState(%1)", (Object)pDCPLASystemState);
         }
         if (this.getDSI() != null) {
             this.popinHandler.setCanceledByHMI();

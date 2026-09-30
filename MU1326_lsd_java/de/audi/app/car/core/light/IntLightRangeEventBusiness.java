@@ -19,30 +19,28 @@ extends RangeModelEventBusinessAdapter {
         super(dSIBase, logChannel);
     }
 
-    @Override
     public boolean processAdjustment(HandlerTransactionData handlerTransactionData, RangeModelHandler rangeModelHandler) {
         IntLightRangeHandlerTransactionData intLightRangeHandlerTransactionData = (IntLightRangeHandlerTransactionData)handlerTransactionData;
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[IntLightRangeEventBusiness#processAdjustment] rotary changed: %1 on profileID = %2 for modelID = %3", (long)intLightRangeHandlerTransactionData.getValue(), (long)intLightRangeHandlerTransactionData.getProfileID(), (long)rangeModelHandler.getHandledModelID());
+            this.getLogChannel().log(1000000, "[IntLightRangeEventBusiness#processAdjustment] rotary changed: %1 on profileID = %2 for modelID = %3", (long)intLightRangeHandlerTransactionData.getValue(), (long)intLightRangeHandlerTransactionData.getProfileID(), (long)rangeModelHandler.getHandledModelID());
         }
         if (intLightRangeHandlerTransactionData.getProfileID() == 0) {
             IntLightBrightness intLightBrightness = new IntLightBrightness(new Integer(rangeModelHandler.getRangeModel().getValue() + intLightRangeHandlerTransactionData.getValue()).shortValue(), true);
-            this.getLogChannel().log(1078071040, "[dsi.setIntLightBrightness] rotary changed: %1 on profileID = %2 for modelID = %3", (long)intLightRangeHandlerTransactionData.getValue(), (long)intLightRangeHandlerTransactionData.getProfileID(), (long)rangeModelHandler.getHandledModelID());
+            this.getLogChannel().log(1000000, "[dsi.setIntLightBrightness] rotary changed: %1 on profileID = %2 for modelID = %3", (long)intLightRangeHandlerTransactionData.getValue(), (long)intLightRangeHandlerTransactionData.getProfileID(), (long)rangeModelHandler.getHandledModelID());
             this.getDSICarLight().setIntLightBrightness(intLightBrightness);
         } else if (intLightRangeHandlerTransactionData.getProfileID() <= 8 && intLightRangeHandlerTransactionData.getProfileID() > 0) {
-            this.getLogChannel().log(1078071040, "[dsi.setIntLightIlluminationProfile(%1, %2)]", (long)intLightRangeHandlerTransactionData.getProfileID(), (long)(rangeModelHandler.getRangeModel().getValue() + intLightRangeHandlerTransactionData.getValue()));
+            this.getLogChannel().log(1000000, "[dsi.setIntLightIlluminationProfile(%1, %2)]", (long)intLightRangeHandlerTransactionData.getProfileID(), (long)(rangeModelHandler.getRangeModel().getValue() + intLightRangeHandlerTransactionData.getValue()));
             this.getDSICarLight().setIntLightIlluminationProfile(intLightRangeHandlerTransactionData.getProfileID(), rangeModelHandler.getRangeModel().getValue() + intLightRangeHandlerTransactionData.getValue());
         } else {
-            this.getLogChannel().log(1078071040, "IntLightRangeEventBusiness#processAdjustment] Profile %1 not supported", (long)intLightRangeHandlerTransactionData.getProfileID());
+            this.getLogChannel().log(1000000, "IntLightRangeEventBusiness#processAdjustment] Profile %1 not supported", (long)intLightRangeHandlerTransactionData.getProfileID());
             return false;
         }
         return true;
     }
 
-    @Override
     public boolean processKeyPressed(int n, ButtonModelHandler buttonModelHandler) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[IntLightRangeEventBusiness#processKeyPressed] Key has been pressd for modelID = %1", (long)buttonModelHandler.getHandledModelID());
+            this.getLogChannel().log(1000000, "[IntLightRangeEventBusiness#processKeyPressed] Key has been pressd for modelID = %1", (long)buttonModelHandler.getHandledModelID());
         }
         buttonModelHandler.fireEvent();
         return true;

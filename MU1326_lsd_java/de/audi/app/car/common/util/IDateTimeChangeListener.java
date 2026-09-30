@@ -7,10 +7,8 @@ import org.dsi.ifc.cartimeunitslanguage.ClockDate;
 import org.dsi.ifc.cartimeunitslanguage.ClockTime;
 
 public interface IDateTimeChangeListener {
-    default public void dateChanged(ClockDate clockDate) {
-    }
+    public void dateChanged(ClockDate var1);
 
-    default public void timeChanged(ClockTime clockTime) {
-    }
+    public void timeChanged(ClockTime var1);
 }
 

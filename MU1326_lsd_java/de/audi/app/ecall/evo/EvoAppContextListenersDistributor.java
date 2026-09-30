@@ -27,14 +27,12 @@ implements IActionProxyListener {
         this.CONTEXT_LEFT_ACTION_PROXY = n2;
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(this.IN_CONTEXT_ENTERED_ACTION_PROXY, this);
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(this.CONTEXT_LEFT_ACTION_PROXY, this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(this.IN_CONTEXT_ENTERED_ACTION_PROXY, this);
@@ -46,17 +44,16 @@ implements IActionProxyListener {
         this.contextStateListeners.add(iContextStateListener);
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
-        this.log.log(-2137614336, "EvoEcallOpenClosePopupHandler#actionProxyCallPerformed(): methodId %1 ", (Object)String.valueOf(n));
+        this.log.log(10000000, "EvoEcallOpenClosePopupHandler#actionProxyCallPerformed(): methodId %1 ", (Object)String.valueOf(n));
         EcallUtil.logStructFieldForDbg(this.log, class$de$audi$app$ecall$proxy$IEcallEvoActionProxyIDs == null ? (class$de$audi$app$ecall$proxy$IEcallEvoActionProxyIDs = EvoAppContextListenersDistributor.class$("de.audi.app.ecall.proxy.IEcallEvoActionProxyIDs")) : class$de$audi$app$ecall$proxy$IEcallEvoActionProxyIDs, n);
         if (n == this.IN_CONTEXT_ENTERED_ACTION_PROXY) {
-            this.log.log(-2137614336, "EvoOpenCloseEcallPopupHandler#actionProxyCallPerformed(): context entered");
+            this.log.log(10000000, "EvoOpenCloseEcallPopupHandler#actionProxyCallPerformed(): context entered");
             this.notifyOnContextEntered();
         } else if (n == this.CONTEXT_LEFT_ACTION_PROXY) {
             this.notifyOnContextLeft();
         } else {
-            this.log.log(1078071040, "EvoEcallOpenClosePopupHandler#actionProxyCallPerformed(): unhandled methodId=%1", (long)n);
+            this.log.log(1000000, "EvoEcallOpenClosePopupHandler#actionProxyCallPerformed(): unhandled methodId=%1", (long)n);
         }
     }
 

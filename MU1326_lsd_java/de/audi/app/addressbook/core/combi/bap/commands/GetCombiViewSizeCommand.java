@@ -23,9 +23,8 @@ extends AbstractADBCommand {
         this.sortOrderChanged = bl2;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "GetCombiViewSizeCommand#execute()");
+        this.logger.log(1000000, "GetCombiViewSizeCommand#execute()");
         boolean bl = this.adbDSIAccess.getViewWindow(0L, 4, 1, 1);
         if (!bl) {
             this.logger.log(10000, "GetCombiViewSizeCommand#execute(): dsi call was not successful, finishing command.");
@@ -33,12 +32,11 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getViewWindowResult(int n, DataSet[] dataSetArray, int n2) {
-        this.logger.log(1078071040, "GetCombiViewSizeCommand#getViewWindowResult(): success: %1, totalEntries: %2, sendPhonebookChanged:%3 ", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)Integer.toString(n2), (Object)Boolean.toString(this.sendPhonebookChanged));
+        this.logger.log(1000000, "GetCombiViewSizeCommand#getViewWindowResult(): success: %1, totalEntries: %2, sendPhonebookChanged:%3 ", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)Integer.toString(n2), (Object)Boolean.toString(this.sendPhonebookChanged));
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "GetCombiViewSizeCommand#getViewWindowResult(): dataSetList: %1, success: %2; totalEntries: %3", (Object)dataSetArray, (Object)ADBDbgUtils.dbgSuccessFlag(n), (long)n2);
-            this.logger.log(-2137614336, "GetCombiViewSizeCommand#getViewWindowResult(): dataSetList: %1", (Object)ADBDbgUtils.dbg(dataSetArray));
+            this.logger.log(10000000, "GetCombiViewSizeCommand#getViewWindowResult(): dataSetList: %1, success: %2; totalEntries: %3", (Object)dataSetArray, (Object)ADBDbgUtils.dbgSuccessFlag(n), (long)n2);
+            this.logger.log(10000000, "GetCombiViewSizeCommand#getViewWindowResult(): dataSetList: %1", (Object)ADBDbgUtils.dbg(dataSetArray));
         }
         if (n == 0) {
             int n3 = this.adbHandler.getStateHandler().getEntryCount();

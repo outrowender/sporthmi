@@ -12,43 +12,36 @@ import org.dsi.ifc.carcomfort.WiperViewOptions;
 public abstract class AbstractWiperComponent
 extends AbstractDSICarComfortAdapter
 implements ChoiceListener {
-    private static final String LOGCHANNEL_NAME;
-    public static final short CODING_ID;
+    private static final String LOGCHANNEL_NAME = "App.Car.Wiper";
+    public static final short CODING_ID = 12;
     public volatile WiperViewOptions currentViewOptions;
 
     public AbstractWiperComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Wiper");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(2099841280).setChoiceListener(this);
-        this.getChoiceModel(2066286848).setChoiceListener(this);
+        this.getChoiceModel(600445).setChoiceListener(this);
+        this.getChoiceModel(600443).setChoiceListener(this);
     }
 
-    @Override
     protected void deinitModels() {
-        this.getChoiceModel(2099841280).resetListener();
-        this.getChoiceModel(2066286848).resetListener();
+        this.getChoiceModel(600445).resetListener();
+        this.getChoiceModel(600443).resetListener();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("itemSelected:", n, n2, true);
         boolean bl = n2 == 1;
@@ -67,23 +60,21 @@ implements ChoiceListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
     private void setServicePosition(boolean bl) {
-        this.getLogChannel().log(1078071040, "setWiperServicePosition(%1)", bl);
+        this.getLogChannel().log(1000000, "setWiperServicePosition(%1)", bl);
         this.getDSI().setWiperServicePosition(bl);
     }
 
     private void setRainSensorOnOff(boolean bl) {
-        this.getLogChannel().log(1078071040, "setRainSensorOnOff(%1)", bl);
+        this.getLogChannel().log(1000000, "setRainSensorOnOff(%1)", bl);
         this.getDSI().setWiperRainSensorOnOff(bl);
     }
 
-    @Override
     public void updateWiperViewOptions(WiperViewOptions wiperViewOptions, int n) {
-        this.getLogChannel().log(1078071040, "updateWiperViewOptions(%1), valid:%2", (Object)wiperViewOptions, (long)n);
+        this.getLogChannel().log(1000000, "updateWiperViewOptions(%1), valid:%2", (Object)wiperViewOptions, (long)n);
         if (n == 1) {
             this.currentViewOptions = wiperViewOptions;
             this.updateMenuEntryVisibility(wiperViewOptions);
@@ -91,28 +82,24 @@ implements ChoiceListener {
         }
     }
 
-    @Override
     public void updateWiperServicePosition(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "updateWiperServicePosition(%1), valid:%2", bl, (long)n);
+        this.getLogChannel().log(1000000, "updateWiperServicePosition(%1), valid:%2", bl, (long)n);
         if (n == 1) {
-            this.getChoiceModel(2099841280).setValue(bl ? 1 : 0);
+            this.getChoiceModel(600445).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void updateWiperRainSensorOnOff(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "updateWiperRainSensorOnOff(%1), valid:%2", bl, (long)n);
+        this.getLogChannel().log(1000000, "updateWiperRainSensorOnOff(%1), valid:%2", bl, (long)n);
         if (n == 1) {
-            this.getChoiceModel(2066286848).setValue(bl ? 1 : 0);
+            this.getChoiceModel(600443).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{21}, new int[]{22, 23})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currentViewOptions == null) {
             return "no view options received yet";
@@ -120,10 +107,8 @@ implements ChoiceListener {
         return this.currentViewOptions.toString();
     }
 
-    protected abstract void updateMenuEntryVisibility(WiperViewOptions wiperViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(WiperViewOptions var1);
 
-    @Override
     public String getName() {
         return "Wiper";
     }

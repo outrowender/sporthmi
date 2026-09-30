@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface JokerKeyService {
-    default public void setFunctionAvailable(int n, boolean bl) {
-    }
+    public void setFunctionAvailable(int var1, boolean var2);
 }
 

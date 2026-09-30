@@ -22,10 +22,9 @@ extends AbstractSeatPopupController {
         super(iSeatMainController, abstractSeatPopupFactory);
     }
 
-    @Override
     public void cancelPopup(SeatPopinContent seatPopinContent, AbstractSeatPopin abstractSeatPopin) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatPopinController#cancelPopup] cancelContent='%1', canceledPopin", (Object)seatPopinContent, (Object)abstractSeatPopin);
+            this.getLogChannel().log(1000000, "[SeatPopinController#cancelPopup] cancelContent='%1', canceledPopin", (Object)seatPopinContent, (Object)abstractSeatPopin);
         }
         this.getPopupHandlerController().removeShownPopup(abstractSeatPopin);
         if (seatPopinContent.isPneumaticSeatContent()) {
@@ -46,10 +45,9 @@ extends AbstractSeatPopupController {
         }
     }
 
-    @Override
     public synchronized void sendShowPopupResponse(SeatPopinContent seatPopinContent, SeatPopinContent seatPopinContent2, AbstractSeatPopin abstractSeatPopin) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatPopinController#showPopup] shownContent='%1', requestedContent='%2' , shownPopin='%3'", (Object)seatPopinContent, (Object)seatPopinContent2, (Object)abstractSeatPopin);
+            this.getLogChannel().log(1000000, "[SeatPopinController#showPopup] shownContent='%1', requestedContent='%2' , shownPopin='%3'", (Object)seatPopinContent, (Object)seatPopinContent2, (Object)abstractSeatPopin);
         }
         this.getPopupHandlerController().setShownPopinContent(seatPopinContent, abstractSeatPopin);
         if (!MasterSeatPopinContent.NONE.equalsMasterSeatPopinContent(seatPopinContent2.getMasterContent(true)) && !MasterSeatPopinContent.NONE.equalsMasterSeatPopinContent(seatPopinContent2.getMasterContent(false))) {
@@ -63,14 +61,12 @@ extends AbstractSeatPopupController {
         super.sendShowPopupResponse(seatPopinContent, seatPopinContent2, abstractSeatPopin);
     }
 
-    @Override
     public void showPartialPopinAfterUpdate(MemorySeatPopin memorySeatPopin) {
         int n = memorySeatPopin.isLeft() ? this.getFactory().getComponent().getFrontLeftHMIPartialPopinID() : this.getFactory().getComponent().getFrontRightHMIPartialPopinID();
         this.setPopinIDCancelBlock(memorySeatPopin.isLeft(), n);
         this.getPopupHandlerController().replaceSeatPopin(memorySeatPopin);
     }
 
-    @Override
     public void showPartialPopinAfterUpdate(SeatPopin seatPopin) {
         int n = seatPopin.isLeft() ? this.getFactory().getComponent().getFrontLeftMemoryHMIPartialPopinID() : this.getFactory().getComponent().getFrontRightMemoryHMIPartialPopinID();
         this.setPopinIDCancelBlock(seatPopin.isLeft(), n);

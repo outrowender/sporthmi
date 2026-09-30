@@ -21,7 +21,6 @@ extends ADBTruffleSearchListRow {
         this.setInteger(8, 0);
     }
 
-    @Override
     public EvoListRow copy() {
         ADBEvoTruffleSearchListRow aDBEvoTruffleSearchListRow = new ADBEvoTruffleSearchListRow(this.getSearchResult(), this.adbMode, this.drawerCategory);
         aDBEvoTruffleSearchListRow.setOpen(this.isOpen());
@@ -29,7 +28,6 @@ extends ADBTruffleSearchListRow {
         return aDBEvoTruffleSearchListRow;
     }
 
-    @Override
     public void setOpen(boolean bl) {
         super.setOpen(bl);
         this.setInteger(8, bl ? 1 : 0);

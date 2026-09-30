@@ -9,8 +9,8 @@ import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.media.Capabilities;
 
 public class CombiPlayViewState {
-    private static final String LOGCLASS;
-    private static final int INVALID;
+    private static final String LOGCLASS = "CombiPlayViewState";
+    private static final int INVALID = -1;
     private final LogChannel logger;
     private volatile int absolutePositionCurrentTrack = -1;
     private volatile MediaDetailInfo currentDetailInfo;
@@ -28,7 +28,7 @@ public class CombiPlayViewState {
     }
 
     private void resetValues() {
-        this.logger.log(-2137614336, "[%1.resetValues]", (Object)"CombiPlayViewState");
+        this.logger.log(10000000, "[%1.resetValues]", (Object)LOGCLASS);
         this.absolutePositionCurrentTrack = -1;
         this.currentDetailInfo = null;
         this.currentCoverart = null;
@@ -41,7 +41,7 @@ public class CombiPlayViewState {
     }
 
     protected boolean setAbsolutePositionCurrentTrack(int n) {
-        this.logger.log(-2137614336, "[%1.setAbsolutePositionCurrentTrack] '%2'", (Object)"CombiPlayViewState", (long)n);
+        this.logger.log(10000000, "[%1.setAbsolutePositionCurrentTrack] '%2'", (Object)LOGCLASS, (long)n);
         boolean bl = this.absolutePositionCurrentTrack != n;
         this.absolutePositionCurrentTrack = n < 0 ? 0 : n;
         return bl;
@@ -64,7 +64,7 @@ public class CombiPlayViewState {
     }
 
     public void setCoverUpdateBlocked(boolean bl) {
-        this.logger.log(-2137614336, "[%1.setCoverUpdateBlocked] '%2'", (Object)"CombiPlayViewState", (Object)String.valueOf(bl));
+        this.logger.log(10000000, "[%1.setCoverUpdateBlocked] '%2'", (Object)LOGCLASS, (Object)String.valueOf(bl));
         this.coverUpdateBlocked = bl;
     }
 

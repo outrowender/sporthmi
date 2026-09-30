@@ -19,10 +19,9 @@ implements ServiceTrackerCustomizer {
         this.bundleContext = bundleContext;
     }
 
-    @Override
     public final Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
-        this.log.log(1078071040, "[AbtractTrackerCustomizer#addingService] Service interfaces = %1, service implementation = %2", (Object)this.getServiceInterfaces(serviceReference), (Object)this.getServiceClass(object));
+        this.log.log(1000000, "[AbtractTrackerCustomizer#addingService] Service interfaces = %1, service implementation = %2", (Object)this.getServiceInterfaces(serviceReference), (Object)this.getServiceClass(object));
         boolean bl = false;
         try {
             this.addService(serviceReference, object);
@@ -35,13 +34,11 @@ implements ServiceTrackerCustomizer {
         return bl ? object : null;
     }
 
-    @Override
     public final void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public final void removedService(ServiceReference serviceReference, Object object) {
-        this.log.log(-1601830656, "[AbtractTrackerCustomizer#removedService] Service interfaces = %1, service implementation = %2", (Object)this.getServiceInterfaces(serviceReference), (Object)this.getServiceClass(object));
+        this.log.log(100000, "[AbtractTrackerCustomizer#removedService] Service interfaces = %1, service implementation = %2", (Object)this.getServiceInterfaces(serviceReference), (Object)this.getServiceClass(object));
         try {
             this.removeService(serviceReference, object);
         }
@@ -51,11 +48,9 @@ implements ServiceTrackerCustomizer {
         this.bundleContext.ungetService(serviceReference);
     }
 
-    protected abstract void addService(ServiceReference serviceReference, Object object) {
-    }
+    protected abstract void addService(ServiceReference var1, Object var2) throws RuntimeException;
 
-    protected abstract void removeService(ServiceReference serviceReference, Object object) {
-    }
+    protected abstract void removeService(ServiceReference var1, Object var2);
 
     private String getServiceInterfaces(ServiceReference serviceReference) {
         Object[] objectArray = (String[])serviceReference.getProperty("objectClass");

@@ -14,7 +14,6 @@ implements IBluetoothA2LSService {
         super(logChannel, "NullBluetoothA2LSService");
     }
 
-    @Override
     public void updateA2LSActive(boolean bl) {
         this.log("updateA2LSActive");
     }

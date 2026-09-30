@@ -4,13 +4,10 @@
 package de.audi.atip.interapp;
 
 public interface ISDSServiceStatusListener {
-    default public void notifySDSDialogStarted() {
-    }
+    public void notifySDSDialogStarted();
 
-    default public void notifySDSDialogEnded() {
-    }
+    public void notifySDSDialogEnded();
 
-    default public void notifySDSDialogAborting() {
-    }
+    public void notifySDSDialogAborting();
 }
 

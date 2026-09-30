@@ -28,7 +28,6 @@ extends AbstractADBCommand {
         this.organizerSearch = abstractADBOrganizerSearch;
     }
 
-    @Override
     public void execute() {
         boolean bl = false;
         if (this.requestInfo.getSpellerHandle() == -1) {
@@ -36,7 +35,7 @@ extends AbstractADBCommand {
         } else if (this.requestInfo.getSpellerHandle() == this.organizerSearch.getCurrentSpellerHandle()) {
             bl = this.adbDSIAccess.getSpellerViewWindow(this.requestInfo.getSpellerHandle(), this.requestInfo.getRefEntryId(), this.requestInfo.getMovement(), this.requestInfo.getViewType(), this.requestInfo.getWindowSize());
         } else {
-            this.logger.log(1078071040, "ViewWindowCommand#execute(): spellerHandler in requestInfo (%1) differs from currentSpellerHandle (%2), finishing command.", (long)this.requestInfo.getSpellerHandle(), (long)this.organizerSearch.getCurrentSpellerHandle());
+            this.logger.log(1000000, "ViewWindowCommand#execute(): spellerHandler in requestInfo (%1) differs from currentSpellerHandle (%2), finishing command.", (long)this.requestInfo.getSpellerHandle(), (long)this.organizerSearch.getCurrentSpellerHandle());
             this.organizerSearch.updateList(null, this.requestInfo);
             this.syncModel.setStatus(1);
             this.commandList.commandFinished();
@@ -50,20 +49,18 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getViewWindowResult(int n, DataSet[] dataSetArray, int n2) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "ViewWindowCommand#getViewWindowResult(): dataSetList: %1, success: %2; totalEntries: %3", (Object)dataSetArray, (Object)ADBDbgUtils.dbgSuccessFlag(n), (long)n2);
-            this.logger.log(-2137614336, "ViewWindowCommand#getViewWindowResult(): dataSetList: %1", (Object)ADBDbgUtils.dbg(dataSetArray));
+            this.logger.log(10000000, "ViewWindowCommand#getViewWindowResult(): dataSetList: %1, success: %2; totalEntries: %3", (Object)dataSetArray, (Object)ADBDbgUtils.dbgSuccessFlag(n), (long)n2);
+            this.logger.log(10000000, "ViewWindowCommand#getViewWindowResult(): dataSetList: %1", (Object)ADBDbgUtils.dbg(dataSetArray));
         }
         this.handleResult(n, dataSetArray, n2);
     }
 
-    @Override
     public void getSpellerViewWindowResult(int n, int n2, DataSet[] dataSetArray, int n3) {
         if (this.logger.isDebug()) {
             Buffer buffer = new Buffer("success: ").append(ADBDbgUtils.dbgSuccessFlag(n)).append(", spellerHandle: ").append(n2).append(", totalEntries: ").append(n3).append(", dataSetList: ").append(ADBDbgUtils.dbg(dataSetArray));
-            this.logger.log(-2137614336, "ViewWindowCommand#getSpellerViewWindowResult(): %1", (Object)buffer);
+            this.logger.log(10000000, "ViewWindowCommand#getSpellerViewWindowResult(): %1", (Object)buffer);
         }
         if (this.requestInfo.getSpellerHandle() != n2) {
             this.logger.log(10000, "ViewWindowCommand#getSpellerViewWindowResult(): requested spellerHandle (%1) does not match received spellerhandle (%2)!", (long)this.requestInfo.getSpellerHandle(), (long)n2);

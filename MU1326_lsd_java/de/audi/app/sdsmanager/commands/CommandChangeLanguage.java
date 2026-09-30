@@ -22,7 +22,7 @@ import org.dsi.ifc.speechrec.GrammarInfo;
 
 public class CommandChangeLanguage
 extends AbstractSpeechCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CommandChangeLanguage";
     private final String languageCode;
     private final SpeechRecognitionHandler srHandler;
     private final SDSAdapter sdsAdapter;
@@ -44,36 +44,34 @@ extends AbstractSpeechCommand {
     }
 
     private void processingFinished() {
-        this.logger.log(1078071040, "%1#processingFinished", (Object)"CommandChangeLanguage");
+        this.logger.log(1000000, "%1#processingFinished", (Object)LOGCLASS);
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "%1#execute: languageCode='%2'", (Object)"CommandChangeLanguage", (Object)this.languageCode);
+        this.logger.log(1000000, "%1#execute: languageCode='%2'", (Object)LOGCLASS, (Object)this.languageCode);
         this.sdsAdapter.setSDSReady(false);
         this.sdsAdapter.updateSDSState(SDSUtils.isEmpty(this.languageCode) ? (byte)2 : 4);
         if (!this.srHandler.setLanguage(this.languageCode)) {
-            this.logger.log(-1601830656, "%1#execute: Language change failed.", (Object)"CommandChangeLanguage");
+            this.logger.log(100000, "%1#execute: Language change failed.", (Object)LOGCLASS);
             this.processingFinished();
             return;
         }
-        this.logger.log(1078071040, "%1#execute: Wait for responseSetLanguage", (Object)"CommandChangeLanguage");
+        this.logger.log(1000000, "%1#execute: Wait for responseSetLanguage", (Object)LOGCLASS);
     }
 
-    @Override
     public void responseSetLanguage(int n) {
-        this.logger.log(1078071040, "%1#responseSetLanguage: replyCode=%2", (Object)"CommandChangeLanguage", (long)n);
+        this.logger.log(1000000, "%1#responseSetLanguage: replyCode=%2", (Object)LOGCLASS, (long)n);
         boolean bl = SDSModelAccess.isSDSDisabledForLanguage();
-        this.logger.log(1078071040, "%1#responseSetLanguage: sdsDisabledForLanguage=%2!", (Object)"CommandChangeLanguage", (Object)bl);
+        this.logger.log(1000000, "%1#responseSetLanguage: sdsDisabledForLanguage=%2!", (Object)LOGCLASS, (Object)bl);
         if (SDSUtils.checkReplyCodeForError(n, this.logger) || bl) {
-            this.logger.log(-1601830656, "%1#responseSetLanguage: FAILED or language disabled, do NOT clear grammar state!", (Object)"CommandChangeLanguage");
+            this.logger.log(100000, "%1#responseSetLanguage: FAILED or language disabled, do NOT clear grammar state!", (Object)LOGCLASS);
             this.framework.getLanguageMgr().responseSetLanguage("LANG_COMPONENT_SDS", false);
             this.processingFinished();
             return;
         }
         this.framework.getLanguageMgr().responseSetLanguage("LANG_COMPONENT_SDS", true);
-        this.logger.log(1078071040, "[%1#responseSetLanguage] Reload all current grammars.", (Object)"CommandChangeLanguage");
+        this.logger.log(1000000, "[%1#responseSetLanguage] Reload all current grammars.", (Object)LOGCLASS);
         SortedSet sortedSet = this.dynamicHMIList.resetLoadedSlotRuleIDs();
         SortedSet sortedSet2 = this.grammarState.getCurrentlyLoadedGrammarRuleIDs();
         CommandSetGrammarContext.showIDSet(sortedSet2, "RULEIDS", this.logger);
@@ -82,50 +80,49 @@ extends AbstractSpeechCommand {
         arrayList.addAll(CommandSetGrammarContext.slotIDsToDSIGrammar(this.logger, this.dynamicHMIList, sortedSet));
         arrayList.addAll(CommandSetGrammarContext.ruleIDsToDSIGrammar(this.logger, null, this.dynamicHMIList, sortedSet2, false, null));
         if (arrayList.isEmpty()) {
-            this.logger.log(1078071040, "[%1#responseSetLanguage] Empty DSI grammar list.", (Object)"CommandChangeLanguage");
+            this.logger.log(1000000, "[%1#responseSetLanguage] Empty DSI grammar list.", (Object)LOGCLASS);
             this.requestVDECapabilities();
             return;
         }
         boolean bl2 = this.srHandler.loadGrammar((Grammar[])arrayList.toArray(new Grammar[arrayList.size()]));
         if (!bl2) {
-            this.logger.log(-1601830656, "%1#responseSetLanguage: loadGrammar failed. Clear grammar state.", (Object)"CommandChangeLanguage");
+            this.logger.log(100000, "%1#responseSetLanguage: loadGrammar failed. Clear grammar state.", (Object)LOGCLASS);
             this.grammarState.setCurrentlyLoadedGrammarRuleIDs(new TreeSet());
             this.requestVDECapabilities();
             return;
         }
         this.dynamicHMIList.markAllSlotsAsLoaded(bl2);
-        this.logger.log(1078071040, "%1#responseSetLanguage Wait for responseLoadGrammar", (Object)"CommandChangeLanguage");
+        this.logger.log(1000000, "%1#responseSetLanguage Wait for responseLoadGrammar", (Object)LOGCLASS);
     }
 
-    @Override
     public void responseLoadGrammar(int n, GrammarInfo[] grammarInfoArray) {
-        this.logger.log(1078071040, "%1#responseLoadGrammar: replyCode=%3, info='%2'", (Object)"CommandChangeLanguage", (Object)SDSUtils.toString((Object[])grammarInfoArray, false), (long)n);
+        this.logger.log(1000000, "%1#responseLoadGrammar: replyCode=%3, info='%2'", (Object)LOGCLASS, (Object)SDSUtils.toString((Object[])grammarInfoArray, false), (long)n);
         if (SDSUtils.checkReplyCodeForError(n, this.logger)) {
-            this.logger.log(-1601830656, "%1#responseLoadGrammar: Loading grammars failed, clearing grammar state!", (Object)"CommandChangeLanguage");
+            this.logger.log(100000, "%1#responseLoadGrammar: Loading grammars failed, clearing grammar state!", (Object)LOGCLASS);
             this.grammarState.setCurrentlyLoadedGrammarRuleIDs(new TreeSet());
         }
         this.requestVDECapabilities();
     }
 
     private void requestVDECapabilities() {
-        this.logger.log(-2137614336, "%1#requestVDECapabilities: called", (Object)"CommandChangeLanguage");
+        this.logger.log(10000000, "%1#requestVDECapabilities: called", (Object)LOGCLASS);
         this.vdeCapabilitiesRequested = true;
         if (this.naviService == null) {
-            this.logger.log(-1601830656, "%1#requestVDECapabilities: naviService not available!", (Object)"CommandChangeLanguage");
+            this.logger.log(100000, "%1#requestVDECapabilities: naviService not available!", (Object)LOGCLASS);
             this.responseRequestVDECapabilities(0);
             return;
         }
         String string = this.naviService.getCurrentCountryCode();
-        this.logger.log(-1601830656, "%1#requestVDECapabilities: Requesting VDE capabilities for countryCode %2!", (Object)"CommandChangeLanguage", (Object)string);
+        this.logger.log(100000, "%1#requestVDECapabilities: Requesting VDE capabilities for countryCode %2!", (Object)LOGCLASS, (Object)string);
         this.srHandler.requestVDECapabilities(string);
     }
 
     public void responseRequestVDECapabilities(int n) {
         if (!this.vdeCapabilitiesRequested) {
-            this.logger.log(-2137614336, "%1#responseRequestVDECapabilities: has not been called by this command", (Object)"CommandChangeLanguage", (long)n);
+            this.logger.log(10000000, "%1#responseRequestVDECapabilities: has not been called by this command", (Object)LOGCLASS, (long)n);
             return;
         }
-        this.logger.log(-2137614336, "%1#responseRequestVDECapabilities: result=%2", (Object)"CommandChangeLanguage", (long)n);
+        this.logger.log(10000000, "%1#responseRequestVDECapabilities: result=%2", (Object)LOGCLASS, (long)n);
         if (n == 0) {
             this.sdsAdapter.setSDSReady(true);
             this.sdsAdapter.setInitializationStep((byte)9);

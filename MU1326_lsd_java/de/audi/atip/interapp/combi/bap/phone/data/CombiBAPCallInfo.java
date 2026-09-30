@@ -6,8 +6,8 @@ package de.audi.atip.interapp.combi.bap.phone.data;
 import de.esolutions.fw.util.commons.Buffer;
 
 public final class CombiBAPCallInfo {
-    private static final String EMPTY_STRING;
-    private static final int EMPTY_PICTURE_ID;
+    private static final String EMPTY_STRING = "";
+    private static final int EMPTY_PICTURE_ID = -1;
     private String pbName;
     private String telNumber;
     private int category;
@@ -16,11 +16,11 @@ public final class CombiBAPCallInfo {
     private int telCallType;
 
     public CombiBAPCallInfo() {
-        this("", "", 0, 0, "", -1);
+        this(EMPTY_STRING, EMPTY_STRING, 0, 0, EMPTY_STRING, -1);
     }
 
     public CombiBAPCallInfo(String string, String string2, int n, int n2) {
-        this(string, string2, n, n2, "", -1);
+        this(string, string2, n, n2, EMPTY_STRING, -1);
     }
 
     public CombiBAPCallInfo(String string, String string2, int n, int n2, String string3, int n3) {

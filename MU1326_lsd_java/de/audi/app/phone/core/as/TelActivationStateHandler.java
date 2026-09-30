@@ -13,40 +13,40 @@ import org.dsi.ifc.telephoneng.ActivationStateStruct;
 
 public class TelActivationStateHandler
 extends AbstractPhoneComponent {
-    private static final int PHONEMODULESTATE_SWITCHING_ON;
-    private static final int PHONEMODULESTATE_SWITCHING_OFF;
-    private static final int PHONEMODULESTATE_ON;
-    private static final int PHONEMODULESTATE_OFF_TEMP;
-    private static final int PHONEMODULESTATE_OFF_DIAG;
-    private static final int PHONEMODULESTATE_OFF;
-    private static final int PHONEMODULESTATE_NOT_FUNCTION;
-    private static final int PHONEMODULESTATE_N_A;
-    private static final int PHONEMODULESTATE_INIT;
-    protected static final int ACTIVATIONSTATE_INIT;
-    protected static final int ACTIVATIONSTATE_NOT_ATTACHED;
-    protected static final int ACTIVATIONSTATE_TEL_ACTIVE_CALL;
-    protected static final int ACTIVATIONSTATE_PHONE_OFF;
-    protected static final int ACTIVATIONSTATE_PHONE_ON;
-    protected static final int ACTIVATIONSTATE_ATTACHED_NOT_READY;
-    protected static final int ACTIVATIONSTATE_ATTACHED_NOT_FUNC;
-    protected static final int ACTIVATIONSTATE_ME_RECONNECT;
-    private static final int FEATURE_NOT_SUPPORTED;
-    private static final int FEATURE_SUPPORTED;
-    protected static final int POWERMODEL_UNKNOWN;
-    protected static final int POWERMODEL_PHONE_NOT_INSTALLED;
-    protected static final int POWERMODEL_PHONE_INIT_WAIT;
-    protected static final int POWERMODEL_PHONE_OFF;
-    protected static final int POWERMODEL_PHONE_NOT_CONNECTED;
-    protected static final int POWERMODEL_SIM_NOT_ATTACHED;
-    protected static final int POWERMODEL_PHONE_NOT_FUNCTIONAL;
-    protected static final int POWERMODEL_PHONE_ME_OFF;
-    protected static final int POWERMODEL_PHONE_TEMPERATURE_OFF;
-    protected static final int POWERMODEL_PHONE_ON;
-    protected static final int POWERMODEL_PHONE_RECONNECT;
-    protected static final int POWERMODEL_NO_ME_IN_CRADLE;
-    protected static final int POWERMODEL_NAD_NOT_FUNC;
-    protected static final int POWERMODEL_DIAGNOSE_NOT_ON_ALLOWED;
-    protected static final int POWERMODEL_PHONE_SWITCHING_ON_OFF;
+    private static final int PHONEMODULESTATE_SWITCHING_ON = 7;
+    private static final int PHONEMODULESTATE_SWITCHING_OFF = 8;
+    private static final int PHONEMODULESTATE_ON = 1;
+    private static final int PHONEMODULESTATE_OFF_TEMP = 3;
+    private static final int PHONEMODULESTATE_OFF_DIAG = 4;
+    private static final int PHONEMODULESTATE_OFF = 0;
+    private static final int PHONEMODULESTATE_NOT_FUNCTION = 5;
+    private static final int PHONEMODULESTATE_N_A = 2;
+    private static final int PHONEMODULESTATE_INIT = 6;
+    protected static final int ACTIVATIONSTATE_INIT = 0;
+    protected static final int ACTIVATIONSTATE_NOT_ATTACHED = 1;
+    protected static final int ACTIVATIONSTATE_TEL_ACTIVE_CALL = 2;
+    protected static final int ACTIVATIONSTATE_PHONE_OFF = 3;
+    protected static final int ACTIVATIONSTATE_PHONE_ON = 4;
+    protected static final int ACTIVATIONSTATE_ATTACHED_NOT_READY = 5;
+    protected static final int ACTIVATIONSTATE_ATTACHED_NOT_FUNC = 6;
+    protected static final int ACTIVATIONSTATE_ME_RECONNECT = 7;
+    private static final int FEATURE_NOT_SUPPORTED = 0;
+    private static final int FEATURE_SUPPORTED = 1;
+    protected static final int POWERMODEL_UNKNOWN = -1;
+    protected static final int POWERMODEL_PHONE_NOT_INSTALLED = 1;
+    protected static final int POWERMODEL_PHONE_INIT_WAIT = 2;
+    protected static final int POWERMODEL_PHONE_OFF = 3;
+    protected static final int POWERMODEL_PHONE_NOT_CONNECTED = 4;
+    protected static final int POWERMODEL_SIM_NOT_ATTACHED = 5;
+    protected static final int POWERMODEL_PHONE_NOT_FUNCTIONAL = 6;
+    protected static final int POWERMODEL_PHONE_ME_OFF = 7;
+    protected static final int POWERMODEL_PHONE_TEMPERATURE_OFF = 8;
+    protected static final int POWERMODEL_PHONE_ON = 9;
+    protected static final int POWERMODEL_PHONE_RECONNECT = 10;
+    protected static final int POWERMODEL_NO_ME_IN_CRADLE = 11;
+    protected static final int POWERMODEL_NAD_NOT_FUNC = 12;
+    protected static final int POWERMODEL_DIAGNOSE_NOT_ON_ALLOWED = 13;
+    protected static final int POWERMODEL_PHONE_SWITCHING_ON_OFF = 14;
 
     private static String getPowerStateChoiceName(int n) {
         switch (n) {
@@ -60,27 +60,24 @@ extends AbstractPhoneComponent {
                 return "POWER_STATE_ASSOCIATED_CHOICE";
             }
         }
-        return new StringBuffer().append("model ").append(n).append(" not a power state choice!").toString();
+        return "model " + n + " not a power state choice!";
     }
 
     public TelActivationStateHandler(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         if (iGlobalTelephoneStateStruct != null) {
-            if (n == 0xD000400 || n == 0x3000100 || n == 0x3000300 || n == 0x3000200 || n == 0x3000400) {
+            if (n == 262157 || n == 65539 || n == 196611 || n == 131075 || n == 262147) {
                 this.updateModels(iGlobalTelephoneStateStruct);
                 this.updateDataNadModels(iGlobalTelephoneStateStruct);
                 this.updateAssociatedPhoneModels(iGlobalTelephoneStateStruct);
@@ -95,12 +92,12 @@ extends AbstractPhoneComponent {
             ActivationStateStruct activationStateStruct = iGlobalTelephoneStateStruct.getActivationStateDSINAD();
             TelModelGroup telModelGroup = new TelModelGroup("TelActivationStateHandler#updateDataNadModels", this.log);
             telModelGroup.add(this.getDataNadPowerStateChoice());
-            telModelGroup.add(this.getChoiceModel(798426112));
+            telModelGroup.add(this.getChoiceModel(300847));
             int n = activationStateStruct.getTelActivationState();
             int n2 = iGlobalTelephoneStateStruct.getPhoneModuleState();
             int n3 = activationStateStruct.getTelMode();
             this.setPowerStateChoice(n, n2, n3, true, this.getDataNadPowerStateChoice());
-            this.getChoiceModel(798426112).setValue(this.getPhoneModuleChoiceValue(n2));
+            this.getChoiceModel(300847).setValue(this.getPhoneModuleChoiceValue(n2));
             telModelGroup.flush();
         } else {
             this.log.log(10000, "TelActivationStateHandler#updateDataNadModels stateStruct or activation state is null");
@@ -112,14 +109,14 @@ extends AbstractPhoneComponent {
             ActivationStateStruct activationStateStruct = iGlobalTelephoneStateStruct.getActivationState();
             TelModelGroup telModelGroup = new TelModelGroup("TelActivationStateHandler#updateModels", this.log);
             telModelGroup.add(this.getPowerStateChoice());
-            telModelGroup.add(this.getChoiceModel(-1114373120));
-            telModelGroup.add(this.getChoiceModel(630522880));
-            telModelGroup.add(this.getChoiceModel(647300096));
-            telModelGroup.add(this.getChoiceModel(664077312));
-            telModelGroup.add(this.getChoiceModel(680854528));
-            telModelGroup.add(this.getChoiceModel(697631744));
-            telModelGroup.add(this.getChoiceModel(714408960));
-            telModelGroup.add(this.getChoiceModel(-409598976));
+            telModelGroup.add(this.getChoiceModel(300221));
+            telModelGroup.add(this.getChoiceModel(300325));
+            telModelGroup.add(this.getChoiceModel(300326));
+            telModelGroup.add(this.getChoiceModel(300327));
+            telModelGroup.add(this.getChoiceModel(300328));
+            telModelGroup.add(this.getChoiceModel(300329));
+            telModelGroup.add(this.getChoiceModel(300330));
+            telModelGroup.add(this.getChoiceModel(300775));
             int n = activationStateStruct.getTelActivationState();
             int n2 = iGlobalTelephoneStateStruct.getPhoneModuleState();
             int n3 = activationStateStruct.getTelMode();
@@ -127,15 +124,15 @@ extends AbstractPhoneComponent {
             boolean bl2 = this.getApplication().getFrameworkAccess().getSysConstManager().getAdaptationANP().getESIMUUsage() == 2;
             boolean bl3 = this.getApplication().getFrameworkAccess().getSysConstManager().getSysConst(463) == 1;
             this.setTelephonePowerStateChoice(n, n2, n3, bl3, iGlobalTelephoneStateStruct.getNadMode(), bl, this.getPowerStateChoice(), iGlobalTelephoneStateStruct.isSimCardInserted(), bl2, iGlobalTelephoneStateStruct.isESIMActive());
-            this.getChoiceModel(-1181350912).setValue(this.getActivationStateChoiceValue(n));
-            this.getChoiceModel(-1114373120).setValue(this.getPhoneModuleChoiceValue(n2));
-            this.getChoiceModel(630522880).setValue(iGlobalTelephoneStateStruct.isThreeWaySupported() ? 1 : 0);
-            this.getChoiceModel(647300096).setValue(iGlobalTelephoneStateStruct.isAddToConferenceSupported() ? 1 : 0);
-            this.getChoiceModel(664077312).setValue(iGlobalTelephoneStateStruct.isEnhancedCallFeaturesSupported() ? 1 : 0);
-            this.getChoiceModel(680854528).setValue(iGlobalTelephoneStateStruct.isEnhancedStatSupported() ? 1 : 0);
-            this.getChoiceModel(-409598976).setValue(iGlobalTelephoneStateStruct.isEnhancedConferenceTransferSupported() ? 1 : 0);
-            this.getChoiceModel(697631744).setValue(iGlobalTelephoneStateStruct.inbandRingingSupported() ? 1 : 0);
-            this.getChoiceModel(714408960).setValue(iGlobalTelephoneStateStruct.isResponseAndHoldSupported() ? 1 : 0);
+            this.getChoiceModel(300729).setValue(this.getActivationStateChoiceValue(n));
+            this.getChoiceModel(300221).setValue(this.getPhoneModuleChoiceValue(n2));
+            this.getChoiceModel(300325).setValue(iGlobalTelephoneStateStruct.isThreeWaySupported() ? 1 : 0);
+            this.getChoiceModel(300326).setValue(iGlobalTelephoneStateStruct.isAddToConferenceSupported() ? 1 : 0);
+            this.getChoiceModel(300327).setValue(iGlobalTelephoneStateStruct.isEnhancedCallFeaturesSupported() ? 1 : 0);
+            this.getChoiceModel(300328).setValue(iGlobalTelephoneStateStruct.isEnhancedStatSupported() ? 1 : 0);
+            this.getChoiceModel(300775).setValue(iGlobalTelephoneStateStruct.isEnhancedConferenceTransferSupported() ? 1 : 0);
+            this.getChoiceModel(300329).setValue(iGlobalTelephoneStateStruct.inbandRingingSupported() ? 1 : 0);
+            this.getChoiceModel(300330).setValue(iGlobalTelephoneStateStruct.isResponseAndHoldSupported() ? 1 : 0);
             telModelGroup.flush();
         } else {
             this.log.log(10000, "TelActivationStateHandler#updateModels stateStruct or activation state is null");
@@ -151,7 +148,7 @@ extends AbstractPhoneComponent {
             boolean bl = iGlobalTelephoneStateStruct.getTopology() != null ? iGlobalTelephoneStateStruct.getTopology().isInitState() : false;
             boolean bl2 = this.getApplication().getFrameworkAccess().getSysConstManager().getAdaptationANP().getESIMUUsage() == 2;
             boolean bl3 = this.getApplication().getFrameworkAccess().getSysConstManager().getSysConst(463) == 1;
-            this.setTelephonePowerStateChoice(n, n2, n3, bl3, iGlobalTelephoneStateStruct.getNadMode(), bl, this.getChoiceModel(-1718156288), iGlobalTelephoneStateStruct.isSimCardInserted(), bl2, iGlobalTelephoneStateStruct.isESIMActive());
+            this.setTelephonePowerStateChoice(n, n2, n3, bl3, iGlobalTelephoneStateStruct.getNadMode(), bl, this.getChoiceModel(300953), iGlobalTelephoneStateStruct.isSimCardInserted(), bl2, iGlobalTelephoneStateStruct.isESIMActive());
         } else {
             this.log.log(10000, "TelActivationStateHandler#updateAssociatedPhoneModels stateStruct or activation state is null");
         }
@@ -184,16 +181,16 @@ extends AbstractPhoneComponent {
                 return 2;
             }
         }
-        this.log.log(-1601830656, "[TelActivationStateHandler#getActivationStateChoiceValue] unknown activation state %1", (long)n);
+        this.log.log(100000, "[TelActivationStateHandler#getActivationStateChoiceValue] unknown activation state %1", (long)n);
         return -1;
     }
 
     protected ChoiceModelApp getPowerStateChoice() {
-        return this.getChoiceModel(-1013709824);
+        return this.getChoiceModel(300227);
     }
 
     protected ChoiceModelApp getDataNadPowerStateChoice() {
-        return this.getChoiceModel(1184236544);
+        return this.getChoiceModel(300614);
     }
 
     protected int getPhoneModuleChoiceValue(int n) {
@@ -310,7 +307,7 @@ extends AbstractPhoneComponent {
             buffer.append(TelActivationStateHandler.getPowerStateChoiceName(choiceModelApp.getID()));
             buffer.append("=");
             buffer.append(n4);
-            this.log.log(1078071040, "[TelActivationStateHandler#setPowerStateChoice] %1", (Object)buffer);
+            this.log.log(1000000, "[TelActivationStateHandler#setPowerStateChoice] %1", (Object)buffer);
         }
         choiceModelApp.setValue(n4);
     }
@@ -372,7 +369,7 @@ extends AbstractPhoneComponent {
             buffer.append(TelActivationStateHandler.getPowerStateChoiceName(choiceModelApp.getID()));
             buffer.append("=");
             buffer.append(n5);
-            this.log.log(1078071040, "[TelActivationStateHandler#setTelephonePowerStateChoice] %1", (Object)buffer);
+            this.log.log(1000000, "[TelActivationStateHandler#setTelephonePowerStateChoice] %1", (Object)buffer);
         }
         choiceModelApp.setValue(n5);
     }

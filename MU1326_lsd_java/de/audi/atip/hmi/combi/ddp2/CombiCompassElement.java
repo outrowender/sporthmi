@@ -21,7 +21,6 @@ extends AbstractCombiElement {
         combiCompassElement.offroadWaypoint = this.offroadWaypoint;
     }
 
-    @Override
     public void reset() {
         this.format = 0;
         this.vehicleDirection = 0;

@@ -24,7 +24,6 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 49, arrayHandler);
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[15];
         boolean bl2 = blArray[0] || blArray[1];
@@ -35,7 +34,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPCallStackEntry.getRecordAddress(bl, bl2, bl3, bl4, bl5, bl6, bl6, bl6, bl6, bl6, bl6);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         CombinedNumbers_Data combinedNumbers_Data = new CombinedNumbers_Data(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPCallStackEntry) {
@@ -52,24 +50,21 @@ extends AbstractListAdapterBAP {
             combinedNumbers_Data.minute = combiBAPCallStackEntry.getMinute();
             combinedNumbers_Data.second = combiBAPCallStackEntry.getSecond();
         } else {
-            this.logChannel.log(10000, "[CombinedNumbersListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPCallStackEntry == null ? (class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPCallStackEntry = CombinedNumbersListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.phone.data.CombiBAPCallStackEntry")) : class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPCallStackEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[CombinedNumbersListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPCallStackEntry == null ? (class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPCallStackEntry = CombinedNumbersListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.phone.data.CombiBAPCallStackEntry")) : class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPCallStackEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return combinedNumbers_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         CombinedNumbers_Data combinedNumbers_Data = new CombinedNumbers_Data(arrayHeader);
         combinedNumbers_Data.setPos(n);
         return combinedNumbers_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         return new CombinedNumbers_ChangedArray();
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new CombinedNumbers_StatusArray();
     }

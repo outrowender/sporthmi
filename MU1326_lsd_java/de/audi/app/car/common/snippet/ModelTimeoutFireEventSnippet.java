@@ -3,22 +3,37 @@
  */
 package de.audi.app.car.common.snippet;
 
-import de.audi.app.car.common.snippet.ModelTimeoutFireEventSnippet$1;
 import de.audi.atip.hmi.modelaccess.HMIModelApp;
 import de.audi.atip.timer.Timer;
 import de.audi.atip.timer.TimerListener;
 
 public class ModelTimeoutFireEventSnippet {
-    private static final long DEFAULT_TIMEOUT;
-    private static final int DEFAULT_TERMINAL;
+    private static final long DEFAULT_TIMEOUT = 1000L;
+    private static final int DEFAULT_TERMINAL = 0;
     private final Object mutex = new Object();
     private final HMIModelApp model;
     private final int terminal;
     private final Timer fireEventTimer;
-    private final TimerListener fireEventTimerListener = new ModelTimeoutFireEventSnippet$1(this);
+    private final TimerListener fireEventTimerListener = new TimerListener(){
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            if (timer.equals(ModelTimeoutFireEventSnippet.this.fireEventTimer)) {
+                Object object = ModelTimeoutFireEventSnippet.this.mutex;
+                synchronized (object) {
+                    ModelTimeoutFireEventSnippet.this.model.fireEvent(ModelTimeoutFireEventSnippet.this.terminal);
+                }
+            }
+        }
+
+        public void cancelTimer(Timer timer) {
+        }
+    };
 
     public ModelTimeoutFireEventSnippet(HMIModelApp hMIModelApp) {
-        this(hMIModelApp, 0, 0);
+        this(hMIModelApp, 1000L, 0);
     }
 
     public ModelTimeoutFireEventSnippet(HMIModelApp hMIModelApp, long l, int n) {
@@ -39,22 +54,6 @@ public class ModelTimeoutFireEventSnippet {
         synchronized (object) {
             this.fireEventTimer.cancel();
         }
-    }
-
-    static /* synthetic */ Timer access$000(ModelTimeoutFireEventSnippet modelTimeoutFireEventSnippet) {
-        return modelTimeoutFireEventSnippet.fireEventTimer;
-    }
-
-    static /* synthetic */ Object access$100(ModelTimeoutFireEventSnippet modelTimeoutFireEventSnippet) {
-        return modelTimeoutFireEventSnippet.mutex;
-    }
-
-    static /* synthetic */ int access$200(ModelTimeoutFireEventSnippet modelTimeoutFireEventSnippet) {
-        return modelTimeoutFireEventSnippet.terminal;
-    }
-
-    static /* synthetic */ HMIModelApp access$300(ModelTimeoutFireEventSnippet modelTimeoutFireEventSnippet) {
-        return modelTimeoutFireEventSnippet.model;
     }
 }
 

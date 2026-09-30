@@ -4,16 +4,12 @@
 package de.audi.atip.wordprediction;
 
 public interface IWordPredictionResponseListener {
-    default public void updateCandidates(String[] stringArray) {
-    }
+    public void updateCandidates(String[] var1);
 
-    default public void updateSpelling(String string) {
-    }
+    public void updateSpelling(String var1);
 
-    default public void updateAutoConvertedCharacters(String string) {
-    }
+    public void updateAutoConvertedCharacters(String var1);
 
-    default public void handleError(String string) {
-    }
+    public void handleError(String var1);
 }
 

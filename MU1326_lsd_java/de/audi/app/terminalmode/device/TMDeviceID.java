@@ -1,22 +1,19 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.atip.utils.Preconditions
  */
 package de.audi.app.terminalmode.device;
 
-import de.audi.app.terminalmode.SmartphoneManager$SmartphoneType;
+import de.audi.app.terminalmode.SmartphoneManager;
 import de.audi.atip.utils.Preconditions;
 
 public final class TMDeviceID {
-    public static final TMDeviceID INVALID = new TMDeviceID("INVALID", SmartphoneManager$SmartphoneType.UNKNOWN);
+    public static final TMDeviceID INVALID = new TMDeviceID("INVALID", SmartphoneManager.SmartphoneType.UNKNOWN);
     public final String address;
-    public final SmartphoneManager$SmartphoneType smartphoneType;
+    public final SmartphoneManager.SmartphoneType smartphoneType;
 
-    public TMDeviceID(String string, SmartphoneManager$SmartphoneType smartphoneManager$SmartphoneType) {
-        this.address = (String)Preconditions.checkNotNull((Object)string);
-        this.smartphoneType = (SmartphoneManager$SmartphoneType)Preconditions.checkNotNull((Object)smartphoneManager$SmartphoneType);
+    public TMDeviceID(String string, SmartphoneManager.SmartphoneType smartphoneType) {
+        this.address = Preconditions.checkNotNull(string);
+        this.smartphoneType = Preconditions.checkNotNull(smartphoneType);
     }
 
     public int hashCode() {
@@ -33,7 +30,7 @@ public final class TMDeviceID {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         TMDeviceID tMDeviceID = (TMDeviceID)object;
@@ -44,7 +41,7 @@ public final class TMDeviceID {
     }
 
     public String toString() {
-        return new StringBuffer().append("TMDeviceID [address=").append(this.address).append(", smartphoneType=").append(this.smartphoneType).append("]").toString();
+        return "TMDeviceID [address=" + this.address + ", smartphoneType=" + this.smartphoneType + "]";
     }
 }
 

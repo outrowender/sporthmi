@@ -6,15 +6,14 @@ package de.audi.app.messaging.core.folderbrowsing;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.folderbrowsing.EntryListRow;
-import de.audi.app.messaging.core.folderbrowsing.EntryListToolTip$EntryListObserver;
 import de.audi.app.messaging.core.folderbrowsing.EntryListToolTipRow;
+import de.audi.app.messaging.core.folderbrowsing.IEntryListObserver;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.util.ListEntries;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.util.Times;
 import de.audi.atip.hmi.model.ListRow;
 import de.audi.atip.hmi.modelaccess.TooltipModelApp;
-import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.messaging.ListEntry;
 import org.dsi.ifc.messaging.MessageListEntry;
 
@@ -24,22 +23,21 @@ extends AbstractMessagingComponent {
 
     public EntryListToolTip(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.tooltipModel = this.framework.getHmiServiceApp().getTooltipModel(1888624896);
+        this.tooltipModel = this.framework.getHmiServiceApp().getTooltipModel(2200176);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         this.tooltipModel.setMaxColumns(5);
         this.tooltipModel.setMaxRows(3);
-        abstractMsgApplication.getEntryList().addObserver(new EntryListToolTip$EntryListObserver(this, null));
+        abstractMsgApplication.getEntryList().addObserver(new EntryListObserver());
     }
 
     private void setTooltip(EntryListRow entryListRow) {
         try {
             ListEntry listEntry = entryListRow.getListEntry();
             if (this.log.isDebug()) {
-                this.log.log(-2137614336, "[EntryListToolTip#setTooltip] entryListRow.getListEntry = %1", (Object)String.valueOf(listEntry));
+                this.log.log(10000000, "[EntryListToolTip#setTooltip] entryListRow.getListEntry = %1", (Object)String.valueOf(listEntry));
             }
             this.tooltipModel.clear();
             if (ListEntries.isMessage(listEntry)) {
@@ -94,12 +92,15 @@ extends AbstractMessagingComponent {
         return entryListToolTipRow;
     }
 
-    static /* synthetic */ LogChannel access$100(EntryListToolTip entryListToolTip) {
-        return entryListToolTip.log;
-    }
+    private class EntryListObserver
+    extends IEntryListObserver.EmptyImplementation {
+        private EntryListObserver() {
+        }
 
-    static /* synthetic */ void access$200(EntryListToolTip entryListToolTip, EntryListRow entryListRow) {
-        entryListToolTip.setTooltip(entryListRow);
+        public void indicateItemFocused(EntryListRow entryListRow) {
+            EntryListToolTip.this.log.log(10000000, "[EntryListToolTip#indicateItemFocused]");
+            EntryListToolTip.this.setTooltip(entryListRow);
+        }
     }
 }
 

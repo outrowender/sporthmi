@@ -24,30 +24,25 @@ extends AbstractMediaPlayerJob {
         this.playViewListener = map;
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public String getName() {
         return "PLAYSELECTION";
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%2.abort]", (Object)"AbstractMediaPlayerJobSelection");
+        this.logger.log(1000000, "[%2.abort]", (Object)"AbstractMediaPlayerJobSelection");
         this.request.responseSetSelection(false);
     }
 
-    @Override
     public void start() {
         this.player.getDSIPlayer().setPlaySelection(this.request.getBrowserID(), this.request.getEntryID(), this.request.isSeamless());
     }
 
-    @Override
     public void responseSetPlaySelection(boolean bl) {
-        this.logger.log(1078071040, "[%2.responseSetPlaySelection] '%1'", bl, (Object)"AbstractMediaPlayerJobSelection");
+        this.logger.log(1000000, "[%2.responseSetPlaySelection] '%1'", bl, (Object)"AbstractMediaPlayerJobSelection");
         if (bl) {
             if (this.player.capabilities != null && this.player.capabilities.playView) {
                 this.notifyListChanging();
@@ -62,7 +57,7 @@ extends AbstractMediaPlayerJob {
             return;
         }
         if (!bl && !this.player.capabilities.playView) {
-            this.logger.log(1078071040, "[%2.responseSetPlaySelection] no playview available '%1'", bl, (Object)"AbstractMediaPlayerJobSelection");
+            this.logger.log(1000000, "[%2.responseSetPlaySelection] no playview available '%1'", bl, (Object)"AbstractMediaPlayerJobSelection");
             this.player.waitForDetailInfos();
         }
         if (!this.request.isSeamless()) {
@@ -72,22 +67,21 @@ extends AbstractMediaPlayerJob {
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void notifyPlayPosition() {
-        this.logger.log(1078071040, "[%1.notifyPlayPosition]", (Object)"AbstractMediaPlayerJobSelection");
+        this.logger.log(1000000, "[%1.notifyPlayPosition]", (Object)"AbstractMediaPlayerJobSelection");
         this.request.responseSetSelection(true);
         this.getExecutionContext().jobFinished();
     }
 
     protected void notifyListChanging() {
-        this.logger.log(1078071040, "[%1.notifyListChanging]", (Object)"AbstractMediaPlayerJobSelection");
+        this.logger.log(1000000, "[%1.notifyListChanging]", (Object)"AbstractMediaPlayerJobSelection");
         Iterator iterator = this.playViewListener.values().iterator();
         while (iterator.hasNext()) {
             try {
                 ((IPlayerViewListener)iterator.next()).listChangeOnSelection(this.request.isSeamless());
             }
             catch (Exception exception) {
-                this.logger.log(-1601830656, "[%1.notifyListChanging]", (Object)"AbstractMediaPlayerJobSelection", (Throwable)exception);
+                this.logger.log(100000, "[%1.notifyListChanging]", (Object)"AbstractMediaPlayerJobSelection", (Throwable)exception);
             }
         }
     }

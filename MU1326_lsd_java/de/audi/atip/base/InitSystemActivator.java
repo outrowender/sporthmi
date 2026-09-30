@@ -4,9 +4,10 @@
 package de.audi.atip.base;
 
 import de.audi.atip.activator.AbstractActivator;
-import de.audi.atip.base.InitSystemActivator$1;
+import de.audi.atip.audio.HMIAudioService;
 import de.audi.atip.log.LogChannel;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -16,16 +17,36 @@ extends AbstractActivator {
     private volatile ServiceTracker audioServiceTracker;
     static /* synthetic */ Class class$de$audi$atip$audio$HMIAudioService;
 
-    @Override
-    public void start(BundleContext bundleContext) {
+    public void start(final BundleContext bundleContext) {
         super.start(bundleContext);
         this.getFramework().getStartupMgr().initSystem();
         this.log = this.getFramework().getLogChannel("Fw.Startup");
-        this.audioServiceTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = InitSystemActivator.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService).getName(), (ServiceTrackerCustomizer)new InitSystemActivator$1(this, bundleContext));
+        this.audioServiceTracker = new ServiceTracker(bundleContext, (class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = InitSystemActivator.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = serviceReference.getProperty("AUDIO_CLIENT_ID");
+                if (HMIAudioService.CLIENT_STARTUP.equals(object)) {
+                    Object object2 = bundleContext.getService(serviceReference);
+                    InitSystemActivator.this.log.log(1000000, "[InitSystemActivator] addingService HMIAudioService %1, AudioClientID=%2", (Object)((HMIAudioService)object2).toString(), object);
+                    InitSystemActivator.this.getFramework().getLastmodeHandler().setHMIAudioService((HMIAudioService)object2);
+                    return object2;
+                }
+                bundleContext.ungetService(serviceReference);
+                return null;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                InitSystemActivator.this.log.log(1000000, "[InitSystemActivator] removedService HMIAudioService %1", object);
+                InitSystemActivator.this.getFramework().getLastmodeHandler().setHMIAudioService(null);
+                bundleContext.ungetService(serviceReference);
+            }
+        });
         this.audioServiceTracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.log.log(10000, "InitSystem service can't be stopped!");
         if (this.audioServiceTracker != null) {
@@ -42,10 +63,6 @@ extends AbstractActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(InitSystemActivator initSystemActivator) {
-        return initSystemActivator.log;
     }
 }
 

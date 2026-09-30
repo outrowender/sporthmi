@@ -4,16 +4,12 @@
 package de.audi.atip.testsupport.handler;
 
 public interface ITestSupportHandler {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void updateData(String[] stringArray) {
-    }
+    public void updateData(String[] var1);
 
-    default public void updateCommandList() {
-    }
+    public void updateCommandList();
 }
 

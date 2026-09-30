@@ -50,45 +50,37 @@ extends AbstractCombiModule {
         this.partialPopupHandler = new PartialPopupHandler(this);
     }
 
-    @Override
     protected void initModuleComponents() {
-        this.logChannel.log(-2137614336, "[CombiModuleMFL#initModuleComponents]");
+        this.logChannel.log(10000000, "[CombiModuleMFL#initModuleComponents]");
         this.indicationHandler = new BAPIndicationHandlerMFL(this);
         this.functionRegistration = new FunctionRegistrationMFL(this);
         this.initializationManager = new InitializationManagerMFL(this, this.getBAPFunctionPropertyFSG(15), this.bapApplication.getDSIBAPController(), this.bapApplication.getPowerState());
     }
 
-    @Override
     protected void initServiceManager(BundleContext bundleContext) {
         this.serviceManager = new ServiceManagerMFL(this, bundleContext);
     }
 
-    @Override
     protected void initDiagnosisConnector() {
         this.diagnosisConnectorFsg = new CombiDiagnosisConnectorMFL((AbstractCombiBAPApplication)this.bapApplication, this);
     }
 
-    @Override
     public String getLSGDescription() {
         return "0x34 (MFL)";
     }
 
-    @Override
     public IFunctionIDs getFunctionIDs() {
         return new FunctionIDsMFL();
     }
 
-    @Override
     public IErrorCodes getErrorIDs() {
         return new ErrorCodesMFL();
     }
 
-    @Override
     public int[] getErrorMapping() {
         return ERROR_MAPPING;
     }
 
-    @Override
     public IDataTypeMapping getDataTypeMapping() {
         return new DataTypeMappingMFL();
     }

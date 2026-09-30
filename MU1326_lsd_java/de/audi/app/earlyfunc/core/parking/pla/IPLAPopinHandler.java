@@ -7,22 +7,16 @@ import org.dsi.ifc.carparkingsystem.DisplayContent;
 import org.dsi.ifc.carparkingsystem.PDCPLAStatus;
 
 public interface IPLAPopinHandler {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void updateVpsOpsPopup(DisplayContent displayContent, boolean bl) {
-    }
+    public void updateVpsOpsPopup(DisplayContent var1, boolean var2);
 
-    default public void updatePDCPLAStatus(PDCPLAStatus pDCPLAStatus) {
-    }
+    public void updatePDCPLAStatus(PDCPLAStatus var1);
 
-    default public void setCanceledByHMI() {
-    }
+    public void setCanceledByHMI();
 
-    default public boolean isPlaInOutActiveOpsStandalone() {
-    }
+    public boolean isPlaInOutActiveOpsStandalone();
 }
 

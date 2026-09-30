@@ -27,9 +27,8 @@ extends AbstractADBCommand {
         this.sdsHandler = aDBSDSHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "GetSDSEmailListCommand#execute()");
+        this.logger.log(10000000, "GetSDSEmailListCommand#execute()");
         boolean bl = this.adbDSIAccess.getEntries(new long[]{this.entryId}, 0, 0);
         if (!bl) {
             this.logger.log(10000, "GetSDSEmailListCommand#execute(): dsi call was not successful, finishing command.");
@@ -38,14 +37,13 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(-2137614336, "GetSDSEmailListCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "GetSDSEmailListCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             if (adbEntryArray.length == 1) {
-                this.logger.log(-2137614336, "GetSDSEmailListCommand#getEntriesResult(): got entry: %1", (Object)adbEntryArray[0]);
+                this.logger.log(10000000, "GetSDSEmailListCommand#getEntriesResult(): got entry: %1", (Object)adbEntryArray[0]);
                 ADBUtils.checkAndFixADBEntry(adbEntryArray[0], this.appAdr.getFramework());
-                this.appAdr.getHMIService().getLabelModel(1303382528).setText(adbEntryArray[0].combinedName);
+                this.appAdr.getHMIService().getLabelModel(700493).setText(adbEntryArray[0].combinedName);
                 AbstractADBEntryDetailsListRowBuilder.fillEmailList(adbEntryArray[0], this.appAdr.getHMIService().getBaseListModel(4276), this.sdsHandler.getRowBuilder());
                 ResourceLocator resourceLocator = adbEntryArray[0].personalData != null ? adbEntryArray[0].personalData.contactPicture : null;
                 int n2 = ADBUtils.countEmailAddresses(adbEntryArray[0]);

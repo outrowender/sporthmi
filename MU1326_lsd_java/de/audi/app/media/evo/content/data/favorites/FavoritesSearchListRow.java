@@ -10,13 +10,13 @@ import org.dsi.ifc.search.SearchResult;
 
 public class FavoritesSearchListRow
 extends SearchResultListRow {
-    private static final int MAX_COLUMNS;
-    private static final int CELL_ID_RECORDSET;
-    private static final int CELL_ID_FAV_FIRST_ROW;
-    private static final int CELL_ID_FAV_FIRST_ROW_I18N;
-    private static final int CELL_ID_FAV_SECOND_ROW;
-    private static final int CELL_ID_FAV_SECOND_ROW_I18N;
-    private static final int CELL_ID_FAV_SYMBOL;
+    private static final int MAX_COLUMNS = 6;
+    private static final int CELL_ID_RECORDSET = 0;
+    private static final int CELL_ID_FAV_FIRST_ROW = 1;
+    private static final int CELL_ID_FAV_FIRST_ROW_I18N = 2;
+    private static final int CELL_ID_FAV_SECOND_ROW = 3;
+    private static final int CELL_ID_FAV_SECOND_ROW_I18N = 4;
+    private static final int CELL_ID_FAV_SYMBOL = 5;
 
     public FavoritesSearchListRow(SearchResult searchResult, IMediaSearchResultLayouter iMediaSearchResultLayouter) {
         super(searchResult, 6, searchResult.getListPosition());
@@ -36,7 +36,6 @@ extends SearchResultListRow {
         return 6;
     }
 
-    @Override
     public EvoListRow copy() {
         return new FavoritesSearchListRow(this);
     }

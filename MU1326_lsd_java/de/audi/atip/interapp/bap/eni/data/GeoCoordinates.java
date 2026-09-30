@@ -40,7 +40,7 @@ public final class GeoCoordinates {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         GeoCoordinates geoCoordinates = (GeoCoordinates)object;

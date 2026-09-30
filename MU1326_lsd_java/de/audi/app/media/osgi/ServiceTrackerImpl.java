@@ -16,12 +16,10 @@ implements IServiceTracker {
         this.osgiServiceTracker = new ServiceTracker(bundleContext, clazz.getName(), serviceTrackerCustomizer);
     }
 
-    @Override
     public void open() {
         this.osgiServiceTracker.open();
     }
 
-    @Override
     public void close() {
         this.osgiServiceTracker.close();
     }

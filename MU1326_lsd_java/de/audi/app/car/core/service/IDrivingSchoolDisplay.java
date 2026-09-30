@@ -4,10 +4,8 @@
 package de.audi.app.car.core.service;
 
 public interface IDrivingSchoolDisplay {
-    default public void activateDisplay() {
-    }
+    public void activateDisplay();
 
-    default public void deactivateDisplay() {
-    }
+    public void deactivateDisplay();
 }
 

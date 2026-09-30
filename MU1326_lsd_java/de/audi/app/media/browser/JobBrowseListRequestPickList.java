@@ -11,7 +11,7 @@ import de.audi.atip.log.LogChannel;
 
 public class JobBrowseListRequestPickList
 extends AbstractJobBrowseList {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobBrowseListRequestPickList";
     private final long[] entryIds;
     private final int clientId;
 
@@ -21,31 +21,26 @@ extends AbstractJobBrowseList {
         this.clientId = n;
     }
 
-    @Override
     public int getType() {
         return 6;
     }
 
-    @Override
     public String getName() {
         return "requestPickList";
     }
 
-    @Override
     public void start() {
-        this.logChannel.log(1078071040, "[%1.start]", (Object)"JobBrowseListRequestPickList");
+        this.logChannel.log(1000000, "[%1.start]", (Object)LOGCLASS);
         this.dsiMediaBrowser.requestPickList(this.entryIds, this.clientId);
     }
 
-    @Override
     public void responsePickList(boolean bl, MediaListEntry[] mediaListEntryArray) {
-        this.logChannel.log(1078071040, "[%1.responsePickList]", (Object)"JobBrowseListRequestPickList");
+        this.logChannel.log(1000000, "[%1.responsePickList]", (Object)LOGCLASS);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void updateListSize(int n, int n2) {
-        this.logChannel.log(14808325, "[%1.updateListSize]", (Object)"JobBrowseListRequestPickList");
+        this.logChannel.log(100000000, "[%1.updateListSize]", (Object)LOGCLASS);
         this.browseListContext.getState().setCurrentListSize(n);
         this.browseListContext.notifyListUpdated(n);
     }

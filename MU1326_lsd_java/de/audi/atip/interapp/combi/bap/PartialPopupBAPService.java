@@ -8,10 +8,8 @@ import de.audi.atip.interapp.combi.bap.data.PartialPopupBAPContent;
 
 public interface PartialPopupBAPService
 extends CombiBAPService {
-    default public void showPartialPopup(int n, PartialPopupBAPContent partialPopupBAPContent) {
-    }
+    public void showPartialPopup(int var1, PartialPopupBAPContent var2);
 
-    default public void hidePartialPopup(int n) {
-    }
+    public void hidePartialPopup(int var1);
 }
 

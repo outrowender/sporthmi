@@ -18,19 +18,16 @@ extends AbstractHistoryCallListRow {
         this.COLUMN_CATEGORY = 4;
     }
 
-    @Override
     public void createPropertyListCell(boolean bl) {
-        int n = bl ? 1131354138 : -727859341;
+        int n = bl ? 437808963 : 1941937620;
         this.setPropertyCell(4, new PropertyListCell(n, new int[0]));
     }
 
-    @Override
     public int getCategory() {
         PropertyListCell propertyListCell = (PropertyListCell)this.getCell(4);
         return propertyListCell.getCategory();
     }
 
-    @Override
     public EvoListRow copy() {
         return new HistoryCallListRowEvo(this);
     }

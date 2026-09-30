@@ -73,21 +73,19 @@ TimerListener {
         new TunerSDSPicklistListener(hMIService, this);
         this.hmiService = hMIService;
         this.sdsPopupHelper = iSDSPopupHelper;
-        this.tunerListUpdateTimer = new Timer("TunerListUpdateTimer", 5, this.lc, this, 0, true);
+        this.tunerListUpdateTimer = new Timer("TunerListUpdateTimer", 5, this.lc, this, 10000L, true);
         this.appFactory = sDSAppFactory;
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-        this.lc.log(-2137614336, "TunerSDSHandlerImpl#cancelTimer: timer=%1", (Object)timer);
+        this.lc.log(10000000, "TunerSDSHandlerImpl#cancelTimer: timer=%1", (Object)timer);
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer != this.tunerListUpdateTimer) {
             return;
         }
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#fireTimer] Updating all slot grammars!");
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#fireTimer] Updating all slot grammars!");
         if (this.pendingStationList) {
             this.updateSlotGrammars(-1000, 52);
         }
@@ -106,36 +104,30 @@ TimerListener {
         this.pendingChannelNumberList = false;
     }
 
-    @Override
     public void setTTSASR(ITTSASR iTTSASR) {
         this.ttsASR = iTTSASR;
     }
 
-    @Override
     public int[] getCommands() {
         return this.commands;
     }
 
-    @Override
     public void setTunerService(TunerService tunerService) {
         if (tunerService != null) {
             this.tunerService = tunerService;
         }
     }
 
-    @Override
     public TunerService getTunerService() {
         return this.tunerService;
     }
 
-    @Override
     public void unsetTunerService() {
         this.tunerService = new NullTunerService(this.lc);
     }
 
-    @Override
     public void processCommand(int n, ISystemCallParameter[] iSystemCallParameterArray) {
-        this.lc.log(-2137614336, "TunerSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
+        this.lc.log(10000000, "TunerSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
         CommandList commandList = new CommandList(SDSManagerBaseActivator.getSysCallCmdListManager());
         switch (n) {
             case 10003: {
@@ -194,32 +186,29 @@ TimerListener {
         }
     }
 
-    @Override
     public String getName() {
         return "TunerSDSHandler";
     }
 
-    @Override
     public void updateBandList(int[] nArray) {
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#updateBandList] list=%1", (Object)nArray);
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#updateBandList] list=%1", (Object)nArray);
         if (nArray == null) {
-            this.lc.log(-1601830656, "[TunerSDSHandlerImpl#updateBandList] Empty list!");
+            this.lc.log(100000, "[TunerSDSHandlerImpl#updateBandList] Empty list!");
             return;
         }
         this.waveBands = nArray;
     }
 
-    @Override
     public void updateEnsembleList(SDSListEntry[] sDSListEntryArray) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "[TunerSDSHandlerImpl#updateEnsembleList] list=%1", (Object)SDSUtils.toString((Object[])sDSListEntryArray, false));
+            this.lc.log(100000000, "[TunerSDSHandlerImpl#updateEnsembleList] list=%1", (Object)SDSUtils.toString((Object[])sDSListEntryArray, false));
         }
         if (sDSListEntryArray == null) {
-            this.lc.log(-1601830656, "[TunerSDSHandlerImpl#updateEnsembleList] Empty list!");
+            this.lc.log(100000, "[TunerSDSHandlerImpl#updateEnsembleList] Empty list!");
             return;
         }
         boolean bl = this.tunerListUpdateTimer.isRunning();
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#updateEnsembleList] updateTimerRunning=%1", bl);
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#updateEnsembleList] updateTimerRunning=%1", bl);
         this.tunerEnsembleListEntries = sDSListEntryArray;
         this.updateSpeakableEnsembleList();
         if (bl) {
@@ -229,12 +218,11 @@ TimerListener {
         this.updateSlotGrammars(-1001, 51);
     }
 
-    @Override
     public void updateGenreList(SDSListEntry[] sDSListEntryArray) {
         boolean bl = this.tunerListUpdateTimer.isRunning();
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#updateGenreList] updateTimerRunning=%1", bl);
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#updateGenreList] updateTimerRunning=%1", bl);
         if (sDSListEntryArray == null || sDSListEntryArray.length == 0) {
-            this.lc.log(-1601830656, "[TunerSDSHandlerImpl#updateGenreList] Empty entries!");
+            this.lc.log(100000, "[TunerSDSHandlerImpl#updateGenreList] Empty entries!");
             this.tunerGenreList = new SDSListEntry[0];
             this.dynamicLists.removeFromLookup(53);
             return;
@@ -248,22 +236,21 @@ TimerListener {
         this.updateSlotGrammars(-1002, 53);
     }
 
-    @Override
     public void updateStationList(SDSListEntry[] sDSListEntryArray, int n) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "[TunerSDSHandlerImpl#updateStationList] list=%1, waveBand=%2", (Object)SDSUtils.toString((Object[])sDSListEntryArray, false), (long)n);
+            this.lc.log(100000000, "[TunerSDSHandlerImpl#updateStationList] list=%1, waveBand=%2", (Object)SDSUtils.toString((Object[])sDSListEntryArray, false), (long)n);
         }
         if (SDSUtils.isEmpty(sDSListEntryArray)) {
-            this.lc.log(-1601830656, "[TunerSDSHandlerImpl#updateStationList] Empty list!");
+            this.lc.log(100000, "[TunerSDSHandlerImpl#updateStationList] Empty list!");
             this.tunerStationLists.remove(new Integer(n));
             return;
         }
         boolean bl = this.tunerListUpdateTimer.isRunning();
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#updateStationList] updateTimerRunning=%1", bl);
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#updateStationList] updateTimerRunning=%1", bl);
         this.tunerStationLists.put(new Integer(n), sDSListEntryArray);
         this.updateSpeakableStationList();
         if (bl) {
-            this.lc.log(-2137614336, "[TunerSDSHandlerImpl#updateStationList] Storing tuner station list grammar update due to running ignore timer!");
+            this.lc.log(10000000, "[TunerSDSHandlerImpl#updateStationList] Storing tuner station list grammar update due to running ignore timer!");
             this.pendingStationList = true;
             return;
         }
@@ -272,12 +259,12 @@ TimerListener {
 
     protected void updateSlotGrammars(int n, int n2) {
         int n3 = SDSManagerBaseActivator.getMapping().getHMISlotGrammar(n2);
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#updateSlotGrammars] slotMappingID=%1, slotID=%2", (long)n2, (long)n3);
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#updateSlotGrammars] slotMappingID=%1, slotID=%2", (long)n2, (long)n3);
         if (!this.dynamicLists.contains(n3)) {
-            this.lc.log(-1601830656, "[TunerSDSHandlerImpl#updateSlotGrammars] No slot entries available!");
+            this.lc.log(100000, "[TunerSDSHandlerImpl#updateSlotGrammars] No slot entries available!");
             return;
         }
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#updateSlotGrammars] Restarting tuner list update timer!");
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#updateSlotGrammars] Restarting tuner list update timer!");
         this.tunerListUpdateTimer.restart();
         ITTSASRContext iTTSASRContext = this.ttsASR.createGrammarContext();
         iTTSASRContext.addToGrammar(n, new int[]{n3}, 8);
@@ -285,10 +272,10 @@ TimerListener {
     }
 
     protected void updateSpeakableStationList() {
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#updateSpeakableStationList] called");
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#updateSpeakableStationList] called");
         SDSListEntry[] sDSListEntryArray = this.mergeAllEntries();
         if (sDSListEntryArray == null || sDSListEntryArray.length == 0) {
-            this.lc.log(-1601830656, "[TunerSDSHandlerImpl#updateSpeakableStationList] Empty entries!");
+            this.lc.log(100000, "[TunerSDSHandlerImpl#updateSpeakableStationList] Empty entries!");
             this.dynamicLists.removeFromLookup(52);
             return;
         }
@@ -297,9 +284,9 @@ TimerListener {
     }
 
     private SDSListEntry[] mergeAllEntries() {
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#mergeAllEntries] called");
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#mergeAllEntries] called");
         List list = this.mergeListsFromSources(this.waveBands, this.tunerStationLists);
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#mergeAllEntries] Final entries array=%1", (Object)list);
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#mergeAllEntries] Final entries array=%1", (Object)list);
         return (SDSListEntry[])list.toArray(new SDSListEntry[list.size()]);
     }
 
@@ -310,17 +297,17 @@ TimerListener {
         for (int i2 = 0; i2 < n; ++i2) {
             int n2 = nArray[i2];
             if (bl && n2 != 7 && n2 != 10) {
-                this.lc.log(-2137614336, "[TunerSDSHandlerImpl#mergeListsFromSources] curSource=%1; ignore non-Sirius-stations because of NAR!", (long)n2);
+                this.lc.log(10000000, "[TunerSDSHandlerImpl#mergeListsFromSources] curSource=%1; ignore non-Sirius-stations because of NAR!", (long)n2);
                 continue;
             }
-            this.lc.log(-2137614336, "[TunerSDSHandlerImpl#mergeListsFromSources] curSource=%1!", (long)n2);
+            this.lc.log(10000000, "[TunerSDSHandlerImpl#mergeListsFromSources] curSource=%1!", (long)n2);
             Object[] objectArray = (SDSListEntry[])map.get(new Integer(n2));
             if (objectArray == null) {
-                this.lc.log(-1601830656, "[TunerSDSHandlerImpl#mergeListsFromSources] Empty list #%1!", (long)i2);
+                this.lc.log(100000, "[TunerSDSHandlerImpl#mergeListsFromSources] Empty list #%1!", (long)i2);
                 continue;
             }
             if (this.lc.isDebug2()) {
-                this.lc.log(14808325, "[TunerSDSHandlerImpl#mergeListsFromSources] curList=%1!", (Object)SDSUtils.toString(objectArray, false));
+                this.lc.log(100000000, "[TunerSDSHandlerImpl#mergeListsFromSources] curList=%1!", (Object)SDSUtils.toString(objectArray, false));
             }
             arrayList.addAll(Arrays.asList(objectArray));
         }
@@ -328,23 +315,21 @@ TimerListener {
     }
 
     private void updateSpeakableEnsembleList() {
-        this.lc.log(-2137614336, "[TunerSDSHandlerImpl#updateSpeakableEnsembleList] called");
+        this.lc.log(10000000, "[TunerSDSHandlerImpl#updateSpeakableEnsembleList] called");
         if (this.tunerEnsembleListEntries == null || this.tunerEnsembleListEntries.length == 0) {
-            this.lc.log(-1601830656, "[TunerSDSHandlerImpl#updateSpeakableEnsembleList] Empty tunerEnsembleEntries!");
+            this.lc.log(100000, "[TunerSDSHandlerImpl#updateSpeakableEnsembleList] Empty tunerEnsembleEntries!");
             this.dynamicLists.removeFromLookup(51);
             return;
         }
         this.dynamicLists.addToLookup(51, new DynamicSlotContent("tuner ensembles", this.tunerEnsembleListEntries, 0));
     }
 
-    @Override
     public boolean isListLineDataGetActive() {
         return SDSUtils.getActiveSystemCall() instanceof TunerListLineDataGetCommand;
     }
 
-    @Override
     public void sdsListLineDataGet(int n, int n2) {
-        this.lc.log(-2137614336, "TunerSDSHandlerImpl#sdsListLineDataGet: modelID=%1, absLine=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "TunerSDSHandlerImpl#sdsListLineDataGet: modelID=%1, absLine=%2", (long)n, (long)n2);
         try {
             ((TunerListLineDataGetCommand)SDSUtils.getActiveSystemCall()).sdsListLineDataGet(n2);
         }
@@ -356,15 +341,13 @@ TimerListener {
         }
     }
 
-    @Override
     public boolean freezeLists() {
-        this.lc.log(-2137614336, "TunerSDSHandlerImpl#freezeLists: called");
+        this.lc.log(10000000, "TunerSDSHandlerImpl#freezeLists: called");
         return this.tunerService.freezeDynamicLists() == 0;
     }
 
-    @Override
     public boolean unfreezeLists() {
-        this.lc.log(-2137614336, "TunerSDSHandlerImpl#unfreezeLists: called");
+        this.lc.log(10000000, "TunerSDSHandlerImpl#unfreezeLists: called");
         return this.tunerService.unfreezeDynamicLists() == 0;
     }
 
@@ -372,17 +355,14 @@ TimerListener {
         return "TunerSDSHandlerImpl";
     }
 
-    @Override
     public long getSelectedStationID() {
         return this.selectedStationID;
     }
 
-    @Override
     public void setSelectedStationID(long l) {
         this.selectedStationID = l;
     }
 
-    @Override
     public SDSListEntry getGenreById(long l) {
         if (SDSUtils.isEmpty(this.tunerGenreList)) {
             return null;
@@ -395,12 +375,10 @@ TimerListener {
         return null;
     }
 
-    @Override
     public SDSListEntry[] getFavoritesList() {
         return (SDSListEntry[])this.tunerStationLists.get(new Integer(10));
     }
 
-    @Override
     public void updateChannelNumberList(SDSListEntry[] sDSListEntryArray) {
     }
 }

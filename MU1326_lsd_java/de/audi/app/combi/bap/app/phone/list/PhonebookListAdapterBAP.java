@@ -25,7 +25,6 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 52, arrayHandler);
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[0] || blArray[15];
         boolean bl2 = blArray[0] || blArray[1] || blArray[3];
@@ -36,7 +35,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPPhonebookEntry.getRecordAddress(bl, bl2, bl3, bl4, bl5, bl6);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         Phonebook_Data phonebook_Data = null;
         if (combiBAPArrayElement instanceof CombiBAPPhonebookEntry) {
@@ -45,7 +43,7 @@ extends AbstractListAdapterBAP {
             if (combiBAPPhonebookEntryDetailsArray != null) {
                 phonebook_Data = new Phonebook_Data(arrayHeader, combiBAPPhonebookEntryDetailsArray.length);
                 if (phonebook_Data.telNumberQuantity != combiBAPPhonebookEntryDetailsArray.length) {
-                    this.logChannel.log(-1601830656, "[PhonebookListAdapterBAP#convertPhonebookEntry] details length(%1) doesn't match telNumberQuantity(%2)", (long)combiBAPPhonebookEntryDetailsArray.length, (long)phonebook_Data.telNumberQuantity);
+                    this.logChannel.log(100000, "[PhonebookListAdapterBAP#convertPhonebookEntry] details length(%1) doesn't match telNumberQuantity(%2)", (long)combiBAPPhonebookEntryDetailsArray.length, (long)phonebook_Data.telNumberQuantity);
                 }
                 for (int i2 = 0; i2 < combiBAPPhonebookEntryDetailsArray.length && i2 < phonebook_Data.telNumberQuantity; ++i2) {
                     phonebook_Data.telNumberN[i2].setContent(combiBAPPhonebookEntryDetailsArray[i2].getTelNumber());
@@ -59,24 +57,21 @@ extends AbstractListAdapterBAP {
             phonebook_Data.storage = combiBAPPhonebookEntry.getStorage();
             phonebook_Data.telNumberQuantity = combiBAPPhonebookEntry.getTelNumberQuantity();
         } else {
-            this.logChannel.log(10000, "[PhonebookListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPPhonebookEntry == null ? (class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPPhonebookEntry = PhonebookListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.phone.data.CombiBAPPhonebookEntry")) : class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPPhonebookEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[PhonebookListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPPhonebookEntry == null ? (class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPPhonebookEntry = PhonebookListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.phone.data.CombiBAPPhonebookEntry")) : class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPPhonebookEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return phonebook_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         Phonebook_Data phonebook_Data = new Phonebook_Data(arrayHeader, 0);
         phonebook_Data.setPos(n);
         return phonebook_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         return new Phonebook_ChangedArray();
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new Phonebook_StatusArray();
     }

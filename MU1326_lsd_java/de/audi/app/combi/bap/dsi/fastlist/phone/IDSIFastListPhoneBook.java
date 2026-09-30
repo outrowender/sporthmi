@@ -9,16 +9,12 @@ import org.dsi.ifc.kombifastlist.DataPhonebook;
 
 public interface IDSIFastListPhoneBook
 extends IDSIFastListPhone {
-    default public void responsePhoneBook(int n, int n2, int n3, int n4, ArrayHeader arrayHeader) {
-    }
+    public void responsePhoneBook(int var1, int var2, int var3, int var4, ArrayHeader var5);
 
-    default public void responsePhoneBookArray(DataPhonebook[] dataPhonebookArray) {
-    }
+    public void responsePhoneBookArray(DataPhonebook[] var1);
 
-    default public void responsePhoneBookJobs(int n, int n2) {
-    }
+    public void responsePhoneBookJobs(int var1, int var2);
 
-    default public void pushCurrentListSizePhoneBook(int n) {
-    }
+    public void pushCurrentListSizePhoneBook(int var1);
 }
 

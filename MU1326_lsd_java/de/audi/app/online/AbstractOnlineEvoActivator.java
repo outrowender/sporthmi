@@ -59,7 +59,6 @@ extends AbstractOnlineActivator {
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
     static /* synthetic */ Class class$de$audi$atip$hmi$app$AppOnlineTextConstants;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.hmiService = this.framework.getHMIService();
@@ -67,7 +66,6 @@ extends AbstractOnlineActivator {
         this.initENI();
     }
 
-    @Override
     protected void finalizeStart() {
         try {
             this.registerOnlineEvoActionProxy();
@@ -89,17 +87,17 @@ extends AbstractOnlineActivator {
         this.mobileKeyController = new MobileKeyVTANController(this.logChannel, this.hmiService, this.getFramework());
         this.registerService((class$de$audi$atip$interapp$eni$ENIMobileKeyListener == null ? (class$de$audi$atip$interapp$eni$ENIMobileKeyListener = AbstractOnlineEvoActivator.class$("de.audi.atip.interapp.eni.ENIMobileKeyListener")) : class$de$audi$atip$interapp$eni$ENIMobileKeyListener).getName(), (Object)this.mobileKeyController, (Dictionary)AbstractOnlineEvoActivator.createServiceProperties());
         MobileKeyStatusDisplayModelAccess mobileKeyStatusDisplayModelAccess = new MobileKeyStatusDisplayModelAccess(this.logChannel);
-        mobileKeyStatusDisplayModelAccess.setServiceActiveChoice(this.hmiService.getChoiceModel(1730093824));
-        mobileKeyStatusDisplayModelAccess.setServiceActiveStateCanBeModifiedChoice(this.hmiService.getChoiceModel(1931420416));
-        mobileKeyStatusDisplayModelAccess.setServiceActivateButton(this.hmiService.getButtonModel(1813979904));
-        mobileKeyStatusDisplayModelAccess.setServiceDeactivateButton(this.hmiService.getButtonModel(1830757120));
-        mobileKeyStatusDisplayModelAccess.setServiceResetButton(this.hmiService.getButtonModel(1948197632));
-        mobileKeyStatusDisplayModelAccess.setFleetModeActiveChoice(this.hmiService.getChoiceModel(1713316608));
-        mobileKeyStatusDisplayModelAccess.setBackendStateChoice(this.hmiService.getChoiceModel(1746871040));
-        mobileKeyStatusDisplayModelAccess.setKeyCountChoice(this.hmiService.getChoiceModel(1780425472));
-        mobileKeyStatusDisplayModelAccess.setKeyCountLabel(this.hmiService.getLabelModel(1763648256));
-        mobileKeyStatusDisplayModelAccess.setSmartCardEnabledChoice(this.hmiService.getChoiceModel(1864311552));
-        mobileKeyStatusDisplayModelAccess.setCarKeyTypeChoice(this.hmiService.getChoiceModel(1998529280));
+        mobileKeyStatusDisplayModelAccess.setServiceActiveChoice(this.hmiService.getChoiceModel(2301799));
+        mobileKeyStatusDisplayModelAccess.setServiceActiveStateCanBeModifiedChoice(this.hmiService.getChoiceModel(2301811));
+        mobileKeyStatusDisplayModelAccess.setServiceActivateButton(this.hmiService.getButtonModel(2301804));
+        mobileKeyStatusDisplayModelAccess.setServiceDeactivateButton(this.hmiService.getButtonModel(2301805));
+        mobileKeyStatusDisplayModelAccess.setServiceResetButton(this.hmiService.getButtonModel(2301812));
+        mobileKeyStatusDisplayModelAccess.setFleetModeActiveChoice(this.hmiService.getChoiceModel(2301798));
+        mobileKeyStatusDisplayModelAccess.setBackendStateChoice(this.hmiService.getChoiceModel(2301800));
+        mobileKeyStatusDisplayModelAccess.setKeyCountChoice(this.hmiService.getChoiceModel(2301802));
+        mobileKeyStatusDisplayModelAccess.setKeyCountLabel(this.hmiService.getLabelModel(2301801));
+        mobileKeyStatusDisplayModelAccess.setSmartCardEnabledChoice(this.hmiService.getChoiceModel(2301807));
+        mobileKeyStatusDisplayModelAccess.setCarKeyTypeChoice(this.hmiService.getChoiceModel(2301815));
         mobileKeyStatusDisplayModelAccess.checkConfig();
         MobileKeyStatusDisplayStorageAccess mobileKeyStatusDisplayStorageAccess = new MobileKeyStatusDisplayStorageAccess(this.framework.getStorageMgr(), this.logChannel);
         this.mobileKeyStatusDisplayController = new MobileKeyStatusDisplayController(mobileKeyStatusDisplayModelAccess, mobileKeyStatusDisplayStorageAccess, this.hmiService, this.framework, this.logChannel, this.useEni);
@@ -123,7 +121,7 @@ extends AbstractOnlineActivator {
         } else if (this.onlineActionProxy instanceof OnlineActionProxyStd) {
             ((OnlineActionProxyStd)this.onlineActionProxy).setMobileKeyStatusDisplayController(this.mobileKeyStatusDisplayController);
         } else {
-            this.logChannel.log(1078071040, "AbstractOnlineEvoActivator#initENI onlineActionProxy not available to relay mobile key events; RHMI is probably not coded in");
+            this.logChannel.log(1000000, "AbstractOnlineEvoActivator#initENI onlineActionProxy not available to relay mobile key events; RHMI is probably not coded in");
         }
         this.registerService((class$de$audi$atip$interapp$eni$ENIMobileKeyStatusDisplayListener == null ? (class$de$audi$atip$interapp$eni$ENIMobileKeyStatusDisplayListener = AbstractOnlineEvoActivator.class$("de.audi.atip.interapp.eni.ENIMobileKeyStatusDisplayListener")) : class$de$audi$atip$interapp$eni$ENIMobileKeyStatusDisplayListener).getName(), (Object)this.mobileKeyStatusDisplayController, (Dictionary)AbstractOnlineEvoActivator.createServiceProperties());
     }
@@ -138,9 +136,9 @@ extends AbstractOnlineActivator {
     }
 
     protected final void initPrivacySettingsController() {
-        ButtonModelApp buttonModelApp = this.hmiService.getButtonModel(1260331776);
+        ButtonModelApp buttonModelApp = this.hmiService.getButtonModel(2301771);
         buttonModelApp.setStatus(0);
-        ButtonModelApp buttonModelApp2 = this.hmiService.getButtonModel(1679762176);
+        ButtonModelApp buttonModelApp2 = this.hmiService.getButtonModel(2301796);
         ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(5582);
         PrivacySettingsModelAccess privacySettingsModelAccess = new PrivacySettingsModelAccess(buttonModelApp, buttonModelApp2, choiceModelApp);
         PrivacySettingsStorageAccess privacySettingsStorageAccess = new PrivacySettingsStorageAccess(this.framework.getStorageMgr(), this.logChannel);
@@ -160,8 +158,8 @@ extends AbstractOnlineActivator {
 
     protected final void initGPSPopupController() {
         IPopupManager iPopupManager = this.hmiService.getPopupManager(0);
-        int n = -1473960448;
-        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(1629430528);
+        int n = 2500008;
+        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(2301793);
         boolean bl = this.framework.getSysConstManager().getSysConst(5614) == 1;
         this.gpsPopupController = new GPSPopupController(iPopupManager, n, choiceModelApp, bl, this.logChannel);
         this.registerService((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = AbstractOnlineEvoActivator.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), (Object)this.gpsPopupController, null);
@@ -170,7 +168,7 @@ extends AbstractOnlineActivator {
         } else if (this.onlineActionProxy instanceof OnlineActionProxyStd) {
             ((OnlineActionProxyStd)this.onlineActionProxy).setGpsPopupController(this.gpsPopupController);
         } else {
-            this.logChannel.log(1078071040, "AbstractOnlineEvoActivator#initGPSPopupController onlineActionProxy not available to monitor user reaction to the GPS warning popup; RHMI is probably not coded in");
+            this.logChannel.log(1000000, "AbstractOnlineEvoActivator#initGPSPopupController onlineActionProxy not available to monitor user reaction to the GPS warning popup; RHMI is probably not coded in");
         }
     }
 
@@ -188,7 +186,7 @@ extends AbstractOnlineActivator {
             if (iStandardController != null) {
                 iStandardController.setServiceListenerDelegate(privacySettingsServiceListener);
             } else {
-                this.logChannel.log(-1601830656, "AbstractOnlineEvoActivator#initPrivacySettingsServiceListener standardController is null!");
+                this.logChannel.log(100000, "AbstractOnlineEvoActivator#initPrivacySettingsServiceListener standardController is null!");
             }
         }
     }
@@ -198,10 +196,9 @@ extends AbstractOnlineActivator {
         this.setLicenseCollectionService(licenseCollectionServiceEvo);
     }
 
-    @Override
     protected final void readPrivacyModeFeatureCoding() {
         this.readPrivacyModeFeatureCodingCore();
-        this.logChannel.log(1078071040, "AbstractOnlineEvoActivator#readPrivacyModeFeatureCoding: privacy feature available: %1", this.privacyModeFeatureAvailable);
+        this.logChannel.log(1000000, "AbstractOnlineEvoActivator#readPrivacyModeFeatureCoding: privacy feature available: %1", this.privacyModeFeatureAvailable);
         ChoiceModelApp choiceModelApp = this.getFramework().getHMIService().getChoiceModel(5625);
         if (choiceModelApp != null) {
             choiceModelApp.setValue(this.privacyModeFeatureAvailable ? 0 : 1);
@@ -210,22 +207,19 @@ extends AbstractOnlineActivator {
         }
     }
 
-    @Override
     protected final void setTelServiceConnectivityVariant(ITelServiceConnectivity iTelServiceConnectivity) {
-        this.logChannel.log(-2137614336, "AbstractOnlineEvoActivator#addingService: Tel Service: %1", (Object)iTelServiceConnectivity);
+        this.logChannel.log(10000000, "AbstractOnlineEvoActivator#addingService: Tel Service: %1", (Object)iTelServiceConnectivity);
         if (this.privacySettingsController != null) {
             this.privacySettingsController.setTelService(iTelServiceConnectivity);
         }
     }
 
-    @Override
     protected final void setDsiOnlineServiceRegistrationVariant(DSIOnlineServiceRegistration dSIOnlineServiceRegistration) {
         if (this.gpsPopupController != null) {
             this.gpsPopupController.setDsi(dSIOnlineServiceRegistration);
         }
     }
 
-    @Override
     protected final void setEniServiceOnlineVariant(ENIServiceOnline eNIServiceOnline) {
         if (this.mobileKeyController != null) {
             this.mobileKeyController.setENIServiceOnline(eNIServiceOnline);
@@ -235,14 +229,12 @@ extends AbstractOnlineActivator {
         }
     }
 
-    @Override
     protected final void setMobileKeyStatusDisplayServiceVariant(MobileKeyStatusDisplayService mobileKeyStatusDisplayService) {
         if (this.mobileKeyStatusDisplayController != null) {
             this.mobileKeyStatusDisplayController.setDisplayService(mobileKeyStatusDisplayService);
         }
     }
 
-    @Override
     protected final void setFactResetServiceVariant(FactResetService factResetService) {
         if (this.mobileKeyStatusDisplayController != null) {
             this.mobileKeyStatusDisplayController.setFactResetService(factResetService);
@@ -262,7 +254,6 @@ extends AbstractOnlineActivator {
         }
     }
 
-    @Override
     protected final OnlineDiag getOnlineDiag() {
         if (this.onlineDiag == null) {
             this.onlineDiag = this.createOnlineDiag();
@@ -270,7 +261,6 @@ extends AbstractOnlineActivator {
         return this.onlineDiag;
     }
 
-    @Override
     protected final void registerServices() {
         this.registerOnlineServices();
         this.registerAdbListener();
@@ -282,27 +272,21 @@ extends AbstractOnlineActivator {
         this.registerServicesVariant();
     }
 
-    @Override
     public final Field[] getI18NTextFields() {
         return (class$de$audi$atip$hmi$app$AppOnlineTextConstants == null ? (class$de$audi$atip$hmi$app$AppOnlineTextConstants = AbstractOnlineEvoActivator.class$("de.audi.atip.hmi.app.AppOnlineTextConstants")) : class$de$audi$atip$hmi$app$AppOnlineTextConstants).getFields();
     }
 
-    @Override
     protected final int getShutdownPopupId() {
         return 41;
     }
 
-    protected abstract void registerServicesVariant() {
-    }
+    protected abstract void registerServicesVariant();
 
-    protected abstract OnlineActionProxy createOnlineActionProxy() {
-    }
+    protected abstract OnlineActionProxy createOnlineActionProxy();
 
-    protected abstract IStandardController createStandardController(HMIService hMIService) {
-    }
+    protected abstract IStandardController createStandardController(HMIService var1);
 
-    protected abstract OnlineDiag createOnlineDiag() {
-    }
+    protected abstract OnlineDiag createOnlineDiag();
 
     static /* synthetic */ Class class$(String string) {
         try {

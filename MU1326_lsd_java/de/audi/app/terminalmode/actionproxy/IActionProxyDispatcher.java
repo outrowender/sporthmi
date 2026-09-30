@@ -8,16 +8,12 @@ import de.audi.atip.log.LogChannel;
 import java.util.Map;
 
 public interface IActionProxyDispatcher {
-    default public void addActionProxyListener(int n, int n2, IActionProxyListener iActionProxyListener) {
-    }
+    public void addActionProxyListener(int var1, int var2, IActionProxyListener var3);
 
-    default public void removeActionProxyListener(int n, IActionProxyListener iActionProxyListener) {
-    }
+    public void removeActionProxyListener(int var1, IActionProxyListener var2);
 
-    default public void notifyActionProxyCall(int n, int n2, Map map) {
-    }
+    public void notifyActionProxyCall(int var1, int var2, Map var3);
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 }
 

@@ -66,13 +66,11 @@ implements SpellerListener {
         this.spellerModel = this.getSpellerModel(n);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getSpellerModel(this.modelID).setSpellerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getSpellerModel(this.modelID).resetListener();
@@ -95,45 +93,39 @@ implements SpellerListener {
         this.getSpellerModel().getText();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#keyPressed] %1", (Object)TelDefaultSpellerListener.getLogMessage(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultButtonListener#keyPressed] %1", (Object)TelDefaultSpellerListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#keyReleased] %1", (Object)TelDefaultSpellerListener.getLogMessage(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultButtonListener#keyReleased] %1", (Object)TelDefaultSpellerListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelDefaultButtonListener#keyTyped] %1", (Object)TelDefaultSpellerListener.getLogMessage(n, n2, n3));
+            this.log.log(1000000, "[TelDefaultButtonListener#keyTyped] %1", (Object)TelDefaultSpellerListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelDefaultSpellerListener#textChanged] %1", (Object)TelDefaultSpellerListener.getTextChangedMsg(n, string, c2, n2));
+            this.log.log(1000000, "[TelDefaultSpellerListener#textChanged] %1", (Object)TelDefaultSpellerListener.getTextChangedMsg(n, string, c2, n2));
         }
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultSpellerListener#focusedCharacter] %1", (Object)TelDefaultSpellerListener.getFocusedCharMsg(n, c2, n2));
+            this.log.log(10000000, "[TelDefaultSpellerListener#focusedCharacter] %1", (Object)TelDefaultSpellerListener.getFocusedCharMsg(n, c2, n2));
         }
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultSpellerListener#commandPressed] %1", (Object)TelDefaultSpellerListener.getCmdPressedMsg(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultSpellerListener#commandPressed] %1", (Object)TelDefaultSpellerListener.getCmdPressedMsg(n, n2, n3));
         }
     }
 }

@@ -17,15 +17,15 @@ extends AbstractTel1BAPMethodHandler {
     }
 
     void setMicMuteState(boolean bl) {
-        this.log.log(-2137614336, "[TelBAPMethodMicMuteHandler#dialNumber] micMuteState=%1", bl);
+        this.log.log(10000000, "[TelBAPMethodMicMuteHandler#dialNumber] micMuteState=%1", bl);
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiBapServicePhone();
         if (iGlobalTelephoneStateStruct == null) {
-            this.log.log(-1601830656, "[TelBAPMethodMicMuteHandler#dialNumber] telState is null --> NOP!");
+            this.log.log(100000, "[TelBAPMethodMicMuteHandler#dialNumber] telState is null --> NOP!");
             return;
         }
         if (combiBAPServicePhone == null) {
-            this.log.log(-1601830656, "[TelBAPMethodMicMuteHandler#dialNumber] combiService is null --> NOP!");
+            this.log.log(100000, "[TelBAPMethodMicMuteHandler#dialNumber] combiService is null --> NOP!");
             return;
         }
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = iGlobalTelephoneStateStruct.getCallLeadingDevice();
@@ -33,17 +33,16 @@ extends AbstractTel1BAPMethodHandler {
             int n = bl ? 0 : 1;
             int n2 = iTelDSIMobileEquipmentDeviceState.getmICMuteState();
             if (n2 == n) {
-                this.log.log(-2137614336, "[TelBAPMethodMicMuteHandler#setMicMuteState] request to set mic state %1 aborted,  this is the current state", (long)n2);
+                this.log.log(10000000, "[TelBAPMethodMicMuteHandler#setMicMuteState] request to set mic state %1 aborted,  this is the current state", (long)n2);
                 return;
             }
-            this.log.log(1078071040, "[TelBAPMethodMicMuteHandler#setMicMuteState] invoking mic mute, setting value %1", (long)n);
+            this.log.log(1000000, "[TelBAPMethodMicMuteHandler#setMicMuteState] invoking mic mute, setting value %1", (long)n);
             this.getApplication().getTelephoneDSIAccess().requestSetMICMuteState(n, 1, true, this);
         }
     }
 
-    @Override
     public void responseSetMICMuteState(int n, int n2) {
-        this.log.log(-2137614336, "[TelBAPMethodMicMuteHandler#setMICMuteStateResponse] recieved result result %1 (no ivokokation on combi)", (long)n);
+        this.log.log(10000000, "[TelBAPMethodMicMuteHandler#setMICMuteStateResponse] recieved result result %1 (no ivokokation on combi)", (long)n);
     }
 }
 

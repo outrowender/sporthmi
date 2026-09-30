@@ -10,304 +10,206 @@ import org.dsi.ifc.telephoneng.CFRequestData;
 import org.dsi.ifc.telephoneng.CallStackEntry;
 
 public interface ITelephoneDSIAccess {
-    public static final int ROLE_PRIMARY;
-    public static final int ROLE_ASSOCIATED;
-    public static final int ROLE_DATA;
-    public static final boolean USE_DEFAULT_ERROR_HANDLING;
-    public static final boolean DO_NOT_USE_DEFAULT_ERROR_HANDLING;
+    public static final int ROLE_PRIMARY = 65536;
+    public static final int ROLE_ASSOCIATED = 131072;
+    public static final int ROLE_DATA = 196608;
+    public static final boolean USE_DEFAULT_ERROR_HANDLING = true;
+    public static final boolean DO_NOT_USE_DEFAULT_ERROR_HANDLING = false;
 
-    default public void acceptCall(int n) {
-    }
+    public void acceptCall(int var1);
 
-    default public void acceptCall(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void acceptCall(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void acceptWaitingCallReplaceActiveCall(int n) {
-    }
+    public void acceptWaitingCallReplaceActiveCall(int var1);
 
-    default public void acceptWaitingCallReplaceActiveCall(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void acceptWaitingCallReplaceActiveCall(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void placeIncomingCallOnHold(int n) {
-    }
+    public void placeIncomingCallOnHold(int var1);
 
-    default public void placeIncomingCallOnHold(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void placeIncomingCallOnHold(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void dialNumber(String string, int n) {
-    }
+    public void dialNumber(String var1, int var2);
 
-    default public void dialChinaSOSNumber(String string, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialChinaSOSNumber(String var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void dialNumber(String string, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialNumber(String var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void dialNumberFromDBEntry(String string, long l, String string2, short s, short s2, ResourceLocator resourceLocator, int n, int n2, int n3) {
-    }
+    public void dialNumberFromDBEntry(String var1, long var2, String var4, short var5, short var6, ResourceLocator var7, int var8, int var9, int var10);
 
-    default public void dialNumberFromDBEntry(String string, long l, String string2, short s, short s2, ResourceLocator resourceLocator, int n, int n2, int n3, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialNumberFromDBEntry(String var1, long var2, String var4, short var5, short var6, ResourceLocator var7, int var8, int var9, int var10, boolean var11, ITelDSIResponseListener var12);
 
-    default public void dialNumberFromCallStackEntry(CallStackEntry callStackEntry, int n) {
-    }
+    public void dialNumberFromCallStackEntry(CallStackEntry var1, int var2);
 
-    default public void dialNumberFromCallStackEntry(CallStackEntry callStackEntry, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialNumberFromCallStackEntry(CallStackEntry var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void dialNumberFromADBEntry(AdbEntry adbEntry, int n, int n2) {
-    }
+    public void dialNumberFromADBEntry(AdbEntry var1, int var2, int var3);
 
-    default public void dialNumberFromADBEntry(AdbEntry adbEntry, int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialNumberFromADBEntry(AdbEntry var1, int var2, int var3, boolean var4, ITelDSIResponseListener var5);
 
-    default public void hangupCall(int n, int n2) {
-    }
+    public void hangupCall(int var1, int var2);
 
-    default public void hangupCall(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void hangupCall(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void hangupCall(int n, int n2, int n3, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void hangupCall(int var1, int var2, int var3, boolean var4, ITelDSIResponseListener var5);
 
-    default public void splitCall(int n, int n2) {
-    }
+    public void splitCall(int var1, int var2);
 
-    default public void splitCall(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void splitCall(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void unlockSIMWithPIN(String string, int n) {
-    }
+    public void unlockSIMWithPIN(String var1, int var2);
 
-    default public void unlockSIMWithPIN(String string, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void unlockSIMWithPIN(String var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void unlockSIMWithPUK(String string, String string2, int n) {
-    }
+    public void unlockSIMWithPUK(String var1, String var2, int var3);
 
-    default public void unlockSIMWithPUK(String string, String string2, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void unlockSIMWithPUK(String var1, String var2, int var3, boolean var4, ITelDSIResponseListener var5);
 
-    default public void setAutomaticPINEntryActive(boolean bl, int n) {
-    }
+    public void setAutomaticPINEntryActive(boolean var1, int var2);
 
-    default public void setAutomaticPINEntryActive(boolean bl, int n, boolean bl2, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void setAutomaticPINEntryActive(boolean var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void swapCalls(int n) {
-    }
+    public void swapCalls(int var1);
 
-    default public void swapCalls(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void swapCalls(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void joinCallsToConference(int n) {
-    }
+    public void joinCallsToConference(int var1);
 
-    default public void joinCallsToConference(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void joinCallsToConference(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void sendDTMF(String string, int n) {
-    }
+    public void sendDTMF(String var1, int var2);
 
-    default public void sendDTMF(String string, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void sendDTMF(String var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetOptimizationMode(int n, int n2) {
-    }
+    public void requestSetOptimizationMode(int var1, int var2);
 
-    default public void requestSetOptimizationMode(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetOptimizationMode(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void restoreFactorySettings(int n) {
-    }
+    public void restoreFactorySettings(int var1);
 
-    default public void restoreFactorySettings(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void restoreFactorySettings(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void requestSIMPINRequired(String string, boolean bl, int n) {
-    }
+    public void requestSIMPINRequired(String var1, boolean var2, int var3);
 
-    default public void requestSIMPINRequired(String string, boolean bl, int n, boolean bl2, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSIMPINRequired(String var1, boolean var2, int var3, boolean var4, ITelDSIResponseListener var5);
 
-    default public void requestSetLanguage(String string, int n) {
-    }
+    public void requestSetLanguage(String var1, int var2);
 
-    default public void requestSetLanguage(String string, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetLanguage(String var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetMICMuteState(int n, int n2) {
-    }
+    public void requestSetMICMuteState(int var1, int var2);
 
-    default public void requestSetMICMuteState(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetMICMuteState(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetHandsFreeMode(int n, int n2) {
-    }
+    public void requestSetHandsFreeMode(int var1, int var2);
 
-    default public void requestSetHandsFreeMode(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetHandsFreeMode(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetMailboxNumber(String string, int n) {
-    }
+    public void requestSetMailboxNumber(String var1, int var2);
 
-    default public void requestSetMailboxNumber(String string, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetMailboxNumber(String var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestTelPower(int n, int n2) {
-    }
+    public void requestTelPower(int var1, int var2);
 
-    default public void requestTelPower(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestTelPower(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetNadMode(int n, int n2) {
-    }
+    public void requestSetNadMode(int var1, int var2);
 
-    default public void requestSetNadMode(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetNadMode(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestNetworkRegistration(String string, int n, int n2) {
-    }
+    public void requestNetworkRegistration(String var1, int var2, int var3);
 
-    default public void requestNetworkRegistration(String string, int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestNetworkRegistration(String var1, int var2, int var3, boolean var4, ITelDSIResponseListener var5);
 
-    default public void requestAbortNetworkRegistration() {
-    }
+    public void requestAbortNetworkRegistration();
 
-    default public void requestNetworkSearch(int n) {
-    }
+    public void requestNetworkSearch(int var1);
 
-    default public void requestNetworkSearch(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestNetworkSearch(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void requestAbortNetworkSearch() {
-    }
+    public void requestAbortNetworkSearch();
 
-    default public void requestCallForward(CFRequestData[] cFRequestDataArray, int n) {
-    }
+    public void requestCallForward(CFRequestData[] var1, int var2);
 
-    default public void requestCallForward(CFRequestData[] cFRequestDataArray, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestCallForward(CFRequestData[] var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void abortCallForwardRequest() {
-    }
+    public void abortCallForwardRequest();
 
-    default public void requestCallWaiting(int n, int n2) {
-    }
+    public void requestCallWaiting(int var1, int var2);
 
-    default public void requestCallWaiting(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestCallWaiting(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void abortCallWaitingRequest() {
-    }
+    public void abortCallWaitingRequest();
 
-    default public void requestCLIR(int n, int n2) {
-    }
+    public void requestCLIR(int var1, int var2);
 
-    default public void requestCLIR(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestCLIR(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetCDMAThreeWayCallingSetting(boolean bl, int n) {
-    }
+    public void requestSetCDMAThreeWayCallingSetting(boolean var1, int var2);
 
-    default public void requestSetCDMAThreeWayCallingSetting(boolean bl, int n, boolean bl2, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetCDMAThreeWayCallingSetting(boolean var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetAutomaticEmergencyCallActive(boolean bl, int n) {
-    }
+    public void requestSetAutomaticEmergencyCallActive(boolean var1, int var2);
 
-    default public void requestSetAutomaticEmergencyCallActive(boolean bl, int n, boolean bl2, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetAutomaticEmergencyCallActive(boolean var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestChangeSIMCode(String string, String string2, int n) {
-    }
+    public void requestChangeSIMCode(String var1, String var2, int var3);
 
-    default public void requestChangeSIMCode(String string, String string2, int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestChangeSIMCode(String var1, String var2, int var3, boolean var4, ITelDSIResponseListener var5);
 
-    default public void dialOperator(String string, int n, int n2) {
-    }
+    public void dialOperator(String var1, int var2, int var3);
 
-    default public void dialOperator(String string, int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialOperator(String var1, int var2, boolean var3, int var4, ITelDSIResponseListener var5);
 
-    default public void abortCallerIDRequest() {
-    }
+    public void abortCallerIDRequest();
 
-    default public void requestSetPhoneRingtone(int n, String string, int n2) {
-    }
+    public void requestSetPhoneRingtone(int var1, String var2, int var3);
 
-    default public void requestSetPhoneRingtone(int n, String string, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetPhoneRingtone(int var1, String var2, int var3, boolean var4, ITelDSIResponseListener var5);
 
-    default public void requestSetMicGainLevel(int n, int n2) {
-    }
+    public void requestSetMicGainLevel(int var1, int var2);
 
-    default public void requestIncreaseMicGainLevel(short s, int n) {
-    }
+    public void requestIncreaseMicGainLevel(short var1, int var2);
 
-    default public void requestDecreaseMicGainLevel(short s, int n) {
-    }
+    public void requestDecreaseMicGainLevel(short var1, int var2);
 
-    default public void requestSetESIMActive(boolean bl, int n) {
-    }
+    public void requestSetESIMActive(boolean var1, int var2);
 
-    default public void requestSetPhoneReminderSetting(boolean bl, int n) {
-    }
+    public void requestSetPhoneReminderSetting(boolean var1, int var2);
 
-    default public void requestSetPhoneReminderSetting(boolean bl, int n, boolean bl2, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetPhoneReminderSetting(boolean var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetESIMActive(boolean bl, int n, boolean bl2, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetESIMActive(boolean var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void deleteAllCallStacks(int n, int n2) {
-    }
+    public void deleteAllCallStacks(int var1, int var2);
 
-    default public void deleteCallStackEntry(int n, int n2, int n3) {
-    }
+    public void deleteCallStackEntry(int var1, int var2, int var3);
 
-    default public void resetMissedCallIndicator(int n) {
-    }
+    public void resetMissedCallIndicator(int var1);
 
-    default public void revertCallstacks(boolean bl, int n) {
-    }
+    public void revertCallstacks(boolean var1, int var2);
 
-    default public void togglePhones(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void togglePhones(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void removeGlobalDSIResponseListener(ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void removeGlobalDSIResponseListener(ITelDSIResponseListener var1);
 
-    default public void addGlobalDSIResponseListener(ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void addGlobalDSIResponseListener(ITelDSIResponseListener var1);
 
-    default public void acceptIncomingCallOnNonCallLeadingDevice(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void acceptIncomingCallOnNonCallLeadingDevice(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void rejectIncomingCallOnNonCallLeadingDevice(int n, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void rejectIncomingCallOnNonCallLeadingDevice(int var1, boolean var2, ITelDSIResponseListener var3);
 
-    default public void rejectIncomingCallOnNonCallLeadingDevice(int n) {
-    }
+    public void rejectIncomingCallOnNonCallLeadingDevice(int var1);
 
-    default public void acceptIncomingCallOnNonCallLeadingDevice(int n) {
-    }
+    public void acceptIncomingCallOnNonCallLeadingDevice(int var1);
 
-    default public void requestSetHandsFreeModeNonCallLeadingDevice(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetHandsFreeModeNonCallLeadingDevice(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetHandsFreeModeNonCallLeadingDevice(int n, int n2) {
-    }
+    public void requestSetHandsFreeModeNonCallLeadingDevice(int var1, int var2);
 
-    default public void requestSetHandsFreeModeCallLeadingDevice(int n, int n2, boolean bl, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetHandsFreeModeCallLeadingDevice(int var1, int var2, boolean var3, ITelDSIResponseListener var4);
 
-    default public void requestSetHandsFreeModeCallLeadingDevice(int n, int n2) {
-    }
+    public void requestSetHandsFreeModeCallLeadingDevice(int var1, int var2);
 
-    default public void requestSetNadRole(int n, int n2, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void requestSetNadRole(int var1, int var2, ITelDSIResponseListener var3);
 }
 

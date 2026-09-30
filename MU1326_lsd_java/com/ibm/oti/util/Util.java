@@ -171,10 +171,9 @@ public final class Util {
         return -1;
     }
 
-    private static native String convertUTF8(byte[] byArray, int n, int n2) {
-    }
+    private static native String convertUTF8(byte[] var0, int var1, int var2);
 
-    public static String convertFromUTF8(byte[] byArray, int n, int n2) {
+    public static String convertFromUTF8(byte[] byArray, int n, int n2) throws UTFDataFormatException {
         if (useNative) {
             String string = Util.convertUTF8(byArray, n, n2);
             if (string != null) {
@@ -185,7 +184,7 @@ public final class Util {
         return Util.convertUTF8WithBuf(byArray, new char[n2], n, n2);
     }
 
-    public static String convertUTF8WithBuf(byte[] byArray, char[] cArray, int n, int n2) {
+    public static String convertUTF8WithBuf(byte[] byArray, char[] cArray, int n, int n2) throws UTFDataFormatException {
         int n3 = 0;
         int n4 = 0;
         while (n3 < n2) {

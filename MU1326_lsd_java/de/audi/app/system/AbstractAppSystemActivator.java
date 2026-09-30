@@ -22,7 +22,6 @@ implements ServiceTrackerCustomizer {
     private WirelessChargingHandler wirelessChargingHandler;
     static /* synthetic */ Class class$de$audi$atip$msg$MsgListener;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.proximitySensorHandler = new ProximitySensorHandler(this.framework);
@@ -34,14 +33,12 @@ implements ServiceTrackerCustomizer {
         this.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = AbstractAppSystemActivator.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)this.arrowHardkeysAllocationHandler, null);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.proximitySensorHandler = null;
         this.arrowHardkeysAllocationHandler = null;
         super.stop(bundleContext);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 

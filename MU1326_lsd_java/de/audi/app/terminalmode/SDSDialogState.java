@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode;
 
@@ -18,17 +15,16 @@ import de.audi.tghu.command.CommandList;
 
 public class SDSDialogState
 extends AbstractStateHandlerCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "SDSDialogState";
     private final boolean isSDSDialogRunning;
 
     public SDSDialogState(IContext iContext, boolean bl, IStateHandler iStateHandler) {
-        super(iContext.getLogger().main(), "SDSDialogState", iContext, iStateHandler);
+        super(iContext.getLogger().main(), LOGCLASS, iContext, iStateHandler);
         this.isSDSDialogRunning = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute] dialog %2", (Object)"SDSDialogState", (Object)(this.isSDSDialogRunning ? "started [Owner -> MU][SpeechMode -> RECOGNIZING]" : "stopped [Owner -> NOBODY][SpeechMode -> NONE]"));
+        this.logger.log(1000000, "[%1.execute] dialog %2", (Object)LOGCLASS, (Object)(this.isSDSDialogRunning ? "started [Owner -> MU][SpeechMode -> RECOGNIZING]" : "stopped [Owner -> NOBODY][SpeechMode -> NONE]"));
         TMState tMState = this.stateHandler.getCurrentState();
         ApplicationOwner applicationOwner = this.isSDSDialogRunning ? ApplicationOwner.MAINUNIT : ApplicationOwner.NOBODY;
         SpeechMode speechMode = this.isSDSDialogRunning ? SpeechMode.RECOGNIZING : SpeechMode.NONE;

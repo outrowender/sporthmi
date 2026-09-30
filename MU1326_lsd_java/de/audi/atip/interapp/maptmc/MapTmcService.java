@@ -9,34 +9,24 @@ import org.dsi.ifc.tmc.TmcListElement;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public interface MapTmcService {
-    default public void mapEntered() {
-    }
+    public void mapEntered();
 
-    default public void mapLeft() {
-    }
+    public void mapLeft();
 
-    default public void showTmcMessage(MapTmcMessage mapTmcMessage) {
-    }
+    public void showTmcMessage(MapTmcMessage var1);
 
-    default public void showInMap(long[] lArray, NavRectangle navRectangle, TmcListElement tmcListElement) {
-    }
+    public void showInMap(long[] var1, NavRectangle var2, TmcListElement var3);
 
-    default public void showInMap(TmcMessage tmcMessage, NavRectangle navRectangle) {
-    }
+    public void showInMap(TmcMessage var1, NavRectangle var2);
 
-    default public void enableAutomaticRouteDiversion(boolean bl) {
-    }
+    public void enableAutomaticRouteDiversion(boolean var1);
 
-    default public void updateMapTooltipInformation(TmcMessage tmcMessage) {
-    }
+    public void updateMapTooltipInformation(TmcMessage var1);
 
-    default public boolean isInMapApplicationContext() {
-    }
+    public boolean isInMapApplicationContext();
 
-    default public boolean isTabMapNavActive() {
-    }
+    public boolean isTabMapNavActive();
 
-    default public boolean isTabRouteActive() {
-    }
+    public boolean isTabRouteActive();
 }
 

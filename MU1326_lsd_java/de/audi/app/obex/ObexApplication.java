@@ -23,7 +23,6 @@ implements IEvoObexApplication {
         this.addComponent(new ObjectPush(this));
     }
 
-    @Override
     public IEvoConnectivity getEvoConnectivity() {
         return this.connectivity;
     }

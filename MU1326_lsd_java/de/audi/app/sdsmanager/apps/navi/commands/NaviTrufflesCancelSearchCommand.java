@@ -20,14 +20,13 @@ extends AbstractSystemCallCommand {
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof NaviTrufflesSearchDestinationCommand) {
             NaviTrufflesSearchDestinationCommand naviTrufflesSearchDestinationCommand = (NaviTrufflesSearchDestinationCommand)abstractSystemCallCommand;
-            int n = naviTrufflesSearchDestinationCommand.getSearchResults() == 0 ? 1234960384 : 1083965440;
+            int n = naviTrufflesSearchDestinationCommand.getSearchResults() == 0 ? 40009 : 40000;
             naviTrufflesSearchDestinationCommand.sendResult(n);
         }
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called!", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called!", (Object)this.getName());
         this.naviService.cancelSDSTrufflesSearch(false);
         this.processingFinished();
     }

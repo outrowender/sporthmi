@@ -4,8 +4,9 @@
 package de.audi.app.navi.evo.search.countryselection;
 
 import de.audi.app.navi.evo.search.countryselection.CountrySelectionRow;
-import de.audi.app.navi.evo.search.countryselection.CountrySelectionView$CountrySelectionListListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.log.LogChannel;
@@ -18,14 +19,14 @@ import org.dsi.ifc.search.Country;
 
 public class CountrySelectionView
 implements ICountrySelectionView {
-    private static final String EMPTY_COUNTRY_STATE_CODE;
-    private static final int EMPTY_ICON_ID;
+    private static final String EMPTY_COUNTRY_STATE_CODE = "";
+    private static final int EMPTY_ICON_ID = 0;
     private final int EXTDATATYPE_STATEABBREAVIATION;
-    static final int RADIO_BUTTON_UNCHECKED;
-    static final int RADIO_BUTTON_CHECKED;
-    static final int DYNAMIC_COUNTRY_LAYOUT;
-    static final int STATIC_ENTRY_ALL_COUNTRIES;
-    protected static final int ALL_COUNTRIES_ROW_INDEX;
+    static final int RADIO_BUTTON_UNCHECKED = 0;
+    static final int RADIO_BUTTON_CHECKED = 1;
+    static final int DYNAMIC_COUNTRY_LAYOUT = 0;
+    static final int STATIC_ENTRY_ALL_COUNTRIES = 1;
+    protected static final int ALL_COUNTRIES_ROW_INDEX = 0;
     private final IconHandler iconHandler;
     private final LogChannel logChannel;
     private final BaseListModelApp listCountries;
@@ -33,23 +34,22 @@ implements ICountrySelectionView {
     private final ChoiceModelApp countryIconVisible;
     private final ChoiceModelApp countryIconID;
     private final LabelModelApp stateAbbreviationLabel;
-    private static final int COUNTRY_ICON_INVISIBLE;
-    private static final int COUNTRY_ICON_VISIBLE;
-    private static final int COUNTRY_NO_ICON_INDEX;
+    private static final int COUNTRY_ICON_INVISIBLE = 0;
+    private static final int COUNTRY_ICON_VISIBLE = 1;
+    private static final int COUNTRY_NO_ICON_INDEX = -1;
 
     public CountrySelectionView(BaseListModelApp baseListModelApp, NavigationEnv navigationEnv, IconHandler iconHandler) {
         this.EXTDATATYPE_STATEABBREAVIATION = 18;
         this.listCountries = baseListModelApp;
         this.logChannel = navigationEnv.getSearchLogChannel();
         this.iconHandler = iconHandler;
-        this.listCountries.setListener(new CountrySelectionView$CountrySelectionListListener(this, null));
-        this.stateAbbreviationLabel = navigationEnv.getLabelModel(-1474165248);
-        this.countryIconVisible = navigationEnv.getChoiceModel(-568261120);
-        this.countryIconID = navigationEnv.getChoiceModel(-585038336);
+        this.listCountries.setListener(new CountrySelectionListListener());
+        this.stateAbbreviationLabel = navigationEnv.getLabelModel(402088);
+        this.countryIconVisible = navigationEnv.getChoiceModel(401886);
+        this.countryIconID = navigationEnv.getChoiceModel(401885);
         this.countryIconID.setValue(-1);
     }
 
-    @Override
     public void updateCountriesList(Country[] countryArray) {
         this.listCountries.removeAll();
         this.listCountries.append(this.createAllCountriesListRow());
@@ -59,7 +59,6 @@ implements ICountrySelectionView {
         }
     }
 
-    @Override
     public void updateCountriesList(LIValueListElement[] lIValueListElementArray) {
         this.listCountries.removeAll();
         this.listCountries.append(this.createAllCountriesListRow());
@@ -72,7 +71,7 @@ implements ICountrySelectionView {
     }
 
     private CountrySelectionRow createAllCountriesListRow() {
-        return new CountrySelectionRow("", "XX", "", 0, 1, 0L);
+        return new CountrySelectionRow(EMPTY_COUNTRY_STATE_CODE, "XX", EMPTY_COUNTRY_STATE_CODE, 0, 1, 0L);
     }
 
     private String getExtendedDataFromListElement(LIValueListElement lIValueListElement, int n) {
@@ -83,7 +82,6 @@ implements ICountrySelectionView {
         return null;
     }
 
-    @Override
     public String getSelectedRowCode() {
         return this.getCountryCodeForIndex(this.selectedRowIndex);
     }
@@ -97,7 +95,6 @@ implements ICountrySelectionView {
         return string2;
     }
 
-    @Override
     public String[] getAllCountryCodes() {
         String[] stringArray = new String[this.listCountries.getLength() - 1];
         for (int i2 = 1; i2 < this.listCountries.getLength(); ++i2) {
@@ -106,21 +103,18 @@ implements ICountrySelectionView {
         return stringArray;
     }
 
-    @Override
     public int getSelectedCountryIconId() {
         return ((CountrySelectionRow)this.listCountries.getRow(this.selectedRowIndex)).getCountryIconId();
     }
 
-    @Override
     public void restoreDefaultSelection() {
         this.rowSelected(0);
     }
 
-    @Override
     public void restorePersistedSelection(String string, int n) {
         for (int i2 = 0; i2 < this.listCountries.getLength(); ++i2) {
             if (!this.getCountryCodeForIndex(i2).equalsIgnoreCase(string)) continue;
-            this.logChannel.log(-2137614336, "CountrySelectionView#restorePersistedSelection found countryCode: %1 on position %2", (Object)string, (long)i2);
+            this.logChannel.log(10000000, "CountrySelectionView#restorePersistedSelection found countryCode: %1 on position %2", (Object)string, (long)i2);
             this.rowSelected(i2);
             break;
         }
@@ -134,7 +128,7 @@ implements ICountrySelectionView {
             countrySelectionRow.setRadioButtonStatus(0);
             this.listCountries.setRow(this.selectedRowIndex, countrySelectionRow);
         } else {
-            this.logChannel.log(-1601830656, "CountrySelectionView#rowSelected( %1 ) selected index is out of range!", (long)n);
+            this.logChannel.log(100000, "CountrySelectionView#rowSelected( %1 ) selected index is out of range!", (long)n);
         }
         this.selectedRowIndex = n;
         countrySelectionRow = (CountrySelectionRow)this.listCountries.getRow(this.selectedRowIndex);
@@ -148,7 +142,7 @@ implements ICountrySelectionView {
         if ("USA".equalsIgnoreCase(countrySelectionRow.getCountryCode()) && !Util.isEmpty(countrySelectionRow.getStateCode())) {
             this.stateAbbreviationLabel.setText(countrySelectionRow.getStateCode());
         } else {
-            this.stateAbbreviationLabel.setText("");
+            this.stateAbbreviationLabel.setText(EMPTY_COUNTRY_STATE_CODE);
         }
     }
 
@@ -172,12 +166,15 @@ implements ICountrySelectionView {
         return -1;
     }
 
-    static /* synthetic */ LogChannel access$100(CountrySelectionView countrySelectionView) {
-        return countrySelectionView.logChannel;
-    }
+    private class CountrySelectionListListener
+    extends DefaultBaseListModelListener {
+        private CountrySelectionListListener() {
+        }
 
-    static /* synthetic */ void access$200(CountrySelectionView countrySelectionView, int n) {
-        countrySelectionView.rowSelected(n);
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            CountrySelectionView.this.logChannel.log(10000000, "CountrySelectionListListener#itemSelected() row=%1, index=%2", (Object)evoListRow, (long)n2);
+            CountrySelectionView.this.rowSelected(n2);
+        }
     }
 }
 

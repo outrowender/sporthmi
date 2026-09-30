@@ -9,43 +9,30 @@ import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.telephoneng.CallStackEntry;
 
 public interface ITelIntellicallHandler {
-    default public void callAccepted() {
-    }
+    public void callAccepted();
 
-    default public void callDialed() {
-    }
+    public void callDialed();
 
-    default public void eCallDialed() {
-    }
+    public void eCallDialed();
 
-    default public void conferenceEstablished() {
-    }
+    public void conferenceEstablished();
 
-    default public void dtmfEntrySelected() {
-    }
+    public void dtmfEntrySelected();
 
-    default public void dialNumber(String string, int n) {
-    }
+    public void dialNumber(String var1, int var2);
 
-    default public void dialNumber(String string, int n, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialNumber(String var1, int var2, ITelDSIResponseListener var3);
 
-    default public void dialNumberFromDBEntry(String string, long l, String string2, short s, short s2, ResourceLocator resourceLocator, int n, int n2, int n3) {
-    }
+    public void dialNumberFromDBEntry(String var1, long var2, String var4, short var5, short var6, ResourceLocator var7, int var8, int var9, int var10);
 
-    default public void dialNumberFromDBEntry(String string, long l, String string2, short s, short s2, ResourceLocator resourceLocator, int n, int n2, int n3, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialNumberFromDBEntry(String var1, long var2, String var4, short var5, short var6, ResourceLocator var7, int var8, int var9, int var10, ITelDSIResponseListener var11);
 
-    default public void dialNumberFromCallStackEntry(CallStackEntry callStackEntry, int n) {
-    }
+    public void dialNumberFromCallStackEntry(CallStackEntry var1, int var2);
 
-    default public void dialNumberFromCallStackEntry(CallStackEntry callStackEntry, int n, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialNumberFromCallStackEntry(CallStackEntry var1, int var2, ITelDSIResponseListener var3);
 
-    default public void dialNumberFromADBEntry(AdbEntry adbEntry, int n, int n2) {
-    }
+    public void dialNumberFromADBEntry(AdbEntry var1, int var2, int var3);
 
-    default public void dialNumberFromADBEntry(AdbEntry adbEntry, int n, int n2, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void dialNumberFromADBEntry(AdbEntry var1, int var2, int var3, ITelDSIResponseListener var4);
 }
 

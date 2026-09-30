@@ -9,22 +9,16 @@ import de.audi.atip.interapp.terminalmode.TerminalModeAudioUsage;
 import de.audi.atip.interapp.terminalmode.TerminalModeDevice;
 
 public interface ITerminalModeUpdateListener {
-    default public void updateAppStates(TerminalModeAppState[] terminalModeAppStateArray) {
-    }
+    public void updateAppStates(TerminalModeAppState[] var1);
 
-    default public void updateDeviceList(TerminalModeDevice[] terminalModeDeviceArray) {
-    }
+    public void updateDeviceList(TerminalModeDevice[] var1);
 
-    default public void updateActiveDeviceState(TerminalModeDevice terminalModeDevice) {
-    }
+    public void updateActiveDeviceState(TerminalModeDevice var1);
 
-    default public void updateAudioConnectionUsage(TerminalModeAudioUsage terminalModeAudioUsage) {
-    }
+    public void updateAudioConnectionUsage(TerminalModeAudioUsage var1);
 
-    default public void updateTMVideoFocus(boolean bl) {
-    }
+    public void updateTMVideoFocus(boolean var1);
 
-    default public void updateCallState(CallStateChanged[] callStateChangedArray) {
-    }
+    public void updateCallState(CallStateChanged[] var1);
 }
 

@@ -7,10 +7,8 @@ import de.audi.atip.hmi.model.SpellerListener;
 
 public interface SpellerListenerAsia
 extends SpellerListener {
-    default public void textChanged(int n, String string, String string2, int n2) {
-    }
+    public void textChanged(int var1, String var2, String var3, int var4);
 
-    default public void textChanged(int n, String string, String string2, char c2, int n2) {
-    }
+    public void textChanged(int var1, String var2, String var3, char var4, int var5);
 }
 

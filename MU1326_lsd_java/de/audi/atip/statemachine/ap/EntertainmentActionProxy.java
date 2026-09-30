@@ -7,10 +7,8 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface EntertainmentActionProxy
 extends ActionProxy {
-    default public void entertainmentBlacklist(int n, int n2) {
-    }
+    public void entertainmentBlacklist(int var1, int var2);
 
-    default public void entertainmentSetVisible(int n, boolean bl) {
-    }
+    public void entertainmentSetVisible(int var1, boolean var2);
 }
 

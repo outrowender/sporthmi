@@ -16,13 +16,12 @@ extends AbstractNaviFormattingService {
         super(navigationEnv);
     }
 
-    @Override
     public IFormattingResponse formatAddress(IFormattingRequest iFormattingRequest) {
         if (!(iFormattingRequest instanceof LocationFormattingRequest)) {
             this.logger.log(10000, "NaviFormattingServiceEvo#formatAddress formattingRequest is not an instance of LocationFormattingRequest");
             return null;
         }
-        this.logger.log(1078071040, "NaviFormattingServiceEvo#formatAddress : formattingRequest(%1)", (Object)((Object)iFormattingRequest).toString());
+        this.logger.log(1000000, "NaviFormattingServiceEvo#formatAddress : formattingRequest(%1)", (Object)((Object)iFormattingRequest).toString());
         return AddressFormatter.formatTwoLines((LocationFormattingRequest)iFormattingRequest, this.env);
     }
 }

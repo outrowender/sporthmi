@@ -20,16 +20,14 @@ extends AbstractTelAudioCmd {
         this.ringtonePlayer = ringTonePlayer;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelRequestDefaultRingtonePlaybackCmd#execute] playing default ringtone");
+        this.logger.log(1000000, "[TelRequestDefaultRingtonePlaybackCmd#execute] playing default ringtone");
         this.ringtonePlayer.playDefault(1);
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void state(int n) {
-        this.logger.log(1078071040, "[TelRequestDefaultRingtonePlaybackCmd#state] status=%1", (long)n);
+        this.logger.log(1000000, "[TelRequestDefaultRingtonePlaybackCmd#state] status=%1", (long)n);
     }
 }
 

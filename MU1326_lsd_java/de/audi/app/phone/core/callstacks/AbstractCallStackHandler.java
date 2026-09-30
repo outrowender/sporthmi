@@ -6,15 +6,16 @@ package de.audi.app.phone.core.callstacks;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.callstacks.AbstractCallStackEntryRow;
-import de.audi.app.phone.core.callstacks.AbstractCallStackHandler$TelCallStackLanguageUpdateListener;
-import de.audi.app.phone.core.callstacks.AbstractCallStackHandler$UnitsChangedListener;
 import de.audi.app.phone.core.callstacks.TelCallStacksUtils;
+import de.audi.app.phone.core.lang.AbstractTelLangaugeUpdateListener;
+import de.audi.app.phone.core.msg.AbstractTelMessageListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.util.TelLoggingUtils;
 import de.audi.atip.hmi.model.BaseListRow;
 import de.audi.atip.hmi.model.BufferedListModel;
 import de.audi.atip.hmi.model.ListListener;
 import de.audi.atip.hmi.modelaccess.ListModelApp;
+import de.audi.atip.i18n.Language;
 import de.audi.atip.interapp.PhoneServiceListener;
 import de.audi.atip.phone.TelServiceCallStackEntry;
 import org.dsi.ifc.telephoneng.CallStackEntry;
@@ -47,11 +48,10 @@ ServiceTrackerCustomizer {
     public AbstractCallStackHandler(ITelApplication iTelApplication, int n) {
         super(iTelApplication, "App.Phone.Main");
         this.maxColumns = n;
-        this.addSubPhoneComponent(new AbstractCallStackHandler$UnitsChangedListener(this, iTelApplication));
-        this.addSubPhoneComponent(new AbstractCallStackHandler$TelCallStackLanguageUpdateListener(this, iTelApplication));
+        this.addSubPhoneComponent(new UnitsChangedListener(iTelApplication));
+        this.addSubPhoneComponent(new TelCallStackLanguageUpdateListener(iTelApplication));
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
@@ -67,7 +67,6 @@ ServiceTrackerCustomizer {
         this.sdsPhoneServiceListenerTracker.open();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
@@ -80,7 +79,6 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "AbstractCallStackHandler#addingService reference is null");
@@ -110,18 +108,16 @@ ServiceTrackerCustomizer {
                     phoneServiceListener.updateCallStacks(AbstractCallStackHandler.createSDSCallStackArray(callStackEntryArray, iGlobalTelephoneStateStruct));
                 }
             } else {
-                this.log.log(-1601830656, "[AbstractCallStackHandler#updateSDS] global state is null --> NOP!");
+                this.log.log(100000, "[AbstractCallStackHandler#updateSDS] global state is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[AbstractCallStackHandler#updateSDS] PhoneServiceListener not available --> NOP!");
+            this.log.log(100000, "[AbstractCallStackHandler#updateSDS] PhoneServiceListener not available --> NOP!");
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (serviceReference == null) {
             this.log.log(10000, "AbstractTel2EnqueuedBAPPropertyHandler#addingService reference is null");
@@ -137,7 +133,6 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;
         switch (n) {
@@ -158,25 +153,25 @@ ServiceTrackerCustomizer {
                 break;
             }
             default: {
-                this.log.log(-2137614336, "[AbstractCallStackHandler#updateGlobalTelephoneStateProperty] no handling for key %1", (long)n);
+                this.log.log(10000000, "[AbstractCallStackHandler#updateGlobalTelephoneStateProperty] no handling for key %1", (long)n);
             }
         }
     }
 
     protected ListModelApp getCombinedNumbersList() {
-        return this.getListModel(412484608);
+        return this.getListModel(300568);
     }
 
     protected ListModelApp getLastAnsweredNumbersList() {
-        return this.getListModel(529925120);
+        return this.getListModel(300575);
     }
 
     protected ListModelApp getLastDialedNumbersList() {
-        return this.getListModel(462816256);
+        return this.getListModel(300571);
     }
 
     protected ListModelApp getMissedNumbersList() {
-        return this.getListModel(496370688);
+        return this.getListModel(300573);
     }
 
     protected void updateMissedNumbers(CallStackEntry[] callStackEntryArray) {
@@ -209,20 +204,17 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         AbstractCallStackEntryRow abstractCallStackEntryRow = this.getCallStackRow(n, n2);
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[AbstractCallStackHandler#itemSelected] %1, callStackRow=%2", (Object)TelLoggingUtils.itemSelectedList(n, n2, n3, n4), (Object)abstractCallStackEntryRow);
+            this.log.log(1000000, "[AbstractCallStackHandler#itemSelected] %1, callStackRow=%2", (Object)TelLoggingUtils.itemSelectedList(n, n2, n3, n4), (Object)abstractCallStackEntryRow);
         }
         this.callStackEntrySelected(n, abstractCallStackEntryRow, n3, n4);
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
@@ -235,21 +227,17 @@ ServiceTrackerCustomizer {
             this.getApplication().getTelephoneDSIAccess().dialNumberFromCallStackEntry(callStackEntry, n);
             this.callStackEntryDialed(callStackEntry);
         } else {
-            this.log.log(-1601830656, "[TelEvoCombinedCallStackHandler#keyTyped] no call stack entry available!");
+            this.log.log(100000, "[TelEvoCombinedCallStackHandler#keyTyped] no call stack entry available!");
         }
     }
 
-    protected abstract BaseListRow getCallStackRow(CallStackEntry callStackEntry) {
-    }
+    protected abstract BaseListRow getCallStackRow(CallStackEntry var1);
 
-    protected abstract void callStackEntrySelected(int n, AbstractCallStackEntryRow abstractCallStackEntryRow, int n2, int n3) {
-    }
+    protected abstract void callStackEntrySelected(int var1, AbstractCallStackEntryRow var2, int var3, int var4);
 
-    protected abstract void updateCallStackEntries() {
-    }
+    protected abstract void updateCallStackEntries();
 
-    protected abstract void callStackEntryDialed(CallStackEntry callStackEntry) {
-    }
+    protected abstract void callStackEntryDialed(CallStackEntry var1);
 
     static /* synthetic */ Class class$(String string) {
         try {
@@ -257,6 +245,30 @@ ServiceTrackerCustomizer {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private class UnitsChangedListener
+    extends AbstractTelMessageListener {
+        public UnitsChangedListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 11);
+        }
+
+        protected void messageReceived() {
+            this.log.log(1000000, "[AbstractCallStackHandler.UnitsChangedListener#messageRecieved] refreshing call stack list.");
+            AbstractCallStackHandler.this.updateCallStackEntries();
+        }
+    }
+
+    private class TelCallStackLanguageUpdateListener
+    extends AbstractTelLangaugeUpdateListener {
+        public TelCallStackLanguageUpdateListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main");
+        }
+
+        public void setLanguage(Language language) {
+            this.log.log(1000000, "[AbstractCallStackHandler.TelCallStackLanguageUpdateListener#setLanguage] refreshing call stack list.");
+            AbstractCallStackHandler.this.updateCallStackEntries();
         }
     }
 }

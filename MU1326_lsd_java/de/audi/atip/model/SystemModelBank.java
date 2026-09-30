@@ -29,7 +29,6 @@ extends AbstractModelBank
 implements ICoreSystemModelBank,
 IEvoSystemModelBank,
 ICoreSysConfig {
-    @Override
     protected synchronized void createModel(int n) {
         if (this.models[n] == null) {
             switch (n) {
@@ -4310,13 +4309,12 @@ ICoreSysConfig {
                     break;
                 }
                 default: {
-                    SystemModelBank.getModelLogChannel().log(10000, "[SystemModelBank#createModel()] model with ID %1 not found", (long)(this.moduleID * -1601830656 + n));
+                    SystemModelBank.getModelLogChannel().log(10000, "[SystemModelBank#createModel()] model with ID %1 not found", (long)(this.moduleID * 100000 + n));
                 }
             }
         }
     }
 
-    @Override
     public int[] getAllModelIds() {
         return this.modelIDs;
     }

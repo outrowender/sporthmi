@@ -37,58 +37,52 @@ implements OptionModelListener {
         this.addSubPhoneComponent(this.messagingServiceHandler);
     }
 
-    @Override
     public void init() {
         super.init();
-        this.log.log(-2137614336, "[PhoneIntellicallSearchHandler#init]");
+        this.log.log(10000000, "[PhoneIntellicallSearchHandler#init]");
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
-        this.getOptionModel(-1936391168).setListener(this, -1365900288);
-        this.getOptionModel(-1751776256).setListener(this, -1365900288);
-        this.getOptionModel(-1198128128).setListener(this, -1365900288);
-        this.getOptionModel(-946469888).setListener(this, -1365900288);
-        this.getOptionModel(379061248).setListener(this, -1365900288);
-        this.getOptionModel(-996801536).setListener(this, -1365900288);
-        this.getOptionModel(680985600).setListener(this, -1365900288);
-        this.getOptionModel(664208384).setListener(this, -1365900288);
-        this.getChoiceModel(-1902771200).setValue(1);
+        this.getOptionModel(300428).setListener(this, 300718);
+        this.getOptionModel(300695).setListener(this, 300718);
+        this.getOptionModel(300728).setListener(this, 300718);
+        this.getOptionModel(300743).setListener(this, 300718);
+        this.getOptionModel(301078).setListener(this, 300718);
+        this.getOptionModel(300740).setListener(this, 300718);
+        this.getOptionModel(300840).setListener(this, 300718);
+        this.getOptionModel(300839).setListener(this, 300718);
+        this.getChoiceModel(300686).setValue(1);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.log.log(-2137614336, "[PhoneIntellicallSearchHandler#deinit]");
+        this.log.log(10000000, "[PhoneIntellicallSearchHandler#deinit]");
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
-        this.getOptionModel(-1936391168).removeListener(-1365900288);
-        this.getOptionModel(-996801536).removeListener(-1365900288);
-        this.getOptionModel(-1751776256).removeListener(-1365900288);
-        this.getOptionModel(-1198128128).removeListener(-1365900288);
-        this.getOptionModel(379061248).removeListener(-1365900288);
-        this.getOptionModel(-946469888).removeListener(-1365900288);
-        this.getOptionModel(680985600).removeListener(-1365900288);
-        this.getOptionModel(664208384).removeListener(-1365900288);
+        this.getOptionModel(300428).removeListener(300718);
+        this.getOptionModel(300740).removeListener(300718);
+        this.getOptionModel(300695).removeListener(300718);
+        this.getOptionModel(300728).removeListener(300718);
+        this.getOptionModel(301078).removeListener(300718);
+        this.getOptionModel(300743).removeListener(300718);
+        this.getOptionModel(300840).removeListener(300718);
+        this.getOptionModel(300839).removeListener(300718);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         if (!iGlobalTelephoneStateStruct.isPhoneReady()) {
             this.clearSearch();
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[PhoneIntellicallSearchHandler#keyTyped] %1", (Object)TelLoggingUtils.keyTypedOption(n, n2, n3, n4, n5));
+            this.log.log(1000000, "[PhoneIntellicallSearchHandler#keyTyped] %1", (Object)TelLoggingUtils.keyTypedOption(n, n2, n3, n4, n5));
         }
-        if (n2 == -1365900288) {
+        if (n2 == 300718) {
             EvoListRow evoListRow = this.getBaseListModel(n2).getRow(n3);
             switch (n) {
                 case 300428: {
@@ -125,12 +119,12 @@ implements OptionModelListener {
                     break;
                 }
                 default: {
-                    this.log.log(-1601830656, "[PhoneIntellicallSearchHandler#keyTyped] no handling for model %1", (long)n);
+                    this.log.log(100000, "[PhoneIntellicallSearchHandler#keyTyped] no handling for model %1", (long)n);
                     break;
                 }
             }
         } else {
-            this.log.log(1078071040, "[PhoneIntellicallSearchHandler#keyTyped] NOP!");
+            this.log.log(1000000, "[PhoneIntellicallSearchHandler#keyTyped] NOP!");
         }
     }
 
@@ -182,9 +176,9 @@ implements OptionModelListener {
             string = ((IntellicallADBEntryDetailsResultRow)evoListRow).getNumber();
         }
         if (string != null) {
-            this.getButtonModel(1922368512).setStatus(string.length() > 0 ? 1 : 0);
-            this.getSpellerModel(-2003434496).setText(string);
-            this.getOptionModel(-996801536).fireEvent(n);
+            this.getButtonModel(300402).setStatus(string.length() > 0 ? 1 : 0);
+            this.getSpellerModel(300680).setText(string);
+            this.getOptionModel(300740).fireEvent(n);
         }
     }
 
@@ -201,13 +195,13 @@ implements OptionModelListener {
             String string = intellicallCallStackSearchResultRow.getName();
             String string2 = intellicallCallStackSearchResultRow.getTelephoneNumber();
             this.getEvoApplication().getFavoriteHandler().addToFavorites(new TelFavoriteStruct(PhoneUtils.getDisplayName(string, string2), string2, intellicallCallStackSearchResultRow.getCallStackEntry().getAdbNumberType()));
-            this.getOptionModel(-1751776256).fireEvent(n);
+            this.getOptionModel(300695).fireEvent(n);
         } else if (evoListRow instanceof IntellicallADBEntryDetailsResultRow) {
             IntellicallADBEntryDetailsResultRow intellicallADBEntryDetailsResultRow = (IntellicallADBEntryDetailsResultRow)evoListRow;
             String string = intellicallADBEntryDetailsResultRow.getName();
             String string3 = intellicallADBEntryDetailsResultRow.getNumber();
             this.getEvoApplication().getFavoriteHandler().addToFavorites(new TelFavoriteStruct(PhoneUtils.getDisplayName(string, string3), string3, intellicallADBEntryDetailsResultRow.getPhoneNumberType()));
-            this.getOptionModel(-1751776256).fireEvent(n);
+            this.getOptionModel(300695).fireEvent(n);
         }
     }
 
@@ -218,7 +212,7 @@ implements OptionModelListener {
             ((ITelEvoApplication)this.getApplication()).getIntellicallHandler().dialNumberFromCallStackEntry(callStackEntry, n);
         } else if (evoListRow instanceof IntellicallADBEntryDetailsResultRow) {
             IntellicallADBEntryDetailsResultRow intellicallADBEntryDetailsResultRow = (IntellicallADBEntryDetailsResultRow)evoListRow;
-            this.log.log(-2137614336, "[PhoneIntellicallSearchHandler#childNodeSelected] dialing %1", (Object)intellicallADBEntryDetailsResultRow.getNumber());
+            this.log.log(10000000, "[PhoneIntellicallSearchHandler#childNodeSelected] dialing %1", (Object)intellicallADBEntryDetailsResultRow.getNumber());
             ((ITelEvoApplication)this.getApplication()).getIntellicallHandler().dialNumberFromADBEntry(intellicallADBEntryDetailsResultRow.getEntry(), intellicallADBEntryDetailsResultRow.getPhoneNumberIdx(), n);
         } else if (evoListRow instanceof IntellicallFavoriteSearchResultRow) {
             IntellicallFavoriteSearchResultRow intellicallFavoriteSearchResultRow = (IntellicallFavoriteSearchResultRow)evoListRow;
@@ -265,7 +259,6 @@ implements OptionModelListener {
         this.searchHandler.clearSearchSpeller();
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
     }
 }

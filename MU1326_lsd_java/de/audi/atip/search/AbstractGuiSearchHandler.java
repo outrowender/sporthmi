@@ -10,11 +10,11 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.log.LogChannel;
-import de.audi.atip.search.AbstractGuiSearchHandler$1;
 import de.audi.atip.search.AbstractSearch;
 import de.audi.atip.search.util.AbstractSearchResultFormatter;
 import de.audi.atip.search.util.SearchResultListRow;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,9 +25,9 @@ import org.dsi.ifc.search.Suggestion;
 public abstract class AbstractGuiSearchHandler
 implements SpellerListener,
 BaseListModelListener {
-    private static final int FLUSH_BUFFER_BLOCKSIZE;
-    private static final int FLUSH_BUFFER_1ST_PAGE;
-    private static final int FLUSH_BUFFER_TIMERDELAY;
+    private static final int FLUSH_BUFFER_BLOCKSIZE = 20;
+    private static final int FLUSH_BUFFER_1ST_PAGE = 3;
+    private static final int FLUSH_BUFFER_TIMERDELAY = 300;
     protected BaseListModelApp mdlListSearchResults;
     protected SpellerModelApp mdlSpellerSearchText;
     protected ChoiceModelApp mdlChoiceSearchIsActive;
@@ -43,7 +43,7 @@ BaseListModelListener {
     private boolean lockSearchIsActiveChoice = false;
     private boolean showFastGuess = true;
     private boolean showSlowGuess = true;
-    private int lastSuggestionQueryID = -129;
+    private int lastSuggestionQueryID = Integer.MAX_VALUE;
     private Suggestion currentSuggestion;
     static /* synthetic */ Class class$de$audi$atip$search$AbstractGuiSearchHandler;
 
@@ -60,20 +60,31 @@ BaseListModelListener {
         this.mdlChoiceSearchIsActive = choiceModelApp;
         this.registerListeners();
         this.initModels();
-        AbstractGuiSearchHandler$1 abstractGuiSearchHandler$1 = new AbstractGuiSearchHandler$1(this);
-        this.timerFlushBuffer = new Timer("SearchFlushTimer", 5, this.lcFrequent, abstractGuiSearchHandler$1, 0, false);
+        TimerListener timerListener = new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                if (AbstractGuiSearchHandler.this.lcFrequent != null) {
+                    AbstractGuiSearchHandler.this.lcFrequent.log(10000000, "%1#fireTimer flushSearchResultBuffer", (Object)(class$de$audi$atip$search$AbstractGuiSearchHandler == null ? (class$de$audi$atip$search$AbstractGuiSearchHandler = AbstractGuiSearchHandler.class$("de.audi.atip.search.AbstractGuiSearchHandler")) : class$de$audi$atip$search$AbstractGuiSearchHandler).getName());
+                }
+                AbstractGuiSearchHandler.this.flushSearchResultBuffer();
+            }
+
+            public void cancelTimer(Timer timer) {
+            }
+        };
+        this.timerFlushBuffer = new Timer("SearchFlushTimer", 5, this.lcFrequent, timerListener, 300L, false);
     }
 
     protected final void registerListeners() {
         if (this.mdlListSearchResults != null) {
             this.mdlListSearchResults.setListener(this);
         } else {
-            this.lc.log(-1601830656, "AbstractGuiSearchHandler#registerListeners ListModel missing");
+            this.lc.log(100000, "AbstractGuiSearchHandler#registerListeners ListModel missing");
         }
         if (this.mdlSpellerSearchText != null) {
             this.mdlSpellerSearchText.setSpellerListener(this);
         } else {
-            this.lc.log(-1601830656, "AbstractGuiSearchHandler#registerListeners SpellerModel missing");
+            this.lc.log(100000, "AbstractGuiSearchHandler#registerListeners SpellerModel missing");
         }
     }
 
@@ -108,10 +119,10 @@ BaseListModelListener {
     }
 
     protected SearchResultListRow getFormattedRow(SearchResult searchResult) {
-        this.lc.log(14808325, "AbstractGuiSearchHandler#getFormattedRow");
+        this.lc.log(100000000, "AbstractGuiSearchHandler#getFormattedRow");
         AbstractSearchResultFormatter abstractSearchResultFormatter = null;
         if (!this.registryFormatter.containsKey(new Integer(searchResult.getSource()))) {
-            this.lc.log(-2137614336, "AbstractGuiSearchHandler#getFormattedRow - no Formatter for source %1", (long)searchResult.getSource());
+            this.lc.log(10000000, "AbstractGuiSearchHandler#getFormattedRow - no Formatter for source %1", (long)searchResult.getSource());
             return null;
         }
         abstractSearchResultFormatter = (AbstractSearchResultFormatter)this.registryFormatter.get(new Integer(searchResult.getSource()));
@@ -124,7 +135,7 @@ BaseListModelListener {
     public boolean setListRow(int n, SearchResult searchResult) {
         Object object = this.lock;
         synchronized (object) {
-            this.lc.log(14808325, "AbstractGuiSearchHandler#setListRow # row=%1", (long)n);
+            this.lc.log(100000000, "AbstractGuiSearchHandler#setListRow # row=%1", (long)n);
             this.setSlowGuess(searchResult.getSuggestion());
             SearchResultListRow searchResultListRow = this.getFormattedRow(searchResult);
             if (searchResultListRow != null) {
@@ -145,14 +156,14 @@ BaseListModelListener {
         synchronized (object) {
             EvoListRow[] evoListRowArray;
             if (this.lcFrequent != null) {
-                this.lcFrequent.log(-2137614336, "%1#flushSearchResultBuffer", (Object)super.getClass().getName());
-                this.lcFrequent.log(-2137614336, "flushSearchResultBuffer # size = %1", (long)this.searchResultBuffer.size());
+                this.lcFrequent.log(10000000, "%1#flushSearchResultBuffer", (Object)this.getClass().getName());
+                this.lcFrequent.log(10000000, "flushSearchResultBuffer # size = %1", (long)this.searchResultBuffer.size());
             }
             Iterator iterator = this.searchResultBuffer.iterator();
             while (iterator.hasNext()) {
                 evoListRowArray = (EvoListRow[])iterator.next();
                 if (evoListRowArray.getSearchResult().getQueryId() == this.appSearch.getLastQueryID()) continue;
-                this.lc.log(-1601830656, "AbstractGuiSearchHandler#flushSearchResultBuffer - row %1 should not have been added to the buffer", (Object)evoListRowArray);
+                this.lc.log(100000, "AbstractGuiSearchHandler#flushSearchResultBuffer - row %1 should not have been added to the buffer", (Object)evoListRowArray);
                 iterator.remove();
             }
             if (!this.searchResultBuffer.isEmpty()) {
@@ -187,9 +198,9 @@ BaseListModelListener {
     public void searchStarted() {
         Object object = this.lock;
         synchronized (object) {
-            this.lc.log(-2137614336, "AbstractGuiSearchHandler#searchStarted");
+            this.lc.log(10000000, "AbstractGuiSearchHandler#searchStarted");
             if (this.lockSearchIsActiveChoice) {
-                this.lc.log(-2137614336, "AbstractGuiSearchHandler#searchStarted lockSearchIsActiveChoice=true, return");
+                this.lc.log(10000000, "AbstractGuiSearchHandler#searchStarted lockSearchIsActiveChoice=true, return");
                 return;
             }
             if (this.mdlChoiceSearchIsActive != null) {
@@ -205,9 +216,9 @@ BaseListModelListener {
     public void searchEnded() {
         Object object = this.lock;
         synchronized (object) {
-            this.lc.log(-2137614336, "AbstractGuiSearchHandler#searchEnded");
+            this.lc.log(10000000, "AbstractGuiSearchHandler#searchEnded");
             if (this.lockSearchIsActiveChoice) {
-                this.lc.log(-2137614336, "AbstractGuiSearchHandler#searchEnded lockSearchIsActiveChoice=true, return");
+                this.lc.log(10000000, "AbstractGuiSearchHandler#searchEnded lockSearchIsActiveChoice=true, return");
                 return;
             }
             this.flushSearchResultBuffer();
@@ -221,19 +232,19 @@ BaseListModelListener {
     protected void setFastGuess(Suggestion[] suggestionArray, int n) {
         this.currentSuggestion = null;
         if (!this.showFastGuess) {
-            this.lc.log(-2137614336, "AbstractGuiSearchHandler#setFastGuess fast guess is turned off, showSlowGuess=%1", this.showSlowGuess);
+            this.lc.log(10000000, "AbstractGuiSearchHandler#setFastGuess fast guess is turned off, showSlowGuess=%1", this.showSlowGuess);
             return;
         }
         this.mdlSpellerSearchText.setCompletionText(null);
         if (this.lastSuggestionQueryID != n) {
-            this.lc.log(-2137614336, "AbstractGuiSearchHandler#setFastGuess fast guess is old queryID=%1", (long)n);
+            this.lc.log(10000000, "AbstractGuiSearchHandler#setFastGuess fast guess is old queryID=%1", (long)n);
             return;
         }
         if (suggestionArray == null || suggestionArray.length == 0 || suggestionArray[0] == null) {
-            this.lc.log(-2137614336, "AbstractGuiSearchHandler#setFastGuess invalid result from the south side, showSlowGuess=%1", this.showSlowGuess);
+            this.lc.log(10000000, "AbstractGuiSearchHandler#setFastGuess invalid result from the south side, showSlowGuess=%1", this.showSlowGuess);
             return;
         }
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#setFastGuess suggestions[0]=%1", (Object)suggestionArray[0]);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#setFastGuess suggestions[0]=%1", (Object)suggestionArray[0]);
         this.mdlSpellerSearchText.setSuggestions(new StringBuffer().append(this.mdlSpellerSearchText.getText()).append(suggestionArray[0].getSuggestion()).toString(), suggestionArray[0].getQuery());
         this.currentSuggestion = suggestionArray[0];
         this.mdlSpellerSearchText.setCompletionText(suggestionArray[0].getFullSuggestion());
@@ -246,21 +257,18 @@ BaseListModelListener {
         if (suggestion == null) {
             return;
         }
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#setSlowGuess suggestion=%1", (Object)suggestion);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#setSlowGuess suggestion=%1", (Object)suggestion);
         String string = new StringBuffer().append(this.mdlSpellerSearchText.getText()).append(suggestion.getSuggestion()).toString();
         this.mdlSpellerSearchText.setSuggestions(string, suggestion.getQuery());
         this.mdlSpellerSearchText.setCompletionText(string);
         this.currentSuggestion = suggestion;
     }
 
-    public abstract void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
-    }
+    public abstract void searchResultSelected(SearchResultListRow var1, int var2, int var3);
 
-    public abstract void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
-    }
+    public abstract void childNodeSelected(EvoListRow var1, int var2, int var3);
 
-    public abstract void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
-    }
+    public abstract void requestChildrenNodes(SearchResultListRow var1, int var2);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -268,7 +276,7 @@ BaseListModelListener {
     protected void parentNodeSelected(SearchResultListRow searchResultListRow, int n, int n2) {
         Object object = this.lock;
         synchronized (object) {
-            this.lc.log(-2137614336, "AbstractGuiSearchHandler#parentNodeSelected, currentOpenRow - %1", (Object)this.currentOpenRow);
+            this.lc.log(10000000, "AbstractGuiSearchHandler#parentNodeSelected, currentOpenRow - %1", (Object)this.currentOpenRow);
             if (!searchResultListRow.equals(this.currentOpenRow)) {
                 this.requestChildrenNodes(searchResultListRow, n2);
             } else {
@@ -286,7 +294,7 @@ BaseListModelListener {
     public void setChildrenNodes(EvoListRow[] evoListRowArray, SearchResultListRow searchResultListRow) {
         Object object = this.lock;
         synchronized (object) {
-            this.lc.log(-2137614336, "AbstractGuiSearchHandler#setChildrenNodes children.length=%1", (long)evoListRowArray.length);
+            this.lc.log(10000000, "AbstractGuiSearchHandler#setChildrenNodes children.length=%1", (long)evoListRowArray.length);
             if (this.mdlListSearchResults.getIndexForUniqueID(searchResultListRow.getUniqueID()) == -1) {
                 this.lc.log(10000, "AbstractGuiSearchHandler#setChildrenNodes parent already gone from list, parent=%1", (Object)searchResultListRow);
                 return;
@@ -303,7 +311,7 @@ BaseListModelListener {
                 baseListModelApp.setRow(baseListModelApp.getIndexForUniqueID(searchResultListRow.getUniqueID()), searchResultListRow);
                 this.mdlListSearchResults.update(baseListModelApp);
             } else {
-                this.lc.log(-2137614336, "AbstractGuiSearchHandler#parentNodeSelected - no children available");
+                this.lc.log(10000000, "AbstractGuiSearchHandler#parentNodeSelected - no children available");
             }
         }
     }
@@ -315,14 +323,12 @@ BaseListModelListener {
         baseListModelApp.setRow(n, searchResultListRow);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#itemReleased # index=%1", (long)n2);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#itemReleased # index=%1", (long)n2);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#itemSelected # model=%1 index=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#itemSelected # model=%1 index=%2", (long)n, (long)n2);
         if (evoListRow instanceof SearchResultListRow && ((SearchResultListRow)evoListRow).getNodeType() == 1) {
             this.parentNodeSelected((SearchResultListRow)evoListRow, n, n4);
         } else if (evoListRow instanceof SearchResultListRow && ((SearchResultListRow)evoListRow).getNodeType() == 0) {
@@ -332,50 +338,42 @@ BaseListModelListener {
         }
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#itemFocused # index=%1", (long)n2);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#itemFocused # index=%1", (long)n2);
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#itemLongSelected # index=%1", (long)n2);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#itemLongSelected # index=%1", (long)n2);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#keyPressed # model=%1, key=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#keyPressed # model=%1, key=%2", (long)n, (long)n2);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#keyReleased # model=%1, key=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#keyReleased # model=%1, key=%2", (long)n, (long)n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#keyTyped # model=%1, key=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#keyTyped # model=%1, key=%2", (long)n, (long)n2);
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#commandPressed # model=%1, index=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "AbstractGuiSearchHandler#commandPressed # model=%1, index=%2", (long)n, (long)n2);
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
-        this.lc.log(-2137614336, "AbstractGuiSearchHandler#focusedCharacter()");
+        this.lc.log(10000000, "AbstractGuiSearchHandler#focusedCharacter()");
         this.mdlSpellerSearchText.setCompletionText(null);
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         this.performQuery(string);
     }
 
     public void refreshQuery() {
         if (this.mdlSpellerSearchText != null) {
-            this.lc.log(-2137614336, "%1#refreshQuery()", (Object)super.getClass().getName());
+            this.lc.log(10000000, "%1#refreshQuery()", (Object)this.getClass().getName());
             this.performQuery(this.mdlSpellerSearchText.getText());
         }
     }
@@ -390,7 +388,7 @@ BaseListModelListener {
     protected void performQuery(String string, String[] stringArray) {
         Object object = this.lock;
         synchronized (object) {
-            this.lc.log(-2137614336, "AbstractGuiSearchHandler#performQuery # text=%1, alternativeTexts=%2", (Object)string, (Object)stringArray);
+            this.lc.log(10000000, "AbstractGuiSearchHandler#performQuery # text=%1, alternativeTexts=%2", (Object)string, (Object)stringArray);
             this.searchResultBuffer.clear();
             this.searchStarted();
             this.lockSearchIsActiveChoice = this.appSearch.cancelQuery();

@@ -23,10 +23,9 @@ extends RouteCriteriaCoreHMIListener {
         this.sequence.finishSequence();
     }
 
-    @Override
     protected final void setListeners() {
         super.setListeners();
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-14875136);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(400895);
         choiceModelApp.setChoiceListener(this);
         if (Util.isHURegionNAR()) {
             choiceModelApp.addHint(6);
@@ -34,49 +33,44 @@ extends RouteCriteriaCoreHMIListener {
         if (!Util.isSemidynamicRgAvailable(this.env.getFramework())) {
             choiceModelApp.addHint(5);
         }
-        this.env.getChoiceModel(-2145122816).setChoiceListener(this);
-        this.env.getChoiceModel(1967616).setChoiceListener(this);
-        this.env.getButtonModel(-1944123904).setButtonListener(this);
+        this.env.getChoiceModel(402560).setChoiceListener(this);
+        this.env.getChoiceModel(400896).setChoiceListener(this);
+        this.env.getButtonModel(401292).setButtonListener(this);
     }
 
     public void startVignetteSequence() {
         this.sequence.startCountriesSequence(new VignetteCountriesModelAccess(this.env, this, new VignetteCountriesRowBuilder()), true);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#itemSelected(%1,%2)", (long)n, (long)n2);
+        this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#itemSelected(%1,%2)", (long)n, (long)n2);
         super.itemSelected(n, n2, n3, n4);
-        if (n == -14875136) {
+        if (n == 400895) {
             this.trafficReroutingSelected(n2);
-        } else if (n == -2145122816) {
+        } else if (n == 402560) {
             this.freewaySelected(n2);
-        } else if (n == 1967616) {
+        } else if (n == 400896) {
             this.trailerSelected(n2);
         }
         this.env.fireModelEvent(n, n4);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#keyPressed - modelID - %1 for keyID - %2", (long)n, (long)n2);
+        this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#keyPressed - modelID - %1 for keyID - %2", (long)n, (long)n2);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#keyReleased - modelID - %1 for keyID - %2", (long)n, (long)n2);
+        this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#keyReleased - modelID - %1 for keyID - %2", (long)n, (long)n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#keyTyped - modelID - %1 for keyID - %2", (long)n, (long)n2);
-        if (n == -1944123904) {
+        this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#keyTyped - modelID - %1 for keyID - %2", (long)n, (long)n2);
+        if (n == 401292) {
             this.sequence.startSequence();
         }
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     protected void seasonalRestrictedSelected(int n) {
         if (n == 1) {
             this.sequence.setSeasonRestricted(1);
@@ -85,26 +79,23 @@ extends RouteCriteriaCoreHMIListener {
         } else if (n == 0) {
             this.sequence.setSeasonRestricted(3);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#seasonalRestrictedSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#seasonalRestrictedSelected - invalid itemID - %1", (long)n);
         }
         super.seasonalRestrictedSelected(n);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
     private void trailerSelected(int n) {
         this.sequence.startSequence();
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#trailerSelected - itemID - %1", (long)n);
+        this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#trailerSelected - itemID - %1", (long)n);
         if (n == 1) {
             this.sequence.setTrailer(5);
         } else if (n == 0) {
@@ -112,9 +103,9 @@ extends RouteCriteriaCoreHMIListener {
         } else if (n == 2) {
             this.sequence.setTrailer(3);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#trailerSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#trailerSelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(1967616).setValue(n);
+        this.env.getChoiceModel(400896).setValue(n);
     }
 
     private void freewaySelected(int n) {
@@ -123,9 +114,9 @@ extends RouteCriteriaCoreHMIListener {
         } else if (n == 1) {
             this.sequence.setFreeways(2);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#freewaySelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#freewaySelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(-2145122816).setValue(n);
+        this.env.getChoiceModel(402560).setValue(n);
     }
 
     private void trafficReroutingSelected(int n) {
@@ -136,12 +127,11 @@ extends RouteCriteriaCoreHMIListener {
         } else if (n == 2) {
             this.sequence.setTrafficRerouting(6);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#trafficReroutingSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#trafficReroutingSelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(-14875136).setValue(n);
+        this.env.getChoiceModel(400895).setValue(n);
     }
 
-    @Override
     protected boolean isTrailerModeAvailable() {
         return !Util.isClusterMMI(this.env.getFramework());
     }

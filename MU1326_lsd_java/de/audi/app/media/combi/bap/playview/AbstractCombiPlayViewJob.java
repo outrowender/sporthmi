@@ -12,7 +12,7 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public abstract class AbstractCombiPlayViewJob
 extends AbstractQueueJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractCombiPlayViewJob";
     protected final LogChannel logger;
     private final CombiBAPPlayViewContentAdapter combiAdapter;
 
@@ -21,23 +21,21 @@ extends AbstractQueueJob {
         this.combiAdapter = combiBAPPlayViewContentAdapter;
     }
 
-    public abstract void responsePlayViewList(int n, MediaListEntry[] mediaListEntryArray) {
-    }
+    public abstract void responsePlayViewList(int var1, MediaListEntry[] var2);
 
-    public abstract void errorListRequestAborted() {
-    }
+    public abstract void errorListRequestAborted();
 
     protected final CombiBAPPlayViewContentAdapter getCombiAdapter() {
         return this.combiAdapter;
     }
 
     protected final void sendDetailInfo() {
-        this.logger.log(1078071040, "[%1.sendDetailInfo]", (Object)"AbstractCombiPlayViewJob");
+        this.logger.log(1000000, "[%1.sendDetailInfo]", (Object)LOGCLASS);
         int n = this.getCombiAdapter().getState().getAbsolutePositionCurrentTrack();
         MediaDetailInfo mediaDetailInfo = this.getCombiAdapter().getState().getCurrentDetailInfo();
         ResourceLocator resourceLocator = this.getCombiAdapter().getState().getCurrentCoverart();
         if (mediaDetailInfo == null) {
-            this.logger.log(1078071040, "[%1.sendDetailInfo] No detail information.", (Object)"AbstractCombiPlayViewJob");
+            this.logger.log(1000000, "[%1.sendDetailInfo] No detail information.", (Object)LOGCLASS);
             return;
         }
         this.getCombiAdapter().getCombiAccessor().updateCurrentPlayingTrack(this.getCombiAdapter().getContentType(), mediaDetailInfo.getEntryID(), mediaDetailInfo.getContentType(), mediaDetailInfo.getEntryFlags(), mediaDetailInfo.getTitle(), mediaDetailInfo.getFilename(), mediaDetailInfo.getArtist(), mediaDetailInfo.getAlbum(), true, n, resourceLocator);

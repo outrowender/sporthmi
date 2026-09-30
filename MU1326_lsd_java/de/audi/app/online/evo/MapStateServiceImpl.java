@@ -4,14 +4,14 @@
 package de.audi.app.online.evo;
 
 import de.audi.app.online.evo.RemoteHMIServiceEvo;
-import de.audi.atip.interapp.NaviOnlineService$MapStateService;
+import de.audi.atip.interapp.NaviOnlineService;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.RemoteHMIAction;
 
 public class MapStateServiceImpl
-implements NaviOnlineService$MapStateService {
-    private static final String MAP_VIEW_DAY;
-    private static final String MAP_VIEW_NIGHT;
+implements NaviOnlineService.MapStateService {
+    private static final String MAP_VIEW_DAY = "day";
+    private static final String MAP_VIEW_NIGHT = "night";
     private final LogChannel logChannel;
     private final RemoteHMIServiceEvo remoteHMIServiceEvo;
 
@@ -20,11 +20,10 @@ implements NaviOnlineService$MapStateService {
         this.remoteHMIServiceEvo = remoteHMIServiceEvo;
     }
 
-    @Override
     public void onDayNightViewChanged(boolean bl) {
-        this.logChannel.log(1078071040, "MapStateServiceImpl#onDayNightViewChanged: called with isNightView = %1", bl);
-        String string = bl ? "night" : "day";
-        RemoteHMIAction remoteHMIAction = this.remoteHMIServiceEvo.getAction(199357701);
+        this.logChannel.log(1000000, "MapStateServiceImpl#onDayNightViewChanged: called with isNightView = %1", bl);
+        String string = bl ? MAP_VIEW_NIGHT : MAP_VIEW_DAY;
+        RemoteHMIAction remoteHMIAction = this.remoteHMIServiceEvo.getAction(100000011);
         remoteHMIAction.getParameters().putString("mapViewStatus", string);
         this.remoteHMIServiceEvo.invokeAction(remoteHMIAction);
     }

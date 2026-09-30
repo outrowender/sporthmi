@@ -43,22 +43,20 @@ implements TextEditorListenerDD {
         this.textStateModel.setValue(this.model == null || this.model.getText().length() == 0 ? 1 : 0);
     }
 
-    @Override
     public void openAlternativesList(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "%1#openAlternativesList: modelID=%2, index=%3", (Object)this.getName(), (long)n, (long)n2);
+        this.lc.log(10000000, "%1#openAlternativesList: modelID=%2, index=%3", (Object)this.getName(), (long)n, (long)n2);
         if (!this.isSDSActive()) {
-            this.lc.log(-2137614336, "%1#openAlternativesList: SDS not active => NOP!", (Object)this.getName());
+            this.lc.log(10000000, "%1#openAlternativesList: SDS not active => NOP!", (Object)this.getName());
             return;
         }
-        this.sdsHandlerService.sendEvent(-1199046656);
+        this.sdsHandlerService.sendEvent(35000);
     }
 
-    @Override
     public boolean alternativeSelected(boolean bl, int n, int n2, int n3) {
         boolean bl2 = bl;
-        this.lc.log(-2137614336, "%1#alternativeSelected: modelID=%2, index=%3", (Object)this.getName(), (long)n, (long)n2);
+        this.lc.log(10000000, "%1#alternativeSelected: modelID=%2, index=%3", (Object)this.getName(), (long)n, (long)n2);
         if (!this.isSDSActive()) {
-            this.lc.log(-2137614336, "%1#alternativeSelected: SDS inactive => NOP!");
+            this.lc.log(10000000, "%1#alternativeSelected: SDS inactive => NOP!");
             return bl2;
         }
         if (!bl2) {
@@ -71,24 +69,22 @@ implements TextEditorListenerDD {
         return bl2;
     }
 
-    @Override
     public void textChanged(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "%1#textChanged: modelID=%2, index=%3", (Object)this.getName(), (long)n, (long)n2);
+        this.lc.log(10000000, "%1#textChanged: modelID=%2, index=%3", (Object)this.getName(), (long)n, (long)n2);
         if (!this.isSDSActive()) {
-            this.lc.log(-2137614336, "%1#textChanged: SDS inactive => NOP!");
+            this.lc.log(10000000, "%1#textChanged: SDS inactive => NOP!");
             return;
         }
         this.updateTextModelInfo();
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "%1#textChanged: modelID=%2, command=%3", (Object)this.getName(), (long)n, (long)n2);
+        this.lc.log(10000000, "%1#textChanged: modelID=%2, command=%3", (Object)this.getName(), (long)n, (long)n2);
         if (!this.isSDSActive()) {
-            this.lc.log(-2137614336, "%1#commandPressed: SDS inactive => NOP!");
+            this.lc.log(10000000, "%1#commandPressed: SDS inactive => NOP!");
             return;
         }
-        int n4 = n2 == 2 ? -1182269440 : (n2 == 1 ? 1010 : -115080960);
+        int n4 = n2 == 2 ? 35001 : (n2 == 1 ? 1010 : 75001);
         this.sdsHandlerService.sendEvent(n4);
     }
 
@@ -97,11 +93,10 @@ implements TextEditorListenerDD {
     }
 
     private String getName() {
-        super.getClass();
+        this.getClass();
         return "EditorModelListener";
     }
 
-    @Override
     public void maxTextLengthChanged(int n) {
     }
 }

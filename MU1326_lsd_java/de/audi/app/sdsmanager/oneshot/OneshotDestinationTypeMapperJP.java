@@ -10,7 +10,6 @@ public class OneshotDestinationTypeMapperJP
 implements IOneshotDestinationTypeMapper {
     protected int[][] oneshotDestinationTypeMapping = new int[][]{{32, 0}, {3, 1}, {12, 1}, {33, 2}, {34, 3}, {15, 3}, {13, 3}, {7, 4}};
 
-    @Override
     public int mapToOneshotLevel(int n) {
         return SDSUtils.translate(n, this.oneshotDestinationTypeMapping);
     }

@@ -16,7 +16,7 @@ import java.util.List;
 abstract class AbstractListModel
 extends AbstractModel
 implements SlidingListModelGUI {
-    static final int UNDEFINED;
+    static final int UNDEFINED = -1;
     List list;
     private int visibleRows;
     int listCursor = -1;
@@ -46,20 +46,18 @@ implements SlidingListModelGUI {
         this.visibleRows = n3;
     }
 
-    @Override
     public void resetListener() {
         this.listener = DUMMY_LISTENER;
     }
 
     public void setRowsPerScreen(int n) {
-        this.lc.log(-2137614336, "(%1) AbstractListModel.setRowsPerScreen( %2 )", (long)this.id, (long)n);
+        this.lc.log(10000000, "(%1) AbstractListModel.setRowsPerScreen( %2 )", (long)this.id, (long)n);
         this.visibleRows = n;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(1000);
         buffer.append(super.dumpContent());
@@ -139,7 +137,7 @@ implements SlidingListModelGUI {
             }
         }
         if (bl) {
-            this.lc.log(1078071040, "AbstractListModel.getListIndex(): List index stored in given ListRow is not valid! ");
+            this.lc.log(1000000, "AbstractListModel.getListIndex(): List index stored in given ListRow is not valid! ");
         }
         return n;
     }
@@ -156,7 +154,7 @@ implements SlidingListModelGUI {
 
     public int getVisibleRowsCount() {
         if (this.visibleRows <= 0) {
-            this.lc.log(-1601830656, "(%2) AbstractListModel.getVisibleRowsCount(): Invalid number of visible rows %1! ", (long)this.visibleRows, (long)this.id);
+            this.lc.log(100000, "(%2) AbstractListModel.getVisibleRowsCount(): Invalid number of visible rows %1! ", (long)this.visibleRows, (long)this.id);
         }
         return this.visibleRows;
     }
@@ -203,12 +201,12 @@ implements SlidingListModelGUI {
     }
 
     public void jumpToStartOfListSupported(boolean bl) {
-        this.lc.log(-2137614336, "(%2) AbstractListModel.jumpToStartOfListSupported( %1 ) ", bl, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.jumpToStartOfListSupported( %1 ) ", bl, (long)this.id);
         this.jumpingToStartOfListSupported = bl;
     }
 
     public void jumpToEndOfListSupported(boolean bl) {
-        this.lc.log(-2137614336, "(%2) AbstractListModel.jumpToEndOfListSupported( %1 ) ", bl, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.jumpToEndOfListSupported( %1 ) ", bl, (long)this.id);
         this.jumpingToEndOfListSupported = bl;
     }
 
@@ -220,7 +218,6 @@ implements SlidingListModelGUI {
         this.fastScrollingActive = bl;
     }
 
-    @Override
     public boolean isFastScrollingEnabled() {
         return this.fastScrollingActive;
     }
@@ -230,16 +227,16 @@ implements SlidingListModelGUI {
      */
     public boolean setFocusedCursorPosition(ListRow listRow, int n) {
         int n2;
-        this.lc.log(-2137614336, "(%3) AbstractListModel.setFocusedCursorPosition( %1, %2 ) ", (Object)listRow, (long)n, (long)this.id);
+        this.lc.log(10000000, "(%3) AbstractListModel.setFocusedCursorPosition( %1, %2 ) ", (Object)listRow, (long)n, (long)this.id);
         boolean bl = false;
         if (listRow == null) {
-            this.lc.log(-1601830656, "(%3) AbstractListModel.setFocusedCursorPosition( %1, %2 ): Row to be focused is null! ", (Object)listRow, (long)n, (long)this.id);
+            this.lc.log(100000, "(%3) AbstractListModel.setFocusedCursorPosition( %1, %2 ): Row to be focused is null! ", (Object)listRow, (long)n, (long)this.id);
             return false;
         }
         if (n < 0 || n >= this.getVisibleRowsCount()) {
             if (this.lc.isDebug()) {
                 Buffer buffer = new Buffer(200).append("AbstractListModel.setFocusedCursorPosition( ").append(listRow).append(", ").append(n).append(" ): Given cursor position is out of range! cursorPos:").append(n).append(", visibleRowsCount:").append(this.getVisibleRowsCount());
-                this.lc.log(-2137614336, "(%2) %1", (Object)buffer, (long)this.id);
+                this.lc.log(10000000, "(%2) %1", (Object)buffer, (long)this.id);
             }
             return false;
         }
@@ -257,26 +254,26 @@ implements SlidingListModelGUI {
                 if (this.containsStartOfList) {
                     if (this.firstScreenOffset > 0 && n2 < this.getVisibleRowsCount()) {
                         this.focusedCursorPosition = n;
-                        this.lc.log(-2137614336, "(%3) AbstractListModel.setFocusedCursorPosition visibleIndex(before): %1 listCursor(before): %2 ", (long)n, (long)this.listCursor, (long)this.id);
+                        this.lc.log(10000000, "(%3) AbstractListModel.setFocusedCursorPosition visibleIndex(before): %1 listCursor(before): %2 ", (long)n, (long)this.listCursor, (long)this.id);
                         if (n - n2 > this.firstScreenOffset) {
                             bl = true;
                         } else {
                             this.focusedCursorPosition = n;
                             this.listCursorOffset = n2 - n;
                         }
-                        this.lc.log(-2137614336, "(%3) AbstractListModel.setFocusedCursorPosition start of list, firstScreenOffset > 0 focusedCursorPosition: %1 listCursor: %2", (long)this.focusedCursorPosition, (long)this.listCursor, (long)this.id);
+                        this.lc.log(10000000, "(%3) AbstractListModel.setFocusedCursorPosition start of list, firstScreenOffset > 0 focusedCursorPosition: %1 listCursor: %2", (long)this.focusedCursorPosition, (long)this.listCursor, (long)this.id);
                     }
                 } else {
                     this.listCursorOffset = 0;
                 }
                 this.lineNumber += this.listCursor;
             } else {
-                this.lc.log(-2137614336, "(%3) AbstractListModel.setFocusedCursorPosition( %1, %2 ): Row to be focused not found in list! ", (Object)listRow, (long)n, (long)this.id);
+                this.lc.log(10000000, "(%3) AbstractListModel.setFocusedCursorPosition( %1, %2 ): Row to be focused not found in list! ", (Object)listRow, (long)n, (long)this.id);
                 return false;
             }
         }
         if (bl) {
-            this.lc.log(-2137614336, "(%1) AbstractListModel.setFocusedCursorPosition(): Correcting focused screen position to %2 ", (long)this.id, (long)this.focusedCursorPosition);
+            this.lc.log(10000000, "(%1) AbstractListModel.setFocusedCursorPosition(): Correcting focused screen position to %2 ", (long)this.id, (long)this.focusedCursorPosition);
         }
         if (n2 != -1) {
             this.fireModelUpdateEvent(12, n);
@@ -301,7 +298,7 @@ implements SlidingListModelGUI {
             }
         }
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, new StringBuffer().append("(%2) AbstractListModel.contains( %1 ) = ").append(bl).toString(), (Object)listRow, (long)this.id);
+            this.lc.log(10000000, "(%2) AbstractListModel.contains( %1 ) = " + bl, (Object)listRow, (long)this.id);
         }
         return bl;
     }
@@ -393,7 +390,6 @@ implements SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -422,7 +418,6 @@ implements SlidingListModelGUI {
         }
     }
 
-    @Override
     public int getModelType() {
         return 10;
     }
@@ -430,21 +425,19 @@ implements SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isEmpty() {
         boolean bl;
         Object object = this.mutex;
         synchronized (object) {
             bl = this.list.size() == 0;
         }
-        this.lc.log(-2137614336, "(%2) AbstractListModel.isEmpty() = %1 ", bl, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.isEmpty() = %1 ", bl, (long)this.id);
         return bl;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public ListCell getCell(int n, int n2) {
         ListRow listRow;
         Object object = this.mutex;
@@ -461,7 +454,6 @@ implements SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Class getColumnType(int n) {
         Object object = this.mutex;
         synchronized (object) {
@@ -469,39 +461,33 @@ implements SlidingListModelGUI {
                 return this.get(0).getColumnType(n);
             }
             catch (Exception exception) {
-                this.lc.log(-1601830656, "(%2) AbstractListModel.getColumnType( %1 ) Column not found or list empty! ", (long)n, (long)this.id);
+                this.lc.log(100000, "(%2) AbstractListModel.getColumnType( %1 ) Column not found or list empty! ", (long)n, (long)this.id);
                 return null;
             }
         }
     }
 
-    @Override
     public int getLength() {
         return this.getVisibleRowsCount();
     }
 
-    @Override
     public int getMaxColumns() {
         return this.maxColumns;
     }
 
-    @Override
     public int getMaxRows() {
         return this.getVisibleRowsCount();
     }
 
-    @Override
     public boolean getRow(int n, ListCell[] listCellArray) {
         return this.getRow(this.listCursor, n, listCellArray);
     }
 
-    @Override
     public boolean getRowFromPreviousContext(int n, ListCell[] listCellArray) {
         int n2 = this.listCursor - this.getVisibleRowsCount();
         return this.getRow(n2, n, listCellArray);
     }
 
-    @Override
     public boolean getRowFromNextContext(int n, ListCell[] listCellArray) {
         int n2 = this.listCursor + this.getVisibleRowsCount();
         return this.getRow(n2, n, listCellArray);
@@ -526,16 +512,13 @@ implements SlidingListModelGUI {
         }
     }
 
-    @Override
-    public abstract int getSelected() {
-    }
+    public abstract int getSelected();
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setFocusOffset(int n) {
-        this.lc.log(-2137614336, "(%2) AbstractListModel.setFocusOffset( %1 ) ", (long)n, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.setFocusOffset( %1 ) ", (long)n, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             this.focusOffset = n;
@@ -545,9 +528,8 @@ implements SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemFocused(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "(%2) AbstractListModel.itemFocused( %1 ) ", (long)n, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.itemFocused( %1 ) ", (long)n, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             this.focusedCursorPosition = n + this.focusOffset;
@@ -555,20 +537,16 @@ implements SlidingListModelGUI {
         }
     }
 
-    @Override
-    public abstract void itemSelected(int n, int n2, int n3) {
-    }
+    public abstract void itemSelected(int var1, int var2, int var3);
 
-    @Override
     public void itemReleased(int n, int n2, int n3) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getFocusedCursorPosition() {
-        this.lc.log(-2137614336, "(%2) AbstractListModel.getFocusedCursorPosition() = %1 ", (long)this.focusedCursorPosition, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.getFocusedCursorPosition() = %1 ", (long)this.focusedCursorPosition, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             return this.focusedCursorPosition;
@@ -578,17 +556,15 @@ implements SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getFocusedCursorPositionOffset() {
-        this.lc.log(-2137614336, "(%2) getFocusedCursorPositionOffset() = %1 ", (long)this.listCursorOffset, (long)this.id);
+        this.lc.log(10000000, "(%2) getFocusedCursorPositionOffset() = %1 ", (long)this.listCursorOffset, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             return this.listCursorOffset;
         }
     }
 
-    @Override
-    public int getRowsAvailable(int n) {
+    public int getRowsAvailable(int n) throws IllegalArgumentException {
         Object object = this.mutex;
         synchronized (object) {
             if (this.listCursor == -1) {
@@ -605,39 +581,33 @@ implements SlidingListModelGUI {
                     return this.getAvailableRowsInCurrentContext();
                 }
             }
-            throw new IllegalArgumentException(new StringBuffer().append("(").append(this.id).append(") AbstractListModel.getRowsAvailable( ").append(n).append(") Unknown context!").toString());
+            throw new IllegalArgumentException("(" + this.id + ") AbstractListModel.getRowsAvailable( " + n + ") Unknown context!");
         }
     }
 
-    @Override
     public boolean isCursorPositionReset() {
         return false;
     }
 
-    @Override
-    public abstract boolean isEndOfList(int n) {
-    }
+    public abstract boolean isEndOfList(int var1);
 
-    @Override
     public boolean isJumpingToEndOfListSupported() {
-        this.lc.log(-2137614336, "(%2) AbstractListModel.isJumpingToEndOfListSupported() = %1 ", this.jumpingToEndOfListSupported, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.isJumpingToEndOfListSupported() = %1 ", this.jumpingToEndOfListSupported, (long)this.id);
         return this.jumpingToEndOfListSupported;
     }
 
-    @Override
     public boolean isJumpingToStartOfListSupported() {
-        this.lc.log(-2137614336, "(%2) AbstractListModel.isJumpingToStartOfListSupported() = %1 ", this.jumpingToStartOfListSupported, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.isJumpingToStartOfListSupported() = %1 ", this.jumpingToStartOfListSupported, (long)this.id);
         return this.jumpingToStartOfListSupported;
     }
 
-    @Override
     public void jumpToEndOfList(int n) {
         if (!this.jumpingToEndOfListSupported) {
-            this.lc.log(-2137614336, "(%1) AbstractListModel.jumpToEndOfList() Not supported by application. ", (long)this.id);
+            this.lc.log(10000000, "(%1) AbstractListModel.jumpToEndOfList() Not supported by application. ", (long)this.id);
             this.setStatus(1);
             return;
         }
-        this.lc.log(-2137614336, "(%1) AbstractListModel.jumpToEndOfList() ==> Calling rebuildListFromEnd() ", (long)this.id);
+        this.lc.log(10000000, "(%1) AbstractListModel.jumpToEndOfList() ==> Calling rebuildListFromEnd() ", (long)this.id);
         try {
             this.listener.rebuildListFromEnd(this.id, n);
         }
@@ -646,14 +616,13 @@ implements SlidingListModelGUI {
         }
     }
 
-    @Override
     public void jumpToStartOfList(int n) {
         if (!this.jumpingToStartOfListSupported) {
-            this.lc.log(-2137614336, "(%1) AbstractListModel.jumpToStartOfList() Not supported by application. ", (long)this.id);
+            this.lc.log(10000000, "(%1) AbstractListModel.jumpToStartOfList() Not supported by application. ", (long)this.id);
             this.setStatus(1);
             return;
         }
-        this.lc.log(-2137614336, "(%1) AbstractListModel.jumpToEndOfList() ==> Calling rebuildListFromStart() ", (long)this.id);
+        this.lc.log(10000000, "(%1) AbstractListModel.jumpToEndOfList() ==> Calling rebuildListFromStart() ", (long)this.id);
         try {
             this.listener.rebuildListFromStart(this.id, n);
         }
@@ -665,9 +634,8 @@ implements SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void moveContext(int n) {
-        this.lc.log(-2137614336, "(%2) AbstractListModel.moveContext( %1 ) ", (long)n, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.moveContext( %1 ) ", (long)n, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             this.listCursor += n;
@@ -675,24 +643,21 @@ implements SlidingListModelGUI {
         }
     }
 
-    @Override
     public void setVisibleRows(int n) {
-        this.lc.log(1078071040, "(%2) AbstractListModel.setVisibleRows( %1 ) --> DEPRECATED ", (long)n, (long)this.id);
+        this.lc.log(1000000, "(%2) AbstractListModel.setVisibleRows( %1 ) --> DEPRECATED ", (long)n, (long)this.id);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setFirstScreenOffset(int n) {
-        this.lc.log(-2137614336, "(%2) AbstractListModel.setFirstScreenOffset( %1 ) ", (long)n, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.setFirstScreenOffset( %1 ) ", (long)n, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             this.firstScreenOffset = n;
         }
     }
 
-    @Override
     public void scrollingActive(boolean bl, int n) {
         try {
             this.listener.scrollingActive(this.id, bl, n);
@@ -705,7 +670,7 @@ implements SlidingListModelGUI {
     private int getAvailableRowsInPreviousContext() {
         int n = this.listCursor - this.getVisibleRowsCount();
         int n2 = n < 0 ? this.getVisibleRowsCount() + n : this.getVisibleRowsCount();
-        this.lc.log(-2137614336, "(%2) AbstractListModel.getRowsAvailable( CONTEXT_PREVIOUS ) = %1 ", (long)n2, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.getRowsAvailable( CONTEXT_PREVIOUS ) = %1 ", (long)n2, (long)this.id);
         return n2;
     }
 
@@ -713,14 +678,14 @@ implements SlidingListModelGUI {
         int n;
         int n2 = this.listCursor + 2 * this.getVisibleRowsCount() - 1;
         int n3 = n2 >= this.list.size() ? ((n = this.list.size() + this.getVisibleRowsCount() - n2 - 1) > 0 ? n : 0) : this.getVisibleRowsCount();
-        this.lc.log(-2137614336, "(%2) AbstractListModel.getRowsAvailable( CONTEXT_NEXT ) = %1 ", (long)n3, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.getRowsAvailable( CONTEXT_NEXT ) = %1 ", (long)n3, (long)this.id);
         return n3;
     }
 
     private int getAvailableRowsInCurrentContext() {
         int n = this.listCursor + this.getVisibleRowsCount() - 1;
         int n2 = n > this.list.size() ? this.list.size() + this.getVisibleRowsCount() - n - 1 : (n == this.list.size() ? n - this.listCursor : this.getVisibleRowsCount());
-        this.lc.log(-2137614336, "(%2) AbstractListModel.getRowsAvailable( CONTEXT_CURRENT ) = %1 ", (long)n2, (long)this.id);
+        this.lc.log(10000000, "(%2) AbstractListModel.getRowsAvailable( CONTEXT_CURRENT ) = %1 ", (long)n2, (long)this.id);
         return n2;
     }
 
@@ -728,12 +693,10 @@ implements SlidingListModelGUI {
         this.listLength = n;
     }
 
-    @Override
     public int getListLength() {
         return this.listLength;
     }
 
-    @Override
     public int getLineNumber() {
         return this.lineNumber;
     }

@@ -94,7 +94,7 @@ public class DataBrowserListLocator {
                 return "CATEGORY_RADIO";
             }
         }
-        return new StringBuffer().append("UNKNOWN (").append(n).append(")").toString();
+        return "UNKNOWN (" + n + ")";
     }
 
     protected static String pathType2Str(int n) {
@@ -109,7 +109,7 @@ public class DataBrowserListLocator {
                 return "PATHTYPE_BROWSER_SEARCH";
             }
         }
-        return new StringBuffer().append("UNKNOWN(").append(n).append(")").toString();
+        return "UNKNOWN(" + n + ")";
     }
 
     public String toString() {

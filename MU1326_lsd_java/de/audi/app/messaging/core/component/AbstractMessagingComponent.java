@@ -28,28 +28,23 @@ implements IMessagingComponent {
         this.log = this.framework.getLogChannel(string);
     }
 
-    @Override
     public final void addComponent(IMessagingComponent iMessagingComponent) {
         this.subcomponents.add(iMessagingComponent);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         this.msgApp = abstractMsgApplication;
         this.subcomponents.initAll(abstractMsgApplication);
     }
 
-    @Override
     public void dispose() {
         this.subcomponents.disposeAll();
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         this.subcomponents.connectAll(iServiceRegistry);
     }
 
-    @Override
     public void disconnect() {
         this.subcomponents.disconnectAll();
     }

@@ -11,15 +11,14 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class VideoStreamCombiAdapter
 extends AbstractCombiBAPContentAdapter {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "VideoStreamCombiAdapter";
 
     public VideoStreamCombiAdapter(LogChannel logChannel) {
         super(logChannel);
     }
 
-    @Override
     public void activate(IContent iContent, ICombiBAPContentAccessor iCombiBAPContentAccessor) {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"VideoStreamCombiAdapter");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         super.activate(iContent, iCombiBAPContentAccessor);
         this.getCombiAccessor().updateListState(false, 4);
         this.getCombiAccessor().contentAdapterStartupFinished();
@@ -27,7 +26,7 @@ extends AbstractCombiBAPContentAdapter {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("VideoStreamCombiAdapter").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 }

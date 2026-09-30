@@ -17,26 +17,22 @@ public final class BAPActivatorENI
 extends AbstractBAPActivator {
     private AbstractBAPModuleASG eniModule;
 
-    @Override
     protected String getApplicationName() {
         return "AppBapENI";
     }
 
-    @Override
     protected AbstractBAPApplication createApplication(IFrameworkAccess iFrameworkAccess) {
         return new BAPApplicationENI(iFrameworkAccess);
     }
 
-    @Override
     protected AbstractBAPModule[] createModules(AbstractBAPApplication abstractBAPApplication) {
-        this.logChannel.log(-2137614336, "[BAPActivatorENI#createModules] application: %1", (Object)abstractBAPApplication);
+        this.logChannel.log(10000000, "[BAPActivatorENI#createModules] application: %1", (Object)abstractBAPApplication);
         this.eniModule = new BAPModuleENI(abstractBAPApplication);
         return new AbstractBAPModule[]{this.eniModule};
     }
 
-    @Override
     protected AbstractSwDiagnosis createDiagnosis(AbstractBAPApplication abstractBAPApplication) {
-        this.logChannel.log(-2137614336, "[BAPActivatorENI#createDiagnosis] application: %1", (Object)abstractBAPApplication);
+        this.logChannel.log(10000000, "[BAPActivatorENI#createDiagnosis] application: %1", (Object)abstractBAPApplication);
         return new BAPDiagnosisConnectorENI(abstractBAPApplication, this.eniModule);
     }
 }

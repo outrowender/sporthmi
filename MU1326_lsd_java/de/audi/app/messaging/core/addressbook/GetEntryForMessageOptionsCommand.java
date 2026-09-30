@@ -5,7 +5,6 @@ package de.audi.app.messaging.core.addressbook;
 
 import de.audi.app.addressbook.core.common.ADBDbgUtils;
 import de.audi.app.addressbook.core.common.commands.AbstractADBCommand;
-import de.audi.app.messaging.core.addressbook.GetEntryForMessageOptionsCommand$1;
 import de.audi.app.messaging.core.addressbook.MessagingAdbHandler;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.atip.hmi.modelaccess.HMIModelApp;
@@ -27,9 +26,8 @@ extends AbstractADBCommand {
         this.entryId = l;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "GetEntryForMessageOptionsCommand#execute()");
+        this.logger.log(1000000, "GetEntryForMessageOptionsCommand#execute()");
         boolean bl = this.adbDSIAccess.getEntries(new long[]{this.entryId}, 0, 0);
         if (!bl) {
             this.logger.log(10000, "GetEntryForMessageOptionsCommand#execute(): dsi call was not successful, finishing command.");
@@ -37,9 +35,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(1078071040, "GetEntryForMessageOptionsCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "GetEntryForMessageOptionsCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.signalResult(n, adbEntryArray);
     }
 
@@ -57,10 +54,10 @@ extends AbstractADBCommand {
      */
     private void signalResult(int n, AdbEntry[] adbEntryArray) {
         try {
-            this.logger.log(-2137614336, "[GetEntryForMessageOptionsCommand#signalResult] success = %1", (long)n);
+            this.logger.log(10000000, "[GetEntryForMessageOptionsCommand#signalResult] success = %1", (long)n);
             if (n == 0) {
                 if (adbEntryArray.length == 1) {
-                    this.logger.log(-2137614336, "GetEntryForMessageOptionsCommand#signalResult(): got entry: %1", (Object)ADBDbgUtils.dbg(adbEntryArray[0]));
+                    this.logger.log(10000000, "GetEntryForMessageOptionsCommand#signalResult(): got entry: %1", (Object)ADBDbgUtils.dbg(adbEntryArray[0]));
                     this.adbHandler.getModelUpdater().updateMessageOptions(adbEntryArray[0]);
                     this.syncModel.setStatus(1);
                 } else {
@@ -77,7 +74,13 @@ extends AbstractADBCommand {
     }
 
     protected Command getErrorCommand() {
-        return new GetEntryForMessageOptionsCommand$1(this, this.adbHandler);
+        return new AbstractADBCommand(this.adbHandler){
+
+            public void execute() {
+                this.logger.log(10000000, "[GetEntryForMessageOptionsCommand#execute]");
+                GetEntryForMessageOptionsCommand.this.signalResult(1, null);
+            }
+        };
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -87,10 +90,6 @@ extends AbstractADBCommand {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ void access$000(GetEntryForMessageOptionsCommand getEntryForMessageOptionsCommand, int n, AdbEntry[] adbEntryArray) {
-        getEntryForMessageOptionsCommand.signalResult(n, adbEntryArray);
     }
 }
 

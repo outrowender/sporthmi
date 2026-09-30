@@ -14,17 +14,15 @@ implements AsiaDBPartialMapUpdateModelAccess {
         this.env = navigationEnv;
     }
 
-    @Override
     public void onUpdateMapIntegrationState(int n) {
         if (2 == n) {
-            this.env.getLogChannel().log(-2137614336, "AsiaDBPartialMapUpdateModelAccessEvo#onUpdateMapIntegrationState State is MAPINTEGRATIONSTATE_FINISHED = 2, show popup.");
-            this.env.getHMIService().showPopup(-1894119936);
+            this.env.getLogChannel().log(10000000, "AsiaDBPartialMapUpdateModelAccessEvo#onUpdateMapIntegrationState State is MAPINTEGRATIONSTATE_FINISHED = 2, show popup.");
+            this.env.getHMIService().showPopup(400015);
         }
     }
 
-    @Override
     public void setCurrentDatabaseVersionLabel(String string) {
-        this.env.getLabelModel(857802240).setText(string);
+        this.env.getLabelModel(401715).setText(string);
     }
 }
 

@@ -9,12 +9,8 @@ import de.audi.app.phone.core.ITelComponent;
 import de.audi.app.phone.core.audio.ITelAudio;
 import de.audi.app.phone.core.audio.TelAudioCmdManager;
 import de.audi.app.phone.core.audio.TelAudioMobileSpeechRecognitionListener;
-import de.audi.app.phone.core.audio.TelAudioScenarioHandler$AudioServiceListener;
-import de.audi.app.phone.core.audio.TelAudioScenarioHandler$FactoryResetHandler;
-import de.audi.app.phone.core.audio.TelAudioScenarioHandler$MicMuteChoiceListener;
-import de.audi.app.phone.core.audio.TelAudioScenarioHandler$RingtoneMuteChoiceListener;
-import de.audi.app.phone.core.audio.TelAudioScenarioHandler$ToggleMicMuteButtonListner;
 import de.audi.app.phone.core.audio.TelAutomaticAudioTransferHandler;
+import de.audi.app.phone.core.audio.TelDefaultHMIAudioServiceListener;
 import de.audi.app.phone.core.audio.TelMicrophoneGainLevelHandler;
 import de.audi.app.phone.core.audio.TelRingtoneManager;
 import de.audi.app.phone.core.audio.TelSDSHandler;
@@ -22,6 +18,9 @@ import de.audi.app.phone.core.audio.TelWidebandSpeechHandler;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
 import de.audi.app.phone.core.interapp.TelMuteMicServiceImpl;
 import de.audi.app.phone.core.interapp.TelServiceAudioImpl;
+import de.audi.app.phone.core.model.TelDefaultButtonListener;
+import de.audi.app.phone.core.model.TelDefaultChoiceListener;
+import de.audi.app.phone.core.msg.AbstractTelMessageListener;
 import de.audi.app.phone.core.state.CallStateStruct;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 
@@ -35,9 +34,9 @@ implements ITelAudio {
     private final TelRingtoneManager ringtoneManager;
     protected volatile boolean ringtoneMuteSettingOn;
     private volatile TelSDSHandler telSDSHandler;
-    private TelAudioScenarioHandler$ToggleMicMuteButtonListner toggleMicMuteButtonListener;
-    private TelAudioScenarioHandler$MicMuteChoiceListener micMuteChoiceListener;
-    private TelAudioScenarioHandler$RingtoneMuteChoiceListener ringtoneMuteChoiceListener;
+    private ToggleMicMuteButtonListner toggleMicMuteButtonListener;
+    private MicMuteChoiceListener micMuteChoiceListener;
+    private RingtoneMuteChoiceListener ringtoneMuteChoiceListener;
     private final TelWidebandSpeechHandler widebandSpeechHandler;
     private volatile boolean amAvailable;
     private boolean initialCallLeadingWBSUpdateReceived = false;
@@ -50,13 +49,13 @@ implements ITelAudio {
         super(iTelApplication, "App.Phone.Audio");
         this.addSubPhoneComponent(new TelServiceAudioImpl(iTelApplication));
         this.addSubPhoneComponent(this.createTelMicrophoneGainLevelHandler(iTelApplication));
-        this.addSubPhoneComponent(new TelAudioScenarioHandler$AudioServiceListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelAudioScenarioHandler$FactoryResetHandler(this, iTelApplication));
-        this.toggleMicMuteButtonListener = new TelAudioScenarioHandler$ToggleMicMuteButtonListner(this, iTelApplication);
+        this.addSubPhoneComponent(new AudioServiceListener(iTelApplication));
+        this.addSubPhoneComponent(new FactoryResetHandler(iTelApplication));
+        this.toggleMicMuteButtonListener = new ToggleMicMuteButtonListner(iTelApplication);
         this.addSubPhoneComponent(this.toggleMicMuteButtonListener);
-        this.micMuteChoiceListener = new TelAudioScenarioHandler$MicMuteChoiceListener(this, iTelApplication);
+        this.micMuteChoiceListener = new MicMuteChoiceListener(iTelApplication);
         this.addSubPhoneComponent(this.micMuteChoiceListener);
-        this.ringtoneMuteChoiceListener = new TelAudioScenarioHandler$RingtoneMuteChoiceListener(this, iTelApplication);
+        this.ringtoneMuteChoiceListener = new RingtoneMuteChoiceListener(iTelApplication);
         this.addSubPhoneComponent(this.ringtoneMuteChoiceListener);
         this.addSubPhoneComponent(new TelAutomaticAudioTransferHandler(iTelApplication));
         this.telSDSHandler = new TelSDSHandler(iTelApplication);
@@ -76,17 +75,15 @@ implements ITelAudio {
         return new TelMicrophoneGainLevelHandler(iTelApplication);
     }
 
-    @Override
     public void init() {
         long l = this.getApplication().getFrameworkAccess().getMonotonicTime();
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
         this.cmdManager.init();
         this.ringtoneManager.init();
-        this.getApplication().getStartupLogChannel().log(1078071040, "[TelAudioScenarioHandler#init] done in %1 ms", this.getApplication().getFrameworkAccess().getMonotonicTime() - l);
+        this.getApplication().getStartupLogChannel().log(1000000, "[TelAudioScenarioHandler#init] done in %1 ms", this.getApplication().getFrameworkAccess().getMonotonicTime() - l);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
@@ -95,33 +92,32 @@ implements ITelAudio {
         this.initialCallLeadingWBSUpdateReceived = false;
     }
 
-    TelAudioScenarioHandler$ToggleMicMuteButtonListner getToggleMicMuteButtonListener() {
+    ToggleMicMuteButtonListner getToggleMicMuteButtonListener() {
         return this.toggleMicMuteButtonListener;
     }
 
-    TelAudioScenarioHandler$RingtoneMuteChoiceListener getRingtoneMuteChoiceListener() {
+    RingtoneMuteChoiceListener getRingtoneMuteChoiceListener() {
         return this.ringtoneMuteChoiceListener;
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;
-        if (n == 0x8000100 || n == 0xE000100 || n == 0x11000100 || n == 0x8000200 || n == 0xE000200 || n == 0x11000200 || n == 0x8000300 || n == 0xE000300 || n == 0x11000300 || n == 0x20000100 || n == 0x20000200 || n == 0x20000300) {
+        if (n == 65544 || n == 65550 || n == 65553 || n == 131080 || n == 131086 || n == 131089 || n == 196616 || n == 196622 || n == 196625 || n == 65568 || n == 131104 || n == 196640) {
             this.updateAudioScenario(iGlobalTelephoneStateStruct);
         }
     }
 
     private boolean initialCallLeadingWBSUpdateReceived(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct, int n) {
-        boolean bl = iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null && iGlobalTelephoneStateStruct.getCallLeadingDevice().isRolePrimary() && n == 0x20000100;
-        boolean bl2 = iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null && iGlobalTelephoneStateStruct.getCallLeadingDevice().isRoleAssociated() && n == 0x20000200;
-        boolean bl3 = iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null && iGlobalTelephoneStateStruct.getCallLeadingDevice().isRoleData() && n == 0x20000300;
+        boolean bl = iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null && iGlobalTelephoneStateStruct.getCallLeadingDevice().isRolePrimary() && n == 65568;
+        boolean bl2 = iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null && iGlobalTelephoneStateStruct.getCallLeadingDevice().isRoleAssociated() && n == 131104;
+        boolean bl3 = iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null && iGlobalTelephoneStateStruct.getCallLeadingDevice().isRoleData() && n == 196640;
         this.initialCallLeadingWBSUpdateReceived = bl || bl2 || bl3;
         return this.initialCallLeadingWBSUpdateReceived;
     }
 
     private synchronized boolean processWidebandSpeech(ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState, boolean bl) {
         if (iTelDSIMobileEquipmentDeviceState == null) {
-            this.log.log(-2137614336, "[TelAudioScenarioHandler#processWidebandSpeech] callLeadingDeviceState is null --> NOP!");
+            this.log.log(10000000, "[TelAudioScenarioHandler#processWidebandSpeech] callLeadingDeviceState is null --> NOP!");
             return false;
         }
         boolean bl2 = iTelDSIMobileEquipmentDeviceState.getCallState() != null ? iTelDSIMobileEquipmentDeviceState.getCallState().isIdle() : true;
@@ -135,12 +131,12 @@ implements ITelAudio {
         }
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = iGlobalTelephoneStateStruct.getCallLeadingDevice();
         if (iTelDSIMobileEquipmentDeviceState == null) {
-            this.log.log(-2137614336, "[TelAudioScenarioHandler#updateAudioScenario] callLeadingDevice is null --> NOP!");
+            this.log.log(10000000, "[TelAudioScenarioHandler#updateAudioScenario] callLeadingDevice is null --> NOP!");
             return;
         }
         CallStateStruct callStateStruct = iTelDSIMobileEquipmentDeviceState.getCallState();
         if (callStateStruct == null) {
-            this.log.log(-1601830656, "[TelAudioScenarioHandler#updateAudioScenario] call state is null --> NOP!");
+            this.log.log(100000, "[TelAudioScenarioHandler#updateAudioScenario] call state is null --> NOP!");
             return;
         }
         int n = iTelDSIMobileEquipmentDeviceState.getHandsFreeMode();
@@ -155,7 +151,7 @@ implements ITelAudio {
 
     private int determineNewAudioScenario(int n, CallStateStruct callStateStruct, int n2, int n3, int n4, boolean bl) {
         if (callStateStruct == null) {
-            this.log.log(1078071040, "[TelAudioScenarioHandler#determineNewAudioScenario] call state is null --> returning currentAudioScenario %1", (long)n);
+            this.log.log(1000000, "[TelAudioScenarioHandler#determineNewAudioScenario] call state is null --> returning currentAudioScenario %1", (long)n);
             return n;
         }
         int n5 = n;
@@ -165,12 +161,12 @@ implements ITelAudio {
         } else if (n6 == 15) {
             n5 = this.computeNewAudioScenarioForCallStateRinging(n, n2, bl, n5);
         } else if (n6 == 3 && this.getCurrentAudioScenario() == 5) {
-            this.log.log(-2137614336, "TelAudioScenarioHandler#determineNewAudioScenario(): Disconnecting and RINGING_MUTE");
+            this.log.log(10000000, "TelAudioScenarioHandler#determineNewAudioScenario(): Disconnecting and RINGING_MUTE");
             n5 = n;
         } else {
             n5 = this.computeNewAudioScenarioForCallStaleActive(n, callStateStruct, n2, n3, n4);
         }
-        this.log.log(1078071040, "[TelAudioScenarioHandler#determineNewAudioScenario] returning current audio scenario %1", (long)n);
+        this.log.log(1000000, "[TelAudioScenarioHandler#determineNewAudioScenario] returning current audio scenario %1", (long)n);
         return n5;
     }
 
@@ -196,7 +192,7 @@ implements ITelAudio {
                     break;
                 }
                 default: {
-                    this.log.log(1078071040, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStaleActive] invalid hansfreemode for sim usage %1", (long)n2);
+                    this.log.log(1000000, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStaleActive] invalid hansfreemode for sim usage %1", (long)n2);
                     n5 = n;
                     break;
                 }
@@ -212,7 +208,7 @@ implements ITelAudio {
                     break;
                 }
                 default: {
-                    this.log.log(1078071040, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStaleActive] invalid hansfreemode for HFP usage %1", (long)n2);
+                    this.log.log(1000000, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStaleActive] invalid hansfreemode for HFP usage %1", (long)n2);
                     n5 = n;
                 }
             }
@@ -222,10 +218,10 @@ implements ITelAudio {
 
     private int computeNewAudioScenarioForCallStateRinging(int n, int n2, boolean bl, int n3) {
         if (this.ringtoneMuteSettingOn) {
-            this.log.log(-2137614336, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStateRinging] ringtone mute setting is on");
+            this.log.log(10000000, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStateRinging] ringtone mute setting is on");
             n3 = 5;
         } else if (n == 5) {
-            this.log.log(-2137614336, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStateRinging] ringtone mute was activated by user.");
+            this.log.log(10000000, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStateRinging] ringtone mute was activated by user.");
             n3 = 5;
         } else if (bl) {
             switch (n2) {
@@ -238,7 +234,7 @@ implements ITelAudio {
                     break;
                 }
                 default: {
-                    this.log.log(-1601830656, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStateRinging] unsupported handsfree mode %1 with inband ringing", (long)n2);
+                    this.log.log(100000, "[TelAudioScenarioHandler#computeNewAudioScenarioForCallStateRinging] unsupported handsfree mode %1 with inband ringing", (long)n2);
                     break;
                 }
             }
@@ -250,7 +246,7 @@ implements ITelAudio {
 
     boolean isOperatorOrEmergencyCallPerNadModule(CallStateStruct callStateStruct) {
         if (callStateStruct == null) {
-            this.log.log(-1601830656, "TelAudioScenarioHandler#isOperatorCallPerNadModule(): callState is NULL");
+            this.log.log(100000, "TelAudioScenarioHandler#isOperatorCallPerNadModule(): callState is NULL");
             return false;
         }
         return (callStateStruct.isHasOperatorCall() || callStateStruct.isHasEmergencyCall()) && this.isCurrentCountryUseNADForOperatorOrEmergencyCall();
@@ -264,13 +260,13 @@ implements ITelAudio {
         int n;
         int n2;
         if (!this.isAmAvailable()) {
-            this.log.log(-1601830656, "[TelAudioScenarioHandler#triggerAudioScenario] AudioManagement not available --> NOP!");
+            this.log.log(100000, "[TelAudioScenarioHandler#triggerAudioScenario] AudioManagement not available --> NOP!");
             return;
         }
         boolean bl2 = false;
         if (this.telephoneState != null && this.telephoneState.getCallLeadingDevice() != null) {
             bl2 = this.processWidebandSpeech(this.telephoneState.getCallLeadingDevice(), bl);
-            this.log.log(1078071040, "[TelAudioScenarioHandler#triggerAudioScenario] widebandSpeechActivated=%1", bl2);
+            this.log.log(1000000, "[TelAudioScenarioHandler#triggerAudioScenario] widebandSpeechActivated=%1", bl2);
         }
         if ((n2 = this.currentAudioScenario) != (n = this.previousAudioScenario) || bl || bl2) {
             if (n == 5 && n2 != 5) {
@@ -280,7 +276,7 @@ implements ITelAudio {
             } else if (n == 4 && n2 != 4) {
                 this.ringtoneManager.abortMediaRinging();
             }
-            this.log.log(-2137614336, "[TelAudioScenarioHandler#triggerAudioScenario] audioScenario=%1", (long)n2);
+            this.log.log(10000000, "[TelAudioScenarioHandler#triggerAudioScenario] audioScenario=%1", (long)n2);
             this.ringtoneManager.checkAbortRingtoneListPlayback();
             if (n2 == 3) {
                 this.ringtoneManager.startOutbandRinging(this.getCallLeadingDeviceRole());
@@ -296,7 +292,7 @@ implements ITelAudio {
                 this.cmdManager.scheduleAudioScenario(n2);
             }
         } else {
-            this.log.log(-2137614336, "[TelAudioScenarioHandler#triggerAudioScenario] audioScenario has not changed --> NOP! audioScenario: %1", (long)n2);
+            this.log.log(10000000, "[TelAudioScenarioHandler#triggerAudioScenario] audioScenario has not changed --> NOP! audioScenario: %1", (long)n2);
         }
     }
 
@@ -304,10 +300,9 @@ implements ITelAudio {
         if (this.telephoneState != null && this.telephoneState.getCallLeadingDevice() != null) {
             return this.telephoneState.getCallLeadingDevice().getDeviceRole();
         }
-        return 256;
+        return 65536;
     }
 
-    @Override
     public void muteRingtone(boolean bl) {
         if (bl) {
             if (this.getCurrentAudioScenario() == 3) {
@@ -319,13 +314,13 @@ implements ITelAudio {
             if (this.isAmAvailable()) {
                 this.cmdManager.scheduleRingtoneMute(true);
             } else {
-                this.log.log(-1601830656, "[TelAudioScenarioHandler#muteRingtone] ringToneMuted=%1, AudioManagement not available", bl);
+                this.log.log(100000, "[TelAudioScenarioHandler#muteRingtone] ringToneMuted=%1, AudioManagement not available", bl);
             }
         } else {
             if (this.isAmAvailable()) {
                 this.cmdManager.scheduleRingtoneMute(false);
             } else {
-                this.log.log(-1601830656, "[TelAudioScenarioHandler#muteRingtone] ringToneMuted=%1, AudioManagement not available", bl);
+                this.log.log(100000, "[TelAudioScenarioHandler#muteRingtone] ringToneMuted=%1, AudioManagement not available", bl);
             }
             this.updateAudioScenario(this.telephoneState);
         }
@@ -333,13 +328,13 @@ implements ITelAudio {
 
     protected void ringtoneMuteSettingDisabled() {
         this.ringtoneMuteSettingOn = false;
-        this.getChoiceModel(-1483406336).setValue(0);
+        this.getChoiceModel(300455).setValue(0);
         this.getApplication().getGlobalTelephoneStateManager().updateRingtoneMuteSetting(false);
     }
 
     protected void ringtoneMuteSettingEnabled() {
         this.ringtoneMuteSettingOn = true;
-        this.getChoiceModel(-1483406336).setValue(1);
+        this.getChoiceModel(300455).setValue(1);
         this.getApplication().getGlobalTelephoneStateManager().updateRingtoneMuteSetting(true);
     }
 
@@ -359,17 +354,14 @@ implements ITelAudio {
         return this.ringtoneManager;
     }
 
-    @Override
     public void switchMicMuteOff(int n) {
         this.getApplication().getTelephoneDSIAccess().requestSetMICMuteState(1, n);
     }
 
-    @Override
     public void switchMicMuteOn(int n) {
         this.getApplication().getTelephoneDSIAccess().requestSetMICMuteState(0, n);
     }
 
-    @Override
     public void toggelMicMuteState(int n) {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.telephoneState;
         if (iGlobalTelephoneStateStruct != null) {
@@ -387,12 +379,78 @@ implements ITelAudio {
         this.widebandSpeechHandler.setAMAvailable(bl);
     }
 
-    static /* synthetic */ int access$000(TelAudioScenarioHandler telAudioScenarioHandler) {
-        return telAudioScenarioHandler.currentAudioScenario;
+    private class FactoryResetHandler
+    extends AbstractTelMessageListener {
+        public FactoryResetHandler(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 28);
+        }
+
+        protected void messageReceived() {
+            this.log.log(1000000, "TelAudioScenarioHandler.FactoryResetHandler#messageRecieved(): called");
+            TelAudioScenarioHandler.this.ringtoneMuteSettingDisabled();
+        }
     }
 
-    static /* synthetic */ void access$100(TelAudioScenarioHandler telAudioScenarioHandler, boolean bl) {
-        telAudioScenarioHandler.triggerAudioScenario(bl);
+    private class AudioServiceListener
+    extends TelDefaultHMIAudioServiceListener {
+        public AudioServiceListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Audio");
+        }
+
+        public void updateAMAvailable(boolean bl) {
+            this.log.log(1000000, "[TelAudioScenarioHandler.AudioServiceListener#updateAMAvailable] currentAudioScenario=%2, available=%1", bl, (long)TelAudioScenarioHandler.this.currentAudioScenario);
+            boolean bl2 = !TelAudioScenarioHandler.this.isAmAvailable() && bl && TelAudioScenarioHandler.this.currentAudioScenario != 0;
+            TelAudioScenarioHandler.this.setAmAvailable(bl);
+            if (bl2) {
+                TelAudioScenarioHandler.this.triggerAudioScenario(true);
+            }
+        }
+    }
+
+    class MicMuteChoiceListener
+    extends TelDefaultChoiceListener {
+        public MicMuteChoiceListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 4346);
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            this.log.log(10000000, "[MicMuteChoiceListener#itemSelected] modelID=%1, itemID=%2, column=%3", (long)n, (long)n2, (long)n3);
+            if (n == 4346) {
+                TelAudioScenarioHandler.this.toggelMicMuteState(n4);
+            }
+        }
+    }
+
+    class RingtoneMuteChoiceListener
+    extends TelDefaultChoiceListener {
+        public RingtoneMuteChoiceListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 300455);
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            this.log.log(10000000, "[RingtoneMuteChoiceListener#itemSelected] modelID=%1, itemID=%2, column=%3", (long)n, (long)n2, (long)n3);
+            if (n == 300455) {
+                if (n2 == 1) {
+                    TelAudioScenarioHandler.this.ringtoneMuteSettingEnabled();
+                } else {
+                    TelAudioScenarioHandler.this.ringtoneMuteSettingDisabled();
+                }
+            }
+        }
+    }
+
+    class ToggleMicMuteButtonListner
+    extends TelDefaultButtonListener {
+        public ToggleMicMuteButtonListner(ITelApplication iTelApplication) {
+            super(iTelApplication, 301228);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[ToggleMicMuteButtonListner#keyTyped] modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
+            if (n == 301228) {
+                TelAudioScenarioHandler.this.toggelMicMuteState(n3);
+            }
+        }
     }
 }
 

@@ -25,8 +25,8 @@ import org.dsi.ifc.online.OperatorCallResult;
 public class DetailsHMIListenerAsia
 extends DetailsHMIListener
 implements ILocationDisambiguationCallback {
-    private static final int DISABLE_POI_BROWSER;
-    private static final int ENABLE_POI_BROWSER;
+    private static final int DISABLE_POI_BROWSER = 0;
+    private static final int ENABLE_POI_BROWSER = 1;
     private final ILocationDisambiguatorSequence locationDisambiguatorSequence;
     private final ILocationDisambiguatorPopupHandler locationDisambiguator;
 
@@ -36,48 +36,45 @@ implements ILocationDisambiguationCallback {
         this.locationDisambiguator = iLocationDisambiguatorPopupHandler;
     }
 
-    @Override
     public void enterDetailsScreen(NavLocation navLocation) {
         super.enterDetailsScreen(navLocation);
-        this.env.getChoiceModel(-668989952).setValue(this.isPoiBrowserAvailable(navLocation));
+        this.env.getChoiceModel(401624).setValue(this.isPoiBrowserAvailable(navLocation));
     }
 
     private int isPoiBrowserAvailable(NavLocation navLocation) {
         String string = LocationFormatter.getURLAddress(navLocation);
         if (!Util.isEmpty(string)) {
-            this.logChannel.log(-2137614336, "%1#isPoiBrowserAvailable - url found (%2)", (Object)this.CLASS_NAME, (Object)string);
+            this.logChannel.log(10000000, "%1#isPoiBrowserAvailable - url found (%2)", (Object)this.CLASS_NAME, (Object)string);
             return 1;
         }
         return 0;
     }
 
-    @Override
     public void enterDetailsScreenOperatorCall(OperatorCallResult operatorCallResult) {
-        this.logChannel.log(-2137614336, "%1#enterDetailsScreenOperatorCall", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#enterDetailsScreenOperatorCall", (Object)this.CLASS_NAME);
         super.enterDetailsScreenOperatorCall(operatorCallResult);
         String string = operatorCallResult.getAddress().getUrl();
         if (!Util.isEmpty(string)) {
-            this.logChannel.log(-2137614336, "%1#enterDetailsScreenOperatorCall - url found (%2), enabling browser", (Object)this.CLASS_NAME, (Object)string);
-            this.env.getChoiceModel(-668989952).setValue(1);
+            this.logChannel.log(10000000, "%1#enterDetailsScreenOperatorCall - url found (%2), enabling browser", (Object)this.CLASS_NAME, (Object)string);
+            this.env.getChoiceModel(401624).setValue(1);
         } else {
-            this.logChannel.log(-2137614336, "%1#enterDetailsScreenOperatorCall - no url found, disabling browser.", (Object)this.CLASS_NAME);
-            this.env.getChoiceModel(-668989952).setValue(0);
+            this.logChannel.log(10000000, "%1#enterDetailsScreenOperatorCall - no url found, disabling browser.", (Object)this.CLASS_NAME);
+            this.env.getChoiceModel(401624).setValue(0);
         }
         GuiModelAccessDetailsLocationPoi guiModelAccessDetailsLocationPoi = new GuiModelAccessDetailsLocationPoi(this.env, this.iconHandler, this.detailsHandler);
         guiModelAccessDetailsLocationPoi.onUpdateLocation(operatorCallResult);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#keyTyped - modelId: %2, keyId: %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#keyTyped - modelId: %2, keyId: %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         this.resetPreviousLocation();
-        if (n == -2128673280) {
+        if (n == 401281) {
             NavLocation navLocation = this.detailsHandler.getLocation();
             this.locationDisambiguatorSequence.startDisambiguationForNavLocation(navLocation, this, 0, n, n3);
-        } else if (n == -618658304) {
+        } else if (n == 401627) {
             this.env.fireModelEvent(n, n3);
             String string = LocationFormatter.getURLAddress(this.detailsHandler.getLocation());
-            this.logChannel.log(-2137614336, "%1#keyTyped(NAV_MAP_SHOW_DETAILS_ONLINE_POI_ADDITIONAL_INFO_BUTTON) - loading URL: '%2' ", (Object)this.CLASS_NAME, (Object)string);
+            this.logChannel.log(10000000, "%1#keyTyped(NAV_MAP_SHOW_DETAILS_ONLINE_POI_ADDITIONAL_INFO_BUTTON) - loading URL: '%2' ", (Object)this.CLASS_NAME, (Object)string);
             boolean bl = this.navigationBrowser.loadURL(2, string, true);
             if (!bl) {
                 this.logChannel.log(10000, "%1#keyTyped(NAV_MAP_SHOW_DETAILS_ONLINE_POI_ADDITIONAL_INFO_BUTTON) - failed to load url: '%2' ", (Object)this.CLASS_NAME, (Object)string);
@@ -87,7 +84,6 @@ implements ILocationDisambiguationCallback {
         }
     }
 
-    @Override
     public void locationDisambiguationCallback(LocationDisambiguationWrapper locationDisambiguationWrapper) {
         this.locationDisambiguator.startPopupHandling(locationDisambiguationWrapper);
     }

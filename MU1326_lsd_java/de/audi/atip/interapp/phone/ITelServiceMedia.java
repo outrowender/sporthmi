@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.phone;
 
 public interface ITelServiceMedia {
-    default public void setUserDefinedRingtone(String string, String string2) {
-    }
+    public void setUserDefinedRingtone(String var1, String var2);
 
-    default public void resetUserDefinedRingtone() {
-    }
+    public void resetUserDefinedRingtone();
 }
 

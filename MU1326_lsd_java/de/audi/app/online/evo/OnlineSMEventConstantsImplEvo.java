@@ -14,9 +14,8 @@ implements IOnlineTextConstants {
         this.logChannel = logChannel;
     }
 
-    @Override
     public int mapToVariant(int n) {
-        this.logChannel.log(-1601830656, "OnlineSMEventConstantsImplEvo#mapToVariant: not implemented! Returns always -1");
+        this.logChannel.log(100000, "OnlineSMEventConstantsImplEvo#mapToVariant: not implemented! Returns always -1");
         return -1;
     }
 }

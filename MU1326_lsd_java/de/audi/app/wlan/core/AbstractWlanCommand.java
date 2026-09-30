@@ -36,87 +36,66 @@ implements DSIWLANListener {
         this.dsiWlan = dSIWLAN;
     }
 
-    @Override
     public void responseAbortSearch(int n) {
     }
 
-    @Override
     public void responseConnectNetwork(String string, String string2, int n) {
     }
 
-    @Override
     public void responseDeleteTrustedNetwork(String string, String string2, int n) {
     }
 
-    @Override
     public void responseDisconnectNetwork(String string, String string2, int n) {
     }
 
-    @Override
     public void responseFactoryReset(int n) {
     }
 
-    @Override
     public void responseNetworkSearch(int n, int n2) {
     }
 
-    @Override
     public void responseSetProfile(int n) {
     }
 
-    @Override
     public void responseSetRFActive(int n) {
     }
 
-    @Override
     public void responseSetRole(int n) {
     }
 
-    @Override
     public void responseActivateWps(int n) {
     }
 
-    @Override
     public void updateConnectedNetwork(String string, String string2, int n, int n2) {
     }
 
-    @Override
     public void updateDiscoveredNetwork(DiscoveredNetwork discoveredNetwork, int n) {
     }
 
-    @Override
     public void updateNodeList(Node[] nodeArray, int n) {
     }
 
-    @Override
     public void updateProfile(Profile profile, int n) {
     }
 
-    @Override
     public void updateRFActive(int n, int n2) {
     }
 
-    @Override
     public void updateRole(int n, int n2) {
     }
 
-    @Override
     public void updateStartupState(int n, int n2) {
     }
 
-    @Override
     public void updateTrustedNetworks(String[] stringArray, String[] stringArray2, int[] nArray, int n) {
     }
 
-    @Override
     public void updateWlanEnabled(boolean bl, int n) {
     }
 
-    @Override
     public void updateWPSRunning(int n, int n2) {
     }
 
-    @Override
     public void updateWPSStoppedAndConnecting(String string, String string2, int n) {
     }
 }

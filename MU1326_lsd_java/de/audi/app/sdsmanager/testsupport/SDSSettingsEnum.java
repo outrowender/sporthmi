@@ -17,7 +17,7 @@ import java.util.Set;
 public final class SDSSettingsEnum {
     public static final SDSSettingsEnum VBI = new SDSSettingsEnum("Voice Barge-In (VBI)", SDSModelAccess.isVoiceBargeInActive());
     public static final SDSSettingsEnum NLU = new SDSSettingsEnum("Nat. Lang. Understanding (NLU/SLM)", SDSModelAccess.getNLUActiveModelValue());
-    private static final String BASE_NAME;
+    private static final String BASE_NAME = "SDSSetting-";
     private static Map indexToEnumMap;
     private final String name;
     private volatile boolean activationStatus;
@@ -63,7 +63,7 @@ public final class SDSSettingsEnum {
             while (iterator.hasNext()) {
                 ISDSSettingEnumStateListener iSDSSettingEnumStateListener = (ISDSSettingEnumStateListener)iterator.next();
                 if (iSDSSettingEnumStateListener == null) {
-                    LC.log(-1601830656, "SDSSettingsEnum#updateSDSSettingStateListeners: Listener is null => NOP!");
+                    LC.log(100000, "SDSSettingsEnum#updateSDSSettingStateListeners: Listener is null => NOP!");
                     continue;
                 }
                 iSDSSettingEnumStateListener.updateSDSSettingsEnumState(this);
@@ -85,9 +85,9 @@ public final class SDSSettingsEnum {
             bl = this.sdsSettingStateListeners.add(iSDSSettingEnumStateListener);
         }
         if (bl) {
-            LC.log(-2137614336, "SDSSettingsEnum#registerSDSSettingStateListener: Listener %1 added!", (Object)super.getClass().getName());
+            LC.log(10000000, "SDSSettingsEnum#registerSDSSettingStateListener: Listener %1 added!", (Object)iSDSSettingEnumStateListener.getClass().getName());
         } else {
-            LC.log(-1601830656, "SDSSettingsEnum#registerSDSSettingStateListener: Listener %1 already contained!", (Object)super.getClass().getName());
+            LC.log(100000, "SDSSettingsEnum#registerSDSSettingStateListener: Listener %1 already contained!", (Object)iSDSSettingEnumStateListener.getClass().getName());
         }
         return bl;
     }
@@ -106,9 +106,9 @@ public final class SDSSettingsEnum {
             bl = this.sdsSettingStateListeners.remove(iSDSSettingEnumStateListener);
         }
         if (bl) {
-            LC.log(-2137614336, "SDSSettingsEnum#unregisterSDSSettingStateListener: Listener %1 removed!", (Object)super.getClass().getName());
+            LC.log(10000000, "SDSSettingsEnum#unregisterSDSSettingStateListener: Listener %1 removed!", (Object)iSDSSettingEnumStateListener.getClass().getName());
         } else {
-            LC.log(-1601830656, "SDSSettingsEnum#unregisterSDSSettingStateListener: Listener %1 was not contained!", (Object)super.getClass().getName());
+            LC.log(100000, "SDSSettingsEnum#unregisterSDSSettingStateListener: Listener %1 was not contained!", (Object)iSDSSettingEnumStateListener.getClass().getName());
         }
         return bl;
     }
@@ -130,7 +130,7 @@ public final class SDSSettingsEnum {
     }
 
     public String toString() {
-        return new Buffer().append("SDSSetting-").append(this.name).toString();
+        return new Buffer().append(BASE_NAME).append(this.name).toString();
     }
 
     static {

@@ -9,19 +9,14 @@ import de.audi.app.bap.fw.arrays.ListDelta;
 import de.audi.atip.interapp.combi.bap.data.CombiBAPArrayElement;
 
 public interface IListAdapter {
-    default public IArrayHeader createArrayHeader() {
-    }
+    public IArrayHeader createArrayHeader();
 
-    default public boolean sendFullRangeUpdate() {
-    }
+    public boolean sendFullRangeUpdate();
 
-    default public boolean isSpontaneousStatusRequestSupported() {
-    }
+    public boolean isSpontaneousStatusRequestSupported();
 
-    default public void sendStatusRequest(GetArrayIndication getArrayIndication, CombiBAPArrayElement[] combiBAPArrayElementArray) {
-    }
+    public void sendStatusRequest(GetArrayIndication var1, CombiBAPArrayElement[] var2);
 
-    default public void sendChangedArrayRequest(ListDelta listDelta) {
-    }
+    public void sendChangedArrayRequest(ListDelta var1);
 }
 

@@ -16,67 +16,46 @@ import de.audi.atip.hmi.view.Screen;
 import java.io.PrintStream;
 
 public interface ITerminalContext {
-    default public ITerminalContext getSubterminal(int n) {
-    }
+    public ITerminalContext getSubterminal(int var1);
 
-    default public IScreenManager getScreenManager() {
-    }
+    public IScreenManager getScreenManager();
 
-    default public IPopupManager getPopupManager() {
-    }
+    public IPopupManager getPopupManager();
 
-    default public IPartialPopupManager getPartialPopupManager() {
-    }
+    public IPartialPopupManager getPartialPopupManager();
 
-    default public IRootWindow getRootWindow() {
-    }
+    public IRootWindow getRootWindow();
 
-    default public HMIModel getModel(int n) {
-    }
+    public HMIModel getModel(int var1);
 
-    default public Object getImageImpl(int n, boolean bl, int n2, int n3) {
-    }
+    public Object getImageImpl(int var1, boolean var2, int var3, int var4);
 
-    default public void initialize(HMIService hMIService) {
-    }
+    public void initialize(HMIService var1);
 
-    default public HMIService getHMIService() {
-    }
+    public HMIService getHMIService();
 
-    default public boolean isCluster() {
-    }
+    public boolean isCluster();
 
-    default public int getTerminalID() {
-    }
+    public int getTerminalID();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 
-    default public HMITerminal getHmiTerminal() {
-    }
+    public HMITerminal getHmiTerminal();
 
-    default public Screen getScreenFromCache(int n) {
-    }
+    public Screen getScreenFromCache(int var1);
 
-    default public void callbackPopupRemoved(int n, int n2) {
-    }
+    public void callbackPopupRemoved(int var1, int var2);
 
-    default public void callbackPopupHidden(int n, int n2) {
-    }
+    public void callbackPopupHidden(int var1, int var2);
 
-    default public void callbackPopupVisible(int n, int n2) {
-    }
+    public void callbackPopupVisible(int var1, int var2);
 
-    default public void callbackScreenHidden(int n) {
-    }
+    public void callbackScreenHidden(int var1);
 
-    default public void callbackScreenVisible(int n) {
-    }
+    public void callbackScreenVisible(int var1);
 
-    default public HMIApplication getHMIApplication(int n) {
-    }
+    public HMIApplication getHMIApplication(int var1);
 
-    default public void dump(PrintStream printStream) {
-    }
+    public void dump(PrintStream var1);
 }
 

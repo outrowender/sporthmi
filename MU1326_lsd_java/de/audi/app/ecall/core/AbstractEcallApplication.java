@@ -67,9 +67,9 @@ HMIApplication {
     private final IAudioConnectionHandler audioConnectionHandler;
     private final EcallSDSHandler sdsHandler;
     private final OnCommunicationUpHandler onCommunicationUpHandler;
-    private static final int SERVICE_REQUEST_STATES_COUNT;
-    private static final boolean[] BCALL_SERVICE_STATES_FOR_SREEN_SHOWING;
-    private static final int PHONE_CALL_STATES_COUNT;
+    private static final int SERVICE_REQUEST_STATES_COUNT = 15;
+    private static final boolean[] BCALL_SERVICE_STATES_FOR_SREEN_SHOWING = new boolean[15];
+    private static final int PHONE_CALL_STATES_COUNT = 9;
     private static final boolean[] BCALL_PHONE_CALL_STATE_FOR_SREEN_SHOWING;
     private static final boolean[] ECALL_SERVICE_STATES_FOR_SREEN_SHOWING;
     static /* synthetic */ Class class$de$audi$atip$hmi$HMIApplication;
@@ -93,10 +93,8 @@ HMIApplication {
         this.messageDispatcher = new MessageDispatcher(this.log, bundleContext);
     }
 
-    protected abstract void addComponents() {
-    }
+    protected abstract void addComponents();
 
-    @Override
     public void init() {
         this.addComponents();
         this.bapServiceEcallListeClusterHandler.init();
@@ -125,7 +123,6 @@ HMIApplication {
         return this.getFrameworkAccess().getSysConst(442) != 2;
     }
 
-    @Override
     public void deinit() {
         this.deinitComponents();
         this.bapServiceEcallListeClusterHandler.deinit();
@@ -135,7 +132,7 @@ HMIApplication {
     }
 
     private void registerHMIApplication() {
-        this.log.log(-2137614336, "[AbstractEcallApplication#registerHMIApplication] called");
+        this.log.log(10000000, "[AbstractEcallApplication#registerHMIApplication] called");
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppEcall");
         hashtable.put("moduleID", new Integer(this.getId()));
@@ -144,7 +141,7 @@ HMIApplication {
     }
 
     private void deregisterHMIApplication() {
-        this.log.log(-2137614336, "[AbstractEcallApplication#deregisterHMIApplication] called");
+        this.log.log(10000000, "[AbstractEcallApplication#deregisterHMIApplication] called");
         if (this.hmiApplicationService != null) {
             this.hmiApplicationService.stopService();
         }
@@ -154,7 +151,6 @@ HMIApplication {
         this.components.add(iEcallComponent);
     }
 
-    @Override
     public IFrameworkAccess getFrameworkAccess() {
         return this.frameworkAccess;
     }
@@ -178,7 +174,6 @@ HMIApplication {
         }
     }
 
-    @Override
     public int getId() {
         return 33;
     }
@@ -194,114 +189,93 @@ HMIApplication {
         return this.getFrameworkAccess().getSysConst(473) == 1;
     }
 
-    @Override
     public void addDiagnosisComponent(IEcallDiagnosisComponent iEcallDiagnosisComponent) {
         this.diagnosis.addDiagnosisComponent(iEcallDiagnosisComponent);
     }
 
-    @Override
     public void logStartupEvent(String string) {
         this.getFrameworkAccess().getStartupMgr().logStartupEvent(string);
     }
 
-    @Override
     public IActionProxyDispatcher getActionProxyDispatcher() {
         return this.actionProxyDispatcher;
     }
 
-    @Override
     public BundleContext getBundleContext() {
         return this.bundleContext;
     }
 
-    @Override
     public IPopupScreenStateDispatcher getPopupScreenStateDispatcher() {
         return this.popupStateDispatcher;
     }
 
-    @Override
     public IPowerEventDispatcher getPowerEventDispatcher() {
         return this.powerEventDispatcher;
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         return null;
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
-        this.log.log(1078071040, "[AbstractEcallApplication#popupVisible] id=%1, terminalID=%2", (long)n, (long)n2);
+        this.log.log(1000000, "[AbstractEcallApplication#popupVisible] id=%1, terminalID=%2", (long)n, (long)n2);
         this.getPopupScreenStateDispatcher().notifyPopupVisible(n, n2);
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
-        this.log.log(1078071040, "[AbstractEcallApplication#popupHidden] id=%1, terminalID=%2", (long)n, (long)n2);
+        this.log.log(1000000, "[AbstractEcallApplication#popupHidden] id=%1, terminalID=%2", (long)n, (long)n2);
         this.getPopupScreenStateDispatcher().notifyPopupHidden(n, n2);
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
-        this.log.log(1078071040, "[AbstractEcallApplication#popupRemoved] id=%1, terminalID=%2", (long)n, (long)n2);
+        this.log.log(1000000, "[AbstractEcallApplication#popupRemoved] id=%1, terminalID=%2", (long)n, (long)n2);
         this.getPopupScreenStateDispatcher().notifyPopupRemoved(n, n2);
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
-        this.log.log(1078071040, "[AbstractEcallApplication#screenVisible] id=%1, terminalID=%2", (long)n, (long)n2);
+        this.log.log(1000000, "[AbstractEcallApplication#screenVisible] id=%1, terminalID=%2", (long)n, (long)n2);
         this.getPopupScreenStateDispatcher().notifyScreenVisible(n, n2);
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
-        this.log.log(1078071040, "[AbstractEcallApplication#screenHidden] id=%1, terminalID=%2", (long)n, (long)n2);
+        this.log.log(1000000, "[AbstractEcallApplication#screenHidden] id=%1, terminalID=%2", (long)n, (long)n2);
         this.getPopupScreenStateDispatcher().notifyScreenHidden(n, n2);
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
-        this.log.log(1078071040, "[AbstractEcallApplication#screenFadedOut] id=%1, terminalID=%2", (long)n, (long)n2);
+        this.log.log(1000000, "[AbstractEcallApplication#screenFadedOut] id=%1, terminalID=%2", (long)n, (long)n2);
         this.getPopupScreenStateDispatcher().notifyScreenFadedOut(n, n2);
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
-        this.log.log(1078071040, "[AbstractEcallApplication#screenConnected] id=%1, terminalID=%2", (long)n, (long)n2);
+        this.log.log(1000000, "[AbstractEcallApplication#screenConnected] id=%1, terminalID=%2", (long)n, (long)n2);
         this.getPopupScreenStateDispatcher().notifyScreenConnected(n, n2);
     }
 
-    @Override
     public ITelServiceEcallHandler getTelServiceEcallHandler() {
         return this.telServiceHandler;
     }
 
-    @Override
     public LogChannel getEcallAppLogChannel() {
         return this.log;
     }
 
-    @Override
     public IMessageDispatcher getMessageDispatcher() {
         return this.messageDispatcher;
     }
 
-    @Override
     public IAudioConnectionHandler getAudioConnectionHandler() {
         return this.audioConnectionHandler;
     }
 
-    @Override
     public IGlobalEcallState getEcallStateManager() {
         return this.bapServiceEcallListeClusterHandler;
     }
 
-    @Override
     public IEcallBapServiceAdapter getEcallBapServiceAdapter() {
         return this.bapServiceEcallCombiner.getEcallBapServiceAdapter();
     }
 
-    @Override
     public SDSHandler getSDSHandler() {
         return this.sdsHandler;
     }
@@ -316,7 +290,6 @@ HMIApplication {
     }
 
     static {
-        BCALL_SERVICE_STATES_FOR_SREEN_SHOWING = new boolean[15];
         AbstractEcallApplication.BCALL_SERVICE_STATES_FOR_SREEN_SHOWING[1] = true;
         AbstractEcallApplication.BCALL_SERVICE_STATES_FOR_SREEN_SHOWING[5] = true;
         AbstractEcallApplication.BCALL_SERVICE_STATES_FOR_SREEN_SHOWING[9] = true;

@@ -12,144 +12,106 @@ import de.audi.app.media.content.media.PlayingTrack;
 import de.audi.app.media.selection.ISelectionListener;
 
 public interface IPlayer {
-    public static final int REPEAT_SCOPE_UNDEFINED;
-    public static final int REPEAT_SCOPE_DEVICE;
-    public static final int REPEAT_SCOPE_MEDIA;
-    public static final int REPEAT_SCOPE_SUBFOLDER;
-    public static final int REPEAT_SCOPE_TRACK;
-    public static final int REPEAT_SCOPE_SELECTION;
-    public static final int REPEAT_MODE_OFF;
-    public static final int REPEAT_MODE_TITLE;
-    public static final int REPEAT_MODE_LIST;
-    public static final int MIXMODE_OFF;
-    public static final int MIXMODE_ON;
-    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_MAIN;
-    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_MAIN_FASTSCROLL;
-    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_COMBI;
-    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_COMBI_FASTSCROLL;
-    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_SDIS;
-    public static final int PLAYBACKSTATE_UNDEFINED;
-    public static final int PLAYBACKSTATE_PLAYING;
-    public static final int PLAYBACKSTATE_PAUSED;
-    public static final int PLAYBACKSTATE_SEEK_FORWARD;
-    public static final int PLAYBACKSTATE_SEEK_BACKWARD;
-    public static final int PLAYBACKSTATE_PLAYING_MENU;
-    public static final int PLAYBACKSTATE_STOPPED;
-    public static final int TOUCH_EVENT_CLICK;
-    public static final int TOUCH_EVENT_CLICK_AND_ACTIVATE;
+    public static final int REPEAT_SCOPE_UNDEFINED = -1;
+    public static final int REPEAT_SCOPE_DEVICE = 0;
+    public static final int REPEAT_SCOPE_MEDIA = 1;
+    public static final int REPEAT_SCOPE_SUBFOLDER = 2;
+    public static final int REPEAT_SCOPE_TRACK = 3;
+    public static final int REPEAT_SCOPE_SELECTION = 4;
+    public static final int REPEAT_MODE_OFF = 0;
+    public static final int REPEAT_MODE_TITLE = 1;
+    public static final int REPEAT_MODE_LIST = 2;
+    public static final int MIXMODE_OFF = 0;
+    public static final int MIXMODE_ON = 1;
+    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_MAIN = 1;
+    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_MAIN_FASTSCROLL = 2;
+    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_COMBI = 3;
+    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_COMBI_FASTSCROLL = 4;
+    public static final int PLAYVIEW_LIST_REQUEST_CLIENTID_SDIS = 5;
+    public static final int PLAYBACKSTATE_UNDEFINED = 0;
+    public static final int PLAYBACKSTATE_PLAYING = 1;
+    public static final int PLAYBACKSTATE_PAUSED = 2;
+    public static final int PLAYBACKSTATE_SEEK_FORWARD = 3;
+    public static final int PLAYBACKSTATE_SEEK_BACKWARD = 4;
+    public static final int PLAYBACKSTATE_PLAYING_MENU = 5;
+    public static final int PLAYBACKSTATE_STOPPED = 6;
+    public static final int TOUCH_EVENT_CLICK = 0;
+    public static final int TOUCH_EVENT_CLICK_AND_ACTIVATE = 1;
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public boolean isActive() {
-    }
+    public boolean isActive();
 
-    default public void addTrackListener(IPlayerTrackListener iPlayerTrackListener) {
-    }
+    public void addTrackListener(IPlayerTrackListener var1);
 
-    default public void removeTrackListener(IPlayerTrackListener iPlayerTrackListener) {
-    }
+    public void removeTrackListener(IPlayerTrackListener var1);
 
-    default public void addPlayerListener(IPlayerListener iPlayerListener) {
-    }
+    public void addPlayerListener(IPlayerListener var1);
 
-    default public void removePlayerListener(IPlayerListener iPlayerListener) {
-    }
+    public void removePlayerListener(IPlayerListener var1);
 
-    default public boolean requestPlayViewListEntryBased(int n, long l, int n2) {
-    }
+    public boolean requestPlayViewListEntryBased(int var1, long var2, int var4);
 
-    default public boolean requestPlayViewListIndexBased(int n, int n2, int n3) {
-    }
+    public boolean requestPlayViewListIndexBased(int var1, int var2, int var3);
 
-    default public void discardPlayViewRequests(int n) {
-    }
+    public void discardPlayViewRequests(int var1);
 
-    default public void addViewListener(IPlayerViewListener iPlayerViewListener) {
-    }
+    public void addViewListener(IPlayerViewListener var1);
 
-    default public void removeViewListener(IPlayerViewListener iPlayerViewListener) {
-    }
+    public void removeViewListener(IPlayerViewListener var1);
 
-    default public void setBrowserPlayerSelection(IPlayerSelectionRequest iPlayerSelectionRequest) {
-    }
+    public void setBrowserPlayerSelection(IPlayerSelectionRequest var1);
 
-    default public void pause() {
-    }
+    public void pause();
 
-    default public void resume() {
-    }
+    public void resume();
 
-    default public boolean isPlaying() {
-    }
+    public boolean isPlaying();
 
-    default public boolean isReadyToPlay() {
-    }
+    public boolean isReadyToPlay();
 
-    default public void playEntry(long l) {
-    }
+    public void playEntry(long var1);
 
-    default public void playMoreOf(long l, int n, ISelectionListener iSelectionListener) {
-    }
+    public void playMoreOf(long var1, int var3, ISelectionListener var4);
 
-    default public PlayingTrack getCurrentPlayingTrack() {
-    }
+    public PlayingTrack getCurrentPlayingTrack();
 
-    default public boolean startSeek(boolean bl) {
-    }
+    public boolean startSeek(boolean var1);
 
-    default public boolean stopSeek(boolean bl) {
-    }
+    public boolean stopSeek(boolean var1);
 
-    default public boolean isSeeking() {
-    }
+    public boolean isSeeking();
 
-    default public boolean supportsExtendedPlayView() {
-    }
+    public boolean supportsExtendedPlayView();
 
-    default public boolean skip(boolean bl, int n) {
-    }
+    public boolean skip(boolean var1, int var2);
 
-    default public IPlaybackModeHandler getPlaybackModeHandler() {
-    }
+    public IPlaybackModeHandler getPlaybackModeHandler();
 
-    default public void setPlayPosition(int n) {
-    }
+    public void setPlayPosition(int var1);
 
-    default public void touchEvent(int n, int n2, int n3) {
-    }
+    public void touchEvent(int var1, int var2, int var3);
 
-    default public void executeMenuCommand(int n) {
-    }
+    public void executeMenuCommand(int var1);
 
-    default public boolean supportsVideoPlayback() {
-    }
+    public boolean supportsVideoPlayback();
 
-    default public boolean supportsPlayListHandling() {
-    }
+    public boolean supportsPlayListHandling();
 
-    default public boolean supportsDetailInfo() {
-    }
+    public boolean supportsDetailInfo();
 
-    default public boolean supportsTimeToSeek() {
-    }
+    public boolean supportsTimeToSeek();
 
-    default public boolean supportsPlaytime() {
-    }
+    public boolean supportsPlaytime();
 
-    default public boolean supportsPlayMoreOf() {
-    }
+    public boolean supportsPlayMoreOf();
 
-    default public boolean supportsPlaybackModeTakeOver() {
-    }
+    public boolean supportsPlaybackModeTakeOver();
 
-    default public boolean supportsPlaybackModeToggle() {
-    }
+    public boolean supportsPlaybackModeToggle();
 
-    default public boolean isPlayerStartupComplete() {
-    }
+    public boolean isPlayerStartupComplete();
 }
 

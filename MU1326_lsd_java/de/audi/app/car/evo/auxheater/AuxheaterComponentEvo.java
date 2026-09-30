@@ -7,8 +7,8 @@ import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.power.IPowerEventListener;
 import de.audi.app.car.common.screenstate.IScreenStateListener;
 import de.audi.app.car.common.service.CarServiceTracker;
+import de.audi.app.car.common.service.CarServiceTrackerListener;
 import de.audi.app.car.core.auxheater.AbstractAuxheaterComponent;
-import de.audi.app.car.evo.auxheater.AuxheaterComponentEvo$1;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.JokerKeyService;
 import org.dsi.ifc.carauxheatercooler.AuxHeaterCoolerErrorReason;
@@ -29,54 +29,75 @@ IPowerEventListener {
 
     public AuxheaterComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication);
-        this.jokerKeyServiceTracker = new CarServiceTracker(new AuxheaterComponentEvo$1(this), iCarApplication.getBundleContext(), this.getLogChannel());
+        this.jokerKeyServiceTracker = new CarServiceTracker(new CarServiceTrackerListener(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void serviceRemoved() {
+                Object object = AuxheaterComponentEvo.this.mutex;
+                synchronized (object) {
+                    AuxheaterComponentEvo.this.jokerKeyService = null;
+                }
+            }
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void serviceAvailable(Object object) {
+                Object object2 = AuxheaterComponentEvo.this.mutex;
+                synchronized (object2) {
+                    AuxheaterComponentEvo.this.jokerKeyService = (JokerKeyService)object;
+                }
+                AuxheaterComponentEvo.this.updateJokerKeyListEntryVisibility(AuxheaterComponentEvo.this.currViewOptions);
+            }
+
+            public String[] getTrackedServiceClazzName() {
+                return new String[]{(class$de$audi$atip$interapp$JokerKeyService == null ? (class$de$audi$atip$interapp$JokerKeyService = AuxheaterComponentEvo.class$("de.audi.atip.interapp.JokerKeyService")) : class$de$audi$atip$interapp$JokerKeyService).getName()};
+            }
+        }, iCarApplication.getBundleContext(), this.getLogChannel());
     }
 
-    @Override
     public void init() {
         super.init();
         this.jokerKeyServiceTracker.startTracking();
-        this.getApplication().getScreenStateDispatcher().addScreenStateListener(1294469376, this);
-        this.getApplication().getScreenStateDispatcher().addScreenStateListener(-483981056, this);
-        this.getApplication().getScreenStateDispatcher().addScreenStateListener(-517535488, this);
+        this.getApplication().getScreenStateDispatcher().addScreenStateListener(600141, this);
+        this.getApplication().getScreenStateDispatcher().addScreenStateListener(600035, this);
+        this.getApplication().getScreenStateDispatcher().addScreenStateListener(600033, this);
         this.getApplication().getPowerEventDispatcher().addPowerEventListener(this);
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getPowerEventDispatcher().removePowerEventListener(this);
-        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(1294469376, this);
-        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(-483981056, this);
-        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(-517535488, this);
+        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(600141, this);
+        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(600035, this);
+        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(600033, this);
         this.jokerKeyServiceTracker.stopTracking();
         super.deinit();
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(2210, (short)9);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(2220, (short)9);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(2230, (short)9);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-165213952, (short)9);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-148436736, (short)9);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600054, (short)9);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600055, (short)9);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(222, (short)9);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(223, (short)9);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(224, (short)9);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(2210);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(2220);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(2230);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-165213952);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-148436736);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600054);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600055);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(222);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(223);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(224);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions) {
         this.updateAuxHeatNowVisibilityState(this.getMenuEntryVisibilityState(new CarViewOption[]{auxHeaterCoolerViewOptions.getAuxHeaterCoolerOnOff(), auxHeaterCoolerViewOptions.getAuxHeaterCoolerRunningTime()}));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(222, this.getMenuEntryVisibilityState(auxHeaterCoolerViewOptions.getAuxHeaterCoolerTimer1()));
@@ -103,40 +124,35 @@ IPowerEventListener {
         }
     }
 
-    @Override
     public int getID() {
         return 17;
     }
 
-    @Override
     public void notifyScreenVisible(int n) {
     }
 
-    @Override
     public void notifyScreenHidden(int n) {
     }
 
-    @Override
     public void notifyScreenConnected(int n) {
-        this.getLogChannel().log(1078071040, "[AuxheaterComponentEvo#notifyScreenConnected] screenID='%1'", (long)n);
+        this.getLogChannel().log(1000000, "[AuxheaterComponentEvo#notifyScreenConnected] screenID='%1'", (long)n);
         this.setConnectedScreen(n);
-        if (n == 1294469376) {
+        if (n == 600141) {
             this.updatePastErrorDisclaimerModel(this.pastAuxHeatError);
         }
     }
 
-    @Override
     public void notifyScreenFadedOut(int n) {
-        this.getLogChannel().log(1078071040, "[AuxheaterComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
-        if (n == 1294469376) {
+        this.getLogChannel().log(1000000, "[AuxheaterComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
+        if (n == 600141) {
             this.resetPastError();
-        } else if (n == -483981056) {
+        } else if (n == 600035) {
             this.setConnectedScreen(-1);
             if (!this.isHeaterStateDefect(this.currentAuxHeatError)) {
                 this.updateCurrentErrorDisclaimerModel(this.currentAuxHeatError);
                 this.updateInfobox();
             }
-        } else if (n == -517535488) {
+        } else if (n == 600033) {
             this.setConnectedScreen(-1);
             if (this.isHeaterStateDefect(this.currentAuxHeatError)) {
                 this.updateInfobox();
@@ -144,19 +160,17 @@ IPowerEventListener {
         }
     }
 
-    @Override
     protected boolean deferCurrentErrorDisclaimerUpdate(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason) {
         boolean bl = this.isHeaterStateDefect(auxHeaterCoolerErrorReason);
         boolean bl2 = this.isLeavingAuxHeatHintsActualScreenForMain(bl);
         int n = bl ? 1 : 0;
-        ChoiceModelApp choiceModelApp = this.getChoiceModel(-1507063552);
+        ChoiceModelApp choiceModelApp = this.getChoiceModel(601254);
         if (choiceModelApp.getValue() != n) {
             choiceModelApp.setValue(n);
         }
         return bl2;
     }
 
-    @Override
     protected boolean deferInfoBoxUpdate(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason) {
         boolean bl = this.isHeaterStateDefect(auxHeaterCoolerErrorReason);
         return this.isLeavingAuxHeatMainScreenForError(bl) || this.isLeavingAuxHeatHintsActualScreenForMain(bl);
@@ -167,11 +181,11 @@ IPowerEventListener {
     }
 
     private boolean isLeavingAuxHeatHintsActualScreenForMain(boolean bl) {
-        return this.isScreenConnected(-483981056) && !bl;
+        return this.isScreenConnected(600035) && !bl;
     }
 
     private boolean isLeavingAuxHeatMainScreenForError(boolean bl) {
-        return this.isScreenConnected(-517535488) && bl;
+        return this.isScreenConnected(600033) && bl;
     }
 
     private int getConnectedScreen() {
@@ -186,21 +200,17 @@ IPowerEventListener {
         return this.getConnectedScreen() == n;
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        this.getLogChannel().log(1078071040, "[AuxheaterComponentEvo#updateClampState] clamp15='%1'", bl2);
+        this.getLogChannel().log(1000000, "[AuxheaterComponentEvo#updateClampState] clamp15='%1'", bl2);
         if (bl2) {
             this.updatePastErrorDisclaimerModel(this.pastAuxHeatError);
         }
@@ -208,15 +218,14 @@ IPowerEventListener {
 
     private void updateMenuEntryVisibilityNow(boolean bl, int n) {
         if (bl) {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-148436736, n);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-165213952, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600055, n);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600054, 1);
         } else {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-165213952, n);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-148436736, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600054, n);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600055, 1);
         }
     }
 
-    @Override
     protected void updateAuxHeatNowOn(boolean bl) {
         this.auxHeatNowOn = bl;
         this.updateMenuEntryVisibilityNow(bl, this.auxHeatNowVisiblityState);
@@ -227,7 +236,6 @@ IPowerEventListener {
         this.updateMenuEntryVisibilityNow(this.auxHeatNowOn, n);
     }
 
-    @Override
     protected void updateMenuEntryVisibilityForError(AuxHeaterCoolerErrorReason auxHeaterCoolerErrorReason) {
         if (auxHeaterCoolerErrorReason.isHeaterDefect() || auxHeaterCoolerErrorReason.isBatteryLow() || auxHeaterCoolerErrorReason.isFuelLow()) {
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(222, 2);
@@ -237,25 +245,8 @@ IPowerEventListener {
         } else if (this.currViewOptions != null) {
             this.updateMenuEntryVisibility(this.currViewOptions);
         } else {
-            this.getLogChannel().log(-1601830656, "[AuxheaterComponentEvo#updateMenuEntryVisibilityForError] Cannot update menu visibility because VOs are NULL!");
+            this.getLogChannel().log(100000, "[AuxheaterComponentEvo#updateMenuEntryVisibilityForError] Cannot update menu visibility because VOs are NULL!");
         }
-    }
-
-    static /* synthetic */ Object access$000(AuxheaterComponentEvo auxheaterComponentEvo) {
-        return auxheaterComponentEvo.mutex;
-    }
-
-    static /* synthetic */ JokerKeyService access$102(AuxheaterComponentEvo auxheaterComponentEvo, JokerKeyService jokerKeyService) {
-        auxheaterComponentEvo.jokerKeyService = jokerKeyService;
-        return auxheaterComponentEvo.jokerKeyService;
-    }
-
-    static /* synthetic */ AuxHeaterCoolerViewOptions access$200(AuxheaterComponentEvo auxheaterComponentEvo) {
-        return auxheaterComponentEvo.currViewOptions;
-    }
-
-    static /* synthetic */ void access$300(AuxheaterComponentEvo auxheaterComponentEvo, AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions) {
-        auxheaterComponentEvo.updateJokerKeyListEntryVisibility(auxHeaterCoolerViewOptions);
     }
 
     static /* synthetic */ Class class$(String string) {

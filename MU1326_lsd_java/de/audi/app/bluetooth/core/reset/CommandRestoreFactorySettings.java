@@ -21,17 +21,15 @@ extends AbstractBluetoothCommand {
         super(logChannel, dSIBluetooth, (class$de$audi$app$bluetooth$core$reset$CommandRestoreFactorySettings == null ? (class$de$audi$app$bluetooth$core$reset$CommandRestoreFactorySettings = CommandRestoreFactorySettings.class$("de.audi.app.bluetooth.core.reset.CommandRestoreFactorySettings")) : class$de$audi$app$bluetooth$core$reset$CommandRestoreFactorySettings).getName());
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.requestRestoreFactorySettings();
         } else {
-            this.logger.log(-1601830656, "CommandRestoreFactorySettings#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandRestoreFactorySettings#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void responseRestoreFactorySettings(int n) {
         this.commandList.commandFinished();
         if (n != 0) {

@@ -5,43 +5,59 @@ package de.audi.atip.interapp;
 
 import de.audi.atip.interapp.AbstractSDSApplicationService;
 import de.audi.atip.interapp.SDSListEntry;
-import de.audi.atip.interapp.TVService$TVSettingResult;
 
 public interface TVService
 extends AbstractSDSApplicationService {
-    public static final int SOURCE_NONE;
-    public static final int SOURCE_TV_STATION;
-    public static final int SOURCE_TV_FAVORITES;
-    public static final int SOURCE_AV;
-    public static final byte ROW_TYPE_TVSTATION;
-    public static final byte ROW_TYPE_TVSTATION_DISABLED;
-    public static final byte RESULT_ERROR;
-    public static final byte RESULT_OK;
-    public static final byte RESULT_INVALID;
-    public static final byte SOURCE_SET_ERROR;
-    public static final byte SOURCE_SET_OK;
-    public static final byte SOURCE_SET_DISABLED;
-    public static final byte SET_ERROR;
-    public static final byte SET_SWITCH_NONE;
-    public static final byte SET_SWITCH_TV_STATION;
-    public static final byte SET_SWITCH_TV_FAVORITES;
-    public static final int MAX_COLS_TUNER_PICKLIST;
-    public static final int INDEX_PICKLIST_ID;
-    public static final int INDEX_PICKLIST_NAME;
+    public static final int SOURCE_NONE = 0;
+    public static final int SOURCE_TV_STATION = 1;
+    public static final int SOURCE_TV_FAVORITES = 2;
+    public static final int SOURCE_AV = 3;
+    public static final byte ROW_TYPE_TVSTATION = 0;
+    public static final byte ROW_TYPE_TVSTATION_DISABLED = 1;
+    public static final byte RESULT_ERROR = 0;
+    public static final byte RESULT_OK = 1;
+    public static final byte RESULT_INVALID = 2;
+    public static final byte SOURCE_SET_ERROR = 0;
+    public static final byte SOURCE_SET_OK = 1;
+    public static final byte SOURCE_SET_DISABLED = 2;
+    public static final byte SET_ERROR = 0;
+    public static final byte SET_SWITCH_NONE = 1;
+    public static final byte SET_SWITCH_TV_STATION = 2;
+    public static final byte SET_SWITCH_TV_FAVORITES = 3;
+    public static final int MAX_COLS_TUNER_PICKLIST = 2;
+    public static final int INDEX_PICKLIST_ID = 0;
+    public static final int INDEX_PICKLIST_NAME = 1;
 
-    default public TVSettingResult tuneStationByID(long l) {
-    }
+    public TVSettingResult tuneStationByID(long var1);
 
-    default public byte getTypeOfListRow(int n) {
-    }
+    public byte getTypeOfListRow(int var1);
 
-    default public byte selectSource(int n) {
-    }
+    public byte selectSource(int var1);
 
-    default public byte fillTvPickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public byte fillTvPickList(SDSListEntry[] var1);
 
-    default public SDSListEntry getTvPicklistEntry(int n) {
+    public SDSListEntry getTvPicklistEntry(int var1);
+
+    public static class TVSettingResult {
+        private final byte resultCode;
+        private final long objectID;
+
+        public TVSettingResult(byte by, long l) {
+            this.resultCode = by;
+            this.objectID = l;
+        }
+
+        public byte getResultCode() {
+            return this.resultCode;
+        }
+
+        public long getObjectID() {
+            return this.objectID;
+        }
+
+        public String toString() {
+            return "resultCode=" + this.resultCode + ", objectID=" + this.objectID;
+        }
     }
 }
 

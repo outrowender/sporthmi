@@ -6,13 +6,10 @@ package de.audi.atip.metrics;
 import de.audi.atip.metrics.RoundingRules;
 
 public interface RoundingRulesFactory {
-    default public RoundingRules getZoomRoundingRules() {
-    }
+    public RoundingRules getZoomRoundingRules();
 
-    default public RoundingRules getDistanceRoundingRules() {
-    }
+    public RoundingRules getDistanceRoundingRules();
 
-    default public String getDiagnosisData() {
-    }
+    public String getDiagnosisData();
 }
 

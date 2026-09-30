@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.online;
 
 public interface TransitionCallback {
-    default public void triggerTransition() {
-    }
+    public void triggerTransition();
 }
 

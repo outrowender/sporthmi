@@ -12,7 +12,7 @@ extends ATIPEvent {
     private String screenShotPath = "";
     private boolean saveWithCompression = false;
     private boolean saveToClipboard = false;
-    private static final int EVENT_ID;
+    private static final int EVENT_ID = 19001;
 
     public ScreenShotEvent(ATIPEventListener aTIPEventListener, String string) {
         super(aTIPEventListener, 19001);

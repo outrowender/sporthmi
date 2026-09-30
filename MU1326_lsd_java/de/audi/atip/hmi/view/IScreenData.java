@@ -6,95 +6,67 @@ package de.audi.atip.hmi.view;
 import de.audi.atip.hmi.view.Screen;
 
 public interface IScreenData {
-    public static final int SCREEN_ID_INVALID;
-    public static final int DRAWER_ID_INVALID;
-    public static final int CURSOR_FOCUS_INVALID;
-    public static final int SCREEN_MODE_NONE;
-    public static final int SCREEN_MODE_STANDARD_SCREEN;
-    public static final int SCREEN_MODE_OPTION_SCREEN;
+    public static final int SCREEN_ID_INVALID = -1;
+    public static final int DRAWER_ID_INVALID = -1;
+    public static final int CURSOR_FOCUS_INVALID = -1;
+    public static final int SCREEN_MODE_NONE = -1;
+    public static final int SCREEN_MODE_STANDARD_SCREEN = 1;
+    public static final int SCREEN_MODE_OPTION_SCREEN = 2;
 
-    default public String toString() {
-    }
+    public String toString();
 
-    default public int getId() {
-    }
+    public int getId();
 
-    default public int[] getPartialPopups() {
-    }
+    public int[] getPartialPopups();
 
-    default public int getPopupId() {
-    }
+    public int getPopupId();
 
-    default public int getPopupPriority() {
-    }
+    public int getPopupPriority();
 
-    default public Screen getScreen() {
-    }
+    public Screen getScreen();
 
-    default public int[] getStates() {
-    }
+    public int[] getStates();
 
-    default public boolean isAnimated() {
-    }
+    public boolean isAnimated();
 
-    default public boolean isLocked() {
-    }
+    public boolean isLocked();
 
-    default public boolean isNotify() {
-    }
+    public boolean isNotify();
 
-    default public boolean isReinit() {
-    }
+    public boolean isReinit();
 
-    default public boolean isScreenIDValid() {
-    }
+    public boolean isScreenIDValid();
 
-    default public void setNotify(boolean bl) {
-    }
+    public void setNotify(boolean var1);
 
-    default public void setPartialPopups(int[] nArray) {
-    }
+    public void setPartialPopups(int[] var1);
 
-    default public boolean isPartialPopupAvailable() {
-    }
+    public boolean isPartialPopupAvailable();
 
-    default public boolean isPopup() {
-    }
+    public boolean isPopup();
 
-    default public void setScreen(Screen screen) {
-    }
+    public void setScreen(Screen var1);
 
-    default public void setContextIDs(long[] lArray) {
-    }
+    public void setContextIDs(long[] var1);
 
-    default public long[] getContextIDs() {
-    }
+    public long[] getContextIDs();
 
-    default public long getOptionsDrawerID() {
-    }
+    public long getOptionsDrawerID();
 
-    default public long getSelectionDrawerID() {
-    }
+    public long getSelectionDrawerID();
 
-    default public int getAnimationInfo() {
-    }
+    public int getAnimationInfo();
 
-    default public void setColorScheme(int n) {
-    }
+    public void setColorScheme(int var1);
 
-    default public int getColorScheme() {
-    }
+    public int getColorScheme();
 
-    default public void setScreenMode(int n) {
-    }
+    public void setScreenMode(int var1);
 
-    default public int getScreenMode() {
-    }
+    public int getScreenMode();
 
-    default public int getCursorPosition() {
-    }
+    public int getCursorPosition();
 
-    default public boolean isStayOnFocusedElement() {
-    }
+    public boolean isStayOnFocusedElement();
 }
 

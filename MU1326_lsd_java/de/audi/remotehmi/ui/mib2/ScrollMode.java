@@ -17,13 +17,13 @@ public class ScrollMode {
     public static final ScrollMode SCROLL_MODE_KEYS = new ScrollMode("keys", 5);
     public static final ScrollMode SCROLL_MODE_FREE;
     public static final ScrollMode DEFAULT_SCROLLMODE;
-    private static final int SCROLL_MODE_PAGE_INTValue;
-    private static final int SCROLL_MODE_PAGE_90_PERCENT_INTValue;
-    private static final int SCROLL_MODE_NEXT_LINK_INTValue;
-    private static final int SCROLL_MODE_6_STEPS_INTValue;
-    private static final int SCROLL_MODE_5_STEPS_INTValue;
-    private static final int SCROLL_MODE_KEYS_INTValue;
-    private static final int SCROLL_MODE_FREE_INTValue;
+    private static final int SCROLL_MODE_PAGE_INTValue = 0;
+    private static final int SCROLL_MODE_PAGE_90_PERCENT_INTValue = 1;
+    private static final int SCROLL_MODE_NEXT_LINK_INTValue = 2;
+    private static final int SCROLL_MODE_6_STEPS_INTValue = 3;
+    private static final int SCROLL_MODE_5_STEPS_INTValue = 4;
+    private static final int SCROLL_MODE_KEYS_INTValue = 5;
+    private static final int SCROLL_MODE_FREE_INTValue = 7;
     private final String name;
     private final int intValue;
 

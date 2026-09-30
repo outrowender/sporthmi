@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map$Entry;
+import java.util.Map;
 import java.util.Vector;
 import org.dsi.ifc.search.CarFunction;
 
@@ -35,7 +35,6 @@ implements IMERVisibilityChangeListener {
         this.carFunctions = new HashMap();
     }
 
-    @Override
     public void initDSI() {
         super.initDSI();
         this.carApplication.getMenuEntryRegistry().registerVisibilityChangeListener(this);
@@ -45,7 +44,6 @@ implements IMERVisibilityChangeListener {
         this.setCarFunctionStates(this.getCarFunctions());
     }
 
-    @Override
     public void notifyVisibilityChange(List list) {
         if (this.areThereRelevantChangesForTruffleSearch(list)) {
             this.disableChildrenOfLooseIncludeMenuEntries();
@@ -59,7 +57,7 @@ implements IMERVisibilityChangeListener {
             IncludeMenuEntry includeMenuEntry = (IncludeMenuEntry)iterator.next();
             if (includeMenuEntry.isBoundToSlot()) continue;
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[CarTruffleSearch#disableChildrenOfLooseIncludeMenuEntries] %1('%2')", (Object)includeMenuEntry.getType(), (Object)includeMenuEntry);
+                this.logChannel.log(1000000, "[CarTruffleSearch#disableChildrenOfLooseIncludeMenuEntries] %1('%2')", (Object)includeMenuEntry.getType(), (Object)includeMenuEntry);
             }
             Vector vector = new Vector();
             includeMenuEntry.addChildrenToListRecursively(vector);
@@ -77,7 +75,7 @@ implements IMERVisibilityChangeListener {
                 this.currentlyInvisibleMenuEntries.add(iMenuEntry);
             }
             if (!this.logChannel.isInfo()) continue;
-            this.logChannel.log(1078071040, "[CarTruffleSearch#disableMenuEntriesForTruffleSearch] %1('%2') disabled for truffle search: CarFunction ID='%3'", (Object)iMenuEntry.getType(), (Object)iMenuEntry, (long)carFunction.getId());
+            this.logChannel.log(1000000, "[CarTruffleSearch#disableMenuEntriesForTruffleSearch] %1('%2') disabled for truffle search: CarFunction ID='%3'", (Object)iMenuEntry.getType(), (Object)iMenuEntry, (long)carFunction.getId());
         }
     }
 
@@ -96,7 +94,7 @@ implements IMERVisibilityChangeListener {
             carFunction.enabled = this.shouldMEBeEnabledForTruffleSearch(iMenuEntry);
             bl = true;
             if (!this.logChannel.isInfo()) continue;
-            this.logChannel.log(1078071040, "[CarTruffleSearch#applyChangesToCarFunctions] searchability of MenuEntry('%1') changed: menu entry current state='%2', CarFunction ID='%3', enabled for truffle search='%4'", (Object)iMenuEntry, (Object)new Integer(iMenuEntry.getState()), (Object)new Integer(carFunction.getId()), (Object)carFunction.enabled);
+            this.logChannel.log(1000000, "[CarTruffleSearch#applyChangesToCarFunctions] searchability of MenuEntry('%1') changed: menu entry current state='%2', CarFunction ID='%3', enabled for truffle search='%4'", (Object)iMenuEntry, (Object)new Integer(iMenuEntry.getState()), (Object)new Integer(carFunction.getId()), (Object)carFunction.enabled);
         }
         this.currentlyInvisibleMenuEntries.addAll(arrayList);
         return bl;
@@ -118,7 +116,6 @@ implements IMERVisibilityChangeListener {
         return iMenuEntry.getState() != 1;
     }
 
-    @Override
     public void initUseOfMenuStructure(IMenuEntryStructure iMenuEntryStructure) {
         this.initCarFunctions(iMenuEntryStructure);
         this.setActiveElementsWithRealIDs();
@@ -127,7 +124,7 @@ implements IMERVisibilityChangeListener {
     private void initCarFunctions(IMenuEntryStructure iMenuEntryStructure) {
         Iterator iterator = iMenuEntryStructure.getMenuEntries().entrySet().iterator();
         while (iterator.hasNext()) {
-            IMenuEntry iMenuEntry = (IMenuEntry)((Map$Entry)iterator.next()).getValue();
+            IMenuEntry iMenuEntry = (IMenuEntry)((Map.Entry)iterator.next()).getValue();
             if (iMenuEntry.isType(MenuEntryType.INCLUDE_MENU_ENTRY)) {
                 this.includeMenuEntries.add((IncludeMenuEntry)iMenuEntry);
                 continue;
@@ -139,7 +136,7 @@ implements IMERVisibilityChangeListener {
                 this.currentlyInvisibleMenuEntries.add(iMenuEntry);
             }
             if (!this.logChannel.isInfo()) continue;
-            this.logChannel.log(1078071040, "[CarTruffleSearch#initCarFunctions] init CarFunction for MenuEntry('%1'): menu entry current state='%2', CarFunction ID='%3', enabled='%4'", (Object)iMenuEntry, (Object)new Integer(iMenuEntry.getState()), (Object)new Integer(carFunction.getId()), (Object)carFunction.enabled);
+            this.logChannel.log(1000000, "[CarTruffleSearch#initCarFunctions] init CarFunction for MenuEntry('%1'): menu entry current state='%2', CarFunction ID='%3', enabled='%4'", (Object)iMenuEntry, (Object)new Integer(iMenuEntry.getState()), (Object)new Integer(carFunction.getId()), (Object)carFunction.enabled);
         }
     }
 

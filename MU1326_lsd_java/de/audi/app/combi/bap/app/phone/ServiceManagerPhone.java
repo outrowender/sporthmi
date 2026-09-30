@@ -35,21 +35,20 @@ extends AbstractBAPModuleServiceManager {
         this.logChannel = abstractCombiModule.getLogChannel();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof CombiBAPServicePhoneListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerPhone#addingService] CombiBAPServicePhoneListener found");
+            this.logChannel.log(10000000, "[ServiceManagerPhone#addingService] CombiBAPServicePhoneListener found");
             ((AppConnectorPhone)this.module.getAppConnectors().get("Phone")).setAppServiceListener((CombiBAPServicePhoneListener)object);
             return object;
         }
         if (object instanceof CombiBAPServiceAddressBookListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerPhone#addingService] CombiBAPServiceAddressBookListener found");
+            this.logChannel.log(10000000, "[ServiceManagerPhone#addingService] CombiBAPServiceAddressBookListener found");
             ((AppConnectorAddressBook)this.module.getAppConnectors().get("AddressBook")).setAppServiceListener((CombiBAPServiceAddressBookListener)object);
             return object;
         }
         if (object instanceof CombiBAPServiceMessagingListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerPhone#addingService] CombiBAPServiceMessagingListener found");
+            this.logChannel.log(10000000, "[ServiceManagerPhone#addingService] CombiBAPServiceMessagingListener found");
             ((AppConnectorMessaging)this.module.getAppConnectors().get("Messaging")).setAppServiceListener((CombiBAPServiceMessagingListener)object);
             return object;
         }
@@ -57,18 +56,17 @@ extends AbstractBAPModuleServiceManager {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CombiBAPServicePhoneListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerPhone#removedService] CombiBAPServicePhoneListener removed");
+            this.logChannel.log(10000000, "[ServiceManagerPhone#removedService] CombiBAPServicePhoneListener removed");
             ((AppConnectorPhone)this.module.getAppConnectors().get("Phone")).setAppServiceListener(null);
             this.bundleContext.ungetService(serviceReference);
         } else if (object instanceof CombiBAPServiceAddressBookListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerPhone#removedService] CombiBAPServiceAddressBookListener removed");
+            this.logChannel.log(10000000, "[ServiceManagerPhone#removedService] CombiBAPServiceAddressBookListener removed");
             ((AppConnectorAddressBook)this.module.getAppConnectors().get("AddressBook")).setAppServiceListener(null);
             this.bundleContext.ungetService(serviceReference);
         } else if (object instanceof CombiBAPServiceMessagingListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerPhone#removedService] CombiBAPServiceMessagingListener removed");
+            this.logChannel.log(10000000, "[ServiceManagerPhone#removedService] CombiBAPServiceMessagingListener removed");
             ((AppConnectorMessaging)this.module.getAppConnectors().get("Messaging")).setAppServiceListener(null);
             this.bundleContext.ungetService(serviceReference);
         } else {
@@ -76,21 +74,19 @@ extends AbstractBAPModuleServiceManager {
         }
     }
 
-    @Override
     public void registerServices(AbstractActivator abstractActivator) {
-        this.logChannel.log(-2137614336, "[ServiceManagerPhone#registerServices] Registering AppConnectorPhone as CombiBAPServicePhone");
+        this.logChannel.log(10000000, "[ServiceManagerPhone#registerServices] Registering AppConnectorPhone as CombiBAPServicePhone");
         abstractActivator.registerService((class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone = ServiceManagerPhone.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone).getName(), this.module.getAppConnectors().get("Phone"), null);
-        this.logChannel.log(-2137614336, "[ServiceManagerPhone#registerServices] Registering AppConnectorAddressBook as CombiBAPServiceAddressBook");
+        this.logChannel.log(10000000, "[ServiceManagerPhone#registerServices] Registering AppConnectorAddressBook as CombiBAPServiceAddressBook");
         abstractActivator.registerService((class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceAddressBook == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceAddressBook = ServiceManagerPhone.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServiceAddressBook")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceAddressBook).getName(), this.module.getAppConnectors().get("AddressBook"), null);
-        this.logChannel.log(-2137614336, "[ServiceManagerPhone#registerServices] Registering AppConnectorMessaging as CombiBAPServiceMessaging");
+        this.logChannel.log(10000000, "[ServiceManagerPhone#registerServices] Registering AppConnectorMessaging as CombiBAPServiceMessaging");
         abstractActivator.registerService((class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceMessaging == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceMessaging = ServiceManagerPhone.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServiceMessaging")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceMessaging).getName(), this.module.getAppConnectors().get("Messaging"), null);
-        this.logChannel.log(-2137614336, "[ServiceManagerPhone#registerServices] Registering AppConnectorConnectivity as CombiBAPServiceConnectivity");
+        this.logChannel.log(10000000, "[ServiceManagerPhone#registerServices] Registering AppConnectorConnectivity as CombiBAPServiceConnectivity");
         abstractActivator.registerService((class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceConnectivity == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceConnectivity = ServiceManagerPhone.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServiceConnectivity")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceConnectivity).getName(), this.module.getAppConnectors().get("Connectivity"), null);
-        this.logChannel.log(-2137614336, "[ServiceManagerPhone#registerServices] Registering InitializationManagerPhone as MessageListener");
+        this.logChannel.log(10000000, "[ServiceManagerPhone#registerServices] Registering InitializationManagerPhone as MessageListener");
         abstractActivator.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = ServiceManagerPhone.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)this.module.getInitializationManager(), null);
     }
 
-    @Override
     public void trackServices() {
         String[] stringArray = new String[]{(class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhoneListener == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhoneListener = ServiceManagerPhone.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhoneListener")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhoneListener).getName(), (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceAddressBookListener == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceAddressBookListener = ServiceManagerPhone.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServiceAddressBookListener")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceAddressBookListener).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = ServiceManagerPhone.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName()};
         this.serviceTracker = new ServiceTracker(this.bundleContext, stringArray, (ServiceTrackerCustomizer)this);

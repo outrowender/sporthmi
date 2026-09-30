@@ -8,31 +8,22 @@ import de.audi.app.media.dsi.media.MediaListEntry;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface IDataSelectionContext {
-    default public int getBrowseMode() {
-    }
+    public int getBrowseMode();
 
-    default public MediaListEntry[] getFolder() {
-    }
+    public MediaListEntry[] getFolder();
 
-    default public MediaListEntry getFolderToSelect() {
-    }
+    public MediaListEntry getFolderToSelect();
 
-    default public MediaListEntry getEntryToPlay() {
-    }
+    public MediaListEntry getEntryToPlay();
 
-    default public int getBrowserCategory() {
-    }
+    public int getBrowserCategory();
 
-    default public MediaDetailInfo getDetailInfo() {
-    }
+    public MediaDetailInfo getDetailInfo();
 
-    default public void addParameter(String string, Object object) {
-    }
+    public void addParameter(String var1, Object var2);
 
-    default public Object getParameter(String string, Object object) {
-    }
+    public Object getParameter(String var1, Object var2);
 
-    default public ISourceSlot getSourceSlot() {
-    }
+    public ISourceSlot getSourceSlot();
 }
 

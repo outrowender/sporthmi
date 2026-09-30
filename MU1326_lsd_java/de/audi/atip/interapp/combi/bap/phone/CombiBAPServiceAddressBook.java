@@ -9,28 +9,21 @@ import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPPhonebookEntryDetails;
 
 public interface CombiBAPServiceAddressBook
 extends CombiBAPService {
-    public static final int PB_SPELLER_RESULT_MATCHING_ENTRIES_NOT_SUPPORTED_NO_MATCH;
-    public static final int PB_SPELLER_RESULT_MATCHING_ENTRIES_NOT_SUPPORTED_MATCH;
+    public static final int PB_SPELLER_RESULT_MATCHING_ENTRIES_NOT_SUPPORTED_NO_MATCH = 65534;
+    public static final int PB_SPELLER_RESULT_MATCHING_ENTRIES_NOT_SUPPORTED_MATCH = 65535;
 
-    default public void updateMobileServiceSupport(boolean bl, boolean bl2, boolean bl3) {
-    }
+    public void updateMobileServiceSupport(boolean var1, boolean var2, boolean var3);
 
-    default public void updatePbState(int n, int n2) {
-    }
+    public void updatePbState(int var1, int var2);
 
-    default public void responsePhonebookListElements(int n, CombiBAPPhonebookEntry[] combiBAPPhonebookEntryArray) {
-    }
+    public void responsePhonebookListElements(int var1, CombiBAPPhonebookEntry[] var2);
 
-    default public void responsePhonebookEntryDetails(long l, CombiBAPPhonebookEntryDetails[] combiBAPPhonebookEntryDetailsArray) {
-    }
+    public void responsePhonebookEntryDetails(long var1, CombiBAPPhonebookEntryDetails[] var3);
 
-    default public void phonebookChanged(int n) {
-    }
+    public void phonebookChanged(int var1);
 
-    default public void pbSpellerResult(int n, int n2, int n3) {
-    }
+    public void pbSpellerResult(int var1, int var2, int var3);
 
-    default public void updatePhonebookDownloadProgress(int n, int n2, int n3, int n4) {
-    }
+    public void updatePhonebookDownloadProgress(int var1, int var2, int var3, int var4);
 }
 

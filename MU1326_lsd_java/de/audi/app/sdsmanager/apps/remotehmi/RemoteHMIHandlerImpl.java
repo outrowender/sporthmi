@@ -29,7 +29,6 @@ import de.audi.app.sdsmanager.nbest.NBestStorageAccess;
 import de.audi.app.sdsmanager.syscall.ISystemCallParameter;
 import de.audi.atip.interapp.OnlineService;
 import de.audi.atip.interapp.OnlineServiceListener;
-import de.audi.atip.interapp.OnlineServiceListener$OnlineSpeechDictionary;
 import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.interapp.def.NullOnlineService;
 import de.audi.atip.log.LogChannel;
@@ -43,7 +42,7 @@ extends AbstractSDSApplication
 implements RemoteHMIHandler,
 OnlineServiceListener,
 ISpeechRecognitionStateListener {
-    private static final int[] commands = new int[]{1988231936, 2005009152, 1971454720, 2038563584, 1937900288, 1954677504, 2021786368, 1921123072, 1887568640, 1904345856, 2055340800};
+    private static final int[] commands = new int[]{230006, 230007, 230005, 230009, 230003, 230004, 230008, 230002, 230000, 230001, 230010};
     private final LogChannel lc = Logger.getAppRemoteHMI();
     private OnlineService onlineService = new NullOnlineService(this.lc);
     private final IDynamicLists dynamicLists;
@@ -59,85 +58,82 @@ ISpeechRecognitionStateListener {
         this.srHandler = speechRecognitionHandler;
     }
 
-    @Override
     public void setOnlineService(OnlineService onlineService) {
         if (onlineService != null) {
             this.onlineService = onlineService;
         }
     }
 
-    @Override
     public void unsetOnlineService() {
         this.onlineService = new NullOnlineService(this.lc);
     }
 
-    @Override
     public void processCommand(int n, ISystemCallParameter[] iSystemCallParameterArray) {
-        this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: id=%2, parameters=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
+        this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: id=%2, parameters=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
         CommandList commandList = new CommandList(SDSManagerBaseActivator.getSysCallCmdListManager());
         switch (n) {
             case 230002: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETRESULT called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETRESULT called!");
                 commandList.add(new RemoteHMIResultSetCommand(this.lc, "REMOTEHMI_SETRESULT", this.sdsHandlerService, this.nBestStorage, this.onlineService));
                 commandList.execute("SYSTEMCALL REMOTEHMI_SETRESULT");
                 break;
             }
             case 230003: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETGLOBALRESULT called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETGLOBALRESULT called!");
                 commandList.add(new RemoteHMIGlobalResultSetCommand(this.lc, "REMOTEHMI_SETGLOBALRESULT", this.sdsHandlerService, this.nBestStorage, this.onlineService));
                 commandList.execute("SYSTEMCALL REMOTEHMI_SETGLOBALRESULT");
                 break;
             }
             case 230004: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETHELPRESULT called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETHELPRESULT called!");
                 commandList.add(new RemoteHMISetHelpResultCommand(this.lc, "REMOTEHMI_SETHELPRESULT", this.sdsHandlerService, this.nBestStorage, this.onlineService, this));
                 commandList.execute("SYSTEMCALL REMOTEHMI_SETHELPRESULT");
                 break;
             }
             case 230005: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_REQUESTDIALOGCONTINUATION called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_REQUESTDIALOGCONTINUATION called!");
                 commandList.add(new RemoteHMIRequestDialogContinuationCommand(this.lc, "REMOTEHMI_REQUESTDIALOGCONTINUATION", this.sdsHandlerService, this.onlineService));
                 commandList.execute("SYSTEMCALL REMOTEHMI_REQUESTDIALOGCONTINUATION");
                 break;
             }
             case 230006: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_DIALOGSTEPFINISHED called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_DIALOGSTEPFINISHED called!");
                 commandList.add(new RemoteHMIDialogStepFinishedCommand(this.lc, "REMOTEHMI_DIALOGSTEPFINISHED", this.sdsHandlerService, this.onlineService));
                 commandList.execute("SYSTEMCALL REMOTEHMI_DIALOGSTEPFINISHED");
                 break;
             }
             case 230007: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_HELPOPENED called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_HELPOPENED called!");
                 commandList.add(new RemoteHMIHelpOpenedCommand(this.lc, "REMOTEHMI_HELPOPENED", this.sdsHandlerService, this.onlineService, iSystemCallParameterArray));
                 commandList.execute("SYSTEMCALL REMOTEHMI_HELPOPENED");
                 break;
             }
             case 230008: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETNAVDESTFORMRESULT called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETNAVDESTFORMRESULT called!");
                 commandList.add(new RemoteHMINavDestFormResultCommand(this.lc, "REMOTEHMI_SETNAVDESTFORMRESULT", this.sdsHandlerService, this.onlineService));
                 commandList.execute("SYSTEMCALL REMOTEHMI_SETNAVDESTFORMRESULT");
                 break;
             }
             case 230009: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: ONLINE_SETREMOTEHMIGLOBALENTER called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: ONLINE_SETREMOTEHMIGLOBALENTER called!");
                 commandList.add(new RemoteHMIGlobalEnterSetCommand(this.lc, "ONLINE_SETREMOTEHMIGLOBALENTER", this.sdsHandlerService, this.onlineService));
                 commandList.execute("SYSTEMCALL ONLINE_SETREMOTEHMIGLOBALENTER");
                 break;
             }
             case 230001: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_UPDATEHELP called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_UPDATEHELP called!");
                 commandList.add(new RemoteHMIHelpUpdateCommand(this.lc, "REMOTEHMI_UPDATEHELP", this.sdsHandlerService, this.onlineService));
                 commandList.execute("SYSTEMCALL REMOTEHMI_UPDATEHELP");
                 break;
             }
             case 230000: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_RESETNAVLOCATIONINPUT called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_RESETNAVLOCATIONINPUT called!");
                 commandList.add(new RemoteHMINavLocationInputResetCommand(this.lc, "REMOTEHMI_RESETNAVLOCATIONINPUT", this.sdsHandlerService, this.onlineService));
                 commandList.execute("SYSTEMCALL REMOTEHMI_RESETNAVLOCATIONINPUT");
                 break;
             }
             case 230010: {
-                this.lc.log(-2137614336, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETRECOGNIZEDLINENUMBER called!");
+                this.lc.log(10000000, "RemoteHMIHandlerImpl#processCommand: REMOTEHMI_SETRECOGNIZEDLINENUMBER called!");
                 commandList.add(new RemoteHMISetRecognizedLineNumberCommand(this.lc, "REMOTEHMI_SETRECOGNIZEDLINENUMBER", this.sdsHandlerService, this.onlineService));
                 commandList.execute("SYSTEMCALL REMOTEHMI_SETRECOGNIZEDLINENUMBER");
                 break;
@@ -148,15 +144,14 @@ ISpeechRecognitionStateListener {
         }
     }
 
-    @Override
     public void updateRemoteHMIList(SDSListEntry[] sDSListEntryArray, boolean bl) {
         if (sDSListEntryArray == null) {
-            this.lc.log(-1601830656, "[RemoteHMIHandlerImpl#updateRemoteHMIList] entryList == null");
+            this.lc.log(100000, "[RemoteHMIHandlerImpl#updateRemoteHMIList] entryList == null");
             this.dynamicLists.removeFromLookup(41);
             return;
         }
         int n = sDSListEntryArray.length;
-        this.lc.log(-2137614336, "[RemoteHMIHandlerImpl#updateRemoteHMIList] entryList.size=%1!", (long)n);
+        this.lc.log(10000000, "[RemoteHMIHandlerImpl#updateRemoteHMIList] entryList.size=%1!", (long)n);
         if (n <= 0 || !bl) {
             this.dynamicLists.removeFromLookup(41);
         } else {
@@ -166,15 +161,14 @@ ISpeechRecognitionStateListener {
         }
     }
 
-    @Override
     public void updateRemoteHMIGlobalList(SDSListEntry[] sDSListEntryArray, boolean bl) {
         if (sDSListEntryArray == null) {
-            this.lc.log(-1601830656, "[RemoteHMIHandlerImpl#updateRemoteHMIGlobalList] entryList == null");
+            this.lc.log(100000, "[RemoteHMIHandlerImpl#updateRemoteHMIGlobalList] entryList == null");
             this.dynamicLists.removeFromLookup(42);
             return;
         }
         int n = sDSListEntryArray.length;
-        this.lc.log(-2137614336, "[RemoteHMIHandlerImpl#updateRemoteHMIGlobalList] entryList.size=%1!", (long)n);
+        this.lc.log(10000000, "[RemoteHMIHandlerImpl#updateRemoteHMIGlobalList] entryList.size=%1!", (long)n);
         if (n <= 0 || !bl) {
             this.dynamicLists.removeFromLookup(42);
         } else {
@@ -184,15 +178,14 @@ ISpeechRecognitionStateListener {
         }
     }
 
-    @Override
     public void updateRemoteHMIHelpList(SDSListEntry[] sDSListEntryArray, boolean bl) {
         if (sDSListEntryArray == null) {
-            this.lc.log(-1601830656, "[RemoteHMIHandlerImpl#updateRemoteHMIHelpList] entryList == null");
+            this.lc.log(100000, "[RemoteHMIHandlerImpl#updateRemoteHMIHelpList] entryList == null");
             this.dynamicLists.removeFromLookup(43);
             return;
         }
         int n = sDSListEntryArray.length;
-        this.lc.log(-2137614336, "[RemoteHMIHandlerImpl#updateRemoteHMIHelpList] entryList.size=%1!", (long)n);
+        this.lc.log(10000000, "[RemoteHMIHandlerImpl#updateRemoteHMIHelpList] entryList.size=%1!", (long)n);
         if (n <= 0 || !bl) {
             this.dynamicLists.removeFromLookup(43);
         } else {
@@ -213,9 +206,8 @@ ISpeechRecognitionStateListener {
         }
     }
 
-    @Override
     public void setRemoteHMICategorySetFinished(byte by) {
-        this.lc.log(-2137614336, "RemoteHMIHandlerImpl#setRemoteHMICategorySetFinished: continueDialog=%1", (long)by);
+        this.lc.log(10000000, "RemoteHMIHandlerImpl#setRemoteHMICategorySetFinished: continueDialog=%1", (long)by);
         try {
             ((RemoteHMIRequestDialogContinuationCommand)SDSUtils.getActiveSystemCall()).setRemoteHMICategorySetFinished(by);
         }
@@ -223,23 +215,20 @@ ISpeechRecognitionStateListener {
             this.lc.log(10000, "RemoteHMIHandlerImpl#setRemoteHMICategorySetFinished: Active command is no RemoteHMIRequestDialogContinuationCommand!");
         }
         catch (NullPointerException nullPointerException) {
-            this.lc.log(-1601830656, "RemoteHMIHandlerImpl#setRemoteHMICategorySetFinished: NullpointerException. No active command!");
+            this.lc.log(100000, "RemoteHMIHandlerImpl#setRemoteHMICategorySetFinished: NullpointerException. No active command!");
         }
     }
 
-    @Override
     public int[] getCommands() {
         return commands;
     }
 
-    @Override
-    public void setDictionary(OnlineServiceListener$OnlineSpeechDictionary onlineServiceListener$OnlineSpeechDictionary) {
-        List list = onlineServiceListener$OnlineSpeechDictionary.getDictionaryEntries();
+    public void setDictionary(OnlineServiceListener.OnlineSpeechDictionary onlineSpeechDictionary) {
+        List list = onlineSpeechDictionary.getDictionaryEntries();
         DictionaryEntry[] dictionaryEntryArray = (DictionaryEntry[])list.toArray(new DictionaryEntry[0]);
-        this.srHandler.setDictionary(onlineServiceListener$OnlineSpeechDictionary.getType(), onlineServiceListener$OnlineSpeechDictionary.getLanguage(), onlineServiceListener$OnlineSpeechDictionary.getFormat(), dictionaryEntryArray);
+        this.srHandler.setDictionary(onlineSpeechDictionary.getType(), onlineSpeechDictionary.getLanguage(), onlineSpeechDictionary.getFormat(), dictionaryEntryArray);
     }
 
-    @Override
     public void sessionEnded() {
         this.selectedHelpLine = -1;
     }
@@ -248,32 +237,26 @@ ISpeechRecognitionStateListener {
         return "RemoteHMIHandlerImpl";
     }
 
-    @Override
     public void setSelectedHelpLine(int n) {
         this.selectedHelpLine = n;
     }
 
-    @Override
     public int getSelectedHelpLine() {
         return this.selectedHelpLine;
     }
 
-    @Override
     public void setTTSASR(ITTSASR iTTSASR) {
         this.ttsASR = iTTSASR;
     }
 
-    @Override
     public void updateSpeechRecognitionState(int n) {
         this.speechRecognitionState = n;
     }
 
-    @Override
     public boolean isGrammarReloadTriggered() {
         return this.isGrammarReloadTriggered;
     }
 
-    @Override
     public void resetGrammarReloadTriggered() {
         this.isGrammarReloadTriggered = false;
     }

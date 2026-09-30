@@ -8,32 +8,25 @@ import de.audi.atip.base.IDomainListener;
 import de.audi.atip.progress.IProgressMonitor;
 
 public interface IAppStateManager {
-    public static final int COMPONENT_STATE_UNINITIALIZED;
-    public static final int COMPONENT_STATE_INITIALIZED;
-    public static final int COMPONENT_STATE_ERROR;
-    public static final int COMPONENT_STATE_NOT_ENABLED;
-    public static final int COMPONENT_STATE_NOT_PRESENT;
-    public static final int COMPONENT_STATE_MASK;
+    public static final int COMPONENT_STATE_UNINITIALIZED = 0;
+    public static final int COMPONENT_STATE_INITIALIZED = 1;
+    public static final int COMPONENT_STATE_ERROR = 256;
+    public static final int COMPONENT_STATE_NOT_ENABLED = 512;
+    public static final int COMPONENT_STATE_NOT_PRESENT = 1024;
+    public static final int COMPONENT_STATE_MASK = -768;
 
-    default public void registerComponentStateListener(ComponentStateListener componentStateListener) {
-    }
+    public void registerComponentStateListener(ComponentStateListener var1);
 
-    default public void unregisterComponentStateListener(ComponentStateListener componentStateListener) {
-    }
+    public void unregisterComponentStateListener(ComponentStateListener var1);
 
-    default public void registerDomainStateListener(IDomainListener iDomainListener) {
-    }
+    public void registerDomainStateListener(IDomainListener var1);
 
-    default public void unregisterDomainStateListener(IDomainListener iDomainListener) {
-    }
+    public void unregisterDomainStateListener(IDomainListener var1);
 
-    default public boolean isAppSwdlStarted() {
-    }
+    public boolean isAppSwdlStarted();
 
-    default public void enqueueDomainStart(int n, int n2) {
-    }
+    public void enqueueDomainStart(int var1, int var2);
 
-    default public IProgressMonitor getNavProgressMonitor() {
-    }
+    public IProgressMonitor getNavProgressMonitor();
 }
 

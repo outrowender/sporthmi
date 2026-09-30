@@ -21,7 +21,7 @@ extends AbstractSystemCallCommand {
     protected final NBestStorageAccess nBestStorage;
     protected MediaSDSPicklistHandler picklistHandler;
     protected final int sortOrder;
-    protected static final int MEDIA_ORDER_SWAP;
+    protected static final int MEDIA_ORDER_SWAP = 1;
     private final MediaSDSHandler mediaSDSHandler;
 
     public MediaG2POneshotIsAmbiguousCommand(LogChannel logChannel, String string, SDSHandlerService sDSHandlerService, ISystemCallParameter[] iSystemCallParameterArray, NBestStorageAccess nBestStorageAccess, MediaSDSPicklistHandler mediaSDSPicklistHandler, MediaSDSHandler mediaSDSHandler) {
@@ -32,7 +32,6 @@ extends AbstractSystemCallCommand {
         this.mediaSDSHandler = mediaSDSHandler;
     }
 
-    @Override
     public void execute() {
         IPicklist iPicklist = this.nBestStorage.getMatchingPicklist((byte)2);
         if (iPicklist == null) {
@@ -43,17 +42,17 @@ extends AbstractSystemCallCommand {
             iPicklist = this.swapSlots(iPicklist);
         }
         int n = iPicklist.getSize();
-        this.logger.log(-2137614336, "%1#execute: lastRecogSize=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: lastRecogSize=%2", (Object)this.getName(), (long)n);
         if (n == 1) {
             this.handleUniqueRecognition(iPicklist);
             return;
         }
         if (n > 1) {
-            this.logger.log(-2137614336, "%1#execute: Ambiguous oneshot recognition!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: Ambiguous oneshot recognition!", (Object)this.getName());
             this.sendResult(20013);
             return;
         }
-        this.logger.log(-1601830656, "%1#execute: Unhandled lastRecogSize %2!", (Object)this.getName(), (long)n);
+        this.logger.log(100000, "%1#execute: Unhandled lastRecogSize %2!", (Object)this.getName(), (long)n);
         this.sendResult(20001);
     }
 
@@ -61,20 +60,20 @@ extends AbstractSystemCallCommand {
         OneshotHandler oneshotHandler = this.mediaSDSHandler.getOneshotHandler();
         if (oneshotHandler != null) {
             if (iPicklist == null || iPicklist.getSize() <= 0) {
-                this.logger.log(-1601830656, "%1#handleUniqueRecognitionMedia: Empty picklist or picklist to small!", (Object)this.getName());
+                this.logger.log(100000, "%1#handleUniqueRecognitionMedia: Empty picklist or picklist to small!", (Object)this.getName());
                 this.sendResult(20001);
                 return;
             }
             IPicklistElement iPicklistElement = iPicklist.get(0);
             if (iPicklistElement == null) {
-                this.logger.log(-1601830656, "%1#handleUniqueRecognitionMedia: Empty picklistElement!", (Object)this.getName());
+                this.logger.log(100000, "%1#handleUniqueRecognitionMedia: Empty picklistElement!", (Object)this.getName());
                 this.sendResult(20001);
                 return;
             }
             oneshotHandler.setOneshotData(iPicklistElement.getSlots());
             this.sendResult(oneshotHandler.determineCorrectOneshotEvent());
         } else {
-            this.logger.log(-1601830656, "%1#handleUniqueRecognitionMedia: oneshot handler is null!", (Object)this.getName());
+            this.logger.log(100000, "%1#handleUniqueRecognitionMedia: oneshot handler is null!", (Object)this.getName());
             this.sendResult(20001);
         }
     }

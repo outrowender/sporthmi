@@ -23,13 +23,11 @@ DSIObjectPushListener {
         super(iObexApplication);
     }
 
-    @Override
     public void init() {
         this.serviceTracker = new ServiceTracker(this.bundleContext, new String[]{(class$org$dsi$ifc$bluetooth$DSIObjectPush == null ? (class$org$dsi$ifc$bluetooth$DSIObjectPush = AbstractObjectPushComponent.class$("org.dsi.ifc.bluetooth.DSIObjectPush")) : class$org$dsi$ifc$bluetooth$DSIObjectPush).getName()}, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();
     }
 
-    @Override
     public void deinit() {
         if (this.dsi != null) {
             this.dsi.clearNotification(this);
@@ -39,7 +37,6 @@ DSIObjectPushListener {
         this.serviceTracker = null;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSIObjectPush) {
@@ -50,7 +47,6 @@ DSIObjectPushListener {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIObjectPush) {
             this.dsi = null;
@@ -58,14 +54,12 @@ DSIObjectPushListener {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIObjectPush) {
             this.dsi = (DSIObjectPush)object;
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 

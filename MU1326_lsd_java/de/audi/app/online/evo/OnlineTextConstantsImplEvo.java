@@ -7,20 +7,19 @@ import de.audi.tghu.online.app.IOnlineTextConstants;
 
 public class OnlineTextConstantsImplEvo
 implements IOnlineTextConstants {
-    @Override
     public int mapToVariant(int n) {
         int n2;
         switch (n) {
             case 0: {
-                n2 = 1193543168;
+                n2 = 402503;
                 break;
             }
             case 1: {
-                n2 = 1210320384;
+                n2 = 402504;
                 break;
             }
             case 2: {
-                n2 = 1227097600;
+                n2 = 402505;
                 break;
             }
             default: {

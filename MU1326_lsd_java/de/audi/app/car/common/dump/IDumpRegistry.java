@@ -6,16 +6,12 @@ package de.audi.app.car.common.dump;
 import de.audi.app.car.common.dump.IDumpHandlerComponentAccess;
 
 public interface IDumpRegistry {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public IDumpHandlerComponentAccess registerAsProvider(String string) {
-    }
+    public IDumpHandlerComponentAccess registerAsProvider(String var1);
 
-    default public void deRegisterAsProvider(IDumpHandlerComponentAccess iDumpHandlerComponentAccess) {
-    }
+    public void deRegisterAsProvider(IDumpHandlerComponentAccess var1);
 }
 

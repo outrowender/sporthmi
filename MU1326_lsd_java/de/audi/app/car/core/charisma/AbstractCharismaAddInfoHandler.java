@@ -27,7 +27,6 @@ extends DefaultChoiceModelHandler {
         this.readPersistentAdditionalInfo();
     }
 
-    @Override
     public void updateOnItemSelected(int n) {
         this.handleItemSelected(n);
         super.updateOnItemSelected(n);
@@ -38,7 +37,7 @@ extends DefaultChoiceModelHandler {
         if (this.configs.containsKey(n2)) {
             return (CharismaAddInfoConfig)this.configs.get(new Integer(n));
         }
-        this.logChannel.log(-1601830656, "[AbstractCharismaAddInfoHandler#getConfig] Config not found in Map! config=%1", (long)n);
+        this.logChannel.log(100000, "[AbstractCharismaAddInfoHandler#getConfig] Config not found in Map! config=%1", (long)n);
         return null;
     }
 
@@ -53,20 +52,18 @@ extends DefaultChoiceModelHandler {
     }
 
     protected void setVisible(int n, boolean bl) {
-        this.logChannel.log(1078071040, "[AbstractCharismaAddInfoHandler#setVisible] config=%2 visible=%1", bl, (long)n);
+        this.logChannel.log(1000000, "[AbstractCharismaAddInfoHandler#setVisible] config=%2 visible=%1", bl, (long)n);
         CharismaAddInfoConfig charismaAddInfoConfig = this.getConfig(n);
         if (charismaAddInfoConfig != null) {
             charismaAddInfoConfig.setVisible(bl);
             charismaAddInfoConfig.writePersistentAdditionalInfo(bl);
         } else {
-            this.logChannel.log(-1601830656, "[AbstractCharismaAddInfoHandler#setVisible] Not setting visible! Config not available! config=%1", (long)n);
+            this.logChannel.log(100000, "[AbstractCharismaAddInfoHandler#setVisible] Not setting visible! Config not available! config=%1", (long)n);
         }
     }
 
-    protected abstract void handleItemSelected(int n) {
-    }
+    protected abstract void handleItemSelected(int var1);
 
-    protected abstract void readPersistentAdditionalInfo() {
-    }
+    protected abstract void readPersistentAdditionalInfo();
 }
 

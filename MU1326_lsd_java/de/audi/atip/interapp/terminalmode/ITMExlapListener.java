@@ -8,13 +8,10 @@ import de.audi.atip.interapp.terminalmode.MediaPlayInfoContainer;
 import de.audi.atip.interapp.terminalmode.TrackInfoContainer;
 
 public interface ITMExlapListener {
-    default public void updateAppConnectDevice(AppConnectDeviceContainer appConnectDeviceContainer) {
-    }
+    public void updateAppConnectDevice(AppConnectDeviceContainer var1);
 
-    default public void updateMediaPlayInfo(MediaPlayInfoContainer mediaPlayInfoContainer) {
-    }
+    public void updateMediaPlayInfo(MediaPlayInfoContainer var1);
 
-    default public void updateCurrentTrackInfo(TrackInfoContainer trackInfoContainer) {
-    }
+    public void updateCurrentTrackInfo(TrackInfoContainer var1);
 }
 

@@ -19,28 +19,22 @@ implements ApplicationSMM {
         super(iFrameworkAccess, n, string, n2, n3, string2);
     }
 
-    @Override
-    protected abstract void init() {
-    }
+    protected abstract void init();
 
-    @Override
     public void setTopLevelSuperstate(int n) {
         int n2 = this.id2ArrayIdx(this.topLevelStateID);
         this.stateSuperstateList[n2] = n;
-        this.logChannel.log(1078071040, "[AbstractAppSMM#setTopLevelSuperstate] [%1] top-level superstate set to (STATEID#%1).", (Object)this.terminalName, (long)n);
+        this.logChannel.log(1000000, "[AbstractAppSMM#setTopLevelSuperstate] [%1] top-level superstate set to (STATEID#%1).", (Object)this.terminalName, (long)n);
     }
 
-    @Override
     public void execEnterAction(SMServices sMServices, int n) {
         this.execEnterAction(n);
     }
 
-    @Override
     public void execExitAction(SMServices sMServices, int n) {
         this.execExitAction(n);
     }
 
-    @Override
     public void execTransitionAction(SMServices sMServices, int n, int n2) {
         this.execTransitionAction(n, n2);
     }

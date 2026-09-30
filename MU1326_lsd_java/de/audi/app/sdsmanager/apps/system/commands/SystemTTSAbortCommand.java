@@ -23,26 +23,24 @@ extends AbstractSystemCallCommand {
         this.systemVBIHandler = iSystemVBIHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         if (this.systemVBIHandler.isRegularPromptAtSessionEndActive()) {
             return;
         }
         if (this.systemHandler.abortCurrentPrompt((byte)0, false, -1)) {
-            this.logger.log(-2137614336, "%1#execute: TTS (already) aborting => Wait for aborting of prompt!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: TTS (already) aborting => Wait for aborting of prompt!", (Object)this.getName());
             return;
         }
-        this.logger.log(-2137614336, "%1#execute: TTS idle and not aborted => Sending OK!", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: TTS idle and not aborted => Sending OK!", (Object)this.getName());
         this.sendResult(3000);
     }
 
     public void currentTTSPromptEnded() {
-        this.logger.log(-2137614336, "%1#currentTTSPromptEnded: Current TTS prompt ended => sending OK!", (Object)this.getName());
+        this.logger.log(10000000, "%1#currentTTSPromptEnded: Current TTS prompt ended => sending OK!", (Object)this.getName());
         this.sendResult(3000);
     }
 
-    @Override
     public boolean isSDSEndSequenceCommand() {
         return this.appSDSManager.isSDSAborting();
     }

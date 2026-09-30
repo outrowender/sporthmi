@@ -27,12 +27,12 @@ public class WirelessChargingServiceProvider {
     }
 
     public void startService() {
-        this.logChannel.log(1078071040, "[WirelessChargingServiceProvider#startService] %1", (Object)this);
+        this.logChannel.log(1000000, "[WirelessChargingServiceProvider#startService] %1", (Object)this);
         this.serviceRegistration = this.bundleContext.registerService(this.serviceClass, this.service, (Dictionary)this.properties);
     }
 
     public void stopService() {
-        this.logChannel.log(1078071040, "[WirelessChargingServiceProvider#stopService] %1", (Object)this);
+        this.logChannel.log(1000000, "[WirelessChargingServiceProvider#stopService] %1", (Object)this);
         if (this.serviceRegistration != null) {
             this.serviceRegistration.unregister();
         }

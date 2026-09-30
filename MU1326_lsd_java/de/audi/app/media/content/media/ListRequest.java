@@ -6,7 +6,7 @@ package de.audi.app.media.content.media;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class ListRequest {
-    private static final int INVALID;
+    private static final int INVALID = -1;
     private int requestId;
     private int startIndex;
 

@@ -11,14 +11,14 @@ import de.audi.atip.hmi.model.TextListCell;
 
 public final class MediaListTooltipRow
 extends ListRow {
-    private static final int MAX_COLS;
-    private static final int COL_RECORDSET;
-    private static final int COL_TITLE;
-    private static final int COL_TITLE_I18N;
-    private static final int COL_ERROR_TYPE;
-    private static final int RECORDSET_TITLE;
-    private static final int RECORDSET_TITLE_I18N;
-    private static final int RECORDSET_ERROR_TYPE;
+    private static final int MAX_COLS = 4;
+    private static final int COL_RECORDSET = 0;
+    private static final int COL_TITLE = 1;
+    private static final int COL_TITLE_I18N = 2;
+    private static final int COL_ERROR_TYPE = 3;
+    private static final int RECORDSET_TITLE = 0;
+    private static final int RECORDSET_TITLE_I18N = 1;
+    private static final int RECORDSET_ERROR_TYPE = 2;
 
     private MediaListTooltipRow() {
     }
@@ -64,12 +64,10 @@ extends ListRow {
         return mediaListTooltipRow;
     }
 
-    @Override
     public boolean equals(Object object) {
         return false;
     }
 
-    @Override
     public int hashCode() {
         return super.hashCode();
     }

@@ -10,7 +10,6 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public class PoiNameListRowBuilder
 implements IEvoListRowBuilder {
-    @Override
     public EvoListRow buildListRow(LIValueListElement lIValueListElement, int n) {
         PoiNameListRow poiNameListRow = new PoiNameListRow(lIValueListElement, n);
         return poiNameListRow;

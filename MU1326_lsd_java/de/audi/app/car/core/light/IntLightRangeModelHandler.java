@@ -21,10 +21,9 @@ extends RangeModelHandlerAdapter {
         super(rangeModelApp, logChannel);
         rangeModelApp.setLimits(0, 100, 5);
         rangeModelApp.setValue(50);
-        this.watchedModelTimer = new RangeModelWatcherTimer("IntLightRotaryValue", rangeModelApp, 0, logChannel);
+        this.watchedModelTimer = new RangeModelWatcherTimer("IntLightRotaryValue", rangeModelApp, 1000L, logChannel);
     }
 
-    @Override
     public void updateOnAdjustment(int n) {
         if (this.getBusiness() != null) {
             IntLightRangeHandlerTransactionData intLightRangeHandlerTransactionData = new IntLightRangeHandlerTransactionData(this.selectedProfile, n);
@@ -33,7 +32,6 @@ extends RangeModelHandlerAdapter {
         }
     }
 
-    @Override
     public void updateOnKeyPressed(int n) {
         if (this.getBusiness() != null) {
             this.getRangeEventBusiness().processKeyPressed(n, (ButtonModelHandler)this);

@@ -33,12 +33,10 @@ extends AbstractDataEntertainmentDrawerElement {
         this.addAllModelsToInternalList();
     }
 
-    @Override
     public List getModels() {
         return this.incomingCallModels;
     }
 
-    @Override
     public void updateValues() {
         CallStateStruct callStateStruct;
         CallStateStruct callStateStruct2 = this.getCurrentStateStruct() != null ? (this.getCurrentStateStruct().getCallLeadingDevice() != null ? this.getCurrentStateStruct().getCallLeadingDevice().getCallState() : null) : (callStateStruct = null);
@@ -50,10 +48,10 @@ extends AbstractDataEntertainmentDrawerElement {
 
     private void updateIncomingCallModels(AbstractPhoneCall abstractPhoneCall, AbstractPhoneCall abstractPhoneCall2, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         if (iGlobalTelephoneStateStruct != null && abstractPhoneCall != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null) {
-            this.log.log(-2137614336, "[EntertainmentDrawerElementIncomingCallDataModels#updateIncomingCallModels] incoming call on call leading phone detected - showing popup.");
+            this.log.log(10000000, "[EntertainmentDrawerElementIncomingCallDataModels#updateIncomingCallModels] incoming call on call leading phone detected - showing popup.");
             this.setIncomingCallmodels(abstractPhoneCall, iGlobalTelephoneStateStruct, this.getNameForDrawerLabel(iGlobalTelephoneStateStruct.getCallLeadingDevice()));
         } else if (iGlobalTelephoneStateStruct != null && abstractPhoneCall2 != null && iGlobalTelephoneStateStruct.getNonCallLeadingDevice() != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null && !EntertainmentDrawerElementIncomingCallDataModels.hasDisconnectingCall(iGlobalTelephoneStateStruct.getCallLeadingDevice().getCallState())) {
-            this.log.log(-2137614336, "[EntertainmentDrawerElementIncomingCallDataModels#updateIncomingCallModels] incoming call on non call leading phone detected - showing popup.");
+            this.log.log(10000000, "[EntertainmentDrawerElementIncomingCallDataModels#updateIncomingCallModels] incoming call on non call leading phone detected - showing popup.");
             this.setIncomingCallmodels(abstractPhoneCall2, iGlobalTelephoneStateStruct, this.getNameForDrawerLabel(iGlobalTelephoneStateStruct.getNonCallLeadingDevice()));
         } else {
             this.setIncommingCallTelephoneText("");
@@ -98,15 +96,15 @@ extends AbstractDataEntertainmentDrawerElement {
     }
 
     private void addAllModelsToInternalList() {
-        this.incomingCallModels.add(this.getChoiceModel(-1114176512));
+        this.incomingCallModels.add(this.getChoiceModel(300989));
         this.incomingCallModels.add(this.getLabelModel(4509));
-        this.incomingCallModels.add(this.getLabelModel(-1936325632));
-        this.incomingCallModels.add(this.getChoiceModel(-1969880064));
-        this.incomingCallModels.add(this.getResourceLocatorModel(-1953102848));
+        this.incomingCallModels.add(this.getLabelModel(300684));
+        this.incomingCallModels.add(this.getChoiceModel(300682));
+        this.incomingCallModels.add(this.getResourceLocatorModel(300683));
     }
 
     private void setTelCallTypeChoiceValue(int n) {
-        this.getChoiceModel(-1114176512).setValue(n);
+        this.getChoiceModel(300989).setValue(n);
         this.callType = n;
     }
 
@@ -116,17 +114,17 @@ extends AbstractDataEntertainmentDrawerElement {
     }
 
     private void setCallNameLabel(String string) {
-        this.getLabelModel(-1936325632).setText(string);
+        this.getLabelModel(300684).setText(string);
         this.callName = string;
     }
 
     private void setCallPhoneTypeIconModel(int n) {
-        this.getChoiceModel(-1969880064).setValue(n);
+        this.getChoiceModel(300682).setValue(n);
         this.phoneType = n;
     }
 
     private void setCallPictureResourceLocator(HMIResourceLocator hMIResourceLocator) {
-        this.getResourceLocatorModel(-1953102848).setResourceLocator(hMIResourceLocator);
+        this.getResourceLocatorModel(300683).setResourceLocator(hMIResourceLocator);
         this.resourceLocator = hMIResourceLocator;
     }
 

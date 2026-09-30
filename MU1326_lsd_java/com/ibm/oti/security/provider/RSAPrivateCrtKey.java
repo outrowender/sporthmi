@@ -7,7 +7,6 @@ import com.ibm.oti.security.provider.PKCS1;
 import com.ibm.oti.security.provider.RSAPrivateKey;
 import com.ibm.oti.security.provider.RSAPublicKey;
 import com.ibm.oti.util.ASN1Decoder;
-import com.ibm.oti.util.ASN1Decoder$Node;
 import com.ibm.oti.util.ASN1Encoder;
 import com.ibm.oti.util.ASN1Exception;
 import java.io.ByteArrayInputStream;
@@ -21,7 +20,7 @@ import java.util.Arrays;
 public class RSAPrivateCrtKey
 extends RSAPrivateKey
 implements java.security.interfaces.RSAPrivateCrtKey {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -8013128276751145578L;
     protected BigInteger publicExponent;
     protected BigInteger p;
     protected BigInteger q;
@@ -59,7 +58,7 @@ implements java.security.interfaces.RSAPrivateCrtKey {
         this.qInv = bigInteger8;
     }
 
-    public RSAPrivateCrtKey(PKCS8EncodedKeySpec pKCS8EncodedKeySpec) {
+    public RSAPrivateCrtKey(PKCS8EncodedKeySpec pKCS8EncodedKeySpec) throws InvalidKeySpecException {
         this.encoded = pKCS8EncodedKeySpec.getEncoded();
         try {
             this.decodeFromPKCS8();
@@ -69,57 +68,46 @@ implements java.security.interfaces.RSAPrivateCrtKey {
         }
     }
 
-    @Override
     public BigInteger getPublicExponent() {
         return this.publicExponent;
     }
 
-    @Override
     public BigInteger getPrimeP() {
         return this.p;
     }
 
-    @Override
     public BigInteger getPrimeQ() {
         return this.q;
     }
 
-    @Override
     public BigInteger getPrimeExponentP() {
         return this.dP;
     }
 
-    @Override
     public BigInteger getPrimeExponentQ() {
         return this.dQ;
     }
 
-    @Override
     public BigInteger getCrtCoefficient() {
         return this.qInv;
     }
 
-    @Override
     public BigInteger getPrivateExponent() {
         return this.privateExponent;
     }
 
-    @Override
     public BigInteger getModulus() {
         return this.p.multiply(this.q);
     }
 
-    @Override
     public String getAlgorithm() {
         return "RSA";
     }
 
-    @Override
     public String getFormat() {
         return "PKCS#8";
     }
 
-    @Override
     public byte[] getEncoded() {
         if (this.encoded == null) {
             this.encodeToPKCS8();
@@ -127,15 +115,13 @@ implements java.security.interfaces.RSAPrivateCrtKey {
         return this.encoded;
     }
 
-    @Override
     public RSAPrivateKeySpec toKeySpec() {
         return new RSAPrivateCrtKeySpec(this.modulus, this.publicExponent, this.privateExponent, this.p, this.q, this.dP, this.dQ, this.qInv);
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(super.getClass().getName());
+        stringBuffer.append(this.getClass().getName());
         RSAPublicKey.writeParamString(this.modulus, "modulus (n)", stringBuffer);
         RSAPublicKey.writeParamString(this.publicExponent, "public exponent (e)", stringBuffer);
         RSAPublicKey.writeParamString(this.privateExponent, "private exponent (d)", stringBuffer);
@@ -148,128 +134,128 @@ implements java.security.interfaces.RSAPrivateCrtKey {
     }
 
     private void encodeToPKCS8() {
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray;
-        ASN1Decoder$Node aSN1Decoder$Node = new ASN1Decoder$Node();
-        aSN1Decoder$Node.type = 16;
-        aSN1Decoder$Node.data = aSN1Decoder$NodeArray = new ASN1Decoder$Node[9];
+        ASN1Decoder.Node[] nodeArray;
+        ASN1Decoder.Node node = new ASN1Decoder.Node();
+        node.type = 16;
+        node.data = nodeArray = new ASN1Decoder.Node[9];
         int n = 0;
-        while (n < aSN1Decoder$NodeArray.length) {
-            aSN1Decoder$NodeArray[n] = new ASN1Decoder$Node();
-            aSN1Decoder$NodeArray[n].type = 2;
+        while (n < nodeArray.length) {
+            nodeArray[n] = new ASN1Decoder.Node();
+            nodeArray[n].type = 2;
             switch (n) {
                 case 0: {
-                    aSN1Decoder$NodeArray[n].data = BigInteger.ZERO;
+                    nodeArray[n].data = BigInteger.ZERO;
                     break;
                 }
                 case 1: {
-                    aSN1Decoder$NodeArray[n].data = this.modulus;
+                    nodeArray[n].data = this.modulus;
                     break;
                 }
                 case 2: {
-                    aSN1Decoder$NodeArray[n].data = this.publicExponent;
+                    nodeArray[n].data = this.publicExponent;
                     break;
                 }
                 case 3: {
-                    aSN1Decoder$NodeArray[n].data = this.privateExponent;
+                    nodeArray[n].data = this.privateExponent;
                     break;
                 }
                 case 4: {
-                    aSN1Decoder$NodeArray[n].data = this.p;
+                    nodeArray[n].data = this.p;
                     break;
                 }
                 case 5: {
-                    aSN1Decoder$NodeArray[n].data = this.q;
+                    nodeArray[n].data = this.q;
                     break;
                 }
                 case 6: {
-                    aSN1Decoder$NodeArray[n].data = this.dP;
+                    nodeArray[n].data = this.dP;
                     break;
                 }
                 case 7: {
-                    aSN1Decoder$NodeArray[n].data = this.dQ;
+                    nodeArray[n].data = this.dQ;
                     break;
                 }
                 case 8: {
-                    aSN1Decoder$NodeArray[n].data = this.qInv;
+                    nodeArray[n].data = this.qInv;
                 }
             }
             ++n;
         }
-        byte[] byArray = ASN1Encoder.encodeNode(aSN1Decoder$Node);
-        ASN1Decoder$Node aSN1Decoder$Node2 = new ASN1Decoder$Node();
-        aSN1Decoder$Node2.type = 16;
-        aSN1Decoder$Node2.data = aSN1Decoder$NodeArray = new ASN1Decoder$Node[3];
-        aSN1Decoder$NodeArray[0] = new ASN1Decoder$Node();
-        aSN1Decoder$NodeArray[0].type = 2;
-        aSN1Decoder$NodeArray[0].data = BigInteger.ZERO;
-        aSN1Decoder$NodeArray[1] = new ASN1Decoder$Node();
-        aSN1Decoder$NodeArray[1].type = 16;
-        aSN1Decoder$NodeArray[1].data = new ASN1Decoder$Node[2];
-        ((ASN1Decoder$Node[])aSN1Decoder$NodeArray[1].data)[0] = new ASN1Decoder$Node();
-        ((ASN1Decoder$Node[])aSN1Decoder$NodeArray[1].data)[0].type = 6;
-        ((ASN1Decoder$Node[])aSN1Decoder$NodeArray[1].data)[0].data = PKCS1.OID_RSA;
-        ((ASN1Decoder$Node[])aSN1Decoder$NodeArray[1].data)[1] = new ASN1Decoder$Node();
-        ((ASN1Decoder$Node[])aSN1Decoder$NodeArray[1].data)[1].type = 5;
-        ((ASN1Decoder$Node[])aSN1Decoder$NodeArray[1].data)[1].data = null;
-        aSN1Decoder$NodeArray[2] = new ASN1Decoder$Node();
-        aSN1Decoder$NodeArray[2].type = 4;
-        aSN1Decoder$NodeArray[2].data = byArray;
-        this.encoded = ASN1Encoder.encodeNode(aSN1Decoder$Node2);
+        byte[] byArray = ASN1Encoder.encodeNode(node);
+        ASN1Decoder.Node node2 = new ASN1Decoder.Node();
+        node2.type = 16;
+        node2.data = nodeArray = new ASN1Decoder.Node[3];
+        nodeArray[0] = new ASN1Decoder.Node();
+        nodeArray[0].type = 2;
+        nodeArray[0].data = BigInteger.ZERO;
+        nodeArray[1] = new ASN1Decoder.Node();
+        nodeArray[1].type = 16;
+        nodeArray[1].data = new ASN1Decoder.Node[2];
+        ((ASN1Decoder.Node[])nodeArray[1].data)[0] = new ASN1Decoder.Node();
+        ((ASN1Decoder.Node[])nodeArray[1].data)[0].type = 6;
+        ((ASN1Decoder.Node[])nodeArray[1].data)[0].data = PKCS1.OID_RSA;
+        ((ASN1Decoder.Node[])nodeArray[1].data)[1] = new ASN1Decoder.Node();
+        ((ASN1Decoder.Node[])nodeArray[1].data)[1].type = 5;
+        ((ASN1Decoder.Node[])nodeArray[1].data)[1].data = null;
+        nodeArray[2] = new ASN1Decoder.Node();
+        nodeArray[2].type = 4;
+        nodeArray[2].data = byArray;
+        this.encoded = ASN1Encoder.encodeNode(node2);
     }
 
-    protected void decodeFromPKCS8() {
+    protected void decodeFromPKCS8() throws IllegalArgumentException {
         try {
             ASN1Decoder aSN1Decoder = new ASN1Decoder(new ByteArrayInputStream(this.encoded));
-            ASN1Decoder$Node aSN1Decoder$Node = aSN1Decoder.readContents();
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node.data;
-            if (!((BigInteger)aSN1Decoder$NodeArray[0].data).equals(BigInteger.ZERO)) {
+            ASN1Decoder.Node node = aSN1Decoder.readContents();
+            ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])node.data;
+            if (!((BigInteger)nodeArray[0].data).equals(BigInteger.ZERO)) {
                 throw new IllegalArgumentException();
             }
-            int[] nArray = (int[])((ASN1Decoder$Node[])aSN1Decoder$NodeArray[1].data)[0].data;
+            int[] nArray = (int[])((ASN1Decoder.Node[])nodeArray[1].data)[0].data;
             if (!Arrays.equals(nArray, PKCS1.OID_RSA)) {
                 throw new IllegalArgumentException();
             }
-            byte[] byArray = (byte[])aSN1Decoder$NodeArray[2].data;
+            byte[] byArray = (byte[])nodeArray[2].data;
             aSN1Decoder = new ASN1Decoder(new ByteArrayInputStream(byArray));
-            ASN1Decoder$Node aSN1Decoder$Node2 = aSN1Decoder.readContents();
-            aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node2.data;
+            ASN1Decoder.Node node2 = aSN1Decoder.readContents();
+            nodeArray = (ASN1Decoder.Node[])node2.data;
             int n = 0;
-            while (n < aSN1Decoder$NodeArray.length) {
+            while (n < nodeArray.length) {
                 switch (n) {
                     case 0: {
-                        if (((BigInteger)aSN1Decoder$NodeArray[n].data).equals(BigInteger.ZERO)) break;
+                        if (((BigInteger)nodeArray[n].data).equals(BigInteger.ZERO)) break;
                         throw new IllegalArgumentException();
                     }
                     case 1: {
-                        this.modulus = (BigInteger)aSN1Decoder$NodeArray[n].data;
+                        this.modulus = (BigInteger)nodeArray[n].data;
                         break;
                     }
                     case 2: {
-                        this.publicExponent = (BigInteger)aSN1Decoder$NodeArray[n].data;
+                        this.publicExponent = (BigInteger)nodeArray[n].data;
                         break;
                     }
                     case 3: {
-                        this.privateExponent = (BigInteger)aSN1Decoder$NodeArray[n].data;
+                        this.privateExponent = (BigInteger)nodeArray[n].data;
                         break;
                     }
                     case 4: {
-                        this.p = (BigInteger)aSN1Decoder$NodeArray[n].data;
+                        this.p = (BigInteger)nodeArray[n].data;
                         break;
                     }
                     case 5: {
-                        this.q = (BigInteger)aSN1Decoder$NodeArray[n].data;
+                        this.q = (BigInteger)nodeArray[n].data;
                         break;
                     }
                     case 6: {
-                        this.dP = (BigInteger)aSN1Decoder$NodeArray[n].data;
+                        this.dP = (BigInteger)nodeArray[n].data;
                         break;
                     }
                     case 7: {
-                        this.dQ = (BigInteger)aSN1Decoder$NodeArray[n].data;
+                        this.dQ = (BigInteger)nodeArray[n].data;
                         break;
                     }
                     case 8: {
-                        this.qInv = (BigInteger)aSN1Decoder$NodeArray[n].data;
+                        this.qInv = (BigInteger)nodeArray[n].data;
                     }
                 }
                 ++n;

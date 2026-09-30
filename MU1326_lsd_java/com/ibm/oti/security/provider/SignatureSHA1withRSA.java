@@ -14,22 +14,18 @@ extends SignatureRSA {
         super("SHA1");
     }
 
-    @Override
     protected void resetHash() {
         this.hash.reset();
     }
 
-    @Override
     protected void updateHash(byte[] byArray, int n, int n2) {
         this.hash.write(byArray, n, n2);
     }
 
-    @Override
     protected void updateHash(byte by) {
         this.hash.write(by);
     }
 
-    @Override
     protected byte[] getHash() {
         return this.hash.getHashAsBytes();
     }

@@ -6,12 +6,8 @@ package de.audi.app.messaging.core.indication;
 import de.audi.app.messaging.core.accounts.Accounts;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.dsi.messaging.DsiMessagingEmptyListener;
 import de.audi.app.messaging.core.indication.INewMessageIndicationManagerObserver;
-import de.audi.app.messaging.core.indication.NewMessageIndicationManager$1;
-import de.audi.app.messaging.core.indication.NewMessageIndicationManager$2;
-import de.audi.app.messaging.core.indication.NewMessageIndicationManager$DiagPlugIn;
-import de.audi.app.messaging.core.indication.NewMessageIndicationManager$MessageOptionsManagerObserver;
-import de.audi.app.messaging.core.indication.NewMessageIndicationManager$MyDsiMessagingListener;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
@@ -19,12 +15,11 @@ import de.audi.app.messaging.core.swdiagnosis.IDiagPlugIn;
 import de.audi.app.messaging.core.swdiagnosis.IDiagProvider;
 import de.audi.app.messaging.core.util.Collections;
 import de.audi.app.messaging.core.util.IFormatter;
+import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.util.Maps;
-import de.audi.app.messaging.core.util.Maps$ElementFormatter;
-import de.audi.atip.base.IFrameworkAccess;
+import de.audi.app.messaging.core.viewmessage.IMessageOptionsManagerObserver;
 import de.audi.atip.interapp.messaging.devicerole.DeviceRoleInfo;
 import de.audi.atip.interapp.messaging.devicerole.IDeviceRoleObserver;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.util.Util;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Collection;
@@ -35,15 +30,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+import org.dsi.ifc.messaging.MessageDetails;
 import org.dsi.ifc.messaging.MessagingAccount;
+import org.dsi.ifc.messaging.StatusInformation;
 
 public final class NewMessageIndicationManager
 extends AbstractMessagingComponent
 implements IDiagProvider,
 IDeviceRoleObserver {
-    public static final int ASPECT_NEW_MESSAGES;
-    public static final int ASPECT_MEMORY_STATUS;
-    public static final int ASPECT_SIM_MEMORY_STATUS;
+    public static final int ASPECT_NEW_MESSAGES = 0;
+    public static final int ASPECT_MEMORY_STATUS = 1;
+    public static final int ASPECT_SIM_MEMORY_STATUS = 2;
     private final Collection newMessageIndicationManagerObservers = new LinkedList();
     private boolean memoryDepleted = false;
     private boolean simMemoryDepleted = false;
@@ -54,22 +52,25 @@ IDeviceRoleObserver {
     private Map newMessageAccounts = new HashMap();
     private DeviceRoleInfo primaryDevice = null;
     private boolean showPrimaryIndicationsOnly = false;
-    private final IFormatter newMessageAccountsElementFormatter = new Maps$ElementFormatter(IFormatter.SIMPLE_FORMATTER, new NewMessageIndicationManager$1(this));
+    private final IFormatter newMessageAccountsElementFormatter = new Maps.ElementFormatter(IFormatter.SIMPLE_FORMATTER, new IFormatter(){
+
+        public String format(Object object) {
+            return Collections.toString((Collection)object);
+        }
+    });
     static /* synthetic */ Class class$de$audi$atip$interapp$messaging$devicerole$IDeviceRoleObserver;
 
     public NewMessageIndicationManager(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        abstractMsgApplication.getMessageOptionsManager().addListener(new NewMessageIndicationManager$MessageOptionsManagerObserver(this, null));
+        abstractMsgApplication.getMessageOptionsManager().addListener(new MessageOptionsManagerObserver());
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
-        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new NewMessageIndicationManager$MyDsiMessagingListener(this, null));
+        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new MyDsiMessagingListener());
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         super.connect(iServiceRegistry);
         iServiceRegistry.registerService((class$de$audi$atip$interapp$messaging$devicerole$IDeviceRoleObserver == null ? (class$de$audi$atip$interapp$messaging$devicerole$IDeviceRoleObserver = NewMessageIndicationManager.class$("de.audi.atip.interapp.messaging.devicerole.IDeviceRoleObserver")) : class$de$audi$atip$interapp$messaging$devicerole$IDeviceRoleObserver).getName(), (Object)this, ServiceProperties.createServiceProperties());
@@ -92,7 +93,7 @@ IDeviceRoleObserver {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             if (this.log.isInfo()) {
-                this.log.log(1078071040, "[NewMessageIndicationManager#addNewMessageIndication] accountId = %1, messageId = %2 ,this = %3", (Object)String.valueOf(n), (Object)string, (Object)this);
+                this.log.log(1000000, "[NewMessageIndicationManager#addNewMessageIndication] accountId = %1, messageId = %2 ,this = %3", (Object)String.valueOf(n), (Object)string, (Object)this);
             }
             this.setMostRecentMsgAcc(n);
             Set set = (Set)this.newMessageAccounts.get(Util.createInteger(n));
@@ -114,7 +115,7 @@ IDeviceRoleObserver {
             Set set;
             boolean bl;
             if (this.log.isInfo()) {
-                this.log.log(1078071040, "[NewMessageIndicationManager#clearNewMessageIndication] accountId = %1, this = %2", (Object)String.valueOf(n), (Object)this);
+                this.log.log(1000000, "[NewMessageIndicationManager#clearNewMessageIndication] accountId = %1, this = %2", (Object)String.valueOf(n), (Object)this);
             }
             boolean bl2 = bl = null != (set = (Set)this.newMessageAccounts.remove(Util.createInteger(n)));
             if (bl) {
@@ -130,7 +131,7 @@ IDeviceRoleObserver {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             if (this.log.isInfo()) {
-                this.log.log(1078071040, "[NewMessageIndicationManager#clearNewMessageIndication] messageId = %1, this = %2", (Object)string, (Object)this);
+                this.log.log(1000000, "[NewMessageIndicationManager#clearNewMessageIndication] messageId = %1, this = %2", (Object)string, (Object)this);
             }
             Iterator iterator = this.newMessageAccounts.keySet().iterator();
             while (iterator.hasNext()) {
@@ -342,8 +343,23 @@ IDeviceRoleObserver {
         }
     }
 
-    private void notifyObservers(int n) {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new NewMessageIndicationManager$2(this, n));
+    private void notifyObservers(final int n) {
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                NewMessageIndicationManager.this.log.log(10000000, "[NewMessageIndicationManager#notifyObservers] stateAspect = %1", (long)n);
+                INewMessageIndicationManagerObserver[] iNewMessageIndicationManagerObserverArray = NewMessageIndicationManager.this.getCurrentObservers();
+                for (int i2 = 0; i2 < iNewMessageIndicationManagerObserverArray.length; ++i2) {
+                    try {
+                        iNewMessageIndicationManagerObserverArray[i2].indicateIndicationStateChanged(n);
+                        continue;
+                    }
+                    catch (Exception exception) {
+                        Logs.logException(NewMessageIndicationManager.this.log, exception, "[NewMessageIndicationManager#notifyObservers]");
+                    }
+                }
+            }
+        });
     }
 
     /*
@@ -352,7 +368,7 @@ IDeviceRoleObserver {
     private void setMostRecentMsgAcc(int n) {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
-            this.log.log(-2137614336, "[NewMessageIndicationManager#setMostRecentMsgAcc] accountId = %1", (long)n);
+            this.log.log(10000000, "[NewMessageIndicationManager#setMostRecentMsgAcc] accountId = %1", (long)n);
             MessagingAccount messagingAccount = this.msgApp.getAccountManager().getAccount(n);
             if (messagingAccount == null) {
                 this.log.log(10000, "[NewMessageIndicationManager#setMostRecentMsgAcc] Cannot find account ID %1. Skipping update of account ID cache.");
@@ -398,12 +414,11 @@ IDeviceRoleObserver {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateDeviceRoleInfo(DeviceRoleInfo deviceRoleInfo) {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             MessagingAccount[] messagingAccountArray;
-            this.log.log(1078071040, "[NewMessageIndicationManager#updateDeviceRoleInfo] primaryDevice = %1", (Object)deviceRoleInfo);
+            this.log.log(1000000, "[NewMessageIndicationManager#updateDeviceRoleInfo] primaryDevice = %1", (Object)deviceRoleInfo);
             if (deviceRoleInfo != null && this.primaryDevice != null && !deviceRoleInfo.equals(this.primaryDevice) && (messagingAccountArray = this.msgApp.getAccountManager().getAccounts()) != null) {
                 for (int i2 = 0; i2 < messagingAccountArray.length; ++i2) {
                     String string = messagingAccountArray[i2].getSimCardId() == null ? "" : messagingAccountArray[i2].getSimCardId();
@@ -423,17 +438,17 @@ IDeviceRoleObserver {
     }
 
     private boolean isMessageFromPrimaryDevice(MessagingAccount messagingAccount) {
-        this.log.log(1078071040, "[NewMessageIndicationManager#isMessageFromPrimaryDevice] account = %1, primaryDevice = %2", (Object)messagingAccount, (Object)this.primaryDevice);
+        this.log.log(1000000, "[NewMessageIndicationManager#isMessageFromPrimaryDevice] account = %1, primaryDevice = %2", (Object)messagingAccount, (Object)this.primaryDevice);
         boolean bl = false;
         if (messagingAccount != null && this.primaryDevice != null) {
             if (this.primaryDevice.isSimDevice()) {
                 if (messagingAccount.getSimCardId().equalsIgnoreCase(this.primaryDevice.getSimCardId())) {
                     bl = true;
-                    this.log.log(1078071040, "[NewMessageIndicationManager#isMessageFromPrimaryDevice] isMessageFromPrimaryDevice = true ");
+                    this.log.log(1000000, "[NewMessageIndicationManager#isMessageFromPrimaryDevice] isMessageFromPrimaryDevice = true ");
                 }
             } else if (messagingAccount.getBtDeviceAddress().equalsIgnoreCase(this.primaryDevice.getBtDeviceAddress())) {
                 bl = true;
-                this.log.log(1078071040, "[NewMessageIndicationManager#isMessageFromPrimaryDevice] isMessageFromPrimaryDevice = true ");
+                this.log.log(1000000, "[NewMessageIndicationManager#isMessageFromPrimaryDevice] isMessageFromPrimaryDevice = true ");
             }
         }
         return bl;
@@ -456,9 +471,8 @@ IDeviceRoleObserver {
         return buffer.toString();
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
-        return new IDiagPlugIn[]{new NewMessageIndicationManager$DiagPlugIn(this)};
+        return new IDiagPlugIn[]{new DiagPlugIn()};
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -470,127 +484,123 @@ IDeviceRoleObserver {
         }
     }
 
-    static /* synthetic */ LogChannel access$200(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.log;
+    final class DiagPlugIn
+    implements IDiagPlugIn {
+        DiagPlugIn() {
+        }
+
+        public Object getNewMessageIndicationManager() {
+            return NewMessageIndicationManager.this;
+        }
     }
 
-    static /* synthetic */ INewMessageIndicationManagerObserver[] access$300(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.getCurrentObservers();
+    private class MyDsiMessagingListener
+    extends DsiMessagingEmptyListener {
+        private MyDsiMessagingListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateMessagingAccounts(MessagingAccount[] messagingAccountArray, int n) {
+            Object object = NewMessageIndicationManager.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                int n2;
+                int n3;
+                int n4;
+                NewMessageIndicationManager.this.log.log(10000000, "[NewMessageIndicationManager#updateMessagingAccounts]");
+                boolean bl = false;
+                boolean bl2 = false;
+                int n5 = -1;
+                TreeSet treeSet = new TreeSet();
+                for (n4 = 0; n4 < messagingAccountArray.length; ++n4) {
+                    MessagingAccount messagingAccount = messagingAccountArray[n4];
+                    n3 = messagingAccount.getMemoryStatus();
+                    n2 = messagingAccount.getAccountType();
+                    int n6 = messagingAccount.getAccountID();
+                    if (!bl && n3 != 0) {
+                        bl = true;
+                    }
+                    if (!bl2 && (n2 == 1 && n3 != 0 || n2 == 4 && n3 != 0 || n2 == 3 && (n3 == 2 || n3 == 1))) {
+                        bl2 = true;
+                        n5 = messagingAccount.getAccountID();
+                    }
+                    if (bl && bl2) break;
+                    treeSet.add(Util.createInteger(n6));
+                }
+                n4 = bl != NewMessageIndicationManager.this.memoryDepleted ? 1 : 0;
+                boolean bl3 = bl2 != NewMessageIndicationManager.this.simMemoryDepleted;
+                NewMessageIndicationManager.this.memoryDepleted = bl;
+                NewMessageIndicationManager.this.simMemoryDepleted = bl2;
+                NewMessageIndicationManager.this.simMemoryDepletedAccountId = n5;
+                NewMessageIndicationManager.this.mostRecentSmsAccIds.retainAll(treeSet);
+                NewMessageIndicationManager.this.mostRecentEmailAccIds.retainAll(treeSet);
+                NewMessageIndicationManager.this.mostRecentMessageAccIds.retainAll(treeSet);
+                n3 = NewMessageIndicationManager.this.newMessageAccounts.keySet().retainAll(treeSet) ? 1 : 0;
+                NewMessageIndicationManager.this.log.log(10000000, "[NewMessageIndicationManager#updateMessagingAccounts] this = %1", (Object)NewMessageIndicationManager.this);
+                if (n4 != 0) {
+                    NewMessageIndicationManager.this.notifyObservers(1);
+                }
+                if (bl3) {
+                    n2 = NewMessageIndicationManager.this.isSimMemoryDepleted() ? 1 : 0;
+                    NewMessageIndicationManager.this.framework.getHmiServiceApp().getChoiceModel(2200411).setValue(n2);
+                    NewMessageIndicationManager.this.notifyObservers(2);
+                }
+                if (n3 != 0) {
+                    NewMessageIndicationManager.this.notifyObservers(0);
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void indicateNewMessage(boolean bl, String string, int n, int n2) {
+            Object object = NewMessageIndicationManager.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                NewMessageIndicationManager.this.log.log(10000000, "[NewMessageIndicationManager#indicateNewMessage]");
+                if (bl) {
+                    if (NewMessageIndicationManager.this.showPrimaryIndicationsOnly && !NewMessageIndicationManager.this.isMessageFromPrimaryDevice(NewMessageIndicationManager.this.msgApp.getAccountManager().getAccount(n))) {
+                        NewMessageIndicationManager.this.log.log(1000000, "[NewMessageIndicationManager#indicateNewMessage] show primary only and message ist not primary");
+                    } else {
+                        NewMessageIndicationManager.this.addNewMessageIndication(n, string);
+                    }
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void indicateMessageStatus(StatusInformation statusInformation) {
+            Object object = NewMessageIndicationManager.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                NewMessageIndicationManager.this.log.log(10000000, "[NewMessageIndicationManager#indicateMessageStatus]");
+                if (statusInformation.getStatus() == 3 || statusInformation.getStatus() == 1) {
+                    NewMessageIndicationManager.this.clearNewMessageIndication(statusInformation.getMessageId());
+                }
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$400(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.log;
-    }
+    private final class MessageOptionsManagerObserver
+    extends IMessageOptionsManagerObserver.EmptyImplementation {
+        private MessageOptionsManagerObserver() {
+        }
 
-    static /* synthetic */ MessagingBundleContext access$500(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$600(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.log;
-    }
-
-    static /* synthetic */ boolean access$700(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.memoryDepleted;
-    }
-
-    static /* synthetic */ boolean access$800(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.simMemoryDepleted;
-    }
-
-    static /* synthetic */ boolean access$702(NewMessageIndicationManager newMessageIndicationManager, boolean bl) {
-        newMessageIndicationManager.memoryDepleted = bl;
-        return newMessageIndicationManager.memoryDepleted;
-    }
-
-    static /* synthetic */ boolean access$802(NewMessageIndicationManager newMessageIndicationManager, boolean bl) {
-        newMessageIndicationManager.simMemoryDepleted = bl;
-        return newMessageIndicationManager.simMemoryDepleted;
-    }
-
-    static /* synthetic */ int access$902(NewMessageIndicationManager newMessageIndicationManager, int n) {
-        newMessageIndicationManager.simMemoryDepletedAccountId = n;
-        return newMessageIndicationManager.simMemoryDepletedAccountId;
-    }
-
-    static /* synthetic */ List access$1000(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.mostRecentSmsAccIds;
-    }
-
-    static /* synthetic */ List access$1100(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.mostRecentEmailAccIds;
-    }
-
-    static /* synthetic */ List access$1200(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.mostRecentMessageAccIds;
-    }
-
-    static /* synthetic */ Map access$1300(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.newMessageAccounts;
-    }
-
-    static /* synthetic */ LogChannel access$1400(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.log;
-    }
-
-    static /* synthetic */ void access$1500(NewMessageIndicationManager newMessageIndicationManager, int n) {
-        newMessageIndicationManager.notifyObservers(n);
-    }
-
-    static /* synthetic */ IFrameworkAccess access$1600(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.framework;
-    }
-
-    static /* synthetic */ MessagingBundleContext access$1700(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$1800(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.log;
-    }
-
-    static /* synthetic */ boolean access$1900(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.showPrimaryIndicationsOnly;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$2000(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.msgApp;
-    }
-
-    static /* synthetic */ boolean access$2100(NewMessageIndicationManager newMessageIndicationManager, MessagingAccount messagingAccount) {
-        return newMessageIndicationManager.isMessageFromPrimaryDevice(messagingAccount);
-    }
-
-    static /* synthetic */ LogChannel access$2200(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.log;
-    }
-
-    static /* synthetic */ void access$2300(NewMessageIndicationManager newMessageIndicationManager, int n, String string) {
-        newMessageIndicationManager.addNewMessageIndication(n, string);
-    }
-
-    static /* synthetic */ MessagingBundleContext access$2400(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$2500(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.log;
-    }
-
-    static /* synthetic */ void access$2600(NewMessageIndicationManager newMessageIndicationManager, String string) {
-        newMessageIndicationManager.clearNewMessageIndication(string);
-    }
-
-    static /* synthetic */ MessagingBundleContext access$2700(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$2800(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$2900(NewMessageIndicationManager newMessageIndicationManager) {
-        return newMessageIndicationManager.msgApp;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void messageDetailsChanged() {
+            Object object = NewMessageIndicationManager.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                NewMessageIndicationManager.this.log.log(10000000, "[NewMessageIndicationManager#messageDetailsChanged]");
+                MessageDetails messageDetails = NewMessageIndicationManager.this.msgApp.getSelectedMessage().getMessageDetails();
+                if (messageDetails != null) {
+                    NewMessageIndicationManager.this.clearNewMessageIndication(messageDetails.getMessageID());
+                }
+            }
+        }
     }
 }
 

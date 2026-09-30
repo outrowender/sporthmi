@@ -14,58 +14,58 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class SourceListRow
 extends EvoListRow {
-    static final int HMI_SLOT_STATE_EMPTY;
-    static final int HMI_SLOT_STATE_LOADING;
-    static final int HMI_SLOT_STATE_LOADED;
-    static final int HMI_SLOT_STATE_WRONG_REGION_CODE_NO_CHANGES_LEFT;
-    static final int HMI_SLOT_STATE_WRONG_REGION_CODE_CHANGES_LEFT;
-    static final int HMI_SLOT_STATE_CHILDLOCK;
-    static final int HMI_SLOT_STATE_IMPORT_RUNNING;
-    static final int HMI_SLOT_STATE_NO_PLAYABLE_FILES;
-    static final int HMI_SLOT_STATE_DELETION_RUNNING;
-    static final int HMI_SLOT_STATE_OVERCURRENT;
-    static final int HMI_SLOT_STATE_TEMPERATURE_TOO_HIGH;
-    static final int HMI_SLOT_STATE_TEMPERATURE_TOO_LOW;
-    static final int HMI_SLOT_STATE_BT_DEACTIVATED_CLAMP_S_OFF;
-    static final int HMI_SLOT_STATE_BT_DEACTIVATED;
-    static final int HMI_SLOT_STATE_BT_AUDIOPLAYER_DEACTIVATED;
-    static final int HMI_SLOT_STATE_BT_AUDIOPLAYER_NOT_CONNECTED;
-    static final int HMI_SLOT_STATE_BT_RECONNECTING;
-    static final int HMI_SLOT_STATE_DEVICE_UNAVAILABLE;
-    static final int HMI_SLOT_STATE_UNREADABLE;
-    static final int HMI_SLOT_STATE_UNSUPPORTED;
-    static final int HMI_SLOT_STATE_UNSUPPORTED_WRONG_FIRMWARE;
-    static final int HMI_SLOT_STATE_WLAN_DEACTIVATED_CLAMP_S_OFF;
-    static final int HMI_SLOT_STATE_WLAN_DEACTIVATED;
-    static final int HMI_SLOT_STATE_JUKEBOX_NOT_FILLED;
-    static final int HMI_SLOT_STATE_CORRUPTED_PARTITION;
-    static final int HMI_SLOT_STATE_IMPORT_DISABLED;
-    static final int HMI_SLOT_STATE_CHARGING;
-    static final int HMI_SLOT_STATE_ONLINE_DEACTIVATED_CLAMP_S_OFF;
-    static final int HMI_SLOT_STATE_ONLINE_DEACTIVATED_WLAN_OFF;
-    static final int HMI_SLOT_STATE_ONLINE_DEACTIVATED_WLAN_NO_CONN;
-    static final int HMI_SLOT_STATE_ONLINE_NO_APP;
-    static final int HMI_SLOT_STATE_WLAN_NO_DEVICE_CONNECTED;
-    static final int HMI_SLOT_STATE_USB_NOT_CONNECTED;
-    static final int HMI_SLOT_STATE_WLAN_NO_APP;
-    private static final IntMap SLOTSTATEMAP;
+    static final int HMI_SLOT_STATE_EMPTY = 0;
+    static final int HMI_SLOT_STATE_LOADING = 1;
+    static final int HMI_SLOT_STATE_LOADED = 2;
+    static final int HMI_SLOT_STATE_WRONG_REGION_CODE_NO_CHANGES_LEFT = 3;
+    static final int HMI_SLOT_STATE_WRONG_REGION_CODE_CHANGES_LEFT = 4;
+    static final int HMI_SLOT_STATE_CHILDLOCK = 5;
+    static final int HMI_SLOT_STATE_IMPORT_RUNNING = 6;
+    static final int HMI_SLOT_STATE_NO_PLAYABLE_FILES = 7;
+    static final int HMI_SLOT_STATE_DELETION_RUNNING = 8;
+    static final int HMI_SLOT_STATE_OVERCURRENT = 9;
+    static final int HMI_SLOT_STATE_TEMPERATURE_TOO_HIGH = 10;
+    static final int HMI_SLOT_STATE_TEMPERATURE_TOO_LOW = 11;
+    static final int HMI_SLOT_STATE_BT_DEACTIVATED_CLAMP_S_OFF = 12;
+    static final int HMI_SLOT_STATE_BT_DEACTIVATED = 13;
+    static final int HMI_SLOT_STATE_BT_AUDIOPLAYER_DEACTIVATED = 14;
+    static final int HMI_SLOT_STATE_BT_AUDIOPLAYER_NOT_CONNECTED = 15;
+    static final int HMI_SLOT_STATE_BT_RECONNECTING = 16;
+    static final int HMI_SLOT_STATE_DEVICE_UNAVAILABLE = 17;
+    static final int HMI_SLOT_STATE_UNREADABLE = 18;
+    static final int HMI_SLOT_STATE_UNSUPPORTED = 19;
+    static final int HMI_SLOT_STATE_UNSUPPORTED_WRONG_FIRMWARE = 20;
+    static final int HMI_SLOT_STATE_WLAN_DEACTIVATED_CLAMP_S_OFF = 21;
+    static final int HMI_SLOT_STATE_WLAN_DEACTIVATED = 22;
+    static final int HMI_SLOT_STATE_JUKEBOX_NOT_FILLED = 23;
+    static final int HMI_SLOT_STATE_CORRUPTED_PARTITION = 24;
+    static final int HMI_SLOT_STATE_IMPORT_DISABLED = 25;
+    static final int HMI_SLOT_STATE_CHARGING = 26;
+    static final int HMI_SLOT_STATE_ONLINE_DEACTIVATED_CLAMP_S_OFF = 27;
+    static final int HMI_SLOT_STATE_ONLINE_DEACTIVATED_WLAN_OFF = 28;
+    static final int HMI_SLOT_STATE_ONLINE_DEACTIVATED_WLAN_NO_CONN = 29;
+    static final int HMI_SLOT_STATE_ONLINE_NO_APP = 30;
+    static final int HMI_SLOT_STATE_WLAN_NO_DEVICE_CONNECTED = 31;
+    static final int HMI_SLOT_STATE_USB_NOT_CONNECTED = 32;
+    static final int HMI_SLOT_STATE_WLAN_NO_APP = 33;
+    private static final IntMap SLOTSTATEMAP = new IntMap(45);
     private static final String[] SLOT_STATE_STR;
-    public static final int COMPLETE_SOURCE;
-    public static final int DEFAULT_DEVICE_INDEX;
-    private static final int REC_SET_SLOT_STATUS;
-    private static final int REC_SET_MEDIA_TYPE;
-    private static final int REC_SET_MEDIA_NAME;
+    public static final int COMPLETE_SOURCE = -1;
+    public static final int DEFAULT_DEVICE_INDEX = -1;
+    private static final int REC_SET_SLOT_STATUS = 0;
+    private static final int REC_SET_MEDIA_TYPE = 1;
+    private static final int REC_SET_MEDIA_NAME = 2;
     private static final String[] REC_STATE_STR;
-    protected static final int COLUMN_SIZE;
-    private static final int COL_RECORD_SET;
-    private static final int COL_SLOT_STATE;
-    private static final int COL_MEDIA_TYPE;
-    private static final int COL_MEDIA_NAME;
-    private static final int COL_SOURCE_ICON;
-    private static final int COL_ENABLED;
-    private static final int COL_SOURCE_REFLECTION_ICON;
-    private static final int OFFSET_ENABLED_SOURCE_ICON;
-    private static final int OFFSET_DISABLED_SOURCE_ICON;
+    protected static final int COLUMN_SIZE = 7;
+    private static final int COL_RECORD_SET = 0;
+    private static final int COL_SLOT_STATE = 1;
+    private static final int COL_MEDIA_TYPE = 2;
+    private static final int COL_MEDIA_NAME = 3;
+    private static final int COL_SOURCE_ICON = 4;
+    private static final int COL_ENABLED = 5;
+    private static final int COL_SOURCE_REFLECTION_ICON = 6;
+    private static final int OFFSET_ENABLED_SOURCE_ICON = 0;
+    private static final int OFFSET_DISABLED_SOURCE_ICON = 50;
     private final int orderID;
     private final int sourceType;
     private final int slotIdx;
@@ -175,12 +175,10 @@ extends EvoListRow {
         }
     }
 
-    @Override
     public EvoListRow copy() {
         return new SourceListRow(this);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(80);
         buffer.append(this.getOrderKey()).append(" - ").append(LogUtil.getSourceTypeStr(this.getSourceType())).append(this.getSlotIdx());
@@ -203,7 +201,6 @@ extends EvoListRow {
         return buffer.toString();
     }
 
-    @Override
     public int hashCode() {
         int n = super.hashCode();
         n = 31 * n + (this.importDisabled ? 1231 : 1237);
@@ -213,7 +210,6 @@ extends EvoListRow {
         return n;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -221,7 +217,7 @@ extends EvoListRow {
         if (!super.equals(object)) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         SourceListRow sourceListRow = (SourceListRow)object;
@@ -238,7 +234,6 @@ extends EvoListRow {
     }
 
     static {
-        SLOTSTATEMAP = new IntMap(45);
         SLOTSTATEMAP.put(10, 14);
         SLOTSTATEMAP.put(11, 15);
         SLOTSTATEMAP.put(12, 13);

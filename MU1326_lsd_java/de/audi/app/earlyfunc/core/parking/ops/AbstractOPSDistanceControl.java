@@ -19,7 +19,7 @@ import org.dsi.ifc.carparkingsystem.PDCWallDetectionRightLeft;
 
 public abstract class AbstractOPSDistanceControl
 implements IOPSDistanceControl {
-    public static final int TRAILER_MODEL_ID;
+    public static final int TRAILER_MODEL_ID = 2100159;
     protected IOPSSensorArea frontArea;
     protected IOPSSensorArea rearArea;
     protected IOPSSensorArea rightArea;
@@ -32,7 +32,6 @@ implements IOPSDistanceControl {
         this.hmiService = iHMIServiceApp;
     }
 
-    @Override
     public void init() {
         this.frontArea = this.initFrontArea();
         this.rearArea = this.initRearArea();
@@ -42,9 +41,8 @@ implements IOPSDistanceControl {
         this.rightArea = this.initRightArea();
     }
 
-    @Override
     public void activateForOPS() {
-        this.getLogChannel().log(-2137614336, "[AbstractOPSDistanceControl#activateForOPS] called");
+        this.getLogChannel().log(10000000, "[AbstractOPSDistanceControl#activateForOPS] called");
         if (this.rightArea != null) {
             this.rightArea.disableAllSectors();
         }
@@ -53,9 +51,8 @@ implements IOPSDistanceControl {
         }
     }
 
-    @Override
     public void activateForOPS360() {
-        this.getLogChannel().log(-2137614336, "[AbstractOPSDistanceControl#activateForOPS360] called");
+        this.getLogChannel().log(10000000, "[AbstractOPSDistanceControl#activateForOPS360] called");
         if (this.rightArea != null) {
             this.rightArea.enableAllSectors();
         }
@@ -64,47 +61,38 @@ implements IOPSDistanceControl {
         }
     }
 
-    @Override
     public void updateDistancesFront(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear) {
         this.updateDistanceFrontRear(this.frontArea, pDCDistanceValuesFrontRear);
     }
 
-    @Override
     public void updateDistancesRear(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear) {
         this.updateDistanceFrontRear(this.rearArea, pDCDistanceValuesFrontRear);
     }
 
-    @Override
     public void updateDistancesLeft(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft) {
         this.updateDistanceLeftRight(this.leftArea, pDCDistanceValuesRightLeft);
     }
 
-    @Override
     public void updateDistancesRight(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft) {
         this.updateDistanceLeftRight(this.rightArea, pDCDistanceValuesRightLeft);
     }
 
-    @Override
     public ChoiceModelApp getChoiceModel(int n) {
         return this.hmiService.getChoiceModel(n);
     }
 
-    @Override
     public void applyFrontToStatusLvls(PDCStatusLevelFrontRear pDCStatusLevelFrontRear) {
         this.applyStatusLvlsFrontRear(this.frontArea, pDCStatusLevelFrontRear);
     }
 
-    @Override
     public void applyRearToStatusLvls(PDCStatusLevelFrontRear pDCStatusLevelFrontRear) {
         this.applyStatusLvlsFrontRear(this.rearArea, pDCStatusLevelFrontRear);
     }
 
-    @Override
     public void applyLeftToStatusLvls(PDCStatusLevelRightLeft pDCStatusLevelRightLeft) {
         this.applyStatusLvlsLeftRight(this.leftArea, pDCStatusLevelRightLeft);
     }
 
-    @Override
     public void applyRightToStatusLvls(PDCStatusLevelRightLeft pDCStatusLevelRightLeft) {
         this.applyStatusLvlsLeftRight(this.rightArea, pDCStatusLevelRightLeft);
     }
@@ -126,7 +114,7 @@ implements IOPSDistanceControl {
 
     private void applyStatusLvlsLeftRight(IOPSSensorArea iOPSSensorArea, PDCStatusLevelRightLeft pDCStatusLevelRightLeft) {
         if (iOPSSensorArea != null) {
-            this.getLogChannel().log(1078071040, "[AbstractOPSDistanceControl#applyStatusLvlsLeftRight] area='%1' , statusLevel='%2' ", (Object)iOPSSensorArea, (Object)pDCStatusLevelRightLeft);
+            this.getLogChannel().log(1000000, "[AbstractOPSDistanceControl#applyStatusLvlsLeftRight] area='%1' , statusLevel='%2' ", (Object)iOPSSensorArea, (Object)pDCStatusLevelRightLeft);
             iOPSSensorArea.applyStatusLvls(this.createStatusLvlLeftRightArray(iOPSSensorArea, pDCStatusLevelRightLeft));
         }
     }
@@ -142,7 +130,7 @@ implements IOPSDistanceControl {
 
     private void updateDistanceFrontRear(IOPSSensorArea iOPSSensorArea, PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear) {
         if (iOPSSensorArea != null) {
-            this.getLogChannel().log(1078071040, "[AbstractOPSDistanceControl#updateDistanceFrontRear] area='%1' , distValues='%2' ", (Object)iOPSSensorArea, (Object)pDCDistanceValuesFrontRear);
+            this.getLogChannel().log(1000000, "[AbstractOPSDistanceControl#updateDistanceFrontRear] area='%1' , distValues='%2' ", (Object)iOPSSensorArea, (Object)pDCDistanceValuesFrontRear);
             iOPSSensorArea.updateDistanceValues(this.createDistanceValuesFrontRearArray(iOPSSensorArea, pDCDistanceValuesFrontRear));
         }
     }
@@ -158,7 +146,7 @@ implements IOPSDistanceControl {
 
     private void updateDistanceLeftRight(IOPSSensorArea iOPSSensorArea, PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft) {
         if (iOPSSensorArea != null) {
-            this.getLogChannel().log(1078071040, "[AbstractOPSDistanceControl#updateDistanceLeftRight] area='%1' , distValues='%2' ", (Object)iOPSSensorArea, (Object)pDCDistanceValuesRightLeft);
+            this.getLogChannel().log(1000000, "[AbstractOPSDistanceControl#updateDistanceLeftRight] area='%1' , distValues='%2' ", (Object)iOPSSensorArea, (Object)pDCDistanceValuesRightLeft);
             iOPSSensorArea.updateDistanceValues(this.createDistanceValuesLeftRightArray(iOPSSensorArea, pDCDistanceValuesRightLeft));
         }
     }
@@ -172,7 +160,6 @@ implements IOPSDistanceControl {
         return nArray;
     }
 
-    @Override
     public void updateWallFlags(PDCWallDetection pDCWallDetection) {
         this.applyWallFlags(this.frontArea, pDCWallDetection.getSectorsFront());
         this.applyWallFlags(this.rearArea, pDCWallDetection.getSectorsRear());
@@ -189,13 +176,12 @@ implements IOPSDistanceControl {
 
     private void applyWallFlags(IOPSSensorArea iOPSSensorArea, PDCWallDetectionRightLeft pDCWallDetectionRightLeft) {
         if (iOPSSensorArea != null && pDCWallDetectionRightLeft != null) {
-            this.getLogChannel().log(1078071040, "[AbstractOPSDistanceControl#applyWallFlags] area='%1' , wallDetection='%2' ", (Object)iOPSSensorArea, (Object)pDCWallDetectionRightLeft);
+            this.getLogChannel().log(1000000, "[AbstractOPSDistanceControl#applyWallFlags] area='%1' , wallDetection='%2' ", (Object)iOPSSensorArea, (Object)pDCWallDetectionRightLeft);
             boolean[] blArray = new boolean[]{pDCWallDetectionRightLeft.isSector1(), pDCWallDetectionRightLeft.isSector2(), pDCWallDetectionRightLeft.isSector3(), pDCWallDetectionRightLeft.isSector4()};
             iOPSSensorArea.setWallFlags(blArray);
         }
     }
 
-    @Override
     public void setTrailerHitched(boolean bl) {
         this.rearArea.setTrailerHitched(bl);
     }
@@ -220,16 +206,12 @@ implements IOPSDistanceControl {
         return this.opsComponent.getLogChannel();
     }
 
-    protected abstract IOPSSensorArea initFrontArea() {
-    }
+    protected abstract IOPSSensorArea initFrontArea();
 
-    protected abstract IOPSSensorArea initRearArea() {
-    }
+    protected abstract IOPSSensorArea initRearArea();
 
-    protected abstract IOPSSensorArea initLeftArea() {
-    }
+    protected abstract IOPSSensorArea initLeftArea();
 
-    protected abstract IOPSSensorArea initRightArea() {
-    }
+    protected abstract IOPSSensorArea initRightArea();
 }
 

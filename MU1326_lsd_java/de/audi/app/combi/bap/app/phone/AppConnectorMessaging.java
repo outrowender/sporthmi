@@ -18,9 +18,8 @@ implements CombiBAPServiceMessaging {
         super(combiModulePhone);
     }
 
-    @Override
     public void updateMobileServiceSupport(boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "[AppConnectorMessaging#updateMobileServiceSupport] smsStateSupported=%1, emailStateSupported=%2", bl, bl2);
+        this.logChannel.log(1000000, "[AppConnectorMessaging#updateMobileServiceSupport] smsStateSupported=%1, emailStateSupported=%2", bl, bl2);
         MobileServiceSupport_Status mobileServiceSupport_Status = this.getMobileServiceSupportStatusCopy();
         mobileServiceSupport_Status.fctList.fctSmsstateSupported = bl && this.moduleFsg.getFunctionList().isFunctionSupported(55);
         this.sendPropertyStatus(16, mobileServiceSupport_Status);
@@ -32,9 +31,8 @@ implements CombiBAPServiceMessaging {
         }
     }
 
-    @Override
     public void updateSMSState(boolean bl, int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorMessaging#updateSMSState] simReady=%3, storageState=%1, numberOfNewSMS=%2", (long)n, (long)n2, bl);
+        this.logChannel.log(1000000, "[AppConnectorMessaging#updateSMSState] simReady=%3, storageState=%1, numberOfNewSMS=%2", (long)n, (long)n2, bl);
         SMSState_Status sMSState_Status = new SMSState_Status();
         sMSState_Status.simready = bl ? 1 : 0;
         sMSState_Status.storageState = n;
@@ -42,9 +40,8 @@ implements CombiBAPServiceMessaging {
         this.sendPropertyStatus(55, sMSState_Status);
     }
 
-    @Override
     public void updateEmailState(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorMessaging#updateEmailState] storageState=%1, numberOfNewEmail=%2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorMessaging#updateEmailState] storageState=%1, numberOfNewEmail=%2", (long)n, (long)n2);
         EmailState_Status emailState_Status = new EmailState_Status();
         emailState_Status.storageState = n;
         emailState_Status.numberOfNewEmail = n2;

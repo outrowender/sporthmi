@@ -15,7 +15,7 @@ import de.esolutions.fw.util.commons.Buffer;
 public class DataBrowserListJobAddSelection
 extends AbstractDataBrowseListJob
 implements IPlayerSelectionRequest {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DataBrowserListJobAddSelection";
     private final MediaListEntry folder;
     private final long selectedEntryID;
     private final DataBrowserListSelectionData selectionData;
@@ -29,68 +29,59 @@ implements IPlayerSelectionRequest {
         this.browserID = n2;
     }
 
-    @Override
     public String getName() {
         return "SELECT";
     }
 
-    @Override
     public void start() {
         this.getDataBrowserList().addSelection(0, this.folder);
     }
 
-    @Override
     public void addSelectionFinished(boolean bl, long l) {
         if (!bl) {
-            this.logChannel.log(1078071040, "[%1.addSelectionFinished] NOT OK.", (Object)"DataBrowserListJobAddSelection");
+            this.logChannel.log(1000000, "[%1.addSelectionFinished] NOT OK.", (Object)LOGCLASS);
             this.selectionError();
             return;
         }
         if (l == 0L) {
-            this.logChannel.log(1078071040, "[%1.addSelectionFinished] No entries selected.", (Object)"DataBrowserListJobAddSelection");
+            this.logChannel.log(1000000, "[%1.addSelectionFinished] No entries selected.", (Object)LOGCLASS);
             this.selectionError();
             return;
         }
-        this.logChannel.log(1078071040, "[%1.addSelectionFinished] Set player selection.", (Object)"DataBrowserListJobAddSelection");
+        this.logChannel.log(1000000, "[%1.addSelectionFinished] Set player selection.", (Object)LOGCLASS);
         this.getDataBrowserList().playSelection(this);
     }
 
     private void selectionError() {
-        this.logChannel.log(1078071040, "[%1.selectionError] Error on selection. Abort.", (Object)"DataBrowserListJobAddSelection");
+        this.logChannel.log(1000000, "[%1.selectionError] Error on selection. Abort.", (Object)LOGCLASS);
         this.getDataBrowserList().unblockList();
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append(" folderID='").append(this.folder.getEntryID()).append("',titleID='").append(this.selectedEntryID).append("'");
         return buffer.toString();
     }
 
-    @Override
     public int getBrowserID() {
         return this.browserID;
     }
 
-    @Override
     public long getEntryID() {
         return this.selectedEntryID;
     }
 
-    @Override
     public boolean isSeamless() {
         return false;
     }
 
-    @Override
     public boolean waitForPlayposition() {
         return false;
     }
 
-    @Override
     public void responseSetSelection(boolean bl) {
-        this.logChannel.log(1078071040, "[%1.responseSetSelection] '%2'", (Object)"DataBrowserListJobAddSelection", (Object)(bl ? "OK" : "NOK"));
+        this.logChannel.log(1000000, "[%1.responseSetSelection] '%2'", (Object)LOGCLASS, (Object)(bl ? "OK" : "NOK"));
         if (bl) {
             this.getDataBrowserList().triggerLeaveBrowserListAfterSelection();
         }

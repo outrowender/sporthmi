@@ -37,27 +37,22 @@ implements GuiListRow {
         this.cells = new Object[n];
     }
 
-    @Override
     public final long getUniqueID() {
         return this.uniqueID;
     }
 
-    @Override
     public final int getColumnCount() {
         return this.columns;
     }
 
-    @Override
     public final int getInteger(int n) {
         return (Integer)this.getCell(n);
     }
 
-    @Override
     public final long getLong(int n) {
         return (Long)this.getCell(n);
     }
 
-    @Override
     public final String getText(int n) {
         return (String)this.getCell(n);
     }
@@ -66,7 +61,6 @@ implements GuiListRow {
         return this.setCell(n, abstractMetrics);
     }
 
-    @Override
     public final AbstractMetrics getMetrics(int n) {
         return (AbstractMetrics)this.getCell(n);
     }
@@ -102,10 +96,9 @@ implements GuiListRow {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object getCell(int n) {
         if (n < 0 || n >= this.cells.length) {
-            throw new IllegalArgumentException(new StringBuffer().append("Invalid col:").append(n).append(" - #col:").append(this.columns).toString());
+            throw new IllegalArgumentException("Invalid col:" + n + " - #col:" + this.columns);
         }
         Object[] objectArray = this.cells;
         synchronized (this.cells) {
@@ -119,7 +112,7 @@ implements GuiListRow {
      */
     private EvoListRow setCell(int n, Object object) {
         if (n < 0 || n >= this.cells.length) {
-            throw new IllegalArgumentException(new StringBuffer().append("Invalid col:").append(n).append(" - #col:").append(this.columns).toString());
+            throw new IllegalArgumentException("Invalid col:" + n + " - #col:" + this.columns);
         }
         Object[] objectArray = this.cells;
         synchronized (this.cells) {

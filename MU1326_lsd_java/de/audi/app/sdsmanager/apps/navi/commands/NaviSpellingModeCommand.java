@@ -19,9 +19,8 @@ extends AbstractSystemCallCommand {
         this.isSpellingRecog = SDSUtils.retrieveBoolean(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] Setting spelling to %2!", (Object)this.getName(), (Object)this.isSpellingRecog);
+        this.logger.log(10000000, "[%1#execute] Setting spelling to %2!", (Object)this.getName(), (Object)this.isSpellingRecog);
         SDSModelAccess.setNavSpellingModel(this.isSpellingRecog);
         this.processingFinished();
     }

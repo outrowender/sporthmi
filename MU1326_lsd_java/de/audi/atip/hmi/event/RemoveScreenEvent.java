@@ -27,7 +27,7 @@ extends ATIPEvent {
     }
 
     public String toString() {
-        return new StringBuffer().append("RemoveScreenEvent: ScreenId = ").append(this.screenId).toString();
+        return "RemoveScreenEvent: ScreenId = " + this.screenId;
     }
 
     public boolean isPopin() {

@@ -20,17 +20,14 @@ extends CharacterConverter {
         return this.javaEncoding;
     }
 
-    private static native boolean supportsNativeCharConv() {
-    }
+    private static native boolean supportsNativeCharConv();
 
-    native boolean supportsCodePage(String string) {
-    }
+    native boolean supportsCodePage(String var1);
 
     public static boolean supportsNativeConversion() {
         return supportsNativeConv;
     }
 
-    @Override
     public byte[] convert(char[] cArray, int n, int n2) {
         if (n >= 0 && n <= cArray.length && n2 >= 0 && n2 <= cArray.length - n) {
             if (n2 == 0) {
@@ -41,10 +38,8 @@ extends CharacterConverter {
         throw new IndexOutOfBoundsException();
     }
 
-    private native byte[] convertCharsToBytesImpl(char[] cArray, int n, int n2, String string, long l) {
-    }
+    private native byte[] convertCharsToBytesImpl(char[] var1, int var2, int var3, String var4, long var5);
 
-    @Override
     public char[] convert(byte[] byArray, int n, int n2) {
         if (n >= 0 && n <= byArray.length && n2 >= 0 && n2 <= byArray.length - n) {
             if (n2 == 0) {
@@ -55,10 +50,8 @@ extends CharacterConverter {
         throw new IndexOutOfBoundsException();
     }
 
-    private native char[] convertBytesToCharsImpl(byte[] byArray, int n, int n2, String string, long l) {
-    }
+    private native char[] convertBytesToCharsImpl(byte[] var1, int var2, int var3, String var4, long var5);
 
-    @Override
     public int convert(byte[] byArray, int n, int n2, CharBuffer charBuffer) {
         int n3 = 0;
         int[] nArray = new int[]{charBuffer.getPos()};
@@ -70,7 +63,6 @@ extends CharacterConverter {
         throw new IndexOutOfBoundsException();
     }
 
-    private native int convertStreamBytesToCharsImpl(byte[] byArray, int n, int n2, char[] cArray, int n3, int n4, int[] nArray, String string, long l) {
-    }
+    private native int convertStreamBytesToCharsImpl(byte[] var1, int var2, int var3, char[] var4, int var5, int var6, int[] var7, String var8, long var9);
 }
 

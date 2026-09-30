@@ -3,10 +3,6 @@
  */
 package com.ibm.oti.security.provider;
 
-import com.ibm.oti.security.provider.KeyStore$1;
-import com.ibm.oti.security.provider.KeyStore$KeyStoreCertificate;
-import com.ibm.oti.security.provider.KeyStore$KeyStoreEntry;
-import com.ibm.oti.security.provider.KeyStore$KeyStoreKey;
 import com.ibm.oti.util.Msg;
 import com.ibm.oti.util.PasswordProtectedInputStream;
 import com.ibm.oti.util.SHAOutputStream;
@@ -18,13 +14,18 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.security.AccessController;
 import java.security.Key;
 import java.security.KeyStoreException;
 import java.security.KeyStoreSpi;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivilegedAction;
 import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.Arrays;
 import java.util.Date;
@@ -33,7 +34,7 @@ import java.util.Hashtable;
 
 public class KeyStore
 extends KeyStoreSpi {
-    static final int RANDOM_BYTES;
+    static final int RANDOM_BYTES = 32;
     protected Hashtable database = new Hashtable();
 
     protected int getKeyStoreMagic() {
@@ -64,14 +65,14 @@ extends KeyStoreSpi {
         return sHAOutputStream.getHashAsBytes();
     }
 
-    protected static void writeCertificate(Certificate certificate, ObjectOutputStream objectOutputStream) {
+    protected static void writeCertificate(Certificate certificate, ObjectOutputStream objectOutputStream) throws IOException, CertificateEncodingException {
         byte[] byArray = certificate.getEncoded();
         String string = certificate.getType();
         objectOutputStream.writeObject(string);
         objectOutputStream.writeObject(byArray);
     }
 
-    protected static Certificate readCertificate(ObjectInputStream objectInputStream) {
+    protected static Certificate readCertificate(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException, CertificateException {
         String string = (String)objectInputStream.readObject();
         byte[] byArray = (byte[])objectInputStream.readObject();
         CertificateFactory certificateFactory = CertificateFactory.getInstance(string);
@@ -96,47 +97,42 @@ extends KeyStoreSpi {
         return sHAOutputStream.getHashAsBytes();
     }
 
-    @Override
     public Enumeration engineAliases() {
         return this.database.keys();
     }
 
-    @Override
     public boolean engineContainsAlias(String string) {
         return this.database.containsKey(string);
     }
 
-    @Override
-    public void engineDeleteEntry(String string) {
+    public void engineDeleteEntry(String string) throws KeyStoreException {
         this.database.remove(string);
     }
 
-    @Override
     public Certificate engineGetCertificate(String string) {
-        KeyStore$KeyStoreEntry keyStore$KeyStoreEntry = (KeyStore$KeyStoreEntry)this.database.get(string);
-        if (keyStore$KeyStoreEntry != null) {
-            if (keyStore$KeyStoreEntry instanceof KeyStore$KeyStoreCertificate) {
-                return ((KeyStore$KeyStoreCertificate)keyStore$KeyStoreEntry).cert;
+        KeyStoreEntry keyStoreEntry = (KeyStoreEntry)this.database.get(string);
+        if (keyStoreEntry != null) {
+            if (keyStoreEntry instanceof KeyStoreCertificate) {
+                return ((KeyStoreCertificate)keyStoreEntry).cert;
             }
-            if (keyStore$KeyStoreEntry instanceof KeyStore$KeyStoreKey) {
-                return ((KeyStore$KeyStoreKey)keyStore$KeyStoreEntry).chain[0];
+            if (keyStoreEntry instanceof KeyStoreKey) {
+                return ((KeyStoreKey)keyStoreEntry).chain[0];
             }
         }
         return null;
     }
 
-    @Override
     public String engineGetCertificateAlias(Certificate certificate) {
         Enumeration enumeration = this.database.keys();
         while (enumeration.hasMoreElements()) {
             String string = (String)enumeration.nextElement();
-            KeyStore$KeyStoreEntry keyStore$KeyStoreEntry = (KeyStore$KeyStoreEntry)this.database.get(string);
+            KeyStoreEntry keyStoreEntry = (KeyStoreEntry)this.database.get(string);
             Certificate certificate2 = null;
-            if (keyStore$KeyStoreEntry == null) continue;
-            if (keyStore$KeyStoreEntry instanceof KeyStore$KeyStoreCertificate) {
-                certificate2 = ((KeyStore$KeyStoreCertificate)keyStore$KeyStoreEntry).cert;
-            } else if (keyStore$KeyStoreEntry instanceof KeyStore$KeyStoreKey) {
-                certificate2 = ((KeyStore$KeyStoreKey)keyStore$KeyStoreEntry).chain[0];
+            if (keyStoreEntry == null) continue;
+            if (keyStoreEntry instanceof KeyStoreCertificate) {
+                certificate2 = ((KeyStoreCertificate)keyStoreEntry).cert;
+            } else if (keyStoreEntry instanceof KeyStoreKey) {
+                certificate2 = ((KeyStoreKey)keyStoreEntry).chain[0];
             }
             if (certificate2 == null || !certificate2.equals(certificate)) continue;
             return string;
@@ -144,33 +140,30 @@ extends KeyStoreSpi {
         return null;
     }
 
-    @Override
     public Certificate[] engineGetCertificateChain(String string) {
-        KeyStore$KeyStoreEntry keyStore$KeyStoreEntry = (KeyStore$KeyStoreEntry)this.database.get(string);
-        if (keyStore$KeyStoreEntry != null && keyStore$KeyStoreEntry instanceof KeyStore$KeyStoreKey) {
-            return ((KeyStore$KeyStoreKey)keyStore$KeyStoreEntry).chain;
+        KeyStoreEntry keyStoreEntry = (KeyStoreEntry)this.database.get(string);
+        if (keyStoreEntry != null && keyStoreEntry instanceof KeyStoreKey) {
+            return ((KeyStoreKey)keyStoreEntry).chain;
         }
         return null;
     }
 
-    @Override
     public Date engineGetCreationDate(String string) {
-        KeyStore$KeyStoreEntry keyStore$KeyStoreEntry = (KeyStore$KeyStoreEntry)this.database.get(string);
-        if (keyStore$KeyStoreEntry != null) {
-            return keyStore$KeyStoreEntry.creationDate;
+        KeyStoreEntry keyStoreEntry = (KeyStoreEntry)this.database.get(string);
+        if (keyStoreEntry != null) {
+            return keyStoreEntry.creationDate;
         }
         return null;
     }
 
-    @Override
-    public Key engineGetKey(String string, char[] cArray) {
-        KeyStore$KeyStoreEntry keyStore$KeyStoreEntry = (KeyStore$KeyStoreEntry)this.database.get(string);
-        if (keyStore$KeyStoreEntry != null && keyStore$KeyStoreEntry instanceof KeyStore$KeyStoreKey) {
+    public Key engineGetKey(String string, char[] cArray) throws NoSuchAlgorithmException, UnrecoverableKeyException {
+        KeyStoreEntry keyStoreEntry = (KeyStoreEntry)this.database.get(string);
+        if (keyStoreEntry != null && keyStoreEntry instanceof KeyStoreKey) {
             byte[] byArray = KeyStore.digestPassword(cArray);
-            KeyStore$KeyStoreKey keyStore$KeyStoreKey = (KeyStore$KeyStoreKey)keyStore$KeyStoreEntry;
-            if (keyStore$KeyStoreKey.key instanceof Key) {
-                if (Arrays.equals(byArray, keyStore$KeyStoreKey.digest)) {
-                    return (Key)keyStore$KeyStoreKey.key;
+            KeyStoreKey keyStoreKey = (KeyStoreKey)keyStoreEntry;
+            if (keyStoreKey.key instanceof Key) {
+                if (Arrays.equals(byArray, keyStoreKey.digest)) {
+                    return (Key)keyStoreKey.key;
                 }
                 throw new UnrecoverableKeyException();
             }
@@ -178,26 +171,23 @@ extends KeyStoreSpi {
         return null;
     }
 
-    @Override
     public boolean engineIsCertificateEntry(String string) {
-        KeyStore$KeyStoreEntry keyStore$KeyStoreEntry = (KeyStore$KeyStoreEntry)this.database.get(string);
-        if (keyStore$KeyStoreEntry == null) {
+        KeyStoreEntry keyStoreEntry = (KeyStoreEntry)this.database.get(string);
+        if (keyStoreEntry == null) {
             return false;
         }
-        return keyStore$KeyStoreEntry instanceof KeyStore$KeyStoreCertificate;
+        return keyStoreEntry instanceof KeyStoreCertificate;
     }
 
-    @Override
     public boolean engineIsKeyEntry(String string) {
-        KeyStore$KeyStoreEntry keyStore$KeyStoreEntry = (KeyStore$KeyStoreEntry)this.database.get(string);
-        if (keyStore$KeyStoreEntry == null) {
+        KeyStoreEntry keyStoreEntry = (KeyStoreEntry)this.database.get(string);
+        if (keyStoreEntry == null) {
             return false;
         }
-        return keyStore$KeyStoreEntry instanceof KeyStore$KeyStoreKey;
+        return keyStoreEntry instanceof KeyStoreKey;
     }
 
-    @Override
-    public void engineLoad(InputStream inputStream, char[] cArray) {
+    public void engineLoad(InputStream inputStream, char[] cArray) throws IOException, NoSuchAlgorithmException, CertificateException {
         byte[] byArray;
         Object object;
         if (inputStream == null) {
@@ -228,7 +218,21 @@ extends KeyStoreSpi {
         }
         try {
             byArray = object;
-            this.database = (Hashtable)AccessController.doPrivileged(new KeyStore$1(this, (ObjectInputStream)byArray));
+            this.database = (Hashtable)AccessController.doPrivileged(new PrivilegedAction((ObjectInputStream)byArray){
+                private final /* synthetic */ ObjectInputStream val$stream;
+                {
+                    this.val$stream = objectInputStream;
+                }
+
+                public Object run() {
+                    try {
+                        return this.val$stream.readObject();
+                    }
+                    catch (Exception exception) {
+                        return null;
+                    }
+                }
+            });
             if (this.database == null) {
                 throw new IOException("Error reading keystore");
             }
@@ -238,34 +242,29 @@ extends KeyStoreSpi {
         }
     }
 
-    @Override
-    public void engineSetCertificateEntry(String string, Certificate certificate) {
-        KeyStore$KeyStoreEntry keyStore$KeyStoreEntry = (KeyStore$KeyStoreEntry)this.database.get(string);
-        if (keyStore$KeyStoreEntry != null && keyStore$KeyStoreEntry instanceof KeyStore$KeyStoreKey) {
+    public void engineSetCertificateEntry(String string, Certificate certificate) throws KeyStoreException {
+        KeyStoreEntry keyStoreEntry = (KeyStoreEntry)this.database.get(string);
+        if (keyStoreEntry != null && keyStoreEntry instanceof KeyStoreKey) {
             throw new KeyStoreException(Msg.getString("K0185"));
         }
-        this.database.put(string, new KeyStore$KeyStoreCertificate(certificate));
+        this.database.put(string, new KeyStoreCertificate(certificate));
     }
 
-    @Override
-    public void engineSetKeyEntry(String string, byte[] byArray, Certificate[] certificateArray) {
-        this.database.put(string, new KeyStore$KeyStoreKey(byArray, certificateArray));
+    public void engineSetKeyEntry(String string, byte[] byArray, Certificate[] certificateArray) throws KeyStoreException {
+        this.database.put(string, new KeyStoreKey(byArray, certificateArray));
     }
 
-    @Override
-    public void engineSetKeyEntry(String string, Key key, char[] cArray, Certificate[] certificateArray) {
-        KeyStore$KeyStoreKey keyStore$KeyStoreKey = new KeyStore$KeyStoreKey(key, certificateArray);
-        keyStore$KeyStoreKey.digest = KeyStore.digestPassword(cArray);
-        this.database.put(string, keyStore$KeyStoreKey);
+    public void engineSetKeyEntry(String string, Key key, char[] cArray, Certificate[] certificateArray) throws KeyStoreException {
+        KeyStoreKey keyStoreKey = new KeyStoreKey(key, certificateArray);
+        keyStoreKey.digest = KeyStore.digestPassword(cArray);
+        this.database.put(string, keyStoreKey);
     }
 
-    @Override
     public int engineSize() {
         return this.database.size();
     }
 
-    @Override
-    public void engineStore(OutputStream outputStream, char[] cArray) {
+    public void engineStore(OutputStream outputStream, char[] cArray) throws IOException, NoSuchAlgorithmException, CertificateException {
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
         long l = System.currentTimeMillis();
         byte[] byArray = new byte[32];
@@ -280,6 +279,91 @@ extends KeyStoreSpi {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
         objectOutputStream.writeObject(this.database);
         objectOutputStream.close();
+    }
+
+    protected static class KeyStoreKey
+    extends KeyStoreEntry {
+        static final long serialVersionUID = -3264292225350417776L;
+        protected Object key;
+        protected Certificate[] chain;
+        byte[] digest;
+
+        protected KeyStoreKey() {
+        }
+
+        protected KeyStoreKey(byte[] byArray) {
+            this(byArray, null);
+        }
+
+        protected KeyStoreKey(Key key) {
+            this(key, null);
+        }
+
+        protected KeyStoreKey(Object object, Certificate[] certificateArray) {
+            this.key = object;
+            this.chain = certificateArray;
+        }
+
+        public Object getKey() {
+            return this.key;
+        }
+
+        private void writeObject(ObjectOutputStream objectOutputStream) throws IOException, CertificateEncodingException {
+            objectOutputStream.writeObject(this.key);
+            objectOutputStream.writeObject(this.digest);
+            if (this.chain == null) {
+                objectOutputStream.writeObject(this.chain);
+            } else {
+                objectOutputStream.writeObject(new Integer(this.chain.length));
+                int n = 0;
+                while (n < this.chain.length) {
+                    KeyStore.writeCertificate(this.chain[n], objectOutputStream);
+                    ++n;
+                }
+            }
+        }
+
+        private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException, CertificateException {
+            this.key = objectInputStream.readObject();
+            this.digest = (byte[])objectInputStream.readObject();
+            Object object = objectInputStream.readObject();
+            if (object != null) {
+                Integer n = (Integer)object;
+                this.chain = new Certificate[n.intValue()];
+                int n2 = 0;
+                while (n2 < n) {
+                    this.chain[n2] = KeyStore.readCertificate(objectInputStream);
+                    ++n2;
+                }
+            }
+        }
+    }
+
+    protected static class KeyStoreEntry
+    implements Serializable {
+        static final long serialVersionUID = -6740993172540267582L;
+        Date creationDate = new Date();
+
+        protected KeyStoreEntry() {
+        }
+    }
+
+    protected static class KeyStoreCertificate
+    extends KeyStoreEntry {
+        static final long serialVersionUID = 253492815225434760L;
+        Certificate cert;
+
+        public KeyStoreCertificate(Certificate certificate) {
+            this.cert = certificate;
+        }
+
+        private void writeObject(ObjectOutputStream objectOutputStream) throws IOException, CertificateEncodingException {
+            KeyStore.writeCertificate(this.cert, objectOutputStream);
+        }
+
+        private void readObject(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException, CertificateException {
+            this.cert = KeyStore.readCertificate(objectInputStream);
+        }
     }
 }
 

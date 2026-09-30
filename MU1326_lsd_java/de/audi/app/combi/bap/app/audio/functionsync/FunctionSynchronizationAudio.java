@@ -22,23 +22,22 @@ import de.audi.app.combi.bap.functionsync.AbstractFunctionSynchronization;
 
 public final class FunctionSynchronizationAudio
 extends AbstractFunctionSynchronization {
-    public static final int SYNC_TYPE_SOURCE_CHANGE_GENERAL;
-    public static final int SYNC_TYPE_SOURCE_CHANGE_TPMEMO;
-    public static final int SYNC_TYPE_SOURCE_CHANGE_TV;
-    public static final int SYNC_TYPE_SOURCE_CHANGE_TO_MEDIA;
-    public static final int SYNC_TYPE_SOURCE_CHANGE_TO_ONLINE_MEDIA;
-    public static final int SYNC_TYPE_STATION_CHANGE;
-    public static final int SYNC_TYPE_TRACK_CHANGE;
-    public static final int SYNC_TYPE_SOURCE_CHANGE_TERMINALMODE;
-    public static final int SYNC_TYPE_SOURCE_CHANGE_USB_DEACTIVATE;
-    private static final int SYNC_TYPE_MAX;
-    private static final int[][] FUNCTIONS_TO_BE_SYNCHRONIZED;
+    public static final int SYNC_TYPE_SOURCE_CHANGE_GENERAL = 0;
+    public static final int SYNC_TYPE_SOURCE_CHANGE_TPMEMO = 1;
+    public static final int SYNC_TYPE_SOURCE_CHANGE_TV = 2;
+    public static final int SYNC_TYPE_SOURCE_CHANGE_TO_MEDIA = 3;
+    public static final int SYNC_TYPE_SOURCE_CHANGE_TO_ONLINE_MEDIA = 4;
+    public static final int SYNC_TYPE_STATION_CHANGE = 5;
+    public static final int SYNC_TYPE_TRACK_CHANGE = 6;
+    public static final int SYNC_TYPE_SOURCE_CHANGE_TERMINALMODE = 7;
+    public static final int SYNC_TYPE_SOURCE_CHANGE_USB_DEACTIVATE = 8;
+    private static final int SYNC_TYPE_MAX = 9;
+    private static final int[][] FUNCTIONS_TO_BE_SYNCHRONIZED = new int[9][];
 
     public FunctionSynchronizationAudio(AbstractBAPModuleFSG abstractBAPModuleFSG, FunctionSynchronizationHandlerAudio functionSynchronizationHandlerAudio, int n) {
         super(abstractBAPModuleFSG, functionSynchronizationHandlerAudio, 42, n);
     }
 
-    @Override
     public String getSyncTypeDescription() {
         switch (this.syncType) {
             case 0: {
@@ -75,7 +74,6 @@ extends AbstractFunctionSynchronization {
         return "UNKNOWN";
     }
 
-    @Override
     protected void addAdditionalCommands() {
         switch (this.syncType) {
             case 0: {
@@ -133,12 +131,11 @@ extends AbstractFunctionSynchronization {
                 break;
             }
             default: {
-                this.logChannel.log(-1601830656, "[FunctionSynchronizationAudio#init] invalid sync type (%1)", (long)this.syncType);
+                this.logChannel.log(100000, "[FunctionSynchronizationAudio#init] invalid sync type (%1)", (long)this.syncType);
             }
         }
     }
 
-    @Override
     protected int[] getFunctionsToBeSynchronized() {
         if (this.syncType > -1 && this.syncType < 9) {
             return FUNCTIONS_TO_BE_SYNCHRONIZED[this.syncType];
@@ -147,18 +144,15 @@ extends AbstractFunctionSynchronization {
         return new int[0];
     }
 
-    @Override
     protected AbstractCommandOpenFunctionSync createOpenFunctionSyncCommand() {
         return new CommandOpenFunctionSyncAudio(this.moduleFsg, this);
     }
 
-    @Override
     protected AbstractCommandCloseFunctionSync createCloseFunctionSyncCommand() {
         return new CommandCloseFunctionSyncAudio(this.moduleFsg, this);
     }
 
     static {
-        FUNCTIONS_TO_BE_SYNCHRONIZED = new int[9][];
         FunctionSynchronizationAudio.FUNCTIONS_TO_BE_SYNCHRONIZED[0] = new int[]{16, 17, 21, 22, 30, 31, 40};
         FunctionSynchronizationAudio.FUNCTIONS_TO_BE_SYNCHRONIZED[1] = new int[]{16, 17, 21, 22, 30, 26};
         FunctionSynchronizationAudio.FUNCTIONS_TO_BE_SYNCHRONIZED[2] = new int[]{16, 17, 21, 22, 30, 40};

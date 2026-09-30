@@ -4,8 +4,8 @@
 package de.audi.atip.interapp.terminalmode;
 
 public class TerminalModeAudioUsage {
-    public static final int AUDIOTYPE_RINGTONE;
-    public static final int AUDIOTYPE_PHONECALL;
+    public static final int AUDIOTYPE_RINGTONE = 1;
+    public static final int AUDIOTYPE_PHONECALL = 2;
     private final int type;
     private final boolean inUse;
 
@@ -23,7 +23,7 @@ public class TerminalModeAudioUsage {
     }
 
     public String toString() {
-        return new StringBuffer().append("TerminalModeAudioUsage [type=").append(this.type).append(", inUse=").append(this.inUse).append("]").toString();
+        return "TerminalModeAudioUsage [type=" + this.type + ", inUse=" + this.inUse + "]";
     }
 }
 

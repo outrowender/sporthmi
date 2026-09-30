@@ -6,50 +6,16 @@ package de.audi.app.phone.core.dsi;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.callstacks.TelCallStacksUtils;
 import de.audi.app.phone.core.dsi.AbstractDSIMobileEquipementListener;
+import de.audi.app.phone.core.dsi.ITelDSIMobileEquipementResponseListener;
 import de.audi.app.phone.core.dsi.TelActivationStateStruct;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$1;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$10;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$11;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$12;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$13;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$14;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$15;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$16;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$17;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$18;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$19;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$2;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$20;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$21;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$22;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$23;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$24;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$25;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$26;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$27;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$28;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$29;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$3;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$30;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$31;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$32;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$33;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$34;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$35;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$36;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$37;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$4;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$5;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$6;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$7;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$8;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener$9;
 import de.audi.app.phone.core.util.TelLoggingUtils;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.CommandResponse;
+import de.audi.tghu.command.ICommandResponseSupplier;
 import de.esolutions.fw.util.commons.Buffer;
+import org.dsi.ifc.base.DSIListener;
 import org.dsi.ifc.telephoneng.ActivationStateStruct;
 import org.dsi.ifc.telephoneng.CFResponseData;
 import org.dsi.ifc.telephoneng.CallDuration;
@@ -84,17 +50,14 @@ implements DSIMobileEquipmentListener {
         this.hangupCmdListManager = commandListManager2;
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.commandListManager.getActiveCommandList();
     }
 
-    @Override
     public String getHandlerName() {
         return "TelDSIMobileEquipmentListener";
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         Buffer buffer = new Buffer();
         buffer.append("errorCode=");
@@ -105,256 +68,400 @@ implements DSIMobileEquipmentListener {
         buffer.append(", ");
         buffer.append("requestType=");
         buffer.append(n2);
-        this.log.log(-1601830656, "[TelDSIMobilEquipmentListener(%2)#asyncException] %1", (Object)buffer, (Object)this.getInstanceAndRoleString());
+        this.log.log(100000, "[TelDSIMobilEquipmentListener(%2)#asyncException] %1", (Object)buffer, (Object)this.getInstanceAndRoleString());
     }
 
-    @Override
-    public void responseAbortNetworkRegistration(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseAbortNetworkRegistration] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$1(this, n));
+    public void responseAbortNetworkRegistration(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseAbortNetworkRegistration] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseAbortNetworkRegistration(n);
+            }
+        });
     }
 
-    @Override
-    public void responseAbortNetworkSearch(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseAbortNetworkSearch] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$2(this, n));
+    public void responseAbortNetworkSearch(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseAbortNetworkSearch] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseAbortNetworkSearch(n);
+            }
+        });
     }
 
-    @Override
-    public void responseAcceptCall(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseAcceptCall] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$3(this, n));
+    public void responseAcceptCall(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseAcceptCall] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseAcceptCall(n);
+            }
+        });
     }
 
-    @Override
-    public void responseCallForward(CFResponseData[] cFResponseDataArray, int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseCallForward] telCFResponseData=%1, result=%2", (Object)TelLoggingUtils.objectArray2StringNewLines(cFResponseDataArray), (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$4(this, cFResponseDataArray, n));
+    public void responseCallForward(final CFResponseData[] cFResponseDataArray, final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseCallForward] telCFResponseData=%1, result=%2", (Object)TelLoggingUtils.objectArray2StringNewLines(cFResponseDataArray), (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseCallForward(cFResponseDataArray, n);
+            }
+        });
     }
 
-    @Override
-    public void responseCallWaiting(int n, int n2) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseCallWaiting] telCWStatus=%1, result=%2", (long)n, (long)n2);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$5(this, n, n2));
+    public void responseCallWaiting(final int n, final int n2) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseCallWaiting] telCWStatus=%1, result=%2", (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseCallWaiting(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void responseChangeSIMCode(int n, int n2) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseChangeSIMCode] telLockCode=%1, result=%2", (long)n, (long)n2);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$6(this, n, n2));
+    public void responseChangeSIMCode(final int n, final int n2) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseChangeSIMCode] telLockCode=%1, result=%2", (long)n, (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseChangeSIMCode(n, n2);
+            }
+        });
     }
 
-    @Override
     public void responseCheckSIMPINCode(int n) {
-        this.log.log(-1601830656, "[TelDSIMobileEquipmentListener#responseCheckSIMPINCode] not supported --> NOP!");
+        this.log.log(100000, "[TelDSIMobileEquipmentListener#responseCheckSIMPINCode] not supported --> NOP!");
     }
 
-    @Override
-    public void responseCLIR(int n, int n2, int n3) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseCLIR] telCLIRState=%1, telCLIRNWState=%2, result=%3", (long)n, (long)n2, (long)n3);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$7(this, n, n2, n3));
+    public void responseCLIR(final int n, final int n2, final int n3) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseCLIR] telCLIRState=%1, telCLIRNWState=%2, result=%3", (long)n, (long)n2, (long)n3);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseCLIR(n, n2, n3);
+            }
+        });
     }
 
-    @Override
-    public void responseDialNumber(int n, SuppServiceResponseStruct suppServiceResponseStruct) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseDialNumber] result=%2, telSuppServResult=%1", (Object)suppServiceResponseStruct, (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$8(this, n, suppServiceResponseStruct));
+    public void responseDialNumber(final int n, final SuppServiceResponseStruct suppServiceResponseStruct) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseDialNumber] result=%2, telSuppServResult=%1", (Object)suppServiceResponseStruct, (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseDialNumber(n, suppServiceResponseStruct);
+            }
+        });
     }
 
-    @Override
-    public void responseDialOperator(int n, SuppServiceResponseStruct suppServiceResponseStruct) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseDialOperator] result=%2, telSuppServResult=%1", (Object)suppServiceResponseStruct, (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$9(this, n, suppServiceResponseStruct));
+    public void responseDialOperator(final int n, final SuppServiceResponseStruct suppServiceResponseStruct) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseDialOperator] result=%2, telSuppServResult=%1", (Object)suppServiceResponseStruct, (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseDialOperator(n, suppServiceResponseStruct);
+            }
+        });
     }
 
-    @Override
-    public void responseHangupCall(int n) {
-        CommandResponse.execute(new TelDSIMobileEquipmentListener$10(this), new TelDSIMobileEquipmentListener$11(this, n));
+    public void responseHangupCall(final int n) {
+        CommandResponse.execute(new ICommandResponseSupplier(){
+
+            public LogChannel getLogChannel() {
+                return TelDSIMobileEquipmentListener.this.cmdListLogChannel;
+            }
+
+            public String getHandlerName() {
+                return "TelDSIMobileEquipmentListenerHangup";
+            }
+
+            public DSIListener getDSIDefaultHandler() {
+                return TelDSIMobileEquipmentListener.this.defaultListener;
+            }
+
+            public CommandList getActiveCommandList() {
+                return TelDSIMobileEquipmentListener.this.hangupCmdListManager.getActiveCommandList();
+            }
+        }, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseHangupCall(n);
+            }
+        });
     }
 
-    @Override
-    public void responseJoinCalls(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseJoinCalls] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$12(this, n));
+    public void responseJoinCalls(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseJoinCalls] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseJoinCalls(n);
+            }
+        });
     }
 
-    @Override
-    public void responseNetworkRegistration(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseNetworkRegistration] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$13(this, n));
+    public void responseNetworkRegistration(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseNetworkRegistration] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseNetworkRegistration(n);
+            }
+        });
     }
 
-    @Override
-    public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseNetworkSearch] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$14(this, networkProviderArray, n));
+    public void responseNetworkSearch(final NetworkProvider[] networkProviderArray, final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseNetworkSearch] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseNetworkSearch(networkProviderArray, n);
+            }
+        });
     }
 
-    @Override
     public void responseRemoveOtherSIM(int n) {
-        this.log.log(-1601830656, "[TelDSIMobileEquipmentListener#responseRemoveOtherSIM] not supported --> NOP!");
+        this.log.log(100000, "[TelDSIMobileEquipmentListener#responseRemoveOtherSIM] not supported --> NOP!");
     }
 
-    @Override
-    public void responseRestoreFactorySettings(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseRestoreFactorySettings] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$15(this, n));
+    public void responseRestoreFactorySettings(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseRestoreFactorySettings] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseRestoreFactorySettings(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSendDTMF(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSendDTMF] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$16(this, n));
+    public void responseSendDTMF(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSendDTMF] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSendDTMF(n);
+            }
+        });
     }
 
-    @Override
-    public void responseServiceCodeAbort(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseServiceCodeAbort] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$17(this, n));
+    public void responseServiceCodeAbort(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseServiceCodeAbort] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseServiceCodeAbort(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetAutomaticEmergencyCallActive(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetAutomaticEmergencyCallActive] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$18(this, n));
+    public void responseSetAutomaticEmergencyCallActive(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetAutomaticEmergencyCallActive] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetAutomaticEmergencyCallActive(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetAutomaticPinEntryActive(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetAutomaticPinEntryActive] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$19(this, n));
+    public void responseSetAutomaticPinEntryActive(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetAutomaticPinEntryActive] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetAutomaticPinEntryActive(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetAutomaticRedialActive(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetAutomaticRedialActive] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$20(this, n));
+    public void responseSetAutomaticRedialActive(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetAutomaticRedialActive] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetAutomaticRedialActive(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetCDMAThreeWayCallingSetting(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetCDMAThreeWayCallingSetting] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$21(this, n));
+    public void responseSetCDMAThreeWayCallingSetting(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetCDMAThreeWayCallingSetting] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetCDMAThreeWayCallingSetting(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetESIMActive(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetESIMActive] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$22(this, n));
+    public void responseSetESIMActive(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetESIMActive] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetESIMActive(n);
+            }
+        });
     }
 
-    @Override
     public void responseSetFavorites(int n) {
-        this.log.log(-1601830656, "[TelDSIMobileEquipmentListener#responseSetFavorites] not supported --> NOP!");
+        this.log.log(100000, "[TelDSIMobileEquipmentListener#responseSetFavorites] not supported --> NOP!");
     }
 
-    @Override
-    public void responseSetHandsFreeMode(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetHandsFreeMode] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$23(this, n));
+    public void responseSetHandsFreeMode(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetHandsFreeMode] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetHandsFreeMode(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetMailboxContent(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetMailboxContent] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$24(this, n));
+    public void responseSetMailboxContent(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetMailboxContent] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetMailboxContent(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetMICMuteState(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetMICMuteState] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$25(this, n));
+    public void responseSetMICMuteState(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetMICMuteState] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetMICMuteState(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetNADMode(int n, int n2) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetNADMode] result=%1", (long)n2);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$26(this, n, n2));
+    public void responseSetNADMode(final int n, final int n2) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetNADMode] result=%1", (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetNADMode(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void responseSetOptimizationMode(int n, int n2) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetOptimizationMode] result=%1", (long)n2);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$27(this, n, n2));
+    public void responseSetOptimizationMode(final int n, final int n2) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetOptimizationMode] result=%1", (long)n2);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetOptimizationMode(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void responseSetPhoneReminderSetting(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetPhoneReminderSetting] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$28(this, n));
+    public void responseSetPhoneReminderSetting(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetPhoneReminderSetting] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetPhoneReminderSetting(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetPhoneRingtone(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetPhoneRingtone] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$29(this, n));
+    public void responseSetPhoneRingtone(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetPhoneRingtone] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetPhoneRingtone(n);
+            }
+        });
     }
 
-    @Override
     public void responseSetPrefixActivated(int n) {
-        this.log.log(-1601830656, "[TelDSIMobileEquipmentListener#responseSetPrefixActivated] not supported --> NOP!");
+        this.log.log(100000, "[TelDSIMobileEquipmentListener#responseSetPrefixActivated] not supported --> NOP!");
     }
 
-    @Override
     public void responseSetPrefixContent(int n) {
-        this.log.log(-1601830656, "[TelDSIMobileEquipmentListener#responseSetPrefixContent] not supported --> NOP!");
+        this.log.log(100000, "[TelDSIMobileEquipmentListener#responseSetPrefixContent] not supported --> NOP!");
     }
 
-    @Override
-    public void responseSetPrivacyMode(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSetPrivacyMode] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$30(this, n));
+    public void responseSetPrivacyMode(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSetPrivacyMode] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSetPrivacyMode(n);
+            }
+        });
     }
 
-    @Override
     public void responseSetSIMAliases(int n) {
-        this.log.log(-1601830656, "[TelDSIMobileEquipmentListener#responseSetSIMAliases] not supported --> NOP!");
+        this.log.log(100000, "[TelDSIMobileEquipmentListener#responseSetSIMAliases] not supported --> NOP!");
     }
 
-    @Override
     public void responseSetSIMName(int n) {
-        this.log.log(-1601830656, "[TelDSIMobileEquipmentListener#responseSetSIMName] not supported --> NOP!");
+        this.log.log(100000, "[TelDSIMobileEquipmentListener#responseSetSIMName] not supported --> NOP!");
     }
 
-    @Override
-    public void responseSIMPINRequired(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSIMPINRequired] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$31(this, n));
+    public void responseSIMPINRequired(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSIMPINRequired] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSIMPINRequired(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSplitCall(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSplitCall] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$32(this, n));
+    public void responseSplitCall(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSplitCall] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSplitCall(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSwapCalls(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseSwapCalls] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$33(this, n));
+    public void responseSwapCalls(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseSwapCalls] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseSwapCalls(n);
+            }
+        });
     }
 
-    @Override
-    public void responseTelPower(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseTelPower] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$34(this, n));
+    public void responseTelPower(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseTelPower] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseTelPower(n);
+            }
+        });
     }
 
-    @Override
     public void responseUnlockOtherSIM(int n) {
-        this.log.log(-1601830656, "[TelDSIMobileEquipmentListener#responseUnlockOtherSIM] not supported --> NOP!");
+        this.log.log(100000, "[TelDSIMobileEquipmentListener#responseUnlockOtherSIM] not supported --> NOP!");
     }
 
-    @Override
-    public void responseUnlockSIM(int n) {
-        this.log.log(-2137614336, "[TelDSIMobileEquipmentListener#responseUnlockSIM] result=%1", (long)n);
-        CommandResponse.execute(this, new TelDSIMobileEquipmentListener$35(this, n));
+    public void responseUnlockSIM(final int n) {
+        this.log.log(10000000, "[TelDSIMobileEquipmentListener#responseUnlockSIM] result=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((ITelDSIMobileEquipementResponseListener)dSIListener).responseUnlockSIM(n);
+            }
+        });
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateActivationState(ActivationStateStruct activationStateStruct, int n) {
         if (n == 1) {
             Object object = this.mutex;
@@ -370,7 +477,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateAutomaticPinEntryActive(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateAutomaticPinEntryActive] automaticPinEntryActive=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -385,7 +491,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateAutomaticRedialActive(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateAutomaticRedialActive] automaticRedialActive=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -400,7 +505,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateBatteryChargeLevel(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateBatteryChargeLevel] batteryChargeLevel=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -415,7 +519,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateCallDurationList(CallDuration[] callDurationArray, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateCallDurationList] callDurationList=%1", (Object)TelLoggingUtils.objectArray2StringNewLines(callDurationArray), (Object)this.getInstanceAndRoleString());
@@ -431,7 +534,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateCallList(CallInformation[] callInformationArray, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateCallList] callList=%1", (Object)TelLoggingUtils.objectArray2StringNewLines(callInformationArray), (Object)this.getInstanceAndRoleString());
@@ -447,7 +549,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateCallstacksIsReverted(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateCallstacksIsReverted] isReverted=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -462,7 +563,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateCDMAThreeWayCallingSetting(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateCDMAThreeWayCallingSetting] cdmaThreeWayCallingSetting=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -477,7 +577,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateCradlePlugInState(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateCradlePlugInState] cradlePlugInState=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -492,7 +591,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateDisconnectReason(DisconnectReason disconnectReason, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateDisconnectReason] disconnectReason=%1", (Object)disconnectReason, (Object)this.getInstanceAndRoleString());
@@ -514,7 +612,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateDTMFTonePlaying(String string, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateDTMFTonePlaying] dtmfTone=%1", (Object)string, (Object)this.getInstanceAndRoleString());
@@ -529,7 +626,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateEmergencyCallActive(EmergencyCallSetting emergencyCallSetting, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateEmergencyCallActive] emergencyCallActive=%1", (Object)emergencyCallSetting, (Object)this.getInstanceAndRoleString());
@@ -550,7 +646,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateEmergencyNumbers(EmergencyNumbers emergencyNumbers, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateEmergencyNumbers] telEmerNums=%1", (Object)emergencyNumbers, (Object)this.getInstanceAndRoleString());
@@ -571,7 +666,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateEnhancedPrivacyMode(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateEnhancedPrivacyMode] enhancedPrivacyMode=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -586,7 +680,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateESimActive(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateESimActive] active=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -601,7 +694,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateESimB2BMode(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateESimB2BMode] active=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -616,7 +708,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateESIMMSISDN(String string, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateESIMMSISDN] eSIMMSISDN=%1", (Object)string, (Object)this.getInstanceAndRoleString());
@@ -631,7 +722,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateEUICCID(String string, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateEUICCID] eUICCID=%1", (Object)string, (Object)this.getInstanceAndRoleString());
@@ -643,7 +733,6 @@ implements DSIMobileEquipmentListener {
         }
     }
 
-    @Override
     public void updateFavorites(Favorite[] favoriteArray, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateFavorites] favorites=%1 --> NOP!", (Object)TelLoggingUtils.objectArray2StringNewLines(favoriteArray), (Object)this.getInstanceAndRoleString());
@@ -653,7 +742,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateHandsFreeMode(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateHandsFreeMode] handsFreeMode=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -668,7 +756,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateLastAnsweredNumbers(CallStackEntry[] callStackEntryArray, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateLastAnsweredNumbers] lastAnsweredNumbers=%1", (Object)TelLoggingUtils.objectArray2StringNewLines(callStackEntryArray), (Object)this.getInstanceAndRoleString());
@@ -684,7 +771,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateLastDialedNumbers(CallStackEntry[] callStackEntryArray, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateLastDialedNumbers] lastDialedNumbers=%1", (Object)TelLoggingUtils.objectArray2StringNewLines(callStackEntryArray), (Object)this.getInstanceAndRoleString());
@@ -700,11 +786,15 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void updateLockState(LockStateStruct lockStateStruct, int n) {
+    public void updateLockState(final LockStateStruct lockStateStruct, final int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateLockState] lockState=%1", (Object)lockStateStruct, (Object)this.getInstanceAndRoleString());
-            CommandResponse.execute(this, new TelDSIMobileEquipmentListener$36(this, lockStateStruct, n));
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((ITelDSIMobileEquipementResponseListener)dSIListener).updateLockState(lockStateStruct, n);
+                }
+            });
             Object object = this.mutex;
             synchronized (object) {
                 this.lockState = lockStateStruct;
@@ -716,7 +806,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateMailboxContent(MailboxDialingNumber[] mailboxDialingNumberArray, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateMailboxContent] mailboxContent=%1", (Object)TelLoggingUtils.objectArray2StringNewLines(mailboxDialingNumberArray), (Object)this.getInstanceAndRoleString());
@@ -731,7 +820,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateMEDataValidity(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateMEDataValidity] mEDataValidity=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -746,7 +834,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateMicGainLevel(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateMicGainLevel] micGainLevel=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -761,7 +848,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateMICMuteState(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateMICMuteState] mICMuteState=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -776,7 +862,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateMissedCallIndicator(MissedCallIndicator missedCallIndicator, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateMissedCallIndicator] missedCallIndicator=%1", (Object)missedCallIndicator, (Object)this.getInstanceAndRoleString());
@@ -795,7 +880,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateMissedNumbers(CallStackEntry[] callStackEntryArray, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateMissedNumbers] missedNumbers=%1", (Object)TelLoggingUtils.objectArray2StringNewLines(callStackEntryArray), (Object)this.getInstanceAndRoleString());
@@ -811,7 +895,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateNADMode(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateNADMode] nadMode=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -826,7 +909,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateNADTemperature(NADTemperatureStruct nADTemperatureStruct, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateNADTemperature] nADTemperature=%1", (Object)nADTemperatureStruct, (Object)this.getInstanceAndRoleString());
@@ -841,7 +923,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateNetworkProvider(NetworkProviderName networkProviderName, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateNetworkProvider] networkProvider=%1", (Object)networkProviderName, (Object)this.getInstanceAndRoleString());
@@ -856,7 +937,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateNetworkType(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateNetworkType] networkType=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -871,7 +951,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateOptimizationMode(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateOptimizationMode] optimizationMode=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -886,7 +965,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateOtherSIMAvailable(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateOtherSIMAvailable] otherSIMAvailable=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -901,7 +979,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePhoneInformation(PhoneInformation phoneInformation, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updatePhoneInformation] phoneInformation=%1", (Object)phoneInformation, (Object)this.getInstanceAndRoleString());
@@ -916,7 +993,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePhoneReminderSetting(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updatePhoneReminderSetting] phoneReminderSetting=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -931,7 +1007,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePhoneRingtone(int n, String string, int n2) {
         if (n2 == 1) {
             Object object;
@@ -957,7 +1032,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePrefixActivated(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updatePrefixActivated] PrefixActivated=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -972,7 +1046,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePrefixContent(String string, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updatePrefixContent] prefixContent=%1", (Object)string, (Object)this.getInstanceAndRoleString());
@@ -987,7 +1060,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePrivacyMode(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updatePrivacyMode] privacyMode=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -1002,7 +1074,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRegisterState(RegisterStateStruct registerStateStruct, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateRegisterState] registerState=%1", (Object)registerStateStruct, (Object)this.getInstanceAndRoleString());
@@ -1017,7 +1088,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSAPUpgradeActive(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateSAPUpgradeActive] active=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -1032,11 +1102,15 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void updateServiceCodeType(ServiceCodeTypeStruct serviceCodeTypeStruct, int n) {
+    public void updateServiceCodeType(final ServiceCodeTypeStruct serviceCodeTypeStruct, final int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateServiceCodeType] serviceCodeType=%1", (Object)serviceCodeTypeStruct, (Object)this.getInstanceAndRoleString());
-            CommandResponse.execute(this, new TelDSIMobileEquipmentListener$37(this, serviceCodeTypeStruct, n));
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((ITelDSIMobileEquipementResponseListener)dSIListener).updateServiceCodeType(serviceCodeTypeStruct, n);
+                }
+            });
             Object object = this.mutex;
             synchronized (object) {
                 this.serviceCodeType = serviceCodeTypeStruct;
@@ -1048,7 +1122,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateServiceNumbers(ServiceNumbers serviceNumbers, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateServiceNumbers] serviceNumbers=%1", (Object)serviceNumbers, (Object)this.getInstanceAndRoleString());
@@ -1063,7 +1136,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateServiceProvider(ServiceProvider serviceProvider, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateServiceProvider] serviceProvider=%1", (Object)serviceProvider, (Object)this.getInstanceAndRoleString());
@@ -1078,7 +1150,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSignalQuality(int n, int n2) {
         if (n2 == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateSignalQuality] signalQuality=%1", (Object)String.valueOf(n), (Object)this.getInstanceAndRoleString());
@@ -1093,7 +1164,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSIMAliasInformation(SIMAliasInformation sIMAliasInformation, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateSIMAliasInformation] simAliasInformation=%1", (Object)sIMAliasInformation, (Object)this.getInstanceAndRoleString());
@@ -1108,7 +1178,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSIMPINRequired(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateSIMPINRequired] simPINRequired=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -1123,7 +1192,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSuppServiceResponse(SuppServiceResponseStruct suppServiceResponseStruct, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateSuppServiceResponse] suppServiceResponse=%1", (Object)suppServiceResponseStruct, (Object)this.getInstanceAndRoleString());
@@ -1138,7 +1206,6 @@ implements DSIMobileEquipmentListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateWidebandSpeech(boolean bl, int n) {
         if (n == 1) {
             this.log.log(this.getLogLevelFromRole(), "[TelDSIMobileEquipmentListener(%2)#updateWidebandSpeech] active=%1", bl, (Object)this.getInstanceAndRoleString());
@@ -1150,28 +1217,19 @@ implements DSIMobileEquipmentListener {
         }
     }
 
-    @Override
     public void updateSpeechRecognitionAvailable(int n, int n2) {
     }
 
-    @Override
     public void updateSpeechRecognitionActive(int n, int n2) {
     }
 
-    @Override
     public void updateSpeechRecognitionType(int n, int n2) {
     }
 
-    @Override
     public void responseStartSpeechRecognition(int n) {
     }
 
-    @Override
     public void responseStopSpeechRecognition(int n) {
-    }
-
-    static /* synthetic */ CommandListManager access$000(TelDSIMobileEquipmentListener telDSIMobileEquipmentListener) {
-        return telDSIMobileEquipmentListener.hangupCmdListManager;
     }
 }
 

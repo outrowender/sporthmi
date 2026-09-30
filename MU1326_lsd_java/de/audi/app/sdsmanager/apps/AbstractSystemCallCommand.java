@@ -12,8 +12,8 @@ import de.audi.tghu.command.ICommandList;
 
 public abstract class AbstractSystemCallCommand
 extends Command {
-    public static final byte ACTION_CONTINUE;
-    public static final byte ACTION_ABORT_SILENTLY;
+    public static final byte ACTION_CONTINUE = 0;
+    public static final byte ACTION_ABORT_SILENTLY = 1;
     private final LogChannel lc = Logger.getMainLog();
     protected final SDSHandlerService sdsHandlerService;
 
@@ -42,7 +42,7 @@ extends Command {
     }
 
     public void sendResult(int n) {
-        this.logger.log(-2137614336, "%1#sendResult: eventID=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#sendResult: eventID=%2", (Object)this.getName(), (long)n);
         this.sdsHandlerService.sendResult(n);
         this.processingFinished();
     }
@@ -52,11 +52,11 @@ extends Command {
     }
 
     public void processingFinished() {
-        this.lc.log(-2137614336, "%1#processingFinished: called", (Object)this.getName());
+        this.lc.log(10000000, "%1#processingFinished: called", (Object)this.getName());
         this.handleSDSLineNumbering();
         ICommandList iCommandList = super.getCommandList();
         if (iCommandList == null) {
-            this.lc.log(-1601830656, "%1#processingFinished: No cmdList available!", (Object)this.getName());
+            this.lc.log(100000, "%1#processingFinished: No cmdList available!", (Object)this.getName());
             return;
         }
         iCommandList.commandFinished();

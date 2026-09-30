@@ -14,11 +14,11 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 public class TelEvoFavoriteListRow
 extends FavoriteListRow {
-    static final int MAX_COLUMNS;
-    private static final int COL_NAME;
-    private static final int COL_NUMBER;
-    private static final int COL_PROPERTIES;
-    private static final int COL_PHONE_NUMBER_TYPE;
+    static final int MAX_COLUMNS = 4;
+    private static final int COL_NAME = 0;
+    private static final int COL_NUMBER = 1;
+    private static final int COL_PROPERTIES = 2;
+    private static final int COL_PHONE_NUMBER_TYPE = 3;
     private final String name;
     private final String number;
     private final int phoneNumberType;
@@ -31,7 +31,7 @@ extends FavoriteListRow {
         this.setText(0, string);
         this.setText(1, string2);
         this.setInteger(3, ADBModelUtils.getIconTypeForPhoneNumber(n));
-        this.setPropertyCell(2, PropertyListCell.create(-1635178174, new int[]{1052831299, -2040561860}));
+        this.setPropertyCell(2, PropertyListCell.create(1110018462, new int[]{1139720254, 1014980486}));
     }
 
     public TelEvoFavoriteListRow(ITelFavorite iTelFavorite) {
@@ -42,12 +42,10 @@ extends FavoriteListRow {
         this(telEvoFavoriteListRow.name, telEvoFavoriteListRow.number, telEvoFavoriteListRow.getUniqueID(), telEvoFavoriteListRow.phoneNumberType);
     }
 
-    @Override
     public IFavoriteStorage getIFavorite() {
         return new TelFavoriteStorage(this.name, this.number, this.phoneNumberType);
     }
 
-    @Override
     public EvoListRow copy() {
         return new TelEvoFavoriteListRow(this);
     }

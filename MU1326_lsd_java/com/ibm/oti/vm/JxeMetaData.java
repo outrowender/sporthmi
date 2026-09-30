@@ -18,8 +18,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class JxeMetaData {
-    private static final String META_NAME;
-    private static final boolean useNative;
+    private static final String META_NAME = "META-INF/JXE.MF";
+    private static final boolean useNative = VM.useNatives();
     private Hashtable table;
     private boolean bigEndian;
     private int intSize;
@@ -35,12 +35,8 @@ public class JxeMetaData {
     private boolean posIndependent = false;
     private char[] buf;
 
-    static {
-        useNative = VM.useNatives();
-    }
-
     protected JxeMetaData(Jxe jxe) {
-        InputStream inputStream = jxe.internalGetResourceAsStream("META-INF/JXE.MF");
+        InputStream inputStream = jxe.internalGetResourceAsStream(META_NAME);
         if (inputStream != null) {
             this.initializeTable(inputStream);
         }
@@ -49,9 +45,9 @@ public class JxeMetaData {
     private JxeMetaData() {
     }
 
-    public static JxeMetaData fromFile(File file) {
+    public static JxeMetaData fromFile(File file) throws IOException, JxeException {
         ZipFile zipFile = new ZipFile(file);
-        ZipEntry zipEntry = zipFile.getEntry("META-INF/JXE.MF");
+        ZipEntry zipEntry = zipFile.getEntry(META_NAME);
         if (zipEntry == null) {
             throw new JxeException(Msg.getString("K01c5", file));
         }

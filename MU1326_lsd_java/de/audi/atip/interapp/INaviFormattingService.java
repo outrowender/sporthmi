@@ -8,22 +8,16 @@ import de.audi.atip.interapp.IFormattingResponse;
 import org.dsi.ifc.global.NavLocation;
 
 public interface INaviFormattingService {
-    default public IFormattingResponse formatAddress(IFormattingRequest iFormattingRequest) {
-    }
+    public IFormattingResponse formatAddress(IFormattingRequest var1);
 
-    default public IFormattingResponse formattingOneLine(IFormattingRequest iFormattingRequest) {
-    }
+    public IFormattingResponse formattingOneLine(IFormattingRequest var1);
 
-    default public IFormattingResponse formattingTwoLines(IFormattingRequest iFormattingRequest) {
-    }
+    public IFormattingResponse formattingTwoLines(IFormattingRequest var1);
 
-    default public IFormattingResponse formattingThreeLines(IFormattingRequest iFormattingRequest) {
-    }
+    public IFormattingResponse formattingThreeLines(IFormattingRequest var1);
 
-    default public IFormattingRequest createNewFormattingRequest() {
-    }
+    public IFormattingRequest createNewFormattingRequest();
 
-    default public IFormattingRequest createNewFormattingRequest(NavLocation navLocation, boolean bl) {
-    }
+    public IFormattingRequest createNewFormattingRequest(NavLocation var1, boolean var2);
 }
 

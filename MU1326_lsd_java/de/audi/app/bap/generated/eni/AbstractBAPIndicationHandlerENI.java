@@ -56,7 +56,6 @@ extends AbstractBAPIndicationHandlerASG {
         super(abstractBAPModuleASG, logChannel);
     }
 
-    @Override
     public void processIndicationResult(BAPFunctionMethodASG bAPFunctionMethodASG, ResultMethod resultMethod) {
         switch (bAPFunctionMethodASG.getFctID()) {
             case 18: {
@@ -69,7 +68,6 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    @Override
     public void processIndicationStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, StatusProperty statusProperty) {
         switch (bAPFunctionPropertyASG.getFctID()) {
             case 2: {
@@ -150,7 +148,6 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    @Override
     public void processIndicationStatusAck(BAPFunctionPropertyASG bAPFunctionPropertyASG, StatusAckProperty statusAckProperty) {
         switch (bAPFunctionPropertyASG.getFctID()) {
             default: 
@@ -158,7 +155,6 @@ extends AbstractBAPIndicationHandlerASG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerENI#processIndicationStatusAck not implemented for fctID=%1", (Object)bAPFunctionPropertyASG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, ChangedArray changedArray) {
         switch (bAPFunctionArrayASG.getFctID()) {
             case 16: {
@@ -199,7 +195,6 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    @Override
     public void processIndicationStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, StatusArray statusArray) {
         switch (bAPFunctionArrayASG.getFctID()) {
             case 16: {
@@ -240,109 +235,74 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    protected abstract void processBapConfigStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, BAP_Config_Status bAP_Config_Status) {
-    }
+    protected abstract void processBapConfigStatus(BAPFunctionPropertyASG var1, BAP_Config_Status var2);
 
-    protected abstract void processFunctionListStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FunctionList_Status functionList_Status) {
-    }
+    protected abstract void processFunctionListStatus(BAPFunctionPropertyASG var1, FunctionList_Status var2);
 
-    protected abstract void processFsgControlStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FSG_Control_Status fSG_Control_Status) {
-    }
+    protected abstract void processFsgControlStatus(BAPFunctionPropertyASG var1, FSG_Control_Status var2);
 
-    protected abstract void processFsgSetupStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FSG_Setup_Status fSG_Setup_Status) {
-    }
+    protected abstract void processFsgSetupStatus(BAPFunctionPropertyASG var1, FSG_Setup_Status var2);
 
-    protected abstract void processFsgOperationStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FSG_OperationState_Status fSG_OperationState_Status) {
-    }
+    protected abstract void processFsgOperationStateStatus(BAPFunctionPropertyASG var1, FSG_OperationState_Status var2);
 
-    protected abstract void processDestinationsListChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, DestinationsList_ChangedArray destinationsList_ChangedArray) {
-    }
+    protected abstract void processDestinationsListChangedArray(BAPFunctionArrayASG var1, DestinationsList_ChangedArray var2);
 
-    protected abstract void processDestinationsListStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, DestinationsList_StatusArray destinationsList_StatusArray) {
-    }
+    protected abstract void processDestinationsListStatusArray(BAPFunctionArrayASG var1, DestinationsList_StatusArray var2);
 
-    protected abstract void processDestinationListAsGcapacityStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, DestinationList_ASGcapacity_Status destinationList_ASGcapacity_Status) {
-    }
+    protected abstract void processDestinationListAsGcapacityStatus(BAPFunctionPropertyASG var1, DestinationList_ASGcapacity_Status var2);
 
-    protected abstract void processTriggerRemoteProcessResult(BAPFunctionMethodASG bAPFunctionMethodASG, TriggerRemoteProcess_Result triggerRemoteProcess_Result) {
-    }
+    protected abstract void processTriggerRemoteProcessResult(BAPFunctionMethodASG var1, TriggerRemoteProcess_Result var2);
 
-    protected abstract void processRemoteProcessCommandsStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, RemoteProcessCommands_Status remoteProcessCommands_Status) {
-    }
+    protected abstract void processRemoteProcessCommandsStatus(BAPFunctionPropertyASG var1, RemoteProcessCommands_Status var2);
 
-    protected abstract void processRemoteProcessStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, RemoteProcessState_Status remoteProcessState_Status) {
-    }
+    protected abstract void processRemoteProcessStateStatus(BAPFunctionPropertyASG var1, RemoteProcessState_Status var2);
 
-    protected abstract void processUserListChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, UserList_ChangedArray userList_ChangedArray) {
-    }
+    protected abstract void processUserListChangedArray(BAPFunctionArrayASG var1, UserList_ChangedArray var2);
 
-    protected abstract void processUserListStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, UserList_StatusArray userList_StatusArray) {
-    }
+    protected abstract void processUserListStatusArray(BAPFunctionArrayASG var1, UserList_StatusArray var2);
 
-    protected abstract void processServiceListChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, ServiceList_ChangedArray serviceList_ChangedArray) {
-    }
+    protected abstract void processServiceListChangedArray(BAPFunctionArrayASG var1, ServiceList_ChangedArray var2);
 
-    protected abstract void processServiceListStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, ServiceList_StatusArray serviceList_StatusArray) {
-    }
+    protected abstract void processServiceListStatusArray(BAPFunctionArrayASG var1, ServiceList_StatusArray var2);
 
-    protected abstract void processActiveMonitoringsStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, ActiveMonitorings_Status activeMonitorings_Status) {
-    }
+    protected abstract void processActiveMonitoringsStatus(BAPFunctionPropertyASG var1, ActiveMonitorings_Status var2);
 
-    protected abstract void processPrivacySetupStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, PrivacySetup_Status privacySetup_Status) {
-    }
+    protected abstract void processPrivacySetupStatus(BAPFunctionPropertyASG var1, PrivacySetup_Status var2);
 
-    protected abstract void processAlertListChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, AlertList_ChangedArray alertList_ChangedArray) {
-    }
+    protected abstract void processAlertListChangedArray(BAPFunctionArrayASG var1, AlertList_ChangedArray var2);
 
-    protected abstract void processAlertListStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, AlertList_StatusArray alertList_StatusArray) {
-    }
+    protected abstract void processAlertListStatusArray(BAPFunctionArrayASG var1, AlertList_StatusArray var2);
 
-    protected abstract void processMobileDeviceKeyCountStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, MobileDeviceKeyCount_Status mobileDeviceKeyCount_Status) {
-    }
+    protected abstract void processMobileDeviceKeyCountStatus(BAPFunctionPropertyASG var1, MobileDeviceKeyCount_Status var2);
 
-    protected abstract void processVtanDataEncryptedStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, VTANDataEncrypted_Status vTANDataEncrypted_Status) {
-    }
+    protected abstract void processVtanDataEncryptedStatus(BAPFunctionPropertyASG var1, VTANDataEncrypted_Status var2);
 
-    protected abstract void processOnlineUpdateStateDeprecatedStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, OnlineUpdateState_Deprecated_Status onlineUpdateState_Deprecated_Status) {
-    }
+    protected abstract void processOnlineUpdateStateDeprecatedStatus(BAPFunctionPropertyASG var1, OnlineUpdateState_Deprecated_Status var2);
 
-    protected abstract void processConnectionStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, ConnectionState_Status connectionState_Status) {
-    }
+    protected abstract void processConnectionStateStatus(BAPFunctionPropertyASG var1, ConnectionState_Status var2);
 
-    protected abstract void processChallengeDataChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, ChallengeData_ChangedArray challengeData_ChangedArray) {
-    }
+    protected abstract void processChallengeDataChangedArray(BAPFunctionArrayASG var1, ChallengeData_ChangedArray var2);
 
-    protected abstract void processChallengeDataStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, ChallengeData_StatusArray challengeData_StatusArray) {
-    }
+    protected abstract void processChallengeDataStatusArray(BAPFunctionArrayASG var1, ChallengeData_StatusArray var2);
 
-    protected abstract void processFoDListChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, FoDList_ChangedArray foDList_ChangedArray) {
-    }
+    protected abstract void processFoDListChangedArray(BAPFunctionArrayASG var1, FoDList_ChangedArray var2);
 
-    protected abstract void processFoDListStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, FoDList_StatusArray foDList_StatusArray) {
-    }
+    protected abstract void processFoDListStatusArray(BAPFunctionArrayASG var1, FoDList_StatusArray var2);
 
-    protected abstract void processFoDStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FoDState_Status foDState_Status) {
-    }
+    protected abstract void processFoDStateStatus(BAPFunctionPropertyASG var1, FoDState_Status var2);
 
-    protected abstract void processActiveTripStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, ActiveTrip_Status activeTrip_Status) {
-    }
+    protected abstract void processActiveTripStatus(BAPFunctionPropertyASG var1, ActiveTrip_Status var2);
 
-    protected abstract void processOlbSettingsStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, OLBSettings_Status oLBSettings_Status) {
-    }
+    protected abstract void processOlbSettingsStatus(BAPFunctionPropertyASG var1, OLBSettings_Status var2);
 
-    protected abstract void processOlbTripListChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, OLBTripList_ChangedArray oLBTripList_ChangedArray) {
-    }
+    protected abstract void processOlbTripListChangedArray(BAPFunctionArrayASG var1, OLBTripList_ChangedArray var2);
 
-    protected abstract void processOlbTripListStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, OLBTripList_StatusArray oLBTripList_StatusArray) {
-    }
+    protected abstract void processOlbTripListStatusArray(BAPFunctionArrayASG var1, OLBTripList_StatusArray var2);
 
-    protected abstract void processCurrentOnlineUpdateStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, CurrentOnlineUpdateState_Status currentOnlineUpdateState_Status) {
-    }
+    protected abstract void processCurrentOnlineUpdateStateStatus(BAPFunctionPropertyASG var1, CurrentOnlineUpdateState_Status var2);
 
-    protected abstract void processOnlineUpdateListChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, OnlineUpdateList_ChangedArray onlineUpdateList_ChangedArray) {
-    }
+    protected abstract void processOnlineUpdateListChangedArray(BAPFunctionArrayASG var1, OnlineUpdateList_ChangedArray var2);
 
-    protected abstract void processOnlineUpdateListStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, OnlineUpdateList_StatusArray onlineUpdateList_StatusArray) {
-    }
+    protected abstract void processOnlineUpdateListStatusArray(BAPFunctionArrayASG var1, OnlineUpdateList_StatusArray var2);
 }
 

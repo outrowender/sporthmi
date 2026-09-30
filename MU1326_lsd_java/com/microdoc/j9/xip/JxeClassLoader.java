@@ -37,8 +37,7 @@ extends ClassLoader {
         }
     }
 
-    @Override
-    public Class loadClass(String string) {
+    public Class loadClass(String string) throws ClassNotFoundException {
         try {
             Class clazz = super.loadClass(string);
             return clazz;
@@ -62,7 +61,7 @@ extends ClassLoader {
             if (byArray != null) {
                 URL uRL = null;
                 try {
-                    uRL = new URL(new StringBuffer("jxe://").append(this.fJxeName).toString());
+                    uRL = new URL("jxe://" + this.fJxeName);
                 }
                 catch (MalformedURLException malformedURLException) {
                     // empty catch block
@@ -79,7 +78,7 @@ extends ClassLoader {
         }
     }
 
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         sAllocations.size();
         this.fArchive.release();
         this.fParent.freeJxeSegment(this.fJxe);

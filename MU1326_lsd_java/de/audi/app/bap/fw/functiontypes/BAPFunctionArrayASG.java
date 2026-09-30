@@ -6,9 +6,6 @@ package de.audi.app.bap.fw.functiontypes;
 import de.audi.app.bap.fw.AbstractBAPModuleASG;
 import de.audi.app.bap.fw.TransactionId;
 import de.audi.app.bap.fw.functiontypes.AbstractBAPFunction;
-import de.audi.app.bap.fw.functiontypes.BAPFunctionArrayASG$1;
-import de.audi.app.bap.fw.functiontypes.BAPFunctionArrayASG$2;
-import de.audi.app.bap.fw.functiontypes.BAPFunctionArrayASG$NoResponseFromFSGHandler;
 import de.audi.app.bap.fw.functiontypes.RetryConfig;
 import de.audi.app.bap.fw.functiontypes.RetryWatchdog;
 import de.audi.app.bap.fw.functiontypes.protocol.IBAPArrayASGIND;
@@ -35,18 +32,18 @@ public class BAPFunctionArrayASG
 extends AbstractBAPFunction
 implements IBAPArrayASGIND,
 IBAPArrayASGREQ {
-    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE;
-    public static final int ASG_ID_HEAD_UNIT;
-    public static final boolean INDEX_8_BIT;
-    public static final boolean INDEX_16_BIT;
+    public static final int ASG_ID_DEFAULT_ASG_ANY_ASG_SPONTANEOUS_FSG_MESSAGE = 0;
+    public static final int ASG_ID_HEAD_UNIT = 1;
+    public static final boolean INDEX_8_BIT = false;
+    public static final boolean INDEX_16_BIT = true;
     private ChangedArray changedArraySerializer;
     private StatusArray statusArraySerializer;
-    private static final int INITIAL_TRANSACTION_ID;
-    private static final int MAX_TRANSACTION_ID;
-    private static final int DEFAULT_RETRY_COUNT;
-    private static final int DEFAULT_RETRY_TIMEOUT_MS;
+    private static final int INITIAL_TRANSACTION_ID = 1;
+    private static final int MAX_TRANSACTION_ID = 15;
+    private static final int DEFAULT_RETRY_COUNT = 4;
+    private static final int DEFAULT_RETRY_TIMEOUT_MS = 500;
     private final RetryWatchdog retryWatchdog;
-    private volatile BAPFunctionArrayASG$NoResponseFromFSGHandler noResponseFromFSGHandler = null;
+    private volatile NoResponseFromFSGHandler noResponseFromFSGHandler = null;
     private final List requestsQueue = new ArrayList();
     private volatile boolean requestInFlight = false;
     private final IBAPIndicationHandlerArrayASG indicationHandler;
@@ -55,28 +52,37 @@ IBAPArrayASGREQ {
     public BAPFunctionArrayASG(AbstractBAPModuleASG abstractBAPModuleASG, int n) {
         super(abstractBAPModuleASG, n);
         this.indicationHandler = (IBAPIndicationHandlerASG)abstractBAPModuleASG.getIndicationListener();
-        this.retryWatchdog = new RetryWatchdog(this.logChannel, new RetryConfig(4, 500), new BAPFunctionArrayASG$1(this));
+        this.retryWatchdog = new RetryWatchdog(this.logChannel, new RetryConfig(4, 500), new RetryWatchdog.ErrorMethod(){
+
+            public void error() {
+                BAPFunctionArrayASG.this.noResponseFromFSG();
+            }
+        });
     }
 
     public BAPFunctionArrayASG(AbstractBAPModuleASG abstractBAPModuleASG, int n, RetryConfig retryConfig) {
         super(abstractBAPModuleASG, n);
         this.indicationHandler = (IBAPIndicationHandlerASG)abstractBAPModuleASG.getIndicationListener();
-        this.retryWatchdog = new RetryWatchdog(this.logChannel, retryConfig, new BAPFunctionArrayASG$2(this));
+        this.retryWatchdog = new RetryWatchdog(this.logChannel, retryConfig, new RetryWatchdog.ErrorMethod(){
+
+            public void error() {
+                BAPFunctionArrayASG.this.noResponseFromFSG();
+            }
+        });
     }
 
     private void noResponseFromFSG() {
-        this.logChannel.log(-1601830656, "[BAPFunctionArrayASG#noResponseFromFSG]");
+        this.logChannel.log(100000, "[BAPFunctionArrayASG#noResponseFromFSG]");
         this.reset();
         if (this.noResponseFromFSGHandler != null) {
             this.noResponseFromFSGHandler.noResponseFromFSG();
         }
     }
 
-    public void setNoResponseFromFSGHandler(BAPFunctionArrayASG$NoResponseFromFSGHandler bAPFunctionArrayASG$NoResponseFromFSGHandler) {
-        this.noResponseFromFSGHandler = bAPFunctionArrayASG$NoResponseFromFSGHandler;
+    public void setNoResponseFromFSGHandler(NoResponseFromFSGHandler noResponseFromFSGHandler) {
+        this.noResponseFromFSGHandler = noResponseFromFSGHandler;
     }
 
-    @Override
     public BAPEntity getIndicationSerializer(int n) {
         switch (n) {
             case 12: {
@@ -93,9 +99,8 @@ IBAPArrayASGREQ {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void reset() {
-        this.logChannel.log(14808325, "[BAPFunctionArrayASG#reset]");
+        this.logChannel.log(100000000, "[BAPFunctionArrayASG#reset]");
         List list = this.requestsQueue;
         synchronized (list) {
             this.retryWatchdog.deactivate();
@@ -105,12 +110,10 @@ IBAPArrayASGREQ {
         }
     }
 
-    @Override
     protected boolean isIndicationTypeSupported(int n) {
         return n == 12 || n == 9;
     }
 
-    @Override
     protected void doProcessIndication(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 9: {
@@ -128,20 +131,18 @@ IBAPArrayASGREQ {
         }
     }
 
-    @Override
     protected void doProcessError(int n) {
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayASG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
+        this.logChannel.log(10000000, "[BAPFunctionArrayASG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
         this.reset();
     }
 
-    @Override
     public void statusArrayIND(StatusArray statusArray) {
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayASG#statusArrayIND]");
+        this.logChannel.log(10000000, "[BAPFunctionArrayASG#statusArrayIND]");
         if (statusArray.getAsgId() == 0) {
-            this.logChannel.log(-2137614336, "[BAPFunctionArrayASG#statusArrayIND] Got spontaneous status array.");
+            this.logChannel.log(10000000, "[BAPFunctionArrayASG#statusArrayIND] Got spontaneous status array.");
             this.indicationHandler.processIndicationStatusArray(this, statusArray);
         } else if (statusArray.isBroadcast()) {
-            this.logChannel.log(-2137614336, "[BAPFunctionArrayASG#statusArrayIND] Got status array to be evaluated by all ASGs.");
+            this.logChannel.log(10000000, "[BAPFunctionArrayASG#statusArrayIND] Got status array to be evaluated by all ASGs.");
             this.handleStatusArrayForAllASGs(statusArray);
         } else if (statusArray.getAsgId() == 1) {
             this.handleStatusArrayForUs(statusArray);
@@ -191,47 +192,45 @@ IBAPArrayASGREQ {
     private void sendQueuedRequestsUntilNextOneThatNeedsAResponse() {
         AbstractArrayRequest abstractArrayRequest;
         if (!this.requestsQueue.isEmpty()) {
-            this.logChannel.log(14808325, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] removed request from queue.");
+            this.logChannel.log(100000000, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] removed request from queue.");
             this.requestsQueue.remove(0);
         }
         while (!this.requestsQueue.isEmpty() && !(abstractArrayRequest = (AbstractArrayRequest)this.requestsQueue.get(0)).responseIsExpected()) {
-            this.logChannel.log(14808325, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] sending and removing from queue because no response expected.");
+            this.logChannel.log(100000000, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] sending and removing from queue because no response expected.");
             abstractArrayRequest.send();
             this.requestsQueue.remove(0);
         }
         if (this.requestsQueue.isEmpty()) {
-            this.logChannel.log(14808325, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] queue is empty.");
+            this.logChannel.log(100000000, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] queue is empty.");
             this.requestInFlight = false;
             return;
         }
-        this.logChannel.log(14808325, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] sending request that needs a response.");
+        this.logChannel.log(100000000, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] sending request that needs a response.");
         abstractArrayRequest = (AbstractArrayRequest)this.requestsQueue.get(0);
         boolean bl = false;
         while (!bl && !this.requestsQueue.isEmpty()) {
             bl = ((Request)this.requestsQueue.get(0)).send();
             if (!bl) {
-                this.logChannel.log(-1601830656, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] could not send request");
+                this.logChannel.log(100000, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] could not send request");
                 this.requestsQueue.remove(0);
                 continue;
             }
             this.retryWatchdog.activate(abstractArrayRequest);
-            this.logChannel.log(14808325, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] request sent");
+            this.logChannel.log(100000000, "[BAPFunctionArrayASG#sendQueuedRequestsUntilNextOneThatNeedsAResponse] request sent");
         }
         if (this.requestsQueue.isEmpty()) {
             this.requestInFlight = false;
         }
     }
 
-    @Override
     public void changedArrayIND(ChangedArray changedArray) {
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayASG#changedIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionArrayASG#changedIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.indicationHandler.processIndicationChangedArray(this, changedArray);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setGetArrayREQ(SetGetArray setGetArray) {
         int n = this.setASGIdAndTransactionId(setGetArray);
         List list = this.requestsQueue;
@@ -244,7 +243,6 @@ IBAPArrayASGREQ {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setArrayREQ(SetGetArray setGetArray) {
         int n = this.setASGIdAndTransactionId(setGetArray);
         List list = this.requestsQueue;
@@ -257,7 +255,6 @@ IBAPArrayASGREQ {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void getArrayREQ(GetArray getArray) {
         int n = this.setASGIdAndTransactionId(getArray);
         List list = this.requestsQueue;
@@ -270,7 +267,6 @@ IBAPArrayASGREQ {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void ackArrayREQ() {
         List list = this.requestsQueue;
         synchronized (list) {
@@ -287,16 +283,16 @@ IBAPArrayASGREQ {
     }
 
     private void processQueue() {
-        this.logChannel.log(14808325, "[BAPFunctionArrayASG#processQueue]");
+        this.logChannel.log(100000000, "[BAPFunctionArrayASG#processQueue]");
         if (!this.requestInFlight) {
             AbstractArrayRequest abstractArrayRequest = (AbstractArrayRequest)this.requestsQueue.get(0);
             boolean bl = abstractArrayRequest.send();
             if (bl && abstractArrayRequest.responseIsExpected()) {
-                this.logChannel.log(14808325, "[BAPFunctionArrayASG#processQueue] send request taid: %1", (long)abstractArrayRequest.expectedTransactionId());
+                this.logChannel.log(100000000, "[BAPFunctionArrayASG#processQueue] send request taid: %1", (long)abstractArrayRequest.expectedTransactionId());
                 this.requestInFlight = true;
                 this.retryWatchdog.activate(abstractArrayRequest);
             } else {
-                this.logChannel.log(14808325, "[BAPFunctionArrayASG#processQueue] removed request from queue.");
+                this.logChannel.log(100000000, "[BAPFunctionArrayASG#processQueue] removed request from queue.");
                 this.requestsQueue.remove(0);
             }
         }
@@ -318,8 +314,8 @@ IBAPArrayASGREQ {
         this.statusArraySerializer = statusArray;
     }
 
-    static /* synthetic */ void access$000(BAPFunctionArrayASG bAPFunctionArrayASG) {
-        bAPFunctionArrayASG.noResponseFromFSG();
+    public static interface NoResponseFromFSGHandler {
+        public void noResponseFromFSG();
     }
 }
 

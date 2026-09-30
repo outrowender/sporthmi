@@ -14,8 +14,8 @@ import org.dsi.ifc.carhybrid.HybridViewOptions;
 
 public class DefaultHybridEnergyMonitorViewController
 implements IHybridEnergyMonitorViewController {
-    private static final int MODEL_COLUMN_VALUE;
-    private static final int MODEL_COLUMN_SIZE;
+    private static final int MODEL_COLUMN_VALUE = 0;
+    private static final int MODEL_COLUMN_SIZE = 1;
     protected final IFrameworkAccess frameworkAccess;
     protected final LogChannel logChannel;
     protected volatile HybridViewOptions currentViewOptions;
@@ -33,14 +33,12 @@ implements IHybridEnergyMonitorViewController {
         }
     }
 
-    @Override
     public void initialize() {
-        this.energyMonitorDataListModel = this.frameworkAccess.getHMIService().getBaseListModel(288426240);
+        this.energyMonitorDataListModel = this.frameworkAccess.getHMIService().getBaseListModel(602385);
         this.resetEnergyMonitorData();
         this.setWheelDriveType(2);
     }
 
-    @Override
     public void setWheelDriveType(int n) {
         switch (n) {
             case 0: 
@@ -57,24 +55,20 @@ implements IHybridEnergyMonitorViewController {
         this.setListData(this.energyMonitorDataListModel, new int[][]{{10, this.wheelDriveType}});
     }
 
-    @Override
     public void updateHybridViewOptions(HybridViewOptions hybridViewOptions) {
         this.currentViewOptions = hybridViewOptions;
     }
 
-    @Override
     public void updateHybridEnergyFlowState(HybridEnergyFlowState hybridEnergyFlowState) {
         if (null != hybridEnergyFlowState) {
             this.setListData(this.energyMonitorDataListModel, new int[][]{{0, hybridEnergyFlowState.getICEState()}, {1, hybridEnergyFlowState.getBatteryState()}, {2, hybridEnergyFlowState.getTorqueState()}, {3, hybridEnergyFlowState.getEe1State()}, {4, hybridEnergyFlowState.getEe2State()}, {5, hybridEnergyFlowState.getMotionState()}, {6, hybridEnergyFlowState.getPowerSupplyState()}});
         }
     }
 
-    @Override
     public void updateHybridCharge(int n) {
         this.setListData(this.energyMonitorDataListModel, new int[][]{{7, n}});
     }
 
-    @Override
     public void updateBatteryControlChargeState(BatteryControlChargeState batteryControlChargeState) {
         if (null != batteryControlChargeState) {
             this.setListData(this.energyMonitorDataListModel, new int[][]{{8, batteryControlChargeState.getChargeState()}, {9, batteryControlChargeState.getCurrentChargeLevel()}});

@@ -27,22 +27,20 @@ implements IInquiry,
 ButtonListener,
 BaseListModelListener {
     private final int[] attributeNotifications = new int[]{4};
-    protected final ButtonModelApp startButton = this.getButtonModel(321267200);
-    private final ButtonModelApp stopButton = this.getButtonModel(304489984);
-    protected final BaseListModelApp listModel = this.getBaseListModel(2116429312);
-    protected final ChoiceModelApp inquiryState = this.getChoiceModel(354821632);
-    private final LabelModelApp nameLabel = this.getLabelModel(69608960);
+    protected final ButtonModelApp startButton = this.getButtonModel(2500115);
+    private final ButtonModelApp stopButton = this.getButtonModel(0x262612);
+    protected final BaseListModelApp listModel = this.getBaseListModel(2500222);
+    protected final ChoiceModelApp inquiryState = this.getChoiceModel(2500117);
+    private final LabelModelApp nameLabel = this.getLabelModel(2500100);
 
     public AbstractInquiryPorsche(IBluetoothApplication iBluetoothApplication) {
         super(iBluetoothApplication);
     }
 
-    @Override
     protected final int[] getAttributeNotifications() {
         return this.attributeNotifications;
     }
 
-    @Override
     public final void startInquiry(int n) {
         this.bluetoothApplication.getAccessibility().activateBluetooth();
         this.getList().clear();
@@ -58,41 +56,36 @@ BaseListModelListener {
         CommandInquiry.schedule(this.bluetoothApplication, this.dsiBluetooth);
     }
 
-    protected abstract AbstractFoundDeviceList getList() {
-    }
+    protected abstract AbstractFoundDeviceList getList();
 
-    @Override
     public void abortInquiry() {
         CommandList commandList = this.bluetoothApplication.getCommandListManager().getActiveCommandList();
         if (commandList != null) {
             Command command = commandList.getActiveCommand();
             if (command instanceof CommandInquiry) {
                 if (this.inquiryState.getValue() == 2) {
-                    this.log.log(-1601830656, "AbstractInquiry#abortInquiry(): inquiryState is already in STATE_ABORTING!");
+                    this.log.log(100000, "AbstractInquiry#abortInquiry(): inquiryState is already in STATE_ABORTING!");
                 } else {
                     this.inquiryState.setValue(2);
                     ((CommandInquiry)command).abortInquiry();
                 }
             } else {
-                this.log.log(-1601830656, "AbstractInquiry#abortInquiry(): no active inquiry command found!");
+                this.log.log(100000, "AbstractInquiry#abortInquiry(): no active inquiry command found!");
             }
         }
     }
 
-    @Override
     public final void getServices(String string, IDiscoveredServiceHandler iDiscoveredServiceHandler) {
         this.bluetoothApplication.getSecurity().serviceDiscoveryActive(true);
         this.bluetoothApplication.getMediaBluetoothStateProvider().serviceDiscoveryStarted();
         CommandGetServices.schedule(this.bluetoothApplication, this.dsiBluetooth, string, iDiscoveredServiceHandler);
     }
 
-    @Override
     public final void resetSearchState() {
-        this.log.log(-2137614336, "AbstractInquiry#resetSearchState(): Called.");
+        this.log.log(10000000, "AbstractInquiry#resetSearchState(): Called.");
         this.listModel.setStatus(0);
     }
 
-    @Override
     public void inquiryEnded(int n) {
         this.notifyInquiryEnded(n);
     }
@@ -103,38 +96,32 @@ BaseListModelListener {
         this.inquiryState.setValue(0);
     }
 
-    @Override
     public void updateDiscoveredDevices(DiscoveredDevice discoveredDevice, int n) {
         if (n == 1 && discoveredDevice != null) {
             this.getList().add(discoveredDevice);
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (n == this.startButton.getID()) {
-            this.log.log(1078071040, "AbstractInquiry#keyTyped(): Starting inquiry");
+            this.log.log(1000000, "AbstractInquiry#keyTyped(): Starting inquiry");
             this.startInquiry(n3);
         } else if (n == this.stopButton.getID()) {
-            this.log.log(1078071040, "AbstractInquiry#keyTyped(): Aborting inquiry");
+            this.log.log(1000000, "AbstractInquiry#keyTyped(): Aborting inquiry");
             this.abortInquiry();
             this.stopButton.fireEvent(n3);
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (n == this.listModel.getID()) {
             DiscoveredDevice discoveredDevice = this.getList().getDevice(evoListRow);
@@ -143,7 +130,7 @@ BaseListModelListener {
                 return;
             }
             String string = discoveredDevice.getDeviceAddress();
-            this.log.log(1078071040, "AbstractInquiry#itemSelected(): %1, %2", (Object)discoveredDevice.getDeviceName(), (Object)string);
+            this.log.log(1000000, "AbstractInquiry#itemSelected(): %1, %2", (Object)discoveredDevice.getDeviceName(), (Object)string);
             this.bluetoothApplication.getBondingState().updateDeviceName(discoveredDevice.getDeviceName());
             this.bluetoothApplication.getBondingState().updateDeviceAddress(string);
             this.nameLabel.setText(discoveredDevice.getDeviceName());
@@ -152,22 +139,17 @@ BaseListModelListener {
         }
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    protected abstract void itemSelected(String string) {
-    }
+    protected abstract void itemSelected(String var1);
 
-    @Override
     public void init() {
         super.init();
         this.getList().init();
@@ -177,7 +159,6 @@ BaseListModelListener {
         this.resetSearchState();
     }
 
-    @Override
     public void deinit() {
         this.startButton.resetListener();
         this.stopButton.resetListener();

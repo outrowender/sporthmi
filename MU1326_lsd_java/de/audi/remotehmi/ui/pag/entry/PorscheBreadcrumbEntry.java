@@ -53,7 +53,6 @@ PorscheGenericEntry {
         return this.id == null ? 0 : this.id.hashCode();
     }
 
-    @Override
     public Object clone(boolean bl) {
         if (bl) {
             return new PorscheBreadcrumbEntry(this.id, this.url, this.text);
@@ -61,36 +60,29 @@ PorscheGenericEntry {
         return this;
     }
 
-    @Override
     public String getFirstImagePath() {
         return this.url;
     }
 
-    @Override
     public void setFirstImagePath(String string) {
         this.url = string;
     }
 
-    @Override
     public String getSecondImagePath() {
         return null;
     }
 
-    @Override
     public void setSecondImagePath(String string) {
     }
 
-    @Override
     public boolean isSecondImageAvailable() {
         return false;
     }
 
-    @Override
     public void setContextName(String string) {
         this.context = string;
     }
 
-    @Override
     public String getContextName() {
         return this.context;
     }

@@ -18,7 +18,7 @@ import org.dsi.ifc.navigation.RrdCalculationInfo;
 
 public class PoiOnlineResultRRDListProvider
 implements IRRDListProvider {
-    private static final int CALCULATION_LIMIT_POI_RESULT;
+    private static final int CALCULATION_LIMIT_POI_RESULT = 10;
     private final LogChannel poiLogChannel;
     private final NavigationEnv env;
     private final int modelID;
@@ -31,9 +31,8 @@ implements IRRDListProvider {
         this.poiLogChannel = navigationEnv.getPOILogChannel();
     }
 
-    @Override
     public NavLocationWgs84[] getRRDCalculationList() {
-        this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#getRRDCalculationList()");
+        this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#getRRDCalculationList()");
         ListModelApp listModelApp = this.env.getListModel(this.modelID);
         ArrayList arrayList = new ArrayList();
         int n = Math.min(10, listModelApp.getLength());
@@ -41,7 +40,7 @@ implements IRRDListProvider {
             BaseListRow baseListRow = listModelApp.getRow(i2);
             if (baseListRow == null) continue;
             if (!(baseListRow instanceof PoiOnlineListRow)) {
-                this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#getRRDCalculationList() Row is not null. But its not an instance of PoiOnlineListRow %1", (Object)super.getClass().getName());
+                this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#getRRDCalculationList() Row is not null. But its not an instance of PoiOnlineListRow %1", (Object)baseListRow.getClass().getName());
                 continue;
             }
             PoiOnlineListRow poiOnlineListRow = (PoiOnlineListRow)baseListRow;
@@ -50,19 +49,18 @@ implements IRRDListProvider {
         return (NavLocationWgs84[])arrayList.toArray(new NavLocationWgs84[arrayList.size()]);
     }
 
-    @Override
     public void updateDirectionAndAirDistance(PosPosition posPosition) {
-        this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#updateDirectionAndAirDistance(%1)", (Object)posPosition);
+        this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#updateDirectionAndAirDistance(%1)", (Object)posPosition);
         ListModelApp listModelApp = this.env.getListModel(this.modelID);
         if (listModelApp == null) {
-            this.poiLogChannel.log(-1601830656, "PoiOnlineResultRRDListProvider#updateDirectionAndAirDistance tiledListModel with ID = %1 is null", (long)this.modelID);
+            this.poiLogChannel.log(100000, "PoiOnlineResultRRDListProvider#updateDirectionAndAirDistance tiledListModel with ID = %1 is null", (long)this.modelID);
             return;
         }
         for (int i2 = 0; i2 < listModelApp.getLength(); ++i2) {
             BaseListRow baseListRow = listModelApp.getRow(i2);
             if (baseListRow == null) continue;
             if (!(baseListRow instanceof PoiOnlineListRow)) {
-                this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#getAllVisibleRowsFromListModel() Row is not null. But its not an instance of PoiOnlineListRow %1", (Object)super.getClass().getName());
+                this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#getAllVisibleRowsFromListModel() Row is not null. But its not an instance of PoiOnlineListRow %1", (Object)baseListRow.getClass().getName());
                 continue;
             }
             PoiOnlineListRow poiOnlineListRow = (PoiOnlineListRow)baseListRow;
@@ -70,18 +68,16 @@ implements IRRDListProvider {
             poiOnlineListRow.updateAirDistance(posPosition);
             listModelApp.setRow(i2, poiOnlineListRow);
         }
-        this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#updateDirectionAndAirDistance: finished");
+        this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#updateDirectionAndAirDistance: finished");
     }
 
-    @Override
     public int getRRDListCalculationLimit() {
-        this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#getRRDListCalculationLimit()");
+        this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#getRRDListCalculationLimit()");
         return 10;
     }
 
-    @Override
     public void updateRRDDistances(RrdCalculationInfo[] rrdCalculationInfoArray) {
-        this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#updateRRDDistances(%1)", (Object)rrdCalculationInfoArray);
+        this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#updateRRDDistances(%1)", (Object)rrdCalculationInfoArray);
         ListModelApp listModelApp = this.env.getListModel(this.modelID);
         if (listModelApp != null) {
             for (int i2 = 0; i2 < rrdCalculationInfoArray.length; ++i2) {
@@ -92,17 +88,16 @@ implements IRRDListProvider {
                     listModelApp.setRow(i2, poiOnlineListRow);
                     continue;
                 }
-                this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#updateRRDDistances() Row is null or its not an instance of PoiOnlineListRow %1", (Object)baseListRow);
+                this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#updateRRDDistances() Row is null or its not an instance of PoiOnlineListRow %1", (Object)baseListRow);
             }
-            this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#updateRRDDistances - finished");
+            this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#updateRRDDistances - finished");
         } else {
-            this.poiLogChannel.log(-1601830656, "PoiOnlineResultRRDListProvider#updateRRDDistances tiledListModel with ID = %1 is null", (long)this.modelID);
+            this.poiLogChannel.log(100000, "PoiOnlineResultRRDListProvider#updateRRDDistances tiledListModel with ID = %1 is null", (long)this.modelID);
         }
     }
 
-    @Override
     public void unitsChanged() {
-        this.poiLogChannel.log(-2137614336, "PoiOnlineResultRRDListProvider#unitsChanged()");
+        this.poiLogChannel.log(10000000, "PoiOnlineResultRRDListProvider#unitsChanged()");
     }
 }
 

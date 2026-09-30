@@ -14,28 +14,24 @@ extends Range2DModelHandlerAdapter {
         super(rangeModel2DApp, logChannel);
     }
 
-    @Override
     public void updateOnAdjustment(int n, int n2) {
         if (this.getBusiness() != null) {
             this.getRange2DEventBusiness().processAdjustment(n, n2, this);
         }
     }
 
-    @Override
     public void updateOnKeyPressed(int n) {
         if (this.getBusiness() != null) {
             this.getRange2DEventBusiness().processKeyPressed(n, (ButtonModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnKeyReleased(int n) {
         if (this.getBusiness() != null) {
             this.getRange2DEventBusiness().processKeyReleased(n, (ButtonModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnKeyTyped(int n) {
         if (this.getBusiness() != null) {
             this.getRange2DEventBusiness().processKeyTyped(n, (ButtonModelHandler)this);

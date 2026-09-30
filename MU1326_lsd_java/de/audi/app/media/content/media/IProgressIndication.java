@@ -4,10 +4,8 @@
 package de.audi.app.media.content.media;
 
 public interface IProgressIndication {
-    default public void startIndication() {
-    }
+    public void startIndication();
 
-    default public void stopIndication() {
-    }
+    public void stopIndication();
 }
 

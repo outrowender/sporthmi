@@ -21,7 +21,6 @@ extends AbstractNaviSearchDataProvider {
         this.env = navigationEnv;
     }
 
-    @Override
     protected DataSet[] getDataSet() {
         if (this.pressRoutes == null) {
             return new DataSet[0];

@@ -27,49 +27,41 @@ implements DSICarlifeListener {
         this.wrappee = dSICarlifeListener;
     }
 
-    @Override
     public void responseSetMode(Resource[] resourceArray, AppState[] appStateArray) {
         this.lc.log(this.level, "<- [DSICarlifeListener.responseSetMode] %1 %2", (Object)Arrays2.toString(resourceArray), (Object)Arrays2.toString(appStateArray));
         this.wrappee.responseSetMode(resourceArray, appStateArray);
     }
 
-    @Override
     public void updateCallState(CallState callState, int n) {
         this.lc.log(this.level, "<- [DSICarlifeListener.updateCallState] %1 %2", (Object)callState, (long)n);
         this.wrappee.updateCallState(callState, n);
     }
 
-    @Override
     public void updateNowPlayingData(TrackData trackData, int n) {
         this.lc.log(this.level, "<- [DSICarlifeListener.updateNowPlayingData] %1 %2", (Object)trackData, (long)n);
         this.wrappee.updateNowPlayingData(trackData, n);
     }
 
-    @Override
     public void updatePlaybackState(PlaybackInfo playbackInfo, int n) {
         this.lc.log(this.level, "<- [DSICarlifeListener.updatePlaybackState] %1 %2", (Object)playbackInfo, (long)n);
         this.wrappee.updatePlaybackState(playbackInfo, n);
     }
 
-    @Override
     public void updatePlaymodeState(PlaymodeInfo playmodeInfo, int n) {
         this.lc.log(this.level, "<- [DSICarlifeListener.updatePlaymodeState] %1 %2", (Object)playmodeInfo, (long)n);
         this.wrappee.updatePlaymodeState(playmodeInfo, n);
     }
 
-    @Override
     public void updatePlayposition(int n, int n2) {
         this.lc.log(this.level, "<- [DSICarlifeListener.updatePlayposition]", (long)n, (long)n2);
         this.wrappee.updatePlayposition(n, n2);
     }
 
-    @Override
     public void updateCoverArtUrl(ResourceLocator resourceLocator, int n) {
         this.lc.log(this.level, "<- [DSICarlifeListener.updateCoverArtUrl] %1 %2", (Object)resourceLocator, (long)n);
         this.wrappee.updateCoverArtUrl(resourceLocator, n);
     }
 
-    @Override
     public void updateNavigationNextTurnInfo(String string, int n, int n2, int n3, int n4, int n5) {
         Buffer buffer = new Buffer(100);
         buffer.append("road=");
@@ -88,19 +80,16 @@ implements DSICarlifeListener {
         this.wrappee.updateNavigationNextTurnInfo(string, n, n2, n3, n4, n5);
     }
 
-    @Override
     public void updateDeviceInfo(DeviceInfo deviceInfo, int n) {
         this.lc.log(this.level, "<- [DSICarlifeListener.updateDeviceInfo] %1 %2", (Object)deviceInfo, (long)n);
         this.wrappee.updateDeviceInfo(deviceInfo, n);
     }
 
-    @Override
     public void requestModeChange(Resource[] resourceArray, AppState[] appStateArray) {
         this.lc.log(this.level, "<- [DSICarlifeListener.requestModeChange] %1 %2", (Object)Arrays2.toString(resourceArray), (Object)Arrays2.toString(appStateArray));
         this.wrappee.requestModeChange(resourceArray, appStateArray);
     }
 
-    @Override
     public void updateVideoAvailable(boolean bl, int n) {
         this.lc.log(this.level, "<- [DSICarlifeListener.updateVideoAvailable] %1 %2", bl, (long)n);
         this.wrappee.updateVideoAvailable(bl, n);

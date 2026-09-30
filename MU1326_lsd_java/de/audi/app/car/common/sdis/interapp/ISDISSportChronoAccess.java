@@ -7,19 +7,14 @@ import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCData;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCHeader;
 
 public interface ISDISSportChronoAccess {
-    default public SCData[] requestRecordData(long l, long l2) {
-    }
+    public SCData[] requestRecordData(long var1, long var3);
 
-    default public void setRecord(int n) {
-    }
+    public void setRecord(int var1);
 
-    default public SCData[] requestTrackData(int n) {
-    }
+    public SCData[] requestTrackData(int var1);
 
-    default public int initTrackTransfer(SCHeader sCHeader, String string) {
-    }
+    public int initTrackTransfer(SCHeader var1, String var2);
 
-    default public int setTrackData(int n, SCData[] sCDataArray, int n2) {
-    }
+    public int setTrackData(int var1, SCData[] var2, int var3);
 }
 

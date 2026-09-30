@@ -33,48 +33,47 @@ extends AbstractSystemCallCommand {
         this.nbest = nBestStorageAccess;
     }
 
-    @Override
     public void execute() {
         String string;
         IPicklistSlot iPicklistSlot = this.nbest.getMatchingPicklist((byte)0).getSlot(0, 0);
         String string2 = string = iPicklistSlot != null ? SDSUtils.remove(iPicklistSlot.getText(), ' ') : "";
         if (SDSUtils.isEmpty(string)) {
-            this.logger.log(-1601830656, "%1#execute: No number found in prompt label!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: No number found in prompt label!", (Object)this.getName());
             this.sendResult(30001);
             return;
         }
         if (this.numberType != 0 && this.numberType != 2 && this.numberType != 1) {
-            this.logger.log(-1601830656, "%1#execute: invalid number type!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: invalid number type!", (Object)this.getName());
             this.sendResult(30001);
             return;
         }
-        this.logger.log(-2137614336, "%1#execute: numberType=%2!", (Object)this.getName(), (long)this.numberType);
+        this.logger.log(10000000, "%1#execute: numberType=%2!", (Object)this.getName(), (long)this.numberType);
         int n = this.addSpellerContent(string);
         this.sendResult(n);
     }
 
     private int addSpellerContent(String string) {
         byte by = (byte)this.numberType;
-        this.logger.log(-2137614336, "%1#addSpellerContent: content=%2, type=%3", (Object)this.getName(), (Object)string, (long)by);
+        this.logger.log(10000000, "%1#addSpellerContent: content=%2, type=%3", (Object)this.getName(), (Object)string, (long)by);
         String string2 = SDSUtils.remove(this.getSpellerContent(), ' ');
-        this.logger.log(-2137614336, "%1#addSpellerContent: oldContent=%2", (Object)this.getName(), (Object)string2);
+        this.logger.log(10000000, "%1#addSpellerContent: oldContent=%2", (Object)this.getName(), (Object)string2);
         int n = string2.length() + string.length();
         int n2 = this.getSpellerMaxLength();
         if (n2 < n) {
-            this.logger.log(-1601830656, "%1#addSpellerContent: maxLen %2 < %3 => result too long!", (Object)this.getName(), (long)n2, (long)n);
+            this.logger.log(100000, "%1#addSpellerContent: maxLen %2 < %3 => result too long!", (Object)this.getName(), (long)n2, (long)n);
             return 30004;
         }
         this.sequenceHandler.addToSequence(new PhoneSequenceElement(string, false), by);
-        this.logger.log(-2137614336, "%1#addSpellerContent: Added content %2, %3Sequence=%4!", (Object)this.getName(), (Object)string, (Object)PhoneSDSHandlerImpl.getSpellerType(by), (Object)this.sequenceHandler.getSequence(by));
+        this.logger.log(10000000, "%1#addSpellerContent: Added content %2, %3Sequence=%4!", (Object)this.getName(), (Object)string, (Object)PhoneSDSHandlerImpl.getSpellerType(by), (Object)this.sequenceHandler.getSequence(by));
         boolean bl = by != 1;
-        String string3 = new StringBuffer().append(string2).append(bl && !"".equals(string2) ? " " : "").append(string).toString();
-        this.logger.log(-2137614336, "%1#addSpellerContent: addDelimiter=%2, setting speller to %3!", (Object)this.getName(), (Object)bl, (Object)string3);
+        String string3 = string2 + (bl && !"".equals(string2) ? " " : "") + string;
+        this.logger.log(10000000, "%1#addSpellerContent: addDelimiter=%2, setting speller to %3!", (Object)this.getName(), (Object)bl, (Object)string3);
         this.phoneSDSHandler.setPhoneSpeller(by, string3, false);
         return 30000;
     }
 
     private String getSpellerContent() {
-        this.logger.log(-2137614336, "%1#getSpellerContent: numberType=%2", (Object)this.getName(), (long)this.numberType);
+        this.logger.log(10000000, "%1#getSpellerContent: numberType=%2", (Object)this.getName(), (long)this.numberType);
         switch (this.numberType) {
             case 0: {
                 return this.phoneService.getNumberSpellerContent();
@@ -86,12 +85,12 @@ extends AbstractSystemCallCommand {
                 return this.phoneService.getMailboxSpellerContent();
             }
         }
-        this.logger.log(-1601830656, "%1#getSpellerContent: Unhandled numberType %2!", (Object)this.getName(), (long)this.numberType);
+        this.logger.log(100000, "%1#getSpellerContent: Unhandled numberType %2!", (Object)this.getName(), (long)this.numberType);
         return "";
     }
 
     private int getSpellerMaxLength() {
-        this.logger.log(-2137614336, "%1#getSpellerMaxLength: numberTypeID=%1", (Object)this.getName(), (long)this.numberType);
+        this.logger.log(10000000, "%1#getSpellerMaxLength: numberTypeID=%1", (Object)this.getName(), (long)this.numberType);
         switch (this.numberType) {
             case 0: 
             case 2: {
@@ -101,7 +100,7 @@ extends AbstractSystemCallCommand {
                 return 8;
             }
         }
-        this.logger.log(-1601830656, "%1#getSpellerMaxLength: Unhandled numberTypeID %2!", (Object)this.getName(), (long)this.numberType);
+        this.logger.log(100000, "%1#getSpellerMaxLength: Unhandled numberTypeID %2!", (Object)this.getName(), (long)this.numberType);
         return 0;
     }
 }

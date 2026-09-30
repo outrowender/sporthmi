@@ -24,7 +24,7 @@ extends AbstractPoiRightDrawerHmiListener {
     private static final int STORE_AS_FAVORITE_OPTION_MODEL_ID = DIScreensEvo.getDiKrStoreDestinationAsFavoriteOptionModel();
     private static final int POI_NEAR_DESTINATION_OPTION_MODEL_ID = DIScreensEvo.getDiKrPoiNearDestinationOptionModel();
     private static final int SHOW_IN_MAP_OPTION_MODEL_ID = DIScreensEvo.getDiKrShowInMapOptionModel();
-    private static final int SHOW_DETAILS_OPTION_MODEL_ID;
+    private static final int SHOW_DETAILS_OPTION_MODEL_ID = 402095;
 
     public TpegPOIRightDrawerListener(NavigationEnv navigationEnv, ICommandListFactory iCommandListFactory, INaviFavoriteHandler iNaviFavoriteHandler, MapInterface mapInterface, NaviADBHandler naviADBHandler, ITelService iTelService, TpegPOIRightDrawerSequence tpegPOIRightDrawerSequence, int n) {
         super(navigationEnv, iCommandListFactory, iNaviFavoriteHandler, mapInterface, naviADBHandler, iTelService);
@@ -37,12 +37,11 @@ extends AbstractPoiRightDrawerHmiListener {
         this.env.getHMIService().getOptionModel(STORE_AS_FAVORITE_OPTION_MODEL_ID).setListener(this, this.resultListModelId);
         this.env.getHMIService().getOptionModel(POI_NEAR_DESTINATION_OPTION_MODEL_ID).setListener(this, this.resultListModelId);
         this.env.getHMIService().getOptionModel(SHOW_IN_MAP_OPTION_MODEL_ID).setListener(this, this.resultListModelId);
-        this.env.getHMIService().getOptionModel(-1356724736).setListener(this, this.resultListModelId);
+        this.env.getHMIService().getOptionModel(402095).setListener(this, this.resultListModelId);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(-2137614336, "%1#keyTyped - modelId=%2, targetModelId=%3, targetWidgetId=%4", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)Integer.toString(n2), (long)n4);
+        this.logChannel.log(10000000, "%1#keyTyped - modelId=%2, targetModelId=%3, targetWidgetId=%4", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)Integer.toString(n2), (long)n4);
         EvoListRow evoListRow = this.env.getTiledListModel(n2).getRow(n3);
         if (evoListRow instanceof LiValueListRow) {
             LIValueListElement lIValueListElement = ((LiValueListRow)evoListRow).getElement();
@@ -58,7 +57,7 @@ extends AbstractPoiRightDrawerHmiListener {
                 this.sequence.poiSearchNearDestination(lIValueListElement);
             } else if (n == SHOW_IN_MAP_OPTION_MODEL_ID) {
                 this.showInMap(lIValueListElement, null);
-            } else if (n == -1356724736) {
+            } else if (n == 402095) {
                 this.sequence.showDetails(lIValueListElement);
             }
         }

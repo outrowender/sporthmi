@@ -12,8 +12,8 @@ import de.audi.atip.log.LogChannel;
 
 public class RemoteHMIHelpOpenedCommand
 extends AbstractSystemCallCommand {
-    private static final byte ONLINE_HELP_TYPE_TOPICS;
-    private static final byte ONLINE_HELP_TYPE_SUBTOPIC;
+    private static final byte ONLINE_HELP_TYPE_TOPICS = 0;
+    private static final byte ONLINE_HELP_TYPE_SUBTOPIC = 1;
     private final OnlineService onlineService;
     private final byte helpType;
 
@@ -23,9 +23,8 @@ extends AbstractSystemCallCommand {
         this.helpType = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: helpType=%2", (Object)this.getName(), (long)this.helpType);
+        this.logger.log(10000000, "%1#execute: helpType=%2", (Object)this.getName(), (long)this.helpType);
         int n = 0;
         switch (this.helpType) {
             case 1: {
@@ -37,10 +36,10 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "RemoteHMIHelpOpenedCommand#execute: Unhandled helpType %1!", (long)this.helpType);
+                this.logger.log(100000, "RemoteHMIHelpOpenedCommand#execute: Unhandled helpType %1!", (long)this.helpType);
             }
         }
-        this.logger.log(-2137614336, "RemoteHMIHelpOpenedCommand#execute: helpTypeOnline=%1", (long)n);
+        this.logger.log(10000000, "RemoteHMIHelpOpenedCommand#execute: helpTypeOnline=%1", (long)n);
         this.onlineService.helpOpened(n);
         this.sendResult(3000);
     }

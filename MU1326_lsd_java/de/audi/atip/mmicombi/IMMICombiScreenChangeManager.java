@@ -10,46 +10,35 @@ import de.audi.atip.mmicombi.IViewSizeManager;
 import de.audi.atip.mmicombi.exchange.MMICombiDisplayStatus;
 
 public interface IMMICombiScreenChangeManager {
-    public static final int REQUESTED_TYPE_UNDEFINED;
-    public static final int REQUESTED_TYPE_SHOW_SCREEN;
-    public static final int REQUESTED_TYPE_SHOW_POPUP;
-    public static final int REQUESTED_TYPE_REMOVE_POPUP;
-    public static final int REQUESTED_TYPE_VIEW_SIZE_CHANGED;
-    public static final int REQUESTED_TYPE_DRAWER_STATE_CHANGED;
-    public static final int REQUESTED_TYPE_MMI_OFF_CHANGED;
-    public static final int REQUESTED_TYPE_POPUP_QUIT;
+    public static final int REQUESTED_TYPE_UNDEFINED = 0;
+    public static final int REQUESTED_TYPE_SHOW_SCREEN = 1;
+    public static final int REQUESTED_TYPE_SHOW_POPUP = 2;
+    public static final int REQUESTED_TYPE_REMOVE_POPUP = 3;
+    public static final int REQUESTED_TYPE_VIEW_SIZE_CHANGED = 4;
+    public static final int REQUESTED_TYPE_DRAWER_STATE_CHANGED = 5;
+    public static final int REQUESTED_TYPE_MMI_OFF_CHANGED = 6;
+    public static final int REQUESTED_TYPE_POPUP_QUIT = 7;
 
-    default public int getCurrentMMICombiContext() {
-    }
+    public int getCurrentMMICombiContext();
 
-    default public MMICombiDisplayStatus getLastConfirmedDisplayStatus() {
-    }
+    public MMICombiDisplayStatus getLastConfirmedDisplayStatus();
 
-    default public void setScreenChangeManager(IScreenChangeManager iScreenChangeManager) {
-    }
+    public void setScreenChangeManager(IScreenChangeManager var1);
 
-    default public void setPopupManager(IMMICombiPopupManager iMMICombiPopupManager) {
-    }
+    public void setPopupManager(IMMICombiPopupManager var1);
 
-    default public int getMappedMMICombiContext(int n) {
-    }
+    public int getMappedMMICombiContext(int var1);
 
-    default public void setMMIOff(boolean bl) {
-    }
+    public void setMMIOff(boolean var1);
 
-    default public IMMICombiEventListener getMMICombiEventListener() {
-    }
+    public IMMICombiEventListener getMMICombiEventListener();
 
-    default public int getDrawerState() {
-    }
+    public int getDrawerState();
 
-    default public void requestPopupQuit() {
-    }
+    public void requestPopupQuit();
 
-    default public IViewSizeManager getViewSizeManager() {
-    }
+    public IViewSizeManager getViewSizeManager();
 
-    default public void setKdKVisible(boolean bl) {
-    }
+    public void setKdKVisible(boolean var1);
 }
 

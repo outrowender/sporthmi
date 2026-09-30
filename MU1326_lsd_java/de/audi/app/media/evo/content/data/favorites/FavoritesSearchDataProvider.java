@@ -18,7 +18,7 @@ import org.dsi.ifc.search.Searchable;
 public class FavoritesSearchDataProvider
 extends AbstractMediaSearchDataProvider
 implements IMediaFavoriteListListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "FavoritesSearchDataProvider";
     private final LogChannel logger;
     private final IFavoritesController favoritesController;
     private volatile FavoritesList favoritesList;
@@ -29,23 +29,20 @@ implements IMediaFavoriteListListener {
         this.favoritesController = iFavoritesController;
     }
 
-    @Override
     public void init() {
         super.init();
-        this.logger.log(1078071040, "[%1.init]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.favoritesController.addFavoriteListListener(this);
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.favoritesController.removeFavoriteListListener(this);
         super.deinit();
     }
 
-    @Override
     public void listChanged(FavoritesList favoritesList) {
-        this.logger.log(1078071040, "[%1.listChanged]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.listChanged]", (Object)LOGCLASS);
         this.favoritesList = favoritesList;
         if (this.isActive()) {
             this.sourceDataAvailabilityChanged(true);
@@ -53,48 +50,42 @@ implements IMediaFavoriteListListener {
         }
     }
 
-    @Override
     protected void providerSourceActivated() {
-        this.logger.log(1078071040, "[%1.providerSourceActivated]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.providerSourceActivated]", (Object)LOGCLASS);
         if (null != this.favoritesList) {
             this.sourceDataAvailabilityChanged(true);
         }
     }
 
-    @Override
     public void invalidateAllDataResult(boolean bl, int n) {
-        this.logger.log(1078071040, "[%1.invalidateAllDataResult]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.invalidateAllDataResult]", (Object)LOGCLASS);
     }
 
-    @Override
     public void provideData(int n, int n2, int n3) {
-        this.logger.log(1078071040, "[%1.provideData] src='%2' offset='%3' len='%4'", (Object)"FavoritesSearchDataProvider", (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Integer.toString(n3));
+        this.logger.log(1000000, "[%1.provideData] src='%2' offset='%3' len='%4'", (Object)LOGCLASS, (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Integer.toString(n3));
         DataSet[] dataSetArray = this.createDataSet(this.favoritesList.getFavoritesList(), n2, n3);
         if (this.logger.isDebug()) {
             for (int i2 = 0; i2 < dataSetArray.length; ++i2) {
-                this.logger.log(-2137614336, "[%1.provideData] idx='%2' '%3'", (Object)"FavoritesSearchDataProvider", (Object)Integer.toString(i2), (Object)dataSetArray[i2].toString());
+                this.logger.log(10000000, "[%1.provideData] idx='%2' '%3'", (Object)LOGCLASS, (Object)Integer.toString(i2), (Object)dataSetArray[i2].toString());
             }
         }
         this.storeDataSets(dataSetArray, this.favoritesList.getListSize());
     }
 
-    @Override
     public void storeDataSetsResult(boolean bl, int n) {
-        this.logger.log(1078071040, "[%1.storeDataSetsResult]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.storeDataSetsResult]", (Object)LOGCLASS);
     }
 
-    @Override
     public void deleteDataSetResult(boolean bl, int n, long l) {
-        this.logger.log(1078071040, "[%1.deleteDataSetResult]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.deleteDataSetResult]", (Object)LOGCLASS);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logger.log(1078071040, "[%1.asyncException]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.asyncException]", (Object)LOGCLASS);
     }
 
     private DataSet[] createDataSet(List list, int n, int n2) {
-        this.logger.log(1078071040, "[%1.createDataSet]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.createDataSet]", (Object)LOGCLASS);
         int n3 = n + n2 > list.size() ? list.size() - n : n2;
         DataSet[] dataSetArray = new DataSet[n3];
         int n4 = 0;
@@ -113,7 +104,7 @@ implements IMediaFavoriteListListener {
     private DataSet createSearchDataFromFavorite(int n, MediaFavorite mediaFavorite) {
         Searchable[] searchableArray;
         int n2;
-        this.logger.log(1078071040, "[%1.createSearchDataFromFavorite]", (Object)"FavoritesSearchDataProvider");
+        this.logger.log(1000000, "[%1.createSearchDataFromFavorite]", (Object)LOGCLASS);
         int n3 = 0;
         switch (mediaFavorite.getContentType()) {
             case 14: {

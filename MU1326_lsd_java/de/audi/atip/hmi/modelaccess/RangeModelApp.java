@@ -8,37 +8,26 @@ import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 
 public interface RangeModelApp
 extends ButtonModelApp {
-    default public void setLimits(int n, int n2, int n3) {
-    }
+    public void setLimits(int var1, int var2, int var3);
 
-    default public void setLimits(int n, int n2, int n3, int n4) {
-    }
+    public void setLimits(int var1, int var2, int var3, int var4);
 
-    default public void setMedialPosition(int n) {
-    }
+    public void setMedialPosition(int var1);
 
-    default public int getMaximum() {
-    }
+    public int getMaximum();
 
-    default public int getMinimum() {
-    }
+    public int getMinimum();
 
-    default public void setRangeListener(RangeListener rangeListener2) {
-    }
+    public void setRangeListener(RangeListener var1);
 
-    default public int getStep() {
-    }
+    public int getStep();
 
-    default public void setValue(int n) {
-    }
+    public void setValue(int var1);
 
-    default public int getValue() {
-    }
+    public int getValue();
 
-    default public int getMedialPosition() {
-    }
+    public int getMedialPosition();
 
-    default public void forceUpdate(boolean bl) {
-    }
+    public void forceUpdate(boolean var1);
 }
 

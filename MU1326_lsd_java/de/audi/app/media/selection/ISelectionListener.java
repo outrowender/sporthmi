@@ -6,7 +6,6 @@ package de.audi.app.media.selection;
 import de.audi.app.media.selection.IDataSelectionContext;
 
 public interface ISelectionListener {
-    default public void notifySelectionChanged(IDataSelectionContext iDataSelectionContext, boolean bl) {
-    }
+    public void notifySelectionChanged(IDataSelectionContext var1, boolean var2);
 }
 

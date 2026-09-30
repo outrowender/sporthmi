@@ -6,7 +6,6 @@ package de.audi.atip.hmi.event;
 import de.audi.atip.hmi.event.ATIPEvent;
 
 public interface ATIPEventListener {
-    default public void processEvent(ATIPEvent aTIPEvent) {
-    }
+    public void processEvent(ATIPEvent var1);
 }
 

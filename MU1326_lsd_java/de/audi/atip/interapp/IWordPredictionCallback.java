@@ -4,16 +4,13 @@
 package de.audi.atip.interapp;
 
 public interface IWordPredictionCallback {
-    public static final int MODE_USE_CCP;
-    public static final int MODE_USE_DSI;
+    public static final int MODE_USE_CCP = 0;
+    public static final int MODE_USE_DSI = 1;
 
-    default public int getMode() {
-    }
+    public int getMode();
 
-    default public int getPoiXt9Mode() {
-    }
+    public int getPoiXt9Mode();
 
-    default public void databaseNamesAvailableCallback(String[] stringArray) {
-    }
+    public void databaseNamesAvailableCallback(String[] var1);
 }
 

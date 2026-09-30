@@ -4,10 +4,8 @@
 package de.audi.app.media.content.media.fileplayer.content;
 
 public interface IFilePlayerListener {
-    default public void sessionAttached() {
-    }
+    public void sessionAttached();
 
-    default public void sessionDettached() {
-    }
+    public void sessionDettached();
 }
 

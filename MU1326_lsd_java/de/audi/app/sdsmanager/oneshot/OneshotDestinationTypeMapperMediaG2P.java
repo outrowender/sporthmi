@@ -10,7 +10,6 @@ public class OneshotDestinationTypeMapperMediaG2P
 implements IOneshotDestinationTypeMapper {
     protected int[][] oneshotDestinationTypeMapping = new int[][]{{0, 2}};
 
-    @Override
     public int mapToOneshotLevel(int n) {
         return SDSUtils.translate(n, this.oneshotDestinationTypeMapping);
     }

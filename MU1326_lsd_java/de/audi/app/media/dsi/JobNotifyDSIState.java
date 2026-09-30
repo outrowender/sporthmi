@@ -9,7 +9,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class JobNotifyDSIState
 implements Runnable {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobNotifyDSIState";
     private final AbstractDSIController dsiController;
     private final boolean availableState;
 
@@ -18,11 +18,10 @@ implements Runnable {
         this.dsiController = abstractDSIController;
     }
 
-    @Override
     public void run() {
         IDSIControllerStateListener iDSIControllerStateListener = this.dsiController.getStateListener();
         if (iDSIControllerStateListener == null) {
-            this.dsiController.logger.log(1078071040, "[%1.run] [%2,%3] No listener.", (Object)"JobNotifyDSIState", (Object)this.dsiController.getNameOfDSIServiceClass(), (long)this.dsiController.getInstanceID());
+            this.dsiController.logger.log(1000000, "[%1.run] [%2,%3] No listener.", (Object)LOGCLASS, (Object)this.dsiController.getNameOfDSIServiceClass(), (long)this.dsiController.getInstanceID());
             return;
         }
         if (this.availableState) {

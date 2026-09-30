@@ -7,28 +7,20 @@ import de.audi.atip.hmi.modelaccess.TextEditorModelApp;
 import java.util.LinkedList;
 
 public interface IExtendedTextEditor {
-    default public TextEditorModelApp getTextEditorModelApp() {
-    }
+    public TextEditorModelApp getTextEditorModelApp();
 
-    default public void editorTextChanged() {
-    }
+    public void editorTextChanged();
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public void setText(String string) {
-    }
+    public void setText(String var1);
 
-    default public void setText(LinkedList linkedList, int n) {
-    }
+    public void setText(LinkedList var1, int var2);
 
-    default public void append(LinkedList linkedList) {
-    }
+    public void append(LinkedList var1);
 
-    default public void undoAppend() {
-    }
+    public void undoAppend();
 
-    default public void replaceSelection(LinkedList linkedList) {
-    }
+    public void replaceSelection(LinkedList var1);
 }
 

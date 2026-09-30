@@ -10,12 +10,12 @@ import de.audi.atip.log.LogChannel;
 
 public class ETCSettings
 extends DefaultChoiceListener {
-    static final int TOLL_AMOUNT_NOTICE_IDX;
-    static final int TOLL_AMOUNT_ANNOUNCEMENT_IDX;
-    static final int ETC_WARNING_IDX;
-    static final int ETC_CARD_REMINDER_IDX;
-    static final byte SETTINGS_PARAMETER_ON;
-    static final byte SETTINGS_PARAMETER_OFF;
+    static final int TOLL_AMOUNT_NOTICE_IDX = 0;
+    static final int TOLL_AMOUNT_ANNOUNCEMENT_IDX = 1;
+    static final int ETC_WARNING_IDX = 2;
+    static final int ETC_CARD_REMINDER_IDX = 3;
+    static final byte SETTINGS_PARAMETER_ON = 1;
+    static final byte SETTINGS_PARAMETER_OFF = 0;
     final byte[] DEFAULT_SETTINGS = new byte[]{0, 1, 0, 1};
     SettingsEnv env;
     ETCModels models;
@@ -89,21 +89,21 @@ extends DefaultChoiceListener {
                 switch (i2) {
                     case 0: {
                         this.getModels().getETCAmountNoticeChoice().setValue(byArray[i2]);
-                        this.log.log(-2137614336, "[ETCSettings] setSettings(): TOLL_AMOUNT_NOTICE_IDX=%1", (long)byArray[i2]);
+                        this.log.log(10000000, "[ETCSettings] setSettings(): TOLL_AMOUNT_NOTICE_IDX=%1", (long)byArray[i2]);
                         continue block6;
                     }
                     case 1: {
                         this.getModels().getETCAmountAnnouncementChoice().setValue(byArray[i2]);
-                        this.log.log(-2137614336, "[ETCSettings] setSettings(): TOLL_AMOUNT_ANNOUNCEMENT_IDX=%1", (long)byArray[i2]);
+                        this.log.log(10000000, "[ETCSettings] setSettings(): TOLL_AMOUNT_ANNOUNCEMENT_IDX=%1", (long)byArray[i2]);
                         continue block6;
                     }
                     case 2: {
                         this.getModels().getETCWarningChoice().setValue(byArray[i2]);
-                        this.log.log(-2137614336, "[ETCSettings] setSettings(): ETC_WARNING_IDX=%1", (long)byArray[i2]);
+                        this.log.log(10000000, "[ETCSettings] setSettings(): ETC_WARNING_IDX=%1", (long)byArray[i2]);
                         continue block6;
                     }
                     case 3: {
-                        this.log.log(-2137614336, "[ETCSettings] setSettings(): ETC_CARD_REMINDER_IDX=%1", (long)byArray[i2]);
+                        this.log.log(10000000, "[ETCSettings] setSettings(): ETC_CARD_REMINDER_IDX=%1", (long)byArray[i2]);
                         this.getModels().getETCCardPickUpReminderChoice().setValue(byArray[i2]);
                         continue block6;
                     }
@@ -116,26 +116,25 @@ extends DefaultChoiceListener {
     }
 
     private void persistenceStore() {
-        this.log.log(1078071040, "[ETCSettings] persistenceStore");
+        this.log.log(1000000, "[ETCSettings] persistenceStore");
         byte[] byArray = this.getSettings();
         this.setSettings(byArray);
         this.getEnv().getStorageMgr().setByteArray(1111, 1, byArray);
     }
 
     private void persistenceLoad() {
-        this.log.log(1078071040, "[ETCSettings] persistenceLoad");
+        this.log.log(1000000, "[ETCSettings] persistenceLoad");
         this.setSettings(this.getEnv().getStorageMgr().getByteArray(1111, 1, this.DEFAULT_SETTINGS));
     }
 
     void restoreDefaultETCSettings() {
-        this.log.log(1078071040, "[ETCSettings] resetETCSettings");
+        this.log.log(1000000, "[ETCSettings] resetETCSettings");
         this.setSettings(this.DEFAULT_SETTINGS);
         this.getEnv().getStorageMgr().setByteArray(1111, 1, this.DEFAULT_SETTINGS);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.log.log(1078071040, "[ETCSettings] itemSelected(%1, %2, %3)", (long)n, (long)n2, (long)n3);
+        this.log.log(1000000, "[ETCSettings] itemSelected(%1, %2, %3)", (long)n, (long)n2, (long)n3);
         switch (n) {
             case 1100261: {
                 this.getModels().getETCAmountNoticeChoice().setValue(this.toggleParameterValue(this.getSettingsParameter(0)));

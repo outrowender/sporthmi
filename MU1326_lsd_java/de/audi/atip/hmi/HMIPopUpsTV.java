@@ -4,6 +4,6 @@
 package de.audi.atip.hmi;
 
 public interface HMIPopUpsTV {
-    public static final int POPUP_TV_POPUP_EWS_MAIN_ID;
+    public static final int POPUP_TV_POPUP_EWS_MAIN_ID = 2600000;
 }
 

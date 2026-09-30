@@ -18,7 +18,6 @@ implements IEntryPropertyFactory {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public PropertyListCell create(ListEntry listEntry) {
         int n = this.msgApp.getFolderNavigator().getCurrentFolder().getHmiFolderType();
         int n2 = DrawerOptions.getCategory(listEntry);

@@ -4,28 +4,20 @@
 package de.audi.app.phone.core.callcontrol;
 
 public interface ITelCallControl {
-    default public void acceptIncomingCall(int n) {
-    }
+    public void acceptIncomingCall(int var1);
 
-    default public void rejectIncomingCall(int n) {
-    }
+    public void rejectIncomingCall(int var1);
 
-    default public void swapCalls(int n) {
-    }
+    public void swapCalls(int var1);
 
-    default public void joinCallsToConference(int n) {
-    }
+    public void joinCallsToConference(int var1);
 
-    default public void hangupCall(int n) {
-    }
+    public void hangupCall(int var1);
 
-    default public void hangupCall(int n, int n2) {
-    }
+    public void hangupCall(int var1, int var2);
 
-    default public void replaceActiveCallWithIncomingCall(int n) {
-    }
+    public void replaceActiveCallWithIncomingCall(int var1);
 
-    default public void acceptOnNCLDOngoing(boolean bl) {
-    }
+    public void acceptOnNCLDOngoing(boolean var1);
 }
 

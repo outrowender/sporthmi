@@ -8,7 +8,6 @@ import de.audi.app.navi.evo.addressinput.city.CityStreetHistoryListRowBuilder;
 import de.audi.app.navi.evo.addressinput.street.StreetInputModelAccess;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.tghu.navi.app.CityHistory;
-import de.audi.tghu.navi.app.CityHistory$HistoryForCurrentInput;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.IAddressInputFormModelAccessHelper;
 import de.audi.tghu.navi.app.li.SpellerStack;
@@ -30,24 +29,21 @@ extends StreetInputModelAccess {
         this.historyListRowBuilder = new CityStreetHistoryListRowBuilder();
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
         super.onElementSelected(navLocation);
-        this.env.getChoiceModel(-1172634112).setValue(0);
-        this.env.getChoiceModel(-1994324480).setValue(0);
+        this.env.getChoiceModel(400314).setValue(0);
+        this.env.getChoiceModel(401801).setValue(0);
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
-        this.env.getChoiceModel(-1172634112).setValue(1);
-        this.env.getChoiceModel(-1994324480).setValue(1);
+        this.env.getChoiceModel(400314).setValue(1);
+        this.env.getChoiceModel(401801).setValue(1);
     }
 
-    protected CityHistory$HistoryForCurrentInput getMatchingHistoryEntries(String string) {
-        return new CityHistory$HistoryForCurrentInput(this.cityHistory.getMatchingLastStreets(string));
+    protected CityHistory.HistoryForCurrentInput getMatchingHistoryEntries(String string) {
+        return new CityHistory.HistoryForCurrentInput(this.cityHistory.getMatchingLastStreets(string));
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         int n3;
         EvoListRow[] evoListRowArray;
@@ -76,11 +72,11 @@ extends StreetInputModelAccess {
         }
         int n6 = n2 == 0 ? n5 : 0;
         for (n3 = 0; n3 < lIValueListElementArray.length; ++n3) {
-            evoListRowArray[n3 + n6] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 160082217);
+            evoListRowArray[n3 + n6] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 698976777);
         }
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateResultList - updating Row-Length from %1 to %2").toString(), (long)this.previewListModelApp.getLength(), (long)((int)l + n5));
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onUpdateResultList - updating Row-Length from %1 to %2", (long)this.previewListModelApp.getLength(), (long)((int)l + n5));
         this.previewListModelApp.setLength((int)l + n5);
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateResultList the TiledList will be updated with requestID = %1, startingIndex = %2").toString(), (long)n, (long)n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onUpdateResultList the TiledList will be updated with requestID = %1, startingIndex = %2", (long)n, (long)n2);
         this.previewListModelApp.setRows(n, n2, evoListRowArray);
     }
 }

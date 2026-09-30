@@ -15,7 +15,6 @@ extends AbstractBAPIndicationHandlerPhone2 {
         super(combiModulePhone2, combiModulePhone2.getLogChannel());
     }
 
-    @Override
     public GetArrayIndication evaluateGetArrayIndication(int n, GetArray getArray) {
         GetArrayIndication getArrayIndication = null;
         switch (n) {

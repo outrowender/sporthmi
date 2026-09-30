@@ -8,22 +8,16 @@ import org.dsi.ifc.carcomfort.RDKTireInfo;
 import org.dsi.ifc.carcomfort.RDKWheelPressures;
 
 public interface IRDKTireDisplay {
-    default public void initialize() {
-    }
+    public void initialize();
 
-    default public void updateDisplayData(RDKTireDisplayData rDKTireDisplayData) {
-    }
+    public void updateDisplayData(RDKTireDisplayData var1);
 
-    default public void updateTireSetupTireList(RDKTireInfo[] rDKTireInfoArray) {
-    }
+    public void updateTireSetupTireList(RDKTireInfo[] var1);
 
-    default public void updateTireSetupSelectedTire(int n) {
-    }
+    public void updateTireSetupSelectedTire(int var1);
 
-    default public void updateSpeedLimit(int n) {
-    }
+    public void updateSpeedLimit(int var1);
 
-    default public void updateDifferentialPressure(RDKWheelPressures rDKWheelPressures) {
-    }
+    public void updateDifferentialPressure(RDKWheelPressures var1);
 }
 

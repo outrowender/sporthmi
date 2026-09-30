@@ -8,10 +8,10 @@ import de.audi.atip.hmi.event.ATIPEventListener;
 
 public class CombiInfoEvent
 extends ATIPEvent {
-    public static final int TYPE_TEXT_UPDATE;
-    public static final int TYPE_CURSOR_UPDATE;
-    public static final int TYPE_FRAME_STATUS;
-    public static final int TYPE_APPLICATION_CHANGE;
+    public static final int TYPE_TEXT_UPDATE = 0;
+    public static final int TYPE_CURSOR_UPDATE = 2;
+    public static final int TYPE_FRAME_STATUS = 3;
+    public static final int TYPE_APPLICATION_CHANGE = 4;
     private int type;
     private String text;
     private int frameID;

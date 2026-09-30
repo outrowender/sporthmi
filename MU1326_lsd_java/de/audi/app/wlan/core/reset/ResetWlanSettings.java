@@ -20,15 +20,13 @@ implements MsgListener {
         super(iWlanApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 20) {
-            this.log.log(1078071040, "[ResetWlanSettings#processMsg] Called, restore factory settings.");
+            this.log.log(1000000, "[ResetWlanSettings#processMsg] Called, restore factory settings.");
             this.restoreFactorySettings();
         }
     }
@@ -42,13 +40,11 @@ implements MsgListener {
         }
     }
 
-    @Override
     public void init() {
         super.init();
         this.registration = this.wlanApplication.getBundleContext().registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = ResetWlanSettings.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.registration.unregister();

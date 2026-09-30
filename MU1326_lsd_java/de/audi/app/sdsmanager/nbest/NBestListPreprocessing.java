@@ -36,7 +36,7 @@ public class NBestListPreprocessing {
         NBestListEntry[] nBestListEntryArray = this.preprocessNBestListEntries();
         this.ggIndexMapping = NBestListPreprocessing.createIndexMapping(this.originalGraphGroups.length);
         GraphemicGroup[] graphemicGroupArray = this.preprocessGraphemicGroups();
-        this.lc.log(-2137614336, "NBestUtils#preprocessEntries: ggIndexMapping=%1!", (Object)SDSUtils.toString(this.ggIndexMapping));
+        this.lc.log(10000000, "NBestUtils#preprocessEntries: ggIndexMapping=%1!", (Object)SDSUtils.toString(this.ggIndexMapping));
         this.decrementGraphmicGroupIndexes(nBestListEntryArray);
         NBestUtils.sortSlots(nBestListEntryArray, this.lc);
         nBestListEntryArray = this.removeInvalidEntries(nBestListEntryArray, iFrameworkAccess);
@@ -61,7 +61,7 @@ public class NBestListPreprocessing {
                 hashMap.put(new Integer(n3), nBestListEntry);
                 continue;
             }
-            this.lc.log(-2137614336, "NBestUtils#preprocessEntries: Skipping curNBestListEntry #%2 %1!", (Object)nBestListEntry, (long)i2);
+            this.lc.log(10000000, "NBestUtils#preprocessEntries: Skipping curNBestListEntry #%2 %1!", (Object)nBestListEntry, (long)i2);
             this.entryIndexMapping[i2] = n2;
             this.decrementGraphemicGroupSize(nBestListEntry.graphemicGroupIndex);
         }
@@ -72,7 +72,7 @@ public class NBestListPreprocessing {
         if (SDSUtils.isEmpty(nBestListEntryArray)) {
             return nBestListEntryArray;
         }
-        this.lc.log(-2137614336, "NBestUtils#removeInvalidEntries");
+        this.lc.log(10000000, "NBestUtils#removeInvalidEntries");
         int n = nBestListEntryArray.length;
         ArrayList arrayList = new ArrayList(n);
         ISDSMapping iSDSMapping = SDSManagerBaseActivator.getMapping();
@@ -105,22 +105,22 @@ public class NBestListPreprocessing {
         for (int i2 = 0; i2 < n; ++i2) {
             GraphemicGroup graphemicGroup = this.originalGraphGroups[i2];
             if (graphemicGroup == null) {
-                this.lc.log(-1601830656, "NBestUtils#preprocessGraphemicGroups: Empty curGraphGroupEntry #%1!", (long)i2);
+                this.lc.log(100000, "NBestUtils#preprocessGraphemicGroups: Empty curGraphGroupEntry #%1!", (long)i2);
                 continue;
             }
             int n2 = graphemicGroup.getGraphemicGroupSize();
-            this.lc.log(-2137614336, "NBestUtils#preprocessGraphemicGroups: curGraphGroupSize[%1]=%2!", (long)i2, (long)n2);
+            this.lc.log(10000000, "NBestUtils#preprocessGraphemicGroups: curGraphGroupSize[%1]=%2!", (long)i2, (long)n2);
             if (n2 > 1) {
                 arrayList.add(graphemicGroup);
                 continue;
             }
-            this.lc.log(-2137614336, "NBestUtils#preprocessGraphemicGroups: Decrementing subsequent indexMapping starting from %2 and skipping curGraphGroupEntry #%3 %1!", (Object)graphemicGroup, (long)(i2 + 1), (long)i2);
+            this.lc.log(10000000, "NBestUtils#preprocessGraphemicGroups: Decrementing subsequent indexMapping starting from %2 and skipping curGraphGroupEntry #%3 %1!", (Object)graphemicGroup, (long)(i2 + 1), (long)i2);
             this.ggIndexMapping[i2] = -1;
             for (int i3 = i2 + 1; i3 < n; ++i3) {
                 int n3 = this.ggIndexMapping[i3];
                 int n4 = i3;
                 this.ggIndexMapping[n4] = this.ggIndexMapping[n4] - (n3 > -1 ? 1 : 0);
-                this.lc.log(-2137614336, "NBestUtils#preprocessGraphemicGroups: curIndexMapping=%1, indexMapping[%2]=%3!", (long)n3, (long)i3, (long)this.ggIndexMapping[i3]);
+                this.lc.log(10000000, "NBestUtils#preprocessGraphemicGroups: curIndexMapping=%1, indexMapping[%2]=%3!", (long)n3, (long)i3, (long)this.ggIndexMapping[i3]);
             }
         }
         return (GraphemicGroup[])arrayList.toArray(new GraphemicGroup[arrayList.size()]);
@@ -143,29 +143,29 @@ public class NBestListPreprocessing {
             NBestListEntry nBestListEntry = nBestListEntryArray[i2];
             if (nBestListEntry == null) continue;
             int n2 = nBestListEntry.getGraphemicGroupIndex();
-            this.lc.log(-2137614336, "NBestUtils#decrementGraphmicGroupIndexes: curGGIndex=%1, indexMapping.length=%2!", (long)n2, (long)this.ggIndexMapping.length);
+            this.lc.log(10000000, "NBestUtils#decrementGraphmicGroupIndexes: curGGIndex=%1, indexMapping.length=%2!", (long)n2, (long)this.ggIndexMapping.length);
             if (n2 <= -1 || n2 >= this.ggIndexMapping.length) continue;
-            this.lc.log(-2137614336, "NBestUtils#decrementGraphmicGroupIndexes: curGGIndex[%1]=%2, setting graphemicGroupIndex to %3!", (long)i2, (long)n2, (long)this.ggIndexMapping[n2]);
+            this.lc.log(10000000, "NBestUtils#decrementGraphmicGroupIndexes: curGGIndex[%1]=%2, setting graphemicGroupIndex to %3!", (long)i2, (long)n2, (long)this.ggIndexMapping[n2]);
             nBestListEntry.graphemicGroupIndex = this.ggIndexMapping[n2];
         }
     }
 
     private void decrementGraphemicGroupSize(int n) {
-        this.lc.log(-2137614336, "NBestUtils#decrementGraphemicGroupSize: ggIndex=%1!", (long)n);
+        this.lc.log(10000000, "NBestUtils#decrementGraphemicGroupSize: ggIndex=%1!", (long)n);
         if (SDSUtils.isEmpty(this.originalGraphGroups)) {
             return;
         }
         int n2 = this.originalGraphGroups.length;
         if (n < 0) {
-            this.lc.log(-2137614336, "NBestUtils#decrementGraphemicGroupSize: No GG member, ggIndex=%1 => NOP!", (long)n);
+            this.lc.log(10000000, "NBestUtils#decrementGraphemicGroupSize: No GG member, ggIndex=%1 => NOP!", (long)n);
             return;
         }
         if (n >= n2) {
-            this.lc.log(-1601830656, "NBestUtils#decrementGraphemicGroupSize: Invalid ggIndex=%1 >= len=%2 => NOP!", (long)n, (long)n2);
+            this.lc.log(100000, "NBestUtils#decrementGraphemicGroupSize: Invalid ggIndex=%1 >= len=%2 => NOP!", (long)n, (long)n2);
             return;
         }
         GraphemicGroup graphemicGroup = this.originalGraphGroups[n];
-        this.lc.log(-2137614336, "NBestUtils#decrementGraphemicGroupSize: Decrementing size %1 of graphemic group #%2!", (long)graphemicGroup.graphemicGroupSize, (long)n);
+        this.lc.log(10000000, "NBestUtils#decrementGraphemicGroupSize: Decrementing size %1 of graphemic group #%2!", (long)graphemicGroup.graphemicGroupSize, (long)n);
         --graphemicGroup.graphemicGroupSize;
     }
 

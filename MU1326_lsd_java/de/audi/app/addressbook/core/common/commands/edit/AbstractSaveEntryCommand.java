@@ -26,15 +26,14 @@ extends AbstractADBCommand {
         this.syncModel.setStatus(0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "AbstractSaveEntryCommand#execute() entry : %1", (Object)this.entry);
+        this.logger.log(10000000, "AbstractSaveEntryCommand#execute() entry : %1", (Object)this.entry);
         boolean bl = false;
         if (this.entry.entryId == 0L) {
-            this.logger.log(1078071040, "AbstractSaveEntryCommand#execute() insert entry : %1 , profileNum : %2", (Object)this.entry, (long)this.profileNum);
+            this.logger.log(1000000, "AbstractSaveEntryCommand#execute() insert entry : %1 , profileNum : %2", (Object)this.entry, (long)this.profileNum);
             bl = this.adbDSIAccess.insertEntry(this.entry, this.profileNum);
         } else {
-            this.logger.log(1078071040, "AbstractSaveEntryCommand#execute() change entry : %1, profileNum : %2", (Object)this.entry, (long)this.profileNum);
+            this.logger.log(1000000, "AbstractSaveEntryCommand#execute() change entry : %1, profileNum : %2", (Object)this.entry, (long)this.profileNum);
             bl = this.adbDSIAccess.changeEntry(this.entry, this.profileNum);
         }
         if (!bl) {
@@ -43,27 +42,22 @@ extends AbstractADBCommand {
         }
     }
 
-    public abstract void handleInsertEntryResult(int n, AdbEntry adbEntry) {
-    }
+    public abstract void handleInsertEntryResult(int var1, AdbEntry var2);
 
-    @Override
     public final void insertEntryResult(int n, AdbEntry adbEntry) {
         this.handleInsertEntryResult(n, adbEntry);
         ++this.numDSIResponsesReceived;
         this.checkCommandFinished(n);
     }
 
-    public abstract void handleChangeEntryResult(int n, AdbEntry adbEntry) {
-    }
+    public abstract void handleChangeEntryResult(int var1, AdbEntry var2);
 
-    @Override
     public final void changeEntryResult(int n, AdbEntry adbEntry) {
         this.handleChangeEntryResult(n, adbEntry);
         ++this.numDSIResponsesReceived;
         this.checkCommandFinished(n);
     }
 
-    @Override
     public synchronized void invalidData(int n) {
         this.appAdr.handleInvalidData(n, false);
         ++this.numDSIResponsesReceived;
@@ -76,7 +70,7 @@ extends AbstractADBCommand {
             this.syncModel.setStatus(1);
             this.commandList.commandFinished();
         } else if (this.numDSIResponsesReceived == 2) {
-            this.logger.log(-2137614336, "AbstractSaveEntryCommand#checkCommandFinished(): finishing command.");
+            this.logger.log(10000000, "AbstractSaveEntryCommand#checkCommandFinished(): finishing command.");
             this.syncModel.setStatus(1);
             this.commandList.commandFinished();
         }

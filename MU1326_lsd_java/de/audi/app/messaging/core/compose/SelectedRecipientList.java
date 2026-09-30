@@ -6,14 +6,14 @@ package de.audi.app.messaging.core.compose;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.compose.ISelectedRecipientListObserver;
-import de.audi.app.messaging.core.compose.SelectedRecipientList$MyBaseListModelListener;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.recipients.RecipientListRow;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.util.Strings;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.util.Util;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
@@ -24,8 +24,8 @@ import org.dsi.ifc.messaging.MatchedAddress;
 
 public final class SelectedRecipientList
 extends AbstractMessagingComponent {
-    public static final int RECIPIENT_INDEX_NONE;
-    private static volatile long nextRowId;
+    public static final int RECIPIENT_INDEX_NONE = -1;
+    private static volatile long nextRowId = 0L;
     private final BaseListModelApp listModel;
     private final List recipientsTo = new LinkedList();
     private final List recipientsCc = new LinkedList();
@@ -34,17 +34,16 @@ extends AbstractMessagingComponent {
 
     public SelectedRecipientList(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.listModel = this.framework.getHmiServiceApp().getBaseListModel(-913170176);
+        this.listModel = this.framework.getHmiServiceApp().getBaseListModel(2200265);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        this.listModel.setListener(new SelectedRecipientList$MyBaseListModelListener(this, null));
+        this.listModel.setListener(new MyBaseListModelListener());
     }
 
     public void addObserver(ISelectedRecipientListObserver iSelectedRecipientListObserver) {
-        this.log.log(-2137614336, "[SelectedRecipientList#addObserver] observer = %1", (Object)iSelectedRecipientListObserver);
+        this.log.log(10000000, "[SelectedRecipientList#addObserver] observer = %1", (Object)iSelectedRecipientListObserver);
         this.observers.add(iSelectedRecipientListObserver);
     }
 
@@ -56,7 +55,7 @@ extends AbstractMessagingComponent {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void clear(int n) {
-        this.log.log(-2137614336, "[SelectedRecipientList#clear]");
+        this.log.log(10000000, "[SelectedRecipientList#clear]");
         boolean bl = n == 0;
         boolean bl2 = n == 1;
         boolean bl3 = n == 2;
@@ -118,17 +117,17 @@ extends AbstractMessagingComponent {
     }
 
     public void addRecipientsTo(MatchedAddress[] matchedAddressArray) {
-        this.log.log(-2137614336, "[SelectedRecipientList#addRecipientsTo] recipients.length = %1", (long)matchedAddressArray.length);
+        this.log.log(10000000, "[SelectedRecipientList#addRecipientsTo] recipients.length = %1", (long)matchedAddressArray.length);
         this.addRecipients(matchedAddressArray, 1);
     }
 
     public void addRecipientsCc(MatchedAddress[] matchedAddressArray) {
-        this.log.log(-2137614336, "[SelectedRecipientList#addRecipientsCc] recipients.length = %1", (long)matchedAddressArray.length);
+        this.log.log(10000000, "[SelectedRecipientList#addRecipientsCc] recipients.length = %1", (long)matchedAddressArray.length);
         this.addRecipients(matchedAddressArray, 2);
     }
 
     public void addRecipientsBcc(MatchedAddress[] matchedAddressArray) {
-        this.log.log(-2137614336, "[SelectedRecipientList#addRecipientsBcc] recipients.length = %1", (long)matchedAddressArray.length);
+        this.log.log(10000000, "[SelectedRecipientList#addRecipientsBcc] recipients.length = %1", (long)matchedAddressArray.length);
         this.addRecipients(matchedAddressArray, 3);
     }
 
@@ -136,7 +135,7 @@ extends AbstractMessagingComponent {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void setRecipientsTo(MatchedAddress[] matchedAddressArray) {
-        this.log.log(-2137614336, "[SelectedRecipientList#setRecipientsTo] recipients.length = %1", (long)matchedAddressArray.length);
+        this.log.log(10000000, "[SelectedRecipientList#setRecipientsTo] recipients.length = %1", (long)matchedAddressArray.length);
         SelectedRecipientList selectedRecipientList = this;
         synchronized (selectedRecipientList) {
             this.recipientsTo.clear();
@@ -175,7 +174,7 @@ extends AbstractMessagingComponent {
                     recipientListRowArray[n2] = recipientListRow;
                     continue;
                 }
-                this.log.log(1078071040, new StringBuffer().append("[SelectedRecipientList#addRecipients] id=%1, address=").append(matchedAddressArray[n2].getAddress()).append(" already available into the recipients").toString(), matchedAddressArray[n2].getAdbEntryID());
+                this.log.log(1000000, new StringBuffer().append("[SelectedRecipientList#addRecipients] id=%1, address=").append(matchedAddressArray[n2].getAddress()).append(" already available into the recipients").toString(), matchedAddressArray[n2].getAdbEntryID());
             }
         }
         this.refresh();
@@ -195,7 +194,7 @@ extends AbstractMessagingComponent {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void removeRecipient(RecipientListRow recipientListRow) {
-        this.log.log(-2137614336, "[SelectedRecipientList#removeRecipient] recipientListRow = %1", (Object)recipientListRow);
+        this.log.log(10000000, "[SelectedRecipientList#removeRecipient] recipientListRow = %1", (Object)recipientListRow);
         int n = recipientListRow.getRecipientType();
         long l = recipientListRow.getUniqueID();
         SelectedRecipientList selectedRecipientList = this;
@@ -219,7 +218,7 @@ extends AbstractMessagingComponent {
      */
     private void refresh() {
         String string;
-        this.log.log(-2137614336, "[SelectedRecipientList#refresh]");
+        this.log.log(10000000, "[SelectedRecipientList#refresh]");
         int n = this.getLength();
         this.listModel.removeAll();
         SelectedRecipientList selectedRecipientList = this;
@@ -239,10 +238,10 @@ extends AbstractMessagingComponent {
             string = SelectedRecipientList.toText(this.recipientsTo);
         }
         int n2 = this.getLength();
-        this.framework.getHMIService().getTextfieldModel(-1735253760).setText1(string);
+        this.framework.getHMIService().getTextfieldModel(2200216).setText1(string);
         if (n != n2) {
             int n3 = n2 == 0 ? 1 : 0;
-            this.framework.getHMIService().getTextfieldModel(-1735253760).setStatus(n3);
+            this.framework.getHMIService().getTextfieldModel(2200216).setStatus(n3);
             this.msgApp.getNewMessage().recipientCountChanged(-1);
         }
     }
@@ -268,7 +267,7 @@ extends AbstractMessagingComponent {
     }
 
     private void emitIndicateRecipientsCleared() {
-        this.log.log(-2137614336, "[SelectedRecipientList#emitIndicateRecipientsCleared]");
+        this.log.log(10000000, "[SelectedRecipientList#emitIndicateRecipientsCleared]");
         Iterator iterator = this.observers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -281,7 +280,7 @@ extends AbstractMessagingComponent {
     }
 
     private void emitIndicateRecipientsAdded(RecipientListRow[] recipientListRowArray) {
-        this.log.log(-2137614336, "[SelectedRecipientList#emitIndicateRecipientsAdded]");
+        this.log.log(10000000, "[SelectedRecipientList#emitIndicateRecipientsAdded]");
         Iterator iterator = this.observers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -294,7 +293,7 @@ extends AbstractMessagingComponent {
     }
 
     private void emitIndicateRecipientsRemoved(RecipientListRow[] recipientListRowArray) {
-        this.log.log(-2137614336, "[SelectedRecipientList#emitIndicateRecipientsRemoved]");
+        this.log.log(10000000, "[SelectedRecipientList#emitIndicateRecipientsRemoved]");
         Iterator iterator = this.observers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -306,12 +305,15 @@ extends AbstractMessagingComponent {
         }
     }
 
-    static /* synthetic */ LogChannel access$100(SelectedRecipientList selectedRecipientList) {
-        return selectedRecipientList.log;
-    }
+    private class MyBaseListModelListener
+    extends DefaultBaseListModelListener {
+        private MyBaseListModelListener() {
+        }
 
-    static {
-        nextRowId = 0L;
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            SelectedRecipientList.this.log.log(1000000, "[SelectedRecipientList#itemSelected] row = %1, index = %2", (Object)evoListRow, (long)n2);
+            SelectedRecipientList.this.removeRecipient((RecipientListRow)evoListRow);
+        }
     }
 }
 

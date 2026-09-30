@@ -27,11 +27,10 @@ extends AbstractBAPModuleServiceManager {
         this.logChannel = abstractBAPModule.getLogChannel();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof BAPServiceEcallListener) {
-            this.logChannel.log(1078071040, "[ServiceManagerEcall#addingService] BAPServiceEcallListener found");
+            this.logChannel.log(1000000, "[ServiceManagerEcall#addingService] BAPServiceEcallListener found");
             ((AppConnectorEcall)this.module.getAppConnectors().get("AppBapEcall")).setAppServiceListener((BAPServiceListener)object);
             this.module.getInitializationManager().notifyAppServiceChanged(true);
             return object;
@@ -40,10 +39,9 @@ extends AbstractBAPModuleServiceManager {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof BAPServiceEcallListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerEcall#removedService] BAPServiceEcallListener removed");
+            this.logChannel.log(10000000, "[ServiceManagerEcall#removedService] BAPServiceEcallListener removed");
             ((AppConnectorEcall)this.module.getAppConnectors().get("AppBapEcall")).setAppServiceListener(null);
             this.bundleContext.ungetService(serviceReference);
         } else {
@@ -51,15 +49,13 @@ extends AbstractBAPModuleServiceManager {
         }
     }
 
-    @Override
     public void registerServices(AbstractActivator abstractActivator) {
-        this.logChannel.log(1078071040, "[ServiceManagerEcall#registerServices] activator: %1", (Object)abstractActivator);
+        this.logChannel.log(1000000, "[ServiceManagerEcall#registerServices] activator: %1", (Object)abstractActivator);
         abstractActivator.registerService((class$de$audi$atip$interapp$bap$ecall$BAPServiceEcall == null ? (class$de$audi$atip$interapp$bap$ecall$BAPServiceEcall = ServiceManagerEcall.class$("de.audi.atip.interapp.bap.ecall.BAPServiceEcall")) : class$de$audi$atip$interapp$bap$ecall$BAPServiceEcall).getName(), this.module.getAppConnectors().get("AppBapEcall"), null);
     }
 
-    @Override
     public void trackServices() {
-        this.logChannel.log(1078071040, "[ServiceManagerEcall#trackServices]");
+        this.logChannel.log(1000000, "[ServiceManagerEcall#trackServices]");
         String[] stringArray = new String[]{(class$de$audi$atip$interapp$bap$ecall$BAPServiceEcallListener == null ? (class$de$audi$atip$interapp$bap$ecall$BAPServiceEcallListener = ServiceManagerEcall.class$("de.audi.atip.interapp.bap.ecall.BAPServiceEcallListener")) : class$de$audi$atip$interapp$bap$ecall$BAPServiceEcallListener).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = ServiceManagerEcall.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName()};
         this.serviceTracker = new ServiceTracker(this.bundleContext, stringArray, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();

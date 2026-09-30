@@ -25,7 +25,6 @@ extends AbstractMessagingComponent {
         this.externalTaskDispatcher.start();
     }
 
-    @Override
     public void dispose() {
         super.dispose();
         this.commandListManager.destroy();

@@ -36,217 +36,151 @@ import org.osgi.framework.BundleContext;
 
 public interface IFrameworkAccess
 extends LogChannelFactory {
-    public static final int KOMBI_PROTOCOL_NONE;
-    public static final int KOMBI_PROTOCOL_DDP2;
-    public static final int KOMBI_PROTOCOL_BAP;
-    public static final int KOMBI_TYPE_NONE;
-    public static final int KOMBI_TYPE_NORMAL;
-    public static final int KOMBI_TYPE_TOP;
-    public static final int KOMBI_TYPE_FPK;
-    public static final int KOMBI_TYPE_MMI;
-    public static final int SCREEN_RES_400;
-    public static final int SCREEN_RES_800;
-    public static final int SCREEN_RES_1024;
-    public static final int SCREEN_RES_1280;
-    public static final int SCREEN_RES_1440;
-    public static final int SCREEN_RES_1680;
-    public static final int SCREEN_RES_1920;
-    public static final int SCREEN_RES_COUNT;
+    public static final int KOMBI_PROTOCOL_NONE = 0;
+    public static final int KOMBI_PROTOCOL_DDP2 = 1;
+    public static final int KOMBI_PROTOCOL_BAP = 2;
+    public static final int KOMBI_TYPE_NONE = 0;
+    public static final int KOMBI_TYPE_NORMAL = 1;
+    public static final int KOMBI_TYPE_TOP = 2;
+    public static final int KOMBI_TYPE_FPK = 3;
+    public static final int KOMBI_TYPE_MMI = 4;
+    public static final int SCREEN_RES_400 = 0;
+    public static final int SCREEN_RES_800 = 1;
+    public static final int SCREEN_RES_1024 = 2;
+    public static final int SCREEN_RES_1280 = 3;
+    public static final int SCREEN_RES_1440 = 4;
+    public static final int SCREEN_RES_1680 = 5;
+    public static final int SCREEN_RES_1920 = 6;
+    public static final int SCREEN_RES_COUNT = 7;
 
-    default public BundleContext getBundleCxt() {
-    }
+    public BundleContext getBundleCxt();
 
-    default public int getSysConst(int n) {
-    }
+    public int getSysConst(int var1);
 
-    @Override
-    default public LogChannel getLogChannel(String string) {
-    }
+    public LogChannel getLogChannel(String var1);
 
-    default public void activateTracingPreset(String string) {
-    }
+    public void activateTracingPreset(String var1);
 
-    default public boolean startDSIService(String string, int n) {
-    }
+    public boolean startDSIService(String var1, int var2);
 
-    default public void stopDSIService(String string, int n) {
-    }
+    public void stopDSIService(String var1, int var2);
 
-    default public IAppStateManager getAppStateMgr() {
-    }
+    public IAppStateManager getAppStateMgr();
 
-    default public IErrorManager getErrorMgr() {
-    }
+    public IErrorManager getErrorMgr();
 
-    default public LogServAdmin getLogChannelAdmin() {
-    }
+    public LogServAdmin getLogChannelAdmin();
 
-    default public MsgDistributor getMsgDistrib() {
-    }
+    public MsgDistributor getMsgDistrib();
 
-    default public IStorageAccess getStorageMgr() {
-    }
+    public IStorageAccess getStorageMgr();
 
-    default public IPowerManager getPowerMgr() {
-    }
+    public IPowerManager getPowerMgr();
 
-    default public IStartupManager getStartupMgr() {
-    }
+    public IStartupManager getStartupMgr();
 
-    default public ILastmodeHandler getLastmodeHandler() {
-    }
+    public ILastmodeHandler getLastmodeHandler();
 
-    default public SMInterpreter getSMInterpreter() {
-    }
+    public SMInterpreter getSMInterpreter();
 
-    default public HMIService getHMIService() {
-    }
+    public HMIService getHMIService();
 
-    default public IHMIServiceApp getHmiServiceApp() {
-    }
+    public IHMIServiceApp getHmiServiceApp();
 
-    default public ILanguageManager getLanguageMgr() {
-    }
+    public ILanguageManager getLanguageMgr();
 
-    default public InfotainmentRecorder getInfotainmentrecorder() {
-    }
+    public InfotainmentRecorder getInfotainmentrecorder();
 
-    default public IProgressMonitor getNavProgressMonitor() {
-    }
+    public IProgressMonitor getNavProgressMonitor();
 
-    default public IProgressMonitor createProgressMonitor(String string, LogChannel logChannel, ChoiceModelApp choiceModelApp, LabelModelApp labelModelApp, ProgressMap progressMap, long l) {
-    }
+    public IProgressMonitor createProgressMonitor(String var1, LogChannel var2, ChoiceModelApp var3, LabelModelApp var4, ProgressMap var5, long var6);
 
-    default public boolean isFrontMU() {
-    }
+    public boolean isFrontMU();
 
-    default public boolean isDualView() {
-    }
+    public boolean isDualView();
 
-    default public boolean isTarget() {
-    }
+    public boolean isTarget();
 
-    default public boolean isSimulator() {
-    }
+    public boolean isSimulator();
 
-    default public boolean isPBuild() {
-    }
+    public boolean isPBuild();
 
-    default public boolean isEu() {
-    }
+    public boolean isEu();
 
-    default public boolean isKorea() {
-    }
+    public boolean isKorea();
 
-    default public boolean isJp() {
-    }
+    public boolean isJp();
 
-    default public boolean isCn() {
-    }
+    public boolean isCn();
 
-    default public boolean isTaiwan() {
-    }
+    public boolean isTaiwan();
 
-    default public boolean isRdw() {
-    }
+    public boolean isRdw();
 
-    default public boolean isAsia() {
-    }
+    public boolean isAsia();
 
-    default public boolean isNar() {
-    }
+    public boolean isNar();
 
-    default public boolean isEvoHigh() {
-    }
+    public boolean isEvoHigh();
 
-    default public boolean isEvoHighMMIKombi() {
-    }
+    public boolean isEvoHighMMIKombi();
 
-    default public boolean isEvoStd() {
-    }
+    public boolean isEvoStd();
 
-    default public boolean isPorscheHigh() {
-    }
+    public boolean isPorscheHigh();
 
-    default public boolean isPorscheStd() {
-    }
+    public boolean isPorscheStd();
 
-    default public boolean isBentley() {
-    }
+    public boolean isBentley();
 
-    default public boolean isPorsche() {
-    }
+    public boolean isPorsche();
 
-    default public boolean isPGen2() {
-    }
+    public boolean isPGen2();
 
-    default public boolean isAppSwdlStarted() {
-    }
+    public boolean isAppSwdlStarted();
 
-    default public IVersionInfo getVersionInfo() {
-    }
+    public IVersionInfo getVersionInfo();
 
-    default public IHMITerminalRegistry getHMITerminalRegistry() {
-    }
+    public IHMITerminalRegistry getHMITerminalRegistry();
 
-    default public ISysApp getSysApp() {
-    }
+    public ISysApp getSysApp();
 
-    default public ThreadPool getHMIThreadPool() {
-    }
+    public ThreadPool getHMIThreadPool();
 
-    default public ThreadPool getUtilThreadPool() {
-    }
+    public ThreadPool getUtilThreadPool();
 
-    default public IDispatcherManager getDispatcherManager() {
-    }
+    public IDispatcherManager getDispatcherManager();
 
-    default public long getMonotonicTime() {
-    }
+    public long getMonotonicTime();
 
-    default public ITimeSource getMonotonicTimeSource() {
-    }
+    public ITimeSource getMonotonicTimeSource();
 
-    default public long getKombiTime() {
-    }
+    public long getKombiTime();
 
-    default public long getUTCTime() {
-    }
+    public long getUTCTime();
 
-    default public long convertLocalTimeToUTCTime(long l) {
-    }
+    public long convertLocalTimeToUTCTime(long var1);
 
-    default public long convertUTCTimeToLocalTime(long l) {
-    }
+    public long convertUTCTimeToLocalTime(long var1);
 
-    default public long getCurrentTimezoneOffsetMilliseconds() {
-    }
+    public long getCurrentTimezoneOffsetMilliseconds();
 
-    default public int getKombiProtocol() {
-    }
+    public int getKombiProtocol();
 
-    default public int getKombiType() {
-    }
+    public int getKombiType();
 
-    default public int getScreenRes() {
-    }
+    public int getScreenRes();
 
-    default public CacheHandler getCacheHandler() {
-    }
+    public CacheHandler getCacheHandler();
 
-    default public ISysConstManager getSysConstManager() {
-    }
+    public ISysConstManager getSysConstManager();
 
-    default public IOnlineLogoProvider getOnlineLogoProvider() {
-    }
+    public IOnlineLogoProvider getOnlineLogoProvider();
 
-    default public boolean isSDISEnabled() {
-    }
+    public boolean isSDISEnabled();
 
-    default public boolean isShowDDP2Combi() {
-    }
+    public boolean isShowDDP2Combi();
 
-    default public IWaitSyncer getWaitSyncer(String string, long l, LogChannel logChannel) {
-    }
+    public IWaitSyncer getWaitSyncer(String var1, long var2, LogChannel var4);
 }
 

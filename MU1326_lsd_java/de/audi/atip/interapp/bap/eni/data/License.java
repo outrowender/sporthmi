@@ -3,8 +3,6 @@
  */
 package de.audi.atip.interapp.bap.eni.data;
 
-import de.audi.atip.interapp.bap.eni.data.License$Builder;
-
 public final class License {
     private final String id;
     private final int state;
@@ -12,8 +10,8 @@ public final class License {
     private final String expirationDate;
     private final String validityDuration;
 
-    public static License$Builder builder() {
-        return new License$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private License(String string, int n, String string2, String string3, String string4) {
@@ -61,7 +59,7 @@ public final class License {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         License license = (License)object;
@@ -82,6 +80,56 @@ public final class License {
 
     public String toString() {
         return new StringBuffer().append("License [id=").append(this.id).append(", state=").append(this.state).append(", activationDate=").append(this.activationDate).append(", expirationDate=").append(this.expirationDate).append(", validityDuration=").append(this.validityDuration).append("]").toString();
+    }
+
+    public static final class State {
+        public static final int NOT_LICENSED = 0;
+        public static final int NOT_ACTIVATED = 1;
+        public static final int ACTIVATED = 2;
+        public static final int EXPIRED = 3;
+        public static final int TEMPORARY_OFFER = 4;
+        public static final int LICENSE_ERROR = 5;
+
+        private State() {
+            throw new AssertionError((Object)"License.State is not intended to be instantiated.");
+        }
+    }
+
+    public static final class Builder {
+        private String id;
+        private int state;
+        private String activationDate;
+        private String expirationDate;
+        private String validityDuration;
+
+        public Builder setId(String string) {
+            this.id = string;
+            return this;
+        }
+
+        public Builder setState(int n) {
+            this.state = n;
+            return this;
+        }
+
+        public Builder setActivationDate(String string) {
+            this.activationDate = string;
+            return this;
+        }
+
+        public Builder setExpirationDate(String string) {
+            this.expirationDate = string;
+            return this;
+        }
+
+        public Builder setValidityDuration(String string) {
+            this.validityDuration = string;
+            return this;
+        }
+
+        public License build() {
+            return new License(this.id, this.state, this.activationDate, this.expirationDate, this.validityDuration);
+        }
     }
 }
 

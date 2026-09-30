@@ -29,397 +29,266 @@ import org.dsi.ifc.telephoneng.ServiceProvider;
 import org.dsi.ifc.telephoneng.SuppServiceResponseStruct;
 
 public interface IGlobalTelephoneStateStruct {
-    default public ActivationStateStruct getActivationState() {
-    }
+    public ActivationStateStruct getActivationState();
 
-    default public ActivationStateStruct getActivationStateAssociated() {
-    }
+    public ActivationStateStruct getActivationStateAssociated();
 
-    default public int getTelMode() {
-    }
+    public int getTelMode();
 
-    default public boolean isAutomaticPinEntryActive() {
-    }
+    public boolean isAutomaticPinEntryActive();
 
-    default public boolean isAutomaticRedialActive() {
-    }
+    public boolean isAutomaticRedialActive();
 
-    default public int getBatteryChargeLevel() {
-    }
+    public int getBatteryChargeLevel();
 
-    default public int getBatteryChargeLevelAssociated() {
-    }
+    public int getBatteryChargeLevelAssociated();
 
-    default public boolean isMailboxNumberAvailable() {
-    }
+    public boolean isMailboxNumberAvailable();
 
-    default public boolean isMultipartySupported() {
-    }
+    public boolean isMultipartySupported();
 
-    default public CallDuration[] getCallDurationList() {
-    }
+    public CallDuration[] getCallDurationList();
 
-    default public CallInformation[] getCallList() {
-    }
+    public CallInformation[] getCallList();
 
-    default public CallInformation getCall(int n) {
-    }
+    public CallInformation getCall(int var1);
 
-    default public boolean isCdmaThreeWayCallingSetting() {
-    }
+    public boolean isCdmaThreeWayCallingSetting();
 
-    default public int getCradlePlugInState() {
-    }
+    public int getCradlePlugInState();
 
-    default public DisconnectReason getDisconnectReason() {
-    }
+    public DisconnectReason getDisconnectReason();
 
-    default public String getDtmfTone() {
-    }
+    public String getDtmfTone();
 
-    default public EmergencyCallSetting getEmergencyCallActive() {
-    }
+    public EmergencyCallSetting getEmergencyCallActive();
 
-    default public boolean isEnhancedPrivacyMode() {
-    }
+    public boolean isEnhancedPrivacyMode();
 
-    default public int getHandsFreeMode() {
-    }
+    public int getHandsFreeMode();
 
-    default public LockStateStruct getLockState() {
-    }
+    public LockStateStruct getLockState();
 
-    default public LockStateStruct getLockStateAssociated() {
-    }
+    public LockStateStruct getLockStateAssociated();
 
-    default public MailboxDialingNumber[] getMailboxContent() {
-    }
+    public MailboxDialingNumber[] getMailboxContent();
 
-    default public int getMicGainLevel() {
-    }
+    public int getMicGainLevel();
 
-    default public int getmICMuteState() {
-    }
+    public int getmICMuteState();
 
-    default public int getNadMode() {
-    }
+    public int getNadMode();
 
-    default public NADTemperatureStruct getnADTemperature() {
-    }
+    public NADTemperatureStruct getnADTemperature();
 
-    default public NetworkProviderName getNetworkProvider() {
-    }
+    public NetworkProviderName getNetworkProvider();
 
-    default public int getNetworkType() {
-    }
+    public int getNetworkType();
 
-    default public int getOptimizationMode() {
-    }
+    public int getOptimizationMode();
 
-    default public boolean isOtherSIMAvailable() {
-    }
+    public boolean isOtherSIMAvailable();
 
-    default public PhoneInformation getPhoneInformation() {
-    }
+    public PhoneInformation getPhoneInformation();
 
-    default public PhoneInformation getPhoneInformationAssociated() {
-    }
+    public PhoneInformation getPhoneInformationAssociated();
 
-    default public boolean isPrivacyMode() {
-    }
+    public boolean isPrivacyMode();
 
-    default public RegisterStateStruct getRegisterState() {
-    }
+    public RegisterStateStruct getRegisterState();
 
-    default public ServiceCodeTypeStruct getServiceCodeType() {
-    }
+    public ServiceCodeTypeStruct getServiceCodeType();
 
-    default public ServiceNumbers getServiceNumbers() {
-    }
+    public ServiceNumbers getServiceNumbers();
 
-    default public ServiceProvider getServiceProvider() {
-    }
+    public ServiceProvider getServiceProvider();
 
-    default public int getSignalQuality() {
-    }
+    public int getSignalQuality();
 
-    default public SIMAliasInformation getSimAliasInformation() {
-    }
+    public SIMAliasInformation getSimAliasInformation();
 
-    default public boolean isSimPINRequired() {
-    }
+    public boolean isSimPINRequired();
 
-    default public SuppServiceResponseStruct getSuppServiceResponse() {
-    }
+    public SuppServiceResponseStruct getSuppServiceResponse();
 
-    default public EmergencyNumbers getTelEmerNums() {
-    }
+    public EmergencyNumbers getTelEmerNums();
 
-    default public int getMpCallState() {
-    }
+    public int getMpCallState();
 
-    default public CallStateStruct getCallState() {
-    }
+    public CallStateStruct getCallState();
 
-    default public CallStateStruct getCallStateAssociated() {
-    }
+    public CallStateStruct getCallStateAssociated();
 
-    default public CallStateStruct getCallStateData() {
-    }
+    public CallStateStruct getCallStateData();
 
-    default public CallStateStruct getCallStateForRole(int n) {
-    }
+    public CallStateStruct getCallStateForRole(int var1);
 
-    default public boolean inbandRingingSupported() {
-    }
+    public boolean inbandRingingSupported();
 
-    default public boolean isRejectCallSupported() {
-    }
+    public boolean isRejectCallSupported();
 
-    default public boolean isRejectMobileSupported() {
-    }
+    public boolean isRejectMobileSupported();
 
-    default public boolean isResponseAndHoldSupported() {
-    }
+    public boolean isResponseAndHoldSupported();
 
-    default public boolean isThreeWaySupported() {
-    }
+    public boolean isThreeWaySupported();
 
-    default public boolean isEnhancedCallFeaturesSupported() {
-    }
+    public boolean isEnhancedCallFeaturesSupported();
 
-    default public boolean isEnhancedStatSupported() {
-    }
+    public boolean isEnhancedStatSupported();
 
-    default public boolean isAddToConferenceSupported() {
-    }
+    public boolean isAddToConferenceSupported();
 
-    default public boolean isEnhancedConferenceTransferSupported() {
-    }
+    public boolean isEnhancedConferenceTransferSupported();
 
-    default public boolean isAudiServiceAvailable() {
-    }
+    public boolean isAudiServiceAvailable();
 
-    default public CallStackEntry getLastDialedNumber() {
-    }
+    public CallStackEntry getLastDialedNumber();
 
-    default public boolean isCallStackReverted() {
-    }
+    public boolean isCallStackReverted();
 
-    default public CallStackEntry[] getLastAnsweredNumbers() {
-    }
+    public CallStackEntry[] getLastAnsweredNumbers();
 
-    default public CallStackEntry[] getLastDialedNumbers() {
-    }
+    public CallStackEntry[] getLastDialedNumbers();
 
-    default public CallStackEntry[] getMissedNumbers() {
-    }
+    public CallStackEntry[] getMissedNumbers();
 
-    default public CallStackEntry[] getCombinedCallStackEntries() {
-    }
+    public CallStackEntry[] getCombinedCallStackEntries();
 
-    default public MissedCallIndicator getMissedCallIndicator() {
-    }
+    public MissedCallIndicator getMissedCallIndicator();
 
-    default public int getmEDataValidity() {
-    }
+    public int getmEDataValidity();
 
-    default public ActivationStateStruct getActivationStateDSINAD() {
-    }
+    public ActivationStateStruct getActivationStateDSINAD();
 
-    default public boolean isAutomaticPinEntryActiveDSINAD() {
-    }
+    public boolean isAutomaticPinEntryActiveDSINAD();
 
-    default public LockStateStruct getLockStateDSINAD() {
-    }
+    public LockStateStruct getLockStateDSINAD();
 
-    default public NADTemperatureStruct getnADTemperatureDSINAD() {
-    }
+    public NADTemperatureStruct getnADTemperatureDSINAD();
 
-    default public PhoneInformation getPhoneInformationDSINAD() {
-    }
+    public PhoneInformation getPhoneInformationDSINAD();
 
-    default public NetworkProviderName getNetworkProviderDSINAD() {
-    }
+    public NetworkProviderName getNetworkProviderDSINAD();
 
-    default public int getNetworkTypeDSINAD() {
-    }
+    public int getNetworkTypeDSINAD();
 
-    default public RegisterStateStruct getRegisterStateDSINAD() {
-    }
+    public RegisterStateStruct getRegisterStateDSINAD();
 
-    default public int getSignalQualityDSINAD() {
-    }
+    public int getSignalQualityDSINAD();
 
-    default public ServiceProvider getServiceProviderdDSINAD() {
-    }
+    public ServiceProvider getServiceProviderdDSINAD();
 
-    default public boolean isSimPINRequiredDSINAD() {
-    }
+    public boolean isSimPINRequiredDSINAD();
 
-    default public int getPhoneModuleState() {
-    }
+    public int getPhoneModuleState();
 
-    default public String getDisplayProviderName() {
-    }
+    public String getDisplayProviderName();
 
-    default public String getDisplayProviderNameAssociated() {
-    }
+    public String getDisplayProviderNameAssociated();
 
-    default public boolean isEmergencyNumber(String string) {
-    }
+    public boolean isEmergencyNumber(String var1);
 
-    default public boolean isMailboxNumber(String string) {
-    }
+    public boolean isMailboxNumber(String var1);
 
-    default public boolean isInfoNumber(String string) {
-    }
+    public boolean isInfoNumber(String var1);
 
-    default public boolean isBreakdownNumber(String string) {
-    }
+    public boolean isBreakdownNumber(String var1);
 
-    default public String getMailboxNumber() {
-    }
+    public String getMailboxNumber();
 
-    default public boolean isPhoneReady() {
-    }
+    public boolean isPhoneReady();
 
-    default public boolean hasMissedCalls() {
-    }
+    public boolean hasMissedCalls();
 
-    default public boolean isDialingPossible() {
-    }
+    public boolean isDialingPossible();
 
-    default public boolean isDialNumberPossible(String string) {
-    }
+    public boolean isDialNumberPossible(String var1);
 
-    default public boolean isDialSOSNumberPossible(String string) {
-    }
+    public boolean isDialSOSNumberPossible(String var1);
 
-    default public boolean isWidebandSpeechActive() {
-    }
+    public boolean isWidebandSpeechActive();
 
-    default public String getRingtonePath() {
-    }
+    public String getRingtonePath();
 
-    default public int getRingtoneIndex() {
-    }
+    public int getRingtoneIndex();
 
-    default public String getDisplayNetworkName() {
-    }
+    public String getDisplayNetworkName();
 
-    default public boolean isNewSMSAvailable() {
-    }
+    public boolean isNewSMSAvailable();
 
-    default public String getDisplayName(String string, String string2) {
-    }
+    public String getDisplayName(String var1, String var2);
 
-    default public String getDisplayNumber(String string, String string2) {
-    }
+    public String getDisplayNumber(String var1, String var2);
 
-    default public boolean isSapUpgradeActive() {
-    }
+    public boolean isSapUpgradeActive();
 
-    default public boolean isRingtoneMuteActive() {
-    }
+    public boolean isRingtoneMuteActive();
 
-    default public boolean isRingtoneMuteSettingOn() {
-    }
+    public boolean isRingtoneMuteSettingOn();
 
-    default public String getDisplayNetworkNameDSINAD() {
-    }
+    public String getDisplayNetworkNameDSINAD();
 
-    default public String getDisplayNumber(AbstractPhoneCall abstractPhoneCall) {
-    }
+    public String getDisplayNumber(AbstractPhoneCall var1);
 
-    default public String getDisplayName(AbstractPhoneCall abstractPhoneCall) {
-    }
+    public String getDisplayName(AbstractPhoneCall var1);
 
-    default public int getTelModeDSINAD() {
-    }
+    public int getTelModeDSINAD();
 
-    default public boolean isNewEMailAvailable() {
-    }
+    public boolean isNewEMailAvailable();
 
-    default public String getDisplayProviderNameDSINAD() {
-    }
+    public String getDisplayProviderNameDSINAD();
 
-    default public boolean isBreakdownCallSupported() {
-    }
+    public boolean isBreakdownCallSupported();
 
-    default public boolean isInfoCallSupported() {
-    }
+    public boolean isInfoCallSupported();
 
-    default public boolean isEmergencyNumberAvailable() {
-    }
+    public boolean isEmergencyNumberAvailable();
 
-    default public String getDisplayProviderNameForDataConnection() {
-    }
+    public String getDisplayProviderNameForDataConnection();
 
-    default public boolean isESIMB2BModeActive() {
-    }
+    public boolean isESIMB2BModeActive();
 
-    default public boolean isESIMActive() {
-    }
+    public boolean isESIMActive();
 
-    default public String getESIMMSISDN() {
-    }
+    public String getESIMMSISDN();
 
-    default public String getEUICCID() {
-    }
+    public String getEUICCID();
 
-    default public IEcallState getConnectedGatewayState() {
-    }
+    public IEcallState getConnectedGatewayState();
 
-    default public ITelDSIMobileEquipmentDeviceState getDataOnlyNadDeviceState() {
-    }
+    public ITelDSIMobileEquipmentDeviceState getDataOnlyNadDeviceState();
 
-    default public ITelDSIMobileEquipmentDeviceState getNadInstanceState() {
-    }
+    public ITelDSIMobileEquipmentDeviceState getNadInstanceState();
 
-    default public ITelDSIMobileEquipmentDeviceState getAssociatedDeviceState() {
-    }
+    public ITelDSIMobileEquipmentDeviceState getAssociatedDeviceState();
 
-    default public ITelDSIMobileEquipmentDeviceState getPrimaryDeviceState() {
-    }
+    public ITelDSIMobileEquipmentDeviceState getPrimaryDeviceState();
 
-    default public int getHandsFreeModeAssociated() {
-    }
+    public int getHandsFreeModeAssociated();
 
-    default public int getTelModeAssociated() {
-    }
+    public int getTelModeAssociated();
 
-    default public int getmICMuteStateAssociated() {
-    }
+    public int getmICMuteStateAssociated();
 
-    default public boolean inbandRingingSupportedAssociated() {
-    }
+    public boolean inbandRingingSupportedAssociated();
 
-    default public boolean isWidebandSpeechActiveAssociated() {
-    }
+    public boolean isWidebandSpeechActiveAssociated();
 
-    default public ITelDSIMobileEquipmentDeviceState getCallLeadingDevice() {
-    }
+    public ITelDSIMobileEquipmentDeviceState getCallLeadingDevice();
 
-    default public ITelDSIMobileEquipmentDeviceState getNonCallLeadingDevice() {
-    }
+    public ITelDSIMobileEquipmentDeviceState getNonCallLeadingDevice();
 
-    default public boolean isAutomaticPinEntryActiveAssoicated() {
-    }
+    public boolean isAutomaticPinEntryActiveAssoicated();
 
-    default public boolean isOperatorCallViaNadPresent() {
-    }
+    public boolean isOperatorCallViaNadPresent();
 
-    default public boolean isAcceptIncomingCallOnNonCallLeadingDevicePending() {
-    }
+    public boolean isAcceptIncomingCallOnNonCallLeadingDevicePending();
 
-    default public ITelTopology getTopology() {
-    }
+    public ITelTopology getTopology();
 
-    default public boolean isSimCardInserted() {
-    }
+    public boolean isSimCardInserted();
 
-    default public boolean isChinaSOSEmergencyNumber(String string) {
-    }
+    public boolean isChinaSOSEmergencyNumber(String var1);
 }
 

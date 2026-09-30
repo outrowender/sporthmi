@@ -3,16 +3,10 @@
  */
 package de.audi.app.media.evo.content.data.search.dsi;
 
+import de.audi.app.media.AbstractDispatcherRunnable;
 import de.audi.app.media.dsi.AbstractDSIController;
 import de.audi.app.media.evo.content.data.search.dsi.IMediaDSISearchDataController;
 import de.audi.app.media.evo.content.data.search.dsi.IMediaSearchDataProviderListener;
-import de.audi.app.media.evo.content.data.search.dsi.MediaDSISearchDataProviderController$1;
-import de.audi.app.media.evo.content.data.search.dsi.MediaDSISearchDataProviderController$2;
-import de.audi.app.media.evo.content.data.search.dsi.MediaDSISearchDataProviderController$3;
-import de.audi.app.media.evo.content.data.search.dsi.MediaDSISearchDataProviderController$4;
-import de.audi.app.media.evo.content.data.search.dsi.MediaDSISearchDataProviderController$5;
-import de.audi.app.media.evo.content.data.search.dsi.MediaDSISearchDataProviderController$6;
-import de.audi.app.media.evo.content.data.search.dsi.MediaDSISearchDataProviderController$7;
 import de.audi.app.media.evo.content.data.search.dsi.NullDSISearchDataProvider;
 import de.audi.app.media.evo.content.data.search.dsi.NullMediaSearchDataProviderListener;
 import de.audi.app.media.osgi.IServiceManager;
@@ -29,7 +23,7 @@ public class MediaDSISearchDataProviderController
 extends AbstractDSIController
 implements IMediaDSISearchDataController,
 DSISearchDataProviderListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaDSISearchDataProviderController";
     private volatile IMediaSearchDataProviderListener mediaSearchDataProviderListener;
     private volatile DSISearchDataProvider dsiSearchDataProvider;
     private final DSISearchDataProvider nullDsiSearchDataProvider = new NullDSISearchDataProvider();
@@ -45,7 +39,6 @@ DSISearchDataProviderListener {
         this.dispatcher = dispatcherBase;
     }
 
-    @Override
     public void setMediaSearchDataProviderListener(IMediaSearchDataProviderListener iMediaSearchDataProviderListener) {
         if (null == iMediaSearchDataProviderListener) {
             this.mediaSearchDataProviderListener = this.nullMediaSearchDataProviderListener;
@@ -72,136 +65,161 @@ DSISearchDataProviderListener {
     public void clearNotification(DSIListener dSIListener) {
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
-        this.logger.log(1078071040, "[%1.asyncException]", (Object)"MediaDSISearchDataProviderController");
-        IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
-        this.dispatcher.execute(new MediaDSISearchDataProviderController$1(this, "searchDataProviderListener.asnycException", iMediaSearchDataProviderListener, n, string, n2));
+    public void asyncException(final int n, final String string, final int n2) {
+        this.logger.log(1000000, "[%1.asyncException]", (Object)LOGCLASS);
+        final IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
+        this.dispatcher.execute(new AbstractDispatcherRunnable("searchDataProviderListener.asnycException"){
+
+            public void run() {
+                try {
+                    iMediaSearchDataProviderListener.asyncException(n, string, n2);
+                }
+                catch (Exception exception) {
+                    MediaDSISearchDataProviderController.this.logger.log(10000, "[%1.asyncException]", (Object)MediaDSISearchDataProviderController.LOGCLASS, (Throwable)exception);
+                }
+            }
+        });
     }
 
-    @Override
-    public void registerProviderSourceResult(int n, int n2) {
-        this.logger.log(1078071040, "[%1.registerProviderSourceResult]", (Object)"MediaDSISearchDataProviderController");
-        IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
-        this.dispatcher.execute(new MediaDSISearchDataProviderController$2(this, "searchDataProviderListener.registerProviderSourceResult", iMediaSearchDataProviderListener, n, n2));
+    public void registerProviderSourceResult(final int n, final int n2) {
+        this.logger.log(1000000, "[%1.registerProviderSourceResult]", (Object)LOGCLASS);
+        final IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
+        this.dispatcher.execute(new AbstractDispatcherRunnable("searchDataProviderListener.registerProviderSourceResult"){
+
+            public void run() {
+                try {
+                    iMediaSearchDataProviderListener.registerProviderSourceResult(n == 0, n2);
+                }
+                catch (Exception exception) {
+                    MediaDSISearchDataProviderController.this.logger.log(10000, "[%1.registerProviderSourceResult]", (Object)MediaDSISearchDataProviderController.LOGCLASS, (Throwable)exception);
+                }
+            }
+        });
     }
 
-    @Override
-    public void activateProviderSource(int n) {
-        this.logger.log(1078071040, "[%1.activateProviderSource]", (Object)"MediaDSISearchDataProviderController");
-        IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
-        this.dispatcher.execute(new MediaDSISearchDataProviderController$3(this, "searchDataProviderListener.activateProviderSource", iMediaSearchDataProviderListener, n));
+    public void activateProviderSource(final int n) {
+        this.logger.log(1000000, "[%1.activateProviderSource]", (Object)LOGCLASS);
+        final IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
+        this.dispatcher.execute(new AbstractDispatcherRunnable("searchDataProviderListener.activateProviderSource"){
+
+            public void run() {
+                try {
+                    iMediaSearchDataProviderListener.activateProviderSource(n);
+                }
+                catch (Exception exception) {
+                    MediaDSISearchDataProviderController.this.logger.log(10000, "[%1.activateProviderSource]", (Object)MediaDSISearchDataProviderController.LOGCLASS, (Throwable)exception);
+                }
+            }
+        });
     }
 
-    @Override
-    public void invalidateAllDataResult(int n, int n2) {
-        this.logger.log(1078071040, "[%1.invalidateAllDataResult] %2", (Object)"MediaDSISearchDataProviderController", (Object)this.mediaSearchDataProviderListener);
-        IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
-        this.dispatcher.execute(new MediaDSISearchDataProviderController$4(this, "searchDataProviderListener.invalidateAllDataResult", iMediaSearchDataProviderListener, n, n2));
+    public void invalidateAllDataResult(final int n, final int n2) {
+        this.logger.log(1000000, "[%1.invalidateAllDataResult] %2", (Object)LOGCLASS, (Object)this.mediaSearchDataProviderListener);
+        final IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
+        this.dispatcher.execute(new AbstractDispatcherRunnable("searchDataProviderListener.invalidateAllDataResult"){
+
+            public void run() {
+                try {
+                    iMediaSearchDataProviderListener.invalidateAllDataResult(n == 0, n2);
+                }
+                catch (Exception exception) {
+                    MediaDSISearchDataProviderController.this.logger.log(10000, "[%1.invalidateAllDataResult]", (Object)MediaDSISearchDataProviderController.LOGCLASS, (Throwable)exception);
+                }
+            }
+        });
     }
 
-    @Override
-    public void provideData(int n, int n2, int n3) {
-        this.logger.log(1078071040, "[%1.provideData]", (Object)"MediaDSISearchDataProviderController");
-        IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
-        this.dispatcher.execute(new MediaDSISearchDataProviderController$5(this, "searchDataProviderListener.provideData", iMediaSearchDataProviderListener, n, n2, n3));
+    public void provideData(final int n, final int n2, final int n3) {
+        this.logger.log(1000000, "[%1.provideData]", (Object)LOGCLASS);
+        final IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
+        this.dispatcher.execute(new AbstractDispatcherRunnable("searchDataProviderListener.provideData"){
+
+            public void run() {
+                try {
+                    iMediaSearchDataProviderListener.provideData(n, n2, n3);
+                }
+                catch (Exception exception) {
+                    MediaDSISearchDataProviderController.this.logger.log(10000, "[%1.provideData]", (Object)MediaDSISearchDataProviderController.LOGCLASS, (Throwable)exception);
+                }
+            }
+        });
     }
 
-    @Override
-    public void storeDataSetsResult(int n, int n2) {
-        this.logger.log(1078071040, "[%1.storeDataSetsResult]", (Object)"MediaDSISearchDataProviderController");
-        IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
-        this.dispatcher.execute(new MediaDSISearchDataProviderController$6(this, "searchDataProviderListener.storeDataSetsResult", iMediaSearchDataProviderListener, n, n2));
+    public void storeDataSetsResult(final int n, final int n2) {
+        this.logger.log(1000000, "[%1.storeDataSetsResult]", (Object)LOGCLASS);
+        final IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
+        this.dispatcher.execute(new AbstractDispatcherRunnable("searchDataProviderListener.storeDataSetsResult"){
+
+            public void run() {
+                try {
+                    iMediaSearchDataProviderListener.storeDataSetsResult(n == 0, n2);
+                }
+                catch (Exception exception) {
+                    MediaDSISearchDataProviderController.this.logger.log(10000, "[%1.storeDataSetsResult]", (Object)MediaDSISearchDataProviderController.LOGCLASS, (Throwable)exception);
+                }
+            }
+        });
     }
 
-    @Override
-    public void deleteDataSetResult(int n, int n2, long l) {
-        this.logger.log(1078071040, "[%1.deleteDataSetResult]", (Object)"MediaDSISearchDataProviderController");
-        IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
-        this.dispatcher.execute(new MediaDSISearchDataProviderController$7(this, "searchDataProviderListener.deleteDataSetResult", iMediaSearchDataProviderListener, n, n2, l));
+    public void deleteDataSetResult(final int n, final int n2, final long l) {
+        this.logger.log(1000000, "[%1.deleteDataSetResult]", (Object)LOGCLASS);
+        final IMediaSearchDataProviderListener iMediaSearchDataProviderListener = this.mediaSearchDataProviderListener;
+        this.dispatcher.execute(new AbstractDispatcherRunnable("searchDataProviderListener.deleteDataSetResult"){
+
+            public void run() {
+                try {
+                    iMediaSearchDataProviderListener.deleteDataSetResult(n == 0, n2, l);
+                }
+                catch (Exception exception) {
+                    MediaDSISearchDataProviderController.this.logger.log(10000, "[%1.deleteDataSetResult]", (Object)MediaDSISearchDataProviderController.LOGCLASS, (Throwable)exception);
+                }
+            }
+        });
     }
 
-    @Override
     public void registerProviderSource(int n) {
-        this.logger.log(1078071040, "[%1.registerProviderSource]", (Object)"MediaDSISearchDataProviderController");
+        this.logger.log(1000000, "[%1.registerProviderSource]", (Object)LOGCLASS);
         this.dsiSearchDataProvider.registerProviderSource(n);
     }
 
-    @Override
     public void sourceDataAvailabilityChanged(int n, boolean bl) {
-        this.logger.log(1078071040, "[%1.sourceDataAvailabilityChanged]", (Object)"MediaDSISearchDataProviderController");
+        this.logger.log(1000000, "[%1.sourceDataAvailabilityChanged]", (Object)LOGCLASS);
         this.dsiSearchDataProvider.sourceDataAvailabilityChanged(n, bl);
     }
 
-    @Override
     public void invalidateAllData(int n) {
-        this.logger.log(1078071040, "[%1.invalidateAllData]", (Object)"MediaDSISearchDataProviderController");
+        this.logger.log(1000000, "[%1.invalidateAllData]", (Object)LOGCLASS);
         this.dsiSearchDataProvider.invalidateAllData(n);
     }
 
-    @Override
     public void storeDataSets(int n, DataSet[] dataSetArray, int n2) {
-        this.logger.log(1078071040, "[%1.storeDataSets]", (Object)"MediaDSISearchDataProviderController");
+        this.logger.log(1000000, "[%1.storeDataSets]", (Object)LOGCLASS);
         this.dsiSearchDataProvider.storeDataSets(n, dataSetArray, n2);
     }
 
-    @Override
     public void deleteDataSet(int n, long l) {
-        this.logger.log(1078071040, "[%1.deleteDataSet]", (Object)"MediaDSISearchDataProviderController");
+        this.logger.log(1000000, "[%1.deleteDataSet]", (Object)LOGCLASS);
         this.dsiSearchDataProvider.deleteDataSet(n, l);
     }
 
-    @Override
     protected Class getDSIServiceClass() {
         return class$org$dsi$ifc$search$DSISearchDataProvider == null ? (class$org$dsi$ifc$search$DSISearchDataProvider = MediaDSISearchDataProviderController.class$("org.dsi.ifc.search.DSISearchDataProvider")) : class$org$dsi$ifc$search$DSISearchDataProvider;
     }
 
-    @Override
     protected DSIListener getDSIListener() {
         return this;
     }
 
-    @Override
     protected Class getDSIListenerClass() {
         return class$org$dsi$ifc$search$DSISearchDataProviderListener == null ? (class$org$dsi$ifc$search$DSISearchDataProviderListener = MediaDSISearchDataProviderController.class$("org.dsi.ifc.search.DSISearchDataProviderListener")) : class$org$dsi$ifc$search$DSISearchDataProviderListener;
     }
 
-    @Override
     protected void addDSIService(DSIBase dSIBase) {
         this.dsiSearchDataProvider = (DSISearchDataProvider)dSIBase;
     }
 
-    @Override
     protected void removeDSIService() {
         this.dsiSearchDataProvider = this.nullDsiSearchDataProvider;
-    }
-
-    static /* synthetic */ LogChannel access$000(MediaDSISearchDataProviderController mediaDSISearchDataProviderController) {
-        return mediaDSISearchDataProviderController.logger;
-    }
-
-    static /* synthetic */ LogChannel access$100(MediaDSISearchDataProviderController mediaDSISearchDataProviderController) {
-        return mediaDSISearchDataProviderController.logger;
-    }
-
-    static /* synthetic */ LogChannel access$200(MediaDSISearchDataProviderController mediaDSISearchDataProviderController) {
-        return mediaDSISearchDataProviderController.logger;
-    }
-
-    static /* synthetic */ LogChannel access$300(MediaDSISearchDataProviderController mediaDSISearchDataProviderController) {
-        return mediaDSISearchDataProviderController.logger;
-    }
-
-    static /* synthetic */ LogChannel access$400(MediaDSISearchDataProviderController mediaDSISearchDataProviderController) {
-        return mediaDSISearchDataProviderController.logger;
-    }
-
-    static /* synthetic */ LogChannel access$500(MediaDSISearchDataProviderController mediaDSISearchDataProviderController) {
-        return mediaDSISearchDataProviderController.logger;
-    }
-
-    static /* synthetic */ LogChannel access$600(MediaDSISearchDataProviderController mediaDSISearchDataProviderController) {
-        return mediaDSISearchDataProviderController.logger;
     }
 
     static /* synthetic */ Class class$(String string) {

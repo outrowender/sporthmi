@@ -4,13 +4,10 @@
 package de.audi.app.sdsmanager.grammar;
 
 public interface ISDSGrammarStateStrategy {
-    default public byte getGrammarStatus() {
-    }
+    public byte getGrammarStatus();
 
-    default public byte getGrammarStatusForMedia() {
-    }
+    public byte getGrammarStatusForMedia();
 
-    default public boolean isGrammarStatusCompiling() {
-    }
+    public boolean isGrammarStatusCompiling();
 }
 

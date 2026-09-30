@@ -4,19 +4,21 @@
 package de.audi.app.messaging.evo.accounts;
 
 import de.audi.app.messaging.core.accounts.Accounts;
+import de.audi.app.messaging.core.accounts.IAccountListObserver;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.guide.IActionProxySubscriber;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
-import de.audi.app.messaging.evo.accounts.PhoneRingMenuController$1;
-import de.audi.app.messaging.evo.accounts.PhoneRingMenuController$2;
-import de.audi.app.messaging.evo.accounts.PhoneRingMenuController$AccountListObserver;
-import de.audi.app.messaging.evo.accounts.PhoneRingMenuController$EvoActionProxy;
+import de.audi.app.messaging.core.util.Logs;
+import de.audi.app.messaging.evo.guide.DefaultEvoActionProxy;
 import de.audi.atip.interapp.phone.ITelServiceMessaging;
-import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.messaging.MessagingAccount;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -29,16 +31,14 @@ extends AbstractMessagingComponent {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        PhoneRingMenuController$AccountListObserver phoneRingMenuController$AccountListObserver = new PhoneRingMenuController$AccountListObserver(this, null);
-        abstractMsgApplication.getAccountManager().getSmsAccountList().addObserver(phoneRingMenuController$AccountListObserver);
-        abstractMsgApplication.getAccountManager().getEmailAccountList().addObserver(phoneRingMenuController$AccountListObserver);
-        abstractMsgApplication.getActionProxyService().addSubscriber(new PhoneRingMenuController$EvoActionProxy(this, null));
+        AccountListObserver accountListObserver = new AccountListObserver();
+        abstractMsgApplication.getAccountManager().getSmsAccountList().addObserver(accountListObserver);
+        abstractMsgApplication.getAccountManager().getEmailAccountList().addObserver(accountListObserver);
+        abstractMsgApplication.getActionProxyService().addSubscriber(new EvoActionProxy());
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -49,18 +49,39 @@ extends AbstractMessagingComponent {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         String string = ServiceFilterBuilder.createFilterString("objectClass", (class$de$audi$atip$interapp$phone$ITelServiceMessaging == null ? (class$de$audi$atip$interapp$phone$ITelServiceMessaging = PhoneRingMenuController.class$("de.audi.atip.interapp.phone.ITelServiceMessaging")) : class$de$audi$atip$interapp$phone$ITelServiceMessaging).getName());
         Filter filter = this.bundleContext.createFilter(string);
-        PhoneRingMenuController$1 phoneRingMenuController$1 = new PhoneRingMenuController$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)phoneRingMenuController$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                PhoneRingMenuController.this.telServiceMessaging = (ITelServiceMessaging)object;
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                PhoneRingMenuController.this.telServiceMessaging = null;
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     private void emitNotifyActiveContextMessaging(MessagingAccount messagingAccount) {
-        boolean bl = Accounts.supportsSms(messagingAccount);
-        ITelServiceMessaging iTelServiceMessaging = this.telServiceMessaging;
+        final boolean bl = Accounts.supportsSms(messagingAccount);
+        final ITelServiceMessaging iTelServiceMessaging = this.telServiceMessaging;
         if (iTelServiceMessaging != null) {
-            this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new PhoneRingMenuController$2(this, bl, iTelServiceMessaging));
+            this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+                public void run() {
+                    try {
+                        int n = bl ? 0 : 1;
+                        PhoneRingMenuController.this.log.log(1000000, "[PhoneRingMenuController#emitNotifyActiveContextMessaging] contextType = %1", (long)n);
+                        iTelServiceMessaging.notifyActiveContextMessaging(n);
+                    }
+                    catch (Exception exception) {
+                        Logs.logException(PhoneRingMenuController.this.log, exception, "[PhoneRingMenuController#emitNotifyActiveContextMessaging]");
+                    }
+                }
+            });
         }
     }
 
@@ -73,33 +94,37 @@ extends AbstractMessagingComponent {
         }
     }
 
-    static /* synthetic */ ITelServiceMessaging access$202(PhoneRingMenuController phoneRingMenuController, ITelServiceMessaging iTelServiceMessaging) {
-        phoneRingMenuController.telServiceMessaging = iTelServiceMessaging;
-        return phoneRingMenuController.telServiceMessaging;
+    private final class EvoActionProxy
+    extends DefaultEvoActionProxy
+    implements IActionProxySubscriber {
+        private EvoActionProxy() {
+        }
+
+        public void messagingTransition(int n, int n2) {
+            PhoneRingMenuController.this.log.log(10000000, "[PhoneRingMenuController#messagingTransition]");
+            if (n2 == 0) {
+                MessagingAccount messagingAccount = PhoneRingMenuController.this.msgApp.getAccountManager().getSelectedAccount();
+                if (messagingAccount != null) {
+                    PhoneRingMenuController.this.emitNotifyActiveContextMessaging(messagingAccount);
+                } else {
+                    PhoneRingMenuController.this.log.log(100000, "[PhoneRingMenuController#messagingTransition] No account selected.");
+                }
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$300(PhoneRingMenuController phoneRingMenuController) {
-        return phoneRingMenuController.log;
-    }
+    private final class AccountListObserver
+    extends IAccountListObserver.EmptyImplementation {
+        private AccountListObserver() {
+        }
 
-    static /* synthetic */ LogChannel access$400(PhoneRingMenuController phoneRingMenuController) {
-        return phoneRingMenuController.log;
-    }
+        public void indicateItemSelected(MessagingAccount messagingAccount) {
+            PhoneRingMenuController.this.emitNotifyActiveContextMessaging(messagingAccount);
+        }
 
-    static /* synthetic */ void access$500(PhoneRingMenuController phoneRingMenuController, MessagingAccount messagingAccount) {
-        phoneRingMenuController.emitNotifyActiveContextMessaging(messagingAccount);
-    }
-
-    static /* synthetic */ LogChannel access$600(PhoneRingMenuController phoneRingMenuController) {
-        return phoneRingMenuController.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$700(PhoneRingMenuController phoneRingMenuController) {
-        return phoneRingMenuController.msgApp;
-    }
-
-    static /* synthetic */ LogChannel access$800(PhoneRingMenuController phoneRingMenuController) {
-        return phoneRingMenuController.log;
+        public void indicateItemSelectedWhilyBusy(MessagingAccount messagingAccount) {
+            PhoneRingMenuController.this.emitNotifyActiveContextMessaging(messagingAccount);
+        }
     }
 }
 

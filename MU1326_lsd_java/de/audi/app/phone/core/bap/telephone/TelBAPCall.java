@@ -16,15 +16,15 @@ import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.telephoneng.CallInformation;
 
 public class TelBAPCall {
-    public static final int STARTING_TIME_INVALID;
-    private static final int CALL_OPTION_ACCEPT_CALL;
-    private static final int CALL_OPTION_MP_CALL_HOLD_ACCEPT_WAITING_CALL;
-    private static final int CALL_OPTION_MP_RELEASE_ACTIVE_CALL_ACCEPT_WAITING_CALL;
-    private static final int CALL_OPTION_CALL_HOLD;
-    private static final int CALL_OPTION_RESUME_CALL;
-    private static final int CALL_OPTION_MP_SWAP;
-    private static final int CALL_OPTION_CC_JOIN;
-    private static final int CALL_OPTION_CC_SPLIT;
+    public static final int STARTING_TIME_INVALID = -1;
+    private static final int CALL_OPTION_ACCEPT_CALL = 1;
+    private static final int CALL_OPTION_MP_CALL_HOLD_ACCEPT_WAITING_CALL = 2;
+    private static final int CALL_OPTION_MP_RELEASE_ACTIVE_CALL_ACCEPT_WAITING_CALL = 4;
+    private static final int CALL_OPTION_CALL_HOLD = 8;
+    private static final int CALL_OPTION_RESUME_CALL = 16;
+    private static final int CALL_OPTION_MP_SWAP = 32;
+    private static final int CALL_OPTION_CC_JOIN = 64;
+    private static final int CALL_OPTION_CC_SPLIT = 128;
     private final CallInformation phoneCall;
     private final CombiBAPCallState callState;
     private final CombiBAPCallInfo callInfo;
@@ -237,7 +237,7 @@ public class TelBAPCall {
         this.callState = TelBAPCall.getCombiCallState(callInformation, iTelDSIMobileEquipmentDeviceState, bl);
         this.callInfo = TelBAPCall.getCombiCallInfo(callInformation, iTelDSIMobileEquipmentDeviceState, iTelTextFactory);
         int n = callInformation.getTelCallStartingTime();
-        this.callStartTime = n != -1 ? new CallStartTime(n) : new CallStartTime(-65536);
+        this.callStartTime = n != -1 ? new CallStartTime(n) : new CallStartTime(65535);
     }
 
     public int getDeviceRole() {

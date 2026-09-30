@@ -7,8 +7,6 @@ import de.audi.atip.hmi.model.IntegerListCell;
 import de.audi.atip.hmi.model.ListCell;
 import de.audi.atip.hmi.modelaccess.ListModelApp;
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
-import de.audi.atip.interapp.audio.drawer.AudioDrawerContext$Source;
-import de.audi.atip.interapp.audio.drawer.AudioDrawerContext$SourceAudioState;
 import de.audi.audio.AudioEnv;
 import java.util.Arrays;
 
@@ -29,14 +27,13 @@ implements AudioDrawerContext {
         this.listModel.addRow((ListCell[])objectArray);
     }
 
-    @Override
-    public void setContext(AudioDrawerContext$Source audioDrawerContext$Source, AudioDrawerContext$SourceAudioState audioDrawerContext$SourceAudioState) {
-        if (audioDrawerContext$Source == null || audioDrawerContext$SourceAudioState == null) {
-            this.env.lcMain.log(10000, "[AudioDrawerContextImpl.setContext] Illegal args! source:%1 state:%2", (Object)audioDrawerContext$Source, (Object)audioDrawerContext$SourceAudioState);
+    public void setContext(AudioDrawerContext.Source source, AudioDrawerContext.SourceAudioState sourceAudioState) {
+        if (source == null || sourceAudioState == null) {
+            this.env.lcMain.log(10000, "[AudioDrawerContextImpl.setContext] Illegal args! source:%1 state:%2", (Object)source, (Object)sourceAudioState);
             return;
         }
-        this.env.lcMain.log(-2137614336, "[AudioDrawerContextImpl.setContext] %1 -> %2", (Object)audioDrawerContext$Source, (Object)audioDrawerContext$SourceAudioState);
-        this.updateListModel(audioDrawerContext$Source.getColumn(), audioDrawerContext$SourceAudioState.getCell());
+        this.env.lcMain.log(10000000, "[AudioDrawerContextImpl.setContext] %1 -> %2", (Object)source, (Object)sourceAudioState);
+        this.updateListModel(source.getColumn(), sourceAudioState.getCell());
     }
 
     private void updateListModel(int n, IntegerListCell integerListCell) {

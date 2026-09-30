@@ -3,28 +3,45 @@
  */
 package de.audi.atip.interapp;
 
-import de.audi.atip.interapp.IMessagingDictationService$CompositionState;
+import de.audi.atip.interapp.IMessagingDictationService;
 
 public interface IMessagingDictationServiceListener {
-    default public void responseBeginDialog(int n) {
-    }
+    public void responseBeginDialog(int var1);
 
-    default public void responseEndDialog(int n) {
-    }
+    public void responseEndDialog(int var1);
 
-    default public void responseNextDialogStep(int n) {
-    }
+    public void responseNextDialogStep(int var1);
 
-    default public void responseAddRecipient(int n) {
-    }
+    public void responseAddRecipient(int var1);
 
-    default public void responseClearRecipients(int n) {
-    }
+    public void responseClearRecipients(int var1);
 
-    default public void responseSendMessage(int n) {
-    }
+    public void responseSendMessage(int var1);
 
-    default public void updateCompositionState(IMessagingDictationService.CompositionState compositionState) {
+    public void updateCompositionState(IMessagingDictationService.CompositionState var1);
+
+    public static class EmptyImplementation
+    implements IMessagingDictationServiceListener {
+        public void responseBeginDialog(int n) {
+        }
+
+        public void responseEndDialog(int n) {
+        }
+
+        public void responseNextDialogStep(int n) {
+        }
+
+        public void responseAddRecipient(int n) {
+        }
+
+        public void responseClearRecipients(int n) {
+        }
+
+        public void responseSendMessage(int n) {
+        }
+
+        public void updateCompositionState(IMessagingDictationService.CompositionState compositionState) {
+        }
     }
 }
 

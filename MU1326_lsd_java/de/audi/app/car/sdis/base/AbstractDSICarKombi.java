@@ -72,66 +72,55 @@ implements DSICarKombiListener {
             String string = "??";
             if (stackTraceElementArray.length > 1) {
                 StackTraceElement stackTraceElement = stackTraceElementArray[1];
-                string = new StringBuffer().append(stackTraceElement.getClassName()).append(".").append(stackTraceElementArray[1].getMethodName()).toString();
+                string = stackTraceElement.getClassName() + "." + stackTraceElementArray[1].getMethodName();
             }
-            this.logger.log(1078071040, "%1 not implemented", (Object)string);
+            this.logger.log(1000000, "%1 not implemented", (Object)string);
         }
         catch (Exception exception) {
             this.logger.log(10000, "Exception: ", (Throwable)exception);
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateSIAViewOptions(SIAViewOptions sIAViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateSIAServiceData(SIAServiceData sIAServiceData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateSIAOilInspection(SIAOilInspection sIAOilInspection, int n) {
         this.logStub();
     }
 
-    @Override
     public void indicateEndOfSIAReset(boolean bl) {
         this.logStub();
     }
 
-    @Override
     public void updateBCViewOptions(BCViewOptions bCViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCIndications(BCIndications bCIndications, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCCurrentConsumption1(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCCurrentConsumption2(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCCurrentRange1(CarBCCurrentRange carBCCurrentRange, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCCurrentRange2(CarBCCurrentRange carBCCurrentRange, int n) {
         this.logStub();
     }
@@ -140,62 +129,50 @@ implements DSICarKombiListener {
         this.logStub();
     }
 
-    @Override
     public void updateBCShortTermAverageConsumption1(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCShortTermAverageConsumption2(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCShortTermGeneral(BCShortTermGeneralData bCShortTermGeneralData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCLongTermAverageConsumption1(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCLongTermAverageConsumption2(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCLongTermGeneral(BCLongTermGeneralData bCLongTermGeneralData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCCycleAverageConsumption1(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCCycleAverageConsumption2(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCCycleGeneral(BCCycleGeneralData bCCycleGeneralData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCVZADisplay(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCLifeTipsDisplay(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCConsumerDisplay(boolean bl, int n) {
         this.logStub();
     }
@@ -208,62 +185,50 @@ implements DSICarKombiListener {
         this.logStub();
     }
 
-    @Override
     public void updateBCRefuelVolume1(BCRefuelVolume bCRefuelVolume, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCRefuelVolume2(BCRefuelVolume bCRefuelVolume, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCMenue1Config(BCMenueConfiguration bCMenueConfiguration, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCMenue2Config(BCMenueConfiguration bCMenueConfiguration, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCMenue3Config(BCMenueConfiguration bCMenueConfiguration, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCOilTemperature(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCDigitalSpeed(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStopwatch(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCVzaMFA(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCSpeedWarning(BCSpeedWarningSettings bCSpeedWarningSettings, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCGearRecommendation(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCRearSeatbeltWarning(boolean bl, int n) {
         this.logStub();
     }
@@ -272,487 +237,390 @@ implements DSICarKombiListener {
         this.logStub();
     }
 
-    @Override
     public void indicateEndOfBCMenuReset(boolean bl) {
         this.logStub();
     }
 
-    @Override
     public void updateBCVehicleStateListTotalNumberOfElements(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void responseVehicleStateUpdateInfo(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, int[] nArray) {
         this.logStub();
     }
 
-    @Override
     public void responseVehicleStateListWarningIDdynValueAlternativeText(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, int n, int n2, String string, String string2) {
         this.logStub();
     }
 
-    @Override
     public void responseVehicleStateListWarningIDdynValue(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, ListWarningIDsDynValues[] listWarningIDsDynValuesArray) {
         this.logStub();
     }
 
-    @Override
     public void responseVehicleStateListAlternativeText(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, int n, String string) {
         this.logStub();
     }
 
-    @Override
     public void responseVehicleStateListdynValue(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, ListDynValues[] listDynValuesArray) {
         this.logStub();
     }
 
-    @Override
     public void responseVehicleStateListPos(BCVehicleStateUpdateInfoAH bCVehicleStateUpdateInfoAH, int[] nArray) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeBcSetFactoryDefault(boolean bl) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeBcStatisticsReset(int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsDistanceAC1(BCStatisticsAC bCStatisticsAC, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsDistanceAC2(BCStatisticsAC bCStatisticsAC, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsDistanceRE(BCStatisticsRE bCStatisticsRE, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsDistanceZE(BCStatisticsZE bCStatisticsZE, BCZeroEmissionAbsoluteDistance bCZeroEmissionAbsoluteDistance, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsDistanceCurrentIntervalAC1(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsDistanceCurrentIntervalAC2(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsDistanceCurrentIntervalRE(BCAverageRecoveredEnergy bCAverageRecoveredEnergy, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsDistanceCurrentIntervalZE(BCZeroEmissionRelative bCZeroEmissionRelative, BCZeroEmissionAbsoluteDistance bCZeroEmissionAbsoluteDistance, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsTimeAC1(BCStatisticsAC bCStatisticsAC, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsTimeAC2(BCStatisticsAC bCStatisticsAC, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsTimeRE(BCStatisticsRE bCStatisticsRE, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsTimeZE(BCStatisticsZE bCStatisticsZE, BCZeroEmissionAbsoluteTime bCZeroEmissionAbsoluteTime, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsTimeCurrentPeriodAC1(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsTimeCurrentPeriodAC2(CarBCConsumption carBCConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsTimeCurrentPeriodRE(BCAverageRecoveredEnergy bCAverageRecoveredEnergy, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsTimeCurrentPeriodZE(BCZeroEmissionRelative bCZeroEmissionRelative, BCZeroEmissionAbsoluteTime bCZeroEmissionAbsoluteTime, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticsConfig(BCStatisticsConfig bCStatisticsConfig, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCOilTemperatureValue(CarBCTemperature carBCTemperature, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCCoolantTemperature(CarBCTemperature carBCTemperature, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCComfortPowerConsumption(BCComfortPowerConsumption bCComfortPowerConsumption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDViewOptions(HUDViewOptions hUDViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDHeightAdjustment(byte by, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDBrightness(byte by, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDContent(HUDContent hUDContent, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDInfo(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDRotationAdjustment(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateCompassInfo(int n, int n2, int n3) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeHUDSetFactoryDefault(boolean bl) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticDistanceEUkm(BCStatisticsDistanceEU bCStatisticsDistanceEU, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCStatisticDistanceEUmls(BCStatisticsDistanceEU bCStatisticsDistanceEU, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCTotalCurrentRange(CarBCDistance carBCDistance, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCZeroEmissionDistanceST(CarBCDistance carBCDistance, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCZeroEmissionDistanceLT(CarBCDistance carBCDistance, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCZeroEmissionDistanceCY(CarBCDistance carBCDistance, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCZeroEmissionTimeST(CarBCTime carBCTime, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCZeroEmissionTimeLT(CarBCTime carBCTime, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCZeroEmissionTimeCY(CarBCTime carBCTime, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCMaxValues(BCMaxValues bCMaxValues, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCResetTimeStampST(BCResetTimeStamp bCResetTimeStamp, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCResetTimeStampLT(BCResetTimeStamp bCResetTimeStamp, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCResetTimeStampCY(BCResetTimeStamp bCResetTimeStamp, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDColour(int n, int n2, int n3) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDSystemOnOff(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCTotalDistance(CarBCDistance carBCDistance, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCTankLevel1(BCTankLevel bCTankLevel, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCTankLevel2(BCTankLevel bCTankLevel, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCOutsideTemperature(CarBCTemperature carBCTemperature, int n) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeDCSetFactoryDefault(boolean bl) {
         this.logStub();
     }
 
-    @Override
     public void updateDCViewOptions(DCViewOptions dCViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCBrightness(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateDCVolume(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateDCElementContentSelectionListTotalNumberOfElements(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplay1Setup(DCMainItems dCMainItems, DCDisplayedAdditionalInfos dCDisplayedAdditionalInfos, DCAdditionalInfo dCAdditionalInfo, DCAdditionalInfo dCAdditionalInfo2, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplay2Setup(DCMainItems dCMainItems, DCDisplayedAdditionalInfos dCDisplayedAdditionalInfos, DCAdditionalInfo dCAdditionalInfo, DCAdditionalInfo dCAdditionalInfo2, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplay3Setup(DCMainItems dCMainItems, DCDisplayedAdditionalInfos dCDisplayedAdditionalInfos, DCAdditionalInfo dCAdditionalInfo, DCAdditionalInfo dCAdditionalInfo2, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplay1MainSelection(DCMainItems dCMainItems, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplay2MainSelection(DCMainItems dCMainItems, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplay3MainSelection(DCMainItems dCMainItems, int n) {
         this.logStub();
     }
 
-    @Override
     public void responseDCElementContentSelectionListRAF(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, int[] nArray) {
         this.logStub();
     }
 
-    @Override
     public void responseDCElementContentSelectionListRA1(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, DCElementContentSelectionListRA1[] dCElementContentSelectionListRA1Array) {
         this.logStub();
     }
 
-    @Override
     public void updateDCElementContentSelectionListUpdateInfo(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, int[] nArray, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateBCAstaMFA(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCAdditionalInstrumentSetup(DCAdditionalInstrument dCAdditionalInstrument, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateSIAHistoryListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
         this.logStub();
     }
 
-    @Override
     public void responseSIAHistoryList(CarArrayListUpdateInfo carArrayListUpdateInfo, SIAHistoryListRecord[] sIAHistoryListRecordArray) {
         this.logStub();
     }
 
-    @Override
     public void updateSIAHistoryListTotalNumberOfElements(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateSIADistanceOilUser(SIADistanceData sIADistanceData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateSIADistanceAirFilterUser(SIADistanceData sIADistanceData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateSIADistanceOilFilterUser(SIADistanceData sIADistanceData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateSIAInspectionDistanceUser(SIADistanceData sIADistanceData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateSIADailyAverageMileage(int n, int n2, int n3) {
         this.logStub();
     }
 
-    @Override
     public void responseDCElementContentSelectionListRA2(DCElementContentSelectionListUpdateInfo dCElementContentSelectionListUpdateInfo, DCElementContentSelectionListRA2[] dCElementContentSelectionListRA2Array) {
         this.logStub();
     }
 
-    @Override
     public void updateDCAdditionalInstrument2Setup(DCAdditionalInstrument2 dCAdditionalInstrument2, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplayPresetsListTotalNumberOfElements(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void responseDCDisplayPresetsList(CarArrayListUpdateInfo carArrayListUpdateInfo, DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplayPresetsListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, DCDisplayPresetsListRecord[] dCDisplayPresetsListRecordArray, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplayDependencySetup(DCDisplayDependency dCDisplayDependency, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCActiveDisplayPreset(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateDCDisplayViewConfiguration(DCDisplayViewConfiguration dCDisplayViewConfiguration, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDLicense(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDCLEDConfiguration(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDPresets(int n, int n2, int n3) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDCollectiveTopics(HUDCollectiveTopics hUDCollectiveTopics, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDAutoSkinSwitch(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void responseHUDSectionConfigList(CarArrayListUpdateInfo carArrayListUpdateInfo, HUDSectionConfigListRecord[] hUDSectionConfigListRecordArray) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDSectionConfigListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateHUDSectionConfigListTotalNumberOfElements(int n, int n2) {
         this.logStub();
     }

@@ -20,15 +20,14 @@ extends AbstractSystemCallCommand {
         this.naviTrufflesHist = naviSDSTrufflesHistoryHelper;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called!", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called!", (Object)this.getName());
         this.naviTrufflesHist.clearLastTruffleSearchTexts();
         this.recHandler.clearTrufflesSearchHistory();
     }
 
     public void responseClearTrufflesSearchHistory(int n) {
-        this.logger.log(-2137614336, "%1#responseClearTrufflesSearchHistory: replyCode=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseClearTrufflesSearchHistory: replyCode=%2!", (Object)this.getName(), (long)n);
         if (n == 0) {
             this.processingFinished();
         }

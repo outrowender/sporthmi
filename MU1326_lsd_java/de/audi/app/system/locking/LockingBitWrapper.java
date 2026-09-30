@@ -8,13 +8,13 @@ import java.util.Map;
 
 public final class LockingBitWrapper {
     private static boolean dataReady = false;
-    public static final int FUNCTIONAL_BIT_NPS_AVAILABILITY;
-    public static final int FUNCTIONAL_BIT_LOCKING_MODE_1;
-    public static final int FUNCTIONAL_BIT_LOCKING_MODE_2;
-    public static final int[] FUNCTIONAL_BIT_LIST;
-    private static final Integer[] EMPTY_INTEGER_ARRAY;
-    private static Object[] bitModelMapping;
-    private static Map functionalBitStates;
+    public static final int FUNCTIONAL_BIT_NPS_AVAILABILITY = 127;
+    public static final int FUNCTIONAL_BIT_LOCKING_MODE_1 = 166;
+    public static final int FUNCTIONAL_BIT_LOCKING_MODE_2 = 167;
+    public static final int[] FUNCTIONAL_BIT_LIST = new int[]{127, 166, 167};
+    private static final Integer[] EMPTY_INTEGER_ARRAY = new Integer[0];
+    private static Object[] bitModelMapping = new Object[191];
+    private static Map functionalBitStates = new HashMap(2);
 
     public static int[] getModelsForBitId(int n) {
         if (n <= bitModelMapping.length - 1) {
@@ -49,10 +49,6 @@ public final class LockingBitWrapper {
     }
 
     static {
-        FUNCTIONAL_BIT_LIST = new int[]{127, 166, 167};
-        EMPTY_INTEGER_ARRAY = new Integer[0];
-        bitModelMapping = new Object[191];
-        functionalBitStates = new HashMap(2);
         LockingBitWrapper.bitModelMapping[0] = new Integer[]{new Integer(5584)};
         LockingBitWrapper.bitModelMapping[1] = EMPTY_INTEGER_ARRAY;
         LockingBitWrapper.bitModelMapping[2] = EMPTY_INTEGER_ARRAY;

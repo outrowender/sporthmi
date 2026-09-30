@@ -21,12 +21,12 @@ import org.dsi.ifc.global.NavLocation;
 public class NaviFavoriteEvoRow
 extends FavoriteListRow
 implements IFavorite {
-    public static final int MAX_COLUMNS;
-    public static final int COLUMN_INDEX_LAYOUT;
-    public static final int COLUMN_INDEX_ICONID;
-    public static final int COLUMN_INDEX_TEXTLINE1;
-    public static final int COLUMN_INDEX_TEXTLINE2;
-    public static final int COLUMN_INDEX_PROPERTY;
+    public static final int MAX_COLUMNS = 7;
+    public static final int COLUMN_INDEX_LAYOUT = 0;
+    public static final int COLUMN_INDEX_ICONID = 1;
+    public static final int COLUMN_INDEX_TEXTLINE1 = 2;
+    public static final int COLUMN_INDEX_TEXTLINE2 = 3;
+    public static final int COLUMN_INDEX_PROPERTY = 4;
     private byte[] favoriteLocation;
     private String favoriteName;
     private final String street;
@@ -117,12 +117,10 @@ implements IFavorite {
         this(NaviFavoriteHandler.generateUniqueID(), naviFavoriteStorageEvo.navLocation, naviFavoriteStorageEvo.favoriteName, naviFavoriteStorageEvo.street, naviFavoriteStorageEvo.houseNumber, naviFavoriteStorageEvo.city, naviFavoriteStorageEvo.iconID, naviFavoriteStorageEvo.countryAbbreviation, naviFavoriteStorageEvo.favoriteType, naviFavoriteStorageEvo.longitude, naviFavoriteStorageEvo.latitude, naviFavoriteStorageEvo.formattedAddressLine, naviFavoriteStorageEvo.state, naviFavoriteStorageEvo.district, naviFavoriteStorageEvo.ward);
     }
 
-    @Override
     public EvoListRow copy() {
         return new NaviFavoriteEvoRow(this.getUniqueID(), this.favoriteLocation, this.favoriteName, this.street, this.houseNumber, this.city, this.iconID, this.countryAbbreviation, this.favoriteType, this.longitude, this.latitude, this.formattedAddressLine, this.state, this.district, this.postCode);
     }
 
-    @Override
     public IFavoriteStorage getIFavorite() {
         return new NaviFavoriteStorageEvo(this.favoriteName, this.street, this.houseNumber, this.city, this.iconID, this.favoriteLocation, this.getUniqueID(), this.countryAbbreviation, this.favoriteType, this.longitude, this.latitude, this.formattedAddressLine, this.state, this.district, this.postCode);
     }
@@ -132,19 +130,17 @@ implements IFavorite {
         this.setInteger(1, 4);
         this.setText(2, this.favoriteName);
         this.setText(3, this.formattedAddressLine);
-        this.setPropertyCell(4, new PropertyListCell(160082217, new int[]{633713380}));
+        this.setPropertyCell(4, new PropertyListCell(698976777, new int[]{-458046171}));
     }
 
     public void setFavoriteName(String string) {
         this.favoriteName = string;
     }
 
-    @Override
     public String getFavoriteName() {
         return this.favoriteName;
     }
 
-    @Override
     public byte[] getFavoriteLocation() {
         return this.favoriteLocation;
     }
@@ -153,17 +149,14 @@ implements IFavorite {
         this.favoriteLocation = byArray;
     }
 
-    @Override
     public String getHouseNumber() {
         return this.houseNumber;
     }
 
-    @Override
     public String getStreet() {
         return this.street;
     }
 
-    @Override
     public String getCity() {
         return this.city;
     }
@@ -172,12 +165,10 @@ implements IFavorite {
         return this.countryAbbreviation;
     }
 
-    @Override
     public int getLongitude() {
         return this.longitude;
     }
 
-    @Override
     public int getLatitude() {
         return this.latitude;
     }

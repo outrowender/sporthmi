@@ -14,10 +14,10 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class JobActivation
 extends AbstractJobTransfer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TransferJobActivation";
     private final TransferLockHandler transferLockHandler;
-    private static final int DSI_STATE_NOT_READY;
-    private static final int DSI_STATE_READY;
+    private static final int DSI_STATE_NOT_READY = -1;
+    private static final int DSI_STATE_READY = 1;
     private volatile int dsiDeleteState = -1;
     private volatile int dsiImportState = -1;
 
@@ -26,23 +26,19 @@ extends AbstractJobTransfer {
         this.transferLockHandler = transferLockHandler;
     }
 
-    @Override
     public int getType() {
         return 5;
     }
 
-    @Override
     public String getName() {
         return "Activation";
     }
 
-    @Override
     public void asyncException(int n, int n2) {
     }
 
-    @Override
     public void importStatusChanged(int n) {
-        this.logger.log(1078071040, "[%1.importStatusChanged]", (Object)"TransferJobActivation");
+        this.logger.log(1000000, "[%1.importStatusChanged]", (Object)LOGCLASS);
         switch (n) {
             case 0: {
                 this.dsiImportState = 1;
@@ -59,9 +55,8 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public void deletionStatusChanged(int n) {
-        this.logger.log(1078071040, "[%1.deletionStatusChanged]", (Object)"TransferJobActivation");
+        this.logger.log(1000000, "[%1.deletionStatusChanged]", (Object)LOGCLASS);
         switch (n) {
             case 0: {
                 this.dsiDeleteState = 1;
@@ -71,19 +66,17 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public void start() {
-        this.logger.log(1078071040, "[%1.start]", (Object)"TransferJobActivation");
+        this.logger.log(1000000, "[%1.start]", (Object)LOGCLASS);
         this.getMediaDSIRecorder().startDSI();
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 
     private void readyForTransfer() {
         if (this.dsiImportState == 1 && this.dsiDeleteState == 1) {
-            this.logger.log(1078071040, "[%1.readyForTransfer]", (Object)"TransferJobActivation");
+            this.logger.log(1000000, "[%1.readyForTransfer]", (Object)LOGCLASS);
             this.transferLockHandler.importActive(false);
             this.getTransferController().setTransferState(1);
             this.getTransferListener().readyForTransfer();
@@ -91,7 +84,6 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("[name=");

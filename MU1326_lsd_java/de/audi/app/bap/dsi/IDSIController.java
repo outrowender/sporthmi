@@ -6,16 +6,12 @@ package de.audi.app.bap.dsi;
 import org.dsi.ifc.base.DSIBase;
 
 public interface IDSIController {
-    default public void setDSI(DSIBase dSIBase) {
-    }
+    public void setDSI(DSIBase var1);
 
-    default public DSIBase getDSI() {
-    }
+    public DSIBase getDSI();
 
-    default public Class getDSIClass() {
-    }
+    public Class getDSIClass();
 
-    default public void deregisterDSI() {
-    }
+    public void deregisterDSI();
 }
 

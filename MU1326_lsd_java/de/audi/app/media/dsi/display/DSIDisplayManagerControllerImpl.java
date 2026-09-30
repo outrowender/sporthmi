@@ -19,16 +19,16 @@ import org.dsi.ifc.displaymanagement.DSIDisplayManagementListener;
 public class DSIDisplayManagerControllerImpl
 extends AbstractDSIController
 implements IDSIDisplayManagerController {
-    private static final String LOGCLASS;
-    private static final int NO_VALUE;
-    private static final int CALL_COLOR_SET;
-    private static final int CALL_CONTRAST_SET;
-    private static final int CALL_TINT_SET;
-    private static final int CALL_BRIGHTNESS_SET;
-    private static final int CALL_COLOR_GET;
-    private static final int CALL_CONTRAST_GET;
-    private static final int CALL_TINT_GET;
-    private static final int CALL_BRIGHTNESS_GET;
+    private static final String LOGCLASS = "DSIDisplayManagerControllerImpl";
+    private static final int NO_VALUE = Integer.MIN_VALUE;
+    private static final int CALL_COLOR_SET = 0;
+    private static final int CALL_CONTRAST_SET = 1;
+    private static final int CALL_TINT_SET = 2;
+    private static final int CALL_BRIGHTNESS_SET = 3;
+    private static final int CALL_COLOR_GET = 4;
+    private static final int CALL_CONTRAST_GET = 5;
+    private static final int CALL_TINT_GET = 6;
+    private static final int CALL_BRIGHTNESS_GET = 7;
     private final DSIDisplayManagementListener dsiListener;
     private volatile DSIDisplayManagement dsiDisplay;
     private volatile IMediaDisplayManagerListener listener;
@@ -40,38 +40,32 @@ implements IDSIDisplayManagerController {
         this.dsiListener = new DSIDisplayManagerListener(this, logChannel);
     }
 
-    @Override
     public void addDSIService(DSIBase dSIBase) {
         this.dsiDisplay = (DSIDisplayManagement)dSIBase;
     }
 
-    @Override
     protected void removeDSIService() {
-        this.logger.log(1078071040, "[%1.removeDSIService] DSI service removed.", (Object)"DSIDisplayManagerControllerImpl");
+        this.logger.log(1000000, "[%1.removeDSIService] DSI service removed.", (Object)LOGCLASS);
         this.dsiDisplay = null;
     }
 
     protected void registerAttributeNotifications(DSIBase dSIBase) {
     }
 
-    @Override
     protected DSIListener getDSIListener() {
         return this.dsiListener;
     }
 
-    @Override
     protected Class getDSIServiceClass() {
         return class$org$dsi$ifc$displaymanagement$DSIDisplayManagement == null ? (class$org$dsi$ifc$displaymanagement$DSIDisplayManagement = DSIDisplayManagerControllerImpl.class$("org.dsi.ifc.displaymanagement.DSIDisplayManagement")) : class$org$dsi$ifc$displaymanagement$DSIDisplayManagement;
     }
 
-    @Override
     protected Class getDSIListenerClass() {
         return class$org$dsi$ifc$displaymanagement$DSIDisplayManagementListener == null ? (class$org$dsi$ifc$displaymanagement$DSIDisplayManagementListener = DSIDisplayManagerControllerImpl.class$("org.dsi.ifc.displaymanagement.DSIDisplayManagementListener")) : class$org$dsi$ifc$displaymanagement$DSIDisplayManagementListener;
     }
 
-    @Override
     public void setDisplayManagerListener(IMediaDisplayManagerListener iMediaDisplayManagerListener) {
-        this.logger.log(1078071040, "[%1.setDisplayManagerListener] '%2'", (Object)"DSIDisplayManagerControllerImpl", (Object)iMediaDisplayManagerListener);
+        this.logger.log(1000000, "[%1.setDisplayManagerListener] '%2'", (Object)LOGCLASS, (Object)iMediaDisplayManagerListener);
         this.listener = iMediaDisplayManagerListener;
     }
 
@@ -79,41 +73,37 @@ implements IDSIDisplayManagerController {
         return this.listener;
     }
 
-    @Override
     public void setBrightness(int n, int n2) {
         this.callDSI(n, 3, n2, "setBrightness");
-        this.callDSI(n, 7, 128, "getBrightness");
+        this.callDSI(n, 7, Integer.MIN_VALUE, "getBrightness");
     }
 
-    @Override
     public void setColor(int n, int n2) {
         this.callDSI(n, 0, n2, "setColor");
-        this.callDSI(n, 4, 128, "getColor");
+        this.callDSI(n, 4, Integer.MIN_VALUE, "getColor");
     }
 
-    @Override
     public void setContrast(int n, int n2) {
         this.callDSI(n, 1, n2, "setContrast");
-        this.callDSI(n, 5, 128, "getContrast");
+        this.callDSI(n, 5, Integer.MIN_VALUE, "getContrast");
     }
 
-    @Override
     public void setTint(int n, int n2) {
         this.callDSI(n, 2, n2, "setTint");
-        this.callDSI(n, 6, 128, "getTint");
+        this.callDSI(n, 6, Integer.MIN_VALUE, "getTint");
     }
 
     private void callDSI(int n, int n2, int n3, String string) {
         DSIDisplayManagement dSIDisplayManagement;
         if (this.logger.isInfo()) {
-            this.logger.log(1078071040, "[%1.callDSI] [%3] '%2','%4'", (Object)"DSIDisplayManagerControllerImpl", (Object)String.valueOf(n), (Object)String.valueOf(string), (Object)String.valueOf(n3));
+            this.logger.log(1000000, "[%1.callDSI] [%3] '%2','%4'", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)String.valueOf(string), (Object)String.valueOf(n3));
         }
         if ((dSIDisplayManagement = this.dsiDisplay) == null) {
-            this.logger.log(-1601830656, "[%1.callDSI] No DSI service registered. Ignore.", (Object)"DSIDisplayManagerControllerImpl");
+            this.logger.log(100000, "[%1.callDSI] No DSI service registered. Ignore.", (Object)LOGCLASS);
             return;
         }
         if (n == -1) {
-            this.logger.log(-1601830656, "[%1.callDSI] No active displayable found.", (Object)"DSIDisplayManagerControllerImpl");
+            this.logger.log(100000, "[%1.callDSI] No active displayable found.", (Object)LOGCLASS);
             return;
         }
         switch (n2) {
@@ -150,7 +140,7 @@ implements IDSIDisplayManagerController {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "[%1.callDSI] Unknown DSI call '%2'.", (Object)"DSIDisplayManagerControllerImpl", (long)n2);
+                this.logger.log(100000, "[%1.callDSI] Unknown DSI call '%2'.", (Object)LOGCLASS, (long)n2);
             }
         }
     }

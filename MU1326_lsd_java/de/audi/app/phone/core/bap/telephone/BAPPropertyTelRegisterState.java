@@ -20,7 +20,6 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected void updateAsync() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState;
         int n;
@@ -35,7 +34,6 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         }
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null;
     }
@@ -55,10 +53,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         }
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         if (combiBAPServicePhone != null) {
-            this.log.log(1078071040, "[BAPPropertyTelRegisterState#updateRegisterState] updating combi: %1", (Object)telBapRegisterStateStruct);
+            this.log.log(1000000, "[BAPPropertyTelRegisterState#updateRegisterState] updating combi: %1", (Object)telBapRegisterStateStruct);
             combiBAPServicePhone.updateRegisterState(telBapRegisterStateStruct.getRegisterState(), telBapRegisterStateStruct.getNetworkType(), telBapRegisterStateStruct.getPacketDataNetworkType());
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTelRegisterState#updateRegisterState] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTelRegisterState#updateRegisterState] CombiBAPServicePhone is null --> NOP!");
         }
     }
 }

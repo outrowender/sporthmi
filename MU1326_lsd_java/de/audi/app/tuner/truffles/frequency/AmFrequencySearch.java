@@ -15,7 +15,6 @@ implements IFrequencySearch {
         super(logChannel);
     }
 
-    @Override
     public RadioSearchListRow getRowForFrequency(String string) {
         return this.getRowForFrequency(string, 4);
     }

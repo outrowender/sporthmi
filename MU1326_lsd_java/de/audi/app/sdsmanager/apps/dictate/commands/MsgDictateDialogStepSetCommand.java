@@ -13,10 +13,10 @@ import de.audi.atip.log.LogChannel;
 
 public class MsgDictateDialogStepSetCommand
 extends AbstractSystemCallCommand {
-    protected static final int DIALOG_STEP_BODY_START;
-    protected static final int DIALOG_STEP_BODY_EXTEND;
-    protected static final int DIALOG_STEP_SUBJECT_START;
-    protected static final int DIALOG_STEP_SUBJECT_EXTEND;
+    protected static final int DIALOG_STEP_BODY_START = 2;
+    protected static final int DIALOG_STEP_BODY_EXTEND = 5;
+    protected static final int DIALOG_STEP_SUBJECT_START = 1;
+    protected static final int DIALOG_STEP_SUBJECT_EXTEND = 4;
     private int[] dialogStepArray = new int[]{0, 1, 2, 3, 1, 2};
     private final IMessagingDictationService dictationService;
     private final MessageDictationHandler messageDictationHandler;
@@ -33,12 +33,11 @@ extends AbstractSystemCallCommand {
         this.dialogStepIndex = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: dialogStepIndex=%2", (Object)this.getName(), (long)this.dialogStepIndex);
+        this.logger.log(10000000, "%1#execute: dialogStepIndex=%2", (Object)this.getName(), (long)this.dialogStepIndex);
         if (this.dialogStepIndex < 0 || this.dialogStepIndex > this.dialogStepArray.length - 1) {
-            this.logger.log(-1601830656, "%1#execute: dialogStepIndex is out of bounds!", (Object)this.getName());
-            this.sendResult(-115080960);
+            this.logger.log(100000, "%1#execute: dialogStepIndex is out of bounds!", (Object)this.getName());
+            this.sendResult(75001);
             return;
         }
         int n = this.dialogStepArray[this.dialogStepIndex];
@@ -63,9 +62,9 @@ extends AbstractSystemCallCommand {
                     break;
                 }
             }
-            this.sendResult(-131858176);
+            this.sendResult(75000);
         } else {
-            this.sendResult(-115080960);
+            this.sendResult(75001);
         }
     }
 }

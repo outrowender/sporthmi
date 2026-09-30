@@ -12,12 +12,12 @@ import de.audi.atip.log.LogChannel;
 
 final class ComaPhoneStateListener
 implements IConnectivityPhoneStateListener {
-    private static final int VO;
-    private static final int TEL1;
-    private static final int TEL2;
-    private static final int DO;
-    private static final int VD;
-    private static final int NONE;
+    private static final int VO = 3;
+    private static final int TEL1 = 1;
+    private static final int TEL2 = 2;
+    private static final int DO = 4;
+    private static final int VD = 7;
+    private static final int NONE = 0;
     private final LogChannel log;
     private final IHMIServiceApp hmiService;
     private final ConnectivityManager coma;
@@ -66,8 +66,8 @@ implements IConnectivityPhoneStateListener {
     }
 
     private void updateTextConstants() {
-        this.simName = this.hmiService.getText(-232315392);
-        this.eSimName = this.hmiService.getText(-366467584);
+        this.simName = this.hmiService.getText(2500594);
+        this.eSimName = this.hmiService.getText(2500842);
     }
 
     private void updateSimDisplay() {
@@ -82,9 +82,8 @@ implements IConnectivityPhoneStateListener {
         this.updateSimDisplay();
     }
 
-    @Override
     public void updatePhoneState(int n, int n2) {
-        this.log.log(-2137614336, "ComaPhoneStateListener#updatePhoneState(): NAD mode=%1, phone module state=%2", (long)n, (long)n2);
+        this.log.log(10000000, "ComaPhoneStateListener#updatePhoneState(): NAD mode=%1, phone module state=%2", (long)n, (long)n2);
         boolean bl = this.isVoiceSim = n == 1;
         if (this.coma != null) {
             this.coma.updatePhoneModuleState(n2 == 2);
@@ -92,20 +91,18 @@ implements IConnectivityPhoneStateListener {
         this.updateSimDisplay();
     }
 
-    @Override
     public void updateESIMInfo(String string, String string2, boolean bl, boolean bl2) {
         if (bl == this.isEsim) {
             return;
         }
-        this.log.log(-2137614336, "ComaPhoneStateListener#updateESIMInfo(): active=%1", bl);
+        this.log.log(10000000, "ComaPhoneStateListener#updateESIMInfo(): active=%1", bl);
         this.isEsim = bl;
         this.updateSimDisplay();
     }
 
-    @Override
     public void updateMESlotInfo(ITelMESlotState iTelMESlotState, ITelMESlotState iTelMESlotState2, ITelMESlotState iTelMESlotState3) {
         boolean bl;
-        this.log.log(-2137614336, "ComaPhoneStateListener#updateMESlotInfo(): PRD=%1 ASD=%2 DATA=%3", (Object)iTelMESlotState, (Object)iTelMESlotState2, (Object)iTelMESlotState3);
+        this.log.log(10000000, "ComaPhoneStateListener#updateMESlotInfo(): PRD=%1 ASD=%2 DATA=%3", (Object)iTelMESlotState, (Object)iTelMESlotState2, (Object)iTelMESlotState3);
         boolean bl2 = bl = iTelMESlotState != null && iTelMESlotState.isInternalSim();
         this.identifier = bl ? iTelMESlotState.getSimCardID() : (iTelMESlotState3 != null ? iTelMESlotState3.getSimCardID() : "");
         this.isPrimaryPhone = bl;
@@ -136,23 +133,18 @@ implements IConnectivityPhoneStateListener {
         return iTelMESlotState != null && iTelMESlotState.isSim();
     }
 
-    @Override
     public void telUnlockLeft() {
     }
 
-    @Override
     public void telUnlockEntered() {
     }
 
-    @Override
     public void telAppLeft() {
     }
 
-    @Override
     public void telAppEntered() {
     }
 
-    @Override
     public void updateConnectedGatewayState(boolean bl) {
         if (this.isAnyEorBCallActive != bl) {
             this.isAnyEorBCallActive = bl;

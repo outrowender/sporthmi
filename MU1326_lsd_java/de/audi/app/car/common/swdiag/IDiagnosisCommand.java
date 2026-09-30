@@ -3,14 +3,13 @@
  */
 package de.audi.app.car.common.swdiag;
 
+import de.audi.app.car.common.swdiag.InvalidCommandParameterException;
+
 public interface IDiagnosisCommand {
-    default public String getCommandString() {
-    }
+    public String getCommandString();
 
-    default public void parseParameters(String string) {
-    }
+    public void parseParameters(String var1) throws InvalidCommandParameterException;
 
-    default public String run() {
-    }
+    public String run();
 }
 

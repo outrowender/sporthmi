@@ -3,10 +3,10 @@
  */
 package de.audi.app.earlyfunc.hybrid;
 
-import de.audi.app.earlyfunc.hybrid.EtronPopupHKTimerController$1;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 
 public class EtronPopupHKTimerController {
     LogChannel logChan = null;
@@ -15,7 +15,7 @@ public class EtronPopupHKTimerController {
     final long ETRON_POPUP_TIMEOUT;
 
     public EtronPopupHKTimerController(ChoiceModelApp choiceModelApp, LogChannel logChannel) {
-        this.ETRON_POPUP_TIMEOUT = 0;
+        this.ETRON_POPUP_TIMEOUT = 6000L;
         this.logChan = logChannel;
         this.model = choiceModelApp;
     }
@@ -36,9 +36,17 @@ public class EtronPopupHKTimerController {
         if (this.timer != null) {
             this.timer.cancel();
         }
-        ChoiceModelApp choiceModelApp = this.model;
-        EtronPopupHKTimerController$1 etronPopupHKTimerController$1 = new EtronPopupHKTimerController$1(this, choiceModelApp);
-        this.timer = new Timer("ETRON_POPUP_TIMER", 0, true, etronPopupHKTimerController$1);
+        final ChoiceModelApp choiceModelApp = this.model;
+        TimerListener timerListener = new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                choiceModelApp.setValue(0);
+            }
+
+            public void cancelTimer(Timer timer) {
+            }
+        };
+        this.timer = new Timer("ETRON_POPUP_TIMER", 6000L, true, timerListener);
         this.timer.start();
     }
 }

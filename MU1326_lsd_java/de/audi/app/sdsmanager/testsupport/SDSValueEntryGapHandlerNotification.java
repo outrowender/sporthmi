@@ -33,22 +33,20 @@ extends DefaultTestSupportHandlerNotification {
         this.testSupportHandler.deinit();
     }
 
-    @Override
     public void commandEntrySelected(int n) {
-        LC.log(1078071040, "SDSTestValueHandlerNotification#commandEntrySelected: entryID=%1", (long)n);
+        LC.log(1000000, "SDSTestValueHandlerNotification#commandEntrySelected: entryID=%1", (long)n);
         this.value = SDSValueEnum.addValue(this.valueType, n, this.value, this.sdsAdapter);
         this.testSupportHandler.updateCommandList();
     }
 
-    @Override
     public TestSupportDataReceiverEntry[] getCommandEntries() {
         Buffer buffer = new Buffer();
         TestSupportDataReceiverEntry[] testSupportDataReceiverEntryArray = new TestSupportDataReceiverEntry[SDSValueEnum.getAdditionValueLength(this.valueType) + 1];
-        testSupportDataReceiverEntryArray[0] = new TestSupportDataReceiverEntry(-1, buffer.append("Value: ").append((float)Math.round(this.value * 31300) / 8257).append("%").toString(), false, false);
+        testSupportDataReceiverEntryArray[0] = new TestSupportDataReceiverEntry(-1, buffer.append("Value: ").append((float)Math.round(this.value * 1000.0f) / 10.0f).append("%").toString(), false, false);
         for (int i2 = 0; i2 < SDSValueEnum.getAdditionValueLength(this.valueType); ++i2) {
             buffer.clear();
             float f2 = SDSValueEnum.getAdditionValue(this.valueType, i2);
-            testSupportDataReceiverEntryArray[i2 + 1] = new TestSupportDataReceiverEntry(i2, buffer.append(f2 > 0.0f ? "+" : "").append((float)Math.round(f2 * 31300) / 8257).append("%").toString(), false, false);
+            testSupportDataReceiverEntryArray[i2 + 1] = new TestSupportDataReceiverEntry(i2, buffer.append(f2 > 0.0f ? "+" : "").append((float)Math.round(f2 * 1000.0f) / 10.0f).append("%").toString(), false, false);
         }
         return testSupportDataReceiverEntryArray;
     }

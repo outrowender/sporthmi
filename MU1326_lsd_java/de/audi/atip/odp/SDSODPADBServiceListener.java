@@ -3,13 +3,11 @@
  */
 package de.audi.atip.odp;
 
-import de.audi.atip.odp.SDSODPADBService$ADBEntry;
+import de.audi.atip.odp.SDSODPADBService;
 
 public interface SDSODPADBServiceListener {
-    default public void responseGetEntry(byte by, SDSODPADBService.ADBEntry aDBEntry) {
-    }
+    public void responseGetEntry(byte var1, SDSODPADBService.ADBEntry var2);
 
-    default public void responseOpenEntryDetails(byte by) {
-    }
+    public void responseOpenEntryDetails(byte var1);
 }
 

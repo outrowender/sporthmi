@@ -21,9 +21,8 @@ extends AbstractSystemCallCommand {
         this.pickListHandler = iAddressBookPicklistHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: listMode=%2!", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: listMode=%2!", (Object)this.getName(), (long)this.listMode);
         switch (this.listMode) {
             case 0: {
                 this.pickListHandler.removeADBPopup();
@@ -47,7 +46,7 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#execute: Unhandled listMode %2!", (Object)this.getName(), (long)this.listMode);
+                this.logger.log(100000, "%1#execute: Unhandled listMode %2!", (Object)this.getName(), (long)this.listMode);
             }
         }
         this.processingFinished();

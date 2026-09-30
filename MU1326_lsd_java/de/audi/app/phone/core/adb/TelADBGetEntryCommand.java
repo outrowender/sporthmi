@@ -24,9 +24,8 @@ extends AbstractADBCommand {
         this.listener = iTelADBGetADBEntryListener;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "TelADBGetEntryCommand#execute()");
+        this.logger.log(10000000, "TelADBGetEntryCommand#execute()");
         boolean bl = this.adbDSIAccess.getEntries(new long[]{this.entryId}, 0, 0);
         if (!bl) {
             this.logger.log(10000, "TelADBGetEntryCommand#execute(): dsi call was not successful, finishing command.");
@@ -34,17 +33,16 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
         if (adbEntryArray == null) {
             this.logger.log(10000, "TelADBGetEntryCommand#getEntriesResult(): entryList is null");
             return;
         }
-        this.logger.log(-2137614336, "TelADBGetEntryCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "TelADBGetEntryCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             if (adbEntryArray.length == 1) {
                 AdbEntry adbEntry = adbEntryArray[0];
-                this.logger.log(-2137614336, "TelADBGetEntryCommand#getEntriesResult(): got entry: %1", (Object)ADBDbgUtils.dbg(adbEntry));
+                this.logger.log(10000000, "TelADBGetEntryCommand#getEntriesResult(): got entry: %1", (Object)ADBDbgUtils.dbg(adbEntry));
                 this.adbHandler.setCurrentEntry(adbEntry);
                 if (this.listener != null) {
                     this.listener.resultGetADBEntry(adbEntry);

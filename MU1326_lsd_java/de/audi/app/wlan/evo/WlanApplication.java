@@ -53,27 +53,22 @@ implements IEvoWlanApplication {
         this.addComponent(new BapWlanStateProvider(this));
     }
 
-    @Override
     public IConnection getConnection() {
         return this.connection;
     }
 
-    @Override
     public IInquiry getInquiry() {
         return this.inquiry;
     }
 
-    @Override
     public ITrustedNetworkList getTrustedNetworkList() {
         return this.networkList;
     }
 
-    @Override
     public WlanService getMode() {
         return this.wlanMode;
     }
 
-    @Override
     public IEvoConnectivity getConnectivity() {
         return this.connectivity;
     }

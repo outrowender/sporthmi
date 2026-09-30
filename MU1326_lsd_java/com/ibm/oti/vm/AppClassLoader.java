@@ -27,8 +27,7 @@ extends AbstractClassLoader {
         super(null);
     }
 
-    @Override
-    protected Class findClass(String string) {
+    protected Class findClass(String string) throws ClassNotFoundException {
         Class clazz = VM.findClassOrNull(string, this);
         if (clazz == null) {
             throw new ClassNotFoundException(string);
@@ -42,13 +41,11 @@ extends AbstractClassLoader {
         return clazz;
     }
 
-    @Override
     Hashtable getProtectionDomainCache() {
         return protectionDomainCache;
     }
 
-    @Override
-    protected synchronized Class loadClass(String string, boolean bl) {
+    protected synchronized Class loadClass(String string, boolean bl) throws ClassNotFoundException {
         int n;
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null && !this.checkingPackageAccess && (n = string.lastIndexOf(46)) > 0) {

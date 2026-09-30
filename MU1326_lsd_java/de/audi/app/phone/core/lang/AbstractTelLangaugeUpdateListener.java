@@ -14,13 +14,11 @@ implements ILanguageUpdateListener {
         super(iTelApplication, string);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getLanguageUpdateDispatcher().addLanguageUpdateListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getLanguageUpdateDispatcher().removeLanguageUpdateListener(this);

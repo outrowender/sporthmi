@@ -35,12 +35,10 @@ implements IEcallComponent {
         this.log = iEcallApplication.getFrameworkAccess().getLogChannel(string);
     }
 
-    @Override
     public void init() {
         this.initSubComponents();
     }
 
-    @Override
     public void deinit() {
         this.deinitSubComponents();
     }

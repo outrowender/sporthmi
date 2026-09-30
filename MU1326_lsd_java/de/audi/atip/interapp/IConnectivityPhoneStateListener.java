@@ -6,28 +6,20 @@ package de.audi.atip.interapp;
 import de.audi.atip.interapp.phone.ITelMESlotState;
 
 public interface IConnectivityPhoneStateListener {
-    default public void updatePhoneState(int n, int n2) {
-    }
+    public void updatePhoneState(int var1, int var2);
 
-    default public void updateESIMInfo(String string, String string2, boolean bl, boolean bl2) {
-    }
+    public void updateESIMInfo(String var1, String var2, boolean var3, boolean var4);
 
-    default public void updateMESlotInfo(ITelMESlotState iTelMESlotState, ITelMESlotState iTelMESlotState2, ITelMESlotState iTelMESlotState3) {
-    }
+    public void updateMESlotInfo(ITelMESlotState var1, ITelMESlotState var2, ITelMESlotState var3);
 
-    default public void telAppEntered() {
-    }
+    public void telAppEntered();
 
-    default public void telAppLeft() {
-    }
+    public void telAppLeft();
 
-    default public void telUnlockEntered() {
-    }
+    public void telUnlockEntered();
 
-    default public void telUnlockLeft() {
-    }
+    public void telUnlockLeft();
 
-    default public void updateConnectedGatewayState(boolean bl) {
-    }
+    public void updateConnectedGatewayState(boolean var1);
 }
 

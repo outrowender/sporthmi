@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 public class TelEvoBatteryHandler
 extends AbstractTelBatteryHandler {
-    private static final int BATTERY_POPUP;
+    private static final int BATTERY_POPUP = 300085;
     private final ChoiceModelApp infoPopupModel;
     private final ITelApplication phoneApplication;
     private final HashMap popupShownMap = new HashMap(2);
@@ -33,15 +33,14 @@ extends AbstractTelBatteryHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void handleBatteryChargeLevel(String string, String string2, int n) {
-        this.log.log(-2137614336, "[TelEvoBatteryHandler#handleBatteryChargeLevel] called. meBTAddress=%2, batteryChargeLevel=%3, meFriendlyName=%1", (Object)string, (Object)string2, (Object)Integer.toString(n));
+        this.log.log(10000000, "[TelEvoBatteryHandler#handleBatteryChargeLevel] called. meBTAddress=%2, batteryChargeLevel=%3, meFriendlyName=%1", (Object)string, (Object)string2, (Object)Integer.toString(n));
         HashMap hashMap = this.popupShownMap;
         synchronized (hashMap) {
             boolean bl;
             boolean bl2 = bl = this.popupShownMap.containsKey(string2) ? (Boolean)this.popupShownMap.get(string2) : false;
             if (bl) {
-                this.log.log(1078071040, "[TelEvoBatteryHandler#handleBatteryChargeLevel] popup for (%1,%2) already shown --> NOP!", (Object)string, (Object)string2);
+                this.log.log(1000000, "[TelEvoBatteryHandler#handleBatteryChargeLevel] popup for (%1,%2) already shown --> NOP!", (Object)string, (Object)string2);
                 return;
             }
             if (TelEvoBatteryHandler.btDeviceAvailable(string2)) {
@@ -51,7 +50,7 @@ extends AbstractTelBatteryHandler {
                             this.showBatteryWarningPopup(string2, n);
                             this.popupShownMap.put(string2, Boolean.TRUE);
                         } else {
-                            this.log.log(1078071040, "[TelEvoBatteryHandler#handleBatteryChargeLevel] Info popups were desabled by user, NOT showing low battery level warning. InfoPopupModel.getValue()=%1", (long)this.infoPopupModel.getValue());
+                            this.log.log(1000000, "[TelEvoBatteryHandler#handleBatteryChargeLevel] Info popups were desabled by user, NOT showing low battery level warning. InfoPopupModel.getValue()=%1", (long)this.infoPopupModel.getValue());
                         }
                     } else {
                         this.showBatteryWarningPopup(string2, n);
@@ -68,20 +67,20 @@ extends AbstractTelBatteryHandler {
             while (iterator.hasNext()) {
                 String string3 = (String)iterator.next();
                 if (this.isConnectedViaSAPOrHFP(string3)) continue;
-                this.log.log(-2137614336, "[TelEvoBatteryHandler#handleBatteryChargeLevel] removing btAddress %1 from map", (Object)string3);
+                this.log.log(10000000, "[TelEvoBatteryHandler#handleBatteryChargeLevel] removing btAddress %1 from map", (Object)string3);
                 this.popupShownMap.remove(string3);
             }
         }
     }
 
     private void showBatteryWarningPopup(String string, int n) {
-        this.log.log(1078071040, "[TelEvoBatteryHandler#showBatteryWarningPopup] meBTAddress=%1, batteryChargeLevel=%2", (Object)string, (Object)Integer.toString(n));
-        this.phoneApplication.getFrameworkAccess().getHmiServiceApp().showPartialPopup(0, 898892800);
+        this.log.log(1000000, "[TelEvoBatteryHandler#showBatteryWarningPopup] meBTAddress=%1, batteryChargeLevel=%2", (Object)string, (Object)Integer.toString(n));
+        this.phoneApplication.getFrameworkAccess().getHmiServiceApp().showPartialPopup(0, 300085);
     }
 
     private void removeBatteryWarningPopup(String string, int n) {
-        this.log.log(-2137614336, "[TelEvoBatteryHandler#removeBatteryWarningPopup] meBTAddress=%1, batteryChargeLevel=%2", (Object)string, (Object)Integer.toString(n));
-        this.phoneApplication.getFrameworkAccess().getHmiServiceApp().removePartialPopup(0, 898892800);
+        this.log.log(10000000, "[TelEvoBatteryHandler#removeBatteryWarningPopup] meBTAddress=%1, batteryChargeLevel=%2", (Object)string, (Object)Integer.toString(n));
+        this.phoneApplication.getFrameworkAccess().getHmiServiceApp().removePartialPopup(0, 300085);
     }
 
     private boolean areInfoPopupsAvailable() {

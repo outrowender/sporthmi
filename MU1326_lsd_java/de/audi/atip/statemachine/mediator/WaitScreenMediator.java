@@ -26,7 +26,7 @@ implements TimerListener {
     }
 
     public WaitScreenMediator(long l, MediatorManager mediatorManager, int n, int n2) {
-        this(l, mediatorManager, n, n2, 0);
+        this(l, mediatorManager, n, n2, 3000L);
     }
 
     public WaitScreenMediator(long l, MediatorManager mediatorManager, int n, int n2, long l2) {
@@ -34,10 +34,9 @@ implements TimerListener {
         this.waitTime = l2;
     }
 
-    @Override
     public void start() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[WaitScreenMediator#start] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[WaitScreenMediator#start] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         long l = this.getDelay();
         if (this.waitTimer == null) {
@@ -56,10 +55,9 @@ implements TimerListener {
         this.started = true;
     }
 
-    @Override
     public void stop() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[WaitScreenMediator#stop] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[WaitScreenMediator#stop] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         this.waitTimer.cancel();
         this.stopListening();
@@ -67,20 +65,18 @@ implements TimerListener {
         this.started = false;
     }
 
-    @Override
     public int activate(boolean bl) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[WaitScreenMediator#activate] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[WaitScreenMediator#activate] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         this.start();
         return super.activate(bl);
     }
 
-    @Override
     public int reactivate(boolean bl) {
         int n;
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[WaitScreenMediator#reactivate] (MEDID#%1), postponedAction=(EVENTID#%2)", (Object)Long.toString(this.getID()), (long)this.getPostponedActionWithoutReset());
+            this.manager.getLogChannel().log(100000000, "[WaitScreenMediator#reactivate] (MEDID#%1), postponedAction=(EVENTID#%2)", (Object)Long.toString(this.getID()), (long)this.getPostponedActionWithoutReset());
         }
         if ((n = this.getPostponedAction()) == -1 && !this.isStarted()) {
             this.start();
@@ -90,36 +86,33 @@ implements TimerListener {
         return n;
     }
 
-    @Override
     public void processUpdate(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getModelId();
         int n2 = modelUpdateEvent.getUpdateType();
-        this.manager.getEventLogChannel().log(1078071040, "[WaitScreenMediator#processUpdate] mediator (MEDID#%2) received model-update event (MODELID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+        this.manager.getEventLogChannel().log(1000000, "[WaitScreenMediator#processUpdate] mediator (MEDID#%2) received model-update event (MODELID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
         if (!this.listening) {
-            this.manager.getEventLogChannel().log(1078071040, "[WaitScreenMediator#processUpdate] mediator (MEDID#%2) not listening to events", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+            this.manager.getEventLogChannel().log(1000000, "[WaitScreenMediator#processUpdate] mediator (MEDID#%2) not listening to events", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
             return;
         }
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[WaitScreenMediator#processUpdate] (MEDID#%1) modelUpdate for (MODELID#%2) received, model status='%3'", (Object)Long.toString(this.getID()), (Object)Integer.toString(n), (Object)Integer.toString(this.manager.getModel(n).getStatus()));
+            this.manager.getLogChannel().log(100000000, "[WaitScreenMediator#processUpdate] (MEDID#%1) modelUpdate for (MODELID#%2) received, model status='%3'", (Object)Long.toString(this.getID()), (Object)Integer.toString(n), (Object)Integer.toString(this.manager.getModel(n).getStatus()));
         }
         if (this.triggerModelIDList[0] == n && (n2 == 2 || n2 == 6 || n2 == 12 || n2 == 16)) {
             this.waiting = this.isWaiting();
             if (!(this.waiting || this.waitTimer.isRunning() && this.active)) {
                 this.triggerAction(this.action);
-                this.manager.getEventLogChannel().log(1078071040, "[WaitScreenMediator#processUpdate] mediator (MEDID#%2) processed model-update event (MODELID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+                this.manager.getEventLogChannel().log(1000000, "[WaitScreenMediator#processUpdate] mediator (MEDID#%2) processed model-update event (MODELID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
                 this.stop();
             }
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[WaitScreenMediator#fireTimer] (MEDIT#%2) called, waiting='%1'", (Object)Boolean.toString(this.isWaiting()), (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[WaitScreenMediator#fireTimer] (MEDIT#%2) called, waiting='%1'", (Object)Boolean.toString(this.isWaiting()), (Object)Long.toString(this.getID()));
         }
         this.waiting = this.isWaiting();
         if (!this.waiting) {
@@ -136,12 +129,10 @@ implements TimerListener {
         return this.waitTime;
     }
 
-    @Override
     public int getType() {
         return 8;
     }
 
-    @Override
     public void kill() {
         if (this.waitTimer != null) {
             this.waitTimer.cancel();

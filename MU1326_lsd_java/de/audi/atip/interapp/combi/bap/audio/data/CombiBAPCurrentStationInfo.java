@@ -6,7 +6,7 @@ package de.audi.atip.interapp.combi.bap.audio.data;
 import de.esolutions.fw.util.commons.Buffer;
 
 public final class CombiBAPCurrentStationInfo {
-    private static final String EMPTY_STRING;
+    private static final String EMPTY_STRING = "";
     private String primaryInformation;
     private int primaryInformationType;
     private int primaryInformationID;
@@ -17,28 +17,28 @@ public final class CombiBAPCurrentStationInfo {
     private String quaternaryInformation;
     private int quaternaryInformationType;
     private int channelID = 0;
-    public static final int ATTRIBUTE_IBOC_HD_RADIO_AVAILABLE;
-    public static final int ATTRIBUTE_VICS_AVAILABLE;
-    public static final int ATTRIBUTE_TMC_AVAILABLE;
-    public static final int ATTRIBUTE_TA_TP_AVAILABLE;
-    public static final int ATTRIBUTE_DAB_SERVICE_LINKED_TO_FM;
-    public static final int ATTRIBUTE_IBOC_LIVE_TRANSMISSION_ACTIVE_HD_LIVE_MODE;
-    public static final int ATTRIBUTE_DAB_SERVICE_DOES_NOT_CONTAIN_ANY_AUDIO_SIGNAL;
-    public static final int ATTRIBUTE_STATION_LINKED_TO_ONLINE_RADIO;
+    public static final int ATTRIBUTE_IBOC_HD_RADIO_AVAILABLE = 1;
+    public static final int ATTRIBUTE_VICS_AVAILABLE = 2;
+    public static final int ATTRIBUTE_TMC_AVAILABLE = 4;
+    public static final int ATTRIBUTE_TA_TP_AVAILABLE = 8;
+    public static final int ATTRIBUTE_DAB_SERVICE_LINKED_TO_FM = 16;
+    public static final int ATTRIBUTE_IBOC_LIVE_TRANSMISSION_ACTIVE_HD_LIVE_MODE = 32;
+    public static final int ATTRIBUTE_DAB_SERVICE_DOES_NOT_CONTAIN_ANY_AUDIO_SIGNAL = 64;
+    public static final int ATTRIBUTE_STATION_LINKED_TO_ONLINE_RADIO = 128;
     private int attributes;
-    private int listRef = -65536;
+    private int listRef = 65535;
     private int listAbsolutePosition = 0;
     private int presetListRef = 0;
     private int presetListAbsolutePosition = 0;
     private int dabEnsembleHandle = 0;
     private int dabEnsembleAbsolutePosition = 0;
-    private int commonListRef = -65536;
+    private int commonListRef = 65535;
     private int commonListAbsolutePosition = 0;
     private String pictureURL;
     private int pictureID = -1;
 
     public CombiBAPCurrentStationInfo() {
-        this("", 0);
+        this(EMPTY_STRING, 0);
     }
 
     public CombiBAPCurrentStationInfo(String string, int n) {
@@ -49,11 +49,11 @@ public final class CombiBAPCurrentStationInfo {
         this.primaryInformation = string;
         this.primaryInformationType = n;
         this.primaryInformationID = n2;
-        this.secondaryInformation = "";
+        this.secondaryInformation = EMPTY_STRING;
         this.secondaryInformationType = 0;
-        this.tertiaryInformation = "";
+        this.tertiaryInformation = EMPTY_STRING;
         this.tertiaryInformationType = 0;
-        this.quaternaryInformation = "";
+        this.quaternaryInformation = EMPTY_STRING;
         this.quaternaryInformationType = 0;
     }
 
@@ -81,7 +81,7 @@ public final class CombiBAPCurrentStationInfo {
     }
 
     public void setPrimaryInformation(String string, int n, int n2) {
-        this.primaryInformation = string != null ? string : "";
+        this.primaryInformation = string != null ? string : EMPTY_STRING;
         this.primaryInformationType = n;
         this.primaryInformationID = n2;
     }
@@ -99,7 +99,7 @@ public final class CombiBAPCurrentStationInfo {
     }
 
     public void setSecondaryInformation(String string, int n) {
-        this.secondaryInformation = string != null ? string : "";
+        this.secondaryInformation = string != null ? string : EMPTY_STRING;
         this.secondaryInformationType = n;
     }
 
@@ -112,7 +112,7 @@ public final class CombiBAPCurrentStationInfo {
     }
 
     public void setTertiaryInformation(String string, int n) {
-        this.tertiaryInformation = string != null ? string : "";
+        this.tertiaryInformation = string != null ? string : EMPTY_STRING;
         this.tertiaryInformationType = n;
     }
 
@@ -125,7 +125,7 @@ public final class CombiBAPCurrentStationInfo {
     }
 
     public void setQuaternaryInformation(String string, int n) {
-        this.quaternaryInformation = string != null ? string : "";
+        this.quaternaryInformation = string != null ? string : EMPTY_STRING;
         this.quaternaryInformationType = n;
     }
 

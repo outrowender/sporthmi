@@ -20,7 +20,6 @@ implements CombiBAPServiceMFL {
         super(combiModuleMFL);
     }
 
-    @Override
     public void setAppServiceListener(BAPServiceListener bAPServiceListener) {
         super.setAppServiceListener(bAPServiceListener);
         if (bAPServiceListener == null) {
@@ -46,9 +45,8 @@ implements CombiBAPServiceMFL {
         }
     }
 
-    @Override
     public void updateInstalledKeys(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorMFL#updateInstalledKeys] called (availableKeys=%1)", (Object)Integer.toBinaryString(n));
+        this.logChannel.log(1000000, "[AppConnectorMFL#updateInstalledKeys] called (availableKeys=%1)", (Object)Integer.toBinaryString(n));
         FSG_Setup_Status fSG_Setup_Status = new FSG_Setup_Status();
         fSG_Setup_Status.installedKeys.jokerKey1Installed = (n & 1) == 1;
         fSG_Setup_Status.installedKeys.jokerKey2Installed = (n & 2) == 2;
@@ -58,15 +56,13 @@ implements CombiBAPServiceMFL {
         this.moduleFsg.getBAPFunctionPropertyFSG(14).sendStatusIfChanged(fSG_Setup_Status);
     }
 
-    @Override
     public void updateCurrentJokerKeyFunction(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorMFL#updateCurrentJokerKeyFunction] called (keyID=%1, configuration=%2)", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorMFL#updateCurrentJokerKeyFunction] called (keyID=%1, configuration=%2)", (long)n, (long)n2);
         ((CombiModuleMFL)this.moduleFsg).getMFLKeyHandler().updateKeyConfiguration(n, n2);
     }
 
-    @Override
     public void updateAvailableJokerKeyClusterFunctions(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorMFL#updateAvailableJokerKeyClusterFunctions] called (availableFunctions=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorMFL#updateAvailableJokerKeyClusterFunctions] called (availableFunctions=%1)", (long)n);
         ((CombiModuleMFL)this.moduleFsg).getMFLKeyHandler().updateInstrumentClusterFunctions(n);
     }
 }

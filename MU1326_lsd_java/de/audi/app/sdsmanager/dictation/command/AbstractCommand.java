@@ -38,7 +38,7 @@ extends Command {
     }
 
     protected final void logUnhandledResultType(String string) {
-        this.logger.log(-1601830656, "%1 Unhandled result type.");
+        this.logger.log(100000, "%1 Unhandled result type.");
     }
 
     protected final void logException(String string, Exception exception) {

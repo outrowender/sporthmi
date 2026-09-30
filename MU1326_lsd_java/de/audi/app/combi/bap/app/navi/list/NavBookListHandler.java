@@ -16,35 +16,28 @@ extends AbstractArrayHandler {
         super(combiModuleNavi, "NavBookListHandler");
     }
 
-    @Override
     public CombiBAPArrayElement getArrayElement(int n) {
         return null;
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
     }
 
-    @Override
     public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
     }
 
-    @Override
     public int getCurrentListSize() {
         return this.currentListSize;
     }
 
-    @Override
     public int getPredecessorID(int n) {
         return 0;
     }
 
-    @Override
     public int getSuccessorID(int n) {
         return 0;
     }
 
-    @Override
     public void requestListElements(GetArrayIndication getArrayIndication) {
     }
 }

@@ -4,7 +4,6 @@
 package de.audi.atip.utils.reactive.observables;
 
 public interface BackChannel {
-    default public void disconnect() {
-    }
+    public void disconnect();
 }
 

@@ -11,14 +11,12 @@ public class MediaActivator
 extends AbstractActivator {
     private MediaEVOHMIApplicationImpl mediaEVOApp;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.mediaEVOApp = new MediaEVOHMIApplicationImpl(this.getFramework(), bundleContext);
         this.mediaEVOApp.init();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.mediaEVOApp.deinit();
         super.stop(bundleContext);

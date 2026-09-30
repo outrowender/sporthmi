@@ -21,21 +21,20 @@ extends Command {
         this.readonly = SDSUtils.retrieveBoolean(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: readOnly=%2", (Object)this.getName(), (Object)this.readonly);
+        this.logger.log(10000000, "%1#execute: readOnly=%2", (Object)this.getName(), (Object)this.readonly);
         String string = SDSModelAccess.getSlotModelStrings()[0];
-        this.logger.log(-2137614336, "%1#execute: spokenLineNumberStr=%2 (1-indexed)!", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "%1#execute: spokenLineNumberStr=%2 (1-indexed)!", (Object)this.getName(), (Object)string);
         int n = 1;
         try {
             n = Integer.parseInt(string);
         }
         catch (NumberFormatException numberFormatException) {
-            this.logger.log(-2137614336, "%1#execute: No number found in first slot, asssuming selection of first entry!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: No number found in first slot, asssuming selection of first entry!", (Object)this.getName());
         }
         int n2 = this.readonly ? 9 : 5;
         int[] nArray = new int[]{3000, 3004, 3001};
-        this.logger.log(-2137614336, "%1#execute: Setting lineNumber %2 with pageEvent %3 and answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)n, (long)n2);
+        this.logger.log(10000000, "%1#execute: Setting lineNumber %2 with pageEvent %3 and answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)n, (long)n2);
         this.hmiService.fireSDSEvent(2, n2, n, nArray);
     }
 }

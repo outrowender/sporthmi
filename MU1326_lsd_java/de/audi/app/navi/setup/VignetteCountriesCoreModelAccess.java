@@ -18,7 +18,7 @@ implements IMatchspellerModelAccess {
     public VignetteCountriesCoreModelAccess(NavigationEnv navigationEnv, ListListener listListener, IListRowBuilder iListRowBuilder) {
         this.env = navigationEnv;
         this.listRowBuilder = iListRowBuilder;
-        this.previewListModelApp = navigationEnv.getListModel(974980608);
+        this.previewListModelApp = navigationEnv.getListModel(400698);
         this.previewListModelApp.setListListener(listListener);
         this.previewListModelApp.setMaxColumns(iListRowBuilder.getColumnCount());
     }

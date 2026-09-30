@@ -8,22 +8,16 @@ import de.audi.app.media.content.IContentListener;
 import de.audi.app.media.source.IActivationContext;
 
 public interface IContentManager {
-    default public IContent getActiveContent() {
-    }
+    public IContent getActiveContent();
 
-    default public void activateContent(IActivationContext iActivationContext) {
-    }
+    public void activateContent(IActivationContext var1);
 
-    default public void deactivateActiveContent() {
-    }
+    public void deactivateActiveContent();
 
-    default public IContent getContent(int n) {
-    }
+    public IContent getContent(int var1);
 
-    default public void addContentListener(IContentListener iContentListener) {
-    }
+    public void addContentListener(IContentListener var1);
 
-    default public void removeContentListener(IContentListener iContentListener) {
-    }
+    public void removeContentListener(IContentListener var1);
 }
 

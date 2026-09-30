@@ -24,17 +24,14 @@ extends AbstractCombiPlayViewJob {
         this.entryId = l;
     }
 
-    @Override
     public int getType() {
         return 4;
     }
 
-    @Override
     public String getName() {
         return "LISTSIZE";
     }
 
-    @Override
     public void start() {
         if (this.newListSize == 0) {
             this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
@@ -45,7 +42,7 @@ extends AbstractCombiPlayViewJob {
         }
         MediaDetailInfo mediaDetailInfo = this.getCombiAdapter().getState().getCurrentDetailInfo();
         if (mediaDetailInfo == null || -1L == this.entryId && mediaDetailInfo.getEntryID() == -1L) {
-            this.logger.log(1078071040, "[%1.start] No detail information %2 or entry id %3.", (Object)"CombiJobUpdateListSize", (Object)mediaDetailInfo, this.entryId);
+            this.logger.log(1000000, "[%1.start] No detail information %2 or entry id %3.", (Object)"CombiJobUpdateListSize", (Object)mediaDetailInfo, this.entryId);
             this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
             this.getCombiAdapter().getCombiAccessor().updateListSize(0);
             this.getExecutionContext().jobFinished();
@@ -56,7 +53,7 @@ extends AbstractCombiPlayViewJob {
             l = mediaDetailInfo.getEntryID();
         }
         if (!this.getCombiAdapter().getPlayer().requestPlayViewListEntryBased(this.getCombiAdapter().getClientID(), l, 1)) {
-            this.logger.log(1078071040, "[%1.start] List request failed.", (Object)"CombiJobUpdateListSize");
+            this.logger.log(1000000, "[%1.start] List request failed.", (Object)"CombiJobUpdateListSize");
             this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
             this.getCombiAdapter().getCombiAccessor().updateListSize(this.newListSize);
             this.sendDetailInfo();
@@ -65,9 +62,8 @@ extends AbstractCombiPlayViewJob {
         }
     }
 
-    @Override
     public void responsePlayViewList(int n, MediaListEntry[] mediaListEntryArray) {
-        this.logger.log(14808325, "[%1.responsePlayViewList]", (Object)"CombiJobUpdateListSize");
+        this.logger.log(100000000, "[%1.responsePlayViewList]", (Object)"CombiJobUpdateListSize");
         boolean bl = this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(CombiBAPUtils.getAbsolutePosition(this.getCombiAdapter().getState().getCurrentDetailInfo().getEntryID(), this.getCombiAdapter().getState().getCurrentDetailInfo().getContentType(), mediaListEntryArray, n));
         this.getCombiAdapter().getCombiAccessor().updateListSize(this.newListSize);
         if (this.entryId == this.getCombiAdapter().getState().getCurrentDetailInfo().getEntryID() || bl) {
@@ -76,9 +72,8 @@ extends AbstractCombiPlayViewJob {
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted] List request aborted.", (Object)"CombiJobUpdateListSize");
+        this.logger.log(1000000, "[%1.errorListRequestAborted] List request aborted.", (Object)"CombiJobUpdateListSize");
         this.getCombiAdapter().getCombiAccessor().updateListSize(this.newListSize);
         this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
         this.sendDetailInfo();
@@ -93,9 +88,8 @@ extends AbstractCombiPlayViewJob {
         return buffer.toString();
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort]", (Object)"CombiJobUpdateListSize");
+        this.logger.log(1000000, "[%1.abort]", (Object)"CombiJobUpdateListSize");
     }
 }
 

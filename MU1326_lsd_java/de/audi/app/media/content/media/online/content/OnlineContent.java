@@ -13,7 +13,9 @@ import de.audi.app.media.content.IContentContext;
 import de.audi.app.media.content.media.HardKeyHandler;
 import de.audi.app.media.content.media.IPlayer;
 import de.audi.app.media.content.media.IncreaseSeekHandler;
+import de.audi.app.media.content.media.MediaDetailInfo;
 import de.audi.app.media.content.media.PlayTime;
+import de.audi.app.media.content.media.PlayingTrack;
 import de.audi.app.media.content.media.online.OnlinePlayerSession;
 import de.audi.app.media.content.media.online.content.AbstractOnlinePlayerJob;
 import de.audi.app.media.content.media.online.content.IContentOnlineMedia;
@@ -27,17 +29,16 @@ import de.audi.app.media.content.media.online.content.JobDettachSession;
 import de.audi.app.media.content.media.online.content.JobPause;
 import de.audi.app.media.content.media.online.content.JobResume;
 import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl;
-import de.audi.app.media.content.media.online.content.OnlineContent$1;
-import de.audi.app.media.content.media.online.content.OnlineContent$2;
 import de.audi.app.media.content.media.online.content.OnlineContentSeekerAdapter;
 import de.audi.app.media.content.media.online.content.OnlineMediaPlayerAdapterImpl;
 import de.audi.app.media.content.media.online.content.OnlinePlayerHMIHandler;
 import de.audi.app.media.content.media.online.content.OnlinePlayerState;
+import de.audi.app.media.dsi.media.AbstractMediaPlayerListener;
 import de.audi.app.media.dsi.media.IMediaDSIOnlineListener;
 import de.audi.app.media.dsi.media.IMediaDSIPlayerController;
 import de.audi.app.media.dsi.media.IMediaPlayerListener;
 import de.audi.app.media.dsi.media.MediaDSIOnlineController;
-import de.audi.app.media.logger.IMediaLogger;
+import de.audi.app.media.dsi.media.requests.RequestParameterEntryID;
 import de.audi.app.media.osgi.IServiceTracker;
 import de.audi.app.media.queue.Queue;
 import de.audi.app.media.source.IActivationContext;
@@ -47,6 +48,11 @@ import de.audi.atip.interapp.audio.ToneService;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 import org.dsi.ifc.global.ResourceLocator;
+import org.dsi.ifc.media.Capabilities;
+import org.dsi.ifc.media.EntryInfo;
+import org.dsi.ifc.media.PlaybackMode;
+import org.osgi.framework.ServiceReference;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public class OnlineContent
 extends AbstractContent
@@ -54,8 +60,8 @@ implements IAudioStateListener,
 IOnlinePlayer,
 IContentOnlineMedia,
 IMediaDSIOnlineListener {
-    private static final int SKIP_TO_PREVIOUS_FILE_THRESHOLD;
-    private static final String LOGCLASS;
+    private static final int SKIP_TO_PREVIOUS_FILE_THRESHOLD = 10;
+    private static final String LOGCLASS = "OnlineContent";
     private final IMediaDSIPlayerController dsiPlayer;
     private final IMediaPlayerListener playerListener;
     private final Queue queue = new Queue(this.getTerminal().getLogger().main(), "ONLINEPLAYER");
@@ -82,14 +88,119 @@ IMediaDSIOnlineListener {
         this.hardKeyHandler = new HardKeyHandler(iMediaTerminal, this.onlinePlayerAdapter);
         OnlineContentSeekerAdapter onlineContentSeekerAdapter = new OnlineContentSeekerAdapter(this.dsiPlayer);
         this.increaseSeekHandler = new IncreaseSeekHandler(onlineContentSeekerAdapter, this.logger.main());
-        this.playerListener = new OnlineContent$1(this, this.logger.main());
-        this.toneServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$audio$ToneService == null ? (class$de$audi$atip$interapp$audio$ToneService = OnlineContent.class$("de.audi.atip.interapp.audio.ToneService")) : class$de$audi$atip$interapp$audio$ToneService, new OnlineContent$2(this));
+        this.playerListener = new AbstractMediaPlayerListener(this.logger.main()){
+            private int previousPlaybackState;
+
+            public String getLogClass() {
+                return OnlineContent.LOGCLASS;
+            }
+
+            public void updateCapabilities(Capabilities capabilities) {
+                OnlineContent.this.logger.main().log(1000000, "[%1.updateCapabilities]", (Object)OnlineContent.LOGCLASS);
+                OnlineContent.this.getRunningJob().onCapabilitiesChanged(capabilities);
+                OnlineContent.this.hmiHandler.setPlayTimeCapabilities(capabilities.isTotalPlaytime(), capabilities.isPlayTime());
+                OnlineContent.this.onlinePlayerAdapter.capabilitiesChanged(capabilities);
+            }
+
+            private final boolean isSeeking(int n) {
+                return n == 8 || n == 9 || n == 6 || n == 7;
+            }
+
+            public void updatePlaybackState(int n) {
+                OnlineContent.this.logger.main().log(1000000, "[%1.updatePlaybackState] newState='%2', previousState='%3'", (Object)OnlineContent.LOGCLASS, (long)n, (long)this.previousPlaybackState);
+                this.updateSeekStateOnPlaybackState(n);
+                this.previousPlaybackState = n;
+                OnlineContent.this.onlinePlayerState.setPlaybackState(n);
+                OnlineContent.this.getRunningJob().onPlaybackStateChanged();
+                OnlineContent.this.notifyMusicStateListener();
+                OnlineContent.this.onlinePlayerAdapter.playbackStateChanged(n);
+                if (n == 3 && OnlineContent.this.getTerminal().getAudioManager().isMuted()) {
+                    OnlineContent.this.getTerminal().getAudioManager().demute();
+                }
+            }
+
+            private void updateSeekStateOnPlaybackState(int n) {
+                if (this.isSeeking(this.previousPlaybackState) && !this.isSeeking(n)) {
+                    OnlineContent.this.increaseSeekHandler.stop();
+                }
+            }
+
+            public void updatePlayPosition(long l, int n, int n2) {
+                OnlineContent.this.getRunningJob().onUpdatePlayPosition(l, n, n2);
+                OnlineContent.this.logger.main().log(100000000, "[%1.updatePlayPosition] %2 (%3)", (Object)OnlineContent.LOGCLASS, (long)n, (long)n2);
+                PlayTime playTime = new PlayTime(n, n2);
+                OnlineContent.this.getState().setCurrentPlayTime(playTime);
+                boolean bl = OnlineContent.this.getState().getCurrentEntryId() != l;
+                OnlineContent.this.getState().setCurrentEntryId(l);
+                OnlineContent.this.hmiHandler.setPlayTime(playTime.getRestrictedPlayTimeStr(), playTime.getRemainTimeStr(), playTime.getProgress());
+                OnlineContent.this.onlinePlayerAdapter.updatePlayPosition(l, playTime);
+                if ((bl || OnlineContent.this.retryDetailInfoRequest) && OnlineContent.this.getState().getCapabilitites().detailInfos && OnlineContent.this.onlinePlayerState.isOnPlayback() && OnlineContent.this.onlinePlayerState.getPlaybackState() != 1) {
+                    OnlineContent.this.logger.main().log(100000000, "[%1.updatePlayPosition] request detail info %2", (Object)OnlineContent.LOGCLASS, l);
+                    OnlineContent.this.retryDetailInfoRequest = false;
+                    OnlineContent.this.dsiPlayer.requestDetailInfo(l);
+                    return;
+                }
+                if (bl) {
+                    OnlineContent.this.retryDetailInfoRequest = true;
+                }
+            }
+
+            public void responseSetPlaybackURL(String string) {
+                OnlineContent.this.logger.main().log(1000000, "[%1.responseSetPlaybackURL]", (Object)OnlineContent.LOGCLASS);
+                OnlineContent.this.getRunningJob().onResponsePlaybackURL();
+            }
+
+            public void responseDetailInfo(RequestParameterEntryID requestParameterEntryID, EntryInfo entryInfo) {
+                OnlineContent.this.logger.main().log(1000000, "[%1.responseDetailInfo]", (Object)OnlineContent.LOGCLASS);
+                OnlineContent.this.getRunningJob().onResponseDetailInfo(entryInfo);
+                MediaDetailInfo mediaDetailInfo = new MediaDetailInfo(entryInfo, new PlayingTrack(OnlineContent.this.getState().getCurrentEntryId(), PlayingTrack.EMPTY_PLAYBACK_FOLDER));
+                OnlineContent.this.hmiHandler.setTitleData(mediaDetailInfo.getTitle().getI18NString(), mediaDetailInfo.getAlbum().getI18NString(), mediaDetailInfo.getArtist().getI18NString());
+                OnlineContent.this.onlinePlayerAdapter.updateDetailInfo(mediaDetailInfo);
+                OnlineContent.this.getRunningJob().onBufferStateChanged();
+            }
+
+            public void updatePlaybackModeList(PlaybackMode[] playbackModeArray) {
+                OnlineContent.this.logger.main().log(1000000, "[%1.updatePlaybackModeList]", (Object)OnlineContent.LOGCLASS);
+                OnlineContent.this.onlinePlayerState.setPlaybackModes(playbackModeArray);
+            }
+
+            public void updatePlaybackMode(int n) {
+                OnlineContent.this.logger.main().log(1000000, "[%1.updatePlaybackMode] mode=%2", (Object)OnlineContent.LOGCLASS, (Object)new Integer(n));
+                OnlineContent.this.onlinePlayerState.setPlaybackMode(n);
+                OnlineContent.this.getRunningJob().onUpdatePlaybackMode();
+            }
+
+            public void error(int n) {
+                OnlineContent.this.logger.main().log(1000000, "[%1.error] '%2'", (Object)OnlineContent.LOGCLASS, (long)n);
+                OnlineContent.this.getRunningJob().onPlayerError(n);
+            }
+        };
+        this.toneServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$audio$ToneService == null ? (class$de$audi$atip$interapp$audio$ToneService = OnlineContent.class$("de.audi.atip.interapp.audio.ToneService")) : class$de$audi$atip$interapp$audio$ToneService, new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                OnlineContent.this.logger.main().log(1000000, "[%1.removedService] tone service removed.", (Object)OnlineContent.LOGCLASS);
+                OnlineContent.this.getTerminal().getServiceManager().releaseService(serviceReference);
+                OnlineContent.this.toneService = null;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                ToneService toneService = (ToneService)OnlineContent.this.getTerminal().getServiceManager().getService(serviceReference);
+                OnlineContent.this.logger.main().log(1000000, "[%1.addingService] tone service found.", (Object)OnlineContent.LOGCLASS);
+                OnlineContent.this.toneService = toneService;
+                if (OnlineContent.this.onlinePlayerState.isOnPlayback()) {
+                    OnlineContent.this.notifyAudioSettings();
+                }
+                return OnlineContent.this.toneService;
+            }
+        });
         this.toneServiceTracker.open();
     }
 
-    @Override
     public void activate(IActivationContext iActivationContext) {
-        this.logger.main().log(1078071040, "[%1.activate]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
         super.activate(iActivationContext);
         this.queue.reset();
         this.dsiPlayer.setPlayerListener(this.playerListener);
@@ -106,16 +217,15 @@ IMediaDSIOnlineListener {
 
     private void setEntryPointID() {
         if (null == this.getActiveSlot()) {
-            this.logger.main().log(1078071040, "[%1.setEntryPointID] active Slot is null", (Object)"OnlineContent");
+            this.logger.main().log(1000000, "[%1.setEntryPointID] active Slot is null", (Object)LOGCLASS);
             return;
         }
-        this.logger.main().log(1078071040, "[%1.setEntryPointID]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.setEntryPointID]", (Object)LOGCLASS);
         this.hmiHandler.setEntryPointID(((OnlinePlayerSourceSlot)this.getActiveSlot()).getEntryPointID());
     }
 
-    @Override
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.hardKeyHandler.deactivate();
         this.dsiPlayer.setPlayerListener(null);
         this.onlinePlayerState.reset();
@@ -130,14 +240,12 @@ IMediaDSIOnlineListener {
         super.deactivate();
     }
 
-    @Override
     public IPlayer getPlayer() {
         return this.onlinePlayerAdapter;
     }
 
-    @Override
     public void setOnlineMusicStateListener(IOnlineMusicStateListener iOnlineMusicStateListener) {
-        this.logger.main().log(1078071040, "[%1.setOnlineMusicStateListener %2]", (Object)"OnlineContent", (Object)iOnlineMusicStateListener);
+        this.logger.main().log(1000000, "[%1.setOnlineMusicStateListener %2]", (Object)LOGCLASS, (Object)iOnlineMusicStateListener);
         this.musicStateListener = iOnlineMusicStateListener;
     }
 
@@ -146,9 +254,8 @@ IMediaDSIOnlineListener {
         return abstractOnlinePlayerJob != null ? abstractOnlinePlayerJob : this.DEFAULT_JOB;
     }
 
-    @Override
     public void audioStateChanged(AudioState audioState) {
-        this.logger.main().log(1078071040, "[%1.audioStateChanged] '%2'", (Object)"OnlineContent", (Object)audioState);
+        this.logger.main().log(1000000, "[%1.audioStateChanged] '%2'", (Object)LOGCLASS, (Object)audioState);
         this.onlinePlayerState.setAudioState(audioState);
         this.getRunningJob().onAudioStateChanged();
         switch (audioState.getState()) {
@@ -158,11 +265,11 @@ IMediaDSIOnlineListener {
                     this.notifyAudioSettings();
                 }
                 if (!this.onlinePlayerState.isOnPlayback()) {
-                    this.logger.main().log(1078071040, "[%1.audioStateChanged] No playback.", (Object)"OnlineContent");
+                    this.logger.main().log(1000000, "[%1.audioStateChanged] No playback.", (Object)LOGCLASS);
                     return;
                 }
                 if (this.onlinePlayerState.isOnSeeking()) {
-                    this.logger.main().log(1078071040, "[%1.audioStateChanged] On seeking.", (Object)"OnlineContent");
+                    this.logger.main().log(1000000, "[%1.audioStateChanged] On seeking.", (Object)LOGCLASS);
                     return;
                 }
                 this.queue.enqueue(new JobResume(this.logger.main(), this));
@@ -172,7 +279,7 @@ IMediaDSIOnlineListener {
             case 5: 
             case 6: {
                 if (!this.onlinePlayerState.isOnPlayback()) {
-                    this.logger.main().log(1078071040, "[%1.audioStateChanged] No playback.", (Object)"OnlineContent");
+                    this.logger.main().log(1000000, "[%1.audioStateChanged] No playback.", (Object)LOGCLASS);
                     return;
                 }
                 this.queue.enqueue(new JobPause(this.logger.main(), this));
@@ -181,95 +288,88 @@ IMediaDSIOnlineListener {
         }
     }
 
-    @Override
     public void audioFocusChanged(boolean bl) {
-        this.logger.main().log(1078071040, "[%1.audioFocusChanged] '%2'", (Object)"OnlineContent", (Object)bl);
+        this.logger.main().log(1000000, "[%1.audioFocusChanged] '%2'", (Object)LOGCLASS, (Object)bl);
         OnlinePlayerSession onlinePlayerSession = this.getState().getActiveSession();
         if (!bl && onlinePlayerSession != null && onlinePlayerSession.getOnState() == 1) {
-            this.logger.main().log(1078071040, "[%1.audioFocusChanged] Suspend session", (Object)"OnlineContent");
+            this.logger.main().log(1000000, "[%1.audioFocusChanged] Suspend session", (Object)LOGCLASS);
             onlinePlayerSession.onSuspend();
         } else if (bl && onlinePlayerSession != null && onlinePlayerSession.getOnState() == 2) {
-            this.logger.main().log(1078071040, "[%1.audioFocusChanged] Reactivate session.", (Object)"OnlineContent");
+            this.logger.main().log(1000000, "[%1.audioFocusChanged] Reactivate session.", (Object)LOGCLASS);
             onlinePlayerSession.onActive(new MediaOnlineSessionPlayerImpl(this.logger.main(), onlinePlayerSession, this));
         }
     }
 
     public void attachSession(OnlinePlayerSession onlinePlayerSession) {
-        this.logger.main().log(1078071040, "[%1.attachSession] [%2]", (Object)"OnlineContent", (Object)onlinePlayerSession);
+        this.logger.main().log(1000000, "[%1.attachSession] [%2]", (Object)LOGCLASS, (Object)onlinePlayerSession);
         this.queue.enqueue(new JobAttachSession(this.logger.main(), this, onlinePlayerSession));
     }
 
     public void detachSession(IOnlinePlayerListener iOnlinePlayerListener) {
-        this.logger.main().log(1078071040, "[%1.detachSession]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.detachSession]", (Object)LOGCLASS);
         this.queue.enqueue(new JobDettachSession(this.logger.main(), this, iOnlinePlayerListener));
     }
 
-    @Override
     public void setPlaybackURL(String string) {
-        this.logger.main().log(1078071040, "[%1.setPlaybackURL] '%2'", (Object)"OnlineContent", (Object)string);
+        this.logger.main().log(1000000, "[%1.setPlaybackURL] '%2'", (Object)LOGCLASS, (Object)string);
         this.dsiPlayer.setPlaybackURL(string);
     }
 
-    @Override
     public void resume() {
-        this.logger.main().log(1078071040, "[%1.resume]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.resume]", (Object)LOGCLASS);
         this.increaseSeekHandler.stop();
         this.dsiPlayer.resume();
     }
 
-    @Override
     public void pause() {
-        this.logger.main().log(1078071040, "[%1.pause]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.pause]", (Object)LOGCLASS);
         this.dsiPlayer.pause();
     }
 
-    @Override
     public void stop() {
-        this.logger.main().log(1078071040, "[%1.stop]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.stop]", (Object)LOGCLASS);
         this.dsiPlayer.stop();
     }
 
-    @Override
     public boolean seek(boolean bl) {
         if (!this.getState().isSeekSupported()) {
-            this.logger.main().log(1078071040, "[%1.seek] Not supported.", (Object)"OnlineContent");
+            this.logger.main().log(1000000, "[%1.seek] Not supported.", (Object)LOGCLASS);
             return false;
         }
-        this.logger.main().log(1078071040, "[%1.seek] '%2'", (Object)"OnlineContent", (Object)(bl ? "FORWARD" : "BACKWARD"));
-        this.increaseSeekHandler.start(bl, 0);
+        this.logger.main().log(1000000, "[%1.seek] '%2'", (Object)LOGCLASS, (Object)(bl ? "FORWARD" : "BACKWARD"));
+        this.increaseSeekHandler.start(bl, 5000L);
         return true;
     }
 
-    @Override
     public boolean skip(int n) {
         if (!this.isActive()) {
-            this.logger.main().log(1078071040, "[%1.skip] Not active any more.", (Object)"OnlineContent");
+            this.logger.main().log(1000000, "[%1.skip] Not active any more.", (Object)LOGCLASS);
             return false;
         }
         if (this.getState().getPlaybackState() == 0 || this.getState().getPlaybackState() == 2) {
-            this.logger.main().log(1078071040, "[%1.skip] Not ready to play.", (Object)"OnlineContent");
+            this.logger.main().log(1000000, "[%1.skip] Not ready to play.", (Object)LOGCLASS);
             return false;
         }
         if (n > 0) {
             if (!this.getState().getCapabilitites().isSkipFwd()) {
-                this.logger.main().log(1078071040, "[%1.skip] Not supported.", (Object)"OnlineContent");
+                this.logger.main().log(1000000, "[%1.skip] Not supported.", (Object)LOGCLASS);
                 return false;
             }
             this.dsiPlayer.skip(0, n);
         } else if (n < 0) {
             if (!this.getState().getCapabilitites().isSkipBwd()) {
-                this.logger.main().log(1078071040, "[%1.skip] Not supported.", (Object)"OnlineContent");
+                this.logger.main().log(1000000, "[%1.skip] Not supported.", (Object)LOGCLASS);
                 return false;
             }
             int n2 = Math.abs(n);
             if (!this.getState().getCapabilitites().isPlayTime()) {
-                this.logger.main().log(1078071040, "[%1.skip] no playtime supported", (Object)"OnlineContent");
+                this.logger.main().log(1000000, "[%1.skip] no playtime supported", (Object)LOGCLASS);
             } else if (this.getState().getCurrentPlayTime().getPlayTime() > 10) {
-                this.logger.main().log(1078071040, "[%1.skip] playTime > %2s threshold", (Object)"OnlineContent", (long)0);
+                this.logger.main().log(1000000, "[%1.skip] playTime > %2s threshold", (Object)LOGCLASS, 10L);
                 --n2;
             }
             if (n2 == 0) {
-                this.logger.main().log(1078071040, "[%1.skip] Skip to beginning", (Object)"OnlineContent");
+                this.logger.main().log(1000000, "[%1.skip] Skip to beginning", (Object)LOGCLASS);
                 if (this.dsiPlayer.skip(2, 0)) {
                     this.getState().setCurrentPlayTime(new PlayTime(0, this.getState().getCurrentPlayTime().getTotalTimeOfTrack()));
                 }
@@ -277,59 +377,51 @@ IMediaDSIOnlineListener {
                 this.dsiPlayer.skip(1, n2);
             }
         } else {
-            this.logger.main().log(1078071040, "[%1.skip] skipCount is 0", (Object)"OnlineContent");
+            this.logger.main().log(1000000, "[%1.skip] skipCount is 0", (Object)LOGCLASS);
             return false;
         }
-        this.logger.main().log(1078071040, "[%1.skip] start skip and resume audio", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.skip] start skip and resume audio", (Object)LOGCLASS);
         this.getAudioManager().resumeAudio(false);
         this.resume();
         return true;
     }
 
-    @Override
     public void setPlaybackMode(int n) {
-        this.logger.main().log(1078071040, "[%1.setPlaybackMode] '%2'", (Object)"OnlineContent", (long)n);
+        this.logger.main().log(1000000, "[%1.setPlaybackMode] '%2'", (Object)LOGCLASS, (long)n);
         this.dsiPlayer.setPlaybackMode(n);
     }
 
-    @Override
     public void setHMIPlaybackMode() {
-        this.logger.hmi().log(1078071040, "[%1.setHMIPlaybackMode]", (Object)"OnlineContent");
+        this.logger.hmi().log(1000000, "[%1.setHMIPlaybackMode]", (Object)LOGCLASS);
         ITitlelineHMIHandler iTitlelineHMIHandler = this.getTerminal().getTitlelineHMIHandler();
         iTitlelineHMIHandler.setRepeatScopeIcon(this.getState().isRepeat() ? 1 : 0);
         iTitlelineHMIHandler.setMixIcon(this.getState().isMix());
         iTitlelineHMIHandler.flush();
     }
 
-    @Override
     public void setPlayposition(long l, int n) {
-        this.logger.main().log(1078071040, "[%1.setPlayPosition] 'trackID=%2','playPosition=%3'", (Object)"OnlineContent", l, (long)n);
+        this.logger.main().log(1000000, "[%1.setPlayPosition] 'trackID=%2','playPosition=%3'", (Object)LOGCLASS, l, (long)n);
         this.dsiPlayer.setEntry(l, n);
     }
 
-    @Override
     public OnlinePlayerState getState() {
         return this.onlinePlayerState;
     }
 
-    @Override
     public Queue getPlayerQueue() {
         return this.queue;
     }
 
-    @Override
     public IAudioManager getAudioManager() {
         return this.getTerminal().getAudioManager();
     }
 
-    @Override
     public DispatcherBase getDispatcher() {
         return this.getTerminal().getDispatcher();
     }
 
-    @Override
     public void updatePlayingTrack(long l, String string, String string2, String string3, ResourceLocator resourceLocator) {
-        this.logger.main().log(1078071040, "[%1.updatePlayingTrack]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.updatePlayingTrack]", (Object)LOGCLASS);
         if (this.getAudioManager().isMuted()) {
             this.queue.enqueue(new JobPause(this.logger.main(), this));
         }
@@ -337,29 +429,25 @@ IMediaDSIOnlineListener {
         this.onlinePlayerAdapter.updateCoverart(resourceLocator);
     }
 
-    @Override
     public void playbackModeChanged(int n, boolean bl) {
-        this.logger.main().log(1078071040, "[%1.playbackModeChanged]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.playbackModeChanged]", (Object)LOGCLASS);
         this.onlinePlayerAdapter.playbackModeChanged(n, bl);
     }
 
-    @Override
     public void updateOnlineCoverArt(ResourceLocator resourceLocator) {
-        this.logger.main().log(1078071040, "[%1.updateOnlineCoverArt]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.updateOnlineCoverArt]", (Object)LOGCLASS);
         this.onlinePlayerAdapter.updateCoverart(resourceLocator);
     }
 
     public void updateAudioFocus(int n, int n2) {
     }
 
-    @Override
     public ButtonListener getHardKeyListener() {
         return this.hardKeyHandler;
     }
 
-    @Override
     public void updateBufferState(int n) {
-        this.logger.main().log(1078071040, "[%1.updateBufferState] '%2'", (Object)"OnlineContent", (long)n);
+        this.logger.main().log(1000000, "[%1.updateBufferState] '%2'", (Object)LOGCLASS, (long)n);
         switch (n) {
             case 2: {
                 this.getState().setBufferState(2);
@@ -377,129 +465,51 @@ IMediaDSIOnlineListener {
         this.notifyMusicStateListener();
     }
 
-    @Override
     public void updateBufferFillInfo(int n, int n2) {
-        this.logger.main().log(1078071040, "[%1.updateBufferFillInfo] downloaded='%2',total='%3'", (Object)"OnlineContent", (long)n, (long)n2);
+        this.logger.main().log(1000000, "[%1.updateBufferFillInfo] downloaded='%2',total='%3'", (Object)LOGCLASS, (long)n, (long)n2);
         if (n2 == 0) {
             this.getState().setBufferFillInfoPrecent(0);
         } else {
-            this.getState().setBufferFillInfoPrecent(Math.round((float)n / (float)n2 * 51266));
+            this.getState().setBufferFillInfoPrecent(Math.round((float)n / (float)n2 * 100.0f));
         }
         this.getRunningJob().onBufferStateChanged();
         this.notifyMusicStateListener();
     }
 
-    @Override
     public void updateAudioSettings(int n, int n2) {
-        this.logger.main().log(1078071040, "[%1.updateAudioSettings]", (Object)"OnlineContent");
+        this.logger.main().log(1000000, "[%1.updateAudioSettings]", (Object)LOGCLASS);
         this.onlinePlayerState.setAudioType(n);
         this.onlinePlayerState.setInputGain((short)n2);
         this.getRunningJob().onAudioSettingsChanged();
     }
 
-    @Override
     public void notifyAudioSettings() {
         if (this.toneService != null) {
             boolean bl = (this.onlinePlayerState.getAudioType() & 1) == 1;
             this.toneService.setSurround(bl);
             short s = (this.onlinePlayerState.getAudioType() & 4) == 4 ? this.onlinePlayerState.getInputGain() : (short)0;
             this.toneService.setInputGainOffSet(s);
-            this.logger.main().log(1078071040, "[%1.notifyAudioSettings surroundSound='%2', inputGain='%4']", (Object)"OnlineContent", (Object)bl, (Object)new Integer(s));
+            this.logger.main().log(1000000, "[%1.notifyAudioSettings surroundSound='%2', inputGain='%4']", (Object)LOGCLASS, (Object)bl, (Object)new Integer(s));
         }
     }
 
     private void notifyMusicStateListener() {
         if (this.musicStateListener != null) {
-            this.logger.main().log(1078071040, "[%1.notifyMusicStateListener]", (Object)"OnlineContent");
+            this.logger.main().log(1000000, "[%1.notifyMusicStateListener]", (Object)LOGCLASS);
             this.musicStateListener.updateMusicState(this.onlinePlayerState.getPlaybackState(), this.onlinePlayerState.getBufferState(), this.onlinePlayerState.getBufferFillInfoPrecent());
         }
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("OnlineContent").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 
-    @Override
     public void diagResetBrowser() {
     }
 
-    @Override
     public void rearSeatAudioFocusChanged(boolean bl) {
-    }
-
-    static /* synthetic */ IMediaLogger access$000(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ AbstractOnlinePlayerJob access$100(OnlineContent onlineContent) {
-        return onlineContent.getRunningJob();
-    }
-
-    static /* synthetic */ OnlinePlayerHMIHandler access$200(OnlineContent onlineContent) {
-        return onlineContent.hmiHandler;
-    }
-
-    static /* synthetic */ OnlineMediaPlayerAdapterImpl access$300(OnlineContent onlineContent) {
-        return onlineContent.onlinePlayerAdapter;
-    }
-
-    static /* synthetic */ IMediaLogger access$400(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ OnlinePlayerState access$500(OnlineContent onlineContent) {
-        return onlineContent.onlinePlayerState;
-    }
-
-    static /* synthetic */ void access$600(OnlineContent onlineContent) {
-        onlineContent.notifyMusicStateListener();
-    }
-
-    static /* synthetic */ IncreaseSeekHandler access$700(OnlineContent onlineContent) {
-        return onlineContent.increaseSeekHandler;
-    }
-
-    static /* synthetic */ IMediaLogger access$800(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ boolean access$900(OnlineContent onlineContent) {
-        return onlineContent.retryDetailInfoRequest;
-    }
-
-    static /* synthetic */ IMediaLogger access$1000(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ boolean access$902(OnlineContent onlineContent, boolean bl) {
-        onlineContent.retryDetailInfoRequest = bl;
-        return onlineContent.retryDetailInfoRequest;
-    }
-
-    static /* synthetic */ IMediaDSIPlayerController access$1100(OnlineContent onlineContent) {
-        return onlineContent.dsiPlayer;
-    }
-
-    static /* synthetic */ IMediaLogger access$1200(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$1300(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$1400(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$1500(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$1600(OnlineContent onlineContent) {
-        return onlineContent.logger;
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -509,23 +519,6 @@ IMediaDSIOnlineListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IMediaLogger access$1700(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ ToneService access$1802(OnlineContent onlineContent, ToneService toneService) {
-        onlineContent.toneService = toneService;
-        return onlineContent.toneService;
-    }
-
-    static /* synthetic */ IMediaLogger access$1900(OnlineContent onlineContent) {
-        return onlineContent.logger;
-    }
-
-    static /* synthetic */ ToneService access$1800(OnlineContent onlineContent) {
-        return onlineContent.toneService;
     }
 }
 

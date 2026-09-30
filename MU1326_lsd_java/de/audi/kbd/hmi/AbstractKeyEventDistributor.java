@@ -26,7 +26,6 @@ implements IKeyEventDistributor {
         this.log = this.fw.getLogChannel("Fw.Kbd.KeyEventDistributor");
     }
 
-    @Override
     public void setSDSService(SDSService sDSService) {
         this.sdsService = sDSService;
     }
@@ -34,12 +33,12 @@ implements IKeyEventDistributor {
     protected void informHardKeyListeners(KeyEvent keyEvent) {
         switch (keyEvent.getID()) {
             case 10401: {
-                this.log.log(-2137614336, "KeyEventDistributor: Sending %1 to hard key listener!", (Object)keyEvent);
+                this.log.log(10000000, "KeyEventDistributor: Sending %1 to hard key listener!", (Object)keyEvent);
                 this.hardkeyListeners.keyPressed(keyEvent);
                 break;
             }
             case 10402: {
-                this.log.log(-2137614336, "KeyEventDistributor: Sending %1 to hard key listener!", (Object)keyEvent);
+                this.log.log(10000000, "KeyEventDistributor: Sending %1 to hard key listener!", (Object)keyEvent);
                 this.hardkeyListeners.keyReleased(keyEvent);
                 break;
             }
@@ -47,12 +46,12 @@ implements IKeyEventDistributor {
     }
 
     protected void informHardKeyListeners(WheelButtonEvent wheelButtonEvent) {
-        this.log.log(-2137614336, "KeyEventDistributor: Sending %1 to hard key listener!", (Object)wheelButtonEvent);
+        this.log.log(10000000, "KeyEventDistributor: Sending %1 to hard key listener!", (Object)wheelButtonEvent);
         this.hardkeyListeners.keyTurned(wheelButtonEvent);
     }
 
     protected void informHardKeyListeners(JoystickEvent joystickEvent) {
-        this.log.log(-2137614336, "KeyEventDistributor: Sending %1 to hard key listener!", (Object)joystickEvent);
+        this.log.log(10000000, "KeyEventDistributor: Sending %1 to hard key listener!", (Object)joystickEvent);
         this.hardkeyListeners.keyMoved(joystickEvent);
     }
 
@@ -65,7 +64,6 @@ implements IKeyEventDistributor {
         }
     }
 
-    @Override
     public void setHardkeyListeners(IVirtualGUIManager iVirtualGUIManager) {
         this.hardkeyListeners = iVirtualGUIManager;
     }

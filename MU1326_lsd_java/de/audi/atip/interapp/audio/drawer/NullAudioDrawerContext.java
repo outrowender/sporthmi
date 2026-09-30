@@ -4,8 +4,6 @@
 package de.audi.atip.interapp.audio.drawer;
 
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
-import de.audi.atip.interapp.audio.drawer.AudioDrawerContext$Source;
-import de.audi.atip.interapp.audio.drawer.AudioDrawerContext$SourceAudioState;
 import de.audi.atip.interapp.def.NullService;
 import de.audi.atip.log.LogChannel;
 
@@ -16,8 +14,7 @@ implements AudioDrawerContext {
         super(logChannel, "AudioDrawerContext");
     }
 
-    @Override
-    public void setContext(AudioDrawerContext$Source audioDrawerContext$Source, AudioDrawerContext$SourceAudioState audioDrawerContext$SourceAudioState) {
+    public void setContext(AudioDrawerContext.Source source, AudioDrawerContext.SourceAudioState sourceAudioState) {
         this.log();
     }
 }

@@ -19,10 +19,9 @@ implements GeoCoordinates {
         this.onlineSearchController = onlineSearchController;
     }
 
-    @Override
     public NavLocation extractGeoCoordinates(int n, int n2, NavigationEnv navigationEnv) {
         NavLocation navLocation = this.onlineSearchController.getOnlineSearchSequence().getSearchContext().getResultList().getTransformedLocationAt(n2);
-        this.logChannel.log(1078071040, "GeoCoordinatesPOIOnline#extractGeoCoordinates: position is %1", (Object)navLocation);
+        this.logChannel.log(1000000, "GeoCoordinatesPOIOnline#extractGeoCoordinates: position is %1", (Object)navLocation);
         return navLocation;
     }
 }

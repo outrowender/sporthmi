@@ -28,8 +28,8 @@ implements BaseListModelListener,
 ButtonListener,
 ChoiceListener,
 OptionModelListener {
-    private static final int PICKING_OFF;
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private static final int PICKING_OFF = 0;
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private PredictiveNavDSIHandler dsiHandler;
     private ButtonModelApp deleteAllPredictiveNav;
     private ButtonModelApp deleteLast24HoursPredictiveNav;
@@ -48,11 +48,11 @@ OptionModelListener {
         this.logChannel = navigationEnv.getPredictiveNavigationLogChannel();
         this.dsiHandler = predictiveNavDSIHandler;
         this.naviInterface = naviInterface;
-        this.deleteAllPredictiveNav = navigationEnv.getButtonModel(-1541274112);
-        this.deleteLast24HoursPredictiveNav = navigationEnv.getButtonModel(-1339947520);
-        this.deleteOnePredictiveNav = navigationEnv.getOptionModel(-1323170304);
-        this.predictiveNavVisible = navigationEnv.getChoiceModel(-1625160192);
-        this.likelyDestinationsList = navigationEnv.getBaseListModel(-1641937408);
+        this.deleteAllPredictiveNav = navigationEnv.getButtonModel(402084);
+        this.deleteLast24HoursPredictiveNav = navigationEnv.getButtonModel(402096);
+        this.deleteOnePredictiveNav = navigationEnv.getOptionModel(402097);
+        this.predictiveNavVisible = navigationEnv.getChoiceModel(402079);
+        this.likelyDestinationsList = navigationEnv.getBaseListModel(402078);
         this.sequence = predictiveNavSequence;
         this.dispatcher = dispatcherBase;
         this.previewMap = iPreviewMap;
@@ -61,7 +61,7 @@ OptionModelListener {
     public void registerListener() {
         this.deleteAllPredictiveNav.setButtonListener(this);
         this.deleteLast24HoursPredictiveNav.setButtonListener(this);
-        this.deleteOnePredictiveNav.setListener(this, -1641937408);
+        this.deleteOnePredictiveNav.setListener(this, 402078);
         this.predictiveNavVisible.setChoiceListener(this);
         this.likelyDestinationsList.setListener(this);
     }
@@ -74,9 +74,8 @@ OptionModelListener {
         this.likelyDestinationsList.resetListener();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, new StringBuffer().append(this.CLASS_NAME).append("#keyPressed() # modelID=%1, keyID=%2, terminalID=%3").toString(), (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, this.CLASS_NAME + "#keyPressed() # modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
         if (n == this.deleteAllPredictiveNav.getID()) {
             this.dsiHandler.clearCache();
         } else if (n == this.deleteLast24HoursPredictiveNav.getID()) {
@@ -85,84 +84,71 @@ OptionModelListener {
         this.env.getButtonModel(n).fireEvent(n3);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, new StringBuffer().append(this.CLASS_NAME).append("#itemSelected() # modelID=%1, itemID=%2, terminalID=%3").toString(), (long)n, (long)n2, (long)n4);
+        this.logChannel.log(1000000, this.CLASS_NAME + "#itemSelected() # modelID=%1, itemID=%2, terminalID=%3", (long)n, (long)n2, (long)n4);
         if (n == this.predictiveNavVisible.getID()) {
             this.predictiveNavVisible.fireEvent(n4);
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, "%1#itemSelected() # row=%2", (Object)this.CLASS_NAME, (Object)evoListRow);
+        this.logChannel.log(1000000, "%1#itemSelected() # row=%2", (Object)this.CLASS_NAME, (Object)evoListRow);
         if (evoListRow instanceof PredictiveNavListRow) {
             if (this.naviInterface != null) {
-                this.logChannel.log(-2137614336, "%1#itemSelected() # startDestinationDetails", (Object)this.CLASS_NAME);
-                this.env.getChoiceModel(1830815232).setValue(0);
+                this.logChannel.log(10000000, "%1#itemSelected() # startDestinationDetails", (Object)this.CLASS_NAME);
+                this.env.getChoiceModel(401517).setValue(0);
                 this.sequence.startGuidanceBySegmendID(((PredictiveNavListRow)evoListRow).getLikelyDestination().getSegmentId());
                 this.likelyDestinationsList.fireEvent(n4);
             } else {
-                this.logChannel.log(-2137614336, "%1#itemSelected() # naviInterface == null", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#itemSelected() # naviInterface == null", (Object)this.CLASS_NAME);
             }
         } else {
-            this.logChannel.log(-2137614336, "%1#itemSelected() # row is not instanceof PredictiveNavListRowEvo # index=%2", (Object)this.CLASS_NAME, (long)n2);
+            this.logChannel.log(10000000, "%1#itemSelected() # row is not instanceof PredictiveNavListRowEvo # index=%2", (Object)this.CLASS_NAME, (long)n2);
         }
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, "%1#itemFocused() # row=%2", (Object)this.CLASS_NAME, (Object)evoListRow);
+        this.logChannel.log(1000000, "%1#itemFocused() # row=%2", (Object)this.CLASS_NAME, (Object)evoListRow);
         if (evoListRow instanceof PredictiveNavListRow) {
             this.dispatcher.execute(new FocusPreviewMapTask(this.previewMap, (PredictiveNavListRow)evoListRow, this.logChannel));
         } else {
-            this.logChannel.log(-1601830656, "%1#itemFocused() # focused row is not a PredictiveNavListRow", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000, "%1#itemFocused() # focused row is not a PredictiveNavListRow", (Object)this.CLASS_NAME);
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
         EvoListRow evoListRow;
-        this.logChannel.log(1078071040, "PredictiveNavModelListener#keyPressed() # modelID=%1, targetModelID=%2, targetRow=%3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, "PredictiveNavModelListener#keyPressed() # modelID=%1, targetModelID=%2, targetRow=%3", (long)n, (long)n2, (long)n3);
         if (n == this.deleteOnePredictiveNav.getID() && n2 == this.likelyDestinationsList.getID() && (evoListRow = this.likelyDestinationsList.getRow(n3)) instanceof PredictiveNavListRow) {
             PredictiveNavListRow predictiveNavListRow = (PredictiveNavListRow)evoListRow;
             this.dsiHandler.clearCacheByDestination(predictiveNavListRow.getLikelyDestination().getDestination());
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
     }
 }

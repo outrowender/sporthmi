@@ -38,10 +38,9 @@ implements TimerListener {
         this.changeCounter = new int[nArray.length];
     }
 
-    @Override
     public void start() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[ChangeTimerMediator#start] (MEDID#%1) ", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[ChangeTimerMediator#start] (MEDID#%1) ", (Object)Long.toString(this.getID()));
         }
         long l = this.getDelay();
         if (this.waitTimer == null) {
@@ -60,7 +59,7 @@ implements TimerListener {
             catch (NoSuchElementException noSuchElementException) {
                 this.manager.getLogChannel().log(10000, "[ChangeTimerMediator#start] unable to retrieve model (MODELID#%1) when starting ChangeTimerMediator (MEDID#%2)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()), (Object)noSuchElementException);
                 this.stopListening();
-                this.createErrorLog(new StringBuffer().append("unable to retrieve model m").append(n).append(" when starting ChangeTimerMediator").toString(), noSuchElementException);
+                this.createErrorLog("unable to retrieve model m" + n + " when starting ChangeTimerMediator", noSuchElementException);
                 return;
             }
         }
@@ -68,14 +67,12 @@ implements TimerListener {
         this.started = true;
     }
 
-    @Override
     public void stop() {
     }
 
-    @Override
     public int activate(boolean bl) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[ChangeTimerMediator#activate] (MEDID#%1) ", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[ChangeTimerMediator#activate] (MEDID#%1) ", (Object)Long.toString(this.getID()));
         }
         if (!this.started) {
             this.start();
@@ -86,11 +83,10 @@ implements TimerListener {
         return this.getPostponedAction();
     }
 
-    @Override
     public int reactivate(boolean bl) {
         int n;
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[ChangeTimerMediator#reactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[ChangeTimerMediator#reactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         if (!this.started) {
             this.start();
@@ -101,24 +97,22 @@ implements TimerListener {
         return n;
     }
 
-    @Override
     public void deactivate() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[ChangeTimerMediator#deactivate] (MEDID#%1) ", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[ChangeTimerMediator#deactivate] (MEDID#%1) ", (Object)Long.toString(this.getID()));
         }
         super.deactivate();
     }
 
-    @Override
     public void processUpdate(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getModelId();
         int n2 = modelUpdateEvent.getUpdateType();
-        this.manager.getEventLogChannel().log(1078071040, "[ChangeTimerMediator#processUpdate] (MEDID#%2) mediator received model-update event (MODELID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+        this.manager.getEventLogChannel().log(1000000, "[ChangeTimerMediator#processUpdate] (MEDID#%2) mediator received model-update event (MODELID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
         if (!this.listening) {
             return;
         }
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[ChangeTimerMediator#processUpdate] (MEDID#%1) modelUpdate for (MODELID#%2) received", (Object)Long.toString(this.getID()), (Object)Integer.toString(n));
+            this.manager.getLogChannel().log(100000000, "[ChangeTimerMediator#processUpdate] (MEDID#%1) modelUpdate for (MODELID#%2) received", (Object)Long.toString(this.getID()), (Object)Integer.toString(n));
         }
         boolean bl = false;
         for (int i2 = 0; i2 < this.triggerModelIDList.length; ++i2) {
@@ -129,7 +123,7 @@ implements TimerListener {
             if (this.active) {
                 if (this.waitTimer.isRunning()) {
                     this.valueUpdatedInMeantime = true;
-                    this.manager.getEventLogChannel().log(1078071040, "[ChangeTimerMediator#processUpdate] (MEDID#%1) mediator has detected value change, since last check, but timer already running", (Object)Long.toString(this.getID()));
+                    this.manager.getEventLogChannel().log(1000000, "[ChangeTimerMediator#processUpdate] (MEDID#%1) mediator has detected value change, since last check, but timer already running", (Object)Long.toString(this.getID()));
                 } else {
                     this.triggerAction(this.action);
                 }
@@ -139,10 +133,9 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[ChangeTimerMediator#fireTimer] (MEDID#%3) called, started=%1, valueUpdatedInMeantime=%2", (Object)Boolean.toString(this.started), (Object)Boolean.toString(this.valueUpdatedInMeantime), (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[ChangeTimerMediator#fireTimer] (MEDID#%3) called, started=%1, valueUpdatedInMeantime=%2", (Object)Boolean.toString(this.started), (Object)Boolean.toString(this.valueUpdatedInMeantime), (Object)Long.toString(this.getID()));
         }
         if (this.started && this.valueUpdatedInMeantime) {
             this.valueUpdatedInMeantime = false;
@@ -151,16 +144,13 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public int getType() {
         return 11;
     }
 
-    @Override
     public void kill() {
         if (this.waitTimer != null) {
             this.waitTimer.cancel();

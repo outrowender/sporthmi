@@ -9,16 +9,15 @@ import java.io.File;
 
 public class DataSetup
 extends AbstractDataSetup {
-    private static final String PATH_USELOCALNET;
+    private static final String PATH_USELOCALNET = "/eso/hmi/uselocalnet";
 
     public DataSetup(IDataApplication iDataApplication) {
         super(iDataApplication);
     }
 
-    @Override
     public void init() {
         super.init();
-        File file = new File("/eso/hmi/uselocalnet");
+        File file = new File(PATH_USELOCALNET);
         boolean bl = file.exists();
         this.enableLocalNetMode(bl);
         if (bl) {

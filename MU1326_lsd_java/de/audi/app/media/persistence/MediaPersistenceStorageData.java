@@ -11,13 +11,14 @@ import de.audi.atip.storage.IStorageAccess;
 import de.audi.atip.storage.ValueMissingException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class MediaPersistenceStorageData
 extends AbstractStorageDataContainer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaPersistenceStorageData";
     private final LogChannel logger;
     private volatile HashMap mediaPersistence;
 
@@ -27,51 +28,46 @@ extends AbstractStorageDataContainer {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaPersistenceStorageData");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.readAndDeserialize();
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaPersistenceStorageData");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.serializeAndWrite();
     }
 
-    @Override
     protected void handleCRC32Error() {
-        this.logger.log(1078071040, "[%1.handleCRC32Error]", (Object)"MediaPersistenceStorageData");
+        this.logger.log(1000000, "[%1.handleCRC32Error]", (Object)LOGCLASS);
         this.mediaPersistence = new HashMap();
     }
 
-    @Override
     protected void handleStorageReadError(Exception exception) {
         if (exception instanceof ValueMissingException) {
-            this.logger.log(1078071040, "[%1.handleStorageReadError] Value missing, create new one.", (Object)"MediaPersistenceStorageData");
+            this.logger.log(1000000, "[%1.handleStorageReadError] Value missing, create new one.", (Object)LOGCLASS);
             this.mediaPersistence = new HashMap();
             return;
         }
-        this.logger.log(10000, "[%1.handleStorageReadError]", (Object)"MediaPersistenceStorageData", (Throwable)exception);
+        this.logger.log(10000, "[%1.handleStorageReadError]", (Object)LOGCLASS, (Throwable)exception);
     }
 
-    @Override
     protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
     }
 
-    @Override
-    protected void serialize(DataOutputStream dataOutputStream) {
-        this.logger.log(1078071040, "[%1.serialize]", (Object)"MediaPersistenceStorageData");
+    protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+        this.logger.log(1000000, "[%1.serialize]", (Object)LOGCLASS);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);
         objectOutputStream.writeObject(this.mediaPersistence);
     }
 
-    @Override
-    protected void deserialize(DataInputStream dataInputStream) {
-        this.logger.log(1078071040, "[%1.deserialize]", (Object)"MediaPersistenceStorageData");
+    protected void deserialize(DataInputStream dataInputStream) throws IOException {
+        this.logger.log(1000000, "[%1.deserialize]", (Object)LOGCLASS);
         ObjectInputStream objectInputStream = new ObjectInputStream(dataInputStream);
         try {
             this.mediaPersistence = (HashMap)objectInputStream.readObject();
         }
         catch (ClassNotFoundException classNotFoundException) {
-            this.logger.log(10000, "[%1.deserialize] %2", (Object)"MediaPersistenceStorageData", (Throwable)classNotFoundException);
+            this.logger.log(10000, "[%1.deserialize] %2", (Object)LOGCLASS, (Throwable)classNotFoundException);
         }
     }
 

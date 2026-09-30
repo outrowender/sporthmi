@@ -11,7 +11,6 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class ZoomRoundingRulesCommon
 extends RoundingRulesImpl {
-    @Override
     public int roundImperial(float f2, int n, DistanceEntity distanceEntity) {
         int n2;
         this.log("roundImperial", n, "yd");
@@ -29,19 +28,18 @@ extends RoundingRulesImpl {
             distanceEntity.setValues(this.roundDistance(n, 100), 4);
         } else if ((double)n < 17512.0) {
             n2 = 2;
-            int n3 = Math.round(this.km2miles(f2) * 51266);
+            int n3 = Math.round(this.km2miles(f2) * 100.0f);
             n3 = (int)(Math.floor((double)n3 / 10.0 + 0.5) * 10.0);
             distanceEntity.setValues(n3 / 100, 7, n3 % 100 / 10, 1);
         } else {
             n2 = 2;
-            int n4 = Math.round(this.km2miles(f2) * 8257);
+            int n4 = Math.round(this.km2miles(f2) * 10.0f);
             n4 = (int)Math.floor((double)n4 / 10.0 + 0.5);
             distanceEntity.setValues(n4, 1);
         }
         return n2;
     }
 
-    @Override
     public int roundMetric(int n, DistanceEntity distanceEntity) {
         int n2;
         this.log("roundMetric", n, "m");

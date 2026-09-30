@@ -16,7 +16,7 @@ implements IPartialPopupListener,
 ISeatPopupHandler {
     private final ICarApplication application;
     private CarServiceProvider partialPopinServiceProvider;
-    private static final int terminalID;
+    private static final int terminalID = 0;
     private ISeatPopupHandlerController seatPopupHandlerController;
     private final LogChannel logChannel;
     private int[] popinIDsForCallbacks;
@@ -28,22 +28,18 @@ ISeatPopupHandler {
         this.seatPopupHandlerController = iSeatPopupHandlerController;
     }
 
-    @Override
     public void init(int[] nArray) {
         this.initServiceProvider(nArray);
     }
 
-    @Override
     public void deinit() {
         this.deinitServiceProvider();
     }
 
-    @Override
     public void showSeatPopup(int n) {
         this.showPartialPopin(n);
     }
 
-    @Override
     public void hideSeatPopup(int n) {
         this.hidePartialPopin(n);
     }
@@ -69,33 +65,30 @@ ISeatPopupHandler {
         }
     }
 
-    @Override
     public void partialPopupVisible(int n, int n2) {
         this.logPartialPopinStateChange("partialPopupVisible", n);
         this.seatPopupHandlerController.notifySeatPopupVisible(n);
     }
 
-    @Override
     public void partialPopupHidden(int n, int n2) {
         this.logPartialPopinStateChange("partialPopupHidden", n);
         this.seatPopupHandlerController.notifySeatPopupHidden(n);
     }
 
-    @Override
     public int[] getPPIDsForCallbacks() {
         this.seatPopupHandlerController.setSeatPopinListenerServiceTracked(true);
         if (this.popinIDsForCallbacks == null) {
             return new int[0];
         }
-        this.logChannel.log(1078071040, "[SeatPopinHandler#getPPIDsForCallbacks] popinID1='%1' , popinID2='%2' , popinID3='%3' , popinID4='%4'", (Object)new Integer(this.popinIDsForCallbacks[0]), (Object)new Integer(this.popinIDsForCallbacks[1]), (Object)new Integer(this.popinIDsForCallbacks[2]), (Object)new Integer(this.popinIDsForCallbacks[3]));
+        this.logChannel.log(1000000, "[SeatPopinHandler#getPPIDsForCallbacks] popinID1='%1' , popinID2='%2' , popinID3='%3' , popinID4='%4'", (Object)new Integer(this.popinIDsForCallbacks[0]), (Object)new Integer(this.popinIDsForCallbacks[1]), (Object)new Integer(this.popinIDsForCallbacks[2]), (Object)new Integer(this.popinIDsForCallbacks[3]));
         return this.popinIDsForCallbacks;
     }
 
     private void initServiceProvider(int[] nArray) {
-        this.logChannel.log(1078071040, "[SeatPopinHandler#initServiceProvider] popinID1='%1' , popinID2='%2' , popinID3='%3' , popinID4='%4'", (Object)new Integer(nArray[0]), (Object)new Integer(nArray[1]), (Object)new Integer(nArray[2]), (Object)new Integer(nArray[3]));
+        this.logChannel.log(1000000, "[SeatPopinHandler#initServiceProvider] popinID1='%1' , popinID2='%2' , popinID3='%3' , popinID4='%4'", (Object)new Integer(nArray[0]), (Object)new Integer(nArray[1]), (Object)new Integer(nArray[2]), (Object)new Integer(nArray[3]));
         this.popinIDsForCallbacks = nArray;
         this.partialPopinServiceProvider = new CarServiceProvider((class$de$audi$atip$hmi$view$IPartialPopupListener == null ? (class$de$audi$atip$hmi$view$IPartialPopupListener = SeatPopinHandler.class$("de.audi.atip.hmi.view.IPartialPopupListener")) : class$de$audi$atip$hmi$view$IPartialPopupListener).getName(), this, null, this.application.getBundleContext(), this.logChannel);
-        this.logChannel.log(1078071040, "[SeatPopinHandler#initServiceProvider] start IPartialPopupListener Service");
+        this.logChannel.log(1000000, "[SeatPopinHandler#initServiceProvider] start IPartialPopupListener Service");
         this.partialPopinServiceProvider.startService();
     }
 
@@ -105,20 +98,17 @@ ISeatPopupHandler {
 
     private void logPartialPopinStateChange(String string, int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[SeatPopinHandler#%1] partialPopinID=%2, terminalID=%3", (Object)string, (long)n, 0L);
+            this.logChannel.log(1000000, "[SeatPopinHandler#%1] partialPopinID=%2, terminalID=%3", (Object)string, (long)n, 0L);
         }
     }
 
-    @Override
     public void partialPopupRemoved(int n, int n2) {
         this.logPartialPopinStateChange("partialPopupRemoved", n);
     }
 
-    @Override
     public void partialPopupListenerRegistered(int n, int n2, boolean bl) {
     }
 
-    @Override
     public void informAboutPPCoordinates(int n, int n2, int n3, int n4, int n5, int n6) {
     }
 

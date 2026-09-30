@@ -4,53 +4,38 @@
 package de.audi.atip.sysapp.carcoding;
 
 public interface LoadSpeedThreshold {
-    public static final int UP_DOWN_LOAD_DATA_LENGTH;
-    public static final int DEFAULT_VALUE_HYSTERESIS;
-    public static final int DEFAULT_VALUE_THRESHOLD;
+    public static final int UP_DOWN_LOAD_DATA_LENGTH = 30;
+    public static final int DEFAULT_VALUE_HYSTERESIS = 10;
+    public static final int DEFAULT_VALUE_THRESHOLD = 30;
 
-    default public int getVideoCutOffThreshold() {
-    }
+    public int getVideoCutOffThreshold();
 
-    default public int getVideoHysteresis() {
-    }
+    public int getVideoHysteresis();
 
-    default public int getSlideshowCutOffThreshold() {
-    }
+    public int getSlideshowCutOffThreshold();
 
-    default public int getSlideshowHysteresis() {
-    }
+    public int getSlideshowHysteresis();
 
-    default public int getSlideshowDisplayDuration1() {
-    }
+    public int getSlideshowDisplayDuration1();
 
-    default public int getSlideshowDisplayDuration2() {
-    }
+    public int getSlideshowDisplayDuration2();
 
-    default public int getDestinationInputCutOffThreshold() {
-    }
+    public int getDestinationInputCutOffThreshold();
 
-    default public int getDestinationInputHysteresis() {
-    }
+    public int getDestinationInputHysteresis();
 
-    default public int getBtBondingCutOffThreshold() {
-    }
+    public int getBtBondingCutOffThreshold();
 
-    default public int getBtBondingHysteresis() {
-    }
+    public int getBtBondingHysteresis();
 
-    default public int getMessagingTextEditorCutOffThreshold() {
-    }
+    public int getMessagingTextEditorCutOffThreshold();
 
-    default public int getMessagingTextEditorHysteresis() {
-    }
+    public int getMessagingTextEditorHysteresis();
 
-    default public int getRadioTextCutOffThreshold() {
-    }
+    public int getRadioTextCutOffThreshold();
 
-    default public int getRadioTextHysteresis() {
-    }
+    public int getRadioTextHysteresis();
 
-    default public int getRadioTextDisplayTime() {
-    }
+    public int getRadioTextDisplayTime();
 }
 

@@ -16,220 +16,148 @@ import org.dsi.ifc.tmc.TmcMessage;
 
 public interface IPreviewMap
 extends PreviewMapClientIdsConsts {
-    default public void setPreviewMapCallbackHandler(PreviewMapCallback previewMapCallback) {
-    }
+    public void setPreviewMapCallbackHandler(PreviewMapCallback var1);
 
-    default public void hidePreviewMap() {
-    }
+    public void hidePreviewMap();
 
-    default public void previewMapScreenEntering(int n, int n2, int n3, int n4) {
-    }
+    public void previewMapScreenEntering(int var1, int var2, int var3, int var4);
 
-    default public void previewMapScreenEntering(int n, int n2, int n3, int n4, boolean bl) {
-    }
+    public void previewMapScreenEntering(int var1, int var2, int var3, int var4, boolean var5);
 
-    default public void previewMapScreenEntering(int n, int n2) {
-    }
+    public void previewMapScreenEntering(int var1, int var2);
 
-    default public void previewMapScreenLayoutRegister(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void previewMapScreenLayoutRegister(int var1, int var2, int var3, int var4, int var5);
 
-    default public void previewMapScreenApplyItemBeforeShown(int n, int n2) {
-    }
+    public void previewMapScreenApplyItemBeforeShown(int var1, int var2);
 
-    default public void previewMapFullScreenShowItemSelectedWithToolTip(int n) {
-    }
+    public void previewMapFullScreenShowItemSelectedWithToolTip(int var1);
 
-    default public void previewMapFullScreenShowItemSelectedWithToolTipLast() {
-    }
+    public void previewMapFullScreenShowItemSelectedWithToolTipLast();
 
-    default public void previewMapFullScreenShowItemInMapWithToolTip() {
-    }
+    public void previewMapFullScreenShowItemInMapWithToolTip();
 
-    default public void previewMapFullScreenShowItemInMapWithToolTipWithoutCenteringMapPosition() {
-    }
+    public void previewMapFullScreenShowItemInMapWithToolTipWithoutCenteringMapPosition();
 
-    default public void previewMapFullScreenHidden() {
-    }
+    public void previewMapFullScreenHidden();
 
-    default public void previewMapScreenExited() {
-    }
+    public void previewMapScreenExited();
 
-    default public void previewMapScreenErrorUpdateByClientWithDelay() {
-    }
+    public void previewMapScreenErrorUpdateByClientWithDelay();
 
-    default public void setPreviewAreaAroundCCP(int n) {
-    }
+    public void setPreviewAreaAroundCCP(int var1);
 
-    default public void setPreviewLocation(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocation(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewLocationSds(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationSds(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewLocationDistant(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationDistant(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewLocationAroundReferencePoint(NavLocation navLocation, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationAroundReferencePoint(NavLocation var1, NavLocationWgs84 var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewLocationAroundCCP(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationAroundCCP(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewLocationAroundDestination(NavLocation navLocation, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationAroundDestination(NavLocation var1, NavLocationWgs84 var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewDestination(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewDestination(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewAddressBookEntry(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewAddressBookEntry(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewFavoriteHome(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewFavoriteHome(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewState(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewState(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewLocationCity(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationCity(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewLocations(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocations(NavLocation[] var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewTour(NavLocation[] navLocationArray, String string, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewTour(NavLocation[] var1, String var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewLocationsForOperatorCall(NavLocationWgs84[] navLocationWgs84Array, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationsForOperatorCall(NavLocationWgs84[] var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewPOIsOnboard(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPOIsOnboard(NavLocation[] var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewPOIsOnboardDistant(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPOIsOnboardDistant(NavLocation[] var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewPOIsOnboardAroundCCP(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPOIsOnboardAroundCCP(NavLocation[] var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewPOIsOnboardAroundReferencePoint(NavLocation[] navLocationArray, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPOIsOnboardAroundReferencePoint(NavLocation[] var1, NavLocationWgs84 var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewPOIsOnboardAroundDestination(NavLocation[] navLocationArray, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPOIsOnboardAroundDestination(NavLocation[] var1, NavLocationWgs84 var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewRoadSegment(int n, int n2, int n3, int n4, long l, long l2, int n5, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewRoadSegment(int var1, int var2, int var3, int var4, long var5, long var7, int var9, GuiModelAccessForPreviewMapDetailScreen var10, GuiTooltipInformationContainer var11);
 
-    default public void setPreviewTrafficInfoTmcEvent(TmcMessage tmcMessage, int n, boolean bl) {
-    }
+    public void setPreviewTrafficInfoTmcEvent(TmcMessage var1, int var2, boolean var3);
 
-    default public void setPreviewTrafficInfoTmcEvents(long[] lArray, NavRectangle navRectangle, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewTrafficInfoTmcEvents(long[] var1, NavRectangle var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewRoute(boolean bl, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewRoute(boolean var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewRoute(boolean bl, boolean bl2, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewRoute(boolean var1, boolean var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewRouteEvent(NavLocation navLocation, int n, int n2, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewRouteEvent(NavLocation var1, int var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewSDSPicklistEvents(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewSDSPicklistEvents(NavLocation[] var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewTrafficInfoTmcEvent(long l, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewTrafficInfoTmcEvent(long var1, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewTrafficInfoTmcEventsForRouteList(NavRectangle navRectangle, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewTrafficInfoTmcEventsForRouteList(NavRectangle var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewPredictiveNavigationRoute(NavSegmentID navSegmentID, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPredictiveNavigationRoute(NavSegmentID var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewPredictiveNavigationRoutes(NavSegmentID[] navSegmentIDArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPredictiveNavigationRoutes(NavSegmentID[] var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewRouteOffroad(NavSegmentID navSegmentID, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewRouteOffroad(NavSegmentID var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewPoiOnlineAroundCCP(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPoiOnlineAroundCCP(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewPoiOnlineAroundDestination(NavLocation navLocation, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPoiOnlineAroundDestination(NavLocation var1, NavLocationWgs84 var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewPoiOnlineAroundReferencePoint(NavLocation navLocation, NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPoiOnlineAroundReferencePoint(NavLocation var1, NavLocationWgs84 var2, int var3, GuiModelAccessForPreviewMapDetailScreen var4, GuiTooltipInformationContainer var5);
 
-    default public void setPreviewFavorite(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewFavorite(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewLocationConcierge(NavLocationWgs84 navLocationWgs84, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationConcierge(NavLocationWgs84 var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewLocationTpeg(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationTpeg(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewLocation(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer, boolean bl, String string) {
-    }
+    public void setPreviewLocation(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4, boolean var5, String var6);
 
-    default public void setPreviewPOIsOnboardFromTourListOrRouteList(NavLocation[] navLocationArray, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewPOIsOnboardFromTourListOrRouteList(NavLocation[] var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void setPreviewMapNone(int n) {
-    }
+    public void setPreviewMapNone(int var1);
 
-    default public void setPreviewLocationFromTourList(NavLocation navLocation, int n, GuiModelAccessForPreviewMapDetailScreen guiModelAccessForPreviewMapDetailScreen, GuiTooltipInformationContainer guiTooltipInformationContainer) {
-    }
+    public void setPreviewLocationFromTourList(NavLocation var1, int var2, GuiModelAccessForPreviewMapDetailScreen var3, GuiTooltipInformationContainer var4);
 
-    default public void callbackByMapContextOnEnteringMapPreview() {
-    }
+    public void callbackByMapContextOnEnteringMapPreview();
 
-    default public void callbackByMapContextOnEnteringMapFullscreen() {
-    }
+    public void callbackByMapContextOnEnteringMapFullscreen();
 
-    default public void onScreenFadedOut(int n) {
-    }
+    public void onScreenFadedOut(int var1);
 
-    default public void setStoreFocusForEnterOnce(boolean bl) {
-    }
+    public void setStoreFocusForEnterOnce(boolean var1);
 
-    default public void refreshLastRequestedState(int n) {
-    }
+    public void refreshLastRequestedState(int var1);
 
-    default public void resetEventVisibilities(boolean bl, boolean bl2) {
-    }
+    public void resetEventVisibilities(boolean var1, boolean var2);
 
-    default public Rect getGuiPreviewMapLayoutVisibleAreaCurrent() {
-    }
+    public Rect getGuiPreviewMapLayoutVisibleAreaCurrent();
 
-    default public void setPreviewMapPositionRefreshAllowed(boolean bl) {
-    }
+    public void setPreviewMapPositionRefreshAllowed(boolean var1);
 
-    default public int getPreviewMapClientIdLast() {
-    }
+    public int getPreviewMapClientIdLast();
 
-    default public void setPreviewMapWaitSyncChoiceModelId(int n) {
-    }
+    public void setPreviewMapWaitSyncChoiceModelId(int var1);
 
-    default public int getMapContextCorrected(int n) {
-    }
+    public int getMapContextCorrected(int var1);
 
-    default public int getPreviewMapModelHkBackBehavior() {
-    }
+    public int getPreviewMapModelHkBackBehavior();
 
-    default public void setPreviewMapModelHkBackBehavior(int n) {
-    }
+    public void setPreviewMapModelHkBackBehavior(int var1);
 
-    default public void cleanUp() {
-    }
+    public void cleanUp();
 
-    default public boolean isFullscreenPreviewMapVisible() {
-    }
+    public boolean isFullscreenPreviewMapVisible();
 
-    default public boolean isPreviewMapItemArea() {
-    }
+    public boolean isPreviewMapItemArea();
 }
 

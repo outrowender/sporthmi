@@ -29,27 +29,22 @@ implements java.security.interfaces.RSAPrivateKey {
         this.privateExponent = bigInteger2;
     }
 
-    @Override
     public String getAlgorithm() {
         return "RSA";
     }
 
-    @Override
     public byte[] getEncoded() {
         return null;
     }
 
-    @Override
     public String getFormat() {
         return null;
     }
 
-    @Override
     public BigInteger getModulus() {
         return this.modulus;
     }
 
-    @Override
     public BigInteger getPrivateExponent() {
         return this.privateExponent;
     }
@@ -60,7 +55,7 @@ implements java.security.interfaces.RSAPrivateKey {
 
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(super.getClass().getName());
+        stringBuffer.append(this.getClass().getName());
         RSAPublicKey.writeParamString(this.modulus, "modulus (n)", stringBuffer);
         RSAPublicKey.writeParamString(this.privateExponent, "private exponent (d)", stringBuffer);
         return stringBuffer.toString();

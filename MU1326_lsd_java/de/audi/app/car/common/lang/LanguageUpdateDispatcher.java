@@ -30,9 +30,8 @@ I18NTarget {
         this.i18nServiceProvider = new CarServiceProvider((class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = LanguageUpdateDispatcher.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName(), this, null, bundleContext, logChannel);
     }
 
-    @Override
     public void init() {
-        this.logChannel.log(1078071040, "[LanguageUpdateDispatcher#init] called");
+        this.logChannel.log(1000000, "[LanguageUpdateDispatcher#init] called");
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", this.application.getApplicationName());
         hashtable.put("LANG_COMPONENT_TYPE", "LANG_COMPONENT_HMI");
@@ -43,9 +42,8 @@ I18NTarget {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.logChannel.log(1078071040, "[LanguageUpdateDispatcher#deinit] called");
+        this.logChannel.log(1000000, "[LanguageUpdateDispatcher#deinit] called");
         this.i18nServiceProvider.stopService();
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
@@ -56,13 +54,12 @@ I18NTarget {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addLanguageUpdateListener(ILanguageUpdateListener iLanguageUpdateListener) {
-        this.logChannel.log(1078071040, "[LanguageUpdateDispatcher#addLanguageUpdateListener] adding '%1'", (Object)iLanguageUpdateListener);
+        this.logChannel.log(1000000, "[LanguageUpdateDispatcher#addLanguageUpdateListener] adding '%1'", (Object)iLanguageUpdateListener);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             if (this.listeners.contains(iLanguageUpdateListener)) {
-                this.logChannel.log(1078071040, "[LanguageUpdateDispatcher#addLanguageUpdateListener] listener already added");
+                this.logChannel.log(1000000, "[LanguageUpdateDispatcher#addLanguageUpdateListener] listener already added");
                 return;
             }
             this.listeners.add(iLanguageUpdateListener);
@@ -72,13 +69,12 @@ I18NTarget {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeLanguageUpdateListener(ILanguageUpdateListener iLanguageUpdateListener) {
-        this.logChannel.log(1078071040, "[LanguageUpdateDispatcher#removeLanguageUpdateListener] removing '%1'", (Object)iLanguageUpdateListener);
+        this.logChannel.log(1000000, "[LanguageUpdateDispatcher#removeLanguageUpdateListener] removing '%1'", (Object)iLanguageUpdateListener);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             if (!this.listeners.contains(iLanguageUpdateListener)) {
-                this.logChannel.log(-1601830656, "[LanguageUpdateDispatcher#removeLanguageUpdateListener] listener is not in the list");
+                this.logChannel.log(100000, "[LanguageUpdateDispatcher#removeLanguageUpdateListener] listener is not in the list");
                 return;
             }
             this.listeners.remove(iLanguageUpdateListener);
@@ -88,10 +84,9 @@ I18NTarget {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setLanguage(Language language) {
         ArrayList arrayList;
-        this.logChannel.log(1078071040, "[LanguageUpdateDispatcher#setLanguage] language='%1'", (Object)language);
+        this.logChannel.log(1000000, "[LanguageUpdateDispatcher#setLanguage] language='%1'", (Object)language);
         Object object = this.listeners;
         synchronized (object) {
             arrayList = (ArrayList)this.listeners.clone();

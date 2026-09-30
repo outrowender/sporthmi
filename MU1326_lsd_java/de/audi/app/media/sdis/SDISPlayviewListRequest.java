@@ -11,7 +11,7 @@ import de.esolutions.fw.comm.asi.hmisync.media.ASIHMISyncMediaReply;
 
 public class SDISPlayviewListRequest
 extends AbstractPlayViewListRequest {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "SDISPlayviewListRequest";
     private final ASIHMISyncMediaReply reply;
     private final LogChannel logger;
 
@@ -21,14 +21,13 @@ extends AbstractPlayViewListRequest {
         this.reply = aSIHMISyncMediaReply;
     }
 
-    @Override
     public void responsePlayList(boolean bl, int n, MediaListEntry[] mediaListEntryArray) {
-        this.logger.log(1078071040, "[%1.responsePlayList]", (Object)"SDISPlayviewListRequest");
+        this.logger.log(1000000, "[%1.responsePlayList]", (Object)LOGCLASS);
         try {
             this.reply.responsePlayList(bl, n, MediaUtilsSDIS.convert2ASIMediaEntries(mediaListEntryArray));
         }
         catch (Exception exception) {
-            this.logger.log(-1601830656, "[%1.responsePlayList]", (Object)"SDISPlayviewListRequest", (Throwable)exception);
+            this.logger.log(100000, "[%1.responsePlayList]", (Object)LOGCLASS, (Throwable)exception);
         }
     }
 }

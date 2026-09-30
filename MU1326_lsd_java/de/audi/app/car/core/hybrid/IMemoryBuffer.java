@@ -5,51 +5,37 @@ package de.audi.app.car.core.hybrid;
 
 import de.audi.app.car.core.hybrid.IMemoryBufferEntry;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public interface IMemoryBuffer {
-    default public String getName() {
-    }
+    public String getName();
 
-    default public boolean init(int n, int n2) {
-    }
+    public boolean init(int var1, int var2) throws IllegalArgumentException, IllegalStateException;
 
-    default public boolean isInitialized() {
-    }
+    public boolean isInitialized();
 
-    default public boolean reset() {
-    }
+    public boolean reset() throws IllegalStateException;
 
-    default public int size() {
-    }
+    public int size();
 
-    default public int maxSize() {
-    }
+    public int maxSize();
 
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    default public boolean isAtFullCapacity() {
-    }
+    public boolean isAtFullCapacity();
 
-    default public boolean enqueue(IMemoryBufferEntry iMemoryBufferEntry) {
-    }
+    public boolean enqueue(IMemoryBufferEntry var1) throws IllegalStateException;
 
-    default public IMemoryBufferEntry dequeue() {
-    }
+    public IMemoryBufferEntry dequeue() throws NoSuchElementException, IllegalStateException;
 
-    default public boolean update(IMemoryBufferEntry iMemoryBufferEntry) {
-    }
+    public boolean update(IMemoryBufferEntry var1) throws IllegalStateException;
 
-    default public IMemoryBufferEntry get(int n) {
-    }
+    public IMemoryBufferEntry get(int var1) throws NoSuchElementException, IllegalStateException;
 
-    default public int getIndexOfLatest() {
-    }
+    public int getIndexOfLatest();
 
-    default public IMemoryBufferEntry[] toArray() {
-    }
+    public IMemoryBufferEntry[] toArray() throws IllegalStateException;
 
-    default public Iterator iterator() {
-    }
+    public Iterator iterator() throws IllegalStateException;
 }
 

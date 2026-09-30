@@ -7,10 +7,8 @@ import de.audi.atip.mmicombi.exchange.IMMICombiExchangePacket;
 
 public interface IMMICombiPopupExchangePacket
 extends IMMICombiExchangePacket {
-    default public void setPopupID(int n) {
-    }
+    public void setPopupID(int var1);
 
-    default public int getPopupID() {
-    }
+    public int getPopupID();
 }
 

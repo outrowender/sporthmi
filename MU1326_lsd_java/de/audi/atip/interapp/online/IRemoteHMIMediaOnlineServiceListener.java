@@ -6,13 +6,10 @@ package de.audi.atip.interapp.online;
 import java.util.List;
 
 public interface IRemoteHMIMediaOnlineServiceListener {
-    default public void updateLastActiveOnlineService(int n) {
-    }
+    public void updateLastActiveOnlineService(int var1);
 
-    default public void updateOnlineServices(List list) {
-    }
+    public void updateOnlineServices(List var1);
 
-    default public void updateDeviceAppState(boolean bl) {
-    }
+    public void updateDeviceAppState(boolean var1);
 }
 

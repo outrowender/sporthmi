@@ -6,32 +6,25 @@ package de.audi.remotehmi;
 import de.audi.remotehmi.RemoteHMIAction;
 
 public interface IRemoteHMI {
-    public static final String VERSION;
-    public static final int STATUS_OK;
-    public static final int ERROR_SERVER_NOT_AVAILABLE;
-    public static final int ERROR_UNSPECIFIED;
-    public static final int PERSISTENCE_CACHE_DB;
-    public static final String ROOT_CONTEXT;
+    public static final String VERSION = "1.2.0";
+    public static final int STATUS_OK = 0;
+    public static final int ERROR_SERVER_NOT_AVAILABLE = 1000;
+    public static final int ERROR_UNSPECIFIED = 9000;
+    public static final int PERSISTENCE_CACHE_DB = 1;
+    public static final String ROOT_CONTEXT = "top_wizard";
 
-    default public void setContext(String string) {
-    }
+    public void setContext(String var1);
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public void action(String string, RemoteHMIAction remoteHMIAction) {
-    }
+    public void action(String var1, RemoteHMIAction var2);
 
-    default public String getServiceAdapterVersion() {
-    }
+    public String getServiceAdapterVersion();
 
-    default public void setHMILanguage(String string) {
-    }
+    public void setHMILanguage(String var1);
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings();
 
-    default public String[] requestPosInfoAsia() {
-    }
+    public String[] requestPosInfoAsia();
 }
 

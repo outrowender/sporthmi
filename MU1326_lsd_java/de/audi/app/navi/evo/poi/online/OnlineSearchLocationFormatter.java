@@ -10,7 +10,7 @@ import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.global.NavLocation;
 
 public class OnlineSearchLocationFormatter {
-    private static final String CENTER_TOKEN;
+    private static final String CENTER_TOKEN = "%C";
 
     public String formatLocation(NavLocation navLocation) {
         if (navLocation == null) {
@@ -21,14 +21,14 @@ public class OnlineSearchLocationFormatter {
     }
 
     private String replaceTownCenter(String string) {
-        int n = string.indexOf("%C");
+        int n = string.indexOf(CENTER_TOKEN);
         if (n < 0) {
             return string;
         }
         Buffer buffer = new Buffer();
         buffer.append(string.substring(0, n));
         buffer.append(TextUtil.getCenterName());
-        buffer.append(string.substring(n + "%C".length()));
+        buffer.append(string.substring(n + CENTER_TOKEN.length()));
         return buffer.toString();
     }
 
@@ -73,7 +73,7 @@ public class OnlineSearchLocationFormatter {
                 bl2 = true;
             }
             boolean bl3 = false;
-            if (!Util.isEmpty(string2) && Util.isAdditionalFlagSet(navLocation, 96)) {
+            if (!Util.isEmpty(string2) && Util.isAdditionalFlagSet(navLocation, 0x60000000)) {
                 buffer.append(", ");
                 bl3 = true;
                 buffer.append(string2);
@@ -89,7 +89,7 @@ public class OnlineSearchLocationFormatter {
                 buffer.append(", ");
             }
             buffer.append(string3);
-            if (!Util.isEmpty(string4) && Util.isAdditionalFlagSet(navLocation, 144)) {
+            if (!Util.isEmpty(string4) && Util.isAdditionalFlagSet(navLocation, -1879048192)) {
                 buffer.append(", ");
                 buffer.append(string4);
             }
@@ -138,7 +138,7 @@ public class OnlineSearchLocationFormatter {
             } else if (bl) {
                 buffer.append(string2);
             } else {
-                buffer.append("%C");
+                buffer.append(CENTER_TOKEN);
                 buffer.append(", ");
                 buffer.append(string2);
             }

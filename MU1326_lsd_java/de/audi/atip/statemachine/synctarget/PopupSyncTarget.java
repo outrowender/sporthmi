@@ -13,12 +13,10 @@ extends AbstractSyncTarget {
         super(n, syncTargetManager);
     }
 
-    @Override
     public boolean execute(SyncTargetProcessor syncTargetProcessor) {
         return false;
     }
 
-    @Override
     public void activated(SyncTargetProcessor syncTargetProcessor) {
     }
 }

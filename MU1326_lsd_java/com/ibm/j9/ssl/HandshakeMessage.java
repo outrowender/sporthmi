@@ -4,26 +4,27 @@
 package com.ibm.j9.ssl;
 
 import com.ibm.j9.ssl.Util;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class HandshakeMessage {
-    public static final byte HELLO_REQUEST;
-    public static final byte CLIENT_HELLO;
-    public static final byte SERVER_HELLO;
-    public static final byte CERTIFICATE;
-    public static final byte SERVER_KEY_EXCHANGE;
-    public static final byte CERTIFICATE_REQUEST;
-    public static final byte SERVER_HELLO_DONE;
-    public static final byte CERTIFICATE_VERIFY;
-    public static final byte CLIENT_KEY_EXCHANGE;
-    public static final byte FINISHED;
+    public static final byte HELLO_REQUEST = 0;
+    public static final byte CLIENT_HELLO = 1;
+    public static final byte SERVER_HELLO = 2;
+    public static final byte CERTIFICATE = 11;
+    public static final byte SERVER_KEY_EXCHANGE = 12;
+    public static final byte CERTIFICATE_REQUEST = 13;
+    public static final byte SERVER_HELLO_DONE = 14;
+    public static final byte CERTIFICATE_VERIFY = 15;
+    public static final byte CLIENT_KEY_EXCHANGE = 16;
+    public static final byte FINISHED = 20;
     public byte type;
     public byte[] rawData;
 
     public HandshakeMessage() {
     }
 
-    public HandshakeMessage(InputStream inputStream) {
+    public HandshakeMessage(InputStream inputStream) throws IOException {
         this.type = (byte)inputStream.read();
         byte[] byArray = new byte[3];
         inputStream.read(byArray);

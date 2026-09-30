@@ -15,14 +15,12 @@ extends AbstractButtonEntertainmentDrawerElement {
         super(iTelApplication, 1);
     }
 
-    @Override
     public int getNewValue() {
         return this.computeNewValue(this.getCurrentStateStruct());
     }
 
-    @Override
     public ChoiceModelApp getConditionModel() {
-        return this.getChoiceModel(1234699264);
+        return this.getChoiceModel(301129);
     }
 
     private int computeNewValue(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {

@@ -41,6 +41,6 @@ UnboundPartialPopupsTrafficInfoJP,
 UnboundPartialPopupsTuner,
 UnboundPartialPopupsWirelessCharging,
 UnboundPartialPopupsSystem {
-    public static final int PARTIALPOPUP_INVALID_ID;
+    public static final int PARTIALPOPUP_INVALID_ID = -1;
 }
 

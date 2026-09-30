@@ -4,7 +4,6 @@
 package de.audi.atip.sdis;
 
 public interface IHMISyncRequests {
-    default public void connectionStatus(boolean bl) {
-    }
+    public void connectionStatus(boolean var1);
 }
 

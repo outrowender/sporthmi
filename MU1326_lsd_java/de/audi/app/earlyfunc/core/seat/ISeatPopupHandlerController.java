@@ -7,43 +7,30 @@ import de.audi.app.earlyfunc.core.seat.AbstractSeatPopin;
 import de.audi.app.earlyfunc.core.seat.SeatPopinContent;
 
 public interface ISeatPopupHandlerController {
-    default public void init(int[] nArray) {
-    }
+    public void init(int[] var1);
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void notifySeatPopupHidden(int n) {
-    }
+    public void notifySeatPopupHidden(int var1);
 
-    default public void notifySeatPopupVisible(int n) {
-    }
+    public void notifySeatPopupVisible(int var1);
 
-    default public void notifySeatPopupRemoved(int n) {
-    }
+    public void notifySeatPopupRemoved(int var1);
 
-    default public void hideSeatPopup(AbstractSeatPopin abstractSeatPopin) {
-    }
+    public void hideSeatPopup(AbstractSeatPopin var1);
 
-    default public void showSeatPopup(AbstractSeatPopin abstractSeatPopin) {
-    }
+    public void showSeatPopup(AbstractSeatPopin var1);
 
-    default public void setSeatPopinListenerServiceTracked(boolean bl) {
-    }
+    public void setSeatPopinListenerServiceTracked(boolean var1);
 
-    default public void removeShownPopup(AbstractSeatPopin abstractSeatPopin) {
-    }
+    public void removeShownPopup(AbstractSeatPopin var1);
 
-    default public void setShownPopinContent(SeatPopinContent seatPopinContent, AbstractSeatPopin abstractSeatPopin) {
-    }
+    public void setShownPopinContent(SeatPopinContent var1, AbstractSeatPopin var2);
 
-    default public void setSeatContentShown(boolean bl, boolean bl2) {
-    }
+    public void setSeatContentShown(boolean var1, boolean var2);
 
-    default public boolean isSeatContentShown(boolean bl) {
-    }
+    public boolean isSeatContentShown(boolean var1);
 
-    default public void replaceSeatPopin(AbstractSeatPopin abstractSeatPopin) {
-    }
+    public void replaceSeatPopin(AbstractSeatPopin var1);
 }
 

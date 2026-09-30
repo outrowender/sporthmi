@@ -17,36 +17,32 @@ implements ITerminalModeSDSHandler {
     private volatile boolean terminalModeDeviceActive = false;
     private volatile boolean terminalModeSpeechActive = false;
 
-    @Override
     public void updateActiveDeviceState(TerminalModeDevice terminalModeDevice) {
         boolean bl = terminalModeDevice.isActive();
-        this.lc.log(-2137614336, "TerminalModeSDSHandler#updateActiveDeviceState: terminal mode device active: %1!", bl);
+        this.lc.log(10000000, "TerminalModeSDSHandler#updateActiveDeviceState: terminal mode device active: %1!", bl);
         if (!bl) {
             this.terminalModeSpeechActive = false;
         }
         this.terminalModeDeviceActive = bl;
     }
 
-    @Override
     public boolean isTerminalModeDeviceActive() {
         return this.terminalModeDeviceActive;
     }
 
-    @Override
     public void updateAppStates(TerminalModeAppState[] terminalModeAppStateArray) {
         for (int i2 = 0; i2 < terminalModeAppStateArray.length; ++i2) {
             TerminalModeAppState terminalModeAppState = terminalModeAppStateArray[i2];
             if (terminalModeAppState == null) continue;
-            this.lc.log(-2137614336, "TerminalModeSDSHandler#updateAppStates: %1!", (Object)terminalModeAppState.toString());
+            this.lc.log(10000000, "TerminalModeSDSHandler#updateAppStates: %1!", (Object)terminalModeAppState.toString());
             if (terminalModeAppState.getAppId() != 3 || !terminalModeAppState.isRunningOnDevice()) continue;
             this.terminalModeSpeechActive = true;
             return;
         }
-        this.lc.log(-2137614336, "TerminalModeSDSHandler#updateAppStates: Currently no SDS running on terminal mode device!");
+        this.lc.log(10000000, "TerminalModeSDSHandler#updateAppStates: Currently no SDS running on terminal mode device!");
         this.terminalModeSpeechActive = false;
     }
 
-    @Override
     public boolean isTerminalModeSpeechActive() {
         return this.terminalModeDeviceActive && this.terminalModeSpeechActive;
     }

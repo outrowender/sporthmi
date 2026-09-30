@@ -23,9 +23,8 @@ extends DefaultButtonListener {
         this.mapInterface = mapInterface;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "ParkingAtCrosshairMapListener#keyPressed, modelID %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
+        this.env.getLogChannel().log(10000000, "ParkingAtCrosshairMapListener#keyPressed, modelID %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
         this.env.getChoiceModel(170).setValue(0);
         NavLocationWgs84 navLocationWgs84 = this.mapInterface.getMapPosition();
         NavLocation navLocation = Util.getLocationFromGeoPos(navLocationWgs84.getLongitude(), navLocationWgs84.getLatitude());

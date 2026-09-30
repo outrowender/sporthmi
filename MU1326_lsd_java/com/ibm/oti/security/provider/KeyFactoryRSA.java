@@ -27,8 +27,7 @@ extends KeyFactorySpi {
     static /* synthetic */ Class class$3;
     static /* synthetic */ Class class$4;
 
-    @Override
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec) {
+    protected PrivateKey engineGeneratePrivate(KeySpec keySpec) throws InvalidKeySpecException {
         if (keySpec instanceof RSAPrivateCrtKeySpec) {
             return new RSAPrivateCrtKey((RSAPrivateCrtKeySpec)keySpec);
         }
@@ -41,8 +40,7 @@ extends KeyFactorySpi {
         throw new InvalidKeySpecException();
     }
 
-    @Override
-    protected PublicKey engineGeneratePublic(KeySpec keySpec) {
+    protected PublicKey engineGeneratePublic(KeySpec keySpec) throws InvalidKeySpecException {
         if (keySpec instanceof RSAPublicKeySpec) {
             return new RSAPublicKey((RSAPublicKeySpec)keySpec);
         }
@@ -52,8 +50,7 @@ extends KeyFactorySpi {
         throw new InvalidKeySpecException();
     }
 
-    @Override
-    protected KeySpec engineGetKeySpec(Key key, Class clazz) {
+    protected KeySpec engineGetKeySpec(Key key, Class clazz) throws InvalidKeySpecException {
         block44: {
             block41: {
                 block43: {
@@ -151,8 +148,7 @@ extends KeyFactorySpi {
         throw new InvalidKeySpecException();
     }
 
-    @Override
-    protected Key engineTranslateKey(Key key) {
+    protected Key engineTranslateKey(Key key) throws InvalidKeyException {
         if (key instanceof java.security.interfaces.RSAPrivateKey) {
             return new RSAPrivateKey((java.security.interfaces.RSAPrivateKey)key);
         }

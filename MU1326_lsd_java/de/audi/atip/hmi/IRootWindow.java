@@ -10,19 +10,14 @@ import de.audi.atip.hmi.view.Screen;
 
 public interface IRootWindow
 extends ATIPEventListener {
-    default public void add(IScreenData iScreenData, Screen screen) {
-    }
+    public void add(IScreenData var1, Screen var2);
 
-    default public void remove(Screen screen) {
-    }
+    public void remove(Screen var1);
 
-    default public Screen getCurrentScreen() {
-    }
+    public Screen getCurrentScreen();
 
-    default public void addHardkeyListener(KeyListener keyListener) {
-    }
+    public void addHardkeyListener(KeyListener var1);
 
-    default public void repaint() {
-    }
+    public void repaint();
 }
 

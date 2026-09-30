@@ -6,11 +6,11 @@ package de.audi.app.car.core.charisma;
 import de.audi.app.car.common.adapter.AbstractDSICarDrivingCharacteristicsAdapter;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
-import de.audi.app.car.core.charisma.AbstractCharismaDirectCtrlComponent$ChoiceListener;
-import de.audi.app.car.core.charisma.AbstractCharismaDirectCtrlComponent$LocalMsgListener;
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
-import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.msg.MsgListener;
 import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaSetupTableWithOptionMask;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaSetupTableWithoutOptionMask;
@@ -18,77 +18,68 @@ import org.dsi.ifc.cardrivingcharacteristics.CharismaViewOptions;
 
 public abstract class AbstractCharismaDirectCtrlComponent
 extends AbstractDSICarDrivingCharacteristicsAdapter {
-    public static final short CODING_ID;
-    public static final String LOGCHANNEL_NAME;
-    public static final String DSI_LOGCHANNEL_NAME;
-    public static final int DISABLED;
-    public static final int ENABLED;
+    public static final short CODING_ID = 17;
+    public static final String LOGCHANNEL_NAME = "App.Car.Charisma";
+    public static final String DSI_LOGCHANNEL_NAME = "App.Car.Charisma.DSI";
+    public static final int DISABLED = 0;
+    public static final int ENABLED = 1;
     private final LogChannel dsiLogChannel;
-    private final AbstractCharismaDirectCtrlComponent$LocalMsgListener msgListener;
+    private final LocalMsgListener msgListener;
     protected volatile CharismaViewOptions currentViewOptions;
     protected volatile boolean currentCharismaSoundState = false;
 
     public AbstractCharismaDirectCtrlComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Charisma");
-        this.dsiLogChannel = iCarApplication.getFrameworkAccess().getLogChannel("App.Car.Charisma.DSI");
-        this.msgListener = new AbstractCharismaDirectCtrlComponent$LocalMsgListener(this, null);
+        super(iCarApplication, LOGCHANNEL_NAME);
+        this.dsiLogChannel = iCarApplication.getFrameworkAccess().getLogChannel(DSI_LOGCHANNEL_NAME);
+        this.msgListener = new LocalMsgListener();
     }
 
     public LogChannel getLogChannelDSI() {
         return this.dsiLogChannel;
     }
 
-    @Override
     public String getName() {
         return "Charisma (direct control)";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{12}, new int[]{45})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         Buffer buffer = new Buffer();
         buffer.append(null == this.currentViewOptions ? "No charisma view options received yet" : this.currentViewOptions.toString());
         return buffer.toString();
     }
 
-    @Override
     public void init() {
         this.getApplication().getMessageDispatcher().addMessageListener(79, this.msgListener);
         super.init();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getMessageDispatcher().removeMessageListener(79, this.msgListener);
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(724633856).setChoiceListener(new AbstractCharismaDirectCtrlComponent$ChoiceListener(this, null));
+        this.getChoiceModel(602411).setChoiceListener(new ChoiceListener());
     }
 
-    @Override
     protected void deinitModels() {
-        this.getChoiceModel(724633856).resetListener();
+        this.getChoiceModel(602411).resetListener();
     }
 
-    protected abstract void updateMenuEntryVisibility(CharismaViewOptions charismaViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(CharismaViewOptions var1);
 
     private synchronized void setExhaustFlap(boolean bl) {
-        this.getLogChannel().log(1078071040, "[AbstractCharismaDirectCtrlComponent#setExhaustFlap] active='%1'", (Object)(bl ? "true" : "false"));
-        this.getLogChannelDSI().log(1078071040, "dsi.setCharismaSound(%1)", (Object)(bl ? "true" : "false"));
+        this.getLogChannel().log(1000000, "[AbstractCharismaDirectCtrlComponent#setExhaustFlap] active='%1'", (Object)(bl ? "true" : "false"));
+        this.getLogChannelDSI().log(1000000, "dsi.setCharismaSound(%1)", (Object)(bl ? "true" : "false"));
         this.getDSI().setCharismaSound(bl);
     }
 
-    @Override
     public void updateCharismaViewOptions(CharismaViewOptions charismaViewOptions, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractCharismaDirectCtrlComponent#updateCharismaViewOptions]: charismaViewOptions=%1, valid=%2", (Object)(charismaViewOptions != null ? this.formatViewOptionsLog(charismaViewOptions.toString()) : "null"), (long)n);
+        this.getLogChannel().log(1000000, "[AbstractCharismaDirectCtrlComponent#updateCharismaViewOptions]: charismaViewOptions=%1, valid=%2", (Object)(charismaViewOptions != null ? this.formatViewOptionsLog(charismaViewOptions.toString()) : "null"), (long)n);
         if (1 == n && null != charismaViewOptions) {
             this.currentViewOptions = charismaViewOptions;
             this.updateMenuEntryVisibility(this.currentViewOptions);
@@ -96,57 +87,87 @@ extends AbstractDSICarDrivingCharacteristicsAdapter {
         }
     }
 
-    @Override
     public void updateCharismaSound(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractCharismaDirectCtrlComponent#updateCharismaSound] state='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractCharismaDirectCtrlComponent#updateCharismaSound] state='%1', valid='%2'", bl, (long)n);
         if (n == 1) {
             this.currentCharismaSoundState = bl;
-            this.getChoiceModel(724633856).setValue(bl ? 1 : 0);
+            this.getChoiceModel(602411).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void responseCharismaListWithOptionMask(int n, int n2, int n3, CharismaSetupTableWithOptionMask[] charismaSetupTableWithOptionMaskArray) {
     }
 
-    @Override
     public void responseCharismaListWithoutOptionMask(int n, int n2, int n3, CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray) {
     }
 
-    static /* synthetic */ void access$000(AbstractCharismaDirectCtrlComponent abstractCharismaDirectCtrlComponent, boolean bl) {
-        abstractCharismaDirectCtrlComponent.setExhaustFlap(bl);
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            AbstractCharismaDirectCtrlComponent.this.getLogChannel().log(1000000, "[AbstractCharismaDirectCtrlComponent#itemSelected] modelID='%1', itemID='%2'", (long)n, (long)n2);
+            switch (n) {
+                case 602411: {
+                    AbstractCharismaDirectCtrlComponent.this.setExhaustFlap(1 == n2);
+                    break;
+                }
+                default: {
+                    return;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$100(AbstractCharismaDirectCtrlComponent abstractCharismaDirectCtrlComponent, String string, int n, int n2, boolean bl) {
-        abstractCharismaDirectCtrlComponent.logModelData(string, n, n2, bl);
+    private class LocalMsgListener
+    implements MsgListener {
+        private LocalMsgListener() {
+        }
+
+        public void processMsg(int n) {
+            ButtonModelApp buttonModelApp;
+            if (79 == n && 80 == AbstractCharismaDirectCtrlComponent.this.getChoiceModel(395).getValue() && null != (buttonModelApp = AbstractCharismaDirectCtrlComponent.this.getButtonModel(600977))) {
+                buttonModelApp.setButtonListener(new JokerKeyButtonListener());
+            }
+        }
     }
 
-    static /* synthetic */ void access$200(AbstractCharismaDirectCtrlComponent abstractCharismaDirectCtrlComponent, String string, int n, int n2, boolean bl) {
-        abstractCharismaDirectCtrlComponent.logModelData(string, n, n2, bl);
-    }
+    private class JokerKeyButtonListener
+    extends DefaultButtonListener {
+        private JokerKeyButtonListener() {
+        }
 
-    static /* synthetic */ ChoiceModelApp access$300(AbstractCharismaDirectCtrlComponent abstractCharismaDirectCtrlComponent, int n) {
-        return abstractCharismaDirectCtrlComponent.getChoiceModel(n);
-    }
+        public void keyPressed(int n, int n2, int n3) {
+            switch (n) {
+                case 600977: {
+                    AbstractCharismaDirectCtrlComponent.this.logModelData("keyPressed", n, n2, true);
+                    break;
+                }
+                default: {
+                    AbstractCharismaDirectCtrlComponent.this.logModelData("keyPressed", n, n2, false);
+                }
+            }
+        }
 
-    static /* synthetic */ ChoiceModelApp access$400(AbstractCharismaDirectCtrlComponent abstractCharismaDirectCtrlComponent, int n) {
-        return abstractCharismaDirectCtrlComponent.getChoiceModel(n);
-    }
-
-    static /* synthetic */ void access$500(AbstractCharismaDirectCtrlComponent abstractCharismaDirectCtrlComponent, String string, int n, int n2, boolean bl) {
-        abstractCharismaDirectCtrlComponent.logModelData(string, n, n2, bl);
-    }
-
-    static /* synthetic */ void access$600(AbstractCharismaDirectCtrlComponent abstractCharismaDirectCtrlComponent, String string, int n, int n2, boolean bl) {
-        abstractCharismaDirectCtrlComponent.logModelData(string, n, n2, bl);
-    }
-
-    static /* synthetic */ ChoiceModelApp access$700(AbstractCharismaDirectCtrlComponent abstractCharismaDirectCtrlComponent, int n) {
-        return abstractCharismaDirectCtrlComponent.getChoiceModel(n);
-    }
-
-    static /* synthetic */ ButtonModelApp access$800(AbstractCharismaDirectCtrlComponent abstractCharismaDirectCtrlComponent, int n) {
-        return abstractCharismaDirectCtrlComponent.getButtonModel(n);
+        public void keyReleased(int n, int n2, int n3) {
+            if (600977 == n) {
+                int n4 = AbstractCharismaDirectCtrlComponent.this.getChoiceModel(395).getValue();
+                switch (n4) {
+                    case 80: {
+                        int n5 = AbstractCharismaDirectCtrlComponent.this.getChoiceModel(602411).getValue();
+                        AbstractCharismaDirectCtrlComponent.this.setExhaustFlap(0 == n5);
+                        break;
+                    }
+                    default: {
+                        AbstractCharismaDirectCtrlComponent.this.logModelData("keyReleased", n, n2, false);
+                        break;
+                    }
+                }
+            } else {
+                AbstractCharismaDirectCtrlComponent.this.logModelData("keyReleased", n, n2, false);
+            }
+        }
     }
 }
 

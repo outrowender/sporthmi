@@ -13,8 +13,8 @@ import de.audi.atip.log.LogChannel;
 
 class JobBrowseListChangeFolder
 extends AbstractJobBrowseList {
-    private static final String LOGCLASS;
-    private static final int INVALID_LIST_SIZE;
+    private static final String LOGCLASS = "JobBrowseListChangeFolder";
+    private static final int INVALID_LIST_SIZE = -1;
     private final MediaListEntry[] requestedFolderpath;
     private volatile int currentListSize = -1;
     private MediaListEntry[] activeBrowsingFolder;
@@ -24,52 +24,46 @@ extends AbstractJobBrowseList {
         this.requestedFolderpath = mediaListEntryArray;
     }
 
-    @Override
     public int getType() {
         return 2;
     }
 
-    @Override
     public String getName() {
         return "changeFolder";
     }
 
-    @Override
     public void start() {
         if (MediaUtils.isSameFolder(this.browseListContext.getState().getCurrentBrowseFolder(), this.requestedFolderpath)) {
-            this.logChannel.log(1078071040, "[%1.start] Same folder, don't change the folder.", (Object)"JobBrowseListChangeFolder");
+            this.logChannel.log(1000000, "[%1.start] Same folder, don't change the folder.", (Object)LOGCLASS);
             this.activeBrowsingFolder = this.requestedFolderpath;
             this.currentListSize = this.browseListContext.getState().getCurrentListSize();
             this.finishJob();
         } else {
-            this.logChannel.log(14808325, "[%1.start] Change folder.", (Object)"JobBrowseListChangeFolder");
+            this.logChannel.log(100000000, "[%1.start] Change folder.", (Object)LOGCLASS);
             this.dsiMediaBrowser.changeFolder(this.requestedFolderpath);
         }
     }
 
-    @Override
     public void updateListSize(int n, int n2) {
-        this.logChannel.log(1078071040, "[%1.updateListSize]", (Object)"JobBrowseListChangeFolder");
+        this.logChannel.log(1000000, "[%1.updateListSize]", (Object)LOGCLASS);
         this.currentListSize = n;
         if (this.activeBrowsingFolder != null) {
             this.finishJob();
         }
     }
 
-    @Override
     public void updateBrowseFolder(MediaListEntry[] mediaListEntryArray) {
-        this.logChannel.log(1078071040, "[%1.updateBrowseFolder]", (Object)"JobBrowseListChangeFolder");
+        this.logChannel.log(1000000, "[%1.updateBrowseFolder]", (Object)LOGCLASS);
         this.activeBrowsingFolder = mediaListEntryArray;
     }
 
-    @Override
     public void errorFolderChange() {
         this.browseListContext.notifyBrowseFolderChanged(true, null, -1);
         this.getExecutionContext().jobFinished();
     }
 
     private void finishJob() {
-        this.logChannel.log(14808325, "[%1.finishJob]", (Object)"JobBrowseListChangeFolder");
+        this.logChannel.log(100000000, "[%1.finishJob]", (Object)LOGCLASS);
         this.browseListContext.getState().setCurrentListSize(this.currentListSize);
         this.browseListContext.getState().setCurrentBrowseFolder(this.activeBrowsingFolder);
         this.browseListContext.notifyBrowseFolderChanged(false, this.activeBrowsingFolder, this.currentListSize);

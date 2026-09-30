@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.radio;
 
 public interface IGracenoteService {
-    default public void disableOnlineLookup() {
-    }
+    public void disableOnlineLookup();
 
-    default public void enableOnlineLookup() {
-    }
+    public void enableOnlineLookup();
 }
 

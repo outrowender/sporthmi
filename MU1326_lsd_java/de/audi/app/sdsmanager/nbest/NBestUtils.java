@@ -27,7 +27,7 @@ public final class NBestUtils {
     public static void setChoiceModel(int n, LogChannel logChannel) {
         int n2;
         if (SDSModelAccess.isADBSelectionInterrupt()) {
-            logChannel.log(-2137614336, "NBestUtils#setChoiceModel: nBestListModel not set because ADBSelectionInterrupt case");
+            logChannel.log(10000000, "NBestUtils#setChoiceModel: nBestListModel not set because ADBSelectionInterrupt case");
             return;
         }
         switch (n) {
@@ -52,7 +52,7 @@ public final class NBestUtils {
 
     public static void setLabelModel(NBestListEntry nBestListEntry, LogChannel logChannel) {
         String string = nBestListEntry.getRecognizedString();
-        logChannel.log(-2137614336, "NBestUtils#setLabelModel: topRecognizedString=%1!", (Object)string);
+        logChannel.log(10000000, "NBestUtils#setLabelModel: topRecognizedString=%1!", (Object)string);
         SDSModelAccess.setPromptModel(string);
     }
 
@@ -66,7 +66,7 @@ public final class NBestUtils {
             SDSModelAccess.setTagModel(Integer.parseInt(string));
         }
         catch (NumberFormatException numberFormatException) {
-            logChannel.log(-1601830656, "NBestUtils#setTagModel: topRecognizedTag is no integer! -> %1", (Object)string);
+            logChannel.log(100000, "NBestUtils#setTagModel: topRecognizedTag is no integer! -> %1", (Object)string);
         }
     }
 
@@ -74,7 +74,7 @@ public final class NBestUtils {
         int n;
         NBestSlot[] nBestSlotArray = nBestListEntry.getSlots();
         if (nBestSlotArray == null || nBestSlotArray.length < 1) {
-            logChannel.log(-2137614336, "NBestUtils#setSlotModels: No slots in topEntry, clearing slotModels and returning C&C!");
+            logChannel.log(10000000, "NBestUtils#setSlotModels: No slots in topEntry, clearing slotModels and returning C&C!");
             NBestUtils.clearSlotModels();
             return 0;
         }
@@ -85,11 +85,11 @@ public final class NBestUtils {
             NBestSlot nBestSlot = nBestSlotArray[n];
             stringArray[n] = nBestSlot == null ? "" : nBestSlot.getRecognizedString();
             stringArray2[n] = nBestSlot == null ? "" : nBestSlot.getObjectStringId();
-            logChannel.log(-2137614336, "NBestUtils#setSlotModels: topEntrySlotString[%3]=%1 with stringID %2!", (Object)stringArray[n], (Object)stringArray2[n], (long)n);
+            logChannel.log(10000000, "NBestUtils#setSlotModels: topEntrySlotString[%3]=%1 with stringID %2!", (Object)stringArray[n], (Object)stringArray2[n], (long)n);
         }
         NBestUtils.setSlotModels(stringArray, stringArray2, true);
         n = SDSManagerBaseActivator.getMapping().getSlotOrder(nBestListEntry.getGrammarId()) == null ? 1 : 0;
-        logChannel.log(-2137614336, "NBestUtils#setSlotModels: singleSlot=%1!", n != 0);
+        logChannel.log(10000000, "NBestUtils#setSlotModels: singleSlot=%1!", n != 0);
         return n != 0 ? (byte)1 : 2;
     }
 
@@ -113,17 +113,17 @@ public final class NBestUtils {
 
     public static int containsFirstSlot(NBestSlot nBestSlot, Map map, LogChannel logChannel) {
         if (nBestSlot == null) {
-            logChannel.log(-2137614336, "NBestUtils#containsFirstSlotID: Empty slot!");
+            logChannel.log(10000000, "NBestUtils#containsFirstSlotID: Empty slot!");
             return -1;
         }
         if (SDSUtils.isEmpty(map)) {
-            logChannel.log(-2137614336, "NBestUtils#containsFirstSlotID: Empty entries!");
+            logChannel.log(10000000, "NBestUtils#containsFirstSlotID: Empty entries!");
             return -1;
         }
         long l = nBestSlot.getObjectId();
         String string = nBestSlot.getObjectStringId();
         String string2 = nBestSlot.getRecognizedString();
-        logChannel.log(-2137614336, "NBestUtils#containsFirstSlotID: slotObjID=%2, slotStringID=%1!", (Object)string, l);
+        logChannel.log(10000000, "NBestUtils#containsFirstSlotID: slotObjID=%2, slotStringID=%1!", (Object)string, l);
         Set set = map.keySet();
         Iterator iterator = set.iterator();
         while (iterator.hasNext()) {
@@ -138,42 +138,42 @@ public final class NBestUtils {
             if (!string.equals(nBestSlot2.getObjectStringId())) continue;
             return n;
         }
-        logChannel.log(-2137614336, "NBestUtils#containsFirstSlotID: slotObjID %1 is NOT contained in entries!", l);
+        logChannel.log(10000000, "NBestUtils#containsFirstSlotID: slotObjID %1 is NOT contained in entries!", l);
         return -1;
     }
 
     public static boolean containsFirstSlotID(IPicklistSlot iPicklistSlot, ArrayList arrayList, LogChannel logChannel) {
         if (iPicklistSlot == null) {
-            logChannel.log(-2137614336, "NBestUtils#containsFirstSlotID: Empty slot!");
+            logChannel.log(10000000, "NBestUtils#containsFirstSlotID: Empty slot!");
             return false;
         }
         if (SDSUtils.isEmpty(arrayList)) {
-            logChannel.log(-2137614336, "NBestUtils#containsFirstSlotID: Empty entries!");
+            logChannel.log(10000000, "NBestUtils#containsFirstSlotID: Empty entries!");
             return false;
         }
         long l = iPicklistSlot.getObjID();
         String string = iPicklistSlot.getObjectStringID();
-        logChannel.log(-2137614336, "NBestUtils#containsFirstSlotID: slotObjID=%2, slotStringID=%1!", (Object)string, l);
+        logChannel.log(10000000, "NBestUtils#containsFirstSlotID: slotObjID=%2, slotStringID=%1!", (Object)string, l);
         Iterator iterator = arrayList.iterator();
         while (iterator.hasNext()) {
             IPicklistSlot iPicklistSlot2 = NBestUtils.getFirstSlot((PicklistElement)iterator.next());
             if (!iPicklistSlot.isDuplicateSlot(iPicklistSlot2)) continue;
             return true;
         }
-        logChannel.log(-2137614336, "NBestUtils#containsFirstSlotID: slotObjID %1 is NOT contained in entries!", l);
+        logChannel.log(10000000, "NBestUtils#containsFirstSlotID: slotObjID %1 is NOT contained in entries!", l);
         return false;
     }
 
     public static String[] getFirstSlotStringsFromRange(NBestStorageAccess nBestStorageAccess, LogChannel logChannel, int n, int n2) {
-        logChannel.log(-1601830656, "NBestUtils#getFirstSlotStringsFromRange: firstRowIndex=%1, rangeSize=%2!", (long)n, (long)n2);
+        logChannel.log(100000, "NBestUtils#getFirstSlotStringsFromRange: firstRowIndex=%1, rangeSize=%2!", (long)n, (long)n2);
         Object[] objectArray = nBestStorageAccess.getMatchingPicklist((byte)0).getElements();
         if (SDSUtils.isEmpty(objectArray) || objectArray[0] == null || objectArray[0].getSlots() == null) {
-            logChannel.log(-1601830656, "NBestUtils#getFirstSlotStringsFromRange: given nBestStorage has empty or null entries!");
+            logChannel.log(100000, "NBestUtils#getFirstSlotStringsFromRange: given nBestStorage has empty or null entries!");
             return new String[0];
         }
         int n3 = objectArray.length;
         if (n < 0 || n2 < 1 || n + n2 > n3) {
-            logChannel.log(-1601830656, "NBestUtils#getFirstSlotStringsFromRange: maxSize=%1 => Access out of bounds!", (long)n3);
+            logChannel.log(100000, "NBestUtils#getFirstSlotStringsFromRange: maxSize=%1 => Access out of bounds!", (long)n3);
             return new String[0];
         }
         String[] stringArray = new String[n2];
@@ -208,24 +208,24 @@ public final class NBestUtils {
 
     static void sortSlots(NBestListEntry[] nBestListEntryArray, LogChannel logChannel) {
         if (nBestListEntryArray == null || nBestListEntryArray.length == 0) {
-            logChannel.log(-1601830656, "NBestUtils#sortSlots: No n-best entries given!");
+            logChannel.log(100000, "NBestUtils#sortSlots: No n-best entries given!");
             return;
         }
         int n = nBestListEntryArray.length;
         for (int i2 = 0; i2 < n; ++i2) {
             NBestListEntry nBestListEntry = nBestListEntryArray[i2];
             if (nBestListEntry == null) {
-                logChannel.log(-1601830656, "NBestUtils#sortSlots: Empty entry %1 => NOP!", (long)i2);
+                logChannel.log(100000, "NBestUtils#sortSlots: Empty entry %1 => NOP!", (long)i2);
                 continue;
             }
             NBestSlot[] nBestSlotArray = nBestListEntry.getSlots();
             if (nBestSlotArray == null) {
-                logChannel.log(-1601830656, "NBestUtils#sortSlots: No slots found in entry %1 => NOP!", (long)i2);
+                logChannel.log(100000, "NBestUtils#sortSlots: No slots found in entry %1 => NOP!", (long)i2);
                 continue;
             }
             int[] nArray = SDSManagerBaseActivator.getMapping().getSlotOrder(nBestListEntry.getGrammarId());
             if (nArray == null) {
-                logChannel.log(-1601830656, "NBestUtils#sortSlots: No expected slots found for entry %1 => NOP!", (long)i2);
+                logChannel.log(100000, "NBestUtils#sortSlots: No expected slots found for entry %1 => NOP!", (long)i2);
                 continue;
             }
             nBestListEntry.slots = NBestUtils.sortSlotsWithinEntry(nBestSlotArray, nArray, logChannel);
@@ -233,7 +233,7 @@ public final class NBestUtils {
     }
 
     private static NBestSlot[] sortSlotsWithinEntry(NBestSlot[] nBestSlotArray, int[] nArray, LogChannel logChannel) {
-        logChannel.log(-2137614336, "NBestUtils#sortSlotsWithinEntry: slots=%1, expectedSlotIDs=%2", (Object)SDSUtils.toString((Object[])nBestSlotArray, true), (Object)nArray);
+        logChannel.log(10000000, "NBestUtils#sortSlotsWithinEntry: slots=%1, expectedSlotIDs=%2", (Object)SDSUtils.toString((Object[])nBestSlotArray, true), (Object)nArray);
         int n = nArray.length;
         NBestSlot[] nBestSlotArray2 = new NBestSlot[n];
         int n2 = nBestSlotArray.length;
@@ -244,13 +244,13 @@ public final class NBestUtils {
                 NBestSlot nBestSlot = nBestSlotArray[i3];
                 int n4 = nBestSlot.getId();
                 if (n4 != n3) continue;
-                logChannel.log(-2137614336, "NBestUtils#sortSlotsWithinEntry: Slot with ID %1 found at #%2, inserting it at %3!", (long)n3, (long)i3, (long)i2);
+                logChannel.log(10000000, "NBestUtils#sortSlotsWithinEntry: Slot with ID %1 found at #%2, inserting it at %3!", (long)n3, (long)i3, (long)i2);
                 nBestSlotArray2[i2] = nBestSlot;
                 bl = true;
                 break;
             }
             if (bl) continue;
-            logChannel.log(-2137614336, "NBestUtils#sortSlotsWithinEntry: Slot with ID %1 at expected #%2 NOT found!", (long)n3, (long)i2);
+            logChannel.log(10000000, "NBestUtils#sortSlotsWithinEntry: Slot with ID %1 at expected #%2 NOT found!", (long)n3, (long)i2);
         }
         return nBestSlotArray2;
     }
@@ -262,7 +262,7 @@ public final class NBestUtils {
     }
 
     static IPicklistElement[] makePicklistElements(NBestListEntry[] nBestListEntryArray, int[] nArray, int[] nArray2, LogChannel logChannel) {
-        logChannel.log(-2137614336, "NBestUtils#makePicklistElements: called");
+        logChannel.log(10000000, "NBestUtils#makePicklistElements: called");
         if (SDSUtils.isEmpty(nBestListEntryArray)) {
             return new PicklistElement[0];
         }
@@ -301,18 +301,18 @@ public final class NBestUtils {
 
     static void printConfidences(NBestListEntry nBestListEntry, NBestListEntry[] nBestListEntryArray, LogChannel logChannel) {
         if (nBestListEntry == null) {
-            logChannel.log(-1601830656, "NBestUtils#printConfidences: topEntry is null!");
+            logChannel.log(100000, "NBestUtils#printConfidences: topEntry is null!");
             return;
         }
-        logChannel.log(-2137614336, "NBestUtils#printConfidences: topConfidence = %1!", (long)nBestListEntry.getConfidence());
+        logChannel.log(10000000, "NBestUtils#printConfidences: topConfidence = %1!", (long)nBestListEntry.getConfidence());
         int n = nBestListEntryArray.length;
         for (int i2 = 1; i2 < n; ++i2) {
             NBestListEntry nBestListEntry2 = nBestListEntryArray[i2];
             if (nBestListEntry2 == null) {
-                logChannel.log(-1601830656, "NBestUtils#printConfidences: Entry #%1 is null!", (long)i2);
+                logChannel.log(100000, "NBestUtils#printConfidences: Entry #%1 is null!", (long)i2);
                 continue;
             }
-            logChannel.log(-2137614336, "NBestUtils#printConfidences: confidence[%1] = %2!", (long)i2, (long)nBestListEntry2.getConfidence());
+            logChannel.log(10000000, "NBestUtils#printConfidences: confidence[%1] = %2!", (long)i2, (long)nBestListEntry2.getConfidence());
         }
     }
 }

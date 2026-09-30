@@ -1,60 +1,67 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.smartphone;
 
-import de.audi.app.terminalmode.SmartphoneManager$SmartphoneType;
-import de.audi.app.terminalmode.smartphone.IDSISmartphoneManager$ISmartphoneProperties;
-import de.audi.app.terminalmode.smartphone.IDSISmartphoneManager$RequestModeChangeCallback;
+import de.audi.app.terminalmode.SmartphoneManager;
+import de.audi.app.terminalmode.smartphone.BTState;
 import de.audi.app.terminalmode.smartphone.IPhoneCallController;
 import de.audi.app.terminalmode.smartphone.IPlayerModificationListener;
 import de.audi.app.terminalmode.smartphone.ISpeechRequestHandler;
+import de.audi.app.terminalmode.smartphone.SPIServiceState;
 import de.audi.app.terminalmode.statemachine.Resource;
 import de.audi.app.terminalmode.statemachine.TMState;
+import de.audi.atip.utils.reactive.properties.Property;
 
 public interface IDSISmartphoneManager {
-    public static final long NO_MESSAGE_ID;
-    public static final int BUTTON_PTT_LONG;
-    public static final int BUTTON_SKIP_FORWARD;
-    public static final int BUTTON_SKIP_BACKWARD;
-    public static final int BUTTON_SEEK_FORWARD;
-    public static final int BUTTON_SEEK_BACKWARD;
-    public static final int BUTTON_PLAY;
-    public static final int BUTTON_PAUSE;
-    public static final int BUTTONSTATE_PRESSED;
-    public static final int BUTTONSTATE_RELEASED;
+    public static final long NO_MESSAGE_ID = -1L;
+    public static final int BUTTON_PTT_LONG = 1;
+    public static final int BUTTON_SKIP_FORWARD = 2;
+    public static final int BUTTON_SKIP_BACKWARD = 3;
+    public static final int BUTTON_SEEK_FORWARD = 4;
+    public static final int BUTTON_SEEK_BACKWARD = 5;
+    public static final int BUTTON_PLAY = 6;
+    public static final int BUTTON_PAUSE = 7;
+    public static final int BUTTONSTATE_PRESSED = 1;
+    public static final int BUTTONSTATE_RELEASED = 2;
 
-    default public void startService(TMState tMState) {
+    public void startService(TMState var1);
+
+    public void responseUpdateMode(TMState var1, long var2);
+
+    public void requestModeChange(TMState var1, String var2, RequestModeChangeCallback var3);
+
+    public void requestConstraintsChange(TMState var1, Resource var2, boolean var3);
+
+    public void requestNightMode(boolean var1);
+
+    public ISpeechRequestHandler getSpeechRequestHandler();
+
+    public IPlayerModificationListener getPlayerModificationListener();
+
+    public SmartphoneManager.SmartphoneType getSmartphoneType();
+
+    public IPhoneCallController getPhoneCallController();
+
+    public ISmartphoneProperties getSmartphoneProperties();
+
+    /*
+     * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+     */
+    public static interface ISmartphoneProperties {
+        public Property<Boolean> getPropertyMUPhonecallActive();
+
+        public Property<Boolean> getPropertyMUHFPPhonecallActive();
+
+        public Property<BTState> getPropertyBluetooth();
+
+        public Property<Boolean> getPropertyMURVCActive();
+
+        public Property<SPIServiceState> getPropertySPIServiceState();
     }
 
-    default public void responseUpdateMode(TMState tMState, long l) {
-    }
-
-    default public void requestModeChange(TMState tMState, String string, IDSISmartphoneManager$RequestModeChangeCallback iDSISmartphoneManager$RequestModeChangeCallback) {
-    }
-
-    default public void requestConstraintsChange(TMState tMState, Resource resource, boolean bl) {
-    }
-
-    default public void requestNightMode(boolean bl) {
-    }
-
-    default public ISpeechRequestHandler getSpeechRequestHandler() {
-    }
-
-    default public IPlayerModificationListener getPlayerModificationListener() {
-    }
-
-    default public SmartphoneManager$SmartphoneType getSmartphoneType() {
-    }
-
-    default public IPhoneCallController getPhoneCallController() {
-    }
-
-    default public IDSISmartphoneManager$ISmartphoneProperties getSmartphoneProperties() {
+    public static interface RequestModeChangeCallback {
+        public void modeChanged();
     }
 }
 

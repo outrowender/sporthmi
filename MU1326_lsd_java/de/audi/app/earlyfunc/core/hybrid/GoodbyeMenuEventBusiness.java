@@ -25,7 +25,6 @@ extends MenuModelEventBusinessAdapter {
         this.popupHKTimer = goodbyePopupHKTimerController;
     }
 
-    @Override
     public boolean processItemFocused(int n, MenuModelHandler menuModelHandler) {
         if (this.getFocusChoice().getValue() != n) {
             this.setFocusChoice(n);

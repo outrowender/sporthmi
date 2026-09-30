@@ -7,13 +7,10 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface LabelModelApp
 extends HMIModelApp {
-    default public void setText(String string) {
-    }
+    public void setText(String var1);
 
-    default public String getText() {
-    }
+    public String getText();
 
-    default public int getLength() {
-    }
+    public int getLength();
 }
 

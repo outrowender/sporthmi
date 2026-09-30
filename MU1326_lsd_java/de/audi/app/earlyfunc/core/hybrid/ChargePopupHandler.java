@@ -37,15 +37,12 @@ implements IPopupStateListener {
         return this.component.getDSI();
     }
 
-    @Override
     public void notifyPopupVisible(int n) {
     }
 
-    @Override
     public void notifyPopupHidden(int n) {
     }
 
-    @Override
     public void notifyPopupRemoved(int n) {
     }
 

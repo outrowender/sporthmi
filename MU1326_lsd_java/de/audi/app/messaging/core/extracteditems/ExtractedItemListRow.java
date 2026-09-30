@@ -8,8 +8,8 @@ import org.dsi.ifc.messaging.ExtractedItem;
 
 final class ExtractedItemListRow
 extends EvoListRow {
-    private static final int COLUMN_COUNT;
-    private static final int CELL_IDX_ITEM_VALUE;
+    private static final int COLUMN_COUNT = 1;
+    private static final int CELL_IDX_ITEM_VALUE = 0;
     private final ExtractedItem extractedItem;
 
     ExtractedItemListRow(ExtractedItem extractedItem, long l) {
@@ -22,7 +22,6 @@ extends EvoListRow {
         return this.extractedItem.getValue();
     }
 
-    @Override
     public EvoListRow copy() {
         return new ExtractedItemListRow(this.extractedItem, this.getUniqueID());
     }

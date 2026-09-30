@@ -4,13 +4,11 @@
 package de.audi.atip.interapp;
 
 public interface AbstractSDSApplicationService {
-    public static final byte FREEZE_RESULT_OK;
-    public static final byte FREEZE_RESULT_NOK;
+    public static final byte FREEZE_RESULT_OK = 0;
+    public static final byte FREEZE_RESULT_NOK = 1;
 
-    default public byte freezeDynamicLists() {
-    }
+    public byte freezeDynamicLists();
 
-    default public byte unfreezeDynamicLists() {
-    }
+    public byte unfreezeDynamicLists();
 }
 

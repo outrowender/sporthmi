@@ -6,7 +6,6 @@ package de.audi.app.addressbook.core.main.interapp;
 import de.audi.app.addressbook.core.common.ADBAddressUtils;
 import de.audi.app.addressbook.core.main.AbstractAddressBookApplication;
 import de.audi.atip.interapp.NaviADBService;
-import de.audi.atip.interapp.NaviADBService$LocationInputHandler;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.metrics.GeoMetric;
 import de.audi.atip.preset.DefinitionRequest;
@@ -17,7 +16,7 @@ public class NaviGateway {
     private AbstractAddressBookApplication appAdr;
     private LogChannel log;
     private static final String[] EMPTY_FORMATTED_LOCATION_STRINGS = new String[]{"", ""};
-    private static final String EMPTY_LOCATION_TITLE_STRING;
+    private static final String EMPTY_LOCATION_TITLE_STRING = "";
 
     public NaviGateway(LogChannel logChannel, AbstractAddressBookApplication abstractAddressBookApplication) {
         this.log = logChannel;
@@ -35,7 +34,7 @@ public class NaviGateway {
 
     private NaviADBService getCheckedNaviService() {
         if (this.appAdr.getFramework().getSysConst(459) == 0) {
-            this.log.log(-2137614336, "NaviGateway#getCheckedNaviService(): current system does not have a navi.");
+            this.log.log(10000000, "NaviGateway#getCheckedNaviService(): current system does not have a navi.");
             return null;
         }
         NaviADBService naviADBService = this.naviService;
@@ -51,7 +50,7 @@ public class NaviGateway {
     }
 
     private int getDefaultLogLevel() {
-        return this.appAdr.getFramework().getSysConst(459) == 0 ? -2137614336 : 1078071040;
+        return this.appAdr.getFramework().getSysConst(459) == 0 ? 10000000 : 1000000;
     }
 
     public void setDestination(byte[] byArray, String string) {
@@ -106,7 +105,7 @@ public class NaviGateway {
 
     public void showPreviewMap(boolean bl) {
         this.log.log(this.getDefaultLogLevel(), "NaviGateway#showPreviewMap( %1 )", bl);
-        this.appAdr.getHMIService().getChoiceModel(2075134464).setValue(bl ? 1 : 0);
+        this.appAdr.getHMIService().getChoiceModel(700539).setValue(bl ? 1 : 0);
     }
 
     public void focusPreviewMap(byte[] byArray) {
@@ -183,23 +182,23 @@ public class NaviGateway {
         }
     }
 
-    public void editLocation(NaviADBService$LocationInputHandler naviADBService$LocationInputHandler, byte[] byArray) {
+    public void editLocation(NaviADBService.LocationInputHandler locationInputHandler, byte[] byArray) {
         this.log.log(this.getDefaultLogLevel(), "NaviGateway#editLocation( navLocation ): navLocation: %1", (Object)byArray);
         NaviADBService naviADBService = this.getCheckedNaviService();
         if (naviADBService != null) {
-            this.appAdr.getHMIService().getChoiceModel(581962240).setValue(0);
+            this.appAdr.getHMIService().getChoiceModel(700450).setValue(0);
             this.appAdr.getLocationInputHandler().init(byArray);
-            naviADBService.editLocation(naviADBService$LocationInputHandler, byArray);
+            naviADBService.editLocation(locationInputHandler, byArray);
         }
     }
 
-    public void editLocation(NaviADBService$LocationInputHandler naviADBService$LocationInputHandler, AdbEntry adbEntry, int n) {
+    public void editLocation(NaviADBService.LocationInputHandler locationInputHandler, AdbEntry adbEntry, int n) {
         this.log.log(this.getDefaultLogLevel(), "NaviGateway#editLocation( tryBestMatch ): entry: %1, adrIndex: %2", (Object)adbEntry, (Object)(n == 0 ? "business" : "private"));
         NaviADBService naviADBService = this.getCheckedNaviService();
         if (naviADBService != null) {
-            this.appAdr.getHMIService().getChoiceModel(581962240).setValue(1);
+            this.appAdr.getHMIService().getChoiceModel(700450).setValue(1);
             this.appAdr.getLocationInputHandler().init(null);
-            naviADBService.editLocation(naviADBService$LocationInputHandler, adbEntry, n);
+            naviADBService.editLocation(locationInputHandler, adbEntry, n);
         }
     }
 
@@ -220,7 +219,7 @@ public class NaviGateway {
     public String getLocationNameSingleline(byte[] byArray) {
         if (ADBAddressUtils.isEmptyLocation(byArray)) {
             this.log.log(this.getDefaultLogLevel(), "NaviGateway#getLocationNameSingleline(): navLocation is empty.");
-            return "";
+            return EMPTY_LOCATION_TITLE_STRING;
         }
         NaviADBService naviADBService = this.getCheckedNaviService();
         if (naviADBService != null) {
@@ -228,11 +227,11 @@ public class NaviGateway {
             this.log.log(this.getDefaultLogLevel(), "NaviGateway#getLocationNameSingleline(): result: %1", (Object)string);
             return string;
         }
-        return "";
+        return EMPTY_LOCATION_TITLE_STRING;
     }
 
     public GeoMetric convertDecimalsToGeoMetric(String string, String string2) {
-        this.log.log(-2137614336, "NaviGateway#convertDecimalsToGeoMetric(): longitude: %1, latitude: %2", (Object)string, (Object)string2);
+        this.log.log(10000000, "NaviGateway#convertDecimalsToGeoMetric(): longitude: %1, latitude: %2", (Object)string, (Object)string2);
         NaviADBService naviADBService = this.getCheckedNaviService();
         if (naviADBService != null) {
             return naviADBService.convertDecimalsToGeoMetric(string, string2);

@@ -20,7 +20,6 @@ extends AddressInputModelAccessJP {
         this.chomeNeededChoiceModel = navigationEnv.getChoiceModel(DIScreensEvo.getDiJpNeedsChome());
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         Util.setModelStatus(this.matchSpellerModelApp, 1);
         this.matchSpellerModelApp.clear();

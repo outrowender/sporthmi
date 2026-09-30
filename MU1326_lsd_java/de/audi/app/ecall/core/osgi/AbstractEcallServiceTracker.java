@@ -22,19 +22,16 @@ implements ServiceTrackerCustomizer {
         this.serviceTracker = new EcallServiceTracker(this.getApplication().getBundleContext(), clazz.getName(), (ServiceTrackerCustomizer)this, this.log);
     }
 
-    @Override
     public void init() {
         super.init();
         this.serviceTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.serviceTracker.closeTracker();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (this.trackedServiceClazz.isInstance(object)) {
@@ -46,11 +43,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (this.trackedServiceClazz.isInstance(object) && this.service != null && this.service.equals(object)) {
             this.serviceRemoved();
@@ -58,10 +53,8 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    protected abstract void serviceAvailable(Object object) {
-    }
+    protected abstract void serviceAvailable(Object var1);
 
-    protected abstract void serviceRemoved() {
-    }
+    protected abstract void serviceRemoved();
 }
 

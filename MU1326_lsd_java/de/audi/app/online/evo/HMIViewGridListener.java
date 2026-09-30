@@ -5,16 +5,6 @@ package de.audi.app.online.evo;
 
 import de.audi.app.online.evo.AbstractHMIViewListenerEvo;
 import de.audi.app.online.evo.Decorator;
-import de.audi.app.online.evo.HMIViewGridListener$1;
-import de.audi.app.online.evo.HMIViewGridListener$2;
-import de.audi.app.online.evo.HMIViewGridListener$3;
-import de.audi.app.online.evo.HMIViewGridListener$4;
-import de.audi.app.online.evo.HMIViewGridListener$5;
-import de.audi.app.online.evo.HMIViewGridListener$6;
-import de.audi.app.online.evo.HMIViewGridListener$7;
-import de.audi.app.online.evo.HMIViewGridListener$8;
-import de.audi.app.online.evo.HMIViewGridListener$9;
-import de.audi.app.online.evo.HMIViewGridListener$UpdateDecoratorTask;
 import de.audi.app.online.evo.HMIViewGridScreenAccess;
 import de.audi.app.online.evo.HMIViewNpsListener;
 import de.audi.app.online.evo.RemoteHMIServiceEvo;
@@ -28,33 +18,42 @@ import de.audi.atip.hmi.model.list.BaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.menu.MenuModelListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
-import de.audi.atip.interapp.NaviOnlineService$RRDListener;
-import de.audi.atip.interapp.PortalAuthenticationService$UpdateProfileInfoListener;
+import de.audi.atip.interapp.NaviOnlineService;
+import de.audi.atip.interapp.PortalAuthenticationService;
 import de.audi.atip.interapp.online.IGridListRow;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.HMIProperties;
 import de.audi.remotehmi.IOsrUserCacheInformation;
 import de.audi.remotehmi.RemoteHMIAction;
 import de.audi.remotehmi.media.IMediaValues;
+import de.audi.remotehmi.ui.mib2.grid.GeoPosition;
 import de.audi.remotehmi.ui.mib2.grid.ICursor;
 import de.audi.remotehmi.ui.mib2.grid.ICursorComponent;
 import de.audi.remotehmi.ui.mib2.grid.IGrid;
+import de.audi.remotehmi.ui.mib2.grid.IGridAction;
 import de.audi.remotehmi.ui.mib2.grid.IGridCell;
+import de.audi.remotehmi.ui.mib2.grid.IGridCellAction;
 import de.audi.remotehmi.ui.mib2.grid.IGridFactory;
 import de.audi.remotehmi.ui.mib2.grid.IGridList;
 import de.audi.remotehmi.ui.mib2.grid.IInfiniteListListener;
 import de.audi.remotehmi.ui.mib2.grid.ISpeller;
+import de.audi.remotehmi.util.LogAppender;
+import de.audi.remotehmi.util.PreparedImage;
+import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMITask;
+import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMIViewTask;
 import de.audi.tghu.online.app.remotehmi.ContextManagerComponent;
 import de.audi.tghu.online.app.remotehmi.EntryPoint;
 import de.audi.tghu.online.app.remotehmi.GridHelper;
 import de.audi.tghu.online.app.remotehmi.OnlineModelBankAccess;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIContext;
-import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
+import de.audi.tghu.online.app.remotehmi.RemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.RrdCalculationHandler;
 import de.audi.tghu.online.app.remotehmi.UpdateRrdTask;
 import de.audi.tghu.online.app.remotehmi.onlinemedia.MediaValues;
 import de.audi.tghu.online.app.remotehmi.search.ITruffleSearchHandler;
 import de.audi.tghu.online.app.remotehmi.util.UtilOnline;
+import de.esolutions.fw.util.commons.Buffer;
+import java.util.ArrayList;
 import java.util.List;
 import org.dsi.ifc.online.OSRDevice;
 
@@ -62,9 +61,9 @@ public class HMIViewGridListener
 extends AbstractHMIViewListenerEvo
 implements MenuModelListener,
 ChoiceListener,
-PortalAuthenticationService$UpdateProfileInfoListener,
+PortalAuthenticationService.UpdateProfileInfoListener,
 BaseListModelListener,
-NaviOnlineService$RRDListener,
+NaviOnlineService.RRDListener,
 IInfiniteListListener {
     private static int LAZY_LOADING_RANGE = 1;
     private SpellerHandler spellerHandler;
@@ -72,7 +71,7 @@ IInfiniteListListener {
     private IGridFactory gridFactory;
     private HMIViewGridScreenAccess screenAccess;
     private RrdCalculationHandler rrdCalculationHandler;
-    private final Long DECORATOR_DELAY = new Long(0);
+    private final Long DECORATOR_DELAY = new Long(500L);
     private final int HIDE_ENTERTAINMENT_DRAWER;
     private final int SHOW_ENTERTAINMENT_DRAWER;
     private final int HIDE_SOURCE_ICON_IN_TITEL;
@@ -112,7 +111,6 @@ IInfiniteListListener {
         this.spellerHandler.setTruffleComponent(iTruffleSearchHandler);
     }
 
-    @Override
     public IGridList getCurrentGridList() {
         return this.screenAccess.getGridList();
     }
@@ -120,7 +118,6 @@ IInfiniteListListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateViewProperties(HMIProperties hMIProperties, boolean bl, RemoteHMIContext remoteHMIContext) {
         EntryPoint entryPoint;
         int n;
@@ -137,7 +134,7 @@ IInfiniteListListener {
         boolean bl4;
         Object object3;
         String string = remoteHMIContext == null ? "NULL" : remoteHMIContext.getContextName();
-        this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: isInitialList=%1 contextName=%2", bl, (Object)string);
+        this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: isInitialList=%1 contextName=%2", bl, (Object)string);
         if (hMIProperties == null || remoteHMIContext == null) {
             UtilOnline.validateArgumentNotNull(hMIProperties, "props");
             UtilOnline.validateArgumentNotNull(remoteHMIContext, "context");
@@ -156,36 +153,36 @@ IInfiniteListListener {
         this.handleScreenType(hMIProperties);
         IGridList iGridList2 = this.screenAccess.getGridList();
         int n7 = iGridList2 != null ? iGridList2.getIdRangeStart() : 0;
-        this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: old grid list start range: %1", (long)n7);
+        this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: old grid list start range: %1", (long)n7);
         int n8 = iGridList.getIdRangeStart();
         boolean bl5 = bl4 = n8 != 0;
         if (bl4) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: new grid list was recycled. Its previous start range: %1", (long)n8);
+            this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: new grid list was recycled. Its previous start range: %1", (long)n8);
         }
         boolean bl6 = (n6 = iGridList.getViewType()) == 2;
-        this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: received %1 %2 list for %3 screen.", (Object)(bl6 ? "infinite" : "normal"), (Object)(bl ? "initial" : "update"), (Object)(this.screenAccess.isMainScreen() ? "main" : "option"));
+        this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: received %1 %2 list for %3 screen.", (Object)(bl6 ? "infinite" : "normal"), (Object)(bl ? "initial" : "update"), (Object)(this.screenAccess.isMainScreen() ? "main" : "option"));
         if (bl6 && !iGridList.getInfiniteListData().isConsistent(iGridList.size())) {
             n6 = 0;
             bl6 = false;
             iGridList.setViewType(n6);
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: because of faulty parameters, this infinite list was changed to a normal list!");
+            this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: because of faulty parameters, this infinite list was changed to a normal list!");
         }
         if (iGridList2 != null) {
             n5 = iGridList2.getViewType();
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: viewType='%1'", (Object)IGridList.viewTypeDescription[n6]);
+            this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: viewType='%1'", (Object)IGridList.viewTypeDescription[n6]);
             if (!bl && n5 != n6) {
                 object2 = "HMIViewGridListener#updateViewProperties: list is changed from update to initial state, because new viewType='%1' and old viewType='%2' are different. Check screen-ID (the property 'id' of the '<hmi:viewGrid>' SCXML element.";
-                this.logChannel.log(-1601830656, (String)object2, (Object)IGridList.viewTypeDescription[n6], (Object)IGridList.viewTypeDescription[n5]);
+                this.logChannel.log(100000, (String)object2, (Object)IGridList.viewTypeDescription[n6], (Object)IGridList.viewTypeDescription[n5]);
                 bl = true;
             }
         }
         if (iGridList == iGridList2) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: old and new grid list are the same list!");
+            this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: old and new grid list are the same list!");
         }
         if (iGridList2 == null && !bl) {
             throw new IllegalStateException("An update is sent, but no initial list before!");
         }
-        this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: previous render=%1, update=%2", (long)iGridList.getRenderId(), (long)iGridList.getUpdateCounter());
+        this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: previous render=%1, update=%2", (long)iGridList.getRenderId(), (long)iGridList.getUpdateCounter());
         if (bl4) {
             iGridList.getNextUpdateCounter();
         } else {
@@ -203,7 +200,7 @@ IInfiniteListListener {
                         GridHelper.setNewIdRange(iGridList, rangeCounter, this.logChannel);
                     }
                     if (n5 != 5) {
-                        this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: an initial recycled list was just rendered before, because update mode= %1. It is corrected to full update.", (Object)IGridList.updateDescription[n5]);
+                        this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: an initial recycled list was just rendered before, because update mode= %1. It is corrected to full update.", (Object)IGridList.updateDescription[n5]);
                         n5 = 5;
                         iGridList.setUpdateMode(n5);
                     }
@@ -223,18 +220,18 @@ IInfiniteListListener {
                 GridHelper.setNewIdRange(iGridList, rangeCounter, 5000, this.logChannel);
             } else {
                 if (n5 != 5) {
-                    this.logChannel.log(-1601830656, "HMIViewGridListener#updateViewProperties: test case infinite grid list handling used for update mode= %1.", (Object)IGridList.updateDescription[n5]);
+                    this.logChannel.log(100000, "HMIViewGridListener#updateViewProperties: test case infinite grid list handling used for update mode= %1.", (Object)IGridList.updateDescription[n5]);
                 }
                 iGridList.copyIdRangeFrom(iGridList2);
             }
         } else if (n5 == 5 || n5 == 2) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: set new ID range %1.", (Object)rangeCounter);
+            this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: set new ID range %1.", (Object)rangeCounter);
             GridHelper.setNewIdRange(iGridList, rangeCounter, this.logChannel);
         } else {
-            this.logChannel.log(-1601830656, "HMIViewGridListener#updateViewProperties: test case normal grid list handling used for update mode= %1.", (Object)IGridList.updateDescription[n5]);
+            this.logChannel.log(100000, "HMIViewGridListener#updateViewProperties: test case normal grid list handling used for update mode= %1.", (Object)IGridList.updateDescription[n5]);
             iGridList.copyIdRangeFrom(iGridList2);
         }
-        this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: new grid list start range: %1, size= %2", (long)iGridList.getIdRangeStart(), (long)iGridList.getIdRangeSize());
+        this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: new grid list start range: %1, size= %2", (long)iGridList.getIdRangeStart(), (long)iGridList.getIdRangeSize());
         super.updateViewProperties(hMIProperties, bl, remoteHMIContext);
         object2 = hMIProperties.get("speller");
         if (object2 == null) {
@@ -259,8 +256,8 @@ IInfiniteListListener {
             n2 = 0;
         }
         this.screenAccess.getMediaListModel().setValue(n4);
-        this.modelBank.getChoiceModel(1478370048).setValue(n3);
-        this.modelBank.getChoiceModel(1495147264).setValue(n2);
+        this.modelBank.getChoiceModel(2301528).setValue(n3);
+        this.modelBank.getChoiceModel(2301529).setValue(n2);
         HMIViewNpsListener hMIViewNpsListener = (HMIViewNpsListener)this.remoteHmiServiceEvo.getViewListener(15000);
         if (bl2 && bl) {
             this.setNowPlayingScreenMode(0);
@@ -276,7 +273,7 @@ IInfiniteListListener {
             iCursor = iGridList.getCurrentCursor();
         }
         remoteHMIContext.setNewCursor(iCursor);
-        this.logChannel.log(-2137614336, "AbstractHMIViewListener#getCorrectedCursor: (%1) using corrected cursor %2", (Object)remoteHMIContext.getContextName(), (Object)iCursor);
+        this.logChannel.log(10000000, "AbstractHMIViewListener#getCorrectedCursor: (%1) using corrected cursor %2", (Object)remoteHMIContext.getContextName(), (Object)iCursor);
         ICursorComponent iCursorComponent = iCursor.getFocus();
         int n9 = iCursorComponent.getSubindex();
         int n10 = iCursorComponent.getIndex();
@@ -294,12 +291,12 @@ IInfiniteListListener {
             if (bl || n5 == 5 || iGridList == iGridList2) {
                 bl8 = false;
             } else {
-                this.logChannel.log(-1601830656, "HMIViewGridListener#updateViewProperties: test case grid list handling used for non menu-structure update.");
+                this.logChannel.log(100000, "HMIViewGridListener#updateViewProperties: test case grid list handling used for non menu-structure update.");
                 bl8 = true;
             }
             iGridList.setRendered(bl8);
             iGridList.setEventListening(true);
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateViewProperties: switching to new grid list = %1", iGridList.getLogObject(0));
+            this.logChannel.log(1000000, "HMIViewGridListener#updateViewProperties: switching to new grid list = %1", iGridList.getLogObject(0));
             this.screenAccess.setGridList(iGridList);
         }
         object = this.screenAccess.getDecorator();
@@ -330,9 +327,25 @@ IInfiniteListListener {
         }
     }
 
-    private void processItemSelected(int n, int n2, IGridListRow iGridListRow) {
-        HMIViewGridListener$1 hMIViewGridListener$1 = new HMIViewGridListener$1(this, n, n2, iGridListRow);
-        this.remoteHmiService.execute(new HMIViewGridListener$2(this, "process-item-selected", hMIViewGridListener$1, n, n2, iGridListRow));
+    private void processItemSelected(final int n, final int n2, final IGridListRow iGridListRow) {
+        LogAppender logAppender = new LogAppender(){
+
+            public void appendTo(Buffer buffer) {
+                buffer.append("itemId:").append(n);
+                buffer.append(", subitemId:").append(n2);
+                buffer.append(", row:").append(iGridListRow);
+            }
+
+            public int getEstimatedLength() {
+                return 32;
+            }
+        };
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("process-item-selected", logAppender){
+
+            public void run() {
+                HMIViewGridListener.this.processItemSelectedImmediately(n, n2, iGridListRow);
+            }
+        });
     }
 
     private void processItemSelectedImmediately(int n, int n2, IGridListRow iGridListRow) {
@@ -345,7 +358,7 @@ IInfiniteListListener {
         IGrid iGrid5;
         IGridList iGridList2 = this.screenAccess.getGridList();
         if (!iGridList2.isEventListening()) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#processItemSelectedImmediately: all callbacks ignored, because context was destroyed: id=%1, subId=%2.", (long)n, (long)n2);
+            this.logChannel.log(1000000, "HMIViewGridListener#processItemSelectedImmediately: all callbacks ignored, because context was destroyed: id=%1, subId=%2.", (long)n, (long)n2);
             return;
         }
         if (iGridListRow != null && iGridListRow.isArtificial()) {
@@ -363,7 +376,7 @@ IInfiniteListListener {
         }
         int n6 = iGridList2.getIndexWithinRange(n4);
         if (n6 == -1) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#processItemSelectedImmediately: callback from old list widget ignored: itemId=%1, subItemId=%2.", (long)n4, (long)n5);
+            this.logChannel.log(1000000, "HMIViewGridListener#processItemSelectedImmediately: callback from old list widget ignored: itemId=%1, subItemId=%2.", (long)n4, (long)n5);
             return;
         }
         if (bl) {
@@ -422,26 +435,39 @@ IInfiniteListListener {
         this.createAndInvokeAction(300, iGrid3, iGrid, false);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "HMIViewGridListener#keyPressed: callback from menuItem button: modelID=%1, keyID=%2.", (long)n, (long)n2);
+        this.logChannel.log(1000000, "HMIViewGridListener#keyPressed: callback from menuItem button: modelID=%1, keyID=%2.", (long)n, (long)n2);
         this.processItemSelected(n, -1, null);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, "HMIViewGridListener#itemSelected: callback from dropDownList: modelID=%1, itemID=%2, col=%3.", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, "HMIViewGridListener#itemSelected: callback from dropDownList: modelID=%1, itemID=%2, col=%3.", (long)n, (long)n2, (long)n3);
         this.processItemSelected(n, n2, null);
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, "HMIViewGridListener#itemFocused: callback from choiceListener ignored: modelID=%2, itemID=%1,  col=%3.", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, "HMIViewGridListener#itemFocused: callback from choiceListener ignored: modelID=%2, itemID=%1,  col=%3.", (long)n, (long)n2, (long)n3);
     }
 
-    private void processItemFocused(int n, int n2, IGridListRow iGridListRow, boolean bl) {
-        HMIViewGridListener$3 hMIViewGridListener$3 = new HMIViewGridListener$3(this, n, n2, iGridListRow);
-        this.remoteHmiService.execute(new HMIViewGridListener$4(this, "process-item-focused", hMIViewGridListener$3, n, n2, iGridListRow, bl));
+    private void processItemFocused(final int n, final int n2, final IGridListRow iGridListRow, final boolean bl) {
+        LogAppender logAppender = new LogAppender(){
+
+            public void appendTo(Buffer buffer) {
+                buffer.append("itemId:").append(n);
+                buffer.append(", subitemId:").append(n2);
+                buffer.append(", row:").append(iGridListRow);
+            }
+
+            public int getEstimatedLength() {
+                return 32;
+            }
+        };
+        this.remoteHmiService.execute(new AbstractRemoteHMITask("process-item-focused", logAppender){
+
+            public void run() {
+                HMIViewGridListener.this.processItemFocusedImmediately(n, n2, iGridListRow, bl);
+            }
+        });
     }
 
     /*
@@ -459,12 +485,12 @@ IInfiniteListListener {
         boolean bl3;
         IGridList iGridList = this.screenAccess.getGridList();
         if (!iGridList.isEventListening()) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#processItemFocusedImmediately: all callbacks ignored, because context was destroyed: itemId=%1, subId=%2.", (long)n, (long)n2);
+            this.logChannel.log(1000000, "HMIViewGridListener#processItemFocusedImmediately: all callbacks ignored, because context was destroyed: itemId=%1, subId=%2.", (long)n, (long)n2);
             return;
         }
         boolean bl4 = bl3 = iGridList.getViewType() == 2;
         if (bl3 && bl) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#processItemFocusedImmediately: callback from menu ignored: infiniteList");
+            this.logChannel.log(1000000, "HMIViewGridListener#processItemFocusedImmediately: callback from menu ignored: infiniteList");
             return;
         }
         int n5 = n;
@@ -478,7 +504,7 @@ IInfiniteListListener {
         }
         int n7 = iGridList.getIndexWithinRange(n5);
         if (n7 == -1 && n5 != -1 && rangeCounter.isInsideRangeBoundary(n5)) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#processItemFocusedImmediately: callback from old list widget ignored: itemId=%1, subItemId=%2.", (long)n5, (long)n6);
+            this.logChannel.log(1000000, "HMIViewGridListener#processItemFocusedImmediately: callback from old list widget ignored: itemId=%1, subItemId=%2.", (long)n5, (long)n6);
             return;
         }
         if (bl3) {
@@ -493,7 +519,7 @@ IInfiniteListListener {
             iGrid3 = null;
         } else {
             iGrid2 = (IGrid)iGridList.get(n4);
-            this.logChannel.log(1078071040, "HMIViewGridListener#processItemFocusedImmediately focusedGridId='%1'", (Object)iGrid2.getId());
+            this.logChannel.log(1000000, "HMIViewGridListener#processItemFocusedImmediately focusedGridId='%1'", (Object)iGrid2.getId());
             IGridList iGridList2 = iGrid2.getExpandedList();
             if (iGridList2 == null || n6 == -1) {
                 iGrid3 = null;
@@ -505,14 +531,14 @@ IInfiniteListListener {
             }
         }
         if (bl && iGrid2 != null && iGrid2.getExpandedList() != null) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#processItemFocusedImmediately: callback from menu ignored: expandable item");
+            this.logChannel.log(1000000, "HMIViewGridListener#processItemFocusedImmediately: callback from menu ignored: expandable item");
             return;
         }
         if (iGridList.getViewType() == 1) {
             this.handleMediaGridList();
         }
         if (iGrid2 == null) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#processItemFocusedImmediately: focus for mainGridList is set to default because the focus is out of gridlist");
+            this.logChannel.log(1000000, "HMIViewGridListener#processItemFocusedImmediately: focus for mainGridList is set to default because the focus is out of gridlist");
             string2 = "";
             n3 = -1;
             string = "";
@@ -525,9 +551,9 @@ IInfiniteListListener {
         this.setNewCursor(iGridList.getCurrentCursor());
         IGrid iGrid4 = iGrid2 == null ? null : (iGrid3 == null ? ((iGrid = iGrid2.getDetail()) == null ? iGrid2 : iGrid) : ((iGrid = iGrid3.getDetail()) == null ? iGrid3 : iGrid));
         boolean bl5 = bl2 = iGridListRow != null && iGridListRow.isArtificial();
-        List list = iGrid4 == null ? (n5 == 1578836736 ? iGridList.getSpeller().getDrawerTypes() : null) : (bl2 ? null : iGrid4.getDrawerTypes());
-        this.remoteHmiServiceEvo.execute(new HMIViewGridListener$UpdateDecoratorTask(this, this.remoteHmiService.getContext().getContextName(), "update-decorator", bl2 ? null : iGrid4, n4, null));
-        this.logChannel.log(1078071040, "HMIViewGridListener#processItemFocusedImmediately: isArtificial = '%1', focusedGridId = '%2', drawerTypes = '%3'", bl2, (Object)(iGrid4 == null ? null : iGrid4.getId()), (Object)list);
+        List list = iGrid4 == null ? (n5 == 2300766 ? iGridList.getSpeller().getDrawerTypes() : null) : (bl2 ? null : iGrid4.getDrawerTypes());
+        this.remoteHmiServiceEvo.execute(new UpdateDecoratorTask(this.remoteHmiService.getContext().getContextName(), "update-decorator", bl2 ? null : iGrid4, n4));
+        this.logChannel.log(1000000, "HMIViewGridListener#processItemFocusedImmediately: isArtificial = '%1', focusedGridId = '%2', drawerTypes = '%3'", bl2, (Object)(iGrid4 == null ? null : iGrid4.getId()), (Object)list);
         RightDrawerHandler rightDrawerHandler = this.remoteHmiServiceEvo.getRightDrawerHandler();
         boolean bl6 = rightDrawerHandler.updateRightDrawer(list, rangeCounter, iGrid4, iGridList);
         IGridList iGridList3 = iGridList;
@@ -536,34 +562,32 @@ IInfiniteListListener {
         }
         int n9 = iGridList.hasDetailGridsForNonExpandableEntries() ? 2 : 1;
         this.renderGridList(n9, false, 8);
-        this.logChannel.log(1078071040, "HMIViewGridListener#processItemFocusedImmediately: updateMode '%1' and right drawer available '%2'", (Object)new Integer(n9), (Object)bl6);
+        this.logChannel.log(1000000, "HMIViewGridListener#processItemFocusedImmediately: updateMode '%1' and right drawer available '%2'", (Object)new Integer(n9), (Object)bl6);
     }
 
     private void handleMediaGridList() {
-        this.logChannel.log(1078071040, "HMIViewGridListener#handleMediaGridList: called");
+        this.logChannel.log(1000000, "HMIViewGridListener#handleMediaGridList: called");
         HMIViewNpsListener hMIViewNpsListener = (HMIViewNpsListener)this.remoteHmiService.getViewListener(15000);
         if (hMIViewNpsListener != null) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#handleMediaGridList: updating nps listener");
+            this.logChannel.log(1000000, "HMIViewGridListener#handleMediaGridList: updating nps listener");
             hMIViewNpsListener.setTitle(this.screenAccess.getSubtitleModel().getText());
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(1078071040, "HMIViewGridListener#itemFocused: callback from menu: menuItemID=%1, modelID=%2.", (long)n, (long)n2);
+        this.logChannel.log(1000000, "HMIViewGridListener#itemFocused: callback from menu: menuItemID=%1, modelID=%2.", (long)n, (long)n2);
         this.processItemFocused(n, -1, null, true);
     }
 
     public void itemReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void renderGridList(int n, int n2) {
         this.renderGridList(n, false, n2);
     }
 
     public void renderGridList(int n, boolean bl, int n2) {
-        this.logChannel.log(-2137614336, "HMIViewGridListener#renderGridList: update: %1, decorator: %2, source: %3.", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)Integer.toString(n2));
+        this.logChannel.log(10000000, "HMIViewGridListener#renderGridList: update: %1, decorator: %2, source: %3.", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (Object)Integer.toString(n2));
         IGridList iGridList = this.screenAccess.getGridList();
         GridHelper.updateListModelTransaction(this.screenAccess.getMainListModel(), iGridList, this, n, n2, this.logChannel);
         if (bl) {
@@ -575,34 +599,44 @@ IInfiniteListListener {
         this.remoteHmiService.flushModelGroup();
     }
 
-    @Override
     public void onExit() {
         this.screenAccess.getDecorator().onExit();
         this.rrdCalculationHandler.exitRrd();
         this.enableSDSLineNumbers(null, this.screenAccess.getSDSLineNumberModel());
     }
 
-    @Override
     public void keyPressedVirtualButton(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "HMIViewGridListener#keyPressedVirtualButton: keyID '%1' modelID '%2'", (long)n2, (long)n);
+        this.logChannel.log(10000000, "HMIViewGridListener#keyPressedVirtualButton: keyID '%1' modelID '%2'", (long)n2, (long)n);
         if (n2 == 15) {
-            ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(-1172561152);
+            ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(2301114);
             if (choiceModelApp.getValue() == 1) {
                 String string = "HMIViewGridListener#keyPressedVirtualButton: firing event because selection drawer should be opened instead of sending a back event to south side.";
-                this.logChannel.log(1078071040, string);
+                this.logChannel.log(1000000, string);
                 this.getVirtualButton().fireEvent(n3);
                 return;
             }
-            this.remoteHmiService.execute(new HMIViewGridListener$5(this, "key-pressed-virtual-button"));
+            this.remoteHmiService.execute(new AbstractRemoteHMITask("key-pressed-virtual-button"){
+
+                public void run() {
+                    Object object;
+                    if (!HMIViewGridListener.this.screenAccess.getGridList().isEventListening()) {
+                        object = "HMIViewGridListener#keyPressedVirtualButton: Current grid list went out of scope, new grid list was not yet rendered, so going back may lead to wrong screen.";
+                        HMIViewGridListener.this.logChannel.log(100000, (String)object);
+                    }
+                    HMIViewGridListener.this.logChannel.log(10000000, "HMIViewGridListener#keyPressedVirtualButton: going back to historical screen");
+                    object = HMIViewGridListener.this.getOldCursor().getFocus();
+                    RemoteHMIAction remoteHMIAction = HMIViewGridListener.this.createAction(104, object.getIndex(), object.getId(), HMIViewGridListener.this.getReturnId());
+                    HMIViewGridListener.this.invokeAction(remoteHMIAction);
+                }
+            });
         } else {
-            this.logChannel.log(-2137614336, "HMIViewGridListener#keyPressedVirtualButton: key press has no effect!");
+            this.logChannel.log(10000000, "HMIViewGridListener#keyPressedVirtualButton: key press has no effect!");
         }
     }
 
-    @Override
     public void onApplicationExit(RemoteHMIContext remoteHMIContext) {
         IGridList iGridList;
-        this.logChannel.log(1078071040, "HMIViewGridListener#onApplicationExit: %1", (Object)remoteHMIContext);
+        this.logChannel.log(1000000, "HMIViewGridListener#onApplicationExit: %1", (Object)remoteHMIContext);
         RemoteHMIAction remoteHMIAction = new RemoteHMIAction(400);
         if (remoteHMIContext != null) {
             remoteHMIContext.setLastAction(remoteHMIAction);
@@ -618,78 +652,85 @@ IInfiniteListListener {
         super.onApplicationExit(remoteHMIContext);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         IGridListRow iGridListRow;
-        this.logChannel.log(1078071040, "HMIViewGridListener#itemSelected: callback from ListController: model=%2, index=%3, row=%1.", (Object)evoListRow, (long)n, (long)n2);
+        this.logChannel.log(1000000, "HMIViewGridListener#itemSelected: callback from ListController: model=%2, index=%3, row=%1.", (Object)evoListRow, (long)n, (long)n2);
         IGridListRow iGridListRow2 = iGridListRow = evoListRow instanceof IGridListRow ? (IGridListRow)((Object)evoListRow) : null;
         if (iGridListRow == null) {
-            this.logChannel.log(-1601830656, "HMIViewGridListener#itemSelected: event from an unsupported sibling list of the main list received! Ignoring it.");
+            this.logChannel.log(100000, "HMIViewGridListener#itemSelected: event from an unsupported sibling list of the main list received! Ignoring it.");
             return;
         }
         this.processItemSelected(n, (int)evoListRow.getUniqueID(), iGridListRow);
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         IGridListRow iGridListRow;
-        this.logChannel.log(1078071040, "HMIViewGridListener#itemFocused: callback from ListController: model=%2, index=%3, row=%1.", (Object)evoListRow, (long)n, (long)n2);
+        this.logChannel.log(1000000, "HMIViewGridListener#itemFocused: callback from ListController: model=%2, index=%3, row=%1.", (Object)evoListRow, (long)n, (long)n2);
         IGridListRow iGridListRow2 = iGridListRow = evoListRow instanceof IGridListRow ? (IGridListRow)((Object)evoListRow) : null;
         if (iGridListRow == null) {
-            this.logChannel.log(-1601830656, "HMIViewGridListener#itemFocused: event from an unsupported sibling list of the main list received! Ignoring it.");
+            this.logChannel.log(100000, "HMIViewGridListener#itemFocused: event from an unsupported sibling list of the main list received! Ignoring it.");
             return;
         }
         this.processItemFocused(n, (int)evoListRow.getUniqueID(), iGridListRow, false);
     }
 
-    @Override
-    public void requestItems(int n, int n2, String string, int n3, String string2, String string3, int n4, int n5) {
-        this.remoteHmiServiceEvo.execute(new HMIViewGridListener$6(this, "infinite-list-request-items", n, n2, string2, string3, string, n3, n4, n5));
+    public void requestItems(final int n, final int n2, final String string, final int n3, final String string2, final String string3, final int n4, final int n5) {
+        this.remoteHmiServiceEvo.execute(new AbstractRemoteHMITask("infinite-list-request-items"){
+
+            public void run() {
+                HMIViewGridListener.this.logChannel.log(1000000, "HMIViewGridListener#requestItems: startIndex=%1, listLength=%2,", (long)n, (long)n2);
+                HMIViewGridListener.this.logChannel.log(1000000, "HMIViewGridListener#requestItems: (continued): firstId=%1, lastId=%2", (Object)string2, (Object)string3);
+                RemoteHMIAction remoteHMIAction = HMIViewGridListener.this.getAction(10004000);
+                HMIProperties hMIProperties = remoteHMIAction.getParameters();
+                hMIProperties.putInt("infiniteListStart", n);
+                hMIProperties.putInt("infiniteListLength", n2);
+                hMIProperties.putString("infiniteListDirection", string);
+                hMIProperties.putInt("infiniteListOverlapLength", n3);
+                hMIProperties.putString("infiniteListOverlapFirstId", string2);
+                hMIProperties.putString("infiniteListOverlapLastId", string3);
+                hMIProperties.putInt("infiniteListOverlapFirstIndex", n4);
+                hMIProperties.putInt("infiniteListOverlapLastIndex", n5);
+                HMIViewGridListener.this.invokeAction(remoteHMIAction);
+            }
+        });
     }
 
     public void unrequestItems(int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, "HMIViewGridListener#unrequestItems: callback from TiledListController: model=%1 startIndex=%2 length=%3", (long)n3, (long)n, (long)n2);
+        this.logChannel.log(1000000, "HMIViewGridListener#unrequestItems: callback from TiledListController: model=%1 startIndex=%2 length=%3", (long)n3, (long)n, (long)n2);
     }
 
-    @Override
     public void updateRrdItems(List list) {
-        this.logChannel.log(1078071040, "HMIViewGridListener#updateRrdItems: received list %1", (long)((Object)list).hashCode());
+        this.logChannel.log(1000000, "HMIViewGridListener#updateRrdItems: received list %1", (long)((Object)list).hashCode());
         this.remoteHmiServiceEvo.execute(new UpdateRrdTask(list, false, this, this.rrdCalculationHandler.isImmediateDistanceUpdate()));
         this.rrdCalculationHandler.setImmediateDistanceUpdate(false);
     }
 
-    @Override
     public boolean isScreenTypeMain() {
         return this.screenAccess.isMainScreen();
     }
 
-    @Override
     public void updateDeviceInfo(OSRDevice[] oSRDeviceArray) {
     }
 
     public void updateLayoutConstants(int n, int n2, int n3) {
         if (this.screenAccess != null) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateLayoutConstants: updating constants from GUIDE");
+            this.logChannel.log(1000000, "HMIViewGridListener#updateLayoutConstants: updating constants from GUIDE");
             this.screenAccess.updateLayoutConstants(n, n2, n3);
         } else {
             this.logChannel.log(10000, "HMIViewGridListener#updateLayoutConstants: no screen access!");
         }
     }
 
-    @Override
     public boolean isModelGroupLockEnabled() {
         return true;
     }
 
-    @Override
     public void updateProfileInfo(Object object) {
         if (!(object instanceof IOsrUserCacheInformation)) {
             return;
@@ -699,7 +740,7 @@ IInfiniteListListener {
     }
 
     public void setRrdEnabled(boolean bl) {
-        this.logChannel.log(1078071040, "HMIViewGridListener#setRrdEnabled: setting RRD (Real Road Distance computation) enabled = %1", bl);
+        this.logChannel.log(1000000, "HMIViewGridListener#setRrdEnabled: setting RRD (Real Road Distance computation) enabled = %1", bl);
         this.rrdCalculationHandler.setRrdCalculationEnabled(bl);
         if (!bl) {
             this.rrdCalculationHandler.exitRrd();
@@ -730,7 +771,7 @@ IInfiniteListListener {
 
     public void spellerBandVisibilityCallback(boolean bl) {
         boolean bl2;
-        this.logChannel.log(1078071040, "HMIViewGridListener#spellerBandVisibilityCallback: speller band isVisible=%1", bl);
+        this.logChannel.log(1000000, "HMIViewGridListener#spellerBandVisibilityCallback: speller band isVisible=%1", bl);
         Decorator decorator = this.screenAccess.getDecorator();
         boolean bl3 = bl2 = bl ? decorator.hideMapDecorator() : decorator.revealMapDecorator();
         if (bl2) {
@@ -738,45 +779,84 @@ IInfiniteListListener {
         }
     }
 
-    @Override
     public void updateLockingState(boolean bl) {
-        this.logChannel.log(1078071040, "HMIViewGridListener#updateLockingState: enabled '%1'", bl);
+        this.logChannel.log(1000000, "HMIViewGridListener#updateLockingState: enabled '%1'", bl);
         this.isLockingEnabled = bl;
         if (this.screenAccess.isMainScreen()) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateLockingState: Screen is main screen, do nothing.");
+            this.logChannel.log(1000000, "HMIViewGridListener#updateLockingState: Screen is main screen, do nothing.");
             return;
         }
         if (this.screenAccess.getGridList() == null) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateLockingState: current gird list is null, do nothing.");
+            this.logChannel.log(1000000, "HMIViewGridListener#updateLockingState: current gird list is null, do nothing.");
             return;
         }
         if (this.updateGridListLocking()) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateLockingState: GridList updated, trigger logging.");
+            this.logChannel.log(1000000, "HMIViewGridListener#updateLockingState: GridList updated, trigger logging.");
             GridHelper.updateListModelTransaction(this.screenAccess.getMainListModel(), this.screenAccess.getGridList(), this, 3, 1, this.logChannel);
             this.renderGridList(1, false, 1);
         } else {
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateLockingState: GridList not changed.");
+            this.logChannel.log(1000000, "HMIViewGridListener#updateLockingState: GridList not changed.");
         }
     }
 
     private boolean updateGridListLocking() {
-        HMIViewGridListener$7 hMIViewGridListener$7 = new HMIViewGridListener$7(this);
-        HMIViewGridListener$8 hMIViewGridListener$8 = new HMIViewGridListener$8(this);
+        final IGridCellAction iGridCellAction = new IGridCellAction(){
+
+            public boolean modify(IGridCell iGridCell) {
+                int n = iGridCell.getType();
+                if (n == 0 || n == 5 || n == 4) {
+                    iGridCell.setEnabled(false);
+                    return true;
+                }
+                return false;
+            }
+        };
+        final IGridCellAction iGridCellAction2 = new IGridCellAction(){
+
+            public boolean modify(IGridCell iGridCell) {
+                int n = iGridCell.getType();
+                if (n == 0 || n == 5 || n == 4) {
+                    iGridCell.setEnabled(true);
+                    return true;
+                }
+                return false;
+            }
+        };
         boolean bl = this.isRightDrawerBlockingCoded(false);
         boolean bl2 = this.isRightDrawerBlockingCoded(true);
-        boolean bl3 = !this.isLockingEnabled || !bl;
-        boolean bl4 = !this.isLockingEnabled || !bl2;
-        this.logChannel.log(-2137614336, "HMIViewGridListener#updateGridListLocking: enabledInfo: %1, enabledMedia: %2", (Object)Boolean.toString(bl3), (Object)Boolean.toString(bl4));
-        HMIViewGridListener$9 hMIViewGridListener$9 = new HMIViewGridListener$9(this, bl4, bl3, hMIViewGridListener$8, hMIViewGridListener$7);
+        final boolean bl3 = !this.isLockingEnabled || !bl;
+        final boolean bl4 = !this.isLockingEnabled || !bl2;
+        this.logChannel.log(10000000, "HMIViewGridListener#updateGridListLocking: enabledInfo: %1, enabledMedia: %2", (Object)Boolean.toString(bl3), (Object)Boolean.toString(bl4));
+        IGridAction iGridAction = new IGridAction(){
+
+            public boolean modify(IGrid iGrid) {
+                boolean bl = iGrid.isMedia() ? bl4 : bl3;
+                HMIViewGridListener.this.logChannel.log(1000000, "HMIViewGridListener#updateGridListLocking: grid: %1, media: %2, enabled: %3", (Object)iGrid.getId(), (Object)Boolean.toString(iGrid.isMedia()), (Object)Boolean.toString(bl));
+                if (iGrid.isBlocking()) {
+                    if (!bl) {
+                        iGrid.setDisplayText(iGrid.getBlockingText());
+                        HMIViewGridListener.this.logChannel.log(1000000, "HMIViewGridListener#updateGridListLocking: grid %1, set blocking text: %2", (Object)iGrid.getId(), (Object)iGrid.getBlockingText());
+                    } else {
+                        iGrid.setDisplayText(iGrid.getDefaultInfoText());
+                        HMIViewGridListener.this.logChannel.log(1000000, "HMIViewGridListener#updateGridListLocking: grid %1, set default text: %2", (Object)iGrid.getId(), (Object)iGrid.getBlockingText());
+                    }
+                    iGrid.setEnabled(bl);
+                    int n = iGrid.forEachCell(bl ? iGridCellAction2 : iGridCellAction, Integer.MAX_VALUE);
+                    HMIViewGridListener.this.logChannel.log(1000000, "HMIViewGridListener#updateGridListLocking: %1 grid cells modified.", (long)n);
+                    return true;
+                }
+                return false;
+            }
+        };
         int n = -1;
         if (this.screenAccess.getGridList() == null) {
-            this.logChannel.log(1078071040, "HMIViewGridListener#updateGridListLocking: current gird list is null, do nothing.");
+            this.logChannel.log(1000000, "HMIViewGridListener#updateGridListLocking: current gird list is null, do nothing.");
         } else {
             IGridList iGridList = this.screenAccess.getGridList();
-            n = iGridList.forEachGrid(hMIViewGridListener$9, -129);
+            n = iGridList.forEachGrid(iGridAction, Integer.MAX_VALUE);
             this.screenAccess.setGridList(iGridList);
         }
-        this.logChannel.log(1078071040, "HMIViewGridListener#updateGridListLocking: %1 grids modified.", (long)n);
+        this.logChannel.log(1000000, "HMIViewGridListener#updateGridListLocking: %1 grids modified.", (long)n);
         return n > 0;
     }
 
@@ -784,10 +864,10 @@ IInfiniteListListener {
         ChoiceModelApp choiceModelApp = null;
         if (bl) {
             choiceModelApp = this.hmiService.getChoiceModel(5597);
-            this.logChannel.log(-2137614336, "HMIViewGridListener#isRightDrawerBlockingCoded: Using media bit.");
+            this.logChannel.log(10000000, "HMIViewGridListener#isRightDrawerBlockingCoded: Using media bit.");
         } else {
             choiceModelApp = this.hmiService.getChoiceModel(5601);
-            this.logChannel.log(-2137614336, "HMIViewGridListener#isRightDrawerBlockingCoded: Using misc bit.");
+            this.logChannel.log(10000000, "HMIViewGridListener#isRightDrawerBlockingCoded: Using misc bit.");
         }
         boolean bl2 = false;
         if (choiceModelApp != null) {
@@ -795,40 +875,8 @@ IInfiniteListListener {
         } else {
             this.logChannel.log(10000, "HMIViewGridListener#isRightDrawerBlockingCoded: Drawer blocking bit model is null!");
         }
-        this.logChannel.log(1078071040, "HMIViewGridListener#isRightDrawerBlockingCoded: blocking: %1", bl2);
+        this.logChannel.log(1000000, "HMIViewGridListener#isRightDrawerBlockingCoded: blocking: %1", bl2);
         return bl2;
-    }
-
-    static /* synthetic */ LogChannel access$100(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
-    }
-
-    static /* synthetic */ RemoteHMIServiceEvo access$200(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.remoteHmiServiceEvo;
-    }
-
-    static /* synthetic */ HMIViewGridScreenAccess access$300(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.screenAccess;
-    }
-
-    static /* synthetic */ RemoteHMIService access$400(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.remoteHmiService;
-    }
-
-    static /* synthetic */ int access$500() {
-        return LAZY_LOADING_RANGE;
-    }
-
-    static /* synthetic */ LogChannel access$600(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
-    }
-
-    static /* synthetic */ Long access$700(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.DECORATOR_DELAY;
-    }
-
-    static /* synthetic */ LogChannel access$800(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -840,60 +888,131 @@ IInfiniteListListener {
         }
     }
 
-    static /* synthetic */ void access$900(HMIViewGridListener hMIViewGridListener, int n, int n2, IGridListRow iGridListRow) {
-        hMIViewGridListener.processItemSelectedImmediately(n, n2, iGridListRow);
-    }
+    private final class UpdateDecoratorTask
+    extends AbstractRemoteHMIViewTask {
+        private IGrid focusedGrid;
+        private int focusedIndex;
 
-    static /* synthetic */ void access$1000(HMIViewGridListener hMIViewGridListener, int n, int n2, IGridListRow iGridListRow, boolean bl) {
-        hMIViewGridListener.processItemFocusedImmediately(n, n2, iGridListRow, bl);
-    }
+        private UpdateDecoratorTask(String string, String string2, IGrid iGrid, int n) {
+            super(string, null, string2);
+            this.focusedGrid = iGrid;
+            this.focusedIndex = n;
+        }
 
-    static /* synthetic */ LogChannel access$1200(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
-    }
+        protected LogAppender getParamsForDebugging() {
+            return new LogAppender(){
 
-    static /* synthetic */ LogChannel access$1300(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
-    }
+                public void appendTo(Buffer buffer) {
+                    GeoPosition geoPosition;
+                    String string;
+                    if (UpdateDecoratorTask.this.focusedGrid == null) {
+                        buffer.append("null");
+                        return;
+                    }
+                    String string2 = UpdateDecoratorTask.this.focusedGrid.getId();
+                    if (string2 != null) {
+                        buffer.append("gridId=");
+                        buffer.append(string2);
+                    }
+                    if ((string = UpdateDecoratorTask.this.focusedGrid.getDecoratorImageUrl()) != null) {
+                        if (buffer.length() > 0) {
+                            buffer.append(";");
+                        }
+                        buffer.append("image=");
+                        buffer.append(string);
+                    }
+                    if ((geoPosition = UpdateDecoratorTask.this.focusedGrid.getMapDecoratorGeoPosition()) != null) {
+                        if (buffer.length() > 0) {
+                            buffer.append(";");
+                        }
+                        buffer.append("coords=");
+                        buffer.append(geoPosition);
+                    }
+                }
 
-    static /* synthetic */ String access$1400(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.getReturnId();
-    }
+                public int getEstimatedLength() {
+                    return 256;
+                }
+            };
+        }
 
-    static /* synthetic */ RemoteHMIAction access$1500(HMIViewGridListener hMIViewGridListener, int n, int n2, String string, String string2) {
-        return hMIViewGridListener.createAction(n, n2, string, string2);
-    }
+        public void run() {
+            List list;
+            if (this.focusedGrid != null) {
+                Object object;
+                HMIViewGridListener.this.logChannel.log(1000000, "UpdateDecoratorTask#run focusedGridIndex %1", (long)this.focusedIndex);
+                list = this.getLazyNeighbourhood(this.focusedIndex);
+                PreparedImage preparedImage = this.focusedGrid.getDecoratorImage();
+                boolean bl = this.isLazyLoadingNeeded(this.focusedGrid, preparedImage);
+                if (bl) {
+                    PreparedImage preparedImage2;
+                    list.add(0, preparedImage);
+                    object = this.focusedGrid.getDetail();
+                    if (object != null && this.isLazyLoadingNeeded((IGrid)object, preparedImage2 = object.getDecoratorImage())) {
+                        list.add(1, preparedImage2);
+                    }
+                }
+                if (list.size() > 0) {
+                    object = new RemoteHMIAction(10008911);
+                    ((RemoteHMIAction)object).getParameters().put("propPreparedImage", list);
+                    HMIViewGridListener.this.remoteHmiServiceEvo.invokeAction((RemoteHMIAction)object);
+                }
+                if (bl) {
+                    return;
+                }
+            }
+            boolean bl = (list = HMIViewGridListener.this.screenAccess.getGridList()).getViewType() == 1;
+            HMIViewGridListener.this.screenAccess.getDecorator().updateValues(this.focusedGrid, list.getReferencePoint(), bl);
+            HMIViewGridListener.this.remoteHmiService.flushModelGroup();
+        }
 
-    static /* synthetic */ void access$1600(HMIViewGridListener hMIViewGridListener, RemoteHMIAction remoteHMIAction) {
-        hMIViewGridListener.invokeAction(remoteHMIAction);
-    }
+        private List getLazyNeighbourhood(int n) {
+            int n2;
+            ArrayList arrayList = new ArrayList(1);
+            IGridList iGridList = HMIViewGridListener.this.screenAccess.getGridList();
+            int n3 = n - LAZY_LOADING_RANGE;
+            int n4 = n3 < 0 ? 0 : n3;
+            n3 = n + LAZY_LOADING_RANGE;
+            int n5 = n2 = n3 > iGridList.size() - 1 ? iGridList.size() - 1 : n3;
+            if (n2 - n4 < 0) {
+                return arrayList;
+            }
+            for (int i2 = n4; i2 <= n2; ++i2) {
+                PreparedImage preparedImage;
+                IGrid iGrid;
+                if (i2 == n || !this.isLazyLoadingNeeded(iGrid = (IGrid)iGridList.get(i2), preparedImage = iGrid.getDecoratorImage())) continue;
+                arrayList.add(preparedImage);
+            }
+            return arrayList;
+        }
 
-    static /* synthetic */ LogChannel access$1700(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
-    }
+        private boolean isLazyLoadingNeeded(IGrid iGrid, PreparedImage preparedImage) {
+            String string;
+            String string2;
+            if (preparedImage != null && preparedImage.isLazy() && ((string2 = iGrid.getDecoratorImageUrl()) == null || string2.length() == 0) && (string = preparedImage.getLocalLocation()) != null && string.length() > 0) {
+                HMIViewGridListener.this.logChannel.log(1000000, "HMIViewGridListener#UpdateDecoratorTask#run: should fetch lazy image: %1", (Object)preparedImage.getRemoteUrl());
+                return true;
+            }
+            return false;
+        }
 
-    static /* synthetic */ LogChannel access$1800(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
-    }
+        public boolean isCoalescable() {
+            return true;
+        }
 
-    static /* synthetic */ void access$1900(HMIViewGridListener hMIViewGridListener, RemoteHMIAction remoteHMIAction) {
-        hMIViewGridListener.invokeAction(remoteHMIAction);
-    }
+        public Long getDelayMillis() {
+            return HMIViewGridListener.this.DECORATOR_DELAY;
+        }
 
-    static /* synthetic */ LogChannel access$2000(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
-    }
-
-    static /* synthetic */ LogChannel access$2100(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
-    }
-
-    static /* synthetic */ LogChannel access$2200(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
-    }
-
-    static /* synthetic */ LogChannel access$2300(HMIViewGridListener hMIViewGridListener) {
-        return hMIViewGridListener.logChannel;
+        public boolean coalesceWith(RemoteHMITask remoteHMITask) {
+            if (!(remoteHMITask instanceof UpdateDecoratorTask)) {
+                return false;
+            }
+            UpdateDecoratorTask updateDecoratorTask = (UpdateDecoratorTask)remoteHMITask;
+            HMIViewGridListener.this.logChannel.log(1000000, "HMIViewGridListener#UpdateDecoratorTask#coalesceWith: avoided update for focusedGrid %1", (Object)updateDecoratorTask.focusedGrid);
+            updateDecoratorTask.focusedGrid = this.focusedGrid;
+            return true;
+        }
     }
 }
 

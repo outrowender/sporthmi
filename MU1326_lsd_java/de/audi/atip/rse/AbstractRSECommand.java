@@ -7,22 +7,23 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.rse.AbstractRSEConnection;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public abstract class AbstractRSECommand {
-    public static final int SHIFT_LENGTH;
-    private static final short MODULE_MASK;
-    public static final short COMMAND_ID_MASK;
-    public static final short MODULE_COUNT;
-    public static final short MODULE_TEST;
-    public static final short MODULE_TUNER;
-    public static final short MODULE_MEDIA;
-    public static final short MODULE_CONNECTION;
-    public static final short MODULE_STORAGE;
-    public static final short MODULE_SETTINGS;
-    public static final short MODULE_NAVI;
-    public static final short MODULE_SWDL;
-    public static final short MODULE_I18N;
-    public static final short MODULE_AUDIO;
+    public static final int SHIFT_LENGTH = 8;
+    private static final short MODULE_MASK = -256;
+    public static final short COMMAND_ID_MASK = 255;
+    public static final short MODULE_COUNT = 32;
+    public static final short MODULE_TEST = 0;
+    public static final short MODULE_TUNER = 1;
+    public static final short MODULE_MEDIA = 2;
+    public static final short MODULE_CONNECTION = 3;
+    public static final short MODULE_STORAGE = 4;
+    public static final short MODULE_SETTINGS = 11;
+    public static final short MODULE_NAVI = 5;
+    public static final short MODULE_SWDL = 17;
+    public static final short MODULE_I18N = 18;
+    public static final short MODULE_AUDIO = 19;
     protected static LogChannel log;
     protected int id = -1;
 
@@ -30,11 +31,11 @@ public abstract class AbstractRSECommand {
         this.id = n;
     }
 
-    protected void encodeHeader(DataOutputStream dataOutputStream) {
+    protected void encodeHeader(DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeShort(this.id);
     }
 
-    protected static short decodeHeader(DataInputStream dataInputStream) {
+    protected static short decodeHeader(DataInputStream dataInputStream) throws IOException {
         short s = -1;
         s = dataInputStream.readShort();
         return s;
@@ -44,14 +45,11 @@ public abstract class AbstractRSECommand {
         return (n & 0xFFFFFF00) >> 8;
     }
 
-    public abstract void encode(DataOutputStream dataOutputStream) {
-    }
+    public abstract void encode(DataOutputStream var1);
 
-    public abstract void decode(DataInputStream dataInputStream) {
-    }
+    public abstract void decode(DataInputStream var1);
 
-    public abstract void execute(AbstractRSEConnection abstractRSEConnection) {
-    }
+    public abstract void execute(AbstractRSEConnection var1);
 
     public static LogChannel getLog() {
         return log;
@@ -66,7 +64,7 @@ public abstract class AbstractRSECommand {
     }
 
     public String toString() {
-        return new StringBuffer().append("RSECommand: id=").append(this.id).toString();
+        return "RSECommand: id=" + this.id;
     }
 }
 

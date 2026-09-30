@@ -7,8 +7,8 @@ import de.audi.app.media.dsi.media.MediaListEntry;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class PlayingTrack {
-    public static final long INVALID_ENTRYID;
-    public static final MediaListEntry[] EMPTY_PLAYBACK_FOLDER;
+    public static final long INVALID_ENTRYID = -1L;
+    public static final MediaListEntry[] EMPTY_PLAYBACK_FOLDER = new MediaListEntry[0];
     private final long entryID;
     private final MediaListEntry[] playbackFolder;
 
@@ -46,10 +46,6 @@ public class PlayingTrack {
         Buffer buffer = new Buffer();
         buffer.append("[PlayingTrack: entryID='").append(this.entryID).append("',playlist='").append(this.isPlaylistTrack()).append("']");
         return buffer.toString();
-    }
-
-    static {
-        EMPTY_PLAYBACK_FOLDER = new MediaListEntry[0];
     }
 }
 

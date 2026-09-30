@@ -6,10 +6,8 @@ package de.audi.app.phone.core.sim;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 
 public interface ITelLockStateHandler {
-    default public void unlockSIMwithPIN(String string, int n, ITelDSIResponseListener iTelDSIResponseListener) {
-    }
+    public void unlockSIMwithPIN(String var1, int var2, ITelDSIResponseListener var3);
 
-    default public void setPINSpeller(String string) {
-    }
+    public void setPINSpeller(String var1);
 }
 

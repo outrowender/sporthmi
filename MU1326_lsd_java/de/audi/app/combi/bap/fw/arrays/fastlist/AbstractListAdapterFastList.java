@@ -28,18 +28,15 @@ implements IListAdapterFastList {
         super(arrayHandler);
     }
 
-    @Override
     public IArrayHeader createArrayHeader() {
         return new ArrayHeaderFastList();
     }
 
-    @Override
     public final void init(BundleContext bundleContext) {
         this.serviceTrackerDSIFastListScrolling = new DSIServiceTracker(bundleContext, this.getDSIController(), this.getDSIListener(), this.getDSIListenerClass(), this.getDSINotifications(), this.logChannel);
         this.serviceTrackerDSIFastListScrolling.start();
     }
 
-    @Override
     public final void deinit() {
         this.serviceTrackerDSIFastListScrolling.stop();
     }
@@ -55,19 +52,14 @@ implements IListAdapterFastList {
         return new DataInitials[0];
     }
 
-    public abstract void responseInitials(int n, int n2, int n3, DataInitials[] dataInitialsArray) {
-    }
+    public abstract void responseInitials(int var1, int var2, int var3, DataInitials[] var4);
 
-    protected abstract IDSIController getDSIController() {
-    }
+    protected abstract IDSIController getDSIController();
 
-    protected abstract DSIListener getDSIListener() {
-    }
+    protected abstract DSIListener getDSIListener();
 
-    protected abstract Class getDSIListenerClass() {
-    }
+    protected abstract Class getDSIListenerClass();
 
-    protected abstract int getDSIListID() {
-    }
+    protected abstract int getDSIListID();
 }
 

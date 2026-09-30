@@ -3,7 +3,6 @@
  */
 package de.audi.atip.utils.eventbus;
 
-import de.audi.atip.utils.eventbus.AsyncEventSubscriber$1;
 import de.audi.atip.utils.eventbus.EventSubscriber;
 import de.audi.atip.utils.eventbus.SubscriberExceptionHandler;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
@@ -18,13 +17,13 @@ extends EventSubscriber {
         this.dispatcher = dispatcherBase;
     }
 
-    @Override
-    public void handleEvent(Object object) {
-        this.dispatcher.execute(new AsyncEventSubscriber$1(this, object));
-    }
+    public void handleEvent(final Object object) {
+        this.dispatcher.execute(new Runnable(){
 
-    static /* synthetic */ void access$001(AsyncEventSubscriber asyncEventSubscriber, Object object) {
-        super.handleEvent(object);
+            public void run() {
+                AsyncEventSubscriber.super.handleEvent(object);
+            }
+        });
     }
 }
 

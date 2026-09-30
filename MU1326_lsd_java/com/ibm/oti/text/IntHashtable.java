@@ -8,28 +8,24 @@ import com.ibm.oti.util.Msg;
 public final class IntHashtable {
     private int defaultValue = 0;
     private int primeIndex;
-    private static final float HIGH_WATER_FACTOR;
+    private static final float HIGH_WATER_FACTOR = 0.4f;
     private int highWaterMark;
-    private static final float LOW_WATER_FACTOR;
+    private static final float LOW_WATER_FACTOR = 0.0f;
     private int lowWaterMark;
     private int count;
     private int[] values;
     private int[] keyList;
-    private static final int EMPTY;
-    private static final int DELETED;
-    private static final int MAX_UNUSED;
-    private static final int[] PRIMES;
-
-    static {
-        PRIMES = new int[]{17, 37, 67, 131, 257, 521, 1031, 2053, 4099, 8209, 16411, 0x3800000, 0x1000100, 486539776, 0x3000400, 352323584, 0x7001000, 0x11002000, 0xF004000, 0x9008000, 721420289, 0x23000002, 0xF000004, 486539272, 0x3000010, 0xB000020, 0x3000040, -129};
-    }
+    private static final int EMPTY = Integer.MIN_VALUE;
+    private static final int DELETED = -2147483647;
+    private static final int MAX_UNUSED = -2147483647;
+    private static final int[] PRIMES = new int[]{17, 37, 67, 131, 257, 521, 1031, 2053, 4099, 8209, 16411, 32771, 65537, 131101, 262147, 524309, 0x100007, 0x200011, 0x40000F, 0x800009, 16777259, 0x2000023, 0x400000F, 134217757, 0x10000003, 0x2000000B, 0x40000003, Integer.MAX_VALUE};
 
     public IntHashtable() {
         this.initialize(3);
     }
 
     public IntHashtable(int n) {
-        this.initialize(IntHashtable.leastGreaterPrimeIndex((int)((float)n / -842216386)));
+        this.initialize(IntHashtable.leastGreaterPrimeIndex((int)((float)n / 0.4f)));
     }
 
     public int size() {
@@ -45,7 +41,7 @@ public final class IntHashtable {
         if (this.count > this.highWaterMark) {
             this.rehash();
         }
-        if (this.keyList[n3 = this.find(n)] <= 0x1000080) {
+        if (this.keyList[n3 = this.find(n)] <= -2147483647) {
             this.keyList[n3] = n;
             ++this.count;
         }
@@ -58,8 +54,8 @@ public final class IntHashtable {
 
     public void remove(int n) {
         int n2 = this.find(n);
-        if (this.keyList[n2] > 0x1000080) {
-            this.keyList[n2] = 0x1000080;
+        if (this.keyList[n2] > -2147483647) {
+            this.keyList[n2] = -2147483647;
             this.values[n2] = this.defaultValue;
             --this.count;
             if (this.count < this.lowWaterMark) {
@@ -78,7 +74,7 @@ public final class IntHashtable {
     }
 
     public boolean equals(Object object) {
-        if (object.getClass() != super.getClass()) {
+        if (object.getClass() != this.getClass()) {
             return false;
         }
         IntHashtable intHashtable = (IntHashtable)object;
@@ -88,7 +84,7 @@ public final class IntHashtable {
         int n = 0;
         while (n < this.keyList.length) {
             int n2 = this.keyList[n];
-            if (n2 > 0x1000080 && intHashtable.get(n2) != this.values[n]) {
+            if (n2 > -2147483647 && intHashtable.get(n2) != this.values[n]) {
                 return false;
             }
             ++n;
@@ -98,7 +94,7 @@ public final class IntHashtable {
 
     public int hashCode() {
         int n = 465;
-        int n2 = 362887761;
+        int n2 = 1362796821;
         int n3 = 0;
         while (n3 < this.keyList.length) {
             n = n * n2 + 1;
@@ -114,7 +110,7 @@ public final class IntHashtable {
         return n;
     }
 
-    public Object clone() {
+    public Object clone() throws CloneNotSupportedException {
         IntHashtable intHashtable = (IntHashtable)super.clone();
         intHashtable.values = (int[])this.values.clone();
         intHashtable.keyList = (int[])this.keyList.clone();
@@ -133,13 +129,13 @@ public final class IntHashtable {
         this.keyList = new int[n2];
         int n3 = 0;
         while (n3 < n2) {
-            this.keyList[n3] = 128;
+            this.keyList[n3] = Integer.MIN_VALUE;
             this.values[n3] = this.defaultValue;
             ++n3;
         }
         this.count = 0;
         this.lowWaterMark = (int)((float)n2 * 0.0f);
-        this.highWaterMark = (int)((float)n2 * -842216386);
+        this.highWaterMark = (int)((float)n2 * 0.4f);
     }
 
     private void rehash() {
@@ -155,7 +151,7 @@ public final class IntHashtable {
         int n2 = nArray.length - 1;
         while (n2 >= 0) {
             int n3 = nArray2[n2];
-            if (n3 > 0x1000080) {
+            if (n3 > -2147483647) {
                 this.putInternal(n3, nArray[n2]);
             }
             --n2;
@@ -164,7 +160,7 @@ public final class IntHashtable {
 
     public void putInternal(int n, int n2) {
         int n3 = this.find(n);
-        if (this.keyList[n3] < 0x1000080) {
+        if (this.keyList[n3] < -2147483647) {
             this.keyList[n3] = n;
             ++this.count;
         }
@@ -172,11 +168,11 @@ public final class IntHashtable {
     }
 
     private int find(int n) {
-        if (n <= 0x1000080) {
+        if (n <= -2147483647) {
             throw new IllegalArgumentException(Msg.getString("K01a9"));
         }
         int n2 = -1;
-        int n3 = (n ^ 4) % this.keyList.length;
+        int n3 = (n ^ 0x4000000) % this.keyList.length;
         if (n3 < 0) {
             n3 = -n3;
         }
@@ -186,8 +182,8 @@ public final class IntHashtable {
             if ((n5 = this.keyList[n3]) == n) {
                 return n3;
             }
-            if (n5 <= 0x1000080) {
-                if (n5 == 128) {
+            if (n5 <= -2147483647) {
+                if (n5 == Integer.MIN_VALUE) {
                     if (n2 >= 0) {
                         n3 = n2;
                     }

@@ -11,7 +11,6 @@ import de.audi.app.navi.evo.di.jp.models.AddressInputModelAccessJP;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.tghu.navi.app.CityHistory;
-import de.audi.tghu.navi.app.CityHistory$HistoryForCurrentInput;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.IAddressInputFormModelAccessHelper;
 import de.audi.tghu.navi.app.util.Util;
@@ -33,7 +32,6 @@ extends AddressInputModelAccessJP {
         this.buttonModel = navigationEnv.getButtonModel(this.nationWideButtonModelId);
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         super.onStart(navLocation);
         if (AddressInputUtilEvo.isInPOIRelatedContext(this.env)) {
@@ -43,28 +41,26 @@ extends AddressInputModelAccessJP {
         }
     }
 
-    private CityHistory$HistoryForCurrentInput getMatchingHistoryEntries(String string) {
-        return new CityHistory$HistoryForCurrentInput(this.cityHistory.getMatchingLastStates(string));
+    private CityHistory.HistoryForCurrentInput getMatchingHistoryEntries(String string) {
+        return new CityHistory.HistoryForCurrentInput(this.cityHistory.getMatchingLastStates(string));
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
         super.onUpdateSpeller(string, string2, bl, bl2);
         if (!Util.isEmpty(string2) || AddressInputUtilEvo.isInPOIRelatedContext(this.env)) {
-            this.logChannel.log(-2137614336, "#onUpdateSpeller set nation wide button to invisible", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "#onUpdateSpeller set nation wide button to invisible", (Object)this.CLASS_NAME);
             this.buttonModel.setStatus(0);
         } else {
-            this.logChannel.log(-2137614336, "#onUpdateSpeller set nation wide button to visible", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "#onUpdateSpeller set nation wide button to visible", (Object)this.CLASS_NAME);
             this.buttonModel.setStatus(1);
         }
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         int n3;
         int n4;
         EvoListRow[] evoListRowArray;
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateResultList with matchCount = %1, currentInput = %2, valueList = %3").toString(), (Object)Long.toString(l), (Object)string, (Object)lIValueList);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onUpdateResultList with matchCount = %1, currentInput = %2, valueList = %3", (Object)Long.toString(l), (Object)string, (Object)lIValueList);
         if (Util.isEmpty(string)) {
             this.matchSpellerModelApp.setCompletionText("");
         }
@@ -86,16 +82,16 @@ extends AddressInputModelAccessJP {
         }
         n4 = n2 == 0 ? n5 : 0;
         for (n3 = 0; n3 < lIValueListElementArray.length; ++n3) {
-            evoListRowArray[n3 + n4] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 160082217, new int[0]);
+            evoListRowArray[n3 + n4] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 698976777, new int[0]);
         }
         n3 = 0;
         n3 = evoListRowArray2 != null ? (int)l + evoListRowArray2.length : (int)l;
-        this.logChannel.log(-2137614336, "AddressInputPrefectureInputModelAccessJP#onUpdateResultList - updating Row-Length from %1 to %2", (long)this.previewListModelApp.getLength(), (long)n3);
+        this.logChannel.log(10000000, "AddressInputPrefectureInputModelAccessJP#onUpdateResultList - updating Row-Length from %1 to %2", (long)this.previewListModelApp.getLength(), (long)n3);
         this.previewListModelApp.setLength(n3);
-        this.logChannel.log(-2137614336, "AddressInputPrefectureInputModelAccessJP#onUpdateResultList the TiledList will be updated with requestID = %1, startingIndex = %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "AddressInputPrefectureInputModelAccessJP#onUpdateResultList the TiledList will be updated with requestID = %1, startingIndex = %2", (long)n, (long)n2);
         this.previewListModelApp.setRows(n, n2, evoListRowArray);
         if (n3 > 0 && n3 <= 5) {
-            this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateResultList automatically select first item when the amount of result list is less than 5").toString());
+            this.logChannel.log(10000000, this.CLASS_NAME + "#onUpdateResultList automatically select first item when the amount of result list is less than 5");
             int n6 = Util.isEmpty(string) ? 0 : 1;
             this.matchSpellerModelApp.setMatchCount((int)l, n6);
         }

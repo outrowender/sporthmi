@@ -7,9 +7,10 @@ import de.audi.app.bap.fw.AbstractBAPModuleFSG;
 import de.audi.app.bap.fw.functionsync.IFunctionSynchronizationHandler;
 import de.audi.app.bap.fw.functiontypes.AbstractBAPFunctionWithAck;
 import de.audi.app.bap.fw.functiontypes.AcknowledgeWatchdog;
-import de.audi.app.bap.fw.functiontypes.BAPFunctionPropertyFSG$StatusRequestDispatcher;
+import de.audi.app.bap.fw.functiontypes.AcknowledgeWatchdogWithTimer;
 import de.audi.app.bap.fw.functiontypes.protocol.IBAPPropertyFSGIND;
 import de.audi.app.bap.fw.functiontypes.protocol.IBAPPropertyFSGREQ;
+import de.audi.app.bap.fw.indication.IAcknowledgeListener;
 import de.audi.app.bap.fw.indication.IBAPIndicationHandlerPropertyFSG;
 import de.audi.app.bap.utils.ErrorCodes;
 import de.audi.app.bap.utils.IndicationTypes;
@@ -30,13 +31,13 @@ IBAPPropertyFSGREQ {
     private StatusAckProperty statusAckSerializer;
     protected final AbstractBAPModuleFSG moduleFsg;
     private final IBAPIndicationHandlerPropertyFSG indicationHandler;
-    private final BAPFunctionPropertyFSG$StatusRequestDispatcher statusRequestDispatcher;
+    private final StatusRequestDispatcher statusRequestDispatcher;
     private volatile boolean controlledByFunctionSync = false;
     private volatile boolean isFunctionSyncProperty = false;
     private volatile boolean setGetPending = false;
 
     public void setControlledByFunctionSync(boolean bl) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#setControlledByFunctionSync] enabled=%1, lsgID=%2, fctID=%3, ", bl, (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#setControlledByFunctionSync] enabled=%1, lsgID=%2, fctID=%3, ", bl, (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.controlledByFunctionSync = bl;
     }
 
@@ -52,7 +53,7 @@ IBAPPropertyFSGREQ {
         super(abstractBAPModuleFSG, n);
         this.moduleFsg = abstractBAPModuleFSG;
         this.indicationHandler = abstractBAPModuleFSG.getIndicationHandler();
-        this.statusRequestDispatcher = new BAPFunctionPropertyFSG$StatusRequestDispatcher(this, null);
+        this.statusRequestDispatcher = new StatusRequestDispatcher();
         this.addAcknowledgeListener(this.statusRequestDispatcher);
     }
 
@@ -60,18 +61,17 @@ IBAPPropertyFSGREQ {
         super(abstractBAPModuleFSG, n);
         this.moduleFsg = abstractBAPModuleFSG;
         this.indicationHandler = abstractBAPModuleFSG.getIndicationHandler();
-        this.statusRequestDispatcher = new BAPFunctionPropertyFSG$StatusRequestDispatcher(this, acknowledgeWatchdog, null);
+        this.statusRequestDispatcher = new StatusRequestDispatcher(acknowledgeWatchdog);
         this.addAcknowledgeListener(this.statusRequestDispatcher);
     }
 
-    @Override
     public BAPEntity getIndicationSerializer(int n) {
         switch (n) {
             case 13: {
                 return this.resetSerializer;
             }
             case 1: {
-                this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#getIndicationSerializer] Set is not supported");
+                this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#getIndicationSerializer] Set is not supported");
                 return null;
             }
             case 0: {
@@ -88,11 +88,10 @@ IBAPPropertyFSGREQ {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void reset() {
-        this.logChannel.log(14808325, "[BAPFunctionPropertyFSG#reset] called");
-        BAPFunctionPropertyFSG$StatusRequestDispatcher bAPFunctionPropertyFSG$StatusRequestDispatcher = this.statusRequestDispatcher;
-        synchronized (bAPFunctionPropertyFSG$StatusRequestDispatcher) {
+        this.logChannel.log(100000000, "[BAPFunctionPropertyFSG#reset] called");
+        StatusRequestDispatcher statusRequestDispatcher = this.statusRequestDispatcher;
+        synchronized (statusRequestDispatcher) {
             this.resetIndication();
             this.statusRequestDispatcher.reset();
         }
@@ -102,12 +101,10 @@ IBAPPropertyFSGREQ {
         this.setGetPending = false;
     }
 
-    @Override
     protected boolean isIndicationTypeSupported(int n) {
         return n == 7 || n == 1 || n == 0;
     }
 
-    @Override
     protected synchronized void doProcessIndication(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 7: {
@@ -129,77 +126,65 @@ IBAPPropertyFSGREQ {
         }
     }
 
-    @Override
     protected void doProcessError(int n) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
+        this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
     }
 
-    @Override
     public void getIND() {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setGetIND(SetGetProperty setGetProperty) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#setGetIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
-        BAPFunctionPropertyFSG$StatusRequestDispatcher bAPFunctionPropertyFSG$StatusRequestDispatcher = this.statusRequestDispatcher;
-        synchronized (bAPFunctionPropertyFSG$StatusRequestDispatcher) {
+        this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#setGetIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        StatusRequestDispatcher statusRequestDispatcher = this.statusRequestDispatcher;
+        synchronized (statusRequestDispatcher) {
             this.setGetPending = true;
         }
         this.indicationHandler.processIndicationSetGet(this, setGetProperty);
     }
 
-    @Override
     public void setIND(SetGetProperty setGetProperty) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#setIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#setIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.indicationHandler.processIndicationSet(this, setGetProperty);
     }
 
-    @Override
     public void ackIND(AckProperty ackProperty) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#ackIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#ackIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.indicationHandler.processIndicationAck(this, ackProperty);
     }
 
-    @Override
     public void sendStatus(StatusProperty statusProperty) {
         this.statusREQ(statusProperty, true);
     }
 
-    @Override
     public void sendStatusIfChanged(StatusProperty statusProperty) {
         this.statusREQ(statusProperty, false);
     }
 
-    @Override
     public void resendLastStatus() {
         this.statusREQ(this.getLastStatus(), true);
     }
 
-    @Override
     public void sendStatusAck(StatusAckProperty statusAckProperty) {
-        this.logChannel.log(14808325, "[BAPFunctionPropertyFSG#statusAckREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(100000000, "[BAPFunctionPropertyFSG#statusAckREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.statusAckSerializer = statusAckProperty;
         if (!this.sendRequest(11, statusAckProperty)) {
-            BAPFunctionPropertyFSG$StatusRequestDispatcher.access$402(this.statusRequestDispatcher, true);
+            this.statusRequestDispatcher.statusRequestTransmissionPending = true;
         }
         this.setDataValid(true);
         this.notifyListenersDataChanged();
     }
 
-    @Override
     public void resendLastStatusAck() {
         this.sendStatusAck(this.statusAckSerializer);
     }
 
-    @Override
     public void setInitialStatus(StatusProperty statusProperty) {
         this.statusSerializer = statusProperty;
     }
 
-    @Override
     public void setInitialStatusAck(StatusAckProperty statusAckProperty) {
         this.statusAckSerializer = statusAckProperty;
     }
@@ -208,7 +193,6 @@ IBAPPropertyFSGREQ {
         return this.statusSerializer != null;
     }
 
-    @Override
     public StatusProperty getLastStatus() {
         this.initStatusSerializerIfNeeded();
         return this.statusSerializer;
@@ -218,24 +202,23 @@ IBAPPropertyFSGREQ {
         return this.statusAckSerializer != null;
     }
 
-    @Override
     public StatusAckProperty getLastStatusAck() {
         this.initStatusAckSerializerIfNeeded();
         return this.statusAckSerializer;
     }
 
     private void statusREQ(StatusProperty statusProperty, boolean bl) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#statusREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#statusREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.initStatusSerializerIfNeeded();
         IFunctionSynchronizationHandler iFunctionSynchronizationHandler = this.moduleFsg.getFunctionSynchronizationHandler();
         if (this.isControlledByFunctionSync() && iFunctionSynchronizationHandler != null) {
             if (!iFunctionSynchronizationHandler.isQueuedPropertiesSent()) {
-                this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#statusREQ] function sync is activated for property %1, %2 but currently not running -> enqueue request in function sync", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+                this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#statusREQ] function sync is activated for property %1, %2 but currently not running -> enqueue request in function sync", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
                 if (iFunctionSynchronizationHandler.enqueuePropertyUpdate(this, statusProperty)) {
                     return;
                 }
             } else if (iFunctionSynchronizationHandler.isQueuedPropertiesSent() && iFunctionSynchronizationHandler.isSyncCancelled()) {
-                this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#statusREQ] function sync was cancelled after sending property %1, %2 -> trying to enqueue request in pending function sync", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+                this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#statusREQ] function sync was cancelled after sending property %1, %2 -> trying to enqueue request in pending function sync", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
                 if (iFunctionSynchronizationHandler.enqueuePropertyUpdate(this, statusProperty)) {
                     return;
                 }
@@ -246,31 +229,31 @@ IBAPPropertyFSGREQ {
             boolean bl3 = bl2 = !statusProperty.equalTo(this.statusSerializer);
         }
         if (bl2 || !this.isDataValid() || this.setGetPending || bl) {
-            BAPFunctionPropertyFSG$StatusRequestDispatcher.access$500(this.statusRequestDispatcher, statusProperty);
+            this.statusRequestDispatcher.dispatch(statusProperty);
         } else {
-            this.logChannel.log(14808325, "[BAPFunctionPropertyFSG#statusREQ] value didn't change -> don't send request (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+            this.logChannel.log(100000000, "[BAPFunctionPropertyFSG#statusREQ] value didn't change -> don't send request (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
             this.notifyListenersDataNotChanged();
         }
     }
 
     public void sendQueued(StatusProperty statusProperty) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyFSG#sendQueued]");
+        this.logChannel.log(10000000, "[BAPFunctionPropertyFSG#sendQueued]");
         this.initStatusSerializerIfNeeded();
-        BAPFunctionPropertyFSG$StatusRequestDispatcher.access$500(this.statusRequestDispatcher, statusProperty);
+        this.statusRequestDispatcher.dispatch(statusProperty);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public boolean isStatusRequestTransmissionPending() {
-        BAPFunctionPropertyFSG$StatusRequestDispatcher bAPFunctionPropertyFSG$StatusRequestDispatcher = this.statusRequestDispatcher;
-        synchronized (bAPFunctionPropertyFSG$StatusRequestDispatcher) {
-            return BAPFunctionPropertyFSG$StatusRequestDispatcher.access$400(this.statusRequestDispatcher);
+        StatusRequestDispatcher statusRequestDispatcher = this.statusRequestDispatcher;
+        synchronized (statusRequestDispatcher) {
+            return this.statusRequestDispatcher.statusRequestTransmissionPending;
         }
     }
 
     public boolean isStatusAcknowledged() {
-        return BAPFunctionPropertyFSG$StatusRequestDispatcher.access$600(this.statusRequestDispatcher);
+        return this.statusRequestDispatcher.statusAcknowledged;
     }
 
     public BAPEntity getResetSerializer() {
@@ -293,8 +276,8 @@ IBAPPropertyFSGREQ {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public StatusProperty getStatusSerializer() {
-        BAPFunctionPropertyFSG$StatusRequestDispatcher bAPFunctionPropertyFSG$StatusRequestDispatcher = this.statusRequestDispatcher;
-        synchronized (bAPFunctionPropertyFSG$StatusRequestDispatcher) {
+        StatusRequestDispatcher statusRequestDispatcher = this.statusRequestDispatcher;
+        synchronized (statusRequestDispatcher) {
             return this.statusSerializer;
         }
     }
@@ -303,8 +286,8 @@ IBAPPropertyFSGREQ {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void setStatusSerializer(StatusProperty statusProperty) {
-        BAPFunctionPropertyFSG$StatusRequestDispatcher bAPFunctionPropertyFSG$StatusRequestDispatcher = this.statusRequestDispatcher;
-        synchronized (bAPFunctionPropertyFSG$StatusRequestDispatcher) {
+        StatusRequestDispatcher statusRequestDispatcher = this.statusRequestDispatcher;
+        synchronized (statusRequestDispatcher) {
             this.statusSerializer = statusProperty;
         }
     }
@@ -337,22 +320,94 @@ IBAPPropertyFSGREQ {
         }
     }
 
-    static /* synthetic */ StatusProperty access$000(BAPFunctionPropertyFSG bAPFunctionPropertyFSG) {
-        return bAPFunctionPropertyFSG.statusSerializer;
-    }
+    private class StatusRequestDispatcher
+    implements IAcknowledgeListener,
+    AcknowledgeWatchdog.AcknowledgeWatchdogListener {
+        private volatile boolean isIdle = true;
+        private volatile boolean statusAcknowledged = false;
+        private volatile boolean statusRequestTransmissionPending = false;
+        protected static final int NO_ACKNOWLEDGE_TIMEOUT_DELAY = 1000;
+        private final AcknowledgeWatchdog acknowledgeWatchdog;
 
-    static /* synthetic */ boolean access$100(BAPFunctionPropertyFSG bAPFunctionPropertyFSG) {
-        return bAPFunctionPropertyFSG.setGetPending;
-    }
+        private StatusRequestDispatcher() {
+            this.acknowledgeWatchdog = new AcknowledgeWatchdogWithTimer(1000);
+            this.acknowledgeWatchdog.setListener(this);
+        }
 
-    static /* synthetic */ StatusProperty access$002(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, StatusProperty statusProperty) {
-        bAPFunctionPropertyFSG.statusSerializer = statusProperty;
-        return bAPFunctionPropertyFSG.statusSerializer;
-    }
+        private StatusRequestDispatcher(AcknowledgeWatchdog acknowledgeWatchdog) {
+            this.acknowledgeWatchdog = acknowledgeWatchdog;
+            this.acknowledgeWatchdog.setListener(this);
+        }
 
-    static /* synthetic */ boolean access$102(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, boolean bl) {
-        bAPFunctionPropertyFSG.setGetPending = bl;
-        return bAPFunctionPropertyFSG.setGetPending;
+        private synchronized void dispatch(StatusProperty statusProperty) {
+            BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatch] serializer: %1", (Object)statusProperty);
+            BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatch] member statusSerializer: %1", (Object)BAPFunctionPropertyFSG.this.statusSerializer);
+            BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatch] setGetPending=%1 ", BAPFunctionPropertyFSG.this.setGetPending);
+            this.statusRequestTransmissionPending = true;
+            if (!BAPFunctionPropertyFSG.this.statusSerializer.equalTo(statusProperty)) {
+                BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatch] Set: statusSerializer = serializer");
+                BAPFunctionPropertyFSG.this.statusSerializer = statusProperty;
+            }
+            if (this.isIdle) {
+                if (this.isSendingAllowed()) {
+                    BAPFunctionPropertyFSG.this.setGetPending = false;
+                    this.dispatchNext();
+                } else {
+                    BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatch] (fctID=%1) module state before initialization (state=%2) -> don't send status request", (Object)BAPFunctionPropertyFSG.this.fctIDDesc, (long)BAPFunctionPropertyFSG.this.moduleFsg.getInitializationManager().getInitState());
+                }
+            } else {
+                BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatch] (fctID=%1) isIdle=false", (Object)BAPFunctionPropertyFSG.this.fctIDDesc);
+            }
+        }
+
+        private boolean isSendingAllowed() {
+            return BAPFunctionPropertyFSG.this.moduleFsg.getInitializationManager().getInitState() >= 4 || BAPFunctionPropertyFSG.this.moduleFsg.isUpdateBeforeInit(BAPFunctionPropertyFSG.this.fctID) && BAPFunctionPropertyFSG.this.moduleFsg.getInitializationManager().getHMIState() != 0 || BAPFunctionPropertyFSG.this.setGetPending && BAPFunctionPropertyFSG.this.moduleFsg.getInitializationManager().getHMIState() != 0;
+        }
+
+        private synchronized void dispatchNext() {
+            if (this.statusRequestTransmissionPending) {
+                BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatchNext] lsgID=%1, fctID=%2", (Object)BAPFunctionPropertyFSG.this.lsgIDDesc, (Object)BAPFunctionPropertyFSG.this.fctIDDesc);
+                this.statusAcknowledged = false;
+                this.statusRequestTransmissionPending = false;
+                BAPFunctionPropertyFSG.this.setDataValid(true);
+                BAPFunctionPropertyFSG.this.notifyListenersDataChanged();
+                BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatchNext] sending: %1", (Object)BAPFunctionPropertyFSG.this.statusSerializer);
+                if (BAPFunctionPropertyFSG.this.sendRequest(7, BAPFunctionPropertyFSG.this.statusSerializer)) {
+                    if (!this.statusAcknowledged) {
+                        this.isIdle = false;
+                        this.acknowledgeWatchdog.activate();
+                    } else {
+                        BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatchNext] status already acknowledged");
+                    }
+                } else {
+                    this.statusRequestTransmissionPending = true;
+                }
+            } else {
+                BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#dispatchNext] lsgID=%1, fctID=%2, no pending status serializer", (Object)BAPFunctionPropertyFSG.this.lsgIDDesc, (Object)BAPFunctionPropertyFSG.this.fctIDDesc);
+            }
+        }
+
+        public synchronized void processAcknowledge(int n, int n2) {
+            if (n == BAPFunctionPropertyFSG.this.fctID && n2 == 0) {
+                BAPFunctionPropertyFSG.this.logChannel.log(10000000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#processAcknowledge] lsgID=%1, fctID=%2", (Object)BAPFunctionPropertyFSG.this.lsgIDDesc, (Object)BAPFunctionPropertyFSG.this.fctIDDesc);
+                this.acknowledgeWatchdog.deactivate();
+                this.statusAcknowledged = true;
+                this.isIdle = true;
+                this.dispatchNext();
+            }
+        }
+
+        public void acknowledgeMissing() {
+            BAPFunctionPropertyFSG.this.logChannel.log(100000, "[BAPFunctionPropertyFSG.StatusRequestDispatcher#acknowledgeMissing] lsgID=%1, fctID=%2, Timeout - no acknowledge received", (Object)BAPFunctionPropertyFSG.this.lsgIDDesc, (Object)BAPFunctionPropertyFSG.this.fctIDDesc);
+            this.processAcknowledge(BAPFunctionPropertyFSG.this.fctID, 0);
+            BAPFunctionPropertyFSG.this.notifyListenersAcknowledgeTimeout();
+        }
+
+        public void reset() {
+            this.acknowledgeWatchdog.deactivate();
+            this.statusAcknowledged = false;
+            this.isIdle = true;
+        }
     }
 }
 

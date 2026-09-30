@@ -11,8 +11,8 @@ import org.dsi.ifc.speechrec.NBestListEntry;
 import org.dsi.ifc.speechrec.NBestSlot;
 
 public class SDSStatisticsDataConverter {
-    private static final String EMPTY_STR;
-    private static final String[] TXT_BLOCK_DELIM;
+    private static final String EMPTY_STR = "---";
+    private static final String[] TXT_BLOCK_DELIM = new String[]{"-----------------------------------------"};
     private static Map map;
     private String[] currentCommand = new String[0];
 
@@ -124,12 +124,8 @@ public class SDSStatisticsDataConverter {
         long l = nBestSlot.getObjectId();
         String string2 = nBestSlot.getObjectStringId();
         Buffer buffer = new Buffer();
-        buffer.append("Id: ").append(n).append(" | Rec: ").append(SDSUtils.isEmpty(string) ? "---" : string).append(" | Idx: ").append(n2).append(" | ObjId: ").append(l).append(" | StrId: ").append(SDSUtils.isEmpty(string2) ? "---" : string2);
+        buffer.append("Id: ").append(n).append(" | Rec: ").append(SDSUtils.isEmpty(string) ? EMPTY_STR : string).append(" | Idx: ").append(n2).append(" | ObjId: ").append(l).append(" | StrId: ").append(SDSUtils.isEmpty(string2) ? EMPTY_STR : string2);
         return buffer.toString();
-    }
-
-    static {
-        TXT_BLOCK_DELIM = new String[]{"-----------------------------------------"};
     }
 }
 

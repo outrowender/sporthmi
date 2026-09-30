@@ -22,7 +22,6 @@ implements ITelServiceAudio {
         super(logChannel, "NullTelServiceAudio");
     }
 
-    @Override
     public void muteIncomingCallRingtone() {
         this.log();
     }

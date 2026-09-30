@@ -16,11 +16,11 @@ extends AbstractMessagingComponent {
 
     public RecipientList(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.listModel = this.framework.getHmiServiceApp().getBaseListModel(-929947392);
+        this.listModel = this.framework.getHmiServiceApp().getBaseListModel(2200264);
     }
 
     public void clear() {
-        this.log.log(-2137614336, "[RecipientList#clear]");
+        this.log.log(10000000, "[RecipientList#clear]");
         this.listModel.removeAll();
     }
 
@@ -29,13 +29,13 @@ extends AbstractMessagingComponent {
     }
 
     public void addRecipient(MatchedAddress matchedAddress, int n) {
-        this.log.log(-2137614336, "[RecipientList#addRecipientTo] recipient = %1, recipientType = %2", (Object)matchedAddress, (long)n);
+        this.log.log(10000000, "[RecipientList#addRecipientTo] recipient = %1, recipientType = %2", (Object)matchedAddress, (long)n);
         RecipientListRow recipientListRow = new RecipientListRow(matchedAddress, n, nextRowId++);
         this.listModel.append(recipientListRow);
     }
 
     public void addRecipients(MatchedAddress[] matchedAddressArray, int n) {
-        this.log.log(-2137614336, "[RecipientList#addRecipients] recipients.length = %1, recipientType = %2", (long)matchedAddressArray.length, (long)n);
+        this.log.log(10000000, "[RecipientList#addRecipients] recipients.length = %1, recipientType = %2", (long)matchedAddressArray.length, (long)n);
         for (int i2 = 0; i2 < matchedAddressArray.length; ++i2) {
             this.addRecipient(matchedAddressArray[i2], n);
         }

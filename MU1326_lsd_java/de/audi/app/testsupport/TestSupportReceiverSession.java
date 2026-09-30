@@ -30,7 +30,6 @@ implements ITestSupportReceiverSession {
         return this.receiver;
     }
 
-    @Override
     public void entriesUpdated() {
         this.sessionHandler.entriesUpdated(this.id);
     }

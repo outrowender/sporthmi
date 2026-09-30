@@ -3,18 +3,15 @@
  */
 package de.audi.app.media.content.media.online.content;
 
+import de.audi.app.media.AbstractDispatcherRunnable;
 import de.audi.app.media.content.media.online.OnlinePlayerSession;
 import de.audi.app.media.content.media.online.content.IOnlinePlayer;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$1;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$10;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$2;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$3;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$4;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$5;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$6;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$7;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$8;
-import de.audi.app.media.content.media.online.content.MediaOnlineSessionPlayerImpl$9;
+import de.audi.app.media.content.media.online.content.JobResume;
+import de.audi.app.media.content.media.online.content.JobSeek;
+import de.audi.app.media.content.media.online.content.JobSeekToTime;
+import de.audi.app.media.content.media.online.content.JobSetPlaybackMode;
+import de.audi.app.media.content.media.online.content.JobSkip;
+import de.audi.app.media.content.media.online.content.JobStop;
 import de.audi.atip.interapp.media.IMediaOnlineSessionPlayer;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
@@ -22,7 +19,7 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public class MediaOnlineSessionPlayerImpl
 implements IMediaOnlineSessionPlayer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaOnlineSessionPlayerImpl";
     private final LogChannel logger;
     private final OnlinePlayerSession session;
     private final IOnlinePlayer player;
@@ -33,89 +30,166 @@ implements IMediaOnlineSessionPlayer {
         this.player = iOnlinePlayer;
     }
 
-    @Override
     public void resume() {
-        this.logger.log(1078071040, "[%1.resume] [%2]", (Object)"MediaOnlineSessionPlayerImpl", (Object)this.session);
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$1(this, "OnlinePlayer.resume"));
+        this.logger.log(1000000, "[%1.resume] [%2]", (Object)LOGCLASS, (Object)this.session);
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.resume"){
+
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onResume] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                if (MediaOnlineSessionPlayerImpl.this.player.getState().getAudioState().isAudible()) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onResume] [%2] Already hearable.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    if (MediaOnlineSessionPlayerImpl.this.player.getState().isOnSeeking()) {
+                        MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onResume] [%2] On seeking. Resume playback.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                        MediaOnlineSessionPlayerImpl.this.player.getPlayerQueue().enqueue(new JobResume(MediaOnlineSessionPlayerImpl.this.logger, MediaOnlineSessionPlayerImpl.this.player));
+                    }
+                }
+                MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onResume] [%2] Try to resume audio.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                MediaOnlineSessionPlayerImpl.this.player.getAudioManager().resumeAudio(false);
+            }
+        });
     }
 
-    @Override
     public void pause() {
-        this.logger.log(1078071040, "[%1.pause] [%2]", (Object)"MediaOnlineSessionPlayerImpl", (Object)this.session);
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$2(this, "OnlinePlayer.pause"));
+        this.logger.log(1000000, "[%1.pause] [%2]", (Object)LOGCLASS, (Object)this.session);
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.pause"){
+
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onPause] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onPause] [%2] Mute audio.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                MediaOnlineSessionPlayerImpl.this.player.getAudioManager().mute();
+            }
+        });
     }
 
-    @Override
     public void stop() {
-        this.logger.log(1078071040, "[%1.stop] '%2'", (Object)"MediaOnlineSessionPlayerImpl");
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$3(this, "OnlinePlayer.stop"));
+        this.logger.log(1000000, "[%1.stop] '%2'", (Object)LOGCLASS);
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.stop"){
+
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onSeek] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                MediaOnlineSessionPlayerImpl.this.player.getPlayerQueue().enqueue(new JobStop(MediaOnlineSessionPlayerImpl.this.logger, MediaOnlineSessionPlayerImpl.this.player));
+            }
+        });
     }
 
-    @Override
-    public void seek(boolean bl) {
-        this.logger.log(1078071040, "[%1.seek] [%2] '%3'", (Object)"MediaOnlineSessionPlayerImpl", (Object)this.session, (Object)(bl ? "FORWARD" : "BACKWARD"));
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$4(this, "OnlinePlayer.seek", bl));
+    public void seek(final boolean bl) {
+        this.logger.log(1000000, "[%1.seek] [%2] '%3'", (Object)LOGCLASS, (Object)this.session, (Object)(bl ? "FORWARD" : "BACKWARD"));
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.seek"){
+
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onSeek] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                MediaOnlineSessionPlayerImpl.this.player.getPlayerQueue().enqueue(new JobSeek(MediaOnlineSessionPlayerImpl.this.logger, MediaOnlineSessionPlayerImpl.this.player, bl));
+            }
+        });
     }
 
-    @Override
-    public void updatePlayingTrack(long l, String string, String string2, String string3, ResourceLocator resourceLocator) {
+    public void updatePlayingTrack(final long l, final String string, final String string2, final String string3, final ResourceLocator resourceLocator) {
         if (this.logger.isDebug2()) {
             Buffer buffer = new Buffer();
             buffer.append("'").append(l).append("','").append(string).append("','").append(string2).append("','").append(string3).append("'");
-            this.logger.log(14808325, "[%1.updatePlayingTrack] [%2] %3", (Object)"MediaOnlineSessionPlayerImpl", (Object)this.session, (Object)buffer);
+            this.logger.log(100000000, "[%1.updatePlayingTrack] [%2] %3", (Object)LOGCLASS, (Object)this.session, (Object)buffer);
         }
         if (string == null || string2 == null || string3 == null) {
             throw new IllegalArgumentException();
         }
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$5(this, "OnlinePlayer.updatePlayingTrack", l, string, string2, string3, resourceLocator));
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.updatePlayingTrack"){
+
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onUpdatePlayingTrack] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                MediaOnlineSessionPlayerImpl.this.player.updatePlayingTrack(l, string, string2, string3, resourceLocator);
+            }
+        });
     }
 
-    @Override
-    public void skip(int n) {
-        this.logger.log(1078071040, "[%1.skip] [%2] '%3'", (Object)"MediaOnlineSessionPlayerImpl", (Object)this.session, (long)n);
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$6(this, "OnlinePlayer.skip", n));
+    public void skip(final int n) {
+        this.logger.log(1000000, "[%1.skip] [%2] '%3'", (Object)LOGCLASS, (Object)this.session, (long)n);
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.skip"){
+
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.onSkip] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                MediaOnlineSessionPlayerImpl.this.player.getPlayerQueue().enqueue(new JobSkip(MediaOnlineSessionPlayerImpl.this.logger, MediaOnlineSessionPlayerImpl.this.player, n));
+            }
+        });
     }
 
     public String toString() {
         Buffer buffer = new Buffer();
-        buffer.append("MediaOnlineSessionPlayerImpl").append("[").append(this.session).append("]@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("[").append(this.session).append("]@").append(this.hashCode());
         return buffer.toString();
     }
 
-    @Override
-    public void seekToTime(int n) {
-        this.logger.log(1078071040, "[%1.seekToTime] [%2]", (Object)"MediaOnlineSessionPlayerImpl", (Object)this.session);
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$7(this, "OnlinePlayer.seekToTime", n));
+    public void seekToTime(final int n) {
+        this.logger.log(1000000, "[%1.seekToTime] [%2]", (Object)LOGCLASS, (Object)this.session);
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.seekToTime"){
+
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.seekToTime] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                MediaOnlineSessionPlayerImpl.this.player.getPlayerQueue().enqueue(new JobSeekToTime(MediaOnlineSessionPlayerImpl.this.logger, MediaOnlineSessionPlayerImpl.this.player, n));
+            }
+        });
     }
 
-    @Override
-    public void setRepeatTitle(boolean bl) {
-        this.logger.log(1078071040, "[%1.setRepeatTitle] [%2]", (Object)"MediaOnlineSessionPlayerImpl", (Object)this.session);
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$8(this, "OnlinePlayer.setRepeatTitle", bl));
+    public void setRepeatTitle(final boolean bl) {
+        this.logger.log(1000000, "[%1.setRepeatTitle] [%2]", (Object)LOGCLASS, (Object)this.session);
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.setRepeatTitle"){
+
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.setRepeatTitle] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                MediaOnlineSessionPlayerImpl.this.player.getPlayerQueue().enqueue(new JobSetPlaybackMode(MediaOnlineSessionPlayerImpl.this.logger, MediaOnlineSessionPlayerImpl.this.player, MediaOnlineSessionPlayerImpl.this.player.getState().getPlayModeForRepeatMode(bl)));
+            }
+        });
     }
 
-    @Override
-    public void setShuffle(boolean bl) {
-        this.logger.log(1078071040, "[%1.setShuffle] [%2]", (Object)"MediaOnlineSessionPlayerImpl", (Object)this.session);
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$9(this, "OnlinePlayer.setShuffle", bl));
+    public void setShuffle(final boolean bl) {
+        this.logger.log(1000000, "[%1.setShuffle] [%2]", (Object)LOGCLASS, (Object)this.session);
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.setShuffle"){
+
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.setShuffle] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                MediaOnlineSessionPlayerImpl.this.player.getPlayerQueue().enqueue(new JobSetPlaybackMode(MediaOnlineSessionPlayerImpl.this.logger, MediaOnlineSessionPlayerImpl.this.player, MediaOnlineSessionPlayerImpl.this.player.getState().getPlayModeForShuffleMode(bl)));
+            }
+        });
     }
 
-    @Override
-    public void updateOnlineCoverart(ResourceLocator resourceLocator) {
-        this.logger.log(1078071040, "[%1.updateOnlineCoverart] [%2]", (Object)"MediaOnlineSessionPlayerImpl", (Object)this.session);
-        this.player.getDispatcher().execute(new MediaOnlineSessionPlayerImpl$10(this, "OnlinePlayer.updateOnlineCoverart", resourceLocator));
-    }
+    public void updateOnlineCoverart(final ResourceLocator resourceLocator) {
+        this.logger.log(1000000, "[%1.updateOnlineCoverart] [%2]", (Object)LOGCLASS, (Object)this.session);
+        this.player.getDispatcher().execute(new AbstractDispatcherRunnable("OnlinePlayer.updateOnlineCoverart"){
 
-    static /* synthetic */ IOnlinePlayer access$000(MediaOnlineSessionPlayerImpl mediaOnlineSessionPlayerImpl) {
-        return mediaOnlineSessionPlayerImpl.player;
-    }
-
-    static /* synthetic */ OnlinePlayerSession access$100(MediaOnlineSessionPlayerImpl mediaOnlineSessionPlayerImpl) {
-        return mediaOnlineSessionPlayerImpl.session;
-    }
-
-    static /* synthetic */ LogChannel access$200(MediaOnlineSessionPlayerImpl mediaOnlineSessionPlayerImpl) {
-        return mediaOnlineSessionPlayerImpl.logger;
+            public void run() {
+                if (!MediaOnlineSessionPlayerImpl.this.session.equals(MediaOnlineSessionPlayerImpl.this.player.getState().getActiveSession())) {
+                    MediaOnlineSessionPlayerImpl.this.logger.log(1000000, "[%1.updateOnlineCoverart] [%2] Session not active.", (Object)MediaOnlineSessionPlayerImpl.LOGCLASS, (Object)MediaOnlineSessionPlayerImpl.this.session);
+                    return;
+                }
+                MediaOnlineSessionPlayerImpl.this.player.updateOnlineCoverArt(resourceLocator);
+            }
+        });
     }
 }
 

@@ -51,21 +51,21 @@ public class ADBFocusPropertiesHelper {
     private static int[] getFocusProperties(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5) {
         ArrayList arrayList = new ArrayList();
         if (bl) {
-            arrayList.add(new Integer(-579997284));
+            arrayList.add(new Integer(-1661899299));
         }
         if (bl2) {
-            arrayList.add(new Integer(-1274317292));
+            arrayList.add(new Integer(343280564));
         }
         if (bl3) {
-            arrayList.add(new Integer(309670273));
+            arrayList.add(new Integer(-2127465198));
         }
         if (bl4) {
-            arrayList.add(new Integer(-946140216));
-            arrayList.add(new Integer(-1613814043));
+            arrayList.add(new Integer(-938763321));
+            arrayList.add(new Integer(-450441313));
         }
         if (bl5) {
-            arrayList.add(new Integer(541694261));
-            arrayList.add(new Integer(1110041930));
+            arrayList.add(new Integer(899238176));
+            arrayList.add(new Integer(1256532290));
         }
         int[] nArray = new int[arrayList.size()];
         for (int i2 = 0; i2 < arrayList.size(); ++i2) {

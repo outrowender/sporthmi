@@ -6,7 +6,6 @@ package de.audi.atip.interapp.messaging;
 import java.util.List;
 
 public interface IMessagingOnlineService {
-    default public void sendRemoteHMIAppsUpdateToMessaging(List list) {
-    }
+    public void sendRemoteHMIAppsUpdateToMessaging(List var1);
 }
 

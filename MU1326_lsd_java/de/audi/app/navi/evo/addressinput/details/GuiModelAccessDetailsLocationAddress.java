@@ -28,9 +28,8 @@ implements GuiModelAccessDetailsNavi {
         this.detailsRowBuilder = new AddressDetailsRowBuilder();
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "[Details] GuiModelAccessDetailsLocationAddress#onUpdateLocation - location=%1", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logChannel.log(10000000, "[Details] GuiModelAccessDetailsLocationAddress#onUpdateLocation - location=%1", (Object)LocationFormatter.formatLocationShort(navLocation));
         super.onUpdateLocation(navLocation);
         LocationFormattingResponse locationFormattingResponse = AddressFormatter.formatTwoLines(navLocation, this.env);
         BaseListModelApp baseListModelApp = this.addressList.getEmptyCopy();
@@ -43,11 +42,9 @@ implements GuiModelAccessDetailsNavi {
         this.addressList.update(baseListModelApp);
     }
 
-    @Override
     public void onUpdateLocationsForTour(NavLocation[] navLocationArray, String string) {
     }
 
-    @Override
     public GuiTooltipInformationContainer createMapTooltipInformationContainer(NavLocation navLocation, String string) {
         return null;
     }

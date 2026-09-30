@@ -12,7 +12,6 @@ import org.dsi.ifc.messaging.ListEntry;
 
 public class EntryListRowDataFactoryEvo
 implements IEntryListRowDataFactory {
-    @Override
     public AbstractEntryListRowData create(ListEntry listEntry, IEntryPropertyFactory iEntryPropertyFactory, int n, long l, ITextLookup iTextLookup) {
         return new EntryListRowDataEvo(listEntry, iEntryPropertyFactory, n, l, iTextLookup);
     }

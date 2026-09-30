@@ -11,20 +11,16 @@ import de.audi.atip.interapp.WlanService;
 
 public interface IWlanApplication
 extends IApplication {
-    public static final String MODULE_NAME;
-    public static final String LOGCHANNEL;
-    public static final String LOGCHANNEL_CMD;
+    public static final String MODULE_NAME = "AppWlan";
+    public static final String LOGCHANNEL = "App.Wlan.Main";
+    public static final String LOGCHANNEL_CMD = "App.Wlan.Commands";
 
-    default public IConnection getConnection() {
-    }
+    public IConnection getConnection();
 
-    default public IInquiry getInquiry() {
-    }
+    public IInquiry getInquiry();
 
-    default public ITrustedNetworkList getTrustedNetworkList() {
-    }
+    public ITrustedNetworkList getTrustedNetworkList();
 
-    default public WlanService getMode() {
-    }
+    public WlanService getMode();
 }
 

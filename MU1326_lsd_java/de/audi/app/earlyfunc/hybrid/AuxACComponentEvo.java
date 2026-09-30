@@ -8,10 +8,12 @@ import de.audi.app.car.common.mer.IMERVisibilityChangeListener;
 import de.audi.app.car.common.mer.IMenuEntry;
 import de.audi.app.car.common.mer.IMenuEntryStructure;
 import de.audi.app.car.common.screenstate.IScreenStateListener;
+import de.audi.app.car.common.service.CarServiceProvider;
 import de.audi.app.car.common.util.ConcurrentIntArray;
 import de.audi.app.earlyfunc.core.hybrid.AbstractAuxACComponent;
-import de.audi.app.earlyfunc.hybrid.AuxACComponentEvo$ImmediateOnPopupHandler;
+import de.audi.atip.hmi.view.IPartialPopupListener;
 import de.audi.atip.interapp.IBatteryControlListHandlingConstants;
+import de.audi.atip.log.LogChannel;
 import java.util.List;
 import org.dsi.ifc.carhybrid.BatteryControlChargeState;
 import org.dsi.ifc.carhybrid.BatteryControlClimateState;
@@ -22,70 +24,66 @@ extends AbstractAuxACComponent
 implements IScreenStateListener,
 IBatteryControlListHandlingConstants,
 IMERVisibilityChangeListener {
-    private static final int TIMER_IMMEDIATE;
-    private static final int TIMER_TIMER1;
-    private static final int TIMER_TIMER2;
-    private static final int MENU_ENTRY_CLIMATESTATE_ERROR_GENERAL_DEVICE_ERROR;
-    private static final int MENU_ENTRY_CLIMATESTATE_ERROR_BATTERY_LOW;
-    private static final int MENU_ENTRY_CLIMATESTATE_ERROR_PARKHEATER_NOFUEL;
-    private static final int CLIMATE_SYSTEM_VARIANT_COOLER;
-    private static final int CLIMATE_SYSTEM_VARIANT_COMBINED;
+    private static final int TIMER_IMMEDIATE = 0;
+    private static final int TIMER_TIMER1 = 1;
+    private static final int TIMER_TIMER2 = 2;
+    private static final int MENU_ENTRY_CLIMATESTATE_ERROR_GENERAL_DEVICE_ERROR = 11;
+    private static final int MENU_ENTRY_CLIMATESTATE_ERROR_BATTERY_LOW = 12;
+    private static final int MENU_ENTRY_CLIMATESTATE_ERROR_PARKHEATER_NOFUEL = 13;
+    private static final int CLIMATE_SYSTEM_VARIANT_COOLER = 2;
+    private static final int CLIMATE_SYSTEM_VARIANT_COMBINED = 3;
     private boolean auxAcImmediateOn = false;
     private int auxACImmediateVisiblityState = 0;
-    private AuxACComponentEvo$ImmediateOnPopupHandler popupHandler;
+    private ImmediateOnPopupHandler popupHandler;
     private ConcurrentIntArray lastKnownClimateSystemType = new ConcurrentIntArray(2);
-    private static final int TIMER_ARRAY_SIZE;
-    private static final int ARRAY_INDEX_TIMER1;
-    private static final int ARRAY_INDEX_TIMER2;
-    private static final int ICON_STATE_FUNCTIONAL;
-    private static final int ICON_STATE_DISABLED;
-    private static final int ICON_STATE_INVISIBLE;
+    private static final int TIMER_ARRAY_SIZE = 2;
+    private static final int ARRAY_INDEX_TIMER1 = 0;
+    private static final int ARRAY_INDEX_TIMER2 = 1;
+    private static final int ICON_STATE_FUNCTIONAL = 0;
+    private static final int ICON_STATE_DISABLED = 1;
+    private static final int ICON_STATE_INVISIBLE = 13;
     static /* synthetic */ Class class$de$audi$atip$hmi$view$IPartialPopupListener;
 
     public AuxACComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication);
         int n = -1;
         if (this.getClimateSystemVariant() == 2) {
-            n = -366475008;
+            n = 600298;
         } else if (this.getClimateSystemVariant() == 3) {
-            n = -450361088;
+            n = 600293;
         }
-        this.popupHandler = new AuxACComponentEvo$ImmediateOnPopupHandler(this, iCarApplication, this.getLogChannel(), n);
+        this.popupHandler = new ImmediateOnPopupHandler(iCarApplication, this.getLogChannel(), n);
     }
 
-    @Override
     public int getID() {
         return 16;
     }
 
-    @Override
     public void init() {
         super.init();
-        this.getApplication().getScreenStateDispatcher().addScreenStateListener(-1020786432, this);
-        this.getApplication().getScreenStateDispatcher().addScreenStateListener(-551024384, this);
+        this.getApplication().getScreenStateDispatcher().addScreenStateListener(600259, this);
+        this.getApplication().getScreenStateDispatcher().addScreenStateListener(600287, this);
         this.getApplication().getMenuEntryRegistry().registerVisibilityChangeListener(this);
         this.popupHandler.initServiceProvider();
     }
 
-    @Override
     public void deinit() {
         this.popupHandler.deinitServiceProvider();
         super.deinit();
     }
 
-    @Override
     protected void initVisibility() {
         this.initVisibility(238, (short)46);
         this.initVisibility(239, (short)46);
         if (this.getClimateSystemVariant() == 3) {
-            this.getChoiceModel(168632320).setValue(3);
+            this.getChoiceModel(2100490).setValue(3);
             this.initVisibility(224, (short)46);
             this.initVisibility(225, (short)46);
         } else if (this.getClimateSystemVariant() == 2) {
-            this.getChoiceModel(168632320).setValue(2);
+            this.getChoiceModel(2100490).setValue(2);
             this.initVisibility(226, (short)46);
             this.initVisibility(227, (short)46);
-            this.getLogChannel().log(1078071040, "initVisibility state for HEAT COIL ICON=%1", (long)0);
+            this.getLogChannel().log(1000000, "initVisibility state for HEAT COIL ICON=%1", 13L);
             this.updateMenuEntryVisibility(238, 13);
             this.updateMenuEntryVisibility(239, 13);
         }
@@ -102,7 +100,6 @@ IMERVisibilityChangeListener {
         this.initVisibility(237, (short)46);
     }
 
-    @Override
     protected void deinitVisibility() {
         if (this.getClimateSystemVariant() == 3) {
             this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(224);
@@ -120,9 +117,8 @@ IMERVisibilityChangeListener {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(245);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(BatteryControlViewOptions batteryControlViewOptions) {
-        this.getLogChannel().log(1078071040, "updateMenuEntryVisibility: viewOptions=%1", (Object)batteryControlViewOptions);
+        this.getLogChannel().log(1000000, "updateMenuEntryVisibility: viewOptions=%1", (Object)batteryControlViewOptions);
         this.updateAuxACImmediateVisibilityState(this.getMenuEntryVisibilityState(batteryControlViewOptions.getImmediately()));
         this.updateMenuEntryVisibility(231, this.getMenuEntryVisibilityState(batteryControlViewOptions.getTimer3()));
         this.updateMenuEntryVisibility(232, this.getMenuEntryVisibilityState(batteryControlViewOptions.getTimer4()));
@@ -132,7 +128,7 @@ IMERVisibilityChangeListener {
         this.updateMenuEntryVisibility(244, this.getMenuEntryVisibilityState(batteryControlViewOptions.getTimer3()));
         this.updateMenuEntryVisibility(245, this.getMenuEntryVisibilityState(batteryControlViewOptions.getTimer4()));
         if (batteryControlViewOptions != null && batteryControlViewOptions.getConfiguration() != null && !batteryControlViewOptions.getConfiguration().isParkheaterInstallation()) {
-            this.getLogChannel().log(1078071040, "updateEntryVisibilityForStateChange for HEAT COIL ICON 1 and 2 = %1", (long)0);
+            this.getLogChannel().log(1000000, "updateEntryVisibilityForStateChange for HEAT COIL ICON 1 and 2 = %1", 13L);
             this.updateMenuEntryVisibility(238, 13);
             this.updateMenuEntryVisibility(239, 13);
         } else {
@@ -172,7 +168,7 @@ IMERVisibilityChangeListener {
     }
 
     private void updateMenuEntryVisibilityNow(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "updateMenuEntryVisibilityNow: on=%1, state=%2", bl, (long)n);
+        this.getLogChannel().log(1000000, "updateMenuEntryVisibilityNow: on=%1, state=%2", bl, (long)n);
         if (this.getClimateSystemVariant() == 3) {
             if (bl) {
                 this.updateMenuEntryVisibility(224, 1);
@@ -192,7 +188,6 @@ IMERVisibilityChangeListener {
         }
     }
 
-    @Override
     protected void updateThermometerIconVisibility(int n, int n2) {
         boolean bl;
         int n3;
@@ -208,32 +203,32 @@ IMERVisibilityChangeListener {
             n3 = 237;
             bl = this.getCurrentMenuEntryState(232) > 1;
         } else {
-            this.getLogChannel().log(-1601830656, "[AuxACComponentEvo]#updateThermometerIconVisibility: called with illegal timerId %1", (long)n);
+            this.getLogChannel().log(100000, "[AuxACComponentEvo]#updateThermometerIconVisibility: called with illegal timerId %1", (long)n);
             return;
         }
         if (this.isOperationMode(n)) {
             switch (n2) {
                 case 2: {
-                    this.getLogChannel().log(1078071040, "updateThermometerIconVisibility (climateType = AUX_HEATING) for HEAT COIL ICON %1 = %2", (long)n, 0L);
+                    this.getLogChannel().log(1000000, "updateThermometerIconVisibility (climateType = AUX_HEATING) for HEAT COIL ICON %1 = %2", (long)n, 0L);
                     this.updateMenuEntryVisibility(n4, bl ? 1 : 0);
                     this.updateMenuEntryVisibility(n3, 1);
                     break;
                 }
                 case 1: {
-                    this.getLogChannel().log(1078071040, "updateThermometerIconVisibility (climateType = AUX_CLIMATE) for HEAT COIL ICON %1 = %2", (long)n, 1L);
+                    this.getLogChannel().log(1000000, "updateThermometerIconVisibility (climateType = AUX_CLIMATE) for HEAT COIL ICON %1 = %2", (long)n, 1L);
                     this.updateMenuEntryVisibility(n4, 1);
                     this.updateMenuEntryVisibility(n3, bl ? 1 : 0);
                     break;
                 }
                 case 0: {
-                    this.getLogChannel().log(1078071040, "updateThermometerIconVisibility (climateType = AUX_COMBINED) for HEAT COIL ICON %1 = %2", (long)n, 0L);
+                    this.getLogChannel().log(1000000, "updateThermometerIconVisibility (climateType = AUX_COMBINED) for HEAT COIL ICON %1 = %2", (long)n, 0L);
                     this.updateMenuEntryVisibility(n4, bl ? 1 : 0);
                     this.updateMenuEntryVisibility(n3, bl ? 1 : 0);
                     break;
                 }
             }
         } else {
-            this.getLogChannel().log(1078071040, "updateThermometerIconVisibility: setting both the heat coil and the thermometer visible for timer %1", (long)n);
+            this.getLogChannel().log(1000000, "updateThermometerIconVisibility: setting both the heat coil and the thermometer visible for timer %1", (long)n);
             if (this.currViewOptions != null && this.currViewOptions.getConfiguration() != null && this.currViewOptions.getConfiguration().isParkheaterInstallation()) {
                 this.updateMenuEntryVisibility(n4, bl ? 1 : 0);
             }
@@ -258,20 +253,18 @@ IMERVisibilityChangeListener {
                     break;
                 }
                 default: {
-                    this.getLogChannel().log(1078071040, "isOperationMode: trying to get invalid menu Entry for timer: %1", (long)n);
+                    this.getLogChannel().log(1000000, "isOperationMode: trying to get invalid menu Entry for timer: %1", (long)n);
                 }
             }
         }
         return bl;
     }
 
-    @Override
     protected void updateAuxACImmediateOn(boolean bl) {
         this.auxAcImmediateOn = bl;
         this.updateMenuEntryVisibilityNow(bl, this.auxACImmediateVisiblityState);
     }
 
-    @Override
     protected void updateAuxACImmediateVisibilityState(int n) {
         this.auxACImmediateVisiblityState = n;
         this.updateMenuEntryVisibilityNow(this.auxAcImmediateOn, n);
@@ -281,9 +274,8 @@ IMERVisibilityChangeListener {
         return this.getApplication().getClimateSystemVariant();
     }
 
-    @Override
     protected void updateEntryVisibilityForStateChange(BatteryControlClimateState batteryControlClimateState, BatteryControlChargeState batteryControlChargeState, BatteryControlViewOptions batteryControlViewOptions) {
-        this.getLogChannel().log(1078071040, "updateEntryVisibilityForError with climateState %1 and chargeState %2", (Object)batteryControlClimateState, (Object)batteryControlChargeState);
+        this.getLogChannel().log(1000000, "updateEntryVisibilityForError with climateState %1 and chargeState %2", (Object)batteryControlClimateState, (Object)batteryControlChargeState);
         if (batteryControlChargeState != null) {
             this.updateVisibilityForChargeStateChange(batteryControlClimateState, batteryControlChargeState, batteryControlViewOptions);
         }
@@ -291,7 +283,7 @@ IMERVisibilityChangeListener {
             this.updateVisibilityForClimateStateChange(batteryControlClimateState, batteryControlChargeState, batteryControlViewOptions);
         }
         if (batteryControlViewOptions != null && batteryControlViewOptions.getConfiguration() != null && !batteryControlViewOptions.getConfiguration().isParkheaterInstallation()) {
-            this.getLogChannel().log(1078071040, "updateEntryVisibilityForStateChange for HEAT COIL ICON 1 and 2 = %1", (long)0);
+            this.getLogChannel().log(1000000, "updateEntryVisibilityForStateChange for HEAT COIL ICON 1 and 2 = %1", 13L);
             this.updateMenuEntryVisibility(238, 13);
             this.updateMenuEntryVisibility(239, 13);
         } else {
@@ -373,22 +365,18 @@ IMERVisibilityChangeListener {
         }
     }
 
-    @Override
     public void notifyScreenVisible(int n) {
     }
 
-    @Override
     public void notifyScreenHidden(int n) {
     }
 
-    @Override
     public void notifyScreenConnected(int n) {
     }
 
-    @Override
     public void notifyScreenFadedOut(int n) {
-        this.getLogChannel().log(1078071040, "[AuxAcComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
-        if (n == -1020786432 || n == -551024384) {
+        this.getLogChannel().log(1000000, "[AuxAcComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
+        if (n == 600259 || n == 600287) {
             this.resetPastError();
         }
     }
@@ -443,15 +431,14 @@ IMERVisibilityChangeListener {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(n, s);
     }
 
-    @Override
     public void notifyVisibilityChange(List list) {
-        this.getLogChannel().log(1078071040, "[AuxAcComponentEvo#notifyVisibilityChange]");
+        this.getLogChannel().log(1000000, "[AuxAcComponentEvo#notifyVisibilityChange]");
         Object[] objectArray = list.toArray();
         for (int i2 = 0; i2 < objectArray.length; ++i2) {
             IMenuEntry iMenuEntry = (IMenuEntry)objectArray[i2];
             if (iMenuEntry.getID() == 231) {
                 if (iMenuEntry.getState() > 1) {
-                    this.getLogChannel().log(1078071040, "notifyVisibilityChange state for HEAT COIL ICON 1 = %1", 1L);
+                    this.getLogChannel().log(1000000, "notifyVisibilityChange state for HEAT COIL ICON 1 = %1", 1L);
                     this.updateMenuEntryVisibility(238, 1);
                     this.updateMenuEntryVisibility(236, 1);
                 } else {
@@ -460,7 +447,7 @@ IMERVisibilityChangeListener {
             }
             if (iMenuEntry.getID() != 232) continue;
             if (iMenuEntry.getState() > 1) {
-                this.getLogChannel().log(1078071040, "notifyVisibilityChange state for HEAT COIL ICON 2 = %1", 1L);
+                this.getLogChannel().log(1000000, "notifyVisibilityChange state for HEAT COIL ICON 2 = %1", 1L);
                 this.updateMenuEntryVisibility(239, 1);
                 this.updateMenuEntryVisibility(237, 1);
                 continue;
@@ -469,21 +456,19 @@ IMERVisibilityChangeListener {
         }
     }
 
-    @Override
     public void initUseOfMenuStructure(IMenuEntryStructure iMenuEntryStructure) {
     }
 
-    @Override
     public void acknowledgeBatteryControlImmediately(boolean bl, int n) {
         super.acknowledgeBatteryControlImmediately(bl, n);
         switch (n) {
             case 0: {
-                this.getLogChannel().log(-2137614336, "acknowledgeBatteryControlImmediately: stop - %1", (Object)(bl ? "successful" : "unsuccessful"));
+                this.getLogChannel().log(10000000, "acknowledgeBatteryControlImmediately: stop - %1", (Object)(bl ? "successful" : "unsuccessful"));
                 this.popupHandler.removePopup();
                 break;
             }
             case 1: {
-                this.getLogChannel().log(-2137614336, "acknowledgeBatteryControlImmediately: start - %1", (Object)(bl ? "successful" : "unsuccessful"));
+                this.getLogChannel().log(10000000, "acknowledgeBatteryControlImmediately: start - %1", (Object)(bl ? "successful" : "unsuccessful"));
                 this.popupHandler.showPopup();
                 break;
             }
@@ -493,16 +478,112 @@ IMERVisibilityChangeListener {
         }
     }
 
-    static /* synthetic */ int access$000(AuxACComponentEvo auxACComponentEvo) {
-        return auxACComponentEvo.getClimateSystemVariant();
-    }
-
     static /* synthetic */ Class class$(String string) {
         try {
             return Class.forName(string);
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private class ImmediateOnPopupHandler
+    implements IPartialPopupListener {
+        public static final int POPUP_INVALID = -1;
+        private int popupID = -1;
+        private CarServiceProvider partialPopupServiceProvider;
+        private final ICarApplication application;
+        private final LogChannel logChannel;
+        private volatile boolean popupVisible = false;
+        private final Object mutex = new Object();
+
+        public ImmediateOnPopupHandler(ICarApplication iCarApplication, LogChannel logChannel, int n) {
+            this.application = iCarApplication;
+            this.logChannel = logChannel;
+            this.popupID = n;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void showPopup() {
+            if (this.popupID == -1) {
+                this.logChannel.log(10000, "[ImmediateOnPopupHandler#showPopup] No popup defined for config=%1", (long)AuxACComponentEvo.this.getClimateSystemVariant());
+            } else {
+                Object object = this.mutex;
+                synchronized (object) {
+                    if (!this.popupVisible) {
+                        this.application.getFrameworkAccess().getHMIService().showPartialPopup(0, this.popupID);
+                        this.logChannel.log(1000000, "[ImmediateOnPopupHandler#showPopup] Requesting popup at HMI Service");
+                    } else {
+                        this.logChannel.log(1000000, "[ImmediateOnPopupHandler#showPopup] Cannot request popup - already visible");
+                    }
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void removePopup() {
+            Object object = this.mutex;
+            synchronized (object) {
+                if (this.popupVisible) {
+                    this.application.getFrameworkAccess().getHMIService().removePartialPopup(0, this.popupID);
+                    this.logChannel.log(1000000, "[ImmediateOnPopupHandler#removePopup] Removing popup from HMI Service");
+                } else {
+                    this.logChannel.log(1000000, "[ImmediateOnPopupHandler#removePopup] Cannot remove popup - not visible");
+                }
+            }
+        }
+
+        public void initServiceProvider() {
+            this.partialPopupServiceProvider = new CarServiceProvider((class$de$audi$atip$hmi$view$IPartialPopupListener == null ? (class$de$audi$atip$hmi$view$IPartialPopupListener = AuxACComponentEvo.class$("de.audi.atip.hmi.view.IPartialPopupListener")) : class$de$audi$atip$hmi$view$IPartialPopupListener).getName(), this, null, this.application.getBundleContext(), this.logChannel);
+            this.partialPopupServiceProvider.startService();
+            this.logChannel.log(1000000, "[ParkingPartialPopupHandler#initServiceProvider] Service provider initialized");
+        }
+
+        public void deinitServiceProvider() {
+            this.partialPopupServiceProvider.stopService();
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void partialPopupVisible(int n, int n2) {
+            this.logChannel.log(1000000, "[ImmediateOnPopupHandler#partialPopupVisible] partialPopupID = %1", (long)n);
+            Object object = this.mutex;
+            synchronized (object) {
+                this.popupVisible = true;
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void partialPopupHidden(int n, int n2) {
+            this.logChannel.log(1000000, "[ImmediateOnPopupHandler#partialPopupHidden] partialPopupID = %1", (long)n);
+            Object object = this.mutex;
+            synchronized (object) {
+                if (this.popupVisible) {
+                    this.popupVisible = false;
+                    this.application.getFrameworkAccess().getHMIService().removePartialPopup(0, n);
+                }
+            }
+        }
+
+        public void partialPopupRemoved(int n, int n2) {
+            this.logChannel.log(1000000, "[ImmediateOnPopupHandler#partialPopupRemoved] partialPopupID = %1", (long)n);
+        }
+
+        public int[] getPPIDsForCallbacks() {
+            return new int[]{this.popupID};
+        }
+
+        public void partialPopupListenerRegistered(int n, int n2, boolean bl) {
+        }
+
+        public void informAboutPPCoordinates(int n, int n2, int n3, int n4, int n5, int n6) {
         }
     }
 }

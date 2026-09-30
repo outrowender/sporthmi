@@ -6,520 +6,488 @@ package de.audi.app.sdsmanager.common;
 import de.audi.atip.log.LogChannel;
 
 public interface ISDSMapping {
-    public static final byte COMMAND_MODE_DUMMY;
-    public static final byte COMMAND_MODE_BIG_NAVI;
-    public static final byte COMMAND_MODE_BIG_TUNER;
-    public static final byte COMMAND_MODE_BIG_MEDIA;
-    public static final byte COMMAND_MODE_BIG_PHONE;
-    public static final byte COMMAND_MODE_BIG_MENU;
-    public static final byte COMMAND_MODE_BIG_MAP;
-    public static final byte COMMAND_MODE_BIG_ONLINE;
-    public static final byte COMMAND_MODE_BIG_CAR;
-    public static final byte COMMAND_MODE_BIG_SMS;
-    public static final byte COMMAND_MODE_BIG_OFFICE;
-    public static final byte COMMAND_MODE_BIG_ONLINE_PTT;
-    public static final byte LIST_MODE_HELP_MEDIA;
-    public static final byte LIST_MODE_HELP_MEDIA_TITLE_SELECT;
-    public static final byte LIST_MODE_HELP_MEDIA_JUKEBOX_SD_USB;
-    public static final byte LIST_MODE_HELP_MEDIA_IPOD;
-    public static final byte LIST_MODE_HELP_MEDIA_DEVICE_CHANGE;
-    public static final byte LIST_MODE_HELP_TUNER;
-    public static final byte LIST_MODE_HELP_TUNER_STATION;
-    public static final byte LIST_MODE_HELP_TUNER_DAB;
-    public static final byte LIST_MODE_HELP_TUNER_SIRIUS;
-    public static final byte LIST_MODE_HELP_NAVI;
-    public static final byte LIST_MODE_HELP_NAVI_ENTER_DESTINATION;
-    public static final byte LIST_MODE_HELP_NAVI_POI;
-    public static final byte LIST_MODE_HELP_NAVI_ROUTE_INFORMATION;
-    public static final byte LIST_MODE_HELP_PHONE;
-    public static final byte LIST_MODE_HELP_PHONE_ADDRESSBOOK;
-    public static final byte LIST_MODE_HELP_PHONE_DIAL_NUMBER;
-    public static final byte LIST_MODE_HELP_CAR;
-    public static final byte LIST_MODE_HELP_PHONE_NUMBER_SPELLER;
-    public static final byte LIST_MODE_HELP_PHONE_PIN_SPELLER;
-    public static final byte LIST_MODE_HELP_PHONE_SMS;
-    public static final byte LIST_MODE_HELP_SDS_SPEECH;
-    public static final byte LIST_MODE_HELP_MAP;
-    public static final byte LIST_MODE_HELP_REMOTE_HMI;
-    public static final byte LIST_MODE_HELP_TOPIC_HELP_REMOTE_HMI_SUBTOPIC;
-    public static final int SCREEN_MAPPING_NONE;
-    public static final int SCREEN_MAPPING_LOGICAL_POPUP;
-    public static final int SCREEN_MAPPING_MAP_SHOW_DETAILS;
-    public static final int SCREEN_MAPPING_PHONE_INTELLI_CALL;
-    public static final int SCREEN_MAPPING_PHONE_FAVORITES;
-    public static final int SCREEN_MAPPING_RHMI_BROWSER;
-    public static final int SCREEN_MAPPING_RHMI_LIST;
-    public static final int SCREEN_MAPPING_TEL_SDS_CONTACT;
-    public static final int SCREEN_MAPPING_DEST_ADDRESS_FORM_MAIN;
-    public static final int SCREEN_MAPPING_RHMI_TEXT_DISPLAY;
-    public static final int SCREEN_MAPPING_RHMI_TEXT_DISPLAY_OPTIONS;
-    public static final int SCREEN_MAPPING_RHMI_LIST_OPTIONS;
-    public static final int SCREEN_MAPPING_RHMI_WAITING;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_MAIN;
-    public static final int SCREEN_MAPPING_SDS_HELP_CAR;
-    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA;
-    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA_TOPIC_DEVICE_CHANGE;
-    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA_TOPIC_JUKEBOX_SD_USB;
-    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA_TOPIC_TITLE_SELECT;
-    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA_TOPIC_IPOD;
-    public static final int SCREEN_MAPPING_SDS_HELP_CONTEXT_OFFICE;
-    public static final int SCREEN_MAPPING_SDS_HELP_NAV;
-    public static final int SCREEN_MAPPING_SDS_HELP_NAV_TOPIC_MAP;
-    public static final int SCREEN_MAPPING_SDS_HELP_NAV_TOPIC_ROUTE_INFORMATION;
-    public static final int SCREEN_MAPPING_SDS_HELP_NAV_TOPIC_ENTER_DESTINATION;
-    public static final int SCREEN_MAPPING_SDS_HELP_NAV_TOPIC_SPECIAL_DESTINATION;
-    public static final int SCREEN_MAPPING_SDS_HELP_ONLINE_GENERIC;
-    public static final int SCREEN_MAPPING_SDS_HELP_ONLINE_TOPIC_XY_GENERIC_STATE;
-    public static final int SCREEN_MAPPING_SDS_HELP_PHONE;
-    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_DIAL_NUMBER;
-    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_SMS;
-    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_ADB;
-    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_NUMBER_SPELLER;
-    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_PIN_SPELLER;
-    public static final int SCREEN_MAPPING_SDS_HELP_TUNER;
-    public static final int SCREEN_MAPPING_SDS_HELP_TUNER_TOPIC_STATION;
-    public static final int SCREEN_MAPPING_SDS_HELP_TUNER_TOPIC_DAB;
-    public static final int SCREEN_MAPPING_SDS_HELP_TUNER_TOPIC_SIRIUS;
-    public static final int SCREEN_MAPPING_SDS_HELP_MENUS;
-    public static final int SCREEN_MAPPING_MAP_SHOW_DETAILS_GENERIC_SDS_MAIN;
-    public static final int SCREEN_MAPPING_SDS_NAV_PICKLIST_AI1;
-    public static final int SCREEN_MAPPING_DEST_ONLINE_SEARCH_SCREEN;
-    public static final int SCREEN_MAPPING_OFFICE_OPT_SMS_NEW_EDIT;
-    public static final int SCREEN_MAPPING_OFFICE_OPT_MAIL_NEW_EDIT;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_TUNER;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI_ASIA_CNTW;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI_ASIA_KR;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI_ASIA_JP;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI_POI_ONLINE;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_ADB;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_MEDIA;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_PHONE;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_MESSAGING;
-    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_RHMI;
-    public static final int SCREEN_MAPPING_KOMBI_ACTIVE_POPUP;
-    public static final int POPUP_MAPPING_NONE;
-    public static final int POPUP_MAPPING_DIALOG;
-    public static final int POPUP_MAPPING_PAUSE;
-    public static final int POPUP_MAPPING_VOLUME;
-    public static final int POPUP_MAPPING_WAIT_STATE;
-    public static final int POPUP_MAPPING_LOGICAL;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_ADB;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_MEDIA;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_MESSAGING;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI_ASIA_CNTW;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI_POI_ONLINE;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_PHONE;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_RHMI;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_TUNER;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI_ASIA_JP;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI_ASIA_KR;
-    public static final int POPUP_MAPPING_FURTHER_COMMANDS_MAIN;
-    public static final int POPUP_MAPPING_COMMAND_DISAMBIGUATION_LIST;
-    public static final int POPUP_MAPPING_BIG_COMMAND_MENU;
-    public static final int POPUP_MAPPING_BIG_COMMAND_MEDIA;
-    public static final int POPUP_MAPPING_BIG_COMMAND_PHONE;
-    public static final int POPUP_MAPPING_BIG_COMMAND_TUNER;
-    public static final int POPUP_MAPPING_BIG_COMMAND_MAP;
-    public static final int POPUP_MAPPING_BIG_COMMAND_NAV;
-    public static final int POPUP_MAPPING_BIG_COMMAND_ONLINE;
-    public static final int POPUP_MAPPING_BIG_COMMAND_SMS;
-    public static final int POPUP_MAPPING_BIG_COMMAND_OFFCE;
-    public static final int POPUP_MAPPING_BIG_COMMAND_ONLINE_PTT;
-    public static final int POPUP_MAPPING_BIG_COMMAND_CAR;
-    public static final int POPUP_MAPPING_FAVORITE_DISAMBIGUATION_LIST;
-    public static final int POPUP_MAPPING_EXTERNAL_SDS;
-    public static final int POPUP_MAPPING_TELINCOMINGCALLPOPUP;
-    public static final int POPUP_MAPPING_HELP_MEDIA;
-    public static final int POPUP_MAPPING_HELP_MEDIA_DEVICE_CHANGE;
-    public static final int POPUP_MAPPING_HELP_MEDIA_TITLE_SELECT;
-    public static final int POPUP_MAPPING_HELP_MEDIA_JUKEBOX_SD;
-    public static final int POPUP_MAPPING_HELP_MEDIA_IPOD;
-    public static final int POPUP_MAPPING_HELP_TUNER;
-    public static final int POPUP_MAPPING_HELP_TUNER_STATION;
-    public static final int POPUP_MAPPING_HELP_TUNER_DAB;
-    public static final int POPUP_MAPPING_HELP_TUNER_SIRIUS;
-    public static final int POPUP_MAPPING_HELP_NAVI;
-    public static final int POPUP_MAPPING_HELP_NAVI_ENTER_DESTINATION;
-    public static final int POPUP_MAPPING_HELP_NAVI_POI;
-    public static final int POPUP_MAPPING_HELP_NAVI_ROUTE_INFORMATION;
-    public static final int POPUP_MAPPING_HELP_PHONE;
-    public static final int POPUP_MAPPING_HELP_PHONE_ADB;
-    public static final int POPUP_MAPPING_HELP_PHONE_DIAL_NUMBER;
-    public static final int POPUP_MAPPING_HELP_PHONE_NUMBER_SPELLER;
-    public static final int POPUP_MAPPING_HELP_PHONE_PIN_SPELLER;
-    public static final int POPUP_MAPPING_HELP_PHONE_SMS;
-    public static final int POPUP_MAPPING_HELP_SDS_SPEECH;
-    public static final int POPUP_MAPPING_HELP_MAP;
-    public static final int POPUP_MAPPING_HELP_CAR;
-    public static final int POPUP_MAPPING_HELP_REMOTE_HMI;
-    public static final int POPUP_MAPPING_HELP_REMOTE_HMI_SUBTOPIC;
-    public static final int POPUP_MAPPING_CONNECTIONONLINEYESNO;
-    public static final int POPUP_MAPPING_ADR_SDS;
-    public static final int POPUP_MAPPING_ADRSDSNAVPOPUP;
-    public static final int POPUP_MAPPING_ADRSDSPOPUPCONTACT;
-    public static final int POPUP_MAPPING_TELSDSCONTACT;
-    public static final int POPUP_MAPPING_TELSDSNUM;
-    public static final int POPUP_MAPPING_MSG_ACCOUNT;
-    public static final int POPUP_MAPPING_OFFICE_OPT_SMS_DICTATION_RUNNING;
-    public static final int POPUP_MAPPING_OFFICE_OPT_SMS_DICTATION_PROCESSING;
-    public static final int POPUP_MAPPING_MAILSDSPOPUPCONTACT;
-    public static final int POPUP_MAPPING_NAVSDSPOPUP;
-    public static final int POPUP_MAPPING_NAVSDSPOIPICKLIST;
-    public static final int POPUP_MAPPING_NAV_SDS_PICKLIST_AI1;
-    public static final int POPUP_MAPPING_NAV_SDS_POI_RESULTS_PICKLIST;
-    public static final int POPUP_MAPPING_NAV_SDS_MY_AUDI_DETAIL_SCREEN;
-    public static final int POPUP_MAPPING_NAV_SDS_GENERIC_MAP_DETAILS;
-    public static final int POPUP_MAPPING_NAV_SDS_SEARCH_AREA_COUNTRY_CITY;
-    public static final int POPUP_MAPPING_NAV_PP_ONE_DEST;
-    public static final int POPUP_MAPPING_NAV_PP_TWO_DEST;
-    public static final int POPUP_MAPPING_NAV_PP_DEMOMODUS;
-    public static final int POPUP_MAPPING_NAV_SDS_SEARCH_AREA_CITY_CNTW;
-    public static final int POPUP_MAPPING_NAV_SDS_SEARCH_AREA_PREFECTURE_CITY_JP;
-    public static final int POPUP_MAPPING_NAV_SDS_SEARCH_AREA_PROVINCE_CITY_KR;
-    public static final int POPUP_MAPPING_TUNERSDSPOPUP;
-    public static final int POPUP_MAPPING_TUNERGENRESDSPOPUP;
-    public static final int POPUP_MAPPING_MEDIASDSPOPUP;
-    public static final int POPUP_MAPPING_PHONESDSPOPUP;
-    public static final int POPUP_MAPPING_SDSDEBUGPOPUP;
-    public static final int POPUP_MAPPING_TELEPROMPTER_BIG;
-    public static final int POPUP_MAPPING_TELEPROMPTER_SMALL;
-    public static final int POPUP_MAPPING_SEARCH_PROMPT;
-    public static final int POPUP_MAPPING_CALL_LIST;
-    public static final int POPUP_MAPPING_SYSTEMNBESTLIST;
-    public static final int POPUP_MAPPING_PORSCHE_HELP_CATEGORIES;
-    public static final int POPUP_MAPPING_PORSCHE_HELP_DETAILS;
-    public static final int POPUP_MAPPING_REFINEMENT_LIST;
-    public static final int POPUP_MAPPING_MEDIASDSPARTIALPOPUP;
-    public static final int POPUP_MAPPING_ICON_LIST;
-    public static final int POPUP_MAPPING_SDS_STATUS;
-    public static final int POPUP_MAPPING_POI_OFFLINE_RESULTS;
-    public static final int POPUP_MAPPING_ONLINE_RESULTS;
-    public static final int POPUP_MAPPING_SDSICONLISTDETAILS;
-    public static final int POPUP_MAPPING_SDSICONLISTDETAILS_SUI;
-    public static final int POPUP_MAPPING_ADB_CONTACT_LIST;
-    public static final int POPUP_MAPPING_REFINEMENT_PHONE_CATEGORIES;
-    public static final int POPUP_MAPPING_PHONE_REFINEMENT_NUMBERS;
-    public static final int POPUP_MAPPING_NAVI_LAST_AND_FAVORITES;
-    public static final int POPUP_MAPPING_ONLINE_SEARCH_PROMPT;
-    public static final int POPUP_MAPPING_TUNER_STATION_ICONS_LIST;
-    public static final int POPUP_MAPPING_LAST_DESTINATIONS;
-    public static final int POPUP_MAPPING_STORED_DESTINATIONS;
-    public static final int POPUP_MAPPING_TELEPROMPTER_SMALL_GREY;
-    public static final int POPUP_MAPPING_SEARCH_PROMPT_SMALL;
-    public static final int POPUP_MAPPING_TUNER_FAVORITES;
-    public static final int POPUP_MAPPING_SEARCH_PROMPT_TRUFFLE;
-    public static final int POPUP_MAPPING_REFINEMENT_LIST_TRUFFLE;
-    public static final int POPUP_MAPPING_REFINEMENT_NUMBERS_MSG_EMAIL_ACCOUNTS;
-    public static final int POPUP_MAPPING_ONLINE_SEARCH_PROMPT_SMALL;
-    public static final int POPUP_MAPPING_ONLINE_DISCLAIMER;
-    public static final int POPUP_MAPPING_ONLINE_LICENSE_N_A;
-    public static final int POPUP_MAPPING_ONLINE_LICENSE_EXPIRED;
-    public static final int POPUP_MAPPING_ONLINE_LICENSE_CURRENTLY_N_A;
-    public static final int POPUP_MAPPING_PHONE_CONTACT_DETAILS;
-    public static final int EVENT_MAPPING_NONE;
-    public static final int EVENT_MAPPING_SYS_INIT_COMPLETE;
-    public static final int EVENT_MAPPING_PTT;
-    public static final int EVENT_MAPPING_PAUSE;
-    public static final int EVENT_MAPPING_POSTTRAINING;
-    public static final int EVENT_MAPPING_VOLUME;
-    public static final int EVENT_MAPPING_DIALOG_STARTING;
-    public static final int EVENT_MAPPING_SELECT;
-    public static final int EVENT_MAPPING_ABORT;
-    public static final int EVENT_MAPPING_SILENT_ABORT;
-    public static final int EVENT_MAPPING_PAUSE_RELEASE;
-    public static final int EVENT_MAPPING_POSTTRAINING_ABORT;
-    public static final int EVENT_MAPPING_SD_REMOVED_OR_ERROR;
-    public static final int EVENT_MAPPING_FOLDER_UP;
-    public static final int EVENT_MAPPING_PHONE_STATE_CHANGED;
-    public static final int EVENT_MAPPING_MSG_WORD_SELECTED;
-    public static final int EVENT_MAPPING_MSG_START_TOUCHPAD;
-    public static final int EVENT_MAPPING_CORRECTION;
-    public static final int EVENT_MAPPING_TP_AUDIO;
-    public static final int EVENT_MAPPING_WAIT_RELEASE;
-    public static final int EVENT_MAPPING_WAIT_CORRECTION;
-    public static final int EVENT_MAPPING_NAVI_ALL_IN_ONESHOT_WAIT;
-    public static final int EVENT_MAPPING_JUMP_TO_PHONE_STATE;
-    public static final int EVENT_MAPPING_SMS_DICTATE;
-    public static final int EVENT_MAPPING_MAIL_DICTATE;
-    public static final int EVENT_MAPPING_NAVI_POI_ONLINE;
-    public static final int EVENT_MAPPING_ONLINE_REMOTE_HMI_HELP;
-    public static final int EVENT_MAPPING_TTS_FINISH;
-    public static final int EVENT_MAPPING_RECOG_FAILURE;
-    public static final int EVENT_MAPPING_TIMEOUT;
-    public static final int EVENT_MAPPING_SIGNAL_TO_NOISE_RATIO_TOO_LOW;
-    public static final int EVENT_MAPPING_SPEECHREC_FINISHED_ONLINE_STREAMING;
-    public static final int EVENT_MAPPING_ONLINE_RECOG_STARTED;
-    public static final int EVENT_MAPPING_TTS_FINISH_COMBINED;
-    public static final int EVENT_MAPPING_TTS_INTERRUPTED;
-    public static final int EVENT_MAPPING_TTS_FAILED_IGNORE;
-    public static final int EVENT_MAPPING_OK;
-    public static final int EVENT_MAPPING_ERROR;
-    public static final int EVENT_MAPPING_PAUSE_OK;
-    public static final int EVENT_MAPPING_PAUSE_ERROR;
-    public static final int EVENT_MAPPING_INVALID;
-    public static final int EVENT_MAPPING_AMBIGUOUS;
-    public static final int EVENT_MAPPING_DISABLED;
-    public static final int EVENT_MAPPING_EMPTY;
-    public static final int EVENT_MAPPING_BUSY;
-    public static final int EVENT_MAPPING_NOT_EMPTY;
-    public static final int EVENT_MAPPING_WAIT_OK;
-    public static final int EVENT_MAPPING_WAIT_ERROR;
-    public static final int EVENT_MAPPING_HELP;
-    public static final int EVENT_MAPPING_GLOBAL_GRAPHGROUP_RECOGNIZED;
-    public static final int EVENT_MAPPING_NO_GRAPHGROUP_RECOGNIZED;
-    public static final int EVENT_MAPPING_PRIVATE;
-    public static final int EVENT_MAPPING_WORK;
-    public static final int EVENT_MAPPING_ADB_TYPE_TEL_NUMBER;
-    public static final int EVENT_MAPPING_ADB_TYPE_ADDRESS;
-    public static final int EVENT_MAPPING_ADB_TYPE_MAIL;
-    public static final int EVENT_MAPPING_ADB_ERROR;
-    public static final int EVENT_MAPPING_ADB_OK;
-    public static final int EVENT_MAPPING_WBS_NONE;
-    public static final int EVENT_MAPPING_WBS_FM;
-    public static final int EVENT_MAPPING_WBS_AM;
-    public static final int EVENT_MAPPING_WBS_DAB;
-    public static final int EVENT_MAPPING_WBS_SDARS;
-    public static final int EVENT_MAPPING_TUNER_ERROR;
-    public static final int EVENT_MAPPING_TUNER_INVALID;
-    public static final int EVENT_MAPPING_TUNER_DISABLED;
-    public static final int EVENT_MAPPING_TUNER_OK;
-    public static final int EVENT_MAPPING_TUNER_UNIQUE;
-    public static final int EVENT_MAPPING_TUNER_NOT_PLAYABLE;
-    public static final int EVENT_MAPPING_TUNER_GREYED_OUT;
-    public static final int EVENT_MAPPING_TUNER_AMBIGUOUS;
-    public static final int EVENT_MAPPING_TV_OK;
-    public static final int EVENT_MAPPING_TV_ERROR;
-    public static final int EVENT_MAPPING_TV_DISABLED;
-    public static final int EVENT_MAPPING_WBS_TV;
-    public static final int EVENT_MAPPING_MEDIA_OK;
-    public static final int EVENT_MAPPING_MEDIA_ERROR;
-    public static final int EVENT_MAPPING_MEDIA_BUSY;
-    public static final int EVENT_MAPPING_MEDIA_EMPTY;
-    public static final int EVENT_MAPPING_MEDIA_DISABLED;
-    public static final int EVENT_MAPPING_MEDIA_INVALID;
-    public static final int EVENT_MAPPING_MEDIA_NOT_PLAYABLE;
-    public static final int EVENT_MAPPING_MEDIA_NOT_READABLE;
-    public static final int EVENT_MAPPING_MEDIA_ALREADY_TOP_LEVEL;
-    public static final int EVENT_MAPPING_MEDIA_OK_IDENT;
-    public static final int EVENT_MAPPING_MEDIA_AMBIGUOUS;
-    public static final int EVENT_MAPPING_MEDIA_JUST_FIRST_LEVEL;
-    public static final int EVENT_MAPPING_MEDIA_JUST_SECOND_LEVEL;
-    public static final int EVENT_MAPPING_MEDIA_JUST_THIRD_LEVEL;
-    public static final int EVENT_MAPPING_MEDIA_TWO_LEVELS;
-    public static final int EVENT_MAPPING_MSG_OK;
-    public static final int EVENT_MAPPING_MSG_ERROR;
-    public static final int EVENT_MAPPING_MSG_NEXT_STEP_NONE;
-    public static final int EVENT_MAPPING_MSG_NEXT_STEP_ACCOUNT;
-    public static final int EVENT_MAPPING_MSG_NEXT_STEP_LIST;
-    public static final int EVENT_MAPPING_MSG_NEXT_STEP_DETAIL;
-    public static final int EVENT_MAPPING_MSG_INVALID;
-    public static final int EVENT_MAPPING_MSG_EDIT_FINISHED;
-    public static final int EVENT_MAPPING_MSG_ERROR_NO_MESSAGES;
-    public static final int EVENT_MAPPING_PHONE_OK;
-    public static final int EVENT_MAPPING_PHONE_ERROR;
-    public static final int EVENT_MAPPING_PHONE_INVALID;
-    public static final int EVENT_MAPPING_PHONE_AMBIGUOUS;
-    public static final int EVENT_MAPPING_PHONE_TOO_LONG;
-    public static final int EVENT_MAPPING_PHONE_FUNCTION_NOT_SUPPORTED_BY_PHONE;
-    public static final int EVENT_MAPPING_PHONE_FUNCTION_NOT_SUPPORTED_BY_NET;
-    public static final int EVENT_MAPPING_PHONE_NO_NET;
-    public static final int EVENT_MAPPING_PHONE_ADB_CONTACT;
-    public static final int EVENT_MAPPING_PHONE_UNKNOWN_NUMBER;
-    public static final int EVENT_MAPPING_PHONE_NUMBER;
-    public static final int EVENT_MAPPING_PHONE_MAILBOX;
-    public static final int EVENT_MAPPING_MSG_START_CORRECTION;
-    public static final int EVENT_MAPPING_MSG_DELETE;
-    public static final int EVENT_MAPPING_MSG_ERROR_PROXY;
-    public static final int EVENT_MAPPING_MSG_ERROR_CONNECTION;
-    public static final int EVENT_MAPPING_MSG_LANG_NOT_SUPPORTED;
-    public static final int EVENT_MAPPING_MSG_RECOGNITION_FAILURE;
-    public static final int EVENT_MAPPING_NAVI_OK;
-    public static final int EVENT_MAPPING_NAVI_ERROR;
-    public static final int EVENT_MAPPING_JUST_FIRST_AND_SECOND_LEVEL;
-    public static final int EVENT_MAPPING_JUST_FIRST_LEVEL;
-    public static final int EVENT_MAPPING_CORRECTION_ENTER_POI;
-    public static final int EVENT_MAPPING_NAVI_CUSTOMER_UPDATE;
-    public static final int EVENT_MAPPING_NAVI_INVALID;
-    public static final int EVENT_MAPPING_NAVI_HOMEADDRESS;
-    public static final int EVENT_MAPPING_JUST_POI;
-    public static final int EVENT_MAPPING_NAVI_EMPTY;
-    public static final int EVENT_MAPPING_NAVI_AMBIGUOUS;
-    public static final int EVENT_MAPPING_NAVI_OK_HOUSENUMBER;
-    public static final int EVENT_MAPPING_NAVI_OK_INTERSECTION;
-    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_0;
-    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_1;
-    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_2;
-    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_3;
-    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_4;
-    public static final int EVENT_MAPPING_NAVI_BUSY;
-    public static final int EVENT_MAPPING_NAVI_WARD;
-    public static final int EVENT_MAPPING_NAVI_NO_WARD;
-    public static final int EVENT_MAPPING_NAVI_TIMEOUT;
-    public static final int EVENT_MAPPING_NAVI_OLD_DATA_FOUND;
-    public static final int EVENT_MAPPING_CONNECTION_FALSE;
-    public static final int EVENT_MAPPING_CONNECTION_TRUE;
-    public static final int EVENT_MAPPING_SWITCH_TELEPROMPTER;
-    public static final int EVENT_MAPPING_FIRST_LINE_SET;
-    public static final int EVENT_MAPPING_LIST_JUMP;
-    public static final int GRAMMAR_MAPPING_NONE;
-    public static final int GRAMMAR_MAPPING_SDS_INPUT_ROWNUMBERS1_6;
-    public static final int GRAMMAR_MAPPING_SDS_INPUT_SDCARDNUMBERS;
-    public static final int GRAMMAR_MAPPING_SDS_INPUT_ROWNUMBERS1_7;
-    public static final int GRAMMAR_MAPPING_MEDIA_ONESHOT_ALBUMS;
-    public static final int GRAMMAR_MAPPING_MEDIA_ONESHOT_TITLES;
-    public static final int GRAMMAR_MAPPING_MEDIA_ONESHOT_ARTISTS;
-    public static final int GRAMMAR_MAPPING_NAVI_LAST_DESTINATIONS;
-    public static final int GRAMMAR_MAPPING_NAVI_FAVORITES;
-    public static final int GRAMMAR_MAPPING_MY_AUDI_CONTACTS;
-    public static final int GRAMMAR_MAPPING_PHONE_CALLSTACKS;
-    public static final int GRAMMAR_MAPPING_PHONE_FAVORITES;
-    public static final int GRAMMAR_MAPPING_ADB_MAIL_ADDRESSES;
-    public static final int GRAMMAR_MAPPING_ONLINE_REMOTEHMI;
-    public static final int GRAMMAR_MAPPING_ONLINE_REMOTEHMI_GLOBAL;
-    public static final int GRAMMAR_MAPPING_ONLINE_REMOTEHMI_HELP;
-    public static final int GRAMMAR_MAPPING_TUNER_DAB_ENSEMBLES;
-    public static final int GRAMMAR_MAPPING_TUNER_STATIONS;
-    public static final int GRAMMAR_MAPPING_TUNER_GENRES;
-    public static final int GRAMMAR_MAPPING_MEDIA_DYNAMIC_DEVICES;
-    public static final int GRAMMAR_MAPPING_TUNER_CHANNEL_NUMBER;
-    public static final int GRAMMAR_MAPPING_NAVI_KR_SIMPLE_MAP;
-    public static final int SLOT_MAPPING_NONE;
-    public static final int SLOT_MAPPING_MEDIA_TITLES;
-    public static final int SLOT_MAPPING_MEDIA_ARTISTS;
-    public static final int SLOT_MAPPING_MEDIA_ALBUMS;
-    public static final int SLOT_MAPPING_ADB_CONTACTS;
-    public static final int SUI_MAPPING_TYPE_NONE;
-    public static final int SUI_MAPPING_TYPE_ADDRESS;
-    public static final int SUI_MAPPING_TYPE_CONTACT;
-    public static final int SUI_MAPPING_TYPE_POI;
-    public static final int SUI_MAPPING_TYPE_POI_CITY;
-    public static final int TRUFFLE_MAPPING_TYPE_NONE;
-    public static final int TRUFFLE_MAPPING_TYPE_INITIAL;
-    public static final int EVENT_MAPPING_MSG_DDS_ENTER;
-    public static final int EVENT_MAPPING_MSG_TOUCHPAD_ENTER;
-    public static final int MODEL_MAPPING_NONE;
-    public static final int MODEL_MAPPING_PHONE_NUMBER_SPELLER;
-    public static final int MODEL_MAPPING_NAV_DEST_EDIT_STREET_AFTER_CITY_MATCHSPELLER;
-    public static final int MODEL_MAPPING_HOUSENUMBER_MATCHSPELLER;
-    public static final int MODEL_MAPPING_NAV_DEST_LAST_DEST_BASE_LIST;
-    public static final int MODEL_MAPPING_NAV_DEST_FAVORITES_BASE_LIST;
-    public static final int MODEL_MAPPING_ADR_ORGANIZER_SEARCH_RESULT_TILED_LIST;
-    public static final int MODEL_MAPPING_ADR_TRUFFLE_BASE_LIST;
-    public static final int MODEL_MAPPING_ADR_ENTRY_DETAILS_TEL_NUMBER_BASE_LIST;
-    public static final int MODEL_MAPPING_ADR_ENTRY_DETAILS_ADDRESS_BASE_LIST;
-    public static final int MODEL_MAPPING_ADR_ENTRY_DETAILS_EMAIL_BASE_LIST;
-    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_IS_PLAY_MUSIC_CHOICE;
-    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_AMI_BUTTON;
-    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_AUX_BUTTON;
-    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_JUKEBOX_BUTTON;
-    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_PLAY_MUSIC_SELECTED_TYPE_CHOICE;
-    public static final int MODEL_MAPPING_SDS_REMOTE_HMI_ONLINE_PROMPT_AVAILABLE_CHOICE;
-    public static final int MODEL_MAPPING_NAV_INTELLIDEST_SEARCH_BASE_LIST;
-    public static final int MODEL_MAPPING_NAV_FAVOURITES_CONTEXT_CHOICE;
-    public static final int MODEL_MAPPING_SDS_MEDIA_GRAMMAR_COMPILING_CHOICE;
-    public static final int MODEL_MAPPING_SDS_VOICE_BARGE_IN_PROMPT_SELECT_CHOICE;
-    public static final int MODEL_MAPPING_TEMPLATE_LIST_BASE_LIST;
-    public static final int MODEL_MAPPING_SDS_INTERSECTION_SET_CHOICE;
-    public static final int MODEL_MAPPING_SDS_PROMPT_TYPE_UNCHANGING_CHOICE;
-    public static final int MODEL_MAPPING_SDS_NAVI_ONLINE_POI_SYNC_NEEDED;
-    public static final int MODEL_MAPPING_SDS_AUDI_CONNECT_SCREEN_SYNC;
+    public static final byte COMMAND_MODE_DUMMY = -1;
+    public static final byte COMMAND_MODE_BIG_NAVI = 0;
+    public static final byte COMMAND_MODE_BIG_TUNER = 1;
+    public static final byte COMMAND_MODE_BIG_MEDIA = 2;
+    public static final byte COMMAND_MODE_BIG_PHONE = 3;
+    public static final byte COMMAND_MODE_BIG_MENU = 4;
+    public static final byte COMMAND_MODE_BIG_MAP = 5;
+    public static final byte COMMAND_MODE_BIG_ONLINE = 6;
+    public static final byte COMMAND_MODE_BIG_CAR = 7;
+    public static final byte COMMAND_MODE_BIG_SMS = 8;
+    public static final byte COMMAND_MODE_BIG_OFFICE = 9;
+    public static final byte COMMAND_MODE_BIG_ONLINE_PTT = 10;
+    public static final byte LIST_MODE_HELP_MEDIA = 0;
+    public static final byte LIST_MODE_HELP_MEDIA_TITLE_SELECT = 1;
+    public static final byte LIST_MODE_HELP_MEDIA_JUKEBOX_SD_USB = 2;
+    public static final byte LIST_MODE_HELP_MEDIA_IPOD = 3;
+    public static final byte LIST_MODE_HELP_MEDIA_DEVICE_CHANGE = 4;
+    public static final byte LIST_MODE_HELP_TUNER = 5;
+    public static final byte LIST_MODE_HELP_TUNER_STATION = 6;
+    public static final byte LIST_MODE_HELP_TUNER_DAB = 7;
+    public static final byte LIST_MODE_HELP_TUNER_SIRIUS = 8;
+    public static final byte LIST_MODE_HELP_NAVI = 9;
+    public static final byte LIST_MODE_HELP_NAVI_ENTER_DESTINATION = 10;
+    public static final byte LIST_MODE_HELP_NAVI_POI = 11;
+    public static final byte LIST_MODE_HELP_NAVI_ROUTE_INFORMATION = 12;
+    public static final byte LIST_MODE_HELP_PHONE = 13;
+    public static final byte LIST_MODE_HELP_PHONE_ADDRESSBOOK = 14;
+    public static final byte LIST_MODE_HELP_PHONE_DIAL_NUMBER = 15;
+    public static final byte LIST_MODE_HELP_CAR = 16;
+    public static final byte LIST_MODE_HELP_PHONE_NUMBER_SPELLER = 17;
+    public static final byte LIST_MODE_HELP_PHONE_PIN_SPELLER = 18;
+    public static final byte LIST_MODE_HELP_PHONE_SMS = 19;
+    public static final byte LIST_MODE_HELP_SDS_SPEECH = 20;
+    public static final byte LIST_MODE_HELP_MAP = 21;
+    public static final byte LIST_MODE_HELP_REMOTE_HMI = 22;
+    public static final byte LIST_MODE_HELP_TOPIC_HELP_REMOTE_HMI_SUBTOPIC = 23;
+    public static final int SCREEN_MAPPING_NONE = -1;
+    public static final int SCREEN_MAPPING_LOGICAL_POPUP = 1;
+    public static final int SCREEN_MAPPING_MAP_SHOW_DETAILS = 2;
+    public static final int SCREEN_MAPPING_PHONE_INTELLI_CALL = 3;
+    public static final int SCREEN_MAPPING_PHONE_FAVORITES = 4;
+    public static final int SCREEN_MAPPING_RHMI_BROWSER = 5;
+    public static final int SCREEN_MAPPING_RHMI_LIST = 6;
+    public static final int SCREEN_MAPPING_TEL_SDS_CONTACT = 7;
+    public static final int SCREEN_MAPPING_DEST_ADDRESS_FORM_MAIN = 8;
+    public static final int SCREEN_MAPPING_RHMI_TEXT_DISPLAY = 9;
+    public static final int SCREEN_MAPPING_RHMI_TEXT_DISPLAY_OPTIONS = 10;
+    public static final int SCREEN_MAPPING_RHMI_LIST_OPTIONS = 11;
+    public static final int SCREEN_MAPPING_RHMI_WAITING = 12;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_MAIN = 13;
+    public static final int SCREEN_MAPPING_SDS_HELP_CAR = 14;
+    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA = 15;
+    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA_TOPIC_DEVICE_CHANGE = 16;
+    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA_TOPIC_JUKEBOX_SD_USB = 17;
+    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA_TOPIC_TITLE_SELECT = 18;
+    public static final int SCREEN_MAPPING_SDS_HELP_MEDIA_TOPIC_IPOD = 19;
+    public static final int SCREEN_MAPPING_SDS_HELP_CONTEXT_OFFICE = 20;
+    public static final int SCREEN_MAPPING_SDS_HELP_NAV = 21;
+    public static final int SCREEN_MAPPING_SDS_HELP_NAV_TOPIC_MAP = 22;
+    public static final int SCREEN_MAPPING_SDS_HELP_NAV_TOPIC_ROUTE_INFORMATION = 23;
+    public static final int SCREEN_MAPPING_SDS_HELP_NAV_TOPIC_ENTER_DESTINATION = 24;
+    public static final int SCREEN_MAPPING_SDS_HELP_NAV_TOPIC_SPECIAL_DESTINATION = 25;
+    public static final int SCREEN_MAPPING_SDS_HELP_ONLINE_GENERIC = 26;
+    public static final int SCREEN_MAPPING_SDS_HELP_ONLINE_TOPIC_XY_GENERIC_STATE = 27;
+    public static final int SCREEN_MAPPING_SDS_HELP_PHONE = 28;
+    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_DIAL_NUMBER = 29;
+    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_SMS = 30;
+    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_ADB = 31;
+    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_NUMBER_SPELLER = 32;
+    public static final int SCREEN_MAPPING_SDS_HELP_PHONE_TOPIC_PIN_SPELLER = 33;
+    public static final int SCREEN_MAPPING_SDS_HELP_TUNER = 34;
+    public static final int SCREEN_MAPPING_SDS_HELP_TUNER_TOPIC_STATION = 35;
+    public static final int SCREEN_MAPPING_SDS_HELP_TUNER_TOPIC_DAB = 36;
+    public static final int SCREEN_MAPPING_SDS_HELP_TUNER_TOPIC_SIRIUS = 37;
+    public static final int SCREEN_MAPPING_SDS_HELP_MENUS = 38;
+    public static final int SCREEN_MAPPING_MAP_SHOW_DETAILS_GENERIC_SDS_MAIN = 39;
+    public static final int SCREEN_MAPPING_SDS_NAV_PICKLIST_AI1 = 40;
+    public static final int SCREEN_MAPPING_DEST_ONLINE_SEARCH_SCREEN = 41;
+    public static final int SCREEN_MAPPING_OFFICE_OPT_SMS_NEW_EDIT = 42;
+    public static final int SCREEN_MAPPING_OFFICE_OPT_MAIL_NEW_EDIT = 43;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_TUNER = 44;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI_ASIA_CNTW = 45;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI_ASIA_KR = 46;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI_ASIA_JP = 47;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI = 48;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_NAVI_POI_ONLINE = 49;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_ADB = 50;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_MEDIA = 51;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_PHONE = 52;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_MESSAGING = 53;
+    public static final int SCREEN_MAPPING_SDS_COM_FURTHER_COMMANDS_RHMI = 54;
+    public static final int SCREEN_MAPPING_KOMBI_ACTIVE_POPUP = 55;
+    public static final int POPUP_MAPPING_NONE = -1;
+    public static final int POPUP_MAPPING_DIALOG = 0;
+    public static final int POPUP_MAPPING_PAUSE = 1;
+    public static final int POPUP_MAPPING_VOLUME = 2;
+    public static final int POPUP_MAPPING_WAIT_STATE = 3;
+    public static final int POPUP_MAPPING_LOGICAL = 4;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_ADB = 80;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_MEDIA = 81;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_MESSAGING = 82;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI_ASIA_CNTW = 83;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI = 84;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI_POI_ONLINE = 85;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_PHONE = 86;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_RHMI = 87;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_TUNER = 88;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI_ASIA_JP = 89;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_NAVI_ASIA_KR = 90;
+    public static final int POPUP_MAPPING_FURTHER_COMMANDS_MAIN = 100;
+    public static final int POPUP_MAPPING_COMMAND_DISAMBIGUATION_LIST = 101;
+    public static final int POPUP_MAPPING_BIG_COMMAND_MENU = 102;
+    public static final int POPUP_MAPPING_BIG_COMMAND_MEDIA = 103;
+    public static final int POPUP_MAPPING_BIG_COMMAND_PHONE = 104;
+    public static final int POPUP_MAPPING_BIG_COMMAND_TUNER = 105;
+    public static final int POPUP_MAPPING_BIG_COMMAND_MAP = 106;
+    public static final int POPUP_MAPPING_BIG_COMMAND_NAV = 107;
+    public static final int POPUP_MAPPING_BIG_COMMAND_ONLINE = 108;
+    public static final int POPUP_MAPPING_BIG_COMMAND_SMS = 109;
+    public static final int POPUP_MAPPING_BIG_COMMAND_OFFCE = 110;
+    public static final int POPUP_MAPPING_BIG_COMMAND_ONLINE_PTT = 111;
+    public static final int POPUP_MAPPING_BIG_COMMAND_CAR = 112;
+    public static final int POPUP_MAPPING_FAVORITE_DISAMBIGUATION_LIST = 113;
+    public static final int POPUP_MAPPING_EXTERNAL_SDS = 114;
+    public static final int POPUP_MAPPING_TELINCOMINGCALLPOPUP = 115;
+    public static final int POPUP_MAPPING_HELP_MEDIA = 120;
+    public static final int POPUP_MAPPING_HELP_MEDIA_DEVICE_CHANGE = 121;
+    public static final int POPUP_MAPPING_HELP_MEDIA_TITLE_SELECT = 122;
+    public static final int POPUP_MAPPING_HELP_MEDIA_JUKEBOX_SD = 123;
+    public static final int POPUP_MAPPING_HELP_MEDIA_IPOD = 124;
+    public static final int POPUP_MAPPING_HELP_TUNER = 125;
+    public static final int POPUP_MAPPING_HELP_TUNER_STATION = 126;
+    public static final int POPUP_MAPPING_HELP_TUNER_DAB = 127;
+    public static final int POPUP_MAPPING_HELP_TUNER_SIRIUS = 128;
+    public static final int POPUP_MAPPING_HELP_NAVI = 129;
+    public static final int POPUP_MAPPING_HELP_NAVI_ENTER_DESTINATION = 130;
+    public static final int POPUP_MAPPING_HELP_NAVI_POI = 131;
+    public static final int POPUP_MAPPING_HELP_NAVI_ROUTE_INFORMATION = 132;
+    public static final int POPUP_MAPPING_HELP_PHONE = 133;
+    public static final int POPUP_MAPPING_HELP_PHONE_ADB = 134;
+    public static final int POPUP_MAPPING_HELP_PHONE_DIAL_NUMBER = 135;
+    public static final int POPUP_MAPPING_HELP_PHONE_NUMBER_SPELLER = 136;
+    public static final int POPUP_MAPPING_HELP_PHONE_PIN_SPELLER = 137;
+    public static final int POPUP_MAPPING_HELP_PHONE_SMS = 138;
+    public static final int POPUP_MAPPING_HELP_SDS_SPEECH = 139;
+    public static final int POPUP_MAPPING_HELP_MAP = 140;
+    public static final int POPUP_MAPPING_HELP_CAR = 141;
+    public static final int POPUP_MAPPING_HELP_REMOTE_HMI = 142;
+    public static final int POPUP_MAPPING_HELP_REMOTE_HMI_SUBTOPIC = 143;
+    public static final int POPUP_MAPPING_CONNECTIONONLINEYESNO = 230;
+    public static final int POPUP_MAPPING_ADR_SDS = 70;
+    public static final int POPUP_MAPPING_ADRSDSNAVPOPUP = 71;
+    public static final int POPUP_MAPPING_ADRSDSPOPUPCONTACT = 72;
+    public static final int POPUP_MAPPING_TELSDSCONTACT = 73;
+    public static final int POPUP_MAPPING_TELSDSNUM = 74;
+    public static final int POPUP_MAPPING_MSG_ACCOUNT = 75;
+    public static final int POPUP_MAPPING_OFFICE_OPT_SMS_DICTATION_RUNNING = 76;
+    public static final int POPUP_MAPPING_OFFICE_OPT_SMS_DICTATION_PROCESSING = 77;
+    public static final int POPUP_MAPPING_MAILSDSPOPUPCONTACT = 78;
+    public static final int POPUP_MAPPING_NAVSDSPOPUP = 40;
+    public static final int POPUP_MAPPING_NAVSDSPOIPICKLIST = 41;
+    public static final int POPUP_MAPPING_NAV_SDS_PICKLIST_AI1 = 42;
+    public static final int POPUP_MAPPING_NAV_SDS_POI_RESULTS_PICKLIST = 43;
+    public static final int POPUP_MAPPING_NAV_SDS_MY_AUDI_DETAIL_SCREEN = 44;
+    public static final int POPUP_MAPPING_NAV_SDS_GENERIC_MAP_DETAILS = 45;
+    public static final int POPUP_MAPPING_NAV_SDS_SEARCH_AREA_COUNTRY_CITY = 46;
+    public static final int POPUP_MAPPING_NAV_PP_ONE_DEST = 47;
+    public static final int POPUP_MAPPING_NAV_PP_TWO_DEST = 48;
+    public static final int POPUP_MAPPING_NAV_PP_DEMOMODUS = 49;
+    public static final int POPUP_MAPPING_NAV_SDS_SEARCH_AREA_CITY_CNTW = 50;
+    public static final int POPUP_MAPPING_NAV_SDS_SEARCH_AREA_PREFECTURE_CITY_JP = 51;
+    public static final int POPUP_MAPPING_NAV_SDS_SEARCH_AREA_PROVINCE_CITY_KR = 52;
+    public static final int POPUP_MAPPING_TUNERSDSPOPUP = 10;
+    public static final int POPUP_MAPPING_TUNERGENRESDSPOPUP = 11;
+    public static final int POPUP_MAPPING_MEDIASDSPOPUP = 20;
+    public static final int POPUP_MAPPING_PHONESDSPOPUP = 30;
+    public static final int POPUP_MAPPING_SDSDEBUGPOPUP = 1000;
+    public static final int POPUP_MAPPING_TELEPROMPTER_BIG = 2000;
+    public static final int POPUP_MAPPING_TELEPROMPTER_SMALL = 2001;
+    public static final int POPUP_MAPPING_SEARCH_PROMPT = 2002;
+    public static final int POPUP_MAPPING_CALL_LIST = 2003;
+    public static final int POPUP_MAPPING_SYSTEMNBESTLIST = 2004;
+    public static final int POPUP_MAPPING_PORSCHE_HELP_CATEGORIES = 2005;
+    public static final int POPUP_MAPPING_PORSCHE_HELP_DETAILS = 2006;
+    public static final int POPUP_MAPPING_REFINEMENT_LIST = 2007;
+    public static final int POPUP_MAPPING_MEDIASDSPARTIALPOPUP = 2008;
+    public static final int POPUP_MAPPING_ICON_LIST = 2009;
+    public static final int POPUP_MAPPING_SDS_STATUS = 2010;
+    public static final int POPUP_MAPPING_POI_OFFLINE_RESULTS = 2012;
+    public static final int POPUP_MAPPING_ONLINE_RESULTS = 2013;
+    public static final int POPUP_MAPPING_SDSICONLISTDETAILS = 2014;
+    public static final int POPUP_MAPPING_SDSICONLISTDETAILS_SUI = 2015;
+    public static final int POPUP_MAPPING_ADB_CONTACT_LIST = 2016;
+    public static final int POPUP_MAPPING_REFINEMENT_PHONE_CATEGORIES = 2017;
+    public static final int POPUP_MAPPING_PHONE_REFINEMENT_NUMBERS = 2018;
+    public static final int POPUP_MAPPING_NAVI_LAST_AND_FAVORITES = 2019;
+    public static final int POPUP_MAPPING_ONLINE_SEARCH_PROMPT = 2020;
+    public static final int POPUP_MAPPING_TUNER_STATION_ICONS_LIST = 2021;
+    public static final int POPUP_MAPPING_LAST_DESTINATIONS = 2022;
+    public static final int POPUP_MAPPING_STORED_DESTINATIONS = 2023;
+    public static final int POPUP_MAPPING_TELEPROMPTER_SMALL_GREY = 2024;
+    public static final int POPUP_MAPPING_SEARCH_PROMPT_SMALL = 2025;
+    public static final int POPUP_MAPPING_TUNER_FAVORITES = 2026;
+    public static final int POPUP_MAPPING_SEARCH_PROMPT_TRUFFLE = 2027;
+    public static final int POPUP_MAPPING_REFINEMENT_LIST_TRUFFLE = 2028;
+    public static final int POPUP_MAPPING_REFINEMENT_NUMBERS_MSG_EMAIL_ACCOUNTS = 2029;
+    public static final int POPUP_MAPPING_ONLINE_SEARCH_PROMPT_SMALL = 2030;
+    public static final int POPUP_MAPPING_ONLINE_DISCLAIMER = 2031;
+    public static final int POPUP_MAPPING_ONLINE_LICENSE_N_A = 3000;
+    public static final int POPUP_MAPPING_ONLINE_LICENSE_EXPIRED = 3001;
+    public static final int POPUP_MAPPING_ONLINE_LICENSE_CURRENTLY_N_A = 3002;
+    public static final int POPUP_MAPPING_PHONE_CONTACT_DETAILS = 3003;
+    public static final int EVENT_MAPPING_NONE = -1;
+    public static final int EVENT_MAPPING_SYS_INIT_COMPLETE = 0;
+    public static final int EVENT_MAPPING_PTT = 1;
+    public static final int EVENT_MAPPING_PAUSE = 2;
+    public static final int EVENT_MAPPING_POSTTRAINING = 3;
+    public static final int EVENT_MAPPING_VOLUME = 4;
+    public static final int EVENT_MAPPING_DIALOG_STARTING = 5;
+    public static final int EVENT_MAPPING_SELECT = 1000;
+    public static final int EVENT_MAPPING_ABORT = 1001;
+    public static final int EVENT_MAPPING_SILENT_ABORT = 1002;
+    public static final int EVENT_MAPPING_PAUSE_RELEASE = 1003;
+    public static final int EVENT_MAPPING_POSTTRAINING_ABORT = 1004;
+    public static final int EVENT_MAPPING_SD_REMOVED_OR_ERROR = 1006;
+    public static final int EVENT_MAPPING_FOLDER_UP = 1007;
+    public static final int EVENT_MAPPING_PHONE_STATE_CHANGED = 1008;
+    public static final int EVENT_MAPPING_MSG_WORD_SELECTED = 1009;
+    public static final int EVENT_MAPPING_MSG_START_TOUCHPAD = 1010;
+    public static final int EVENT_MAPPING_CORRECTION = 1011;
+    public static final int EVENT_MAPPING_TP_AUDIO = 1012;
+    public static final int EVENT_MAPPING_WAIT_RELEASE = 1013;
+    public static final int EVENT_MAPPING_WAIT_CORRECTION = 1014;
+    public static final int EVENT_MAPPING_NAVI_ALL_IN_ONESHOT_WAIT = 1015;
+    public static final int EVENT_MAPPING_JUMP_TO_PHONE_STATE = 1016;
+    public static final int EVENT_MAPPING_SMS_DICTATE = 1017;
+    public static final int EVENT_MAPPING_MAIL_DICTATE = 1018;
+    public static final int EVENT_MAPPING_NAVI_POI_ONLINE = 1019;
+    public static final int EVENT_MAPPING_ONLINE_REMOTE_HMI_HELP = 1020;
+    public static final int EVENT_MAPPING_TTS_FINISH = 2000;
+    public static final int EVENT_MAPPING_RECOG_FAILURE = 2001;
+    public static final int EVENT_MAPPING_TIMEOUT = 2002;
+    public static final int EVENT_MAPPING_SIGNAL_TO_NOISE_RATIO_TOO_LOW = 2003;
+    public static final int EVENT_MAPPING_SPEECHREC_FINISHED_ONLINE_STREAMING = 2004;
+    public static final int EVENT_MAPPING_ONLINE_RECOG_STARTED = 2005;
+    public static final int EVENT_MAPPING_TTS_FINISH_COMBINED = 2006;
+    public static final int EVENT_MAPPING_TTS_INTERRUPTED = 2007;
+    public static final int EVENT_MAPPING_TTS_FAILED_IGNORE = 2008;
+    public static final int EVENT_MAPPING_OK = 3000;
+    public static final int EVENT_MAPPING_ERROR = 3001;
+    public static final int EVENT_MAPPING_PAUSE_OK = 3002;
+    public static final int EVENT_MAPPING_PAUSE_ERROR = 3003;
+    public static final int EVENT_MAPPING_INVALID = 3004;
+    public static final int EVENT_MAPPING_AMBIGUOUS = 3005;
+    public static final int EVENT_MAPPING_DISABLED = 3006;
+    public static final int EVENT_MAPPING_EMPTY = 3007;
+    public static final int EVENT_MAPPING_BUSY = 3008;
+    public static final int EVENT_MAPPING_NOT_EMPTY = 3009;
+    public static final int EVENT_MAPPING_WAIT_OK = 3010;
+    public static final int EVENT_MAPPING_WAIT_ERROR = 3011;
+    public static final int EVENT_MAPPING_HELP = 3012;
+    public static final int EVENT_MAPPING_GLOBAL_GRAPHGROUP_RECOGNIZED = 5000;
+    public static final int EVENT_MAPPING_NO_GRAPHGROUP_RECOGNIZED = 5001;
+    public static final int EVENT_MAPPING_PRIVATE = 70000;
+    public static final int EVENT_MAPPING_WORK = 70001;
+    public static final int EVENT_MAPPING_ADB_TYPE_TEL_NUMBER = 70002;
+    public static final int EVENT_MAPPING_ADB_TYPE_ADDRESS = 70003;
+    public static final int EVENT_MAPPING_ADB_TYPE_MAIL = 70004;
+    public static final int EVENT_MAPPING_ADB_ERROR = 70005;
+    public static final int EVENT_MAPPING_ADB_OK = 70006;
+    public static final int EVENT_MAPPING_WBS_NONE = 10000;
+    public static final int EVENT_MAPPING_WBS_FM = 10001;
+    public static final int EVENT_MAPPING_WBS_AM = 10002;
+    public static final int EVENT_MAPPING_WBS_DAB = 10003;
+    public static final int EVENT_MAPPING_WBS_SDARS = 10004;
+    public static final int EVENT_MAPPING_TUNER_ERROR = 10005;
+    public static final int EVENT_MAPPING_TUNER_INVALID = 10006;
+    public static final int EVENT_MAPPING_TUNER_DISABLED = 10007;
+    public static final int EVENT_MAPPING_TUNER_OK = 10008;
+    public static final int EVENT_MAPPING_TUNER_UNIQUE = 10009;
+    public static final int EVENT_MAPPING_TUNER_NOT_PLAYABLE = 10010;
+    public static final int EVENT_MAPPING_TUNER_GREYED_OUT = 10011;
+    public static final int EVENT_MAPPING_TUNER_AMBIGUOUS = 10012;
+    public static final int EVENT_MAPPING_TV_OK = 11000;
+    public static final int EVENT_MAPPING_TV_ERROR = 11001;
+    public static final int EVENT_MAPPING_TV_DISABLED = 11002;
+    public static final int EVENT_MAPPING_WBS_TV = 11003;
+    public static final int EVENT_MAPPING_MEDIA_OK = 20000;
+    public static final int EVENT_MAPPING_MEDIA_ERROR = 20001;
+    public static final int EVENT_MAPPING_MEDIA_BUSY = 20002;
+    public static final int EVENT_MAPPING_MEDIA_EMPTY = 20003;
+    public static final int EVENT_MAPPING_MEDIA_DISABLED = 20005;
+    public static final int EVENT_MAPPING_MEDIA_INVALID = 20006;
+    public static final int EVENT_MAPPING_MEDIA_NOT_PLAYABLE = 20008;
+    public static final int EVENT_MAPPING_MEDIA_NOT_READABLE = 20009;
+    public static final int EVENT_MAPPING_MEDIA_ALREADY_TOP_LEVEL = 20011;
+    public static final int EVENT_MAPPING_MEDIA_OK_IDENT = 20012;
+    public static final int EVENT_MAPPING_MEDIA_AMBIGUOUS = 20013;
+    public static final int EVENT_MAPPING_MEDIA_JUST_FIRST_LEVEL = 20014;
+    public static final int EVENT_MAPPING_MEDIA_JUST_SECOND_LEVEL = 20015;
+    public static final int EVENT_MAPPING_MEDIA_JUST_THIRD_LEVEL = 20016;
+    public static final int EVENT_MAPPING_MEDIA_TWO_LEVELS = 20017;
+    public static final int EVENT_MAPPING_MSG_OK = 75000;
+    public static final int EVENT_MAPPING_MSG_ERROR = 75001;
+    public static final int EVENT_MAPPING_MSG_NEXT_STEP_NONE = 75002;
+    public static final int EVENT_MAPPING_MSG_NEXT_STEP_ACCOUNT = 75003;
+    public static final int EVENT_MAPPING_MSG_NEXT_STEP_LIST = 75004;
+    public static final int EVENT_MAPPING_MSG_NEXT_STEP_DETAIL = 75005;
+    public static final int EVENT_MAPPING_MSG_INVALID = 75006;
+    public static final int EVENT_MAPPING_MSG_EDIT_FINISHED = 75007;
+    public static final int EVENT_MAPPING_MSG_ERROR_NO_MESSAGES = 75008;
+    public static final int EVENT_MAPPING_PHONE_OK = 30000;
+    public static final int EVENT_MAPPING_PHONE_ERROR = 30001;
+    public static final int EVENT_MAPPING_PHONE_INVALID = 30002;
+    public static final int EVENT_MAPPING_PHONE_AMBIGUOUS = 30003;
+    public static final int EVENT_MAPPING_PHONE_TOO_LONG = 30004;
+    public static final int EVENT_MAPPING_PHONE_FUNCTION_NOT_SUPPORTED_BY_PHONE = 30005;
+    public static final int EVENT_MAPPING_PHONE_FUNCTION_NOT_SUPPORTED_BY_NET = 30006;
+    public static final int EVENT_MAPPING_PHONE_NO_NET = 30007;
+    public static final int EVENT_MAPPING_PHONE_ADB_CONTACT = 30008;
+    public static final int EVENT_MAPPING_PHONE_UNKNOWN_NUMBER = 30009;
+    public static final int EVENT_MAPPING_PHONE_NUMBER = 30010;
+    public static final int EVENT_MAPPING_PHONE_MAILBOX = 30011;
+    public static final int EVENT_MAPPING_MSG_START_CORRECTION = 35000;
+    public static final int EVENT_MAPPING_MSG_DELETE = 35001;
+    public static final int EVENT_MAPPING_MSG_ERROR_PROXY = 35002;
+    public static final int EVENT_MAPPING_MSG_ERROR_CONNECTION = 35003;
+    public static final int EVENT_MAPPING_MSG_LANG_NOT_SUPPORTED = 35004;
+    public static final int EVENT_MAPPING_MSG_RECOGNITION_FAILURE = 35005;
+    public static final int EVENT_MAPPING_NAVI_OK = 40000;
+    public static final int EVENT_MAPPING_NAVI_ERROR = 40001;
+    public static final int EVENT_MAPPING_JUST_FIRST_AND_SECOND_LEVEL = 40002;
+    public static final int EVENT_MAPPING_JUST_FIRST_LEVEL = 40003;
+    public static final int EVENT_MAPPING_CORRECTION_ENTER_POI = 40004;
+    public static final int EVENT_MAPPING_NAVI_CUSTOMER_UPDATE = 40005;
+    public static final int EVENT_MAPPING_NAVI_INVALID = 40006;
+    public static final int EVENT_MAPPING_NAVI_HOMEADDRESS = 40007;
+    public static final int EVENT_MAPPING_JUST_POI = 40008;
+    public static final int EVENT_MAPPING_NAVI_EMPTY = 40009;
+    public static final int EVENT_MAPPING_NAVI_AMBIGUOUS = 40010;
+    public static final int EVENT_MAPPING_NAVI_OK_HOUSENUMBER = 40011;
+    public static final int EVENT_MAPPING_NAVI_OK_INTERSECTION = 40012;
+    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_0 = 40013;
+    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_1 = 40014;
+    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_2 = 40015;
+    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_3 = 40016;
+    public static final int EVENT_MAPPING_ONESHOT_UP_TO_LEVEL_4 = 40017;
+    public static final int EVENT_MAPPING_NAVI_BUSY = 40018;
+    public static final int EVENT_MAPPING_NAVI_WARD = 40019;
+    public static final int EVENT_MAPPING_NAVI_NO_WARD = 40020;
+    public static final int EVENT_MAPPING_NAVI_TIMEOUT = 40021;
+    public static final int EVENT_MAPPING_NAVI_OLD_DATA_FOUND = 40022;
+    public static final int EVENT_MAPPING_CONNECTION_FALSE = 1000000;
+    public static final int EVENT_MAPPING_CONNECTION_TRUE = 1000001;
+    public static final int EVENT_MAPPING_SWITCH_TELEPROMPTER = 2000001;
+    public static final int EVENT_MAPPING_FIRST_LINE_SET = 2000002;
+    public static final int EVENT_MAPPING_LIST_JUMP = 2000003;
+    public static final int GRAMMAR_MAPPING_NONE = -1;
+    public static final int GRAMMAR_MAPPING_SDS_INPUT_ROWNUMBERS1_6 = 2;
+    public static final int GRAMMAR_MAPPING_SDS_INPUT_SDCARDNUMBERS = 3;
+    public static final int GRAMMAR_MAPPING_SDS_INPUT_ROWNUMBERS1_7 = 4;
+    public static final int GRAMMAR_MAPPING_MEDIA_ONESHOT_ALBUMS = 11;
+    public static final int GRAMMAR_MAPPING_MEDIA_ONESHOT_TITLES = 12;
+    public static final int GRAMMAR_MAPPING_MEDIA_ONESHOT_ARTISTS = 13;
+    public static final int GRAMMAR_MAPPING_NAVI_LAST_DESTINATIONS = 21;
+    public static final int GRAMMAR_MAPPING_NAVI_FAVORITES = 22;
+    public static final int GRAMMAR_MAPPING_MY_AUDI_CONTACTS = 23;
+    public static final int GRAMMAR_MAPPING_PHONE_CALLSTACKS = 31;
+    public static final int GRAMMAR_MAPPING_PHONE_FAVORITES = 32;
+    public static final int GRAMMAR_MAPPING_ADB_MAIL_ADDRESSES = 33;
+    public static final int GRAMMAR_MAPPING_ONLINE_REMOTEHMI = 41;
+    public static final int GRAMMAR_MAPPING_ONLINE_REMOTEHMI_GLOBAL = 42;
+    public static final int GRAMMAR_MAPPING_ONLINE_REMOTEHMI_HELP = 43;
+    public static final int GRAMMAR_MAPPING_TUNER_DAB_ENSEMBLES = 51;
+    public static final int GRAMMAR_MAPPING_TUNER_STATIONS = 52;
+    public static final int GRAMMAR_MAPPING_TUNER_GENRES = 53;
+    public static final int GRAMMAR_MAPPING_MEDIA_DYNAMIC_DEVICES = 54;
+    public static final int GRAMMAR_MAPPING_TUNER_CHANNEL_NUMBER = 55;
+    public static final int GRAMMAR_MAPPING_NAVI_KR_SIMPLE_MAP = 56;
+    public static final int SLOT_MAPPING_NONE = -1;
+    public static final int SLOT_MAPPING_MEDIA_TITLES = 1;
+    public static final int SLOT_MAPPING_MEDIA_ARTISTS = 2;
+    public static final int SLOT_MAPPING_MEDIA_ALBUMS = 3;
+    public static final int SLOT_MAPPING_ADB_CONTACTS = 4;
+    public static final int SUI_MAPPING_TYPE_NONE = 0;
+    public static final int SUI_MAPPING_TYPE_ADDRESS = 1;
+    public static final int SUI_MAPPING_TYPE_CONTACT = 2;
+    public static final int SUI_MAPPING_TYPE_POI = 3;
+    public static final int SUI_MAPPING_TYPE_POI_CITY = 4;
+    public static final int TRUFFLE_MAPPING_TYPE_NONE = 0;
+    public static final int TRUFFLE_MAPPING_TYPE_INITIAL = 1;
+    public static final int EVENT_MAPPING_MSG_DDS_ENTER = 0;
+    public static final int EVENT_MAPPING_MSG_TOUCHPAD_ENTER = 0;
+    public static final int MODEL_MAPPING_NONE = -1;
+    public static final int MODEL_MAPPING_PHONE_NUMBER_SPELLER = 1;
+    public static final int MODEL_MAPPING_NAV_DEST_EDIT_STREET_AFTER_CITY_MATCHSPELLER = 2;
+    public static final int MODEL_MAPPING_HOUSENUMBER_MATCHSPELLER = 3;
+    public static final int MODEL_MAPPING_NAV_DEST_LAST_DEST_BASE_LIST = 5;
+    public static final int MODEL_MAPPING_NAV_DEST_FAVORITES_BASE_LIST = 6;
+    public static final int MODEL_MAPPING_ADR_ORGANIZER_SEARCH_RESULT_TILED_LIST = 10;
+    public static final int MODEL_MAPPING_ADR_TRUFFLE_BASE_LIST = 11;
+    public static final int MODEL_MAPPING_ADR_ENTRY_DETAILS_TEL_NUMBER_BASE_LIST = 12;
+    public static final int MODEL_MAPPING_ADR_ENTRY_DETAILS_ADDRESS_BASE_LIST = 13;
+    public static final int MODEL_MAPPING_ADR_ENTRY_DETAILS_EMAIL_BASE_LIST = 14;
+    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_IS_PLAY_MUSIC_CHOICE = 20;
+    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_AMI_BUTTON = 21;
+    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_AUX_BUTTON = 22;
+    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_JUKEBOX_BUTTON = 23;
+    public static final int MODEL_MAPPING_SDS_MEDIA_PICKLIST_PLAY_MUSIC_SELECTED_TYPE_CHOICE = 24;
+    public static final int MODEL_MAPPING_SDS_REMOTE_HMI_ONLINE_PROMPT_AVAILABLE_CHOICE = 25;
+    public static final int MODEL_MAPPING_NAV_INTELLIDEST_SEARCH_BASE_LIST = 26;
+    public static final int MODEL_MAPPING_NAV_FAVOURITES_CONTEXT_CHOICE = 27;
+    public static final int MODEL_MAPPING_SDS_MEDIA_GRAMMAR_COMPILING_CHOICE = 28;
+    public static final int MODEL_MAPPING_SDS_VOICE_BARGE_IN_PROMPT_SELECT_CHOICE = 29;
+    public static final int MODEL_MAPPING_TEMPLATE_LIST_BASE_LIST = 30;
+    public static final int MODEL_MAPPING_SDS_INTERSECTION_SET_CHOICE = 31;
+    public static final int MODEL_MAPPING_SDS_PROMPT_TYPE_UNCHANGING_CHOICE = 32;
+    public static final int MODEL_MAPPING_SDS_NAVI_ONLINE_POI_SYNC_NEEDED = 33;
+    public static final int MODEL_MAPPING_SDS_AUDI_CONNECT_SCREEN_SYNC = 34;
 
-    default public int getModelMappingID(int n) {
-    }
+    public int getModelMappingID(int var1);
 
-    default public int getModelID(int n) {
-    }
+    public int getModelID(int var1);
 
-    default public int getPopupID(int n) {
-    }
+    public int getPopupID(int var1);
 
-    default public int getPopupMappingID(int n) {
-    }
+    public int getPopupMappingID(int var1);
 
-    default public int getEventID(int n) {
-    }
+    public int getEventID(int var1);
 
-    default public int[] getBigCommandPopups() {
-    }
+    public int[] getBigCommandPopups();
 
-    default public int[] getFurtherCommandPopups() {
-    }
+    public int[] getFurtherCommandPopups();
 
-    default public int[] getDisambiguationPopups() {
-    }
+    public int[] getDisambiguationPopups();
 
-    default public int getCommandScreenPopupMapping(int n, LogChannel logChannel) {
-    }
+    public int getCommandScreenPopupMapping(int var1, LogChannel var2);
 
-    default public int getHelpScreenPopupMapping(int n, LogChannel logChannel) {
-    }
+    public int getHelpScreenPopupMapping(int var1, LogChannel var2);
 
-    default public int[] getHMISlotGrammarArray() {
-    }
+    public int[] getHMISlotGrammarArray();
 
-    default public int[] getSlotOrder(int n) {
-    }
+    public int[] getSlotOrder(int var1);
 
-    default public int getEventIdForRule(int n) {
-    }
+    public int getEventIdForRule(int var1);
 
-    default public int getHMISlotGrammar(int n) {
-    }
+    public int getHMISlotGrammar(int var1);
 
-    default public int getHMISlotGrammarMapping(int n) {
-    }
+    public int getHMISlotGrammarMapping(int var1);
 
-    default public int getSlotTypeMapping(int n) {
-    }
+    public int getSlotTypeMapping(int var1);
 
-    default public int getSUITypeForRule(int n) {
-    }
+    public int getSUITypeForRule(int var1);
 
-    default public int[] getSUIGrammars(int n) {
-    }
+    public int[] getSUIGrammars(int var1);
 
-    default public int[] getTruffleGrammars(int n) {
-    }
+    public int[] getTruffleGrammars(int var1);
 
-    default public boolean isSUIGrammar(int n) {
-    }
+    public boolean isSUIGrammar(int var1);
 
-    default public boolean isOneshotGrammar(int n) {
-    }
+    public boolean isOneshotGrammar(int var1);
 
-    default public boolean isNaviTrufflesInitialEvent(int n) {
-    }
+    public boolean isNaviTrufflesInitialEvent(int var1);
 
-    default public int[] getSDSPopups() {
-    }
+    public int[] getSDSPopups();
 
-    default public int getRemoteHMILineNumberForEvent(int n) {
-    }
+    public int getRemoteHMILineNumberForEvent(int var1);
 
-    default public boolean isSDSPopup(int n) {
-    }
+    public boolean isSDSPopup(int var1);
 
-    default public int getScreenID(int n) {
-    }
+    public int getScreenID(int var1);
 
-    default public int getScreenMapping(int n) {
-    }
+    public int getScreenMapping(int var1);
 
-    default public boolean isBigCommandDisplay(int n) {
-    }
+    public boolean isBigCommandDisplay(int var1);
 
-    default public boolean isFurtherCommandDisplay(int n) {
-    }
+    public boolean isFurtherCommandDisplay(int var1);
 
-    default public int getProgressIconTimeout() {
-    }
+    public int getProgressIconTimeout();
 
-    default public int getSdsEvent(int n) {
-    }
+    public int getSdsEvent(int var1);
 
-    default public boolean isOnlineRecogFinishedSMEvent(int n) {
-    }
+    public boolean isOnlineRecogFinishedSMEvent(int var1);
 }
 

@@ -10,52 +10,38 @@ import org.dsi.ifc.kombipictureserver.DSIKombiPictureServerListener;
 import org.osgi.framework.BundleContext;
 
 public interface IPictureManager {
-    public static final int NOTIFICATION_COVER_ART;
-    public static final int NOTIFICATION_STATION_ART;
-    public static final int NOTIFICATION_ACTIVE_CALL;
-    public static final int NOTIFICATION_ADB_CONTACT;
-    public static final int NOTIFICATION_COUNT;
+    public static final int NOTIFICATION_COVER_ART = 0;
+    public static final int NOTIFICATION_STATION_ART = 1;
+    public static final int NOTIFICATION_ACTIVE_CALL = 2;
+    public static final int NOTIFICATION_ADB_CONTACT = 3;
+    public static final int NOTIFICATION_COUNT = 4;
 
-    default public void init(BundleContext bundleContext) {
-    }
+    public void init(BundleContext var1);
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void setNotification(int n) {
-    }
+    public void setNotification(int var1);
 
-    default public IDSIKombiPictureServerController getDSIKombiPictureServerController() {
-    }
+    public IDSIKombiPictureServerController getDSIKombiPictureServerController();
 
-    default public DSIKombiPictureServerListener getDSIKombiPictureServerListener() {
-    }
+    public DSIKombiPictureServerListener getDSIKombiPictureServerListener();
 
-    default public void registerPictureProvider(int n, IPictureProvider iPictureProvider) {
-    }
+    public void registerPictureProvider(int var1, IPictureProvider var2);
 
-    default public void requestCoverArt(long l, int n) {
-    }
+    public void requestCoverArt(long var1, int var3);
 
-    default public void responseCoverArt(long l, int n, ResourceLocator resourceLocator, boolean bl) {
-    }
+    public void responseCoverArt(long var1, int var3, ResourceLocator var4, boolean var5);
 
-    default public void requestStationArt(long l, int n) {
-    }
+    public void requestStationArt(long var1, int var3);
 
-    default public void responseStationArt(long l, int n, ResourceLocator resourceLocator, boolean bl) {
-    }
+    public void responseStationArt(long var1, int var3, ResourceLocator var4, boolean var5);
 
-    default public void requestActiveCallPicture(int n) {
-    }
+    public void requestActiveCallPicture(int var1);
 
-    default public void responseActiveCallPicture(int n, int n2, ResourceLocator resourceLocator, boolean bl) {
-    }
+    public void responseActiveCallPicture(int var1, int var2, ResourceLocator var3, boolean var4);
 
-    default public void requestAdbContactPicture(long l) {
-    }
+    public void requestAdbContactPicture(long var1);
 
-    default public void responseAdbContactPicture(long l, ResourceLocator resourceLocator) {
-    }
+    public void responseAdbContactPicture(long var1, ResourceLocator var3);
 }
 

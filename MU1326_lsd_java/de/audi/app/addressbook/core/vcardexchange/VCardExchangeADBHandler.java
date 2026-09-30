@@ -26,15 +26,15 @@ import org.dsi.ifc.filebrowser.Path;
 
 public class VCardExchangeADBHandler
 extends AbstractADBHandler {
-    public static final int MODE_UNDEFINED;
-    public static final int MODE_IMPORT;
-    public static final int MODE_EXPORT;
+    public static final int MODE_UNDEFINED = 0;
+    public static final int MODE_IMPORT = 1;
+    public static final int MODE_EXPORT = 2;
     private int importExportMode = 0;
-    private static final int EXCHANGELOCATION_UNDEFINED;
-    public static final int EXCHANGELOCATION_SD_1;
-    public static final int EXCHANGELOCATION_SD_2;
-    public static final int EXCHANGELOCATION_USB_1;
-    public static final int EXCHANGELOCATION_USB_2;
+    private static final int EXCHANGELOCATION_UNDEFINED = -1;
+    public static final int EXCHANGELOCATION_SD_1 = 1;
+    public static final int EXCHANGELOCATION_SD_2 = 2;
+    public static final int EXCHANGELOCATION_USB_1 = 3;
+    public static final int EXCHANGELOCATION_USB_2 = 4;
     private int exchangeLocation = -1;
     private LogChannel log;
     private IHMIServiceApp hmiService;
@@ -51,7 +51,7 @@ extends AbstractADBHandler {
         this.log = this.getLog();
         this.hmiService = iFrameworkAccess.getHmiServiceApp();
         this.mediaHandler = new VCardExchangeMediaHandler(this, this.log);
-        this.vCardExportListHandler = new VCardExchangeOrganizerSearch(this.hmiService.getTiledListModel(598739456), this, this.log);
+        this.vCardExportListHandler = new VCardExchangeOrganizerSearch(this.hmiService.getTiledListModel(700451), this, this.log);
         this.fileBrowserModelAccess = new VCardImportFileBrowserModelAccess(iFrameworkAccess.getHmiServiceApp());
         new VCardExchangeViewListener(this.getLog(), this);
     }
@@ -77,7 +77,7 @@ extends AbstractADBHandler {
     }
 
     public void setFileBrowserManager(IFileBrowserManager iFileBrowserManager) {
-        this.log.log(-2137614336, "VCardExchangeADBHandler#setFileBrowserManager(): got fileBrowserManager: %1", (Object)iFileBrowserManager);
+        this.log.log(10000000, "VCardExchangeADBHandler#setFileBrowserManager(): got fileBrowserManager: %1", (Object)iFileBrowserManager);
         this.fileBrowserManager = iFileBrowserManager;
     }
 
@@ -90,7 +90,7 @@ extends AbstractADBHandler {
     }
 
     public void startExportListView(int n) {
-        this.log.log(-2137614336, "VCardExchangeADBHandler#startExportListView()");
+        this.log.log(10000000, "VCardExchangeADBHandler#startExportListView()");
         this.importExportMode = 2;
         this.exchangeLocation = n;
         this.vCardExportListHandler.reset();
@@ -98,25 +98,25 @@ extends AbstractADBHandler {
     }
 
     public void exportVCards() {
-        this.log.log(-2137614336, "VCardExchangeADBHandler#exportVCards()");
+        this.log.log(10000000, "VCardExchangeADBHandler#exportVCards()");
         long[] lArray = this.vCardExportListHandler.getSelectedEntries();
         int n = this.vCardExportListHandler.getListMode();
         if (this.vCardExportListHandler.isExchangeSetEmpty() || this.exchangeLocation == -1) {
-            this.log.log(-2137614336, "VCardExchangeADBHandler#exportVCards(): No entries or export target selected. Cancelling export.");
+            this.log.log(10000000, "VCardExchangeADBHandler#exportVCards(): No entries or export target selected. Cancelling export.");
         } else {
             String string = this.mediaHandler.getMountPoint(this.exchangeLocation);
             if (string == null || string.length() == 0) {
                 this.log.log(10000, "VCardExchangeADBHandler#exportVCards(): mountPoint for exchangeLocation %1 not available!", (long)this.exchangeLocation);
             } else {
-                this.log.log(-2137614336, "VCardExchangeADBHandler#exportVCards(): Scheduling export command.");
+                this.log.log(10000000, "VCardExchangeADBHandler#exportVCards(): Scheduling export command.");
                 VCardExportCommand.createVCardExportCommand(this, -1, this.vCardExportListHandler.getExportMemoryType(), string, lArray, n);
             }
         }
     }
 
     public void cancelExport() {
-        this.log.log(1078071040, "VCardExchangeADBHandler#cancelExport()");
-        this.hmiService.getChoiceModel(2058357248).setValue(this.hmiService.getChoiceModel(2058357248).getValue() == 0 ? 1 : 0);
+        this.log.log(1000000, "VCardExchangeADBHandler#cancelExport()");
+        this.hmiService.getChoiceModel(700538).setValue(this.hmiService.getChoiceModel(700538).getValue() == 0 ? 1 : 0);
     }
 
     public void startFileBrowsing(int n) {
@@ -153,7 +153,7 @@ extends AbstractADBHandler {
             return;
         }
         this.importAborted = false;
-        this.hmiService.getLabelModel(1353714176).setStatus(0);
+        this.hmiService.getLabelModel(700496).setStatus(0);
         this.importProgress.reset();
         int n = this.framework.getSysConst(4259);
         IFileBrowser iFileBrowser = this.importFileBrowser.getSelection();
@@ -165,22 +165,20 @@ extends AbstractADBHandler {
     }
 
     public void cancelImport() {
-        this.log.log(1078071040, "VCardExchangeADBHandler#cancelImport()");
-        this.hmiService.getChoiceModel(816843264).setValue(this.hmiService.getChoiceModel(816843264).getValue() == 0 ? 1 : 0);
+        this.log.log(1000000, "VCardExchangeADBHandler#cancelImport()");
+        this.hmiService.getChoiceModel(700464).setValue(this.hmiService.getChoiceModel(700464).getValue() == 0 ? 1 : 0);
     }
 
     public void abortImport() {
         this.importAborted = true;
     }
 
-    @Override
     public void entrySelected(ADBSearch aDBSearch, ADBSearchListRow aDBSearchListRow, int n, int n2) {
         this.vCardExportListHandler.toggleEntrySelection((VCardExchangeOrganizerSearchListRow)aDBSearchListRow);
     }
 
-    @Override
     public void handleInvalidData(int n, boolean bl) {
-        this.log.log(-2137614336, "VCardExchangeADBHandler#handleInvalidData(): reason: %2, reloadMainList: %1", bl, (Object)ADBDbgUtils.dbgInvalidDataReason(n));
+        this.log.log(10000000, "VCardExchangeADBHandler#handleInvalidData(): reason: %2, reloadMainList: %1", bl, (Object)ADBDbgUtils.dbgInvalidDataReason(n));
         if (bl) {
             if (n == 4 || n == 3 || n == 1 || n == 2) {
                 this.vCardExportListHandler.reset();
@@ -191,12 +189,10 @@ extends AbstractADBHandler {
         }
     }
 
-    @Override
     public int getInitStartupCompleteMask() {
         return 485;
     }
 
-    @Override
     public void setAdbReady(boolean bl) {
     }
 }

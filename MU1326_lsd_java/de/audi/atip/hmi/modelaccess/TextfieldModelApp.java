@@ -7,25 +7,18 @@ import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 
 public interface TextfieldModelApp
 extends ButtonModelApp {
-    default public void setTexts(String string, String string2) {
-    }
+    public void setTexts(String var1, String var2);
 
-    default public void setText1(String string) {
-    }
+    public void setText1(String var1);
 
-    default public String getText1() {
-    }
+    public String getText1();
 
-    default public void setText2(String string) {
-    }
+    public void setText2(String var1);
 
-    default public String getText2() {
-    }
+    public String getText2();
 
-    default public int getBitmapRessourceID() {
-    }
+    public int getBitmapRessourceID();
 
-    default public void setBitmapResourceID(int n) {
-    }
+    public void setBitmapResourceID(int var1);
 }
 

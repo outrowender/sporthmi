@@ -8,23 +8,19 @@ import de.audi.app.terminalmode.keyevents.KeyState;
 import de.audi.app.terminalmode.keyevents.TouchEvent;
 
 public interface ITerminalModeDSIKeyEventsController {
-    public static final int TOUCHINPUT_UNKNOWN;
-    public static final int TOUCHINPUT_PAD;
-    public static final int TOUCHINPUT_SCREEN;
-    public static final int GESTURE_UNKNOWN;
-    public static final int GESTURE_ROTATE;
-    public static final int GESTURE_DRAG;
+    public static final int TOUCHINPUT_UNKNOWN = 0;
+    public static final int TOUCHINPUT_PAD = 1;
+    public static final int TOUCHINPUT_SCREEN = 2;
+    public static final int GESTURE_UNKNOWN = 0;
+    public static final int GESTURE_ROTATE = 1;
+    public static final int GESTURE_DRAG = 2;
 
-    default public void updateKey(Key key, KeyState keyState) {
-    }
+    public void updateKey(Key var1, KeyState var2);
 
-    default public void updateTouchEvents(TouchEvent[] touchEventArray) {
-    }
+    public void updateTouchEvents(TouchEvent[] var1);
 
-    default public void updateRotary(int n) {
-    }
+    public void updateRotary(int var1);
 
-    default public void updateCharacterEvent(String[] stringArray, int[] nArray) {
-    }
+    public void updateCharacterEvent(String[] var1, int[] var2);
 }
 

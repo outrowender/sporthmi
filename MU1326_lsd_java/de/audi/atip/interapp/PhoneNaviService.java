@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface PhoneNaviService {
-    default public void transitionToPhone() {
-    }
+    public void transitionToPhone();
 }
 

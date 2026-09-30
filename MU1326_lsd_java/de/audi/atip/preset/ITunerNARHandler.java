@@ -7,10 +7,8 @@ import de.audi.atip.preset.IPresetManager;
 import de.audi.atip.preset.Preset;
 
 public interface ITunerNARHandler {
-    default public void injectPresetManager(IPresetManager iPresetManager) {
-    }
+    public void injectPresetManager(IPresetManager var1);
 
-    default public void presetSavedByPresetPopup(int n, Preset preset) {
-    }
+    public void presetSavedByPresetPopup(int var1, Preset var2);
 }
 

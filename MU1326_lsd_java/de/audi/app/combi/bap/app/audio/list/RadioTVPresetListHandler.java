@@ -18,17 +18,14 @@ extends AbstractManagedListHandler {
         super(combiModuleAudio, "RadioTVPresetListHandler");
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
         super.getNextListPosForArbitraryIds(n, n2);
     }
 
-    @Override
     public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
         ((CombiModuleAudio)this.moduleFsg).getTunerService().getNextListPosResult(bl ? 0 : 1, n, n2, n3);
     }
 
-    @Override
     public int getIndexSize() {
         return 0;
     }
@@ -36,18 +33,17 @@ extends AbstractManagedListHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateList(CombiBAPArrayElement[] combiBAPArrayElementArray) {
-        this.logChannel.log(-2137614336, "[%1#updateList] presetListSize=%2", (Object)this.className, (long)combiBAPArrayElementArray.length);
+        this.logChannel.log(10000000, "[%1#updateList] presetListSize=%2", (Object)this.className, (long)combiBAPArrayElementArray.length);
         boolean bl = this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType() == 0 || this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType() == 2 || this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType() == 5;
         ListDelta listDelta = ListDelta.compare(this.getManagedList(), combiBAPArrayElementArray);
         if (bl) {
-            this.logChannel.log(-2137614336, "[%1#updateList] function sync %2 is opened", (Object)this.className, (long)this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType());
+            this.logChannel.log(10000000, "[%1#updateList] function sync %2 is opened", (Object)this.className, (long)this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType());
             Object object = this.mutex;
             synchronized (object) {
                 if (!listDelta.isUnchanged() || this.deferredNewList != null) {
                     this.deferredNewList = combiBAPArrayElementArray;
-                    this.logChannel.log(-2137614336, "[%1#updateList] source change in progress, request deferred. New list:\n%2", (Object)this.className, (Object)this.deferredListToString());
+                    this.logChannel.log(10000000, "[%1#updateList] source change in progress, request deferred. New list:\n%2", (Object)this.className, (Object)this.deferredListToString());
                 }
             }
         }
@@ -66,11 +62,11 @@ extends AbstractManagedListHandler {
      * Enabled aggressive exception aggregation
      */
     public boolean updateDeferredList(boolean bl) {
-        this.logChannel.log(-2137614336, "[%1#updateDeferredList] forceFullRangeUpdate=%2", (Object)this.className, (Object)bl);
+        this.logChannel.log(10000000, "[%1#updateDeferredList] forceFullRangeUpdate=%2", (Object)this.className, (Object)bl);
         Object object = this.mutex;
         synchronized (object) {
             if (this.deferredNewList == null) {
-                this.logChannel.log(-2137614336, "[%1#updateDeferredList] no deferred updates", (Object)this.className);
+                this.logChannel.log(10000000, "[%1#updateDeferredList] no deferred updates", (Object)this.className);
                 if (!bl) {
                     return false;
                 }

@@ -34,7 +34,7 @@ implements TimerListener {
     }
 
     public synchronized void setTempValue(int n) {
-        this.logChannel.log(-2137614336, "RangeModelWatcherTimer[%1]#setTempValue: setting model value to newTempValue=%2 and restarting timer.", (Object)this.name, (long)n);
+        this.logChannel.log(10000000, "RangeModelWatcherTimer[%1]#setTempValue: setting model value to newTempValue=%2 and restarting timer.", (Object)this.name, (long)n);
         this.watchedRangeModel.setValue(n);
         this.timer.restart();
         if (this.mapper != null) {
@@ -43,12 +43,12 @@ implements TimerListener {
     }
 
     public synchronized void setValidValue(int n) {
-        this.logChannel.log(-2137614336, "RangeModelWatcherTimer[%1]#setValidValue: newValidValue=%2", (Object)this.name, (long)n);
+        this.logChannel.log(10000000, "RangeModelWatcherTimer[%1]#setValidValue: newValidValue=%2", (Object)this.name, (long)n);
         this.lastValidValue = n;
         if (this.timer.isRunning()) {
-            this.logChannel.log(-2137614336, "RangeModelWatcherTimer[%1]#setValidValue: Timer is still running, not yet setting model value to %2", (Object)this.name, (long)this.lastValidValue);
+            this.logChannel.log(10000000, "RangeModelWatcherTimer[%1]#setValidValue: Timer is still running, not yet setting model value to %2", (Object)this.name, (long)this.lastValidValue);
         } else {
-            this.logChannel.log(-2137614336, "RangeModelWatcherTimer[%1]#setValidValue: Timer is not running, setting model value to %2", (Object)this.name, (long)this.lastValidValue);
+            this.logChannel.log(10000000, "RangeModelWatcherTimer[%1]#setValidValue: Timer is not running, setting model value to %2", (Object)this.name, (long)this.lastValidValue);
             this.watchedRangeModel.setValue(this.lastValidValue);
             if (this.mapper != null) {
                 this.mapper.setValue(this.lastValidValue);
@@ -58,19 +58,17 @@ implements TimerListener {
 
     public synchronized void setValidValue(int n, boolean bl) {
         if (this.timer.isRunning() && bl) {
-            this.logChannel.log(-2137614336, "RangeModelWatcherTimer[%1]#setValidValue: Timer canceled.", (Object)this.name);
+            this.logChannel.log(10000000, "RangeModelWatcherTimer[%1]#setValidValue: Timer canceled.", (Object)this.name);
             this.timer.cancel();
         }
         this.setValidValue(n);
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public synchronized void fireTimer(Timer timer) {
-        this.logChannel.log(-2137614336, "RangeModelWatcherTimer[%1]#fireTimer:  setting value to %2", (Object)this.name, (long)this.lastValidValue);
+        this.logChannel.log(10000000, "RangeModelWatcherTimer[%1]#fireTimer:  setting value to %2", (Object)this.name, (long)this.lastValidValue);
         this.watchedRangeModel.setValue(this.lastValidValue);
         if (this.mapper != null) {
             this.mapper.setValue(this.lastValidValue);

@@ -26,7 +26,6 @@ implements IPowerState {
         this.powerStateTrigger = n;
     }
 
-    @Override
     public synchronized boolean isPowerOn() {
         if (this.powerState == 4) {
             return this.powerStateTrigger == 7;

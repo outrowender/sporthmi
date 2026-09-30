@@ -5,11 +5,11 @@ package de.audi.atip.bulkcopy;
 
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.bulkcopy.BulkCopyException;
-import de.audi.atip.bulkcopy.BulkCopyManagerImpl$Surveillant;
 import de.audi.atip.bulkcopy.IBulkCopyClient;
 import de.audi.atip.bulkcopy.IBulkCopyManager;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.error.DumpInfoProvider;
+import de.esolutions.fw.util.commons.threading.ThreadPool;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -31,18 +31,17 @@ DumpInfoProvider {
     public BulkCopyManagerImpl(IFrameworkAccess iFrameworkAccess, LogChannel logChannel, int[] nArray) {
         this.m_log = logChannel;
         this.m_waiting = nArray;
-        this.m_log.log(1078071040, "[BulkCopyManagerImpl] <init>(framework=%1, log=%2, waiting[]=%3)", (Object)iFrameworkAccess, (Object)logChannel, (Object)nArray);
+        this.m_log.log(1000000, "[BulkCopyManagerImpl] <init>(framework=%1, log=%2, waiting[]=%3)", (Object)iFrameworkAccess, (Object)logChannel, (Object)nArray);
         if (null != iFrameworkAccess) {
-            new BulkCopyManagerImpl$Surveillant(this, iFrameworkAccess, logChannel);
+            new Surveillant(this, iFrameworkAccess, logChannel);
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void setClientState(IBulkCopyClient iBulkCopyClient, int n) {
-        this.m_log.log(1078071040, "[BulkCopyManagerImpl] setClientState(client=%1, state=%2)", (Object)iBulkCopyClient, (long)n);
+    public void setClientState(IBulkCopyClient iBulkCopyClient, int n) throws BulkCopyException {
+        this.m_log.log(1000000, "[BulkCopyManagerImpl] setClientState(client=%1, state=%2)", (Object)iBulkCopyClient, (long)n);
         Object object = this.m_syncer;
         synchronized (object) {
             switch (n) {
@@ -58,7 +57,7 @@ DumpInfoProvider {
                     throw new BulkCopyException("State already set by client! Can not set twice!");
                 }
                 default: {
-                    throw new BulkCopyException(new StringBuffer().append("State ").append(n).append(" denied!").toString());
+                    throw new BulkCopyException("State " + n + " denied!");
                 }
             }
             this.updateState(iBulkCopyClient.getClientType());
@@ -68,9 +67,8 @@ DumpInfoProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean lock(IBulkCopyClient iBulkCopyClient) {
-        this.m_log.log(1078071040, "[BulkCopyManagerImpl] lock(client=%1)", (Object)iBulkCopyClient);
+        this.m_log.log(1000000, "[BulkCopyManagerImpl] lock(client=%1)", (Object)iBulkCopyClient);
         Object object = this.m_syncer;
         synchronized (object) {
             if (!this.m_clients.containsKey(iBulkCopyClient)) {
@@ -92,9 +90,8 @@ DumpInfoProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean unlock(IBulkCopyClient iBulkCopyClient) {
-        this.m_log.log(1078071040, "[BulkCopyManagerImpl] unlock(client=%1)", (Object)iBulkCopyClient);
+        this.m_log.log(1000000, "[BulkCopyManagerImpl] unlock(client=%1)", (Object)iBulkCopyClient);
         Object object = this.m_syncer;
         synchronized (object) {
             if (!this.m_clients.containsKey(iBulkCopyClient)) {
@@ -110,7 +107,6 @@ DumpInfoProvider {
         }
     }
 
-    @Override
     public boolean isIdle() {
         return 4 == this.m_state;
     }
@@ -137,7 +133,7 @@ DumpInfoProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public boolean registerClient(IBulkCopyClient iBulkCopyClient) {
+    public boolean registerClient(IBulkCopyClient iBulkCopyClient) throws BulkCopyException {
         if (null == iBulkCopyClient) {
             return false;
         }
@@ -151,7 +147,7 @@ DumpInfoProvider {
             while (iterator.hasNext()) {
                 IBulkCopyClient iBulkCopyClient2 = (IBulkCopyClient)iterator.next();
                 if (iBulkCopyClient2.getClientType() != n) continue;
-                throw new BulkCopyException(new StringBuffer().append("BulkCopyClient with type=").append(n).append(" already exists!").toString());
+                throw new BulkCopyException("BulkCopyClient with type=" + n + " already exists!");
             }
             this.m_clients.put(iBulkCopyClient, new Integer(1));
             if (!this.updateState(n)) {
@@ -201,7 +197,6 @@ DumpInfoProvider {
         }
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         printStream.println(" ## Legend ##");
         printStream.println(" ClientTypes: 1: SWDL, 2: MEDIA, ..., 0xFFFFFFFF: SURVEILLANT");
@@ -210,24 +205,23 @@ DumpInfoProvider {
         printStream.println(" ## Internal State ##");
         printStream.print(" waiting : ");
         for (int i2 = 0; i2 < this.m_waiting.length; ++i2) {
-            printStream.print(new StringBuffer().append(this.m_waiting[i2]).append("(").append(this.type2String(this.m_waiting[i2])).append("), ").toString());
+            printStream.print(this.m_waiting[i2] + "(" + this.type2String(this.m_waiting[i2]) + "), ");
         }
         printStream.println();
-        printStream.println(new StringBuffer().append(" state     : ").append(this.m_state).append("(").append(this.state2String(this.m_state)).append(")").toString());
-        printStream.println(new StringBuffer().append(" lock      : ").append(this.m_locked).toString());
-        printStream.println(new StringBuffer().append(" ignore    : ").append(this.m_ignoreWaitingClients ? "!!!yes - ignore waiting list!!!" : "no").toString());
-        printStream.println(new StringBuffer().append(" registered: ").append(this.m_areAllWaitingClientsRegistered ? "yes" : "!!!no - waiting for clients yet!!!").toString());
+        printStream.println(" state     : " + this.m_state + "(" + this.state2String(this.m_state) + ")");
+        printStream.println(" lock      : " + this.m_locked);
+        printStream.println(" ignore    : " + (this.m_ignoreWaitingClients ? "!!!yes - ignore waiting list!!!" : "no"));
+        printStream.println(" registered: " + (this.m_areAllWaitingClientsRegistered ? "yes" : "!!!no - waiting for clients yet!!!"));
         printStream.println();
-        printStream.println(new StringBuffer().append(" ## Registered Clients (").append(this.m_clients.keySet().size()).append(") ##").toString());
+        printStream.println(" ## Registered Clients (" + this.m_clients.keySet().size() + ") ##");
         Iterator iterator = this.m_clients.keySet().iterator();
         while (iterator.hasNext()) {
             IBulkCopyClient iBulkCopyClient = (IBulkCopyClient)iterator.next();
             int n = (Integer)this.m_clients.get(iBulkCopyClient);
-            printStream.println(new StringBuffer().append(" type=").append(iBulkCopyClient.getClientType()).append("(").append(this.type2String(iBulkCopyClient.getClientType())).append("), state=").append(n).append("(").append(this.state2String(n)).append("), name=").append(iBulkCopyClient).toString());
+            printStream.println(" type=" + iBulkCopyClient.getClientType() + "(" + this.type2String(iBulkCopyClient.getClientType()) + "), state=" + n + "(" + this.state2String(n) + "), name=" + iBulkCopyClient);
         }
     }
 
-    @Override
     public String getName() {
         return "BulkCopyManager";
     }
@@ -241,7 +235,7 @@ DumpInfoProvider {
     }
 
     private boolean updateState(int n) {
-        this.m_log.log(1078071040, "[BulkCopyManagerImpl] updateState(%1)", (long)n);
+        this.m_log.log(1000000, "[BulkCopyManagerImpl] updateState(%1)", (long)n);
         int n2 = 4;
         Iterator iterator = this.m_clients.keySet().iterator();
         block5: while (iterator.hasNext()) {
@@ -281,12 +275,12 @@ DumpInfoProvider {
         }
         this.m_areAllWaitingClientsRegistered = bl;
         if (this.m_state != n2) {
-            this.m_log.log(-2137614336, "[BulkCopyManagerImpl] change state to %1", (long)n2);
+            this.m_log.log(10000000, "[BulkCopyManagerImpl] change state to %1", (long)n2);
             this.m_state = n2;
             this.notifyClients(n2, n);
             return true;
         }
-        this.m_log.log(-2137614336, "[BulkCopyManagerImpl] state not changed (old=%1)", (long)this.m_state);
+        this.m_log.log(10000000, "[BulkCopyManagerImpl] state not changed (old=%1)", (long)this.m_state);
         return false;
     }
 
@@ -324,6 +318,119 @@ DumpInfoProvider {
             }
         }
         return "?";
+    }
+
+    private static class Surveillant
+    implements IBulkCopyClient,
+    Runnable {
+        private static final long TIMEOUT = 120000L;
+        private final BulkCopyManagerImpl m_parent;
+        private final IFrameworkAccess m_framework;
+        private final LogChannel m_log;
+
+        public Surveillant(BulkCopyManagerImpl bulkCopyManagerImpl, IFrameworkAccess iFrameworkAccess, LogChannel logChannel) {
+            this.m_parent = bulkCopyManagerImpl;
+            this.m_framework = iFrameworkAccess;
+            this.m_log = logChannel;
+            ThreadPool threadPool = iFrameworkAccess.getUtilThreadPool();
+            if (null == threadPool) {
+                this.m_log.log(10000, "[BulkCopyManagerImpl.Surveillant] No ThreadPool exists! Can't start Surveillant-Client!");
+                return;
+            }
+            try {
+                bulkCopyManagerImpl.registerClient(this);
+                bulkCopyManagerImpl.setClientState(this, 4);
+            }
+            catch (BulkCopyException bulkCopyException) {
+                this.m_log.log(10000, "[BulkCopyManagerImpl.Surveillant] Error during registration of Surveillant-Client", (Throwable)bulkCopyException);
+                return;
+            }
+            threadPool.execute(this);
+        }
+
+        public int getClientType() {
+            return -1;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void onChangeStateBulkCopy(int n, int n2) {
+            Surveillant surveillant = this;
+            synchronized (surveillant) {
+                this.notifyAll();
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void run() {
+            Thread thread = Thread.currentThread();
+            long l = this.m_framework.getMonotonicTime();
+            thread.setName(thread.getName() + "BulkCopyManager.Surveillant");
+            if (null != this.m_log) {
+                this.m_log.log(1000000, "[BulkCopyManager.Surveillant.run] start: %1", l);
+            }
+            while (true) {
+                long l2;
+                Surveillant surveillant = this;
+                synchronized (surveillant) {
+                    try {
+                        long l3 = this.m_framework.getMonotonicTime() - l;
+                        long l4 = 120000L - l3;
+                        if (null != this.m_log) {
+                            this.m_log.log(10000000, "[BulkCopyManager.Surveillant.run] wait: %1, gone: %2", l4, l3);
+                        }
+                        if (l4 > 0L) {
+                            this.wait(l4);
+                        }
+                    }
+                    catch (InterruptedException interruptedException) {
+                        Thread.interrupted();
+                    }
+                }
+                if (this.m_parent.areAllWaitingClientsRegistered() && !this.m_parent.isAnyClientInRegisteredState()) {
+                    if (null != this.m_log) {
+                        this.m_log.log(10000000, "[BulkCopyManager.Surveillant.run] all waiting clients registered");
+                    }
+                    this.m_parent.setIgnoreWaitingClients(false);
+                    do {
+                        surveillant = this;
+                        synchronized (surveillant) {
+                            try {
+                                this.wait();
+                            }
+                            catch (InterruptedException interruptedException) {
+                                Thread.interrupted();
+                            }
+                        }
+                    } while (this.m_parent.areAllWaitingClientsRegistered() && !this.m_parent.isAnyClientInRegisteredState());
+                    l = this.m_framework.getMonotonicTime();
+                    continue;
+                }
+                if (null != this.m_log) {
+                    this.m_log.log(10000000, "[BulkCopyManager.Surveillant.run] not all waiting clients registered");
+                }
+                if ((l2 = this.m_framework.getMonotonicTime() - l) < 120000L) continue;
+                if (null != this.m_log) {
+                    this.m_log.log(10000000, "[BulkCopyManager.Surveillant.run] TIMED OUT -> DO NOT WAIT ANYMORE!");
+                }
+                this.m_parent.setIgnoreWaitingClients(true);
+                do {
+                    Surveillant surveillant2 = this;
+                    synchronized (surveillant2) {
+                        try {
+                            this.wait();
+                        }
+                        catch (InterruptedException interruptedException) {
+                            Thread.interrupted();
+                        }
+                    }
+                } while (!this.m_parent.areAllWaitingClientsRegistered() || this.m_parent.isAnyClientInRegisteredState());
+                l = this.m_framework.getMonotonicTime();
+            }
+        }
     }
 }
 

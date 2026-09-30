@@ -14,7 +14,6 @@ implements ToneServiceListener {
         super(logChannel, string);
     }
 
-    @Override
     public void updateApsEntertainmentLoweringComboboxState(int n) {
         this.log();
     }

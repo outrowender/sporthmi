@@ -6,16 +6,13 @@ package de.audi.atip.hmi.combi;
 import de.audi.atip.hmi.combi.FrameElement;
 
 public interface CombiConnector {
-    public static final int SIGN_SET_VERSION_1;
-    public static final int SIGN_SET_VERSION_2;
+    public static final int SIGN_SET_VERSION_1 = 1;
+    public static final int SIGN_SET_VERSION_2 = 2;
 
-    default public void paint(FrameElement frameElement, boolean bl) {
-    }
+    public void paint(FrameElement var1, boolean var2);
 
-    default public int getSignSetVersion() {
-    }
+    public int getSignSetVersion();
 
-    default public boolean processMFLEvents() {
-    }
+    public boolean processMFLEvents();
 }
 

@@ -9,8 +9,8 @@ import de.audi.atip.sysapp.SpeedThresholdListener;
 
 final class ConnectivitySpeedThresholdListener
 implements SpeedThresholdListener {
-    private static final int BELOW;
-    private static final int EXCEED;
+    private static final int BELOW = 0;
+    private static final int EXCEED = 1;
     private final LogChannel log;
     private final ChoiceModelApp blueThresholdChoice;
 
@@ -19,18 +19,16 @@ implements SpeedThresholdListener {
         this.blueThresholdChoice = choiceModelApp;
     }
 
-    @Override
     public void exceedsUpperThreshold(int n) {
         if (n == 10) {
-            this.log.log(1078071040, "ConnectivitySpeedThresholdListener#exceedsUpperThreshold()");
+            this.log.log(1000000, "ConnectivitySpeedThresholdListener#exceedsUpperThreshold()");
             this.blueThresholdChoice.setValue(1);
         }
     }
 
-    @Override
     public void belowLowerThreshold(int n) {
         if (n == 10) {
-            this.log.log(1078071040, "ConnectivitySpeedThresholdListener#belowLowerThreshold()");
+            this.log.log(1000000, "ConnectivitySpeedThresholdListener#belowLowerThreshold()");
             this.blueThresholdChoice.setValue(0);
         }
     }

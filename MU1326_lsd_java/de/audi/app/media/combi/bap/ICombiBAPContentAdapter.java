@@ -9,61 +9,42 @@ import de.audi.app.media.content.IContent;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface ICombiBAPContentAdapter {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void activate(IContent iContent, ICombiBAPContentAccessor iCombiBAPContentAccessor) {
-    }
+    public void activate(IContent var1, ICombiBAPContentAccessor var2);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public boolean skip(boolean bl, int n) {
-    }
+    public boolean skip(boolean var1, int var2);
 
-    default public boolean setRepeatScope(int n, boolean bl) {
-    }
+    public boolean setRepeatScope(int var1, boolean var2);
 
-    default public void gotoCurrentPlayingTrack() {
-    }
+    public void gotoCurrentPlayingTrack();
 
-    default public void gotoParentFolder() {
-    }
+    public void gotoParentFolder();
 
-    default public void gotoRootFolder() {
-    }
+    public void gotoRootFolder();
 
-    default public void gotoSubFolder(CombiBAPMediaEntry combiBAPMediaEntry) {
-    }
+    public void gotoSubFolder(CombiBAPMediaEntry var1);
 
-    default public void requestListByIndex(int n, int n2, int n3) {
-    }
+    public void requestListByIndex(int var1, int var2, int var3);
 
-    default public void requestListByEntryID(int n, CombiBAPMediaEntry combiBAPMediaEntry, int n2) {
-    }
+    public void requestListByEntryID(int var1, CombiBAPMediaEntry var2, int var3);
 
-    default public void getNextListPos(CombiBAPMediaEntry combiBAPMediaEntry, int n) {
-    }
+    public void getNextListPos(CombiBAPMediaEntry var1, int var2);
 
-    default public void selectListEntry(CombiBAPMediaEntry combiBAPMediaEntry) {
-    }
+    public void selectListEntry(CombiBAPMediaEntry var1);
 
-    default public void startSeek(boolean bl) {
-    }
+    public void startSeek(boolean var1);
 
-    default public void stopSeek() {
-    }
+    public void stopSeek();
 
-    default public int getCurrentRepeatScope() {
-    }
+    public int getCurrentRepeatScope();
 
-    default public boolean isMixActive() {
-    }
+    public boolean isMixActive();
 
-    default public void updateActiveSlot(ISourceSlot iSourceSlot) {
-    }
+    public void updateActiveSlot(ISourceSlot var1);
 }
 

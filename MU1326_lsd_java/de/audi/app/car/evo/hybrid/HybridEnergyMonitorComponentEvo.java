@@ -18,27 +18,22 @@ extends AbstractHybridEnergyMonitorComponent {
         this.viewController = new HybridEnergyMonitorViewControllerEVO(iCarApplication.getFrameworkAccess(), this.getLogChannel());
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(190, (short)24);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(190);
     }
 
-    @Override
     public int getID() {
         return 45;
     }
 
-    @Override
     protected void updateMenuEntryVisibility(HybridViewOptions hybridViewOptions) {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(190, this.getMenuEntryVisibilityState(hybridViewOptions.getHybridEnergyFlowState()));
     }
 
-    @Override
     protected IHybridEnergyMonitorViewController getViewController() {
         return this.viewController;
     }

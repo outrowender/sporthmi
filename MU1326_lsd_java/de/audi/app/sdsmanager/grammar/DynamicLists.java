@@ -28,46 +28,43 @@ implements IDynamicLists {
         this.addToLookup(3, new DynamicSlotContent("values for SD cards", VALUES_SD_CARDS, 0));
     }
 
-    @Override
     public final synchronized void addToLookup(int n, DynamicSlotContent dynamicSlotContent) {
-        this.lc.log(-2137614336, "DynamicLists#addToLookup: mappingKey=%1", (long)n);
+        this.lc.log(10000000, "DynamicLists#addToLookup: mappingKey=%1", (long)n);
         int n2 = SDSManagerBaseActivator.getMapping().getHMISlotGrammar(n);
         if (n2 == -1) {
-            this.lc.log(-1601830656, "DynamicLists#addToLookup: No key found for mappingKey #%1!", (long)n);
+            this.lc.log(100000, "DynamicLists#addToLookup: No key found for mappingKey #%1!", (long)n);
             return;
         }
-        this.lc.log(-2137614336, "DynamicLists#addToLookup: Adding values for key #%2 (%1)!", (Object)(dynamicSlotContent != null ? dynamicSlotContent.getDescription() : "UNK"), (long)n2);
+        this.lc.log(10000000, "DynamicLists#addToLookup: Adding values for key #%2 (%1)!", (Object)(dynamicSlotContent != null ? dynamicSlotContent.getDescription() : "UNK"), (long)n2);
         this.lookupMap.put(new Integer(n2), dynamicSlotContent);
     }
 
-    @Override
     public synchronized void removeFromLookup(int n) {
-        this.lc.log(-2137614336, "DynamicLists#removeFromLookup: mappingKey=%1", (long)n);
+        this.lc.log(10000000, "DynamicLists#removeFromLookup: mappingKey=%1", (long)n);
         int n2 = SDSManagerBaseActivator.getMapping().getHMISlotGrammar(n);
         if (n2 == -1) {
-            this.lc.log(-1601830656, "DynamicLists#removeFromLookup: No key found for mappingKey #%1!", (long)n);
+            this.lc.log(100000, "DynamicLists#removeFromLookup: No key found for mappingKey #%1!", (long)n);
             return;
         }
         DynamicSlotContent dynamicSlotContent = (DynamicSlotContent)this.lookupMap.remove(new Integer(n2));
-        this.lc.log(-2137614336, "DynamicLists#removeFromLookup: Removed key #%2 (%1)!", (Object)(dynamicSlotContent != null ? dynamicSlotContent.getDescription() : "UNK"), (long)n2);
+        this.lc.log(10000000, "DynamicLists#removeFromLookup: Removed key #%2 (%1)!", (Object)(dynamicSlotContent != null ? dynamicSlotContent.getDescription() : "UNK"), (long)n2);
     }
 
-    @Override
     public synchronized String[] getDynListStrings(int n) {
-        this.lc.log(-2137614336, "DynamicLists#getDynListStrings: key=%1", (long)n);
+        this.lc.log(10000000, "DynamicLists#getDynListStrings: key=%1", (long)n);
         Integer n2 = new Integer(n);
         if (!this.lookupMap.containsKey(n2)) {
-            this.lc.log(-1601830656, "DynamicLists#getDynListStrings: Slot key %1 not found!", (long)n);
+            this.lc.log(100000, "DynamicLists#getDynListStrings: Slot key %1 not found!", (long)n);
             return null;
         }
         DynamicSlotContent dynamicSlotContent = (DynamicSlotContent)this.lookupMap.get(n2);
         if (dynamicSlotContent == null) {
-            this.lc.log(-1601830656, "DynamicLists#getDynListStrings: No ID entries for key #%1!", (long)n);
+            this.lc.log(100000, "DynamicLists#getDynListStrings: No ID entries for key #%1!", (long)n);
             return null;
         }
         SDSListEntry[] sDSListEntryArray = dynamicSlotContent.getEntries();
         if (sDSListEntryArray == null) {
-            this.lc.log(-1601830656, "DynamicLists#getDynListStrings: Empty ID entries for key #%1!", (long)n);
+            this.lc.log(100000, "DynamicLists#getDynListStrings: Empty ID entries for key #%1!", (long)n);
             return null;
         }
         int n3 = sDSListEntryArray.length;
@@ -78,28 +75,26 @@ implements IDynamicLists {
         return stringArray;
     }
 
-    @Override
     public synchronized boolean contains(int n) {
-        this.lc.log(-2137614336, "DynamicLists#contains: key=%1", (long)n);
+        this.lc.log(10000000, "DynamicLists#contains: key=%1", (long)n);
         return this.lookupMap.containsKey(new Integer(n));
     }
 
-    @Override
     public synchronized long[] getDynListIDs(int n) {
-        this.lc.log(-2137614336, "DynamicLists#getDynListIDs: key=%1", (long)n);
+        this.lc.log(10000000, "DynamicLists#getDynListIDs: key=%1", (long)n);
         Integer n2 = new Integer(n);
         if (!this.lookupMap.containsKey(n2)) {
-            this.lc.log(-1601830656, "DynamicLists#getDynListIDs: Slot key %1 not found!", (long)n);
+            this.lc.log(100000, "DynamicLists#getDynListIDs: Slot key %1 not found!", (long)n);
             return null;
         }
         DynamicSlotContent dynamicSlotContent = (DynamicSlotContent)this.lookupMap.get(n2);
         if (dynamicSlotContent == null) {
-            this.lc.log(-1601830656, "DynamicLists#getDynListIDs: No ID entries for key #%1!", (long)n);
+            this.lc.log(100000, "DynamicLists#getDynListIDs: No ID entries for key #%1!", (long)n);
             return null;
         }
         SDSListEntry[] sDSListEntryArray = dynamicSlotContent.getEntries();
         if (sDSListEntryArray == null) {
-            this.lc.log(-1601830656, "DynamicLists#getDynListIDs: Empty ID entries for key #%1!", (long)n);
+            this.lc.log(100000, "DynamicLists#getDynListIDs: Empty ID entries for key #%1!", (long)n);
             return null;
         }
         int n3 = sDSListEntryArray.length;
@@ -110,44 +105,41 @@ implements IDynamicLists {
         return lArray;
     }
 
-    @Override
     public synchronized boolean isSlotContentNew(int n) {
-        this.lc.log(-2137614336, "DynamicLists#isSlotContNew: key=%1", (long)n);
+        this.lc.log(10000000, "DynamicLists#isSlotContNew: key=%1", (long)n);
         Integer n2 = new Integer(n);
         if (!this.lookupMap.containsKey(n2)) {
-            this.lc.log(-1601830656, "DynamicLists#isSlotContNew: Slot key %1 not found!", (long)n);
+            this.lc.log(100000, "DynamicLists#isSlotContNew: Slot key %1 not found!", (long)n);
             return false;
         }
         DynamicSlotContent dynamicSlotContent = (DynamicSlotContent)this.lookupMap.get(n2);
         if (dynamicSlotContent == null) {
-            this.lc.log(-1601830656, "DynamicLists#isSlotContNew: No value for key %1!", (long)n);
+            this.lc.log(100000, "DynamicLists#isSlotContNew: No value for key %1!", (long)n);
             return false;
         }
         if (dynamicSlotContent.getEntries() == null) {
-            this.lc.log(-1601830656, "DynamicLists#isSlotContNew: No ID entries for key %1!", (long)n);
+            this.lc.log(100000, "DynamicLists#isSlotContNew: No ID entries for key %1!", (long)n);
         }
         return dynamicSlotContent.getStatus() != 2;
     }
 
-    @Override
     public synchronized void setSlotContentStatus(int n, byte by) {
-        this.lc.log(-2137614336, "DynamicLists#setSlotContentStatus: key=%1, status=%2", (long)n, (long)by);
+        this.lc.log(10000000, "DynamicLists#setSlotContentStatus: key=%1, status=%2", (long)n, (long)by);
         Integer n2 = new Integer(n);
         if (!this.lookupMap.containsKey(n2)) {
-            this.lc.log(-1601830656, "DynamicLists#setSlotContentStatus: Slot key %1 not found!", (long)n);
+            this.lc.log(100000, "DynamicLists#setSlotContentStatus: Slot key %1 not found!", (long)n);
             return;
         }
         DynamicSlotContent dynamicSlotContent = (DynamicSlotContent)this.lookupMap.get(n2);
         if (dynamicSlotContent == null || dynamicSlotContent.getEntries() == null) {
-            this.lc.log(-1601830656, "DynamicLists#setSlotContentStatus: No ID entries for key #%1!", (long)n);
+            this.lc.log(100000, "DynamicLists#setSlotContentStatus: No ID entries for key #%1!", (long)n);
             return;
         }
         dynamicSlotContent.setStatus(by);
     }
 
-    @Override
     public synchronized void markAllSlotsAsLoaded(boolean bl) {
-        this.lc.log(-2137614336, "DynamicLists#markAllSlotsAsLoaded: loadSuccess=%1", bl);
+        this.lc.log(10000000, "DynamicLists#markAllSlotsAsLoaded: loadSuccess=%1", bl);
         int[] nArray = SDSManagerBaseActivator.getMapping().getHMISlotGrammarArray();
         int n = nArray.length;
         for (int i2 = 0; i2 < n; ++i2) {
@@ -155,13 +147,12 @@ implements IDynamicLists {
             DynamicSlotContent dynamicSlotContent = (DynamicSlotContent)this.lookupMap.get(n2);
             if (dynamicSlotContent == null || dynamicSlotContent.getStatus() != 1) continue;
             dynamicSlotContent.setStatus(bl ? (byte)2 : 0);
-            this.lc.log(-2137614336, "DynamicLists#markAllSlotsAsLoaded: Changed status of slot %1 from NEW_AND_TO_BE_LOADED to %2!", (Object)n2, (Object)(bl ? "OLD" : "NEW"));
+            this.lc.log(10000000, "DynamicLists#markAllSlotsAsLoaded: Changed status of slot %1 from NEW_AND_TO_BE_LOADED to %2!", (Object)n2, (Object)(bl ? "OLD" : "NEW"));
         }
     }
 
-    @Override
     public synchronized SortedSet resetLoadedSlotRuleIDs() {
-        this.lc.log(-2137614336, "DynamicLists#resetLoadedSlotRuleIDs: called");
+        this.lc.log(10000000, "DynamicLists#resetLoadedSlotRuleIDs: called");
         HashMap hashMap = new HashMap();
         int[] nArray = SDSManagerBaseActivator.getMapping().getHMISlotGrammarArray();
         int n = nArray.length;
@@ -171,7 +162,7 @@ implements IDynamicLists {
             if (dynamicSlotContent == null || dynamicSlotContent.getStatus() != 2) continue;
             dynamicSlotContent.setStatus((byte)0);
             hashMap.put(n2, dynamicSlotContent);
-            this.lc.log(-2137614336, "DynamicLists#resetLoadedSlotRuleIDs: Added values for key #%1!", (Object)n2);
+            this.lc.log(10000000, "DynamicLists#resetLoadedSlotRuleIDs: Added values for key #%1!", (Object)n2);
         }
         return new TreeSet(hashMap.keySet());
     }

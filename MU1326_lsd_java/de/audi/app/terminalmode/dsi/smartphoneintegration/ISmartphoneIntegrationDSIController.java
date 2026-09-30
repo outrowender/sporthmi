@@ -3,16 +3,13 @@
  */
 package de.audi.app.terminalmode.dsi.smartphoneintegration;
 
-import de.audi.app.terminalmode.SmartphoneManager$SmartphoneType;
+import de.audi.app.terminalmode.SmartphoneManager;
 
 public interface ISmartphoneIntegrationDSIController {
-    default public void connectDevice(int n, SmartphoneManager$SmartphoneType smartphoneManager$SmartphoneType) {
-    }
+    public void connectDevice(int var1, SmartphoneManager.SmartphoneType var2);
 
-    default public void disconnectDevice(int n) {
-    }
+    public void disconnectDevice(int var1);
 
-    default public void requestFactorySettings() {
-    }
+    public void requestFactorySettings();
 }
 

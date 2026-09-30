@@ -4,11 +4,10 @@
 package de.audi.atip.odpve;
 
 import de.audi.atip.odp.SDSODPNaviServiceListener;
-import de.audi.atip.odpve.SDSODPNaviExtendedService$POIEntryDetails;
+import de.audi.atip.odpve.SDSODPNaviExtendedService;
 
 public interface SDSODPNaviExtendedServiceListener
 extends SDSODPNaviServiceListener {
-    default public void responseGetPoiResultDetails(int n, SDSODPNaviExtendedService.POIEntryDetails pOIEntryDetails) {
-    }
+    public void responseGetPoiResultDetails(int var1, SDSODPNaviExtendedService.POIEntryDetails var2);
 }
 

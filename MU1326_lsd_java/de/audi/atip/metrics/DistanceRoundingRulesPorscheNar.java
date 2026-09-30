@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 
 public class DistanceRoundingRulesPorscheNar
 extends ZoomRoundingRulesPorscheEceRow {
-    @Override
     public int roundMetric(int n, DistanceEntity distanceEntity) {
         this.log("roundMetric", n, "m");
         if (n <= 0) {
@@ -42,7 +41,6 @@ extends ZoomRoundingRulesPorscheEceRow {
         return 1;
     }
 
-    @Override
     public int roundImperial(float f2, int n, DistanceEntity distanceEntity) {
         this.log("roundImperial", n, "ft");
         int n2 = n * 3;
@@ -58,14 +56,14 @@ extends ZoomRoundingRulesPorscheEceRow {
             distanceEntity.setValues(this.roundDistance(n2, 100), 3);
             return 3;
         }
-        if (n2 < 1087242240) {
+        if (n2 < 52800) {
             return this.roundBy0_1Mile(n, distanceEntity);
         }
         return this.roundBy1Mile(n, distanceEntity);
     }
 
     private int roundBy0_1Mile(int n, DistanceEntity distanceEntity) {
-        BigDecimal bigDecimal = new BigDecimal((float)n / 56388).setScale(1, 4);
+        BigDecimal bigDecimal = new BigDecimal((float)n / 1760.0f).setScale(1, 4);
         int n2 = bigDecimal.intValue();
         int n3 = (int)(bigDecimal.doubleValue() * 10.0 - (double)(n2 * 10));
         distanceEntity.setValues(n2, 7, n3, 1);

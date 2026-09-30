@@ -17,19 +17,16 @@ DSIListener {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void responseParseVCards(int n, AdbEntry[] adbEntryArray) {
-        this.log.log(-1601830656, "[AdbHmiAppServiceDefaultListener#responseParseVCards] Not implemented.");
+        this.log.log(100000, "[AdbHmiAppServiceDefaultListener#responseParseVCards] Not implemented.");
     }
 
-    @Override
     public void responseInsertEntry(int n) {
-        this.log.log(-1601830656, "[AdbHmiAppServiceDefaultListener#responseInsertEntry] Not implemented.");
+        this.log.log(100000, "[AdbHmiAppServiceDefaultListener#responseInsertEntry] Not implemented.");
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.log.log(-1601830656, "[AdbHmiAppServiceDefaultListener#asyncException] Not implemented.");
+        this.log.log(100000, "[AdbHmiAppServiceDefaultListener#asyncException] Not implemented.");
     }
 }
 

@@ -10,21 +10,20 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class DBIncompleteModelAccess
 implements IDBIncompleteModelAccess {
-    private static final String COMMA;
+    private static final String COMMA = ",";
     private final NavigationEnv env;
 
     public DBIncompleteModelAccess(NavigationEnv navigationEnv) {
         this.env = navigationEnv;
     }
 
-    @Override
     public void onUpdateNavDbRegionsState(int n, String[] stringArray) {
         String string;
         if (n != 1) {
             return;
         }
-        this.env.getLogChannel().log(-2137614336, "DBIncompleteModelAccess#onUpdateNavDbRegionsState()");
-        LabelModelApp labelModelApp = this.env.getLabelModel(-1356921344);
+        this.env.getLogChannel().log(10000000, "DBIncompleteModelAccess#onUpdateNavDbRegionsState()");
+        LabelModelApp labelModelApp = this.env.getLabelModel(401327);
         if (stringArray == null) {
             string = "";
         } else {
@@ -32,18 +31,18 @@ implements IDBIncompleteModelAccess {
             Buffer buffer = new Buffer();
             for (int i2 = 0; i2 < n2 - 1; ++i2) {
                 buffer.append(stringArray[i2]);
-                buffer.append(",");
+                buffer.append(COMMA);
             }
             buffer.append(stringArray[n2 - 1]);
             string = buffer.toString();
         }
-        this.env.getLogChannel().log(-2137614336, "DBIncompleteModelAccess#onUpdateNavDbRegionsState() - countries: %1", (Object)string);
+        this.env.getLogChannel().log(10000000, "DBIncompleteModelAccess#onUpdateNavDbRegionsState() - countries: %1", (Object)string);
         labelModelApp.setText(string);
         this.showPopUp();
     }
 
     private void showPopUp() {
-        this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 354092544);
+        this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 400149);
     }
 }
 

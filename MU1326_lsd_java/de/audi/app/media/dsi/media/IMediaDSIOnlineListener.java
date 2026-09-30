@@ -4,13 +4,10 @@
 package de.audi.app.media.dsi.media;
 
 public interface IMediaDSIOnlineListener {
-    default public void updateBufferState(int n) {
-    }
+    public void updateBufferState(int var1);
 
-    default public void updateBufferFillInfo(int n, int n2) {
-    }
+    public void updateBufferFillInfo(int var1, int var2);
 
-    default public void updateAudioSettings(int n, int n2) {
-    }
+    public void updateAudioSettings(int var1, int var2);
 }
 

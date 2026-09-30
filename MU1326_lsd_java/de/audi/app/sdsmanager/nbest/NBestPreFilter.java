@@ -20,11 +20,11 @@ public class NBestPreFilter {
     private static NBestListEntry[] filterEntries(NBestListEntry[] nBestListEntryArray, float f2, float f3, LogChannel logChannel) {
         int n;
         if (nBestListEntryArray == null || (n = nBestListEntryArray.length) == 0) {
-            logChannel.log(-1601830656, "NBestPreFilter#filterEntries: no entry. nothing to do here");
+            logChannel.log(100000, "NBestPreFilter#filterEntries: no entry. nothing to do here");
             return nBestListEntryArray;
         }
         if (nBestListEntryArray[0] == null) {
-            logChannel.log(-1601830656, "NBestPreFilter#filterEntries: top entry was null");
+            logChannel.log(100000, "NBestPreFilter#filterEntries: top entry was null");
             return nBestListEntryArray;
         }
         float f4 = nBestListEntryArray[0].confidence;
@@ -35,17 +35,17 @@ public class NBestPreFilter {
                 float f5 = nBestListEntryArray[i2].confidence;
                 float f6 = nBestListEntryArray[i2 - 1].confidence;
                 if ((f4 - f5) / f4 > f2) {
-                    logChannel.log(-2137614336, "NBestPreFilter#filterEntries: entry %1 is filtered out. Confidence is ABOVE the top entry threshold!", (Object)nBestListEntryArray[i2]);
+                    logChannel.log(10000000, "NBestPreFilter#filterEntries: entry %1 is filtered out. Confidence is ABOVE the top entry threshold!", (Object)nBestListEntryArray[i2]);
                     break;
                 }
                 if ((f6 - f5) / f6 > f3) {
-                    logChannel.log(-2137614336, "NBestPreFilter#filterEntries: entry %1 is filtered out. Confidence is ABOVE the followup entry threshold!", (Object)nBestListEntryArray[i2]);
+                    logChannel.log(10000000, "NBestPreFilter#filterEntries: entry %1 is filtered out. Confidence is ABOVE the followup entry threshold!", (Object)nBestListEntryArray[i2]);
                     break;
                 }
                 arrayList.add(nBestListEntryArray[i2]);
                 continue;
             }
-            logChannel.log(-1601830656, "NBestPreFilter#filterEntries: entry %1 is null!", (long)i2);
+            logChannel.log(100000, "NBestPreFilter#filterEntries: entry %1 is null!", (long)i2);
         }
         return (NBestListEntry[])arrayList.toArray(new NBestListEntry[arrayList.size()]);
     }
@@ -71,7 +71,7 @@ public class NBestPreFilter {
                 arrayList.add(graphemicGroup);
                 continue;
             }
-            logChannel.log(-1601830656, "NBestPreFilter#correctGraphemicGroups: GG with index=%1 was null", (long)i2);
+            logChannel.log(100000, "NBestPreFilter#correctGraphemicGroups: GG with index=%1 was null", (long)i2);
         }
         return (GraphemicGroup[])arrayList.toArray(new GraphemicGroup[arrayList.size()]);
     }

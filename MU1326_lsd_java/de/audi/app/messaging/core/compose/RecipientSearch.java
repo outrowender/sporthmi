@@ -4,16 +4,14 @@
 package de.audi.app.messaging.core.compose;
 
 import de.audi.app.messaging.core.addressbook.GetEntryCommand;
-import de.audi.app.messaging.core.addressbook.GetEntryCommand$ResultHandler;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.IMessagingComponent;
 import de.audi.app.messaging.core.component.MessagingComponentCollection;
-import de.audi.app.messaging.core.compose.RecipientSearch$1;
-import de.audi.app.messaging.core.compose.RecipientSearch$CoreActionProxy;
 import de.audi.app.messaging.core.compose.RecipientSearchListRow;
-import de.audi.app.messaging.core.compose.RecipientSearchListRow$ChildRow;
 import de.audi.app.messaging.core.compose.RecipientSearchResultFormatter;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
+import de.audi.app.messaging.core.guide.DefaultCoreActionProxy;
+import de.audi.app.messaging.core.guide.IActionProxySubscriber;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.search.MessagingSearch;
@@ -27,7 +25,6 @@ import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.search.AbstractGuiSearchHandler;
-import de.audi.atip.search.AbstractSearch;
 import de.audi.atip.search.util.SearchResultListRow;
 import de.audi.atip.util.Util;
 import java.util.HashMap;
@@ -50,40 +47,40 @@ implements IMessagingComponent {
     private final MessagingComponentCollection subcomponents = new MessagingComponentCollection();
     private volatile AbstractMsgApplication msgApp;
     private final CopyOnWriteArrayList spellerListeners = new CopyOnWriteArrayList();
-    private final GetEntryCommand$ResultHandler commandResultHandler = new RecipientSearch$1(this);
+    private final GetEntryCommand.ResultHandler commandResultHandler = new GetEntryCommand.ResultHandler(){
+
+        public void handleResult(int n, AdbEntry adbEntry) {
+            RecipientSearch.this.handleCommandResult(n, adbEntry);
+        }
+    };
     private volatile SearchResultListRow selectedParentRow = null;
 
     public RecipientSearch(MessagingBundleContext messagingBundleContext, MessagingSearch messagingSearch) {
-        super(new int[]{3}, messagingBundleContext.getFramework().getHmiServiceApp().getBaseListModel(-879615744), messagingBundleContext.getFramework().getHmiServiceApp().getSpellerModel(-896392960), messagingBundleContext.getFramework().getHmiServiceApp().getChoiceModel(-862838528), messagingBundleContext.getFramework().getLogChannel("App.Messaging.Search"), messagingSearch);
+        super(new int[]{3}, messagingBundleContext.getFramework().getHmiServiceApp().getBaseListModel(2200267), messagingBundleContext.getFramework().getHmiServiceApp().getSpellerModel(2200266), messagingBundleContext.getFramework().getHmiServiceApp().getChoiceModel(2200268), messagingBundleContext.getFramework().getLogChannel("App.Messaging.Search"), messagingSearch);
         this.framework = messagingBundleContext.getFramework();
         this.log = this.framework.getLogChannel("App.Messaging.Main");
     }
 
-    @Override
     public void addComponent(IMessagingComponent iMessagingComponent) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         this.msgApp = abstractMsgApplication;
         this.subcomponents.initAll(abstractMsgApplication);
         Integer n = Util.createInteger(3);
         RecipientSearchResultFormatter recipientSearchResultFormatter = new RecipientSearchResultFormatter();
         this.registryFormatter.put(n, recipientSearchResultFormatter);
-        abstractMsgApplication.getActionProxyService().addSubscriber(new RecipientSearch$CoreActionProxy(this, null));
+        abstractMsgApplication.getActionProxyService().addSubscriber(new CoreActionProxy());
     }
 
-    @Override
     public void dispose() {
         this.subcomponents.disposeAll();
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
     }
 
-    @Override
     public void disconnect() {
     }
 
@@ -92,7 +89,7 @@ implements IMessagingComponent {
     }
 
     public void addSpellerListener(SpellerListener spellerListener) {
-        this.log.log(-2137614336, "[RecipientSearch#addSpellerListener] spellerListener = %1", (Object)spellerListener);
+        this.log.log(10000000, "[RecipientSearch#addSpellerListener] spellerListener = %1", (Object)spellerListener);
         this.spellerListeners.add(spellerListener);
     }
 
@@ -101,18 +98,18 @@ implements IMessagingComponent {
     }
 
     public void selectListItem(int n, int n2) {
-        this.log.log(-2137614336, "[RecipientSearch#selectListItem] index = %1, terminalId = %2", (long)n, (long)n2);
+        this.log.log(10000000, "[RecipientSearch#selectListItem] index = %1, terminalId = %2", (long)n, (long)n2);
         EvoListRow evoListRow = this.mdlListSearchResults.getRow(n);
         this.itemSelected(evoListRow, this.mdlListSearchResults.getID(), 0, 0, n2);
-        MenuModelApp menuModelApp = this.framework.getHmiServiceApp().getMenuModel(-91086592);
+        MenuModelApp menuModelApp = this.framework.getHmiServiceApp().getMenuModel(2200314);
         menuModelApp.setFocusedItem(this.mdlListSearchResults.getID(), FocusAdvice.KEEP_POSITION, evoListRow.getUniqueID());
     }
 
     private void handleCommandResult(int n, AdbEntry adbEntry) {
-        this.log.log(-2137614336, "[RecipientSearch#handleCommandResult] success = %1", (long)n);
+        this.log.log(10000000, "[RecipientSearch#handleCommandResult] success = %1", (long)n);
         EvoListRow[] evoListRowArray = null;
         if (n == 0) {
-            evoListRowArray = this.msgApp.getAccountManager().isEmailMode() ? RecipientSearchListRow$ChildRow.createEmailAddressRows(adbEntry) : RecipientSearchListRow$ChildRow.createPhoneNumberRows(adbEntry);
+            evoListRowArray = this.msgApp.getAccountManager().isEmailMode() ? RecipientSearchListRow.ChildRow.createEmailAddressRows(adbEntry) : RecipientSearchListRow.ChildRow.createPhoneNumberRows(adbEntry);
         }
         if (evoListRowArray == null) {
             evoListRowArray = new EvoListRow[]{};
@@ -120,32 +117,28 @@ implements IMessagingComponent {
         this.setChildrenNodes(evoListRowArray, this.selectedParentRow);
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
-        this.log.log(-1601830656, "[RecipientSearch#searchResultSelected] listRow = %1; Illegal call.", (Object)searchResultListRow);
+        this.log.log(100000, "[RecipientSearch#searchResultSelected] listRow = %1; Illegal call.", (Object)searchResultListRow);
     }
 
-    @Override
     public void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
-        this.log.log(1078071040, "[RecipientSearch#childNodeSelected] listRow = %1", (Object)evoListRow);
-        RecipientSearchListRow$ChildRow recipientSearchListRow$ChildRow = (RecipientSearchListRow$ChildRow)evoListRow;
-        MatchedAddress matchedAddress = recipientSearchListRow$ChildRow.getMatchedAddress();
+        this.log.log(1000000, "[RecipientSearch#childNodeSelected] listRow = %1", (Object)evoListRow);
+        RecipientSearchListRow.ChildRow childRow = (RecipientSearchListRow.ChildRow)evoListRow;
+        MatchedAddress matchedAddress = childRow.getMatchedAddress();
         this.msgApp.getNewMessage().getSelectedRecipientList().addRecipientsTo(new MatchedAddress[]{matchedAddress});
         this.mdlSpellerSearchText.clear();
         this.textChanged(n2, "", '\u0000', 0);
     }
 
-    @Override
     public void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
-        this.log.log(1078071040, "[RecipientSearch#requestChildrenNodes] listRow = %1", (Object)searchResultListRow);
+        this.log.log(1000000, "[RecipientSearch#requestChildrenNodes] listRow = %1", (Object)searchResultListRow);
         long l = ((RecipientSearchListRow)searchResultListRow).getEntryId();
         this.selectedParentRow = searchResultListRow;
         GetEntryCommand.schedule(this.msgApp.getMessagingAdbHandler(), l, this.commandResultHandler);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.log.log(1078071040, "[RecipientSearch#keyPressed] key = %1", (long)n2);
+        this.log.log(1000000, "[RecipientSearch#keyPressed] key = %1", (long)n2);
         super.keyPressed(n, n2, n3);
         Iterator iterator = this.spellerListeners.iterator();
         while (iterator.hasNext()) {
@@ -158,9 +151,8 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.log.log(1078071040, "[RecipientSearch#keyReleased] key = %1", (long)n2);
+        this.log.log(1000000, "[RecipientSearch#keyReleased] key = %1", (long)n2);
         super.keyReleased(n, n2, n3);
         Iterator iterator = this.spellerListeners.iterator();
         while (iterator.hasNext()) {
@@ -173,9 +165,8 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "[RecipientSearch#keyTyped] key = %1", (long)n2);
+        this.log.log(1000000, "[RecipientSearch#keyTyped] key = %1", (long)n2);
         super.keyTyped(n, n2, n3);
         Iterator iterator = this.spellerListeners.iterator();
         while (iterator.hasNext()) {
@@ -188,9 +179,8 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.log.log(1078071040, "[RecipientSearch#textChanged] text = %1", (Object)string);
+        this.log.log(1000000, "[RecipientSearch#textChanged] text = %1", (Object)string);
         boolean bl = Strings.isNullOrEmpty(string);
         if (bl) {
             this.appSearch.cancelQuery();
@@ -209,9 +199,8 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
-        this.log.log(1078071040, "[RecipientSearch#focusedCharacter] focusedCharacter = %1", c2);
+        this.log.log(1000000, "[RecipientSearch#focusedCharacter] focusedCharacter = %1", c2);
         super.focusedCharacter(n, c2, n2);
         Iterator iterator = this.spellerListeners.iterator();
         while (iterator.hasNext()) {
@@ -224,9 +213,8 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.log.log(1078071040, "[RecipientSearch#commandPressed] index = %1", (long)n2);
+        this.log.log(1000000, "[RecipientSearch#commandPressed] index = %1", (long)n2);
         super.commandPressed(n, n2, n3);
         Iterator iterator = this.spellerListeners.iterator();
         while (iterator.hasNext()) {
@@ -239,49 +227,38 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public SearchResultListRow getFormattedRow(SearchResult searchResult) {
-        this.log.log(1078071040, "[RecipientSearch#getFormattedRow] resultRow = %1", (Object)searchResult);
+        this.log.log(1000000, "[RecipientSearch#getFormattedRow] resultRow = %1", (Object)searchResult);
         return super.getFormattedRow(searchResult);
     }
 
-    @Override
     public void refreshQuery() {
         boolean bl = this.mdlSpellerSearchText == null || Strings.isNullOrEmpty(this.mdlSpellerSearchText.getText());
-        this.log.log(1078071040, "[RecipientSearch#refreshQuery] isEmptyQuery = %1", bl);
+        this.log.log(1000000, "[RecipientSearch#refreshQuery] isEmptyQuery = %1", bl);
         if (!bl) {
             super.refreshQuery();
         }
-    }
-
-    static /* synthetic */ void access$000(RecipientSearch recipientSearch, int n, AdbEntry adbEntry) {
-        recipientSearch.handleCommandResult(n, adbEntry);
-    }
-
-    static /* synthetic */ LogChannel access$200(RecipientSearch recipientSearch) {
-        return recipientSearch.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$300(RecipientSearch recipientSearch) {
-        return recipientSearch.msgApp;
-    }
-
-    static /* synthetic */ Map access$400() {
-        return SEARCH_FILTERS_EMAIL;
-    }
-
-    static /* synthetic */ Map access$500() {
-        return SEARCH_FILTERS_SMS;
-    }
-
-    static /* synthetic */ AbstractSearch access$600(RecipientSearch recipientSearch) {
-        return recipientSearch.appSearch;
     }
 
     static {
         SEARCH_FILTERS_SMS.put(Util.createInteger(3), RECIPIENT_SEARCH_FILTER_SMS);
         SEARCH_FILTERS_EMAIL = new HashMap(1, 1.0f);
         SEARCH_FILTERS_EMAIL.put(Util.createInteger(3), RECIPIENT_SEARCH_FILTER_EMAIL);
+    }
+
+    private final class CoreActionProxy
+    extends DefaultCoreActionProxy
+    implements IActionProxySubscriber {
+        private CoreActionProxy() {
+        }
+
+        public void searchableViewTransition(int n, int n2, int n3) {
+            RecipientSearch.this.log.log(10000000, "[RecipientSearch#searchableViewTransition]");
+            if (n3 == 0 && n2 == 1) {
+                Map map = RecipientSearch.this.msgApp.getAccountManager().isEmailMode() ? SEARCH_FILTERS_EMAIL : SEARCH_FILTERS_SMS;
+                ((MessagingSearch)RecipientSearch.this.appSearch).switchConfiguration(RecipientSearch.this, map);
+            }
+        }
     }
 }
 

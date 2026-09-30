@@ -14,7 +14,7 @@ import de.audi.atip.log.LogChannel;
 
 public class NaviPOIOnlineSearchInitCommand
 extends AbstractSystemCallCommand {
-    private static final String PCM_PATH;
+    private static final String PCM_PATH = "/tmp/speech-online.pcm";
     private final boolean oneshotRecog;
     private final NaviSDSPOIOnlineService poiOnlineService;
     private int destinationType;
@@ -26,19 +26,18 @@ extends AbstractSystemCallCommand {
         this.oneshotRecog = this.destinationType == 24;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] oneshotRecog=%2", (Object)this.getName(), (Object)this.oneshotRecog);
+        this.logger.log(10000000, "[%1#execute] oneshotRecog=%2", (Object)this.getName(), (Object)this.oneshotRecog);
         SDSModelAccess.setNaviPOIOnlineRecognitionStatus(-1, 0);
         SDSModelAccess.setNaviDestinationTypeModel(this.destinationType);
         SDSModelAccess.setEnumerationNumberStatus(-1);
         SDSModelAccess.setEnumerationNumberValue(-1);
         this.clearPOIOnlineResultList();
         int n = this.oneshotRecog ? (this.sdsHandlerService.getFramework().isCn() ? 1 : 2) : -1;
-        this.logger.log(-2137614336, "[%1#execute] audioFormat=%2", (Object)this.getName(), (long)n);
-        String string = this.oneshotRecog ? "/tmp/speech-online.pcm" : "";
+        this.logger.log(10000000, "[%1#execute] audioFormat=%2", (Object)this.getName(), (long)n);
+        String string = this.oneshotRecog ? PCM_PATH : "";
         byte by = this.poiOnlineService.poiOnlineSearchInit(this.oneshotRecog, n, string);
-        this.logger.log(-2137614336, "[%1#execute] result=%2!", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#execute] result=%2!", (Object)this.getName(), (long)by);
         this.sendResult(NaviSDSUtils.handlePOIOnlineReplyCode(this.logger, by, this.getName()));
     }
 

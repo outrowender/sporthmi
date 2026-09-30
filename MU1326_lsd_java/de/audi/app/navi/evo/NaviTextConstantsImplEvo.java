@@ -7,156 +7,155 @@ import de.audi.tghu.navi.app.appcore.INaviTextConstants;
 
 public class NaviTextConstantsImplEvo
 implements INaviTextConstants {
-    @Override
     public int mapToVariant(int n) {
         int n2 = -1;
         switch (n) {
             case 0: {
-                n2 = 757270016;
+                n2 = 402221;
                 break;
             }
             case 1: {
-                n2 = 774047232;
+                n2 = 402222;
                 break;
             }
             case 2: {
-                n2 = 790824448;
+                n2 = 402223;
                 break;
             }
             case 3: {
-                n2 = 807601664;
+                n2 = 402224;
                 break;
             }
             case 4: {
-                n2 = 824378880;
+                n2 = 402225;
                 break;
             }
             case 5: {
-                n2 = 841156096;
+                n2 = 402226;
                 break;
             }
             case 6: {
-                n2 = 857933312;
+                n2 = 402227;
                 break;
             }
             case 7: {
-                n2 = 874710528;
+                n2 = 402228;
                 break;
             }
             case 8: {
-                n2 = 891487744;
+                n2 = 402229;
                 break;
             }
             case 9: {
-                n2 = 908264960;
+                n2 = 402230;
                 break;
             }
             case 10: {
-                n2 = 925042176;
+                n2 = 402231;
                 break;
             }
             case 11: {
-                n2 = 941819392;
+                n2 = 402232;
                 break;
             }
             case 12: {
-                n2 = 1562576384;
+                n2 = 402269;
                 break;
             }
             case 13: {
-                n2 = 958596608;
+                n2 = 402233;
                 break;
             }
             case 14: {
-                n2 = 975373824;
+                n2 = 402234;
                 break;
             }
             case 15: {
-                n2 = 992151040;
+                n2 = 402235;
                 break;
             }
             case 16: {
-                n2 = 1008928256;
+                n2 = 402236;
                 break;
             }
             case 17: {
-                n2 = 1025705472;
+                n2 = 402237;
                 break;
             }
             case 18: {
-                n2 = 1042482688;
+                n2 = 402238;
                 break;
             }
             case 19: {
-                n2 = 1059259904;
+                n2 = 402239;
                 break;
             }
             case 20: {
-                n2 = 1076037120;
+                n2 = 402240;
                 break;
             }
             case 21: {
-                n2 = 1092814336;
+                n2 = 402241;
                 break;
             }
             case 22: {
-                n2 = 1109591552;
+                n2 = 402242;
                 break;
             }
             case 23: {
-                n2 = 1126368768;
+                n2 = 402243;
                 break;
             }
             case 24: {
-                n2 = 1143145984;
+                n2 = 402244;
                 break;
             }
             case 25: {
-                n2 = 1159923200;
+                n2 = 402245;
                 break;
             }
             case 26: {
-                n2 = 1176700416;
+                n2 = 402246;
                 break;
             }
             case 43: {
-                n2 = 1310918144;
+                n2 = 402254;
                 break;
             }
             case 44: {
-                n2 = 1327695360;
+                n2 = 402255;
                 break;
             }
             case 45: {
-                n2 = 1344472576;
+                n2 = 402256;
                 break;
             }
             case 47: {
-                n2 = -165542400;
+                n2 = 402166;
                 break;
             }
             case 48: {
-                n2 = 1193543168;
+                n2 = 402503;
                 break;
             }
             case 49: {
-                n2 = 1965229568;
+                n2 = 402293;
                 break;
             }
             case 50: {
-                n2 = 1210320384;
+                n2 = 402504;
                 break;
             }
             case 51: {
-                n2 = 1227097600;
+                n2 = 402505;
                 break;
             }
             case 52: {
-                n2 = 656868864;
+                n2 = 403239;
                 break;
             }
             case 53: {
-                n2 = -1440414208;
+                n2 = 402858;
                 break;
             }
             default: {

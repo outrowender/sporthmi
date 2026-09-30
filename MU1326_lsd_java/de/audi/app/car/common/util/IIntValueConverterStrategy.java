@@ -3,11 +3,11 @@
  */
 package de.audi.app.car.common.util;
 
-public interface IIntValueConverterStrategy {
-    default public int getDSIValue(int n) {
-    }
+import de.audi.app.car.common.exception.ValueConverterStrategyException;
 
-    default public int getHMIValue(int n) {
-    }
+public interface IIntValueConverterStrategy {
+    public int getDSIValue(int var1) throws ValueConverterStrategyException;
+
+    public int getHMIValue(int var1) throws ValueConverterStrategyException;
 }
 

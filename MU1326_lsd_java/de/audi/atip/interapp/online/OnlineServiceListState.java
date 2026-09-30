@@ -6,13 +6,13 @@ package de.audi.atip.interapp.online;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class OnlineServiceListState {
-    public static final int BIT_MASK_SERVICELIST_PENDING;
-    public static final int BIT_MASK_CONNECTIVITY_AVAILABLE;
-    public static final int BIT_MASK_SERVICELIST_ONLINE;
-    public static final int BIT_MASK_SERVICELIST_OFFLINE;
-    public static final int BIT_MASK_OWNERVERIFICATION_OK;
-    public static final int BIT_MASK_OWNERVERIFICATION_AVAILABLE;
-    public static final int EMPTY_SERVICE_STATE;
+    public static final int BIT_MASK_SERVICELIST_PENDING = 16;
+    public static final int BIT_MASK_CONNECTIVITY_AVAILABLE = 1;
+    public static final int BIT_MASK_SERVICELIST_ONLINE = 4;
+    public static final int BIT_MASK_SERVICELIST_OFFLINE = 2;
+    public static final int BIT_MASK_OWNERVERIFICATION_OK = 256;
+    public static final int BIT_MASK_OWNERVERIFICATION_AVAILABLE = 65536;
+    public static final int EMPTY_SERVICE_STATE = 0;
     private int serviceState;
     private int validFlag;
 
@@ -55,7 +55,7 @@ public class OnlineServiceListState {
     }
 
     public boolean isOwnerVerificationAvailable() {
-        return this.checkServiceStateBit(256);
+        return this.checkServiceStateBit(65536);
     }
 
     public String getCurrentServiceStateAsText() {
@@ -81,7 +81,7 @@ public class OnlineServiceListState {
             }
             buffer.append("SL_PENDING");
         }
-        if (this.checkServiceStateBit(256)) {
+        if (this.checkServiceStateBit(65536)) {
             if (buffer.length() != 0) {
                 buffer.append(", ");
             }
@@ -97,7 +97,7 @@ public class OnlineServiceListState {
     }
 
     public String toString() {
-        return new StringBuffer().append("OnlineServiceListState [serviceState=").append(this.getCurrentServiceStateAsText()).append(", isValid=").append(this.isValid()).append("( ").append(this.validFlag).append(" )]").toString();
+        return "OnlineServiceListState [serviceState=" + this.getCurrentServiceStateAsText() + ", isValid=" + this.isValid() + "( " + this.validFlag + " )]";
     }
 
     public boolean equals(OnlineServiceListState onlineServiceListState) {

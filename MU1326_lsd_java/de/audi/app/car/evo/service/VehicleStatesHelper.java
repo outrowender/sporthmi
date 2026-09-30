@@ -34,7 +34,7 @@ public final class VehicleStatesHelper {
             vinMenuEntryState = 0;
             keyDataMenuEntryState = 0;
         }
-        iCarApplication.getFrameworkAccess().getHmiServiceApp().getChoiceModel(992938240).setValue(n);
+        iCarApplication.getFrameworkAccess().getHmiServiceApp().getChoiceModel(601915).setValue(n);
         iCarApplication.getMenuEntryRegistry().updateMenuEntryVisibility(182, vinMenuEntryState);
         iCarApplication.getMenuEntryRegistry().updateMenuEntryVisibility(181, keyDataMenuEntryState);
     }

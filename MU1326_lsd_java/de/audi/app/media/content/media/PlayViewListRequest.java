@@ -13,11 +13,11 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class PlayViewListRequest
 extends AbstractQueueJob {
-    private static final String LOGCLASS;
-    private static final int NO_REQUEST_ID;
-    private static final int INVALID_ENTRYID;
-    private static final int INVALID_INDEX;
-    private static final int INVALID_LENGTH;
+    private static final String LOGCLASS = "PlayViewListRequest";
+    private static final int NO_REQUEST_ID = -1;
+    private static final int INVALID_ENTRYID = -1;
+    private static final int INVALID_INDEX = -1;
+    private static final int INVALID_LENGTH = -1;
     private final LogChannel logger;
     private final AbstractMediaPlayViewList playViewList;
     protected final IPlayer player;
@@ -52,19 +52,16 @@ extends AbstractQueueJob {
         this(logChannel, abstractMediaPlayViewList, iPlayer, -1, -1, l, -1);
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public String getName() {
-        return "PlayViewListRequest";
+        return LOGCLASS;
     }
 
-    @Override
     public void start() {
-        this.logger.log(1078071040, "[%1.start]", (Object)"PlayViewListRequest");
+        this.logger.log(1000000, "[%1.start]", (Object)LOGCLASS);
         if (-1L == this.entryId) {
             this.requestPlayViewListIndexBased(this.startIndex, this.length);
         } else {
@@ -73,14 +70,13 @@ extends AbstractQueueJob {
     }
 
     public void responsePlayView(int n, MediaListEntry[] mediaListEntryArray, int n2) {
-        this.logger.log(1078071040, "[%1.responsePlayView]", (Object)"PlayViewListRequest");
+        this.logger.log(1000000, "[%1.responsePlayView]", (Object)LOGCLASS);
         this.playViewList.updateList(mediaListEntryArray, n, n2, this.requestId);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort] run='%2'", (Object)"PlayViewListRequest", (Object)Boolean.toString(bl));
+        this.logger.log(1000000, "[%1.abort] run='%2'", (Object)LOGCLASS, (Object)Boolean.toString(bl));
         if (-1 != this.requestId) {
             this.playViewList.getPlayViewListModel().setRows(this.requestId, this.startIndex, new EvoListRow[0]);
         }
@@ -90,43 +86,43 @@ extends AbstractQueueJob {
     }
 
     protected final void requestPlayViewListIndexBased(int n, int n2) {
-        this.logger.log(1078071040, "[%1.requestPlayViewListIndexBased] '%2' '%3'.", (Object)"PlayViewListRequest", (long)n, (long)n2);
+        this.logger.log(1000000, "[%1.requestPlayViewListIndexBased] '%2' '%3'.", (Object)LOGCLASS, (long)n, (long)n2);
         if (this.playViewList.getListProgressIndicator() != null) {
             this.playViewList.getListProgressIndicator().startIndication();
         }
         if (this.playViewList.getListSize() > this.playViewList.getWindowRequestSize() && !this.playViewList.isRequestFullList()) {
-            this.logger.log(1078071040, "[%1.requestPlayViewList] Request window.", (Object)"PlayViewListRequest");
+            this.logger.log(1000000, "[%1.requestPlayViewList] Request window.", (Object)LOGCLASS);
             this.player.requestPlayViewListIndexBased(this.playViewList.getClientID(), n, n2);
         } else {
-            this.logger.log(1078071040, "[%1.requestPlayViewList] Request full list.", (Object)"PlayViewListRequest");
+            this.logger.log(1000000, "[%1.requestPlayViewList] Request full list.", (Object)LOGCLASS);
             this.player.requestPlayViewListIndexBased(this.playViewList.getClientID(), 0, this.playViewList.getListSize());
         }
     }
 
     protected final void requestPlayViewList(long l) {
-        this.logger.log(1078071040, "[%1.requestPlayViewList] '%2'.", (Object)"PlayViewListRequest", l);
+        this.logger.log(1000000, "[%1.requestPlayViewList] '%2'.", (Object)LOGCLASS, l);
         if (l == -1L) {
-            this.logger.log(-2137614336, "[%1.requestPlayViewList] Invalid entry ID.", (Object)"PlayViewListRequest");
+            this.logger.log(10000000, "[%1.requestPlayViewList] Invalid entry ID.", (Object)LOGCLASS);
             return;
         }
         if (this.playViewList.getListProgressIndicator() != null) {
             this.playViewList.getListProgressIndicator().startIndication();
         }
         if (this.playViewList.getListSize() > this.playViewList.getWindowRequestSize() && !this.playViewList.isRequestFullList()) {
-            this.logger.log(1078071040, "[%1.requestPlayViewList] Request window.", (Object)"PlayViewListRequest");
+            this.logger.log(1000000, "[%1.requestPlayViewList] Request window.", (Object)LOGCLASS);
             this.player.requestPlayViewListEntryBased(this.playViewList.getClientID(), l, this.playViewList.getWindowRequestSize() / 2);
         } else {
-            this.logger.log(1078071040, "[%1.requestPlayViewList] Request full list.", (Object)"PlayViewListRequest");
+            this.logger.log(1000000, "[%1.requestPlayViewList] Request full list.", (Object)LOGCLASS);
             this.player.requestPlayViewListIndexBased(this.playViewList.getClientID(), 0, this.playViewList.getListSize());
         }
     }
 
     public void errorListRequestAborted() {
         if (-1 == this.requestId) {
-            this.logger.log(1078071040, "[%1.errorListRequestAborted] Error list request.", (Object)"PlayViewListRequest");
+            this.logger.log(1000000, "[%1.errorListRequestAborted] Error list request.", (Object)LOGCLASS);
             this.playViewList.errorForJumpToTrackListRequest();
         } else {
-            this.logger.log(1078071040, "[%1.errorListRequestAborted] Error for widget list request.", (Object)"PlayViewListRequest");
+            this.logger.log(1000000, "[%1.errorListRequestAborted] Error for widget list request.", (Object)LOGCLASS);
             this.playViewList.getPlayViewListModel().setRows(this.requestId, this.startIndex, new EvoListRow[0]);
         }
         this.getExecutionContext().jobFinished();

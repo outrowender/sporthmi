@@ -40,16 +40,12 @@ ServiceTrackerCustomizer {
         this.currentState = null;
     }
 
-    @Override
-    public abstract AbstractInterappState getDefaultState() {
-    }
+    public abstract AbstractInterappState getDefaultState();
 
-    @Override
     public void handleRemoteEvent(IInterappEvent iInterappEvent) {
         this.handleEvent(this.getCurrentState(), iInterappEvent);
     }
 
-    @Override
     public void dispatchEvent(IInterappEvent iInterappEvent) {
         for (int i2 = 0; i2 < this.statemachineInstances.length; ++i2) {
             if (this.statemachineInstances[i2] == null) continue;
@@ -70,7 +66,7 @@ ServiceTrackerCustomizer {
     private void handleEvent(AbstractInterappState abstractInterappState, IInterappEvent iInterappEvent) {
         String string = abstractInterappState.getStateName();
         String string2 = iInterappEvent.getName();
-        this.log.log(1078071040, "AbstractInterappSM#dispatchEvent %1 to state %2", (Object)string2, (Object)string);
+        this.log.log(1000000, "AbstractInterappSM#dispatchEvent %1 to state %2", (Object)string2, (Object)string);
         switch (iInterappEvent.getSmComponent()) {
             case 1: {
                 abstractInterappState.handleEvent((IInterappPhoneEvent)iInterappEvent);
@@ -112,13 +108,13 @@ ServiceTrackerCustomizer {
             ++this.transitionDepthCounter;
             String string = this.currentState.getStateName();
             String string2 = abstractInterappState.getStateName();
-            this.log.log(1078071040, "[AbstractInterappSM#transitionTo] %1 --> %2", (Object)string, (Object)string2);
+            this.log.log(1000000, "[AbstractInterappSM#transitionTo] %1 --> %2", (Object)string, (Object)string2);
             AbstractInterappState abstractInterappState3 = this.currentState.exitAction(iInterappEvent, abstractInterappState);
             int n = 3;
             do {
                 abstractInterappState2 = abstractInterappState3;
                 string2 = abstractInterappState2.getStateName();
-                this.log.log(1078071040, "[AbstractInterappSM#transitionTo] (%2) calling %1.entryAction", (Object)string2, (long)n);
+                this.log.log(1000000, "[AbstractInterappSM#transitionTo] (%2) calling %1.entryAction", (Object)string2, (long)n);
             } while (!abstractInterappState2.equals(abstractInterappState3 = abstractInterappState2.entryAction(iInterappEvent, this.currentState)) && --n > 0);
             if (!abstractInterappState2.equals(abstractInterappState3)) {
                 this.log.log(10000, "AbstractInterappSM#transitionTo maximum redirection count exceeded!");
@@ -128,7 +124,7 @@ ServiceTrackerCustomizer {
             if (this.transitionDepthCounter > 0) {
                 --this.transitionDepthCounter;
             } else {
-                this.log.log(-1601830656, "AbstractInterappSM#transitionTo state %1 transitionDepthCounter %2 ", (Object)abstractInterappState.getStateName(), (long)this.transitionDepthCounter);
+                this.log.log(100000, "AbstractInterappSM#transitionTo state %1 transitionDepthCounter %2 ", (Object)abstractInterappState.getStateName(), (long)this.transitionDepthCounter);
             }
         }
         catch (Exception exception) {
@@ -149,7 +145,6 @@ ServiceTrackerCustomizer {
         return this.currentState.getStateName();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof AbstractInterappSM) {
@@ -160,7 +155,6 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof AbstractInterappSM) {
             AbstractInterappSM abstractInterappSM = (AbstractInterappSM)object;
@@ -169,7 +163,6 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof AbstractInterappSM) {
             AbstractInterappSM abstractInterappSM;
@@ -177,12 +170,10 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public int getSmComponentId() {
         return this.instanceId;
     }
 
-    @Override
     public void init() {
         this.currentState = this.getDefaultState();
         this.serviceTracker = new ServiceTracker(this.bundleContext, new String[]{(class$de$audi$atip$interapp$sm$AbstractInterappSM == null ? (class$de$audi$atip$interapp$sm$AbstractInterappSM = AbstractInterappSM.class$("de.audi.atip.interapp.sm.AbstractInterappSM")) : class$de$audi$atip$interapp$sm$AbstractInterappSM).getName()}, (ServiceTrackerCustomizer)this);
@@ -190,7 +181,6 @@ ServiceTrackerCustomizer {
         this.registration = this.bundleContext.registerService((class$de$audi$atip$interapp$sm$AbstractInterappSM == null ? (class$de$audi$atip$interapp$sm$AbstractInterappSM = AbstractInterappSM.class$("de.audi.atip.interapp.sm.AbstractInterappSM")) : class$de$audi$atip$interapp$sm$AbstractInterappSM).getName(), (Object)this, (Dictionary)new Hashtable(0));
     }
 
-    @Override
     public void deinit() {
         this.serviceTracker.close();
         this.serviceTracker = null;

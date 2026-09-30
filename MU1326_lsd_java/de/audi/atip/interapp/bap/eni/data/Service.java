@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.bap.eni.data;
 
 import de.audi.atip.interapp.bap.eni.data.License;
-import de.audi.atip.interapp.bap.eni.data.Service$Builder;
 
 public class Service {
     private boolean disablingByDriverAllowed;
@@ -21,8 +20,8 @@ public class Service {
     private final License license;
     private final boolean gpsRequired;
 
-    public static Service$Builder builder() {
-        return new Service$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private Service(int n, String string, String string2, String string3, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, License license, boolean bl6, boolean bl7, boolean bl8) {
@@ -92,7 +91,7 @@ public class Service {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         Service service = (Service)object;
@@ -155,6 +154,90 @@ public class Service {
 
     public boolean isServiceAllowedByVehicle() {
         return this.serviceAllowedByVehicle;
+    }
+
+    public static final class Builder {
+        private int internalId;
+        private String id;
+        private String name;
+        private String version;
+        private boolean enabled;
+        private boolean roamingAllowed;
+        private boolean hasExpirationWarning;
+        private boolean isProtected;
+        private boolean enabledByUser;
+        private License license;
+        private boolean gpsRequired;
+        private boolean disablingByDriverAllowed = true;
+        private boolean serviceAllowedByVehicle;
+
+        public Builder setInternalId(int n) {
+            this.internalId = n;
+            return this;
+        }
+
+        public Builder setId(String string) {
+            this.id = string;
+            return this;
+        }
+
+        public Builder setName(String string) {
+            this.name = string;
+            return this;
+        }
+
+        public Builder setVersion(String string) {
+            this.version = string;
+            return this;
+        }
+
+        public Builder setEnabled(boolean bl) {
+            this.enabled = bl;
+            return this;
+        }
+
+        public Builder setRoamingAllowed(boolean bl) {
+            this.roamingAllowed = bl;
+            return this;
+        }
+
+        public Builder setHasExpirationWarning(boolean bl) {
+            this.hasExpirationWarning = bl;
+            return this;
+        }
+
+        public Builder setProtected(boolean bl) {
+            this.isProtected = bl;
+            return this;
+        }
+
+        public Builder setEnabledByUser(boolean bl) {
+            this.enabledByUser = bl;
+            return this;
+        }
+
+        public Builder setLicense(License license) {
+            this.license = license;
+            return this;
+        }
+
+        public Builder setGPSRequired(boolean bl) {
+            this.gpsRequired = bl;
+            return this;
+        }
+
+        public Builder setDisablingByDriverAllowed(boolean bl) {
+            this.disablingByDriverAllowed = bl;
+            return this;
+        }
+
+        public void setAllowedByVehicle(boolean bl) {
+            this.serviceAllowedByVehicle = bl;
+        }
+
+        public Service build() {
+            return new Service(this.internalId, this.id, this.name, this.version, this.enabled, this.roamingAllowed, this.hasExpirationWarning, this.isProtected, this.enabledByUser, this.license, this.gpsRequired, this.disablingByDriverAllowed, this.serviceAllowedByVehicle);
+        }
     }
 }
 

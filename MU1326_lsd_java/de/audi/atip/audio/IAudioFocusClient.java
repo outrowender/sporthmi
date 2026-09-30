@@ -4,7 +4,6 @@
 package de.audi.atip.audio;
 
 public interface IAudioFocusClient {
-    default public void updateAudioFocus(int n, int n2) {
-    }
+    public void updateAudioFocus(int var1, int var2);
 }
 

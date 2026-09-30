@@ -23,8 +23,8 @@ public class DataTruffleSearchController
 extends AbstractMediaTerminalComponent
 implements IActionProxyListener,
 IDataBrowserListChangeListener {
-    private static final String SEARCH_LOGGER;
-    private static final String LOGCLASS;
+    private static final String SEARCH_LOGGER = "App.Media.Search";
+    private static final String LOGCLASS = "DataTruffleSearchController";
     private final LogChannel logger;
     private final DataMediaSearch mediaSearch;
     private final AbstractSearchHandlerEvo globalSearchHandler;
@@ -38,16 +38,16 @@ IDataBrowserListChangeListener {
     public DataTruffleSearchController(IMediaTerminal iMediaTerminal, IDataBrowserList iDataBrowserList, IFavoritesBrowserList iFavoritesBrowserList) {
         super(iMediaTerminal);
         this.dataBrowserList = iDataBrowserList;
-        this.logger = iMediaTerminal.getFramework().getLogChannel("App.Media.Search");
+        this.logger = iMediaTerminal.getFramework().getLogChannel(SEARCH_LOGGER);
         this.mediaSearch = new DataMediaSearch(this.getTerminal().getServiceManager().getBundleContext(), this.getTerminal().getFramework(), this.logger);
-        this.globalSearchHandler = new GlobalSearchHandler(this.logger, this.getBaseListModel(0x11100300), this.getSpellerModel(-770768128), this.getChoiceModel(-737213696), this.getLabelModel(-720436480), this.getChoiceModel(-787545344), this.getResourceLocatorModel(-804322560), this.mediaSearch, iDataBrowserList, this.getChoiceModel(756024064), this.getChoiceModel(-1643052288), iMediaTerminal);
-        this.localSearchHandler = new LocalSearchHandler(this.logger, this.getBaseListModel(0x10100300), this.getSpellerModel(-1341193472), this.getChoiceModel(-1307639040), this.getLabelModel(-1290861824), this.getChoiceModel(-1357970688), this.getResourceLocatorModel(-804322560), this.mediaSearch, iDataBrowserList, this.getChoiceModel(739246848), this.getChoiceModel(1762657024));
-        this.browserGlobalSearchHandler = new BrowserGlobalSearchHandler(this.logger, this.getBaseListModel(0x10100300), this.getSpellerModel(-1341193472), this.getChoiceModel(-1307639040), this.getLabelModel(-1290861824), this.getChoiceModel(-1357970688), this.getResourceLocatorModel(-804322560), this.mediaSearch, iDataBrowserList, this.getChoiceModel(739246848), this.getChoiceModel(1762657024), this.getChoiceModel(-1643052288), iMediaTerminal);
-        this.favoritesSearchHandler = new FavoritesSearchHandler(this.logger, this.getBaseListModel(252707584), this.getSpellerModel(34603776), this.getChoiceModel(0x3100300), this.getChoiceModel(-1357970688), this.mediaSearch, iFavoritesBrowserList, this.getChoiceModel(739246848));
+        this.globalSearchHandler = new GlobalSearchHandler(this.logger, this.getBaseListModel(200721), this.getSpellerModel(200658), this.getChoiceModel(200660), this.getLabelModel(200661), this.getChoiceModel(200657), this.getResourceLocatorModel(200656), this.mediaSearch, iDataBrowserList, this.getChoiceModel(200749), this.getChoiceModel(201118), iMediaTerminal);
+        this.localSearchHandler = new LocalSearchHandler(this.logger, this.getBaseListModel(200720), this.getSpellerModel(200624), this.getChoiceModel(200626), this.getLabelModel(200627), this.getChoiceModel(200623), this.getResourceLocatorModel(200656), this.mediaSearch, iDataBrowserList, this.getChoiceModel(200748), this.getChoiceModel(200809));
+        this.browserGlobalSearchHandler = new BrowserGlobalSearchHandler(this.logger, this.getBaseListModel(200720), this.getSpellerModel(200624), this.getChoiceModel(200626), this.getLabelModel(200627), this.getChoiceModel(200623), this.getResourceLocatorModel(200656), this.mediaSearch, iDataBrowserList, this.getChoiceModel(200748), this.getChoiceModel(200809), this.getChoiceModel(201118), iMediaTerminal);
+        this.favoritesSearchHandler = new FavoritesSearchHandler(this.logger, this.getBaseListModel(200719), this.getSpellerModel(200706), this.getChoiceModel(200707), this.getChoiceModel(200623), this.mediaSearch, iFavoritesBrowserList, this.getChoiceModel(200748));
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"DataTruffleSearchController");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.mediaSearch.init();
         this.globalSearchHandler.init();
         this.localSearchHandler.init();
@@ -58,7 +58,7 @@ IDataBrowserListChangeListener {
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"DataTruffleSearchController");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.getTerminal().removeActionProxyListener(this);
         this.globalSearchHandler.deinit();
         this.localSearchHandler.deinit();
@@ -68,7 +68,7 @@ IDataBrowserListChangeListener {
     }
 
     public void activate(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"DataTruffleSearchController");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.localSearchHandler.activate(iSourceSlot);
         this.globalSearchHandler.activate();
         this.browserGlobalSearchHandler.activate();
@@ -81,7 +81,7 @@ IDataBrowserListChangeListener {
     }
 
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"DataTruffleSearchController");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.localSearchHandler.deactivate();
         if (this.activeSlot != null) {
             this.getTerminal().getSourceController().removeSlotListener(this.activeSlot.getSource(), this.localSearchHandler);
@@ -93,11 +93,10 @@ IDataBrowserListChangeListener {
         this.mediaSearch.deactivate();
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         block0 : switch (n) {
             case 39: {
-                this.logger.log(1078071040, "[%1.actionProxyCallPerformed] BROWSER_START_SEARCH_BROWSING", (Object)"DataTruffleSearchController");
+                this.logger.log(1000000, "[%1.actionProxyCallPerformed] BROWSER_START_SEARCH_BROWSING", (Object)LOGCLASS);
                 Integer n2 = (Integer)map.get("BROWSETYPE");
                 switch (n2) {
                     case 1: 
@@ -128,29 +127,29 @@ IDataBrowserListChangeListener {
                         break block0;
                     }
                 }
-                this.logger.log(1078071040, "[%1.actionProxyCallPerformed] Type not supported.", (Object)"DataTruffleSearchController");
+                this.logger.log(1000000, "[%1.actionProxyCallPerformed] Type not supported.", (Object)LOGCLASS);
                 break;
             }
             case 26: {
-                this.logger.log(1078071040, "[%1.actionProxyCallPerformed] BROWSER_TRUFFLE_DISABLE", (Object)"DataTruffleSearchController");
+                this.logger.log(1000000, "[%1.actionProxyCallPerformed] BROWSER_TRUFFLE_DISABLE", (Object)LOGCLASS);
                 this.localSearchHandler.reset();
                 this.browserGlobalSearchHandler.reset();
                 this.favoritesSearchHandler.reset();
                 break;
             }
             case 25: {
-                this.logger.log(1078071040, "[%1.actionProxyCallPerformed] PLAYER_NEW_SEARCH", (Object)"DataTruffleSearchController");
+                this.logger.log(1000000, "[%1.actionProxyCallPerformed] PLAYER_NEW_SEARCH", (Object)LOGCLASS);
                 this.globalSearchHandler.reset();
                 this.mediaSearch.setActiveGuiSearchHandler(this.globalSearchHandler);
                 break;
             }
             case 29: {
-                this.logger.log(1078071040, "[%1.actionProxyCallPerformed] AP_METHOD_BROWSER_TRUFFLE_DISABLE_ANIM_WAIT", (Object)"DataTruffleSearchController");
+                this.logger.log(1000000, "[%1.actionProxyCallPerformed] AP_METHOD_BROWSER_TRUFFLE_DISABLE_ANIM_WAIT", (Object)LOGCLASS);
                 this.waitForFadedOut = true;
                 break;
             }
             case 37: {
-                this.logger.log(1078071040, "[%1.actionProxyCallPerformed] AP_METHOD_SCREEN_FADED_OUT", (Object)"DataTruffleSearchController");
+                this.logger.log(1000000, "[%1.actionProxyCallPerformed] AP_METHOD_SCREEN_FADED_OUT", (Object)LOGCLASS);
                 if (!this.waitForFadedOut) break;
                 this.waitForFadedOut = false;
                 this.localSearchHandler.reset();
@@ -159,7 +158,7 @@ IDataBrowserListChangeListener {
                 break;
             }
             case 23: {
-                this.logger.log(1078071040, "[%1.actionProxyCallPerformed] BROWSER_START_BROWSING", (Object)"DataTruffleSearchController");
+                this.logger.log(1000000, "[%1.actionProxyCallPerformed] BROWSER_START_BROWSING", (Object)LOGCLASS);
                 Integer n3 = (Integer)map.get("BROWSETYPE");
                 switch (n3) {
                     case 1: 
@@ -172,11 +171,11 @@ IDataBrowserListChangeListener {
                     case 8: 
                     case 9: 
                     case 10: {
-                        this.logger.log(1078071040, "[%1.actionProxyCallPerformed] Ignored for all Browsertypes but Favorites.", (Object)"DataTruffleSearchController");
+                        this.logger.log(1000000, "[%1.actionProxyCallPerformed] Ignored for all Browsertypes but Favorites.", (Object)LOGCLASS);
                         break block0;
                     }
                     case 11: {
-                        this.logger.log(1078071040, "[%1.actionProxyCallPerformed] AP_CONST_BROWSERTYPE_FAVORITS", (Object)"DataTruffleSearchController");
+                        this.logger.log(1000000, "[%1.actionProxyCallPerformed] AP_CONST_BROWSERTYPE_FAVORITS", (Object)LOGCLASS);
                         this.favoritesSearchHandler.reset();
                         this.mediaSearch.setActiveGuiSearchHandler(this.favoritesSearchHandler);
                         this.globalSearchHandler.reset();
@@ -184,23 +183,20 @@ IDataBrowserListChangeListener {
                         break block0;
                     }
                 }
-                this.logger.log(1078071040, "[%1.actionProxyCallPerformed] Type not supported.", (Object)"DataTruffleSearchController");
+                this.logger.log(1000000, "[%1.actionProxyCallPerformed] Type not supported.", (Object)LOGCLASS);
                 break;
             }
         }
     }
 
-    @Override
     public void browseListTypeChanged(int n) {
     }
 
-    @Override
     public void browseListLayoutChanged(int n) {
     }
 
-    @Override
     public void browseListCategorySelected(int n) {
-        this.logger.log(1078071040, "[%1.browseListCategorySelected] %2", (Object)"DataTruffleSearchController", (long)n);
+        this.logger.log(1000000, "[%1.browseListCategorySelected] %2", (Object)LOGCLASS, (long)n);
         switch (n) {
             case 1: 
             case 8: 
@@ -218,7 +214,7 @@ IDataBrowserListChangeListener {
             case 5: 
             case 6: 
             case 7: {
-                if (this.getChoiceModel(1762657024).getValue() == 0) {
+                if (this.getChoiceModel(200809).getValue() == 0) {
                     this.localSearchHandler.reset();
                     this.browserGlobalSearchHandler.reset();
                 }
@@ -232,12 +228,11 @@ IDataBrowserListChangeListener {
                 break;
             }
             default: {
-                this.logger.log(1078071040, "[%1.browseListCategorySelected] category not supported.", (Object)"DataTruffleSearchController");
+                this.logger.log(1000000, "[%1.browseListCategorySelected] category not supported.", (Object)LOGCLASS);
             }
         }
     }
 
-    @Override
     public void lastBrowseListCategoryChanged(int n) {
     }
 }

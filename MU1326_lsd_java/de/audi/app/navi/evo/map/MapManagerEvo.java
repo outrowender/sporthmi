@@ -40,27 +40,23 @@ extends MapManager {
         super(navigationEnv, iconHandler, iNaviInterface, functionCounter, iSDSController, iMapPropertyProvider, iMapFactory, iGUIFactory, locationSerializer, iCommandListFactory, iSetupHandler, new MapInterface(navigationEnv, iSDSController, iCommandListFactory, mapOptionValidator), mapOptionValidator, mapSelectionHandlerFactory);
     }
 
-    @Override
     protected IPreviewMap initPreviewMapHandler(MapMain mapMain) {
         if (Util.isPreviewMapPresent(this.env.getFramework())) {
             return new PreviewMapHandlerEvo(this.env, mapMain, this.env.getFramework().getHMIService().getScreenManager(0), this.env.getFramework().getHMIService().getPopupManager(0));
         }
-        this.getLogChannel().log(1078071040, "MapManagerEvo#initPreviewMapHandler() - preview map not available, deactivating feature");
+        this.getLogChannel().log(1000000, "MapManagerEvo#initPreviewMapHandler() - preview map not available, deactivating feature");
         return new NullPreviewMapHandler();
     }
 
-    @Override
     protected SatelliteMapsMediator createSatelliteMapsMediator(NavigationEnv navigationEnv, IconHandler iconHandler) {
         this.satelliteMapsGUI = new SatelliteMapsGUIEVO(navigationEnv);
         return new SatelliteMapsMediator(navigationEnv, this, this.satelliteMapsGUI, iconHandler);
     }
 
-    @Override
     protected IDrawerStateHandler initDrawerStateHandler() {
         return new DrawerStateHandlerEvo(this.getNavigationEnv(), this.getMapInterface());
     }
 
-    @Override
     public IContextFactory getContextFactory() {
         if (this.mCtxFactory == null) {
             this.mCtxFactory = new ContextFactoryEvo();
@@ -68,12 +64,10 @@ extends MapManager {
         return this.mCtxFactory;
     }
 
-    @Override
     protected IMapPartialPopupHandler createMapPartialPopupHandler() {
         return new MapPartialPopupEvoHandler(this.env);
     }
 
-    @Override
     public void cleanup() {
         super.cleanup();
         if (this.satelliteMapsGUI != null) {

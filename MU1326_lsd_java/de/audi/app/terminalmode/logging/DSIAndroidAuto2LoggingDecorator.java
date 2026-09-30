@@ -20,7 +20,6 @@ implements DSIAndroidAuto2 {
         this.wrappee = dSIAndroidAuto2;
     }
 
-    @Override
     public void audioFocusNotification(int n, boolean bl) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.audioFocusNotification] %1, %2", (Object)DSIAndroidAuto2LoggingDecorator.audioFocusNotificationToString(n), (Object)this.isUnsolicitedtoString(bl));
         this.wrappee.audioFocusNotification(n, bl);
@@ -53,31 +52,26 @@ implements DSIAndroidAuto2 {
         return String.valueOf(n);
     }
 
-    @Override
     public void bluetoothAuthenticationData(String string) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.bluetoothAuthenticationData] %1", (Object)string);
         this.wrappee.bluetoothAuthenticationData(string);
     }
 
-    @Override
     public void bluetoothPairingResponse(boolean bl) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.bluetoothPairingResponse] %1", (Object)(bl ? "already paired" : "not paired"));
         this.wrappee.bluetoothPairingResponse(bl);
     }
 
-    @Override
     public void microphoneNotification(int n, boolean bl) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.microphoneNotification] micModeStatus %1, %2", (Object)new Integer(n), (Object)this.isUnsolicitedtoString(bl));
         this.wrappee.microphoneNotification(n, bl);
     }
 
-    @Override
     public void navFocusNotification(int n, boolean bl) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.navFocusNotification] navFocusType %1, %2", (Object)new Integer(n), (Object)this.isUnsolicitedtoString(bl));
         this.wrappee.navFocusNotification(n, bl);
     }
 
-    @Override
     public void postButtonEvent(int n, int n2) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.postButtonEvent] button %1, buttonState %2", (Object)DSIAndroidAuto2LoggingDecorator.buttonToString(n), (long)n2);
         this.wrappee.postButtonEvent(n, n2);
@@ -251,31 +245,26 @@ implements DSIAndroidAuto2 {
         return String.valueOf(n);
     }
 
-    @Override
     public void postRotaryEvent(int n) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.postRotaryEvent] ticks %1", (long)n);
         this.wrappee.postRotaryEvent(n);
     }
 
-    @Override
     public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2, int n3) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.postTouchEvent] touchSource %1, %2, action %3, actionIndex %4", (Object)new Integer(n), (Object)Arrays2.toString(touchEventArray), (Object)new Integer(n2), (Object)Integer.toString(n3));
         this.wrappee.postTouchEvent(n, touchEventArray, n2, n3);
     }
 
-    @Override
     public void setNightMode(boolean bl) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.setNightMode] %1", bl);
         this.wrappee.setNightMode(bl);
     }
 
-    @Override
     public void startService(ServiceConfiguration serviceConfiguration) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.startService] %1", (Object)serviceConfiguration);
         this.wrappee.startService(serviceConfiguration);
     }
 
-    @Override
     public void videoFocusNotification(int n, boolean bl) {
         this.lc.log(this.level, "-> [DSIAndroidAuto2.videoFocusNotification] videoFocusMode %1, %2", (Object)new Integer(n), (Object)this.isUnsolicitedtoString(bl));
         this.wrappee.videoFocusNotification(n, bl);

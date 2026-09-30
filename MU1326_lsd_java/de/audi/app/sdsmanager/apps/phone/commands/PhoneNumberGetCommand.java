@@ -25,9 +25,8 @@ extends AbstractSystemCallCommand {
         this.numberTypeID = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: numberTypeID=%2!", (Object)this.getName(), (long)this.numberTypeID);
+        this.logger.log(10000000, "%1#execute: numberTypeID=%2!", (Object)this.getName(), (long)this.numberTypeID);
         List list = new ArrayList(3);
         switch (this.numberTypeID) {
             case 0: 
@@ -37,16 +36,16 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#execute: Unhandled numberTypeID %2!", (Object)this.getName(), (long)this.numberTypeID);
+                this.logger.log(100000, "%1#execute: Unhandled numberTypeID %2!", (Object)this.getName(), (long)this.numberTypeID);
                 this.sendResult(30001);
                 return;
             }
         }
         String string = PhoneSequenceHandler.sequencetoString(list);
-        this.logger.log(-2137614336, "%1#execute: numberList=%2, number=%3!", (Object)this.getName(), (Object)list, (Object)string);
+        this.logger.log(10000000, "%1#execute: numberList=%2, number=%3!", (Object)this.getName(), (Object)list, (Object)string);
         int n = list.size();
         String string2 = n < 1 ? "" : ((PhoneSequenceElement)list.get(n - 1)).getNumber();
-        this.logger.log(-2137614336, "%1#execute: size=%3, lastNumber=%2!", (Object)this.getName(), (Object)string2, (long)n);
+        this.logger.log(10000000, "%1#execute: size=%3, lastNumber=%2!", (Object)this.getName(), (Object)string2, (long)n);
         SDSModelAccess.setPhoneCompleteNumberModel(string);
         SDSModelAccess.setPhoneLastSequenceModel(string2);
         this.sendResult(30000);

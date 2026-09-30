@@ -4,19 +4,14 @@
 package de.audi.app.terminalmode.smartphone;
 
 public interface ISpeechRequestHandler {
-    default public void prewarm() {
-    }
+    public void prewarm();
 
-    default public void cancelPrewarm() {
-    }
+    public void cancelPrewarm();
 
-    default public void startSpeechSession() {
-    }
+    public void startSpeechSession();
 
-    default public void abortActiveSpeechSession() {
-    }
+    public void abortActiveSpeechSession();
 
-    default public void pttReleasedAfterLongPress() {
-    }
+    public void pttReleasedAfterLongPress();
 }
 

@@ -47,13 +47,13 @@ extends AbstractListAdapterFastListAudio {
             dataReceptionList.nameReceptionList = combiBAPReceptionListEntry.getName();
             dataReceptionList.frequency = combiBAPReceptionListEntry.getFrequency();
         } else {
-            this.logChannel.log(10000, "[ReceptionListAdapterFastList#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry = ReceptionListAdapterFastList.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPReceptionListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[ReceptionListAdapterFastList#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry = ReceptionListAdapterFastList.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPReceptionListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return dataReceptionList;
     }
 
     private void sendCurrentListSize() {
-        this.logChannel.log(-2137614336, "[ReceptionListAdapterFastList#sendCurrentListSize] called (currentListSizeNotification=%1)", this.currentListSizeNotification);
+        this.logChannel.log(10000000, "[ReceptionListAdapterFastList#sendCurrentListSize] called (currentListSizeNotification=%1)", this.currentListSizeNotification);
         if (this.currentListSizeNotification) {
             CombiBAPArrayElement[] combiBAPArrayElementArray = ((ReceptionListHandler)this.listHandler).getManagedList();
             this.dsiFastListControllerReceptionList.pushCurrentListSizeReceptionList(combiBAPArrayElementArray.length);
@@ -61,35 +61,30 @@ extends AbstractListAdapterFastListAudio {
     }
 
     private void sendCurrentList() {
-        this.logChannel.log(-2137614336, "[ReceptionListAdapterFastList#sendCurrentList] called (pushListNotification=%1)", this.pushListNotification);
+        this.logChannel.log(10000000, "[ReceptionListAdapterFastList#sendCurrentList] called (pushListNotification=%1)", this.pushListNotification);
         if (this.pushListNotification) {
             CombiBAPArrayElement[] combiBAPArrayElementArray = ((ReceptionListHandler)this.listHandler).getManagedList();
             this.dsiFastListControllerReceptionList.pushReceptionList(this.convertList(combiBAPArrayElementArray));
         }
     }
 
-    @Override
     public boolean sendFullRangeUpdate() {
         this.sendCurrentListSize();
         this.sendCurrentList();
         return false;
     }
 
-    @Override
     public boolean isSpontaneousStatusRequestSupported() {
         return true;
     }
 
-    @Override
     public void sendStatusRequest(GetArrayIndication getArrayIndication, CombiBAPArrayElement[] combiBAPArrayElementArray) {
     }
 
-    @Override
     public void sendChangedArrayRequest(ListDelta listDelta) {
         this.sendFullRangeUpdate();
     }
 
-    @Override
     public void setNotificationReceptionList(boolean bl) {
         this.pushListNotification = bl;
         if (bl) {
@@ -97,7 +92,6 @@ extends AbstractListAdapterFastListAudio {
         }
     }
 
-    @Override
     public void setNotificationCurrentListSizes(boolean bl) {
         this.currentListSizeNotification = bl;
         if (bl) {
@@ -105,25 +99,20 @@ extends AbstractListAdapterFastListAudio {
         }
     }
 
-    @Override
     public void addMediaBrowserJob(int n, int n2, ArrayHeader arrayHeader) {
     }
 
-    @Override
     public void addMediaBrowserJobs(int n, int n2, ArrayHeader[] arrayHeaderArray) {
     }
 
-    @Override
     public int[] getDSINotifications() {
         return new int[0];
     }
 
-    @Override
     public IDSIController getDSIController() {
         return this.dsiFastListControllerReceptionList;
     }
 
-    @Override
     public int getDSIListID() {
         return -1;
     }

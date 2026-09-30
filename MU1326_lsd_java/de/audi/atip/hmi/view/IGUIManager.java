@@ -8,58 +8,40 @@ import de.audi.atip.hmi.event.MergeKZBAsyncEvent;
 import de.audi.atip.hmi.event.PersonalPoiDatabaseUpdateEvent;
 
 public interface IGUIManager {
-    default public void draw() {
-    }
+    public void draw();
 
-    default public void swapBuffers() {
-    }
+    public void swapBuffers();
 
-    default public void readPixels(int[] nArray) {
-    }
+    public void readPixels(int[] var1);
 
-    default public void setUnsupportedDevelopmentBuild(boolean bl) {
-    }
+    public void setUnsupportedDevelopmentBuild(boolean var1);
 
-    default public void doErrorHandling(Exception exception, int n) {
-    }
+    public void doErrorHandling(Exception var1, int var2);
 
-    default public boolean isDrawMissing() {
-    }
+    public boolean isDrawMissing();
 
-    default public void setDrawMissing(boolean bl) {
-    }
+    public void setDrawMissing(boolean var1);
 
-    default public void setMMICombiContextID(int n) {
-    }
+    public void setMMICombiContextID(int var1);
 
-    default public void dumpGlyphCache(String string) {
-    }
+    public void dumpGlyphCache(String var1);
 
-    default public void processEvent(EALMergeEvent eALMergeEvent) {
-    }
+    public void processEvent(EALMergeEvent var1);
 
-    default public void processEvent(MergeKZBAsyncEvent mergeKZBAsyncEvent) {
-    }
+    public void processEvent(MergeKZBAsyncEvent var1);
 
-    default public void processEvent(PersonalPoiDatabaseUpdateEvent personalPoiDatabaseUpdateEvent) {
-    }
+    public void processEvent(PersonalPoiDatabaseUpdateEvent var1);
 
-    default public String getRAMStatus() {
-    }
+    public String getRAMStatus();
 
-    default public String getVRAMStatus() {
-    }
+    public String getVRAMStatus();
 
-    default public boolean isPartialRenderingEnabled() {
-    }
+    public boolean isPartialRenderingEnabled();
 
-    default public boolean isOffscreenPartialRenderingEnabled() {
-    }
+    public boolean isOffscreenPartialRenderingEnabled();
 
-    default public void setMainAreaMaterialProperties(boolean bl, float f2, float f3) {
-    }
+    public void setMainAreaMaterialProperties(boolean var1, float var2, float var3);
 
-    default public int[] getImageHeaderInformation(String string) {
-    }
+    public int[] getImageHeaderInformation(String var1);
 }
 

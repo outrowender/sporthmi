@@ -17,9 +17,8 @@ extends AbstractAddressInputScreenWorkFlowManagerKR {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 40602: {
                 this.createKRVillageStreetScreenSelectListElementWorkFlow(commandList);
@@ -37,13 +36,13 @@ extends AbstractAddressInputScreenWorkFlowManagerKR {
     }
 
     private void createKRVillageStreetScreenSelectListElementWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createKRRefinementScreenSelectListElementWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createKRRefinementScreenSelectListElementWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
         this.spellerStack.pop();
     }
 
     private void createKRVillageStreetScreenEnteredWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createKRVillageStreetScreenEnteredWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createKRVillageStreetScreenEnteredWorkFlow", (Object)this.CLASS_NAME);
         SpellerContext spellerContext = this.getSpellerContext(45);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         commandList.add(this.inputManager.getVillageStreetScreenListener().getStartCommandList());

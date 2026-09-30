@@ -7,9 +7,8 @@ import de.esolutions.fw.util.commons.error.DumpInfoProvider;
 
 public interface IStatisticsInfoProvider
 extends DumpInfoProvider {
-    public static final String FIELD_SEPERATOR;
+    public static final String FIELD_SEPERATOR = ";";
 
-    default public void reset() {
-    }
+    public void reset();
 }
 

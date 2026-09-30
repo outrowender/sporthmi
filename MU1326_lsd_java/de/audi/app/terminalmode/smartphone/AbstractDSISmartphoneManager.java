@@ -1,26 +1,22 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
- *  de.audi.atip.utils.Preconditions
  */
 package de.audi.app.terminalmode.smartphone;
 
 import de.audi.app.terminalmode.IContext;
 import de.audi.app.terminalmode.ITMDeviceSubsystem;
 import de.audi.app.terminalmode.ITerminalModeComponent;
-import de.audi.app.terminalmode.SmartphoneManager$SmartphoneType;
+import de.audi.app.terminalmode.SmartphoneManager;
 import de.audi.app.terminalmode.dsi.IDSIAppState;
 import de.audi.app.terminalmode.dsi.IDSIControllerStateListener;
 import de.audi.app.terminalmode.keyevents.TMKeyEventsHandler;
-import de.audi.app.terminalmode.smartphone.AbstractDSISmartphoneManager$MediaChannelState;
 import de.audi.app.terminalmode.smartphone.IDSISmartphoneManager;
 import de.audi.app.terminalmode.smartphone.IDSISmartphoneManagerListener;
 import de.audi.app.terminalmode.smartphone.IPlayerModificationListener;
 import de.audi.app.terminalmode.statemachine.Application;
 import de.audi.app.terminalmode.statemachine.SpeechMode;
 import de.audi.app.terminalmode.statemachine.TMState;
+import de.audi.app.terminalmode.util.Enum;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.utils.Preconditions;
 
@@ -30,62 +26,56 @@ IDSIControllerStateListener,
 IPlayerModificationListener,
 ITerminalModeComponent,
 ITMDeviceSubsystem {
-    private static final String LOGCLASS;
-    protected static final int INSTANCE_ID;
+    private static final String LOGCLASS = "AbstractDSISmartphoneManager";
+    protected static final int INSTANCE_ID = 0;
     protected final LogChannel logger;
     protected final IContext context;
     protected final TMKeyEventsHandler keyEventsHandler;
-    private final SmartphoneManager$SmartphoneType type;
+    private final SmartphoneManager.SmartphoneType type;
     protected volatile IDSISmartphoneManagerListener smartphoneManagerListener;
     private volatile boolean dsiAvailable;
     protected volatile boolean active;
     protected volatile long messageIdCounter;
-    protected volatile AbstractDSISmartphoneManager$MediaChannelState mediaState;
-    protected final AbstractDSISmartphoneManager$MediaChannelState NORMAL = new AbstractDSISmartphoneManager$MediaChannelState(this, "NORMAL");
-    protected final AbstractDSISmartphoneManager$MediaChannelState PAUSE = new AbstractDSISmartphoneManager$MediaChannelState(this, "PAUSE");
-    protected final AbstractDSISmartphoneManager$MediaChannelState PAUSED_BY_MUTE = new AbstractDSISmartphoneManager$MediaChannelState(this, "PAUSED_BY_MUTE");
+    protected volatile MediaChannelState mediaState;
+    protected final MediaChannelState NORMAL = new MediaChannelState("NORMAL");
+    protected final MediaChannelState PAUSE = new MediaChannelState("PAUSE");
+    protected final MediaChannelState PAUSED_BY_MUTE = new MediaChannelState("PAUSED_BY_MUTE");
     static /* synthetic */ Class class$de$audi$app$terminalmode$smartphone$IDSISmartphoneManagerListener;
 
-    public AbstractDSISmartphoneManager(IContext iContext, SmartphoneManager$SmartphoneType smartphoneManager$SmartphoneType) {
+    public AbstractDSISmartphoneManager(IContext iContext, SmartphoneManager.SmartphoneType smartphoneType) {
         this.logger = iContext.getLogger().main();
         this.context = iContext;
         this.dsiAvailable = false;
         this.keyEventsHandler = iContext.getKeyEventsHandler();
-        this.type = smartphoneManager$SmartphoneType;
+        this.type = smartphoneType;
         this.mediaState = this.NORMAL;
     }
 
-    @Override
     public void init() {
-        this.logger.log(14808325, "[%1.init]", (Object)"AbstractDSISmartphoneManager");
+        this.logger.log(100000000, "[%1.init]", (Object)LOGCLASS);
         this.messageIdCounter = 0L;
-        this.smartphoneManagerListener = (IDSISmartphoneManagerListener)Preconditions.checkNotNull((Object)((IDSISmartphoneManagerListener)this.context.get(this.type, class$de$audi$app$terminalmode$smartphone$IDSISmartphoneManagerListener == null ? (class$de$audi$app$terminalmode$smartphone$IDSISmartphoneManagerListener = AbstractDSISmartphoneManager.class$("de.audi.app.terminalmode.smartphone.IDSISmartphoneManagerListener")) : class$de$audi$app$terminalmode$smartphone$IDSISmartphoneManagerListener)));
+        this.smartphoneManagerListener = Preconditions.checkNotNull((IDSISmartphoneManagerListener)this.context.get(this.type, class$de$audi$app$terminalmode$smartphone$IDSISmartphoneManagerListener == null ? (class$de$audi$app$terminalmode$smartphone$IDSISmartphoneManagerListener = AbstractDSISmartphoneManager.class$("de.audi.app.terminalmode.smartphone.IDSISmartphoneManagerListener")) : class$de$audi$app$terminalmode$smartphone$IDSISmartphoneManagerListener));
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"AbstractDSISmartphoneManager");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
     }
 
-    @Override
     public void activate() {
         this.mediaState = this.NORMAL;
     }
 
-    @Override
     public void deactivate() {
     }
 
-    @Override
     public final void dsiUnavailable() {
-        this.logger.log(1078071040, "[%1.dsiUnavailable]", (Object)"AbstractDSISmartphoneManager");
+        this.logger.log(1000000, "[%1.dsiUnavailable]", (Object)LOGCLASS);
         this.dsiAvailable = false;
         this.smartphoneManagerListener.updateDSIState(false);
     }
 
-    @Override
     public final void dsiAvailable() {
-        this.logger.log(1078071040, "[%1.dsiAvailable]", (Object)"AbstractDSISmartphoneManager");
+        this.logger.log(1000000, "[%1.dsiAvailable]", (Object)LOGCLASS);
         this.dsiAvailable = true;
         if (this.active) {
             this.smartphoneManagerListener.updateDSIState(true);
@@ -114,16 +104,13 @@ ITMDeviceSubsystem {
         return 0;
     }
 
-    protected abstract IDSIAppState createAppState(int n, int n2, int n3) {
-    }
+    protected abstract IDSIAppState createAppState(int var1, int var2, int var3);
 
-    @Override
     public final IPlayerModificationListener getPlayerModificationListener() {
         return this;
     }
 
-    @Override
-    public final SmartphoneManager$SmartphoneType getSmartphoneType() {
+    public final SmartphoneManager.SmartphoneType getSmartphoneType() {
         return this.type;
     }
 
@@ -133,6 +120,16 @@ ITMDeviceSubsystem {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    /*
+     * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+     */
+    public class MediaChannelState
+    extends Enum<MediaChannelState> {
+        protected MediaChannelState(String string) {
+            super(string);
         }
     }
 }

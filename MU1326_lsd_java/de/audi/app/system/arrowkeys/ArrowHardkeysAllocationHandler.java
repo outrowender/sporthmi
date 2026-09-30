@@ -21,40 +21,34 @@ ChoiceListener {
         this.log = this.framework.getLogChannel("App.System.ArrowKeys");
     }
 
-    @Override
     public void processMsg(int n) {
         switch (n) {
             case 101: {
                 this.arrowHardkeysAllocationChoiceModel = this.framework.getHmiServiceApp().getChoiceModel(4304);
                 this.arrowHardkeysAllocationChoiceModel.setValue(this.framework.getStorageMgr().getInt(1011, 49, 1));
                 this.arrowHardkeysAllocationChoiceModel.setChoiceListener(this);
-                this.log.log(1078071040, "Initializing arrow hardkeys allocation value to %1", (long)this.arrowHardkeysAllocationChoiceModel.getValue());
+                this.log.log(1000000, "Initializing arrow hardkeys allocation value to %1", (long)this.arrowHardkeysAllocationChoiceModel.getValue());
                 break;
             }
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         switch (n) {
             case 4304: {
-                this.log.log(1078071040, "Arrow Khardkeys allocation setting %1 is pressed", (long)n2);
+                this.log.log(1000000, "Arrow Khardkeys allocation setting %1 is pressed", (long)n2);
                 if (this.arrowHardkeysAllocationChoiceModel == null) break;
                 this.arrowHardkeysAllocationChoiceModel.setValue(n2);
                 this.framework.getStorageMgr().setInt(1011, 49, this.arrowHardkeysAllocationChoiceModel.getValue());
@@ -63,7 +57,6 @@ ChoiceListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 }

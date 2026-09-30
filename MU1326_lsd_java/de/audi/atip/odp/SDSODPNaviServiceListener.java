@@ -3,22 +3,17 @@
  */
 package de.audi.atip.odp;
 
-import de.audi.atip.odp.SDSODPNaviService$POIEntry;
+import de.audi.atip.odp.SDSODPNaviService;
 
 public interface SDSODPNaviServiceListener {
-    default public void responseSelectPOIByUID(byte by, SDSODPNaviService.POIEntry[] pOIEntryArray) {
-    }
+    public void responseSelectPOIByUID(byte var1, SDSODPNaviService.POIEntry[] var2);
 
-    default public void responseSelectPOIByListIndex(byte by) {
-    }
+    public void responseSelectPOIByListIndex(byte var1);
 
-    default public void responseStartRouteGuidance(byte by, long l) {
-    }
+    public void responseStartRouteGuidance(byte var1, long var2);
 
-    default public void responseStopRouteGuidance(byte by) {
-    }
+    public void responseStopRouteGuidance(byte var1);
 
-    default public void responseSetPOISearchArea(byte by) {
-    }
+    public void responseSetPOISearchArea(byte var1);
 }
 

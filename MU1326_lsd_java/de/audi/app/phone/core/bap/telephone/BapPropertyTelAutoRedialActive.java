@@ -16,12 +16,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return n == 0x5000100 || n == 0x5000200 || n == 0x5000300;
+        return n == 65541 || n == 131077 || n == 196613;
     }
 
-    @Override
     protected void updateAsync() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.getCallLeadingDeviceState();
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();

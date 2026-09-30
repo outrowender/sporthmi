@@ -22,24 +22,20 @@ implements IGlobalEcallStateListener {
         this.ecallBluetoothHandler = new EcallBluetoothHandler(iEcallApplication);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getEcallStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getEcallStateManager().removeListener(this);
     }
 
-    @Override
     protected IEcallComponent[] getSubComponents() {
         return new IEcallComponent[]{this.ecallBluetoothHandler};
     }
 
-    @Override
     public void updateGlobalEcallStateProperty(int n, IEcallStateStruct iEcallStateStruct) {
         PhoneCall phoneCall;
         PendingServiceRequests pendingServiceRequests;
@@ -75,13 +71,13 @@ implements IGlobalEcallStateListener {
     }
 
     private void activateEcall() {
-        this.log.log(1078071040, "KoreaEmergencyCallHandler#activateEcall(): called");
+        this.log.log(1000000, "KoreaEmergencyCallHandler#activateEcall(): called");
         this.getApplication().getTelServiceEcallHandler().hangupAllCalls();
         this.ecallBluetoothHandler.switchOffBluetooth();
     }
 
     private void deactivateEcall() {
-        this.log.log(1078071040, "KoreaEmergencyCallHandler#deactivateEcall(): called");
+        this.log.log(1000000, "KoreaEmergencyCallHandler#deactivateEcall(): called");
         this.ecallBluetoothHandler.switchOnBluetooth();
     }
 }

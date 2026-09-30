@@ -4,10 +4,8 @@
 package de.audi.app.terminalmode.osgi;
 
 public interface IServiceTracker {
-    default public void open() {
-    }
+    public void open();
 
-    default public void close() {
-    }
+    public void close();
 }
 

@@ -7,7 +7,6 @@ import de.audi.atip.interapp.combi.bap.CombiBAPServiceListener;
 
 public interface CombiBAPServiceMessagingListener
 extends CombiBAPServiceListener {
-    default public void setSMSState(int n) {
-    }
+    public void setSMSState(int var1);
 }
 

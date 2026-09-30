@@ -11,7 +11,7 @@ import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class CombiBrowserState {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CombiBrowserState";
     private final LogChannel logger;
     private volatile int absolutePositionCurrentTrack;
     private volatile boolean isBrowsingPlaybackFolder;
@@ -36,7 +36,7 @@ public class CombiBrowserState {
     }
 
     public void setAbsolutePositionCurrentTrack(int n) {
-        this.logger.log(-2137614336, "[%1.setAbsolutePositionCurrentTrack] pos='%2'", (Object)"CombiBrowserState", (long)n);
+        this.logger.log(10000000, "[%1.setAbsolutePositionCurrentTrack] pos='%2'", (Object)LOGCLASS, (long)n);
         this.absolutePositionCurrentTrack = n < 0 ? 0 : n;
     }
 

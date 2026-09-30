@@ -27,18 +27,16 @@ MsgListener {
         this.listeners = new HashMap();
     }
 
-    @Override
     public void init() {
-        this.logChannel.log(1078071040, "[MessageDispatcher#init] called");
+        this.logChannel.log(1000000, "[MessageDispatcher#init] called");
         this.msgListenerProvider.startService();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.logChannel.log(1078071040, "[MessageDispatcher#deinit] called");
+        this.logChannel.log(1000000, "[MessageDispatcher#deinit] called");
         this.msgListenerProvider.stopService();
         Map map = this.listeners;
         synchronized (map) {
@@ -49,9 +47,8 @@ MsgListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addMessageListener(int n, MsgListener msgListener) {
-        this.logChannel.log(1078071040, "[MessageDispatcher#addMessageListener] msgID='%1', listener='%2'", (Object)Integer.toString(n), (Object)msgListener.toString());
+        this.logChannel.log(1000000, "[MessageDispatcher#addMessageListener] msgID='%1', listener='%2'", (Object)Integer.toString(n), (Object)msgListener.toString());
         Map map = this.listeners;
         synchronized (map) {
             LinkedList linkedList = (LinkedList)this.listeners.get(new Integer(n));
@@ -60,7 +57,7 @@ MsgListener {
                 this.listeners.put(new Integer(n), linkedList);
             }
             if (linkedList.contains(msgListener)) {
-                this.logChannel.log(1078071040, "[MessageDispatcher#addMessageListener] Listener is already added.");
+                this.logChannel.log(1000000, "[MessageDispatcher#addMessageListener] Listener is already added.");
                 return;
             }
             linkedList.add(msgListener);
@@ -70,9 +67,8 @@ MsgListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeMessageListener(int n, MsgListener msgListener) {
-        this.logChannel.log(1078071040, "[MessageDispatcher#removeMessageListener] msgID='%1', listener='%2'", (Object)Integer.toString(n), (Object)msgListener.toString());
+        this.logChannel.log(1000000, "[MessageDispatcher#removeMessageListener] msgID='%1', listener='%2'", (Object)Integer.toString(n), (Object)msgListener.toString());
         Map map = this.listeners;
         synchronized (map) {
             LinkedList linkedList = (LinkedList)this.listeners.get(new Integer(n));
@@ -86,10 +82,9 @@ MsgListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void processMsg(int n) {
         LinkedList linkedList;
-        this.logChannel.log(1078071040, "[MessageDispatcher#processMsg] msgID='%1'", (long)n);
+        this.logChannel.log(1000000, "[MessageDispatcher#processMsg] msgID='%1'", (long)n);
         Object object = this.listeners;
         synchronized (object) {
             LinkedList linkedList2 = (LinkedList)this.listeners.get(new Integer(n));
@@ -104,7 +99,7 @@ MsgListener {
                 ((MsgListener)object.next()).processMsg(n);
             }
             catch (Exception exception) {
-                this.logChannel.log(-1601830656, "[MessageDispatcher#processMsg] exception occured: ", (Throwable)exception);
+                this.logChannel.log(100000, "[MessageDispatcher#processMsg] exception occured: ", (Throwable)exception);
             }
         }
     }

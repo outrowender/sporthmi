@@ -28,12 +28,10 @@ extends AbstractListAdapterFastListNavi {
         super(arrayHandler);
     }
 
-    @Override
     public int[] getDSINotifications() {
         return new int[0];
     }
 
-    @Override
     public boolean sendFullRangeUpdate() {
         this.sendCurrentListSize();
         this.sendCurrentList();
@@ -41,7 +39,7 @@ extends AbstractListAdapterFastListNavi {
     }
 
     private void sendCurrentListSize() {
-        this.logChannel.log(-2137614336, "[AbstractDestinationsListAdapterFastList#sendCurrentListSize] called (currentListSizeNotification=%1", this.currentListSizeNotification);
+        this.logChannel.log(10000000, "[AbstractDestinationsListAdapterFastList#sendCurrentListSize] called (currentListSizeNotification=%1", this.currentListSizeNotification);
         if (this.currentListSizeNotification) {
             CombiBAPArrayElement[] combiBAPArrayElementArray = ((AbstractManagedListHandler)this.listHandler).getManagedList();
             this.pushCurrentListSize(combiBAPArrayElementArray.length);
@@ -49,18 +47,16 @@ extends AbstractListAdapterFastListNavi {
     }
 
     protected void sendCurrentList() {
-        this.logChannel.log(-2137614336, "[AbstractDestinationsListAdapterFastList#sendCurrentList] called (pushListNotification=%1)", this.pushListNotification);
+        this.logChannel.log(10000000, "[AbstractDestinationsListAdapterFastList#sendCurrentList] called (pushListNotification=%1)", this.pushListNotification);
         if (this.pushListNotification) {
             CombiBAPArrayElement[] combiBAPArrayElementArray = ((AbstractManagedListHandler)this.listHandler).getManagedList();
             this.pushList(this.convertList(combiBAPArrayElementArray));
         }
     }
 
-    protected abstract void pushCurrentListSize(int n) {
-    }
+    protected abstract void pushCurrentListSize(int var1);
 
-    protected abstract void pushList(DataAddress[] dataAddressArray) {
-    }
+    protected abstract void pushList(DataAddress[] var1);
 
     private DataAddress[] convertList(CombiBAPArrayElement[] combiBAPArrayElementArray) {
         DataAddress[] dataAddressArray = new DataAddress[combiBAPArrayElementArray.length];
@@ -99,7 +95,7 @@ extends AbstractListAdapterFastListNavi {
                 dataAddress.addressType = combiBAPNaviDestinationArray[0].getAddressType();
             }
         } else {
-            this.logChannel.log(10000, "[AbstractDestinationsListAdapterFastList#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPDestinationListEntry == null ? (class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPDestinationListEntry = AbstractDestinationsListAdapterFastList.class$("de.audi.atip.interapp.combi.bap.navi.data.CombiBAPDestinationListEntry")) : class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPDestinationListEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[AbstractDestinationsListAdapterFastList#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPDestinationListEntry == null ? (class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPDestinationListEntry = AbstractDestinationsListAdapterFastList.class$("de.audi.atip.interapp.combi.bap.navi.data.CombiBAPDestinationListEntry")) : class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPDestinationListEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return dataAddress;
     }
@@ -116,21 +112,17 @@ extends AbstractListAdapterFastListNavi {
         return buffer.toString();
     }
 
-    @Override
     public boolean isSpontaneousStatusRequestSupported() {
         return true;
     }
 
-    @Override
     public void sendStatusRequest(GetArrayIndication getArrayIndication, CombiBAPArrayElement[] combiBAPArrayElementArray) {
     }
 
-    @Override
     public void sendChangedArrayRequest(ListDelta listDelta) {
         this.sendFullRangeUpdate();
     }
 
-    @Override
     public void setNotificationCurrentListSizes(boolean bl) {
         this.currentListSizeNotification = bl;
         if (bl) {
@@ -138,11 +130,9 @@ extends AbstractListAdapterFastListNavi {
         }
     }
 
-    @Override
     public void addNavBookJob(int n, int n2, ArrayHeader arrayHeader) {
     }
 
-    @Override
     public void addNavBookJobs(int n, int n2, ArrayHeader[] arrayHeaderArray) {
     }
 

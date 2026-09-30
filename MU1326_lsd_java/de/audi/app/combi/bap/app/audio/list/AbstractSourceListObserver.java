@@ -16,7 +16,6 @@ public abstract class AbstractSourceListObserver {
         return this.sourceToWaitFor;
     }
 
-    public abstract void notifySourceAdded(CombiBAPAudioSource combiBAPAudioSource) {
-    }
+    public abstract void notifySourceAdded(CombiBAPAudioSource var1);
 }
 

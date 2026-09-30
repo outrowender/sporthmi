@@ -6,10 +6,8 @@ package de.audi.app.messaging.core.accounts;
 import org.dsi.ifc.messaging.MessagingAccount;
 
 public interface IAccountFilter {
-    default public boolean accept(MessagingAccount messagingAccount) {
-    }
+    public boolean accept(MessagingAccount var1);
 
-    default public String getDescription() {
-    }
+    public String getDescription();
 }
 

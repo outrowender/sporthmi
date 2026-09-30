@@ -13,22 +13,18 @@ extends AbstractACCDistanceWarningComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(858261760, (short)0);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600115, (short)0);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(858261760);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600115);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(ACCViewOptions aCCViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(858261760, this.getMenuEntryVisibilityState(aCCViewOptions.getDistanceWarning()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600115, this.getMenuEntryVisibilityState(aCCViewOptions.getDistanceWarning()));
     }
 
-    @Override
     public int getID() {
         return 35;
     }

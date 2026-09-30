@@ -4,15 +4,13 @@
 package de.audi.app.combi.bap.app.kombipictures;
 
 public interface IPictureProvider {
-    public static final int PICTURE_PROVIDER_TYPE_COVER_ART;
-    public static final int PICTURE_PROVIDER_TYPE_STATION_ART;
-    public static final int PICTURE_PROVIDER_TYPE_CALL_PICTURE;
-    public static final int PICTURE_PROVIDER_TYPE_ADB_CONTACT_PICTURE;
+    public static final int PICTURE_PROVIDER_TYPE_COVER_ART = 0;
+    public static final int PICTURE_PROVIDER_TYPE_STATION_ART = 1;
+    public static final int PICTURE_PROVIDER_TYPE_CALL_PICTURE = 2;
+    public static final int PICTURE_PROVIDER_TYPE_ADB_CONTACT_PICTURE = 3;
 
-    default public void requestPicture(long l) {
-    }
+    public void requestPicture(long var1);
 
-    default public void requestPicture(long l, int n) {
-    }
+    public void requestPicture(long var1, int var3);
 }
 

@@ -4,7 +4,6 @@
 package de.audi.app.car.core.boardbook;
 
 import de.audi.app.car.core.boardbook.BoardbookFilePlayerSession;
-import de.audi.app.car.core.boardbook.BoardbookHandler$ViewSizeHelper;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.browser.IBrowserCallbackHandler;
 import de.audi.atip.browser.IBrowserHandler;
@@ -16,16 +15,17 @@ import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.hmi.modelaccess.RangeModelApp;
 import de.audi.atip.interapp.media.IMediaFilePlayerService;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.mmicombi.IViewSizeListener;
 import de.audi.atip.mmicombi.IViewSizeManager;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class BoardbookHandler
 implements IBrowserCallbackHandler,
 ButtonListener {
-    public static final int VIDEO_START_PLAY;
-    public static final int VIDEO_FINISHED;
-    public static final String[] SUPPORTED_VIDEO_MIME_TYPES;
-    private BoardbookHandler$ViewSizeHelper viewSizeListener = new BoardbookHandler$ViewSizeHelper(this);
+    public static final int VIDEO_START_PLAY = 1;
+    public static final int VIDEO_FINISHED = 0;
+    public static final String[] SUPPORTED_VIDEO_MIME_TYPES = new String[]{"video/x-msvideo", "audio/midi", "video/mpeg", "audio/ogg"};
+    private ViewSizeHelper viewSizeListener = new ViewSizeHelper();
     private IViewSizeManager viewSizeService;
     private ButtonModelApp errorButtonModel;
     private ChoiceModelApp errorChoiceModel;
@@ -48,7 +48,7 @@ ButtonListener {
         this.logChannel = logChannel;
         this.hmiService = iFrameworkAccess.getHMIService();
         this.currentSession = new BoardbookFilePlayerSession(logChannel, this, iFrameworkAccess.getScreenRes(), iFrameworkAccess.isEvoHighMMIKombi());
-        this.hmiService.getButtonModel(-2127820544).setButtonListener(this);
+        this.hmiService.getButtonModel(601217).setButtonListener(this);
     }
 
     public void initializeModels(ButtonModelApp buttonModelApp, ChoiceModelApp choiceModelApp, LabelModelApp labelModelApp, LabelModelApp labelModelApp2, LabelModelApp labelModelApp3, RangeModelApp rangeModelApp) {
@@ -74,19 +74,17 @@ ButtonListener {
         this.errorButtonModel.setButtonListener(this);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "BoardbookHandler#keyTyped: model %1, keyId %2", (long)n, (long)n2);
-        if (n == -2127820544) {
-            this.logChannel.log(1078071040, "BoardbookHandler#keyTyped: Virtual Button Pressed");
+        this.logChannel.log(1000000, "BoardbookHandler#keyTyped: model %1, keyId %2", (long)n, (long)n2);
+        if (n == 601217) {
+            this.logChannel.log(1000000, "BoardbookHandler#keyTyped: Virtual Button Pressed");
             if (n2 == 15) {
-                this.logChannel.log(1078071040, "BoardbookHandler#keyTyped: Virtual Button HK Return was pressed");
+                this.logChannel.log(1000000, "BoardbookHandler#keyTyped: Virtual Button HK Return was pressed");
                 this.returnFromVideoToBoardbook();
             }
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
@@ -96,19 +94,18 @@ ButtonListener {
 
     private void setErrorChoiceModelValue(int n) {
         if (this.errorChoiceModel != null) {
-            this.logChannel.log(-2137614336, "BoardbookBrowserHandler#setErrorChoiceModelValue: %1", (long)n);
+            this.logChannel.log(10000000, "BoardbookBrowserHandler#setErrorChoiceModelValue: %1", (long)n);
             this.errorChoiceModel.setValue(n);
         }
     }
 
     private void setErrorChoiceModelStatus(int n) {
         if (this.errorChoiceModel != null) {
-            this.logChannel.log(-2137614336, "BoardbookBrowserHandler#setErrorChoiceModelStatus: %1", (long)n);
+            this.logChannel.log(10000000, "BoardbookBrowserHandler#setErrorChoiceModelStatus: %1", (long)n);
             this.errorChoiceModel.setStatus(n);
         }
     }
 
-    @Override
     public void indicateBrowserStateNotFound() {
         if (this.errorChoiceModel != null) {
             this.setErrorChoiceModelStatus(2);
@@ -116,7 +113,6 @@ ButtonListener {
         }
     }
 
-    @Override
     public void indicateBrowserStateComplete() {
         if (this.errorChoiceModel != null) {
             this.setErrorChoiceModelStatus(1);
@@ -125,9 +121,9 @@ ButtonListener {
     }
 
     public void handleVideo(String string, String string2) {
-        this.logChannel.log(1078071040, "BoardbookHandler#handleVideo url %1, description \"%2\"", (Object)string, (Object)string2);
+        this.logChannel.log(1000000, "BoardbookHandler#handleVideo url %1, description \"%2\"", (Object)string, (Object)string2);
         if (this.viewSizeService != null && this.viewSizeService.getCurrentViewSize() == 1) {
-            this.logChannel.log(1078071040, "BoardbookHandler#handleVideo() display manager is in SMALL Stage View...aborting");
+            this.logChannel.log(1000000, "BoardbookHandler#handleVideo() display manager is in SMALL Stage View...aborting");
             return;
         }
         String string3 = string2;
@@ -151,33 +147,31 @@ ButtonListener {
     }
 
     protected void returnFromVideoToBoardbook() {
-        this.logChannel.log(1078071040, "BoardbookHandler#returnFromVideoToBoardbook: closing session and invoking event");
+        this.logChannel.log(1000000, "BoardbookHandler#returnFromVideoToBoardbook: closing session and invoking event");
         if (this.mediaService != null) {
-            this.logChannel.log(-2137614336, "BoardbookHandler#returnFromVideoToBoardbook: closing session");
+            this.logChannel.log(10000000, "BoardbookHandler#returnFromVideoToBoardbook: closing session");
             this.mediaService.close(this.currentSession);
         }
-        this.hmiService.getChoiceModel(-919926528).setValue(0);
+        this.hmiService.getChoiceModel(601033).setValue(0);
     }
 
     public void setMediaService(IMediaFilePlayerService iMediaFilePlayerService) {
-        this.logChannel.log(1078071040, "BoardbookHandler#setMediaService called");
+        this.logChannel.log(1000000, "BoardbookHandler#setMediaService called");
         if (iMediaFilePlayerService != null) {
             this.mediaService = iMediaFilePlayerService;
         }
     }
 
-    @Override
     public boolean scrollDown(int n) {
         return false;
     }
 
-    @Override
     public boolean scrollUp(int n) {
         return false;
     }
 
     public void updatePlayPosition(int n, int n2) {
-        this.logChannel.log(1078071040, "BoardbookHandler#updatePlayPosition %1 %2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "BoardbookHandler#updatePlayPosition %1 %2", (long)n, (long)n2);
         if (this.progress != null) {
             this.progress.setLimits(0, n2, 1);
             this.progress.setValue(n);
@@ -209,48 +203,41 @@ ButtonListener {
     }
 
     public void startMediaPlayback() {
-        this.logChannel.log(1078071040, "BoardbookHandler#startMediaPlayback: called");
+        this.logChannel.log(1000000, "BoardbookHandler#startMediaPlayback: called");
     }
 
     public ChoiceModelApp getDisplayContextModel() {
         return this.displayContextModel;
     }
 
-    @Override
     public boolean indicateEfiUrl(String string) {
         return false;
     }
 
-    @Override
     public void belowLowerThreshold(int n) {
     }
 
-    @Override
     public void exceedsUpperThreshold(int n) {
     }
 
-    @Override
     public void indicateBrowserStateTimeout() {
     }
 
-    @Override
     public void javascriptAlert(String string) {
     }
 
-    @Override
     public boolean press() {
-        this.logChannel.log(-2137614336, "BoardbookHandler#press DDS Enter pressed!");
-        if (this.hmiService.getChoiceModel(-919926528).getValue() == 0) {
-            this.logChannel.log(1078071040, "BoardbookHandler#press Video finished! %1", (long)this.hmiService.getChoiceModel(-919926528).getValue());
+        this.logChannel.log(10000000, "BoardbookHandler#press DDS Enter pressed!");
+        if (this.hmiService.getChoiceModel(601033).getValue() == 0) {
+            this.logChannel.log(1000000, "BoardbookHandler#press Video finished! %1", (long)this.hmiService.getChoiceModel(601033).getValue());
             return false;
         }
-        this.hmiService.getVirtualButtonModel(1680673024).fireEvent(0);
+        this.hmiService.getVirtualButtonModel(601444).fireEvent(0);
         return true;
     }
 
-    @Override
     public void indicateBoardbookAvailable(boolean bl) {
-        this.logChannel.log(1078071040, "BoardbookHandler#indicateBoardbookAvailable %1", bl);
+        this.logChannel.log(1000000, "BoardbookHandler#indicateBoardbookAvailable %1", bl);
     }
 
     public void setBrowserHandler(IBrowserHandler iBrowserHandler) {
@@ -263,61 +250,66 @@ ButtonListener {
     }
 
     public void triggerScreenChangeToVideo() {
-        this.logChannel.log(-2137614336, "BoardbookHandler#triggerScreenChangeToVideo: called");
-        this.hmiService.getChoiceModel(-919926528).setValue(1);
+        this.logChannel.log(10000000, "BoardbookHandler#triggerScreenChangeToVideo: called");
+        this.hmiService.getChoiceModel(601033).setValue(1);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "BoardbookHandler#keyPressed: modelID: %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(10000000, "BoardbookHandler#keyPressed: modelID: %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "BoardbookHandler#keyReleased: modelID: %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(10000000, "BoardbookHandler#keyReleased: modelID: %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
     }
 
-    @Override
     public void updateScrollbarX(int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "BoardbookHandler#updateScrollbarX: pageContentWidth: %1, visibleAreaWidth %2, scrollPositionX %3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(10000000, "BoardbookHandler#updateScrollbarX: pageContentWidth: %1, visibleAreaWidth %2, scrollPositionX %3", (long)n, (long)n2, (long)n3);
     }
 
-    @Override
     public void updateScrollbarY(int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "BoardbookHandler#updateScrollbarY: pageContentHeight: %1, visibleAreaHeight %2, scrollPositionY %3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(10000000, "BoardbookHandler#updateScrollbarY: pageContentHeight: %1, visibleAreaHeight %2, scrollPositionY %3", (long)n, (long)n2, (long)n3);
     }
 
-    @Override
     public void updateBrowserStateBusy(boolean bl) {
-        this.logChannel.log(-2137614336, "BoardbookHandler#updateBrowserStateBusy: busy: %1", bl);
+        this.logChannel.log(10000000, "BoardbookHandler#updateBrowserStateBusy: busy: %1", bl);
     }
 
-    @Override
     public void updateBrowserState(int n) {
-        this.logChannel.log(-2137614336, "BoardbookHandler#updateBrowserState: busy: %1", (long)n);
+        this.logChannel.log(10000000, "BoardbookHandler#updateBrowserState: busy: %1", (long)n);
     }
 
-    @Override
     public void virtualButtonBack() {
-        this.logChannel.log(-2137614336, "BoardbookHandler#virtualButtonBack: called");
+        this.logChannel.log(10000000, "BoardbookHandler#virtualButtonBack: called");
     }
 
     public void setVideoLoading(boolean bl) {
         this.isVideoLoading = bl;
-        this.logChannel.log(-2137614336, "BoardbookHandler#setVideoLoading: %1", this.isVideoLoading);
+        this.logChannel.log(10000000, "BoardbookHandler#setVideoLoading: %1", this.isVideoLoading);
     }
 
     public boolean isVideoLoading() {
-        this.logChannel.log(-2137614336, "BoardbookHandler#isVideoLoading: %1", this.isVideoLoading);
+        this.logChannel.log(10000000, "BoardbookHandler#isVideoLoading: %1", this.isVideoLoading);
         return this.isVideoLoading;
     }
 
-    static /* synthetic */ BoardbookFilePlayerSession access$000(BoardbookHandler boardbookHandler) {
-        return boardbookHandler.currentSession;
-    }
+    class ViewSizeHelper
+    implements IViewSizeListener {
+        ViewSizeHelper() {
+        }
 
-    static {
-        SUPPORTED_VIDEO_MIME_TYPES = new String[]{"video/x-msvideo", "audio/midi", "video/mpeg", "audio/ogg"};
+        public void viewSizeChanged(int n) {
+            BoardbookHandler.this.logChannel.log(1000000, "BoardbookHandler#ViewSizeListener#viewSizeChanged() to %1", (long)n);
+            if (BoardbookHandler.this.currentSession == null) {
+                return;
+            }
+            if (n == 1) {
+                BoardbookHandler.this.logChannel.log(10000000, "BoardbookHandler#viewSizeChanged to SMALL. Session paused");
+                BoardbookHandler.this.currentSession.pause();
+            } else if (n == 2) {
+                BoardbookHandler.this.logChannel.log(10000000, "BoardbookHandler#viewSizeChanged to LARGE and Session isPaused: resuming");
+                BoardbookHandler.this.currentSession.resume();
+            }
+        }
     }
 }
 

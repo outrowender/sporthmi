@@ -22,7 +22,6 @@ implements ServiceTrackerCustomizer {
         this.trafficLightOnlineHandler = trafficLightOnlineHandler;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IOnlineService) {
             this.trafficLightOnlineHandler.setOnlineService(null);
@@ -30,15 +29,13 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.context.getService(serviceReference);
         Object object2 = serviceReference.getProperty("ONLINE_APP_ID");
-        this.logChannel.log(-2137614336, "TrafficLightOnlineServiceTrackerCustomizer#addingService: got property %1 for service %2", object2, object);
+        this.logChannel.log(10000000, "TrafficLightOnlineServiceTrackerCustomizer#addingService: got property %1 for service %2", object2, object);
         if (object instanceof IOnlineService && object2 != null && object2.equals("service_trafficlight")) {
             this.trafficLightOnlineHandler.setOnlineService((IOnlineService)object);
             return object;

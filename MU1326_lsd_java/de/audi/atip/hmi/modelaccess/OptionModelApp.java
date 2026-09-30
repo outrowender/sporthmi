@@ -8,19 +8,14 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface OptionModelApp
 extends HMIModelApp {
-    default public void setListener(OptionModelListener optionModelListener) {
-    }
+    public void setListener(OptionModelListener var1);
 
-    default public void setListener(OptionModelListener optionModelListener, int n) {
-    }
+    public void setListener(OptionModelListener var1, int var2);
 
-    default public void removeListener(int n) {
-    }
+    public void removeListener(int var1);
 
-    default public void setCustomIDListener(OptionModelListener optionModelListener, int n) {
-    }
+    public void setCustomIDListener(OptionModelListener var1, int var2);
 
-    default public void removeCustomIDListener(int n) {
-    }
+    public void removeCustomIDListener(int var1);
 }
 

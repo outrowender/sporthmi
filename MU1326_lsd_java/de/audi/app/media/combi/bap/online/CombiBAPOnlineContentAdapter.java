@@ -25,12 +25,12 @@ extends AbstractCombiBAPContentAdapter
 implements IPlayerTrackListener,
 IPlayerListener,
 IOnlineMusicStateListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CombiBAPOnlineContentAdapter";
     IContentOnlineMedia onlineContent;
-    private static final int COMBI_STARTUP_INVALID;
-    private static final int COMBI_STARTUP_WAITFOR_DETAIL_INFO;
-    private static final int COMBI_STARTUP_RECEIVE_DETAIL_INFO;
-    private static final int COMBI_STARTUP_FINISHED;
+    private static final int COMBI_STARTUP_INVALID = 0;
+    private static final int COMBI_STARTUP_WAITFOR_DETAIL_INFO = 1;
+    private static final int COMBI_STARTUP_RECEIVE_DETAIL_INFO = 2;
+    private static final int COMBI_STARTUP_FINISHED = 3;
     private volatile int startupState = 0;
     private volatile MediaDetailInfo startupDetailInfo = null;
     private volatile MediaDetailInfo currentDetailInfo = null;
@@ -40,9 +40,8 @@ IOnlineMusicStateListener {
         super(logChannel);
     }
 
-    @Override
     public void activate(IContent iContent, ICombiBAPContentAccessor iCombiBAPContentAccessor) {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"CombiBAPOnlineContentAdapter");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         super.activate(iContent, iCombiBAPContentAccessor);
         this.onlineContent = (IContentOnlineMedia)iContent;
         this.onlineContent.getPlayer().addTrackListener(this);
@@ -60,33 +59,32 @@ IOnlineMusicStateListener {
         this.startupState = n;
         switch (n) {
             case 0: {
-                this.logger.log(1078071040, "[%1.setStartupState] COMBI_STARTUP_INVALID", (Object)"CombiBAPOnlineContentAdapter");
+                this.logger.log(1000000, "[%1.setStartupState] COMBI_STARTUP_INVALID", (Object)LOGCLASS);
                 break;
             }
             case 1: {
-                this.logger.log(1078071040, "[%1.setStartupState] COMBI_STARTUP_WAITFOR_DETAIL_INFO", (Object)"CombiBAPOnlineContentAdapter");
+                this.logger.log(1000000, "[%1.setStartupState] COMBI_STARTUP_WAITFOR_DETAIL_INFO", (Object)LOGCLASS);
                 break;
             }
             case 2: {
-                this.logger.log(1078071040, "[%1.setStartupState] COMBI_STARTUP_RECEIVE_DETAIL_INFO", (Object)"CombiBAPOnlineContentAdapter");
+                this.logger.log(1000000, "[%1.setStartupState] COMBI_STARTUP_RECEIVE_DETAIL_INFO", (Object)LOGCLASS);
                 this.setDetailInfo(this.startupDetailInfo, this.onlineCoverart);
                 this.setStartupState(3);
                 break;
             }
             case 3: {
-                this.logger.log(1078071040, "[%1.setStartupState] COMBI_STARTUP_FINISHED", (Object)"CombiBAPOnlineContentAdapter");
+                this.logger.log(1000000, "[%1.setStartupState] COMBI_STARTUP_FINISHED", (Object)LOGCLASS);
                 this.getCombiAccessor().contentAdapterStartupFinished();
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "[%1.setStartupState] UNKNOWN STATE", (Object)"CombiBAPOnlineContentAdapter");
+                this.logger.log(100000, "[%1.setStartupState] UNKNOWN STATE", (Object)LOGCLASS);
             }
         }
     }
 
-    @Override
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"CombiBAPOnlineContentAdapter");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.onlineContent.getPlayer().removeTrackListener(this);
         this.onlineContent.getPlayer().removePlayerListener(this);
         this.onlineContent.setOnlineMusicStateListener(null);
@@ -94,12 +92,10 @@ IOnlineMusicStateListener {
         super.deactivate();
     }
 
-    @Override
     public boolean skip(boolean bl, int n) {
         return this.onlineContent.getPlayer().skip(bl, n);
     }
 
-    @Override
     public void detailInfoChanged(MediaDetailInfo mediaDetailInfo) {
         if (this.startupState == 1) {
             this.startupDetailInfo = mediaDetailInfo;
@@ -109,14 +105,12 @@ IOnlineMusicStateListener {
         }
     }
 
-    @Override
     public void trackChanged(boolean bl, boolean bl2, PlayingTrack playingTrack, PlayTime playTime) {
-        int n = playTime.getTotalTimeOfTrack() == 0 ? -65536 : playTime.getTotalTimeOfTrack();
-        int n2 = n == -65536 ? -65536 : playTime.getPlayTime();
+        int n = playTime.getTotalTimeOfTrack() == 0 ? 65535 : playTime.getTotalTimeOfTrack();
+        int n2 = n == 65535 ? 65535 : playTime.getPlayTime();
         this.getCombiAccessor().updatePlayPosition(new PlayTime(n2, n));
     }
 
-    @Override
     public void coverArtChanged(ResourceLocator resourceLocator) {
         this.onlineCoverart = resourceLocator;
         if (this.currentDetailInfo != null) {
@@ -124,53 +118,44 @@ IOnlineMusicStateListener {
         }
     }
 
-    @Override
     public void repeatScopeChanged(int n, boolean bl) {
-        this.logger.log(1078071040, "[%1.repeatScopeChanged] Scope changed (scope='%2',mix='%3').", (Object)"CombiBAPOnlineContentAdapter", (Object)String.valueOf(n), (Object)String.valueOf(bl));
+        this.logger.log(1000000, "[%1.repeatScopeChanged] Scope changed (scope='%2',mix='%3').", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)String.valueOf(bl));
         this.getCombiAccessor().updateActiveRepeatScope(n, bl);
     }
 
-    @Override
     public void repeatModeChanged(int n) {
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("CombiBAPOnlineContentAdapter").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 
-    @Override
     public void playbackFolderChanged(MediaListEntry[] mediaListEntryArray) {
     }
 
-    @Override
     public void playerStartupComplete() {
     }
 
-    @Override
     public void playbackStateChanged(int n) {
     }
 
-    @Override
     public void capabilitiesChanged(Capabilities capabilities) {
     }
 
-    @Override
     public void commandBlocked() {
     }
 
-    @Override
     public void currentPMLevelChanged(int n) {
     }
 
     private void setDetailInfo(MediaDetailInfo mediaDetailInfo, ResourceLocator resourceLocator) {
-        this.logger.log(14808325, "[%1.setDetailInfo]", (Object)"CombiBAPOnlineContentAdapter");
+        this.logger.log(100000000, "[%1.setDetailInfo]", (Object)LOGCLASS);
         this.currentDetailInfo = mediaDetailInfo;
         this.getCombiAccessor().updateCurrentPlayingTrack(8, mediaDetailInfo.getEntryID(), mediaDetailInfo.getContentType(), mediaDetailInfo.getEntryFlags(), mediaDetailInfo.getTitle(), mediaDetailInfo.getFilename(), mediaDetailInfo.getArtist(), mediaDetailInfo.getAlbum(), false, 0, resourceLocator);
     }
 
-    @Override
     public void updateMusicState(int n, int n2, int n3) {
         this.getCombiAccessor().updateOnlineMusicState(n, n2, n3);
     }

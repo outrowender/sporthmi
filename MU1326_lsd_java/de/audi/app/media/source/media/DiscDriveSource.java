@@ -48,7 +48,6 @@ extends AbstractMediaSource {
         }
     }
 
-    @Override
     public int getAudioConnection(ISourceSlot iSourceSlot) {
         switch (iSourceSlot.getContentType()) {
             case 2: {
@@ -61,7 +60,6 @@ extends AbstractMediaSource {
         return this.AUDIO_CONNECTION_DATA;
     }
 
-    @Override
     public boolean isActivateable(ISourceSlot iSourceSlot) {
         return iSourceSlot.isLoaded() && (iSourceSlot.getError() == 0 || iSourceSlot.getError() == 3);
     }

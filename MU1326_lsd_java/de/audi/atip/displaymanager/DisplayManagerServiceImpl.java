@@ -6,7 +6,6 @@ package de.audi.atip.displaymanager;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.displaymanager.AbstractComponentCommand;
 import de.audi.atip.displaymanager.DSIDisplayManagerControllerImpl;
-import de.audi.atip.displaymanager.DisplayManagerServiceImpl$1;
 import de.audi.atip.displaymanager.DisplayManagerState;
 import de.audi.atip.displaymanager.IDSIDisplayManagerController;
 import de.audi.atip.displaymanager.SetCroppingCommand;
@@ -28,7 +27,7 @@ import org.osgi.framework.ServiceRegistration;
 public class DisplayManagerServiceImpl
 implements IDisplayManagerService,
 IDisplayManagerListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DisplayManagerServiceImpl";
     private final LogChannel logger;
     private final BundleContext bundleContext;
     private final IDSIDisplayManagerController displayManagerController;
@@ -49,7 +48,7 @@ IDisplayManagerListener {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"DisplayManagerServiceImpl");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.registerService = this.bundleContext.registerService((class$de$audi$atip$interapp$displaymanager$IDisplayManagerService == null ? (class$de$audi$atip$interapp$displaymanager$IDisplayManagerService = DisplayManagerServiceImpl.class$("de.audi.atip.interapp.displaymanager.IDisplayManagerService")) : class$de$audi$atip$interapp$displaymanager$IDisplayManagerService).getName(), (Object)this, (Dictionary)new Hashtable(0));
         this.displayManagerController.addListener(this);
         this.commandListManager.start();
@@ -57,7 +56,7 @@ IDisplayManagerListener {
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"DisplayManagerServiceImpl");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.commandListManager.destroy();
         this.displayManagerController.stopDSI();
         this.displayManagerController.addListener(null);
@@ -67,61 +66,52 @@ IDisplayManagerListener {
         }
     }
 
-    @Override
     public void activateComponent(int n, IDisplayManagerServiceListener iDisplayManagerServiceListener) {
-        this.logger.log(1078071040, "[%1.activateComponent] %2", (Object)"DisplayManagerServiceImpl", (long)n);
+        this.logger.log(1000000, "[%1.activateComponent] %2", (Object)LOGCLASS, (long)n);
         CommandList commandList = new CommandList(this.commandListManager);
         commandList.add(new StartComponentCommand(this, this.logger, this.displayManagerController, n, iDisplayManagerServiceListener));
         this.commandListManager.execute(commandList);
     }
 
-    @Override
     public void deactivateComponent(int n, IDisplayManagerServiceListener iDisplayManagerServiceListener) {
-        this.logger.log(1078071040, "[%1.deactivateComponent] %2", (Object)"DisplayManagerServiceImpl", (long)n);
+        this.logger.log(1000000, "[%1.deactivateComponent] %2", (Object)LOGCLASS, (long)n);
         CommandList commandList = new CommandList(this.commandListManager);
         commandList.add(new StopComponentCommand(this, this.logger, this.displayManagerController, n, iDisplayManagerServiceListener));
         this.commandListManager.execute(commandList);
     }
 
-    @Override
     public void activateComponent(int n) {
         this.activateComponent(n, null);
     }
 
-    @Override
     public void deactivateComponent(int n) {
         this.deactivateComponent(n, null);
     }
 
-    @Override
     public void activateComponentRVC(int n) {
-        this.logger.log(1078071040, "[%1.activateComponentRVC]", (Object)"DisplayManagerServiceImpl");
+        this.logger.log(1000000, "[%1.activateComponentRVC]", (Object)LOGCLASS);
         this.displayManagerController.startComponent(n, 0, 0);
     }
 
-    @Override
     public void deactivateComponentRVC(int n) {
-        this.logger.log(1078071040, "[%1.deactivateComponentRVC]", (Object)"DisplayManagerServiceImpl");
+        this.logger.log(1000000, "[%1.deactivateComponentRVC]", (Object)LOGCLASS);
         this.displayManagerController.stopComponent(n, 0, 0);
     }
 
-    @Override
     public void setCropping(int n, int n2, int n3, int n4, IDisplayManagerServiceListener iDisplayManagerServiceListener) {
-        this.logger.log(1078071040, "[%1.setCropping]", (Object)"DisplayManagerServiceImpl");
+        this.logger.log(1000000, "[%1.setCropping]", (Object)LOGCLASS);
         CommandList commandList = new CommandList(this.commandListManager);
         commandList.add(new SetCroppingCommand(this, this.logger, this.displayManagerController, this.croppingHandler.getCropping(n2), 0, 0, n3, n4, iDisplayManagerServiceListener));
         this.commandListManager.execute(commandList);
     }
 
-    @Override
     public void setCropping(int n, int n2, int n3, int n4, int n5, int n6, IDisplayManagerServiceListener iDisplayManagerServiceListener) {
-        this.logger.log(1078071040, "[%1.setCropping]", (Object)"DisplayManagerServiceImpl");
+        this.logger.log(1000000, "[%1.setCropping]", (Object)LOGCLASS);
         CommandList commandList = new CommandList(this.commandListManager);
         commandList.add(new SetCroppingCommand(this, this.logger, this.displayManagerController, this.croppingHandler.getCropping(n2), n3, n4, n5, n6, iDisplayManagerServiceListener));
         this.commandListManager.execute(commandList);
     }
 
-    @Override
     public int getCurrentDisplayable() {
         return this.state.getDisplayableId();
     }
@@ -132,7 +122,11 @@ IDisplayManagerListener {
         if (command instanceof AbstractComponentCommand) {
             return (AbstractComponentCommand)command;
         }
-        return new DisplayManagerServiceImpl$1(this, this.logger, "DisplayManagerServiceImpl");
+        return new AbstractComponentCommand(this.logger, LOGCLASS){
+
+            public void execute() {
+            }
+        };
     }
 
     /*
@@ -155,25 +149,21 @@ IDisplayManagerListener {
         }
     }
 
-    @Override
     public void startComponentResult(int n, int n2, int n3, int n4) {
-        this.logger.log(1078071040, "[%1.startComponentResult]", (Object)"DisplayManagerServiceImpl");
+        this.logger.log(1000000, "[%1.startComponentResult]", (Object)LOGCLASS);
         this.getActiveCommand().startComponentResult(n, n2, n3, n4);
     }
 
-    @Override
     public void stopComponentResult(int n, int n2, int n3, int n4) {
-        this.logger.log(1078071040, "[%1.stopComponentResult]", (Object)"DisplayManagerServiceImpl");
+        this.logger.log(1000000, "[%1.stopComponentResult]", (Object)LOGCLASS);
         this.getActiveCommand().stopComponentResult(n, n2, n3, n4);
     }
 
-    @Override
     public void setCroppingResult(int n) {
-        this.logger.log(1078071040, "[%1.setCroppingResult]", (Object)"DisplayManagerServiceImpl");
+        this.logger.log(1000000, "[%1.setCroppingResult]", (Object)LOGCLASS);
         this.getActiveCommand().setCroppingResult(n);
     }
 
-    @Override
     public void error() {
         this.getActiveCommand().error();
     }

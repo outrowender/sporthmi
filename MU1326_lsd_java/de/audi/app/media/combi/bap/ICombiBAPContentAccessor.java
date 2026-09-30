@@ -10,71 +10,51 @@ import de.audi.app.media.i18n.I18NString;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface ICombiBAPContentAccessor {
-    public static final int LIST_STATE_COMPLETELY_LOADED;
-    public static final int LIST_STATE_INCOMPLETE_LOADED;
-    public static final int LIST_STATE_LOADING;
-    public static final int LIST_STATE_UNKNOW;
-    public static final int FILEPLAYER_RINGTONE;
-    public static final int FILEPLAYER_BOARDBOOK;
+    public static final int LIST_STATE_COMPLETELY_LOADED = 1;
+    public static final int LIST_STATE_INCOMPLETE_LOADED = 2;
+    public static final int LIST_STATE_LOADING = 3;
+    public static final int LIST_STATE_UNKNOW = 4;
+    public static final int FILEPLAYER_RINGTONE = 0;
+    public static final int FILEPLAYER_BOARDBOOK = 1;
 
-    default public void updateCurrentPlayingTrack(int n, long l, int n2, int n3, I18NString i18NString, I18NString i18NString2, I18NString i18NString3, I18NString i18NString4, boolean bl, int n4, ResourceLocator resourceLocator) {
-    }
+    public void updateCurrentPlayingTrack(int var1, long var2, int var4, int var5, I18NString var6, I18NString var7, I18NString var8, I18NString var9, boolean var10, int var11, ResourceLocator var12);
 
-    default public void updateActiveRepeatScope(int n, boolean bl) {
-    }
+    public void updateActiveRepeatScope(int var1, boolean var2);
 
-    default public void updateBrowseFolder(MediaListEntry[] mediaListEntryArray, int n) {
-    }
+    public void updateBrowseFolder(MediaListEntry[] var1, int var2);
 
-    default public void updateListSize(int n) {
-    }
+    public void updateListSize(int var1);
 
-    default public void updateListState(boolean bl, int n) {
-    }
+    public void updateListState(boolean var1, int var2);
 
-    default public void contentAdapterStartupFinished() {
-    }
+    public void contentAdapterStartupFinished();
 
-    default public void updateActiveFileplayerPlaybackType(int n) {
-    }
+    public void updateActiveFileplayerPlaybackType(int var1);
 
-    default public void gotoCurrentPlayingTrackResult(boolean bl) {
-    }
+    public void gotoCurrentPlayingTrackResult(boolean var1);
 
-    default public void gotoParentFolderResult(boolean bl) {
-    }
+    public void gotoParentFolderResult(boolean var1);
 
-    default public void gotoRootFolderResult(boolean bl) {
-    }
+    public void gotoRootFolderResult(boolean var1);
 
-    default public void gotoSubFolderResult(boolean bl) {
-    }
+    public void gotoSubFolderResult(boolean var1);
 
-    default public void updatePlaybackFolder(boolean bl) {
-    }
+    public void updatePlaybackFolder(boolean var1);
 
-    default public void responseList(int n, int n2, int n3, MediaListEntry[] mediaListEntryArray) {
-    }
+    public void responseList(int var1, int var2, int var3, MediaListEntry[] var4);
 
-    default public void getNextListPosResult(boolean bl, CombiBAPMediaEntry combiBAPMediaEntry, CombiBAPMediaEntry combiBAPMediaEntry2, int n) {
-    }
+    public void getNextListPosResult(boolean var1, CombiBAPMediaEntry var2, CombiBAPMediaEntry var3, int var4);
 
-    default public void selectListEntryResult(boolean bl) {
-    }
+    public void selectListEntryResult(boolean var1);
 
-    default public void updateSeekState(boolean bl) {
-    }
+    public void updateSeekState(boolean var1);
 
-    default public void changeActiveSourceMediaType(int n) {
-    }
+    public void changeActiveSourceMediaType(int var1);
 
-    default public void updateOnlineMusicState(int n, int n2, int n3) {
-    }
+    public void updateOnlineMusicState(int var1, int var2, int var3);
 
-    default public void trackChangeIsComing() {
-    }
+    public void trackChangeIsComing();
 
-    default public void updatePlayPosition(PlayTime playTime) {
-    }
+    public void updatePlayPosition(PlayTime var1);
 }
 

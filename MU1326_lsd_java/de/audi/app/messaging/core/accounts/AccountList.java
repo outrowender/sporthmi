@@ -4,33 +4,32 @@
 package de.audi.app.messaging.core.accounts;
 
 import de.audi.app.messaging.core.accounts.AbstractAccountListRow;
-import de.audi.app.messaging.core.accounts.AccountList$AccountManagerListener;
-import de.audi.app.messaging.core.accounts.AccountList$EntryListObserver;
-import de.audi.app.messaging.core.accounts.AccountList$MyDsiMessagingListener;
-import de.audi.app.messaging.core.accounts.AccountList$MyListListener;
-import de.audi.app.messaging.core.accounts.AccountList$SetupManagerObserver;
 import de.audi.app.messaging.core.accounts.AccountTooltipRow;
 import de.audi.app.messaging.core.accounts.Accounts;
 import de.audi.app.messaging.core.accounts.CoreAccountListRowFactory;
 import de.audi.app.messaging.core.accounts.IAccountFilter;
 import de.audi.app.messaging.core.accounts.IAccountListObserver;
 import de.audi.app.messaging.core.accounts.IAccountListRowFactory;
+import de.audi.app.messaging.core.accounts.IAccountManagerListener;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
+import de.audi.app.messaging.core.dsi.messaging.DsiMessagingEmptyListener;
+import de.audi.app.messaging.core.folderbrowsing.IEntryListObserver;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
+import de.audi.app.messaging.core.setup.ISetupManagerObserver;
 import de.audi.app.messaging.core.util.Arrays;
 import de.audi.app.messaging.core.util.Logs;
-import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.model.ListRow;
 import de.audi.atip.hmi.model.ModelGroup;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.TooltipModelApp;
 import de.audi.atip.interapp.messaging.devicerole.DeviceRoleInfo;
 import de.audi.atip.interapp.messaging.devicerole.IDeviceRoleObserver;
-import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -40,9 +39,9 @@ import org.dsi.ifc.messaging.MessagingAccount;
 public final class AccountList
 extends AbstractMessagingComponent
 implements IDeviceRoleObserver {
-    public static final String INSTANCE_DIALOG;
-    public static final String INSTANCE_SMS;
-    public static final String INSTANCE_E_MAIL;
+    public static final String INSTANCE_DIALOG = "Dialog";
+    public static final String INSTANCE_SMS = "SMS";
+    public static final String INSTANCE_E_MAIL = "E-Mail";
     private final String instanceId;
     private final BaseListModelApp listModel;
     private final CopyOnWriteArrayList accountListObservers = new CopyOnWriteArrayList();
@@ -64,30 +63,28 @@ implements IDeviceRoleObserver {
     public AccountList(MessagingBundleContext messagingBundleContext, BaseListModelApp baseListModelApp, String string) {
         super(messagingBundleContext, "App.Messaging.Main");
         this.instanceId = string;
-        this.tooltipModel = this.framework.getHmiServiceApp().getTooltipModel(1318199552);
+        this.tooltipModel = this.framework.getHmiServiceApp().getTooltipModel(2200142);
         this.listModel = baseListModelApp;
         this.accountListRowFactory = new CoreAccountListRowFactory();
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         this.msgApp = abstractMsgApplication;
         super.init(abstractMsgApplication);
         this.tooltipModel.setMaxColumns(5);
         this.tooltipModel.setMaxRows(2);
-        this.listModel.setListener(new AccountList$MyListListener(this, null));
-        abstractMsgApplication.getSetupManager().addObserver(new AccountList$SetupManagerObserver(this, null));
-        abstractMsgApplication.getEntryList().addObserver(new AccountList$EntryListObserver(this, null));
-        abstractMsgApplication.getAccountManager().addListener(new AccountList$AccountManagerListener(this, null));
-        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new AccountList$MyDsiMessagingListener(this, null));
+        this.listModel.setListener(new MyListListener());
+        abstractMsgApplication.getSetupManager().addObserver(new SetupManagerObserver());
+        abstractMsgApplication.getEntryList().addObserver(new EntryListObserver());
+        abstractMsgApplication.getAccountManager().addListener(new AccountManagerListener());
+        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new MyDsiMessagingListener());
     }
 
     public void addObserver(IAccountListObserver iAccountListObserver) {
-        this.log.log(-2137614336, "[AccountList(%1)#addObserver] observer = %2", (Object)this.instanceId, (Object)iAccountListObserver);
+        this.log.log(10000000, "[AccountList(%1)#addObserver] observer = %2", (Object)this.instanceId, (Object)iAccountListObserver);
         this.accountListObservers.add(iAccountListObserver);
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         super.connect(iServiceRegistry);
         iServiceRegistry.registerService((class$de$audi$atip$interapp$messaging$devicerole$IDeviceRoleObserver == null ? (class$de$audi$atip$interapp$messaging$devicerole$IDeviceRoleObserver = AccountList.class$("de.audi.atip.interapp.messaging.devicerole.IDeviceRoleObserver")) : class$de$audi$atip$interapp$messaging$devicerole$IDeviceRoleObserver).getName(), (Object)this, ServiceProperties.createServiceProperties());
@@ -122,10 +119,10 @@ implements IDeviceRoleObserver {
         synchronized (object) {
             boolean bl = false;
             if (iAccountFilter == null) {
-                this.log.log(-2137614336, "[AccountList(%1)#addAccountFilter] accountFilter = %2", (Object)this.instanceId, (Object)String.valueOf(iAccountFilter));
+                this.log.log(10000000, "[AccountList(%1)#addAccountFilter] accountFilter = %2", (Object)this.instanceId, (Object)String.valueOf(iAccountFilter));
             } else {
                 if (this.log.isDebug()) {
-                    this.log.log(-2137614336, "[AccountList(%1)#addAccountFilter] System.identityHashCode(accountFilter) = %2, accountFilter.getDescription() = %3", (Object)this.instanceId, (Object)String.valueOf(System.identityHashCode(iAccountFilter)), (Object)iAccountFilter.getDescription());
+                    this.log.log(10000000, "[AccountList(%1)#addAccountFilter] System.identityHashCode(accountFilter) = %2, accountFilter.getDescription() = %3", (Object)this.instanceId, (Object)String.valueOf(System.identityHashCode(iAccountFilter)), (Object)iAccountFilter.getDescription());
                 }
                 bl = this.accountFilterSet.add(iAccountFilter);
                 this.refresh();
@@ -142,10 +139,10 @@ implements IDeviceRoleObserver {
         synchronized (object) {
             boolean bl = false;
             if (iAccountFilter == null) {
-                this.log.log(-2137614336, "[AccountList(%1)#addAccountFilter] accountFilter = %2", (Object)this.instanceId, (Object)String.valueOf(iAccountFilter));
+                this.log.log(10000000, "[AccountList(%1)#addAccountFilter] accountFilter = %2", (Object)this.instanceId, (Object)String.valueOf(iAccountFilter));
             } else {
                 if (this.log.isDebug()) {
-                    this.log.log(-2137614336, "[AccountList(%1)#removeAccountFilter] System.identityHashCode(accountFilter) = %2, accountFilter.getDescription() = %3", (Object)this.instanceId, (Object)String.valueOf(System.identityHashCode(iAccountFilter)), (Object)iAccountFilter.getDescription());
+                    this.log.log(10000000, "[AccountList(%1)#removeAccountFilter] System.identityHashCode(accountFilter) = %2, accountFilter.getDescription() = %3", (Object)this.instanceId, (Object)String.valueOf(System.identityHashCode(iAccountFilter)), (Object)iAccountFilter.getDescription());
                 }
                 bl = this.accountFilterSet.remove(iAccountFilter);
                 this.refresh();
@@ -199,7 +196,7 @@ implements IDeviceRoleObserver {
             MessagingAccount messagingAccount = this.getAccountByRowIndex(n);
             int n2 = messagingAccount.getAccountID();
             if (this.log.isDebug()) {
-                this.log.log(-2137614336, "[AccountList(%1)#accountSelected] index = %2, accountID = %3", (Object)this.instanceId, (long)n, (long)n2);
+                this.log.log(10000000, "[AccountList(%1)#accountSelected] index = %2, accountID = %3", (Object)this.instanceId, (long)n, (long)n2);
             }
             this.msgApp.getAccountManager().selectAccount(n2);
             this.emitIndicateItemSelected(messagingAccount);
@@ -209,7 +206,7 @@ implements IDeviceRoleObserver {
     }
 
     public void selectFirstAccount(int n) {
-        this.log.log(-2137614336, "[AccountList(%1)#selectFirstAccount] accType = %2", (Object)this.instanceId, (long)n);
+        this.log.log(10000000, "[AccountList(%1)#selectFirstAccount] accType = %2", (Object)this.instanceId, (long)n);
         for (int i2 = 0; i2 < this.listModel.getLength(); ++i2) {
             MessagingAccount messagingAccount = this.getAccountByRowIndex(i2);
             if (!Accounts.supportsSend(messagingAccount) || n != 0 && (n != 1 || !Accounts.supportsSms(messagingAccount)) && (n != 2 || !messagingAccount.isSupportsEMail())) continue;
@@ -238,7 +235,7 @@ implements IDeviceRoleObserver {
     public void refresh() {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
-            this.log.log(-2137614336, "[AccountList(%1)#refresh] instanceID=%1", (Object)this.instanceId);
+            this.log.log(10000000, "[AccountList(%1)#refresh] instanceID=%1", (Object)this.instanceId);
             this.countTheNumberOfSMSndEMailAccountsThatPassCurrentAccountFilter(this.accounts);
             this.updateIsSMSorEMAILSupportedByThePrimaryModels(this.isSendSmsSupportedByPrimaryDevice, this.isSendEmailSupportedByPrimaryDevice);
             this.fillAccountListModelWithAccountsPassingCurrentFilter(this.accounts);
@@ -283,7 +280,7 @@ implements IDeviceRoleObserver {
     }
 
     private void updateIsSMSorEMAILSupportedByThePrimaryModels(boolean bl, boolean bl2) {
-        if (this.instanceId != null && this.instanceId.equals("Dialog")) {
+        if (this.instanceId != null && this.instanceId.equals(INSTANCE_DIALOG)) {
             this.framework.getHmiServiceApp().getChoiceModel(4646).setValue(bl ? 1 : 0);
             this.framework.getHmiServiceApp().getChoiceModel(4649).setValue(bl2 ? 1 : 0);
         }
@@ -330,7 +327,7 @@ implements IDeviceRoleObserver {
 
     private void setTooltip(AbstractAccountListRow abstractAccountListRow) {
         try {
-            this.log.log(-2137614336, "[AccountList(%1)#setTooltip] Account name = %2", (Object)this.instanceId, (Object)abstractAccountListRow.getMessagingAccount().getAccountName());
+            this.log.log(10000000, "[AccountList(%1)#setTooltip] Account name = %2", (Object)this.instanceId, (Object)abstractAccountListRow.getMessagingAccount().getAccountName());
             this.tooltipModel.clear();
             AccountTooltipRow accountTooltipRow = new AccountTooltipRow(abstractAccountListRow, 0);
             AccountTooltipRow accountTooltipRow2 = new AccountTooltipRow(abstractAccountListRow, 1);
@@ -348,7 +345,7 @@ implements IDeviceRoleObserver {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             if (this.log.isDebug()) {
-                this.log.log(-2137614336, "[AccountList(%1)#setSelection] rowIndex = %2, isObservedAccountChange = %3", (Object)String.valueOf(this.instanceId), (Object)String.valueOf(n), (Object)String.valueOf(bl));
+                this.log.log(10000000, "[AccountList(%1)#setSelection] rowIndex = %2, isObservedAccountChange = %3", (Object)String.valueOf(this.instanceId), (Object)String.valueOf(n), (Object)String.valueOf(bl));
             }
             int n2 = this.listModel.getSelected() == null ? -1 : this.listModel.getSelected().getIndex();
             this.emitIndicateSelectionPending(n2, n, bl);
@@ -382,7 +379,7 @@ implements IDeviceRoleObserver {
     }
 
     private void emitIndicateSelectionPending(int n, int n2, boolean bl) {
-        this.log.log(-2137614336, "[AccountList(%1)#emitIndicateSelectionPending]", (Object)this.instanceId);
+        this.log.log(10000000, "[AccountList(%1)#emitIndicateSelectionPending]", (Object)this.instanceId);
         Iterator iterator = this.accountListObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -395,7 +392,7 @@ implements IDeviceRoleObserver {
     }
 
     private void emitIndicateItemSelected(MessagingAccount messagingAccount) {
-        this.log.log(-2137614336, "[AccountList(%1)#emitIndicateItemSelected]", (Object)this.instanceId);
+        this.log.log(10000000, "[AccountList(%1)#emitIndicateItemSelected]", (Object)this.instanceId);
         Iterator iterator = this.accountListObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -408,7 +405,7 @@ implements IDeviceRoleObserver {
     }
 
     private void emitIndicateItemSelectedWhileBusy(MessagingAccount messagingAccount) {
-        this.log.log(-2137614336, "[AccountList(%1)#emitIndicateItemSelectedWhilyBusy]", (Object)this.instanceId);
+        this.log.log(10000000, "[AccountList(%1)#emitIndicateItemSelectedWhilyBusy]", (Object)this.instanceId);
         Iterator iterator = this.accountListObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -420,9 +417,8 @@ implements IDeviceRoleObserver {
         }
     }
 
-    @Override
     public void updateDeviceRoleInfo(DeviceRoleInfo deviceRoleInfo) {
-        this.log.log(1078071040, "[AccountList#updateDeviceRoleInfo] primaryDeviceInfo = %1", (Object)deviceRoleInfo);
+        this.log.log(1000000, "[AccountList#updateDeviceRoleInfo] primaryDeviceInfo = %1", (Object)deviceRoleInfo);
         this.primaryDevice = deviceRoleInfo;
         this.refresh();
     }
@@ -436,86 +432,101 @@ implements IDeviceRoleObserver {
         }
     }
 
-    static /* synthetic */ MessagingBundleContext access$500(AccountList accountList) {
-        return accountList.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$600(AccountList accountList) {
-        return accountList.log;
-    }
-
-    static /* synthetic */ String access$700(AccountList accountList) {
-        return accountList.instanceId;
-    }
-
-    static /* synthetic */ boolean access$800(AccountList accountList) {
-        return accountList.isFolderContentListBusy;
-    }
-
-    static /* synthetic */ LogChannel access$900(AccountList accountList) {
-        return accountList.log;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$1000(AccountList accountList) {
-        return accountList.framework;
-    }
-
-    static /* synthetic */ void access$1100(AccountList accountList, int n, boolean bl) {
-        accountList.setSelection(n, bl);
-    }
-
-    static /* synthetic */ void access$1200(AccountList accountList, MessagingAccount messagingAccount) {
-        accountList.emitIndicateItemSelectedWhileBusy(messagingAccount);
-    }
-
-    static /* synthetic */ LogChannel access$1300(AccountList accountList) {
-        return accountList.log;
-    }
-
-    static /* synthetic */ LogChannel access$1400(AccountList accountList) {
-        return accountList.log;
-    }
-
-    static /* synthetic */ AbstractAccountListRow access$1500(AccountList accountList, int n) {
-        return accountList.getAccountListRow(n);
-    }
-
-    static /* synthetic */ void access$1600(AccountList accountList, AbstractAccountListRow abstractAccountListRow) {
-        accountList.setTooltip(abstractAccountListRow);
-    }
-
-    static /* synthetic */ MessagingBundleContext access$1700(AccountList accountList) {
-        return accountList.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$1800(AccountList accountList) {
-        return accountList.log;
-    }
-
     static /* synthetic */ MessagingAccount[] access$1902(AccountList accountList, MessagingAccount[] messagingAccountArray) {
         accountList.accounts = messagingAccountArray;
         return messagingAccountArray;
     }
 
-    static /* synthetic */ LogChannel access$2000(AccountList accountList) {
-        return accountList.log;
+    private class MyListListener
+    extends DefaultBaseListModelListener {
+        private MyListListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            Object object = AccountList.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                MessagingAccount messagingAccount = ((AbstractAccountListRow)evoListRow).getMessagingAccount();
+                if (AccountList.this.log.isInfo()) {
+                    AccountList.this.log.log(1000000, "[AccountList(%1)#itemSelected] row = %2, messagingAccount = %3 isFolderContentListBusy = %4", (Object)String.valueOf(AccountList.this.instanceId), (Object)String.valueOf(evoListRow), (Object)String.valueOf(messagingAccount), (Object)String.valueOf(AccountList.this.isFolderContentListBusy));
+                }
+                if (!AccountList.this.isFolderContentListBusy) {
+                    AccountList.this.selectAccount(n2);
+                    AccountList.this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n4);
+                } else if (messagingAccount != null) {
+                    AccountList.this.setSelection(n2, false);
+                    AccountList.this.emitIndicateItemSelectedWhileBusy(messagingAccount);
+                } else {
+                    AccountList.this.log.log(10000, "[AccountList(%1)#itemSelected] No list row at row = %2", (Object)AccountList.this.instanceId, (long)n2);
+                }
+            }
+        }
+
+        public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            this.itemSelected(evoListRow, n, n2, n3, n4);
+        }
+
+        public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            AccountList.this.log.log(1000000, "[AccountList(%1)#itemFocused] index = %2", (Object)AccountList.this.instanceId, (long)n2);
+            AccountList.this.setTooltip(AccountList.this.getAccountListRow(n2));
+        }
     }
 
-    static /* synthetic */ LogChannel access$2100(AccountList accountList) {
-        return accountList.log;
+    private final class EntryListObserver
+    extends IEntryListObserver.EmptyImplementation {
+        private EntryListObserver() {
+        }
+
+        public void indicateOperationState(int n) {
+            AccountList.this.log.log(10000000, "[AccountList(%1)#indicateOperationState]", (Object)AccountList.this.instanceId);
+            AccountList.this.isFolderContentListBusy = n == 0;
+        }
     }
 
-    static /* synthetic */ boolean access$802(AccountList accountList, boolean bl) {
-        accountList.isFolderContentListBusy = bl;
-        return accountList.isFolderContentListBusy;
+    private class SetupManagerObserver
+    implements ISetupManagerObserver {
+        private SetupManagerObserver() {
+        }
+
+        public void indicateConfigurationChanged() {
+            AccountList.this.log.log(10000000, "[AccountList(%1)#indicateConfigurationChanged]", (Object)AccountList.this.instanceId);
+            AccountList.this.refresh();
+        }
     }
 
-    static /* synthetic */ LogChannel access$2200(AccountList accountList) {
-        return accountList.log;
+    private final class AccountManagerListener
+    extends IAccountManagerListener.DefaultAccountManagerListener {
+        private AccountManagerListener() {
+        }
+
+        public void selectedAccountChanged() {
+            AccountList.this.log.log(10000000, "[AccountList(%1)#selectedAccountChanged]", (Object)AccountList.this.instanceId);
+            MessagingAccount messagingAccount = AccountList.this.msgApp.getAccountManager().getSelectedAccount();
+            int n = AccountList.this.getRowIndexByAccount(messagingAccount);
+            if (n != -1) {
+                AccountList.this.setSelection(n, true);
+            }
+        }
     }
 
-    static /* synthetic */ AbstractMsgApplication access$2300(AccountList accountList) {
-        return accountList.msgApp;
+    private class MyDsiMessagingListener
+    extends DsiMessagingEmptyListener {
+        private MyDsiMessagingListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateMessagingAccounts(MessagingAccount[] messagingAccountArray, int n) {
+            Object object = AccountList.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                AccountList.this.log.log(10000000, "[AccountList(%1)#updateMessagingAccounts] accounts.length = %2", (Object)AccountList.this.instanceId, (long)messagingAccountArray.length);
+                AccountList.access$1902(AccountList.this, messagingAccountArray);
+                AccountList.this.refresh();
+            }
+        }
     }
 }
 

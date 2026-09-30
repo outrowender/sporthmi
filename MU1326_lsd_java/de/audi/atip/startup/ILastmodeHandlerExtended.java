@@ -8,52 +8,36 @@ import de.audi.atip.start.ILastmodeHandler;
 
 public interface ILastmodeHandlerExtended
 extends ILastmodeHandler {
-    default public void start() {
-    }
+    public void start();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public void initQueues() {
-    }
+    public void initQueues();
 
-    default public void initLastmodeStorage(boolean bl) {
-    }
+    public void initLastmodeStorage(boolean var1);
 
-    default public void initPersistentData() {
-    }
+    public void initPersistentData();
 
-    default public void restoreLastmode() {
-    }
+    public void restoreLastmode();
 
-    default public void storeNavEnabled(boolean bl) {
-    }
+    public void storeNavEnabled(boolean var1);
 
-    default public void setLastmodeForAllTerminals(boolean bl) {
-    }
+    public void setLastmodeForAllTerminals(boolean var1);
 
-    default public boolean activateLastmodeAudio(int n, int n2) {
-    }
+    public boolean activateLastmodeAudio(int var1, int var2);
 
-    default public boolean activateLastmodeApp(int n, int n2) {
-    }
+    public boolean activateLastmodeApp(int var1, int var2);
 
-    default public void writePersistentLastMode() {
-    }
+    public void writePersistentLastMode();
 
-    default public boolean checkLastmodeChange(KeyEvent keyEvent) {
-    }
+    public boolean checkLastmodeChange(KeyEvent var1);
 
-    default public void enqueueLastmodeChange(int n, int n2) {
-    }
+    public void enqueueLastmodeChange(int var1, int var2);
 
-    default public boolean isValidLastmode(KeyEvent keyEvent) {
-    }
+    public boolean isValidLastmode(KeyEvent var1);
 
-    default public void initLastmodeAudioQueues() {
-    }
+    public void initLastmodeAudioQueues();
 
-    default public void initLastmodeAppQueues() {
-    }
+    public void initLastmodeAppQueues();
 }
 

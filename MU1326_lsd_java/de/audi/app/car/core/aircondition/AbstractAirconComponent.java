@@ -5,22 +5,15 @@ package de.audi.app.car.core.aircondition;
 
 import de.audi.app.car.common.adapter.AbstractDSICarAirConditionAdapter;
 import de.audi.app.car.common.app.ICarApplication;
+import de.audi.app.car.common.comp.AbstractCarComponent;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
 import de.audi.app.car.common.exception.ValueConverterStrategyException;
 import de.audi.app.car.common.util.DefaultValueConverterStrategy;
 import de.audi.app.car.common.util.IValueConverterStrategy;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$1;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$2;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$AirDistributionHandler;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$AirVolumeHandler;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$DefaultClimateStyleConverterStrategy;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$DefaultFootwellTemperatureConverterStrategy;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$DefaultIonizerConverterStrategy;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$DefaultMiddleExhaustionConverterStrategy;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$RangeModelSyncListener;
-import de.audi.app.car.core.aircondition.AbstractAirconComponent$TemperatureHandler;
+import de.audi.app.car.common.util.ValueConverterCollection;
 import de.audi.app.car.core.aircondition.AirconConfig;
 import de.audi.app.car.core.aircondition.IAirconConstants;
+import de.audi.app.car.core.app.IRangeModelSyncListener;
 import de.audi.app.car.core.app.IRangeModelSyncParameterAccess;
 import de.audi.app.car.core.app.RangeModelSynchronizer;
 import de.audi.atip.hmi.model.DefaultRangeListener;
@@ -28,6 +21,7 @@ import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.MetricsModelApp;
 import de.audi.atip.hmi.modelaccess.RangeModelApp;
+import de.audi.atip.metrics.Temperature;
 import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.caraircondition.AirconAirDistribution;
 import org.dsi.ifc.caraircondition.AirconAirVolume;
@@ -43,59 +37,467 @@ import org.dsi.ifc.global.CarArrayListUpdateInfo;
 public abstract class AbstractAirconComponent
 extends AbstractDSICarAirConditionAdapter
 implements IAirconConstants {
-    public static final short CODING_ID;
-    public static final String LOGCHANNEL_NAME;
-    public static final long RANGE_MODEL_SYNCHRONIZER_TIMEOUT;
-    protected static final int ATTR_AIR_DISTRIBUTION;
-    protected static final int ATTR_AIR_VOLUME;
-    private final AbstractAirconComponent$RangeModelSyncListener rangeModelSyncListener;
+    public static final short CODING_ID = 8;
+    public static final String LOGCHANNEL_NAME = "App.Car.AirCondition";
+    public static final long RANGE_MODEL_SYNCHRONIZER_TIMEOUT = 1000L;
+    protected static final int ATTR_AIR_DISTRIBUTION = 0;
+    protected static final int ATTR_AIR_VOLUME = 1;
+    private final RangeModelSyncListener rangeModelSyncListener;
     protected volatile AirconMasterViewOptions currentViewOptionsMaster;
     protected volatile AirconRowViewOptions currentViewOptionsRow1;
     protected volatile AirconRowViewOptions currentViewOptionsRow2;
     protected volatile AirconRowViewOptions currentViewOptionsRow3;
     private AirconSteeringWheelHeater currentSteeringWheelHeater;
-    protected AbstractAirconComponent$TemperatureHandler temperatureZone1;
-    protected AbstractAirconComponent$TemperatureHandler temperatureZone2;
-    protected AbstractAirconComponent$TemperatureHandler temperatureZone3;
-    protected AbstractAirconComponent$TemperatureHandler temperatureZone4;
-    protected AbstractAirconComponent$AirVolumeHandler airVolumeZone1;
-    protected AbstractAirconComponent$AirVolumeHandler airVolumeZone2;
-    protected AbstractAirconComponent$AirVolumeHandler airVolumeZone3;
-    protected AbstractAirconComponent$AirVolumeHandler airVolumeZone4;
-    protected AbstractAirconComponent$AirDistributionHandler airDistributionZone1;
-    protected AbstractAirconComponent$AirDistributionHandler airDistributionZone2;
-    protected AbstractAirconComponent$AirDistributionHandler airDistributionZone3;
-    protected AbstractAirconComponent$AirDistributionHandler airDistributionZone4;
+    protected TemperatureHandler temperatureZone1;
+    protected TemperatureHandler temperatureZone2;
+    protected TemperatureHandler temperatureZone3;
+    protected TemperatureHandler temperatureZone4;
+    protected AirVolumeHandler airVolumeZone1;
+    protected AirVolumeHandler airVolumeZone2;
+    protected AirVolumeHandler airVolumeZone3;
+    protected AirVolumeHandler airVolumeZone4;
+    protected AirDistributionHandler airDistributionZone1;
+    protected AirDistributionHandler airDistributionZone2;
+    protected AirDistributionHandler airDistributionZone3;
+    protected AirDistributionHandler airDistributionZone4;
     private final RangeModelSynchronizer footwellTempRangeModelSyncZone1;
     private final RangeModelSynchronizer footwellTempRangeModelSyncZone2;
     private final RangeModelSynchronizer footwellTempRangeModelSyncZone3;
     private final RangeModelSynchronizer footwellTempRangeModelSyncZone4;
     private final RangeModelSynchronizer airCirculationSensitivityModelSync;
-    protected IValueConverterStrategy footwellTemperatureConverterStrategy = new AbstractAirconComponent$DefaultFootwellTemperatureConverterStrategy(this, null);
-    protected IValueConverterStrategy climateStyleConverterStrategy = new AbstractAirconComponent$DefaultClimateStyleConverterStrategy(this, null);
-    protected IValueConverterStrategy ionizerConverterStrategy = new AbstractAirconComponent$DefaultIonizerConverterStrategy(this, null);
+    protected IValueConverterStrategy footwellTemperatureConverterStrategy = new DefaultFootwellTemperatureConverterStrategy();
+    protected IValueConverterStrategy climateStyleConverterStrategy = new DefaultClimateStyleConverterStrategy();
+    protected IValueConverterStrategy ionizerConverterStrategy = new DefaultIonizerConverterStrategy();
     protected IValueConverterStrategy airCirculationSensitivityConverterStrategy = new DefaultValueConverterStrategy();
-    protected IValueConverterStrategy middleExhaustionConverterStrategy = new AbstractAirconComponent$DefaultMiddleExhaustionConverterStrategy(this, null);
+    protected IValueConverterStrategy middleExhaustionConverterStrategy = new DefaultMiddleExhaustionConverterStrategy();
     protected boolean invertHMISystemOnOffState = false;
     protected boolean invertHMIIndirectVentilation = false;
-    private final DefaultChoiceListener choiceListener = new AbstractAirconComponent$1(this);
-    private final DefaultRangeListener rangeListener = new AbstractAirconComponent$2(this);
+    private final DefaultChoiceListener choiceListener = new DefaultChoiceListener(){
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            AbstractAirconComponent.this.getLogChannel().log(10000000, "[AbstractAirconComponent.DefaultChoiceListener#itemSelected] modelID=%1, itemID=%2", (long)n, (long)n2);
+            boolean bl = 1 == n2;
+            switch (n) {
+                case 602126: {
+                    AbstractAirconComponent.this.setStateAC(bl);
+                    break;
+                }
+                case 602390: {
+                    AbstractAirconComponent.this.setStateEcoAC(bl);
+                    break;
+                }
+                case 602127: {
+                    AbstractAirconComponent.this.setStateMaxAC(bl);
+                    break;
+                }
+                case 600631: {
+                    AbstractAirconComponent.this.setAirCirculationSensitivity(n2);
+                    break;
+                }
+                case 601247: {
+                    AbstractAirconComponent.this.setMiddleExhaustion(n2);
+                    break;
+                }
+                case 602365: {
+                    AbstractAirconComponent.this.setAirCirculationAuto(bl);
+                    break;
+                }
+                case 602397: {
+                    AbstractAirconComponent.this.setIndirectVentilation(AbstractAirconComponent.this.invertHMIIndirectVentilation ? !bl : bl);
+                    break;
+                }
+                case 600629: {
+                    AbstractAirconComponent.this.setHeater(bl);
+                    break;
+                }
+                case 600644: {
+                    AbstractAirconComponent.this.setFrontWindowHeaterAuto(bl);
+                    break;
+                }
+                case 602129: {
+                    AbstractAirconComponent.this.setSteeringWheelHeating(bl);
+                    break;
+                }
+                case 600660: {
+                    AbstractAirconComponent.this.setSolar(bl);
+                    break;
+                }
+                case 602125: {
+                    AbstractAirconComponent.this.setRearControlFondPlus(bl);
+                    break;
+                }
+                case 602409: {
+                    if (null == AbstractAirconComponent.this.currentViewOptionsRow1) break;
+                    if (2 == AbstractAirconComponent.this.currentViewOptionsRow1.getZoneLeftViewOptions().getAirconIonisator().getState()) {
+                        AbstractAirconComponent.this.setIonizerState(1, n2);
+                    }
+                    if (2 != AbstractAirconComponent.this.currentViewOptionsRow1.getZoneRightViewOptions().getAirconIonisator().getState()) break;
+                    AbstractAirconComponent.this.setIonizerState(2, n2);
+                    break;
+                }
+                case 602366: {
+                    if (null == AbstractAirconComponent.this.currentViewOptionsMaster) break;
+                    boolean bl2 = AbstractAirconComponent.this.currentViewOptionsMaster.getConfiguration().isCarDriverSide();
+                    int n5 = bl ? (bl2 ? 2 : 1) : 0;
+                    AbstractAirconComponent.this.setSynchronization(n5, bl);
+                    break;
+                }
+                case 602408: {
+                    AbstractAirconComponent.this.setSystemOnOff(1, AbstractAirconComponent.this.invertHMISystemOnOffState ? !bl : bl);
+                    break;
+                }
+                case 602418: {
+                    AbstractAirconComponent.this.setFootwellTemperature(1, n2);
+                    AbstractAirconComponent.this.onFootwellTemperatureAction(1);
+                    break;
+                }
+                case 602210: {
+                    AbstractAirconComponent.this.setFootwellTemperature(2, n2);
+                    AbstractAirconComponent.this.onFootwellTemperatureAction(2);
+                    break;
+                }
+                case 602367: {
+                    AbstractAirconComponent.this.setClimateStyle(1, n2);
+                    AbstractAirconComponent.this.onClimateStyleAction(1);
+                    break;
+                }
+                case 601969: {
+                    AbstractAirconComponent.this.setClimateStyle(2, n2);
+                    AbstractAirconComponent.this.onClimateStyleAction(2);
+                    break;
+                }
+                case 602158: {
+                    AbstractAirconComponent.this.airVolumeZone1.dsiSetVolumeAuto(n2);
+                    break;
+                }
+                case 602161: {
+                    AbstractAirconComponent.this.airVolumeZone2.dsiSetVolumeAuto(n2);
+                    break;
+                }
+                case 602400: {
+                    AbstractAirconComponent.this.airDistributionZone1.dsiSetUp(bl ? 12 : 0);
+                    break;
+                }
+                case 602136: {
+                    AbstractAirconComponent.this.airDistributionZone1.dsiSetBody(bl ? 12 : 0);
+                    break;
+                }
+                case 602361: {
+                    AbstractAirconComponent.this.airDistributionZone1.dsiSetFootwell(bl ? 12 : 0);
+                    break;
+                }
+                case 602145: {
+                    AbstractAirconComponent.this.airDistributionZone1.dsiSetAutomode(bl);
+                    break;
+                }
+                case 602139: {
+                    AbstractAirconComponent.this.airDistributionZone2.dsiSetUp(bl ? 12 : 0);
+                    break;
+                }
+                case 602404: {
+                    AbstractAirconComponent.this.airDistributionZone2.dsiSetBody(bl ? 12 : 0);
+                    break;
+                }
+                case 602144: {
+                    AbstractAirconComponent.this.airDistributionZone2.dsiSetFootwell(bl ? 12 : 0);
+                    break;
+                }
+                case 602134: {
+                    AbstractAirconComponent.this.airDistributionZone2.dsiSetAutomode(bl);
+                    break;
+                }
+                case 602124: {
+                    AbstractAirconComponent.this.setSystemOnOff(2, AbstractAirconComponent.this.invertHMISystemOnOffState ? !bl : bl);
+                    break;
+                }
+                case 602209: {
+                    AbstractAirconComponent.this.setFootwellTemperature(3, n2);
+                    AbstractAirconComponent.this.onFootwellTemperatureAction(3);
+                    break;
+                }
+                case 602207: {
+                    AbstractAirconComponent.this.setFootwellTemperature(4, n2);
+                    AbstractAirconComponent.this.onFootwellTemperatureAction(4);
+                    break;
+                }
+                case 601966: {
+                    AbstractAirconComponent.this.setClimateStyle(3, n2);
+                    AbstractAirconComponent.this.onClimateStyleAction(3);
+                    break;
+                }
+                case 601967: {
+                    AbstractAirconComponent.this.setClimateStyle(4, n2);
+                    AbstractAirconComponent.this.onClimateStyleAction(4);
+                    break;
+                }
+                case 602159: {
+                    AbstractAirconComponent.this.airVolumeZone3.dsiSetVolumeAuto(n2);
+                    break;
+                }
+                case 602160: {
+                    AbstractAirconComponent.this.airVolumeZone4.dsiSetVolumeAuto(n2);
+                    break;
+                }
+                case 602132: {
+                    AbstractAirconComponent.this.airDistributionZone3.dsiSetUp(bl ? 12 : 0);
+                    break;
+                }
+                case 602374: {
+                    AbstractAirconComponent.this.airDistributionZone3.dsiSetBody(bl ? 12 : 0);
+                    break;
+                }
+                case 602417: {
+                    AbstractAirconComponent.this.airDistributionZone3.dsiSetFootwell(bl ? 12 : 0);
+                    break;
+                }
+                case 602140: {
+                    AbstractAirconComponent.this.airDistributionZone3.dsiSetAutomode(bl);
+                    break;
+                }
+                case 602138: {
+                    AbstractAirconComponent.this.airDistributionZone4.dsiSetUp(bl ? 12 : 0);
+                    break;
+                }
+                case 602384: {
+                    AbstractAirconComponent.this.airDistributionZone4.dsiSetBody(bl ? 12 : 0);
+                    break;
+                }
+                case 602401: {
+                    AbstractAirconComponent.this.airDistributionZone4.dsiSetFootwell(bl ? 12 : 0);
+                    break;
+                }
+                case 602141: {
+                    AbstractAirconComponent.this.airDistributionZone4.dsiSetAutomode(bl);
+                    break;
+                }
+                case 602130: {
+                    AbstractAirconComponent.this.setSystemOnOff(3, AbstractAirconComponent.this.invertHMISystemOnOffState ? !bl : bl);
+                    break;
+                }
+                default: {
+                    AbstractAirconComponent.this.getLogChannel().log(100000, "[AbstractAirconComponent.DefaultChoiceListener#itemSelected] ModelID='%1' not supported.", (long)n);
+                }
+            }
+        }
+    };
+    private final DefaultRangeListener rangeListener = new DefaultRangeListener(){
+
+        public void keyPressed(int n, int n2, int n3) {
+            AbstractAirconComponent.this.getLogChannel().log(1000000, "[AbstractAirConditionComponent#keyPressed] modelID='%1'", (long)n);
+            switch (n) {
+                case 601991: {
+                    AbstractAirconComponent.this.getRangeModel(601991).fireEvent(n3);
+                    break;
+                }
+                case 601990: {
+                    AbstractAirconComponent.this.getRangeModel(601990).fireEvent(n3);
+                    break;
+                }
+                case 601988: {
+                    AbstractAirconComponent.this.getRangeModel(601988).fireEvent(n3);
+                    break;
+                }
+                case 601989: {
+                    AbstractAirconComponent.this.getRangeModel(601989).fireEvent(n3);
+                    break;
+                }
+            }
+        }
+
+        public void decrement(int n, int n2, int n3) {
+            AbstractAirconComponent.this.getLogChannel().log(10000000, "[AbstractAirconComponent.DefaultRangeListener#decrement] modelID=%1, steps=%2", (long)n, (long)n2);
+            switch (n) {
+                case 600630: {
+                    AbstractAirconComponent.this.airCirculationSensitivityModelSync.notifyDecrement(5, n2);
+                    break;
+                }
+                case 602187: {
+                    AbstractAirconComponent.this.temperatureZone1.decrementTemperature(n2, 1);
+                    AbstractAirconComponent.this.onTemperatureAction(1);
+                    break;
+                }
+                case 602192: {
+                    AbstractAirconComponent.this.temperatureZone1.decrementTemperature(n2, 2);
+                    AbstractAirconComponent.this.onTemperatureAction(1);
+                    break;
+                }
+                case 602195: {
+                    AbstractAirconComponent.this.temperatureZone2.decrementTemperature(n2, 1);
+                    AbstractAirconComponent.this.onTemperatureAction(2);
+                    break;
+                }
+                case 602194: {
+                    AbstractAirconComponent.this.temperatureZone2.decrementTemperature(n2, 2);
+                    AbstractAirconComponent.this.onTemperatureAction(2);
+                    break;
+                }
+                case 602162: {
+                    AbstractAirconComponent.this.airVolumeZone1.decrementVolume(n2);
+                    AbstractAirconComponent.this.onVolumeAction(1);
+                    break;
+                }
+                case 602165: {
+                    AbstractAirconComponent.this.airVolumeZone2.decrementVolume(n2);
+                    AbstractAirconComponent.this.onVolumeAction(2);
+                    break;
+                }
+                case 601991: {
+                    AbstractAirconComponent.this.decrementFootwellTemperature(1, n2);
+                    break;
+                }
+                case 601990: {
+                    AbstractAirconComponent.this.decrementFootwellTemperature(2, n2);
+                    break;
+                }
+                case 602186: {
+                    AbstractAirconComponent.this.temperatureZone3.decrementTemperature(n2, 1);
+                    AbstractAirconComponent.this.onTemperatureAction(3);
+                    break;
+                }
+                case 602403: {
+                    AbstractAirconComponent.this.temperatureZone3.decrementTemperature(n2, 2);
+                    AbstractAirconComponent.this.onTemperatureAction(3);
+                    break;
+                }
+                case 602197: {
+                    AbstractAirconComponent.this.temperatureZone4.decrementTemperature(n2, 1);
+                    AbstractAirconComponent.this.onTemperatureAction(4);
+                    break;
+                }
+                case 602413: {
+                    AbstractAirconComponent.this.temperatureZone4.decrementTemperature(n2, 2);
+                    AbstractAirconComponent.this.onTemperatureAction(4);
+                    break;
+                }
+                case 602416: {
+                    AbstractAirconComponent.this.airVolumeZone3.decrementVolume(n2);
+                    AbstractAirconComponent.this.onVolumeAction(3);
+                    break;
+                }
+                case 602407: {
+                    AbstractAirconComponent.this.airVolumeZone4.decrementVolume(n2);
+                    AbstractAirconComponent.this.onVolumeAction(4);
+                    break;
+                }
+                case 601988: {
+                    AbstractAirconComponent.this.decrementFootwellTemperature(3, n2);
+                    break;
+                }
+                case 601989: {
+                    AbstractAirconComponent.this.decrementFootwellTemperature(4, n2);
+                    break;
+                }
+                default: {
+                    AbstractAirconComponent.this.getLogChannel().log(100000, "[AbstractAirconComponent.DefaultRangeListener#decrement] ModelID='%1' not supported.", (long)n);
+                }
+            }
+        }
+
+        public void increment(int n, int n2, int n3) {
+            AbstractAirconComponent.this.getLogChannel().log(10000000, "[AbstractAirconComponent.DefaultRangeListener#increment] modelID=%1, steps=%2", (long)n, (long)n2);
+            switch (n) {
+                case 600630: {
+                    AbstractAirconComponent.this.airCirculationSensitivityModelSync.notifyIncrement(5, n2);
+                    break;
+                }
+                case 602187: {
+                    AbstractAirconComponent.this.temperatureZone1.incrementTemperature(n2, 1);
+                    AbstractAirconComponent.this.onTemperatureAction(1);
+                    break;
+                }
+                case 602192: {
+                    AbstractAirconComponent.this.temperatureZone1.incrementTemperature(n2, 2);
+                    AbstractAirconComponent.this.onTemperatureAction(1);
+                    break;
+                }
+                case 602195: {
+                    AbstractAirconComponent.this.temperatureZone2.incrementTemperature(n2, 1);
+                    AbstractAirconComponent.this.onTemperatureAction(2);
+                    break;
+                }
+                case 602194: {
+                    AbstractAirconComponent.this.temperatureZone2.incrementTemperature(n2, 2);
+                    AbstractAirconComponent.this.onTemperatureAction(2);
+                    break;
+                }
+                case 602162: {
+                    AbstractAirconComponent.this.airVolumeZone1.incrementVolume(n2);
+                    AbstractAirconComponent.this.onVolumeAction(1);
+                    break;
+                }
+                case 602165: {
+                    AbstractAirconComponent.this.airVolumeZone2.incrementVolume(n2);
+                    AbstractAirconComponent.this.onVolumeAction(2);
+                    break;
+                }
+                case 601991: {
+                    AbstractAirconComponent.this.incrementFootwellTemperature(1, n2);
+                    break;
+                }
+                case 601990: {
+                    AbstractAirconComponent.this.incrementFootwellTemperature(2, n2);
+                    break;
+                }
+                case 602186: {
+                    AbstractAirconComponent.this.temperatureZone3.incrementTemperature(n2, 1);
+                    AbstractAirconComponent.this.onTemperatureAction(3);
+                    break;
+                }
+                case 602403: {
+                    AbstractAirconComponent.this.temperatureZone3.incrementTemperature(n2, 2);
+                    AbstractAirconComponent.this.onTemperatureAction(3);
+                    break;
+                }
+                case 602197: {
+                    AbstractAirconComponent.this.temperatureZone4.incrementTemperature(n2, 1);
+                    AbstractAirconComponent.this.onTemperatureAction(4);
+                    break;
+                }
+                case 602413: {
+                    AbstractAirconComponent.this.temperatureZone4.incrementTemperature(n2, 2);
+                    AbstractAirconComponent.this.onTemperatureAction(4);
+                    break;
+                }
+                case 602416: {
+                    AbstractAirconComponent.this.airVolumeZone3.incrementVolume(n2);
+                    AbstractAirconComponent.this.onVolumeAction(3);
+                    break;
+                }
+                case 602407: {
+                    AbstractAirconComponent.this.airVolumeZone4.incrementVolume(n2);
+                    AbstractAirconComponent.this.onVolumeAction(4);
+                    break;
+                }
+                case 601988: {
+                    AbstractAirconComponent.this.incrementFootwellTemperature(3, n2);
+                    break;
+                }
+                case 601989: {
+                    AbstractAirconComponent.this.incrementFootwellTemperature(4, n2);
+                    break;
+                }
+                default: {
+                    AbstractAirconComponent.this.getLogChannel().log(100000, "[AbstractAirconComponent.DefaultRangeListener#increment] ModelID='%1' not supported.", (long)n);
+                }
+            }
+        }
+    };
 
     public AbstractAirconComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.AirCondition");
+        super(iCarApplication, LOGCHANNEL_NAME);
         this.setLogChannelDSI(true);
-        this.rangeModelSyncListener = new AbstractAirconComponent$RangeModelSyncListener(this, null);
-        this.footwellTempRangeModelSyncZone1 = new RangeModelSynchronizer("FootwellZone1", this.rangeModelSyncListener, 0, this.getLogChannel());
-        this.footwellTempRangeModelSyncZone2 = new RangeModelSynchronizer("FootwellZone2", this.rangeModelSyncListener, 0, this.getLogChannel());
-        this.footwellTempRangeModelSyncZone3 = new RangeModelSynchronizer("FootwellZone3", this.rangeModelSyncListener, 0, this.getLogChannel());
-        this.footwellTempRangeModelSyncZone4 = new RangeModelSynchronizer("FootwellZone4", this.rangeModelSyncListener, 0, this.getLogChannel());
-        this.airCirculationSensitivityModelSync = new RangeModelSynchronizer("AirCirculationSensitivity", this.rangeModelSyncListener, 0, this.getLogChannel());
+        this.rangeModelSyncListener = new RangeModelSyncListener();
+        this.footwellTempRangeModelSyncZone1 = new RangeModelSynchronizer("FootwellZone1", this.rangeModelSyncListener, 1000L, this.getLogChannel());
+        this.footwellTempRangeModelSyncZone2 = new RangeModelSynchronizer("FootwellZone2", this.rangeModelSyncListener, 1000L, this.getLogChannel());
+        this.footwellTempRangeModelSyncZone3 = new RangeModelSynchronizer("FootwellZone3", this.rangeModelSyncListener, 1000L, this.getLogChannel());
+        this.footwellTempRangeModelSyncZone4 = new RangeModelSynchronizer("FootwellZone4", this.rangeModelSyncListener, 1000L, this.getLogChannel());
+        this.airCirculationSensitivityModelSync = new RangeModelSynchronizer("AirCirculationSensitivity", this.rangeModelSyncListener, 1000L, this.getLogChannel());
     }
 
     private void initAirconCirculationSensitivity(AirconMasterViewOptions airconMasterViewOptions) {
-        this.getRangeModel(908724480).setLimits(this.isAirCirculationAutoAvailable() ? this.getConfig().getAirCirculationSensitivityRangeMinWithOff() : this.getConfig().getAirCirculationSensitivityRangeMin(), this.getConfig().getAirCirculationSensitivityRangeMax(), this.getConfig().getAirCirculationSensitivityRangeStep());
-        this.getRangeModel(908724480).setRangeListener(this.rangeListener);
-        this.airCirculationSensitivityModelSync.addWatchedAttribute(5, true, this.getRangeModel(908724480));
+        this.getRangeModel(600630).setLimits(this.isAirCirculationAutoAvailable() ? this.getConfig().getAirCirculationSensitivityRangeMinWithOff() : this.getConfig().getAirCirculationSensitivityRangeMin(), this.getConfig().getAirCirculationSensitivityRangeMax(), this.getConfig().getAirCirculationSensitivityRangeStep());
+        this.getRangeModel(600630).setRangeListener(this.rangeListener);
+        this.airCirculationSensitivityModelSync.addWatchedAttribute(5, true, this.getRangeModel(600630));
     }
 
     private boolean isAirCirculationAutoAvailable() {
@@ -109,7 +511,7 @@ implements IAirconConstants {
     private void setSystemOnOff(int n, boolean bl) {
         int n2 = this.convertRowHMI2DSI(n);
         if (-1 != n2) {
-            this.getLogChannel(1).log(1078071040, "---> DSI.setAirconSystemOnOffRow(%1, %2)", (Object)Integer.toString(n2), (Object)(bl ? "true" : "false"));
+            this.getLogChannel(1).log(1000000, "---> DSI.setAirconSystemOnOffRow(%1, %2)", (Object)Integer.toString(n2), (Object)(bl ? "true" : "false"));
             this.getDSI().setAirconSystemOnOffRow(n2, bl);
         } else {
             this.getLogChannel().log(10000, "[AbstractAirconComponent#setSystemOnOff] Unsupported zone. DSI-Call not send.");
@@ -117,17 +519,17 @@ implements IAirconConstants {
     }
 
     private void setStateAC(boolean bl) {
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconAC(%1)", bl);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconAC(%1)", bl);
         this.getDSI().setAirconAC(bl);
     }
 
     private void setStateEcoAC(boolean bl) {
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconEcoAC(%1)", bl);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconEcoAC(%1)", bl);
         this.getDSI().setAirconEcoAC(bl);
     }
 
     private void setStateMaxAC(boolean bl) {
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconMaxAC(%1)", bl);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconMaxAC(%1)", bl);
         this.getDSI().setAirconMaxAC(bl);
     }
 
@@ -152,7 +554,7 @@ implements IAirconConstants {
                 airconSynchronisation.slaveZL3R = false;
                 airconSynchronisation.slaveZR3R = false;
             }
-            this.getLogChannel(1).log(1078071040, "---> DSI.setAirconSynchronisation(%1)", (Object)airconSynchronisation);
+            this.getLogChannel(1).log(1000000, "---> DSI.setAirconSynchronisation(%1)", (Object)airconSynchronisation);
             this.getDSI().setAirconSynchronisation(airconSynchronisation);
         } else {
             this.getLogChannel().log(10000, "[AbstractAirconComponent#setSynchronization]: Couldn't get configuration. DSI-Call not send.");
@@ -165,10 +567,10 @@ implements IAirconConstants {
             n2 = this.convertCirculationSensitivityHMI2DSI(n);
         }
         catch (ValueConverterStrategyException valueConverterStrategyException) {
-            this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#setAirCirculationSensitivity] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+            this.getLogChannel().log(100000, "[AbstractAirconComponent#setAirCirculationSensitivity] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
             return;
         }
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconAirCirculationSensitivity(%1)", (long)n2);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconAirCirculationSensitivity(%1)", (long)n2);
         this.getDSI().setAirconAirCirculationSensitivity(n2);
     }
 
@@ -178,37 +580,37 @@ implements IAirconConstants {
             n2 = this.convertMiddleExhaustionHMI2DSI(n);
         }
         catch (ValueConverterStrategyException valueConverterStrategyException) {
-            this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#setMiddleExhaustion] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+            this.getLogChannel().log(100000, "[AbstractAirconComponent#setMiddleExhaustion] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
             return;
         }
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconMiddleExhaustion(%1)", (long)n2);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconMiddleExhaustion(%1)", (long)n2);
         this.getDSI().setAirconMiddleExhaustion(n2);
     }
 
     private void setAirCirculationAuto(boolean bl) {
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconAirCirculationAuto(%1)", bl);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconAirCirculationAuto(%1)", bl);
         this.getDSI().setAirconAirCirculationAuto(bl);
     }
 
     private void setIndirectVentilation(boolean bl) {
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconIndirectVentilation(%1)", bl);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconIndirectVentilation(%1)", bl);
         this.getDSI().setAirconIndirectVentilation(bl);
     }
 
     private void setHeater(boolean bl) {
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconHeater(%1)", bl);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconHeater(%1)", bl);
         this.getDSI().setAirconHeater(bl);
     }
 
     private void setFrontWindowHeaterAuto(boolean bl) {
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconFrontWindowHeaterAuto(%1)", bl);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconFrontWindowHeaterAuto(%1)", bl);
         this.getDSI().setAirconFrontWindowHeaterAuto(bl);
     }
 
     private void setSteeringWheelHeating(boolean bl) {
         if (null != this.currentSteeringWheelHeater) {
             AirconSteeringWheelHeater airconSteeringWheelHeater = new AirconSteeringWheelHeater(bl, this.currentSteeringWheelHeater.currentState, this.currentSteeringWheelHeater.autoHeating, this.currentSteeringWheelHeater.adjustViaSeatHeating, this.currentSteeringWheelHeater.heatingStep);
-            this.getLogChannel(1).log(1078071040, "---> DSI.setAirconSteeringWheelHeater(%1)", (Object)airconSteeringWheelHeater.toString());
+            this.getLogChannel(1).log(1000000, "---> DSI.setAirconSteeringWheelHeater(%1)", (Object)airconSteeringWheelHeater.toString());
             this.getDSI().setAirconSteeringWheelHeater(airconSteeringWheelHeater);
         } else {
             this.getLogChannel().log(10000, "[AbstractAirconComponent#setSteeringWheelHeating] No AirconSteeringWheelHeater-Information received yet. DSI-Call not send.");
@@ -216,12 +618,12 @@ implements IAirconConstants {
     }
 
     private void setSolar(boolean bl) {
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconSolar(%1)", bl);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconSolar(%1)", bl);
         this.getDSI().setAirconSolar(bl);
     }
 
     private void setRearControlFondPlus(boolean bl) {
-        this.getLogChannel(1).log(1078071040, "---> DSI.setAirconRearControlFondPlus(%1)", bl);
+        this.getLogChannel(1).log(1000000, "---> DSI.setAirconRearControlFondPlus(%1)", bl);
         this.getDSI().setAirconRearControlFondPlus(bl);
     }
 
@@ -233,10 +635,10 @@ implements IAirconConstants {
                 n4 = this.convertFootwellTemperatureHMI2DSI(n2);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#setFootwellTemperature] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#setFootwellTemperature] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getLogChannel(1).log(1078071040, "---> DSI.setAirconFootwellTemp(%1, %2)", (long)n3, (long)n4);
+            this.getLogChannel(1).log(1000000, "---> DSI.setAirconFootwellTemp(%1, %2)", (long)n3, (long)n4);
             this.getDSI().setAirconFootwellTemp(n3, n4);
         }
     }
@@ -302,7 +704,7 @@ implements IAirconConstants {
                 this.getLogChannel().log(10000, "[AbstractAirconComponent#setClimateStyle] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getLogChannel(1).log(1078071040, "---> DSI.setAirconClimateStyle(%1, %2)", (long)n3, (long)n4);
+            this.getLogChannel(1).log(1000000, "---> DSI.setAirconClimateStyle(%1, %2)", (long)n3, (long)n4);
             this.getDSI().setAirconClimateStyle(n3, n4);
         } else {
             this.getLogChannel().log(10000, "[AbstractAirconComponent#setFootwellTemperature] Unsupported zone. DSI-Call not send.");
@@ -320,7 +722,7 @@ implements IAirconConstants {
                 this.getLogChannel().log(10000, "[AbstractAirconComponent#setIonizerState] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getLogChannel(1).log(1078071040, "---> DSI.setAirconIonisator(%1, %2)", (long)n3, (long)n4);
+            this.getLogChannel(1).log(1000000, "---> DSI.setAirconIonisator(%1, %2)", (long)n3, (long)n4);
             this.getDSI().setAirconIonisator(n3, n4);
         } else {
             this.getLogChannel().log(10000, "[AbstractAirconComponent#setIonizer] Unsupported zone. DSI-Call not send.");
@@ -332,19 +734,19 @@ implements IAirconConstants {
         int n2 = this.invertHMISystemOnOffState ? 0 : 1;
         switch (n) {
             case 1: {
-                bl = n2 == this.getChoiceModel(674302208).getValue();
+                bl = n2 == this.getChoiceModel(602408).getValue();
                 break;
             }
             case 2: {
-                bl = n2 == this.getChoiceModel(204474624).getValue();
+                bl = n2 == this.getChoiceModel(602124).getValue();
                 break;
             }
             case 3: {
-                bl = n2 == this.getChoiceModel(305137920).getValue();
+                bl = n2 == this.getChoiceModel(602130).getValue();
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent.isSystemOnOff] Row('%1') not supported.", (long)n);
+                this.getLogChannel().log(100000, "[AbstractAirconComponent.isSystemOnOff] Row('%1') not supported.", (long)n);
                 bl = false;
             }
         }
@@ -355,23 +757,23 @@ implements IAirconConstants {
         boolean bl;
         switch (n) {
             case 1: {
-                bl = null == AbstractAirconComponent$AirVolumeHandler.access$4100(this.airVolumeZone1) ? false : AbstractAirconComponent$AirVolumeHandler.access$4100(this.airVolumeZone1).getAirVolumeAuto() != 0;
+                bl = null == this.airVolumeZone1.currentAirVolume ? false : this.airVolumeZone1.currentAirVolume.getAirVolumeAuto() != 0;
                 break;
             }
             case 2: {
-                bl = null == AbstractAirconComponent$AirVolumeHandler.access$4100(this.airVolumeZone2) ? false : AbstractAirconComponent$AirVolumeHandler.access$4100(this.airVolumeZone2).getAirVolumeAuto() != 0;
+                bl = null == this.airVolumeZone2.currentAirVolume ? false : this.airVolumeZone2.currentAirVolume.getAirVolumeAuto() != 0;
                 break;
             }
             case 3: {
-                bl = null == AbstractAirconComponent$AirVolumeHandler.access$4100(this.airVolumeZone3) ? false : AbstractAirconComponent$AirVolumeHandler.access$4100(this.airVolumeZone3).getAirVolumeAuto() != 0;
+                bl = null == this.airVolumeZone3.currentAirVolume ? false : this.airVolumeZone3.currentAirVolume.getAirVolumeAuto() != 0;
                 break;
             }
             case 4: {
-                bl = null == AbstractAirconComponent$AirVolumeHandler.access$4100(this.airVolumeZone4) ? false : AbstractAirconComponent$AirVolumeHandler.access$4100(this.airVolumeZone4).getAirVolumeAuto() != 0;
+                bl = null == this.airVolumeZone4.currentAirVolume ? false : this.airVolumeZone4.currentAirVolume.getAirVolumeAuto() != 0;
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent.isAirVolumeAutoMode] Zone('%1') not supported.", (long)n);
+                this.getLogChannel().log(100000, "[AbstractAirconComponent.isAirVolumeAutoMode] Zone('%1') not supported.", (long)n);
                 return false;
             }
         }
@@ -382,23 +784,23 @@ implements IAirconConstants {
         boolean bl;
         switch (n) {
             case 1: {
-                bl = null == AbstractAirconComponent$AirDistributionHandler.access$4200(this.airDistributionZone1) ? false : AbstractAirconComponent$AirDistributionHandler.access$4200(this.airDistributionZone1).isAutomode();
+                bl = null == this.airDistributionZone1.currentAirDistribution ? false : this.airDistributionZone1.currentAirDistribution.isAutomode();
                 break;
             }
             case 2: {
-                bl = null == AbstractAirconComponent$AirDistributionHandler.access$4200(this.airDistributionZone2) ? false : AbstractAirconComponent$AirDistributionHandler.access$4200(this.airDistributionZone2).isAutomode();
+                bl = null == this.airDistributionZone2.currentAirDistribution ? false : this.airDistributionZone2.currentAirDistribution.isAutomode();
                 break;
             }
             case 3: {
-                bl = null == AbstractAirconComponent$AirDistributionHandler.access$4200(this.airDistributionZone3) ? false : AbstractAirconComponent$AirDistributionHandler.access$4200(this.airDistributionZone3).isAutomode();
+                bl = null == this.airDistributionZone3.currentAirDistribution ? false : this.airDistributionZone3.currentAirDistribution.isAutomode();
                 break;
             }
             case 4: {
-                bl = null == AbstractAirconComponent$AirDistributionHandler.access$4200(this.airDistributionZone4) ? false : AbstractAirconComponent$AirDistributionHandler.access$4200(this.airDistributionZone4).isAutomode();
+                bl = null == this.airDistributionZone4.currentAirDistribution ? false : this.airDistributionZone4.currentAirDistribution.isAutomode();
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent.isAirDistributionAutoMode] Zone('%1') not supported.", (long)n);
+                this.getLogChannel().log(100000, "[AbstractAirconComponent.isAirDistributionAutoMode] Zone('%1') not supported.", (long)n);
                 return false;
             }
         }
@@ -420,35 +822,26 @@ implements IAirconConstants {
     protected void onVolumeAction(int n) {
     }
 
-    protected abstract AirconConfig getConfig() {
-    }
+    protected abstract AirconConfig getConfig();
 
-    protected abstract void updateMenuEntryVisibility(AirconMasterViewOptions airconMasterViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(AirconMasterViewOptions var1);
 
-    protected abstract void updateMenuEntryVisibility(int n, AirconRowViewOptions airconRowViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(int var1, AirconRowViewOptions var2);
 
-    protected abstract boolean isUpdateIonizer(int n) {
-    }
+    protected abstract boolean isUpdateIonizer(int var1);
 
-    protected abstract void notifySystemOnOff(int n, boolean bl) {
-    }
+    protected abstract void notifySystemOnOff(int var1, boolean var2);
 
-    protected abstract void notifyAutoModeStateChanged(int n, int n2) {
-    }
+    protected abstract void notifyAutoModeStateChanged(int var1, int var2);
 
-    @Override
     public String getName() {
         return "AirCondition Control";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{92, 93}, new int[]{152, 15, 83, 82, 21, 5, 6, 4, 8, 10, 19, 17, 14, 91, 24, 30, 25, 31, 26, 32, 27, 33, 110, 112, 140, 141}), new CarDSIAttributesSet(1, new int[]{92, 94}, new int[]{153, 36, 42, 37, 43, 38, 44, 39, 45, 114, 116, 142, 143}), new CarDSIAttributesSet(2, new int[]{92, 95}, new int[0])};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         Buffer buffer = new Buffer();
         buffer.append("Master: ");
@@ -465,188 +858,185 @@ implements IAirconConstants {
         return buffer.toString();
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(674302208).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(238029056).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(372312320).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(254806272).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(-30406400).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(925501696).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(-47183616).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(-1624504064).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(489752832).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(891947264).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(1143605504).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(288360704).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(1412040960).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(221251840).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(691079424).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(-13629184).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(1898907904).setChoiceListener(this.choiceListener);
-        this.getRangeModel(1261439232).setLimits(this.getConfig().getTemperatureRangeMinCelsius(), this.getConfig().getTemperatureRangeMaxCelsius(), this.getConfig().getTemperatureRangeStepCelsius());
-        this.getRangeModel(1261439232).setRangeListener(this.rangeListener);
-        this.getRangeModel(1345325312).setLimits(this.getConfig().getTemperatureRangeMinFahrenheit(), this.getConfig().getTemperatureRangeMaxFahrenheit(), this.getConfig().getTemperatureRangeStepFahrenheit());
-        this.getRangeModel(1345325312).setRangeListener(this.rangeListener);
-        this.temperatureZone1 = new AbstractAirconComponent$TemperatureHandler(this, "Temperature Zone 1", 1, 1261439232, 1345325312, 1412434176, 1311770880);
-        this.getRangeModel(1395656960).setLimits(this.getConfig().getTemperatureRangeMinCelsius(), this.getConfig().getTemperatureRangeMaxCelsius(), this.getConfig().getTemperatureRangeStepCelsius());
-        this.getRangeModel(1395656960).setRangeListener(this.rangeListener);
-        this.getRangeModel(1378879744).setLimits(this.getConfig().getTemperatureRangeMinFahrenheit(), this.getConfig().getTemperatureRangeMaxFahrenheit(), this.getConfig().getTemperatureRangeStepFahrenheit());
-        this.getRangeModel(1378879744).setRangeListener(this.rangeListener);
-        this.temperatureZone2 = new AbstractAirconComponent$TemperatureHandler(this, "Temperature Zone 2", 2, 1395656960, 1378879744, 1278216448, -164624128);
-        this.getRangeModel(842008832).setLimits(this.getConfig().getAirVolumeRangeMin(), this.getConfig().getAirVolumeRangeMax(), this.getConfig().getAirVolumeRangeStep());
-        this.getRangeModel(842008832).setRangeListener(this.rangeListener);
-        this.getChoiceModel(774899968).setChoiceListener(this.choiceListener);
-        this.airVolumeZone1 = new AbstractAirconComponent$AirVolumeHandler(this, "Volume Zone 1", 1, 25, 842008832, 774899968);
-        this.getRangeModel(892340480).setLimits(this.getConfig().getAirVolumeRangeMin(), this.getConfig().getAirVolumeRangeMax(), this.getConfig().getAirVolumeRangeStep());
-        this.getRangeModel(892340480).setRangeListener(this.rangeListener);
-        this.getChoiceModel(825231616).setChoiceListener(this.choiceListener);
-        this.airVolumeZone2 = new AbstractAirconComponent$AirVolumeHandler(this, "Volume Zone 2", 2, 31, 892340480, 825231616);
-        this.getChoiceModel(540084480).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(405801216).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(-114292480).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(556796160).setChoiceListener(this.choiceListener);
-        this.airDistributionZone1 = new AbstractAirconComponent$AirDistributionHandler(this, "Distribution Zone 1", 1, 540084480, 405801216, -114292480, 556796160);
-        this.getChoiceModel(456132864).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(607193344).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(540018944).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(372246784).setChoiceListener(this.choiceListener);
-        this.airDistributionZone2 = new AbstractAirconComponent$AirDistributionHandler(this, "Distribution Zone 2", 2, 456132864, 607193344, 540018944, 372246784);
-        this.getRangeModel(-2026960640).setLimits(this.getConfig().getFootwellTemperatureRangeMin(), this.getConfig().getFootwellTemperatureRangeMax(), this.getConfig().getFootwellTemperatureRangeStep());
-        this.getRangeModel(-2026960640).setRangeListener(this.rangeListener);
-        this.footwellTempRangeModelSyncZone1.addWatchedAttribute(27, true, this.getRangeModel(-2026960640));
-        this.getChoiceModel(842074368).setChoiceListener(this.choiceListener);
-        this.getRangeModel(-2043737856).setLimits(this.getConfig().getFootwellTemperatureRangeMin(), this.getConfig().getFootwellTemperatureRangeMax(), this.getConfig().getFootwellTemperatureRangeStep());
-        this.getRangeModel(-2043737856).setRangeListener(this.rangeListener);
-        this.footwellTempRangeModelSyncZone2.addWatchedAttribute(33, true, this.getRangeModel(-2043737856));
-        this.getChoiceModel(1647315200).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(204474624).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(1848576256).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(1865353472).setChoiceListener(this.choiceListener);
-        this.getRangeModel(1244662016).setLimits(this.getConfig().getTemperatureRangeMinCelsius(), this.getConfig().getTemperatureRangeMaxCelsius(), this.getConfig().getTemperatureRangeStepCelsius());
-        this.getRangeModel(1244662016).setRangeListener(this.rangeListener);
-        this.getRangeModel(590416128).setLimits(this.getConfig().getTemperatureRangeMinFahrenheit(), this.getConfig().getTemperatureRangeMaxFahrenheit(), this.getConfig().getTemperatureRangeStepFahrenheit());
-        this.getRangeModel(590416128).setRangeListener(this.rangeListener);
-        this.temperatureZone3 = new AbstractAirconComponent$TemperatureHandler(this, "Temperature Zone 3", 3, 1244662016, 590416128, 1462765824, 1328548096);
-        this.getRangeModel(1429211392).setLimits(this.getConfig().getTemperatureRangeMinCelsius(), this.getConfig().getTemperatureRangeMaxCelsius(), this.getConfig().getTemperatureRangeStepCelsius());
-        this.getRangeModel(1429211392).setRangeListener(this.rangeListener);
-        this.getRangeModel(758188288).setLimits(this.getConfig().getTemperatureRangeMinFahrenheit(), this.getConfig().getTemperatureRangeMaxFahrenheit(), this.getConfig().getTemperatureRangeStepFahrenheit());
-        this.getRangeModel(758188288).setRangeListener(this.rangeListener);
-        this.temperatureZone4 = new AbstractAirconComponent$TemperatureHandler(this, "Temperature Zone 4", 4, 1429211392, 758188288, 238094592, 1294993664);
-        this.getRangeModel(808519936).setLimits(this.getConfig().getAirVolumeRangeMin(), this.getConfig().getAirVolumeRangeMax(), this.getConfig().getAirVolumeRangeStep());
-        this.getRangeModel(808519936).setRangeListener(this.rangeListener);
-        this.getChoiceModel(791677184).setChoiceListener(this.choiceListener);
-        this.airVolumeZone3 = new AbstractAirconComponent$AirVolumeHandler(this, "Volume Zone 3", 3, 37, 808519936, 791677184);
-        this.getRangeModel(657524992).setLimits(this.getConfig().getAirVolumeRangeMin(), this.getConfig().getAirVolumeRangeMax(), this.getConfig().getAirVolumeRangeStep());
-        this.getRangeModel(657524992).setRangeListener(this.rangeListener);
-        this.getChoiceModel(0x30300900).setChoiceListener(this.choiceListener);
-        this.airVolumeZone4 = new AbstractAirconComponent$AirVolumeHandler(this, "Volume Zone 4", 4, 43, 657524992, 0x30300900);
-        this.getChoiceModel(338692352).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(103876864).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(825297152).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(472910080).setChoiceListener(this.choiceListener);
-        this.airDistributionZone3 = new AbstractAirconComponent$AirDistributionHandler(this, "Distribution Zone 3", 3, 338692352, 103876864, 825297152, 472910080);
-        this.getChoiceModel(439355648).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(271649024).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(556861696).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(489687296).setChoiceListener(this.choiceListener);
-        this.airDistributionZone4 = new AbstractAirconComponent$AirDistributionHandler(this, "Distribution Zone 4", 4, 439355648, 271649024, 556861696, 489687296);
-        this.getRangeModel(-2077292288).setLimits(this.getConfig().getFootwellTemperatureRangeMin(), this.getConfig().getFootwellTemperatureRangeMax(), this.getConfig().getFootwellTemperatureRangeStep());
-        this.getRangeModel(-2077292288).setRangeListener(this.rangeListener);
-        this.footwellTempRangeModelSyncZone3.addWatchedAttribute(39, true, this.getRangeModel(-2077292288));
-        this.getChoiceModel(1630537984).setChoiceListener(this.choiceListener);
-        this.getRangeModel(-2060515072).setLimits(this.getConfig().getFootwellTemperatureRangeMin(), this.getConfig().getFootwellTemperatureRangeMax(), this.getConfig().getFootwellTemperatureRangeStep());
-        this.getRangeModel(-2060515072).setRangeListener(this.rangeListener);
-        this.footwellTempRangeModelSyncZone4.addWatchedAttribute(45, true, this.getRangeModel(-2060515072));
-        this.getChoiceModel(1596983552).setChoiceListener(this.choiceListener);
-        this.getChoiceModel(305137920).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602408).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602126).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602390).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602127).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602366).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(600631).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602365).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(601247).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602397).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(600629).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(600644).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602129).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(600660).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602125).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602409).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602367).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(601969).setChoiceListener(this.choiceListener);
+        this.getRangeModel(602187).setLimits(this.getConfig().getTemperatureRangeMinCelsius(), this.getConfig().getTemperatureRangeMaxCelsius(), this.getConfig().getTemperatureRangeStepCelsius());
+        this.getRangeModel(602187).setRangeListener(this.rangeListener);
+        this.getRangeModel(602192).setLimits(this.getConfig().getTemperatureRangeMinFahrenheit(), this.getConfig().getTemperatureRangeMaxFahrenheit(), this.getConfig().getTemperatureRangeStepFahrenheit());
+        this.getRangeModel(602192).setRangeListener(this.rangeListener);
+        this.temperatureZone1 = new TemperatureHandler("Temperature Zone 1", 1, 602187, 602192, 602196, 602190);
+        this.getRangeModel(602195).setLimits(this.getConfig().getTemperatureRangeMinCelsius(), this.getConfig().getTemperatureRangeMaxCelsius(), this.getConfig().getTemperatureRangeStepCelsius());
+        this.getRangeModel(602195).setRangeListener(this.rangeListener);
+        this.getRangeModel(602194).setLimits(this.getConfig().getTemperatureRangeMinFahrenheit(), this.getConfig().getTemperatureRangeMaxFahrenheit(), this.getConfig().getTemperatureRangeStepFahrenheit());
+        this.getRangeModel(602194).setRangeListener(this.rangeListener);
+        this.temperatureZone2 = new TemperatureHandler("Temperature Zone 2", 2, 602195, 602194, 602188, 602358);
+        this.getRangeModel(602162).setLimits(this.getConfig().getAirVolumeRangeMin(), this.getConfig().getAirVolumeRangeMax(), this.getConfig().getAirVolumeRangeStep());
+        this.getRangeModel(602162).setRangeListener(this.rangeListener);
+        this.getChoiceModel(602158).setChoiceListener(this.choiceListener);
+        this.airVolumeZone1 = new AirVolumeHandler("Volume Zone 1", 1, 25, 602162, 602158);
+        this.getRangeModel(602165).setLimits(this.getConfig().getAirVolumeRangeMin(), this.getConfig().getAirVolumeRangeMax(), this.getConfig().getAirVolumeRangeStep());
+        this.getRangeModel(602165).setRangeListener(this.rangeListener);
+        this.getChoiceModel(602161).setChoiceListener(this.choiceListener);
+        this.airVolumeZone2 = new AirVolumeHandler("Volume Zone 2", 2, 31, 602165, 602161);
+        this.getChoiceModel(602400).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602136).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602361).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602145).setChoiceListener(this.choiceListener);
+        this.airDistributionZone1 = new AirDistributionHandler("Distribution Zone 1", 1, 602400, 602136, 602361, 602145);
+        this.getChoiceModel(602139).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602404).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602144).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602134).setChoiceListener(this.choiceListener);
+        this.airDistributionZone2 = new AirDistributionHandler("Distribution Zone 2", 2, 602139, 602404, 602144, 602134);
+        this.getRangeModel(601991).setLimits(this.getConfig().getFootwellTemperatureRangeMin(), this.getConfig().getFootwellTemperatureRangeMax(), this.getConfig().getFootwellTemperatureRangeStep());
+        this.getRangeModel(601991).setRangeListener(this.rangeListener);
+        this.footwellTempRangeModelSyncZone1.addWatchedAttribute(27, true, this.getRangeModel(601991));
+        this.getChoiceModel(602418).setChoiceListener(this.choiceListener);
+        this.getRangeModel(601990).setLimits(this.getConfig().getFootwellTemperatureRangeMin(), this.getConfig().getFootwellTemperatureRangeMax(), this.getConfig().getFootwellTemperatureRangeStep());
+        this.getRangeModel(601990).setRangeListener(this.rangeListener);
+        this.footwellTempRangeModelSyncZone2.addWatchedAttribute(33, true, this.getRangeModel(601990));
+        this.getChoiceModel(602210).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602124).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(601966).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(601967).setChoiceListener(this.choiceListener);
+        this.getRangeModel(602186).setLimits(this.getConfig().getTemperatureRangeMinCelsius(), this.getConfig().getTemperatureRangeMaxCelsius(), this.getConfig().getTemperatureRangeStepCelsius());
+        this.getRangeModel(602186).setRangeListener(this.rangeListener);
+        this.getRangeModel(602403).setLimits(this.getConfig().getTemperatureRangeMinFahrenheit(), this.getConfig().getTemperatureRangeMaxFahrenheit(), this.getConfig().getTemperatureRangeStepFahrenheit());
+        this.getRangeModel(602403).setRangeListener(this.rangeListener);
+        this.temperatureZone3 = new TemperatureHandler("Temperature Zone 3", 3, 602186, 602403, 602199, 602191);
+        this.getRangeModel(602197).setLimits(this.getConfig().getTemperatureRangeMinCelsius(), this.getConfig().getTemperatureRangeMaxCelsius(), this.getConfig().getTemperatureRangeStepCelsius());
+        this.getRangeModel(602197).setRangeListener(this.rangeListener);
+        this.getRangeModel(602413).setLimits(this.getConfig().getTemperatureRangeMinFahrenheit(), this.getConfig().getTemperatureRangeMaxFahrenheit(), this.getConfig().getTemperatureRangeStepFahrenheit());
+        this.getRangeModel(602413).setRangeListener(this.rangeListener);
+        this.temperatureZone4 = new TemperatureHandler("Temperature Zone 4", 4, 602197, 602413, 602382, 602189);
+        this.getRangeModel(602416).setLimits(this.getConfig().getAirVolumeRangeMin(), this.getConfig().getAirVolumeRangeMax(), this.getConfig().getAirVolumeRangeStep());
+        this.getRangeModel(602416).setRangeListener(this.rangeListener);
+        this.getChoiceModel(602159).setChoiceListener(this.choiceListener);
+        this.airVolumeZone3 = new AirVolumeHandler("Volume Zone 3", 3, 37, 602416, 602159);
+        this.getRangeModel(602407).setLimits(this.getConfig().getAirVolumeRangeMin(), this.getConfig().getAirVolumeRangeMax(), this.getConfig().getAirVolumeRangeStep());
+        this.getRangeModel(602407).setRangeListener(this.rangeListener);
+        this.getChoiceModel(602160).setChoiceListener(this.choiceListener);
+        this.airVolumeZone4 = new AirVolumeHandler("Volume Zone 4", 4, 43, 602407, 602160);
+        this.getChoiceModel(602132).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602374).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602417).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602140).setChoiceListener(this.choiceListener);
+        this.airDistributionZone3 = new AirDistributionHandler("Distribution Zone 3", 3, 602132, 602374, 602417, 602140);
+        this.getChoiceModel(602138).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602384).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602401).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602141).setChoiceListener(this.choiceListener);
+        this.airDistributionZone4 = new AirDistributionHandler("Distribution Zone 4", 4, 602138, 602384, 602401, 602141);
+        this.getRangeModel(601988).setLimits(this.getConfig().getFootwellTemperatureRangeMin(), this.getConfig().getFootwellTemperatureRangeMax(), this.getConfig().getFootwellTemperatureRangeStep());
+        this.getRangeModel(601988).setRangeListener(this.rangeListener);
+        this.footwellTempRangeModelSyncZone3.addWatchedAttribute(39, true, this.getRangeModel(601988));
+        this.getChoiceModel(602209).setChoiceListener(this.choiceListener);
+        this.getRangeModel(601989).setLimits(this.getConfig().getFootwellTemperatureRangeMin(), this.getConfig().getFootwellTemperatureRangeMax(), this.getConfig().getFootwellTemperatureRangeStep());
+        this.getRangeModel(601989).setRangeListener(this.rangeListener);
+        this.footwellTempRangeModelSyncZone4.addWatchedAttribute(45, true, this.getRangeModel(601989));
+        this.getChoiceModel(602207).setChoiceListener(this.choiceListener);
+        this.getChoiceModel(602130).setChoiceListener(this.choiceListener);
     }
 
-    @Override
     protected void deinitModels() {
-        this.getChoiceModel(674302208).resetListener();
-        this.getChoiceModel(238029056).resetListener();
-        this.getChoiceModel(372312320).resetListener();
-        this.getChoiceModel(254806272).resetListener();
-        this.getChoiceModel(-30406400).resetListener();
-        this.getChoiceModel(925501696).resetListener();
-        this.getChoiceModel(-47183616).resetListener();
-        this.getChoiceModel(-1624504064).resetListener();
-        this.getChoiceModel(489752832).resetListener();
-        this.getChoiceModel(891947264).resetListener();
-        this.getChoiceModel(1143605504).resetListener();
-        this.getChoiceModel(288360704).resetListener();
-        this.getChoiceModel(1412040960).resetListener();
-        this.getChoiceModel(221251840).resetListener();
-        this.getChoiceModel(691079424).resetListener();
-        this.getRangeModel(1261439232).resetListener();
-        this.getRangeModel(1345325312).resetListener();
+        this.getChoiceModel(602408).resetListener();
+        this.getChoiceModel(602126).resetListener();
+        this.getChoiceModel(602390).resetListener();
+        this.getChoiceModel(602127).resetListener();
+        this.getChoiceModel(602366).resetListener();
+        this.getChoiceModel(600631).resetListener();
+        this.getChoiceModel(602365).resetListener();
+        this.getChoiceModel(601247).resetListener();
+        this.getChoiceModel(602397).resetListener();
+        this.getChoiceModel(600629).resetListener();
+        this.getChoiceModel(600644).resetListener();
+        this.getChoiceModel(602129).resetListener();
+        this.getChoiceModel(600660).resetListener();
+        this.getChoiceModel(602125).resetListener();
+        this.getChoiceModel(602409).resetListener();
+        this.getRangeModel(602187).resetListener();
+        this.getRangeModel(602192).resetListener();
         this.temperatureZone1 = null;
-        this.getRangeModel(1395656960).resetListener();
-        this.getRangeModel(1378879744).resetListener();
+        this.getRangeModel(602195).resetListener();
+        this.getRangeModel(602194).resetListener();
         this.temperatureZone2 = null;
-        this.getRangeModel(842008832).resetListener();
-        this.getChoiceModel(774899968).resetListener();
+        this.getRangeModel(602162).resetListener();
+        this.getChoiceModel(602158).resetListener();
         this.airVolumeZone1 = null;
-        this.getRangeModel(892340480).resetListener();
-        this.getChoiceModel(825231616).resetListener();
+        this.getRangeModel(602165).resetListener();
+        this.getChoiceModel(602161).resetListener();
         this.airVolumeZone2 = null;
-        this.getChoiceModel(-13629184).resetListener();
-        this.getChoiceModel(1898907904).resetListener();
-        this.getChoiceModel(540084480).resetListener();
-        this.getChoiceModel(405801216).resetListener();
-        this.getChoiceModel(-114292480).resetListener();
-        this.getChoiceModel(556796160).resetListener();
+        this.getChoiceModel(602367).resetListener();
+        this.getChoiceModel(601969).resetListener();
+        this.getChoiceModel(602400).resetListener();
+        this.getChoiceModel(602136).resetListener();
+        this.getChoiceModel(602361).resetListener();
+        this.getChoiceModel(602145).resetListener();
         this.airDistributionZone1 = null;
-        this.getChoiceModel(456132864).resetListener();
-        this.getChoiceModel(607193344).resetListener();
-        this.getChoiceModel(540018944).resetListener();
-        this.getChoiceModel(372246784).resetListener();
+        this.getChoiceModel(602139).resetListener();
+        this.getChoiceModel(602404).resetListener();
+        this.getChoiceModel(602144).resetListener();
+        this.getChoiceModel(602134).resetListener();
         this.airDistributionZone2 = null;
-        this.getRangeModel(-2026960640).resetListener();
+        this.getRangeModel(601991).resetListener();
         this.footwellTempRangeModelSyncZone1.clear();
-        this.getChoiceModel(842074368).resetListener();
-        this.getRangeModel(-2043737856).resetListener();
+        this.getChoiceModel(602418).resetListener();
+        this.getRangeModel(601990).resetListener();
         this.footwellTempRangeModelSyncZone2.clear();
-        this.getChoiceModel(1647315200).resetListener();
-        this.getChoiceModel(204474624).resetListener();
-        this.getChoiceModel(1848576256).resetListener();
-        this.getChoiceModel(1865353472).resetListener();
-        this.getRangeModel(1244662016).resetListener();
-        this.getRangeModel(590416128).resetListener();
+        this.getChoiceModel(602210).resetListener();
+        this.getChoiceModel(602124).resetListener();
+        this.getChoiceModel(601966).resetListener();
+        this.getChoiceModel(601967).resetListener();
+        this.getRangeModel(602186).resetListener();
+        this.getRangeModel(602403).resetListener();
         this.temperatureZone3 = null;
-        this.getRangeModel(1429211392).resetListener();
-        this.getRangeModel(758188288).resetListener();
+        this.getRangeModel(602197).resetListener();
+        this.getRangeModel(602413).resetListener();
         this.temperatureZone4 = null;
-        this.getRangeModel(808519936).resetListener();
-        this.getChoiceModel(791677184).resetListener();
+        this.getRangeModel(602416).resetListener();
+        this.getChoiceModel(602159).resetListener();
         this.airVolumeZone3 = null;
-        this.getRangeModel(657524992).resetListener();
-        this.getChoiceModel(0x30300900).resetListener();
+        this.getRangeModel(602407).resetListener();
+        this.getChoiceModel(602160).resetListener();
         this.airVolumeZone4 = null;
-        this.getChoiceModel(338692352).resetListener();
-        this.getChoiceModel(103876864).resetListener();
-        this.getChoiceModel(825297152).resetListener();
-        this.getChoiceModel(472910080).resetListener();
+        this.getChoiceModel(602132).resetListener();
+        this.getChoiceModel(602374).resetListener();
+        this.getChoiceModel(602417).resetListener();
+        this.getChoiceModel(602140).resetListener();
         this.airDistributionZone3 = null;
-        this.getChoiceModel(439355648).resetListener();
-        this.getChoiceModel(271649024).resetListener();
-        this.getChoiceModel(556861696).resetListener();
-        this.getChoiceModel(489687296).resetListener();
+        this.getChoiceModel(602138).resetListener();
+        this.getChoiceModel(602384).resetListener();
+        this.getChoiceModel(602401).resetListener();
+        this.getChoiceModel(602141).resetListener();
         this.airDistributionZone4 = null;
-        this.getRangeModel(-2077292288).resetListener();
+        this.getRangeModel(601988).resetListener();
         this.footwellTempRangeModelSyncZone3.clear();
-        this.getChoiceModel(1630537984).resetListener();
-        this.getRangeModel(-2060515072).resetListener();
+        this.getChoiceModel(602209).resetListener();
+        this.getRangeModel(601989).resetListener();
         this.footwellTempRangeModelSyncZone4.clear();
-        this.getChoiceModel(1596983552).resetListener();
-        this.getChoiceModel(305137920).resetListener();
+        this.getChoiceModel(602207).resetListener();
+        this.getChoiceModel(602130).resetListener();
     }
 
-    @Override
     public void updateAirconViewOptionsMaster(AirconMasterViewOptions airconMasterViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconComponent#updateAirconViewOptionsMaster] airconMasterViewOptions='%1', valid='%2'", (Object)(null != airconMasterViewOptions ? this.formatViewOptionsLog(airconMasterViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconComponent#updateAirconViewOptionsMaster] airconMasterViewOptions='%1', valid='%2'", (Object)(null != airconMasterViewOptions ? this.formatViewOptionsLog(airconMasterViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconMasterViewOptions) {
             this.currentViewOptionsMaster = airconMasterViewOptions;
@@ -658,10 +1048,9 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconViewOptionsRow1(AirconRowViewOptions airconRowViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconComponent#updateAirconViewOptionsRow1] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconComponent#updateAirconViewOptionsRow1] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconRowViewOptions) {
             this.currentViewOptionsRow1 = airconRowViewOptions;
@@ -670,10 +1059,9 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconViewOptionsRow2(AirconRowViewOptions airconRowViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconComponent#updateAirconViewOptionsRow2] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconComponent#updateAirconViewOptionsRow2] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconRowViewOptions) {
             this.currentViewOptionsRow2 = airconRowViewOptions;
@@ -682,10 +1070,9 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconViewOptionsRow3(AirconRowViewOptions airconRowViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconComponent#updateAirconViewOptionsRow3] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconComponent#updateAirconViewOptionsRow3] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconRowViewOptions) {
             this.currentViewOptionsRow3 = airconRowViewOptions;
@@ -694,50 +1081,45 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconSystemOnOffRow1(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconSystemOnOffRow1] systemOnOff='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconSystemOnOffRow1] systemOnOff='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
             int n2 = this.invertHMISystemOnOffState ? (bl ? 0 : 1) : (bl ? 1 : 0);
-            this.getChoiceModel(674302208).setValue(n2);
+            this.getChoiceModel(602408).setValue(n2);
             this.notifySystemOnOff(1, bl);
         }
     }
 
-    @Override
     public void updateAirconSystemOnOffRow2(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconSystemOnOffRow2] systemOnOff='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconSystemOnOffRow2] systemOnOff='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
             int n2 = this.invertHMISystemOnOffState ? (bl ? 0 : 1) : (bl ? 1 : 0);
-            this.getChoiceModel(204474624).setValue(n2);
+            this.getChoiceModel(602124).setValue(n2);
             this.notifySystemOnOff(2, bl);
         }
     }
 
-    @Override
     public void updateAirconSystemOnOffRow3(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconSystemOnOffRow3] systemOnOff='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconSystemOnOffRow3] systemOnOff='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
             int n2 = this.invertHMISystemOnOffState ? (bl ? 0 : 1) : (bl ? 1 : 0);
-            this.getChoiceModel(305137920).setValue(n2);
+            this.getChoiceModel(602130).setValue(n2);
             this.notifySystemOnOff(3, bl);
         }
     }
 
-    @Override
     public void updateAirconAirCirculationAuto(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirCirculationAuto] airCirulationAuto='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirCirculationAuto] airCirulationAuto='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
-            this.getChoiceModel(-47183616).setValue(bl ? 1 : 0);
+            this.getChoiceModel(602365).setValue(bl ? 1 : 0);
             if (!bl && this.isAirCirculationAutoAvailable()) {
-                this.getRangeModel(908724480).setValue(this.getConfig().getAirCirculationSensitivityRangeMinWithOff());
+                this.getRangeModel(600630).setValue(this.getConfig().getAirCirculationSensitivityRangeMinWithOff());
             }
         }
     }
 
-    @Override
     public void updateAirconAirCirculationSensitivity(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirCirculationSensitivity] sensitivity='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirCirculationSensitivity] sensitivity='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             int n3;
             this.airCirculationSensitivityModelSync.notifyUpdateReceived(5, n);
@@ -745,98 +1127,88 @@ implements IAirconConstants {
                 n3 = this.convertCirculationSensitivityDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconAirCirculationSensitivity] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconAirCirculationSensitivity] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(925501696).setValue(n3);
+            this.getChoiceModel(600631).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconAirCirculationMiddleExhaustion(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AirConditionComponentPorsche#updateAirconAirCirculationMiddleExhaustion] middleExhaustion='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AirConditionComponentPorsche#updateAirconAirCirculationMiddleExhaustion] middleExhaustion='%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             int n3;
             try {
                 n3 = this.convertMiddleExhaustionDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconAirCirculationMiddleExhaustion] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconAirCirculationMiddleExhaustion] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(-1624504064).setValue(n3);
+            this.getChoiceModel(601247).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconIndirectVentilation(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconIndirectVentilation] indirectVentilation='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconIndirectVentilation] indirectVentilation='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
             boolean bl2 = this.invertHMIIndirectVentilation ? !bl : bl;
-            this.getChoiceModel(489752832).setValue(bl2 ? 1 : 0);
+            this.getChoiceModel(602397).setValue(bl2 ? 1 : 0);
         }
     }
 
-    @Override
     public void updateAirconHeater(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconHeater] heater='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconHeater] heater='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
-            this.getChoiceModel(891947264).setValue(bl ? 1 : 0);
+            this.getChoiceModel(600629).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void updateAirconSolar(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconSolar] solar='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconSolar] solar='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
-            this.getChoiceModel(1412040960).setValue(bl ? 1 : 0);
+            this.getChoiceModel(600660).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void updateAirconAC(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAC] ac='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAC] ac='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
-            this.getChoiceModel(238029056).setValue(bl ? 1 : 0);
+            this.getChoiceModel(602126).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void updateAirconEcoAC(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconEcoAC] ecoAc='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconEcoAC] ecoAc='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
-            this.getChoiceModel(372312320).setValue(bl ? 1 : 0);
+            this.getChoiceModel(602390).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void updateAirconMaxAC(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconMaxAC] maxAc='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconMaxAC] maxAc='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
-            this.getChoiceModel(254806272).setValue(bl ? 1 : 0);
+            this.getChoiceModel(602127).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void updateAirconSteeringWheelHeater(AirconSteeringWheelHeater airconSteeringWheelHeater, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconSteeringWheelHeater] steeringWheelHeater='%1', valid='%2'", (Object)(null == airconSteeringWheelHeater ? "null" : airconSteeringWheelHeater.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconSteeringWheelHeater] steeringWheelHeater='%1', valid='%2'", (Object)(null == airconSteeringWheelHeater ? "null" : airconSteeringWheelHeater.toString()), (long)n);
         if (1 == n) {
             this.currentSteeringWheelHeater = airconSteeringWheelHeater;
-            this.getChoiceModel(288360704).setValue(airconSteeringWheelHeater.isHeating() ? 1 : 0);
+            this.getChoiceModel(602129).setValue(airconSteeringWheelHeater.isHeating() ? 1 : 0);
         }
     }
 
-    @Override
     public void updateAirconFrontWindowHeaterAuto(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconFrontWindowHeaterAuto] frontWindowHeaterAuto='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconFrontWindowHeaterAuto] frontWindowHeaterAuto='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
-            this.getChoiceModel(1143605504).setValue(bl ? 1 : 0);
+            this.getChoiceModel(600644).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void updateAirconSynchronisation(AirconSynchronisation airconSynchronisation, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconSynchronisation] synchronisation='%1', valid='%2'", (Object)(null == airconSynchronisation ? "null" : airconSynchronisation.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconSynchronisation] synchronisation='%1', valid='%2'", (Object)(null == airconSynchronisation ? "null" : airconSynchronisation.toString()), (long)n);
         if (1 == n) {
             if (null != this.currentViewOptionsMaster) {
                 boolean bl;
@@ -848,121 +1220,107 @@ implements IAirconConstants {
                 boolean bl6 = airconMasterConfiguration.isZr2r() ? bl && airconSynchronisation.isSlaveZR2R() : (bl = bl);
                 boolean bl7 = airconMasterConfiguration.isZl3r() ? bl && airconSynchronisation.isSlaveZL3R() : (bl = bl);
                 bl = airconMasterConfiguration.isZr3r() ? bl && airconSynchronisation.isSlaveZR3R() : bl;
-                this.getChoiceModel(-30406400).setValue(bl ? 1 : 0);
+                this.getChoiceModel(602366).setValue(bl ? 1 : 0);
                 this.onAirconSyncChanged(bl);
             } else {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconSynchronisation]: Couldn't get configuration. Update ignored.");
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconSynchronisation]: Couldn't get configuration. Update ignored.");
             }
         }
     }
 
-    @Override
     public void updateAirconRearControlFondPlus(boolean bl, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconRearControlFondPlus] fondPlus='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconRearControlFondPlus] fondPlus='%1', valid='%2'", bl, (long)n);
         if (1 == n) {
-            this.getChoiceModel(221251840).setValue(bl ? 1 : 0);
+            this.getChoiceModel(602125).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void updateAirconTempZone1(AirconTemp airconTemp, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconSynchronisation] temp='%1', valid='%2'", (Object)(null == airconTemp ? "null" : airconTemp.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconSynchronisation] temp='%1', valid='%2'", (Object)(null == airconTemp ? "null" : airconTemp.toString()), (long)n);
         if (1 == n) {
             this.temperatureZone1.updateTemperature(airconTemp);
         }
     }
 
-    @Override
     public void updateAirconTempZone2(AirconTemp airconTemp, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconTempZone2] temp='%1', valid='%2'", (Object)(null == airconTemp ? "null" : airconTemp.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconTempZone2] temp='%1', valid='%2'", (Object)(null == airconTemp ? "null" : airconTemp.toString()), (long)n);
         if (1 == n) {
             this.temperatureZone2.updateTemperature(airconTemp);
         }
     }
 
-    @Override
     public void updateAirconTempZone3(AirconTemp airconTemp, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconTempZone3] temp='%1', valid='%2'", (Object)(null == airconTemp ? "null" : airconTemp.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconTempZone3] temp='%1', valid='%2'", (Object)(null == airconTemp ? "null" : airconTemp.toString()), (long)n);
         if (1 == n) {
             this.temperatureZone3.updateTemperature(airconTemp);
         }
     }
 
-    @Override
     public void updateAirconTempZone4(AirconTemp airconTemp, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconTempZone4] temp='%1', valid='%2'", (Object)(null == airconTemp ? "null" : airconTemp.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconTempZone4] temp='%1', valid='%2'", (Object)(null == airconTemp ? "null" : airconTemp.toString()), (long)n);
         if (1 == n) {
             this.temperatureZone4.updateTemperature(airconTemp);
         }
     }
 
-    @Override
     public void updateAirconAirVolumeZone1(AirconAirVolume airconAirVolume, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirVolumeZone1] airVolume='%1', valid='%2'", (Object)(null == airconAirVolume ? "null" : airconAirVolume.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirVolumeZone1] airVolume='%1', valid='%2'", (Object)(null == airconAirVolume ? "null" : airconAirVolume.toString()), (long)n);
         if (1 == n) {
             this.airVolumeZone1.updateAirVolume(airconAirVolume);
         }
     }
 
-    @Override
     public void updateAirconAirVolumeZone2(AirconAirVolume airconAirVolume, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirVolumeZone2] airVolume='%1', valid='%2'", (Object)(null == airconAirVolume ? "null" : airconAirVolume.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirVolumeZone2] airVolume='%1', valid='%2'", (Object)(null == airconAirVolume ? "null" : airconAirVolume.toString()), (long)n);
         if (1 == n) {
             this.airVolumeZone2.updateAirVolume(airconAirVolume);
         }
     }
 
-    @Override
     public void updateAirconAirVolumeZone3(AirconAirVolume airconAirVolume, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirVolumeZone3] airVolume='%1', valid='%2'", (Object)(null == airconAirVolume ? "null" : airconAirVolume.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirVolumeZone3] airVolume='%1', valid='%2'", (Object)(null == airconAirVolume ? "null" : airconAirVolume.toString()), (long)n);
         if (1 == n) {
             this.airVolumeZone3.updateAirVolume(airconAirVolume);
         }
     }
 
-    @Override
     public void updateAirconAirVolumeZone4(AirconAirVolume airconAirVolume, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirVolumeZone4] airVolume='%1', valid='%2'", (Object)(null == airconAirVolume ? "null" : airconAirVolume.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirVolumeZone4] airVolume='%1', valid='%2'", (Object)(null == airconAirVolume ? "null" : airconAirVolume.toString()), (long)n);
         if (1 == n) {
             this.airVolumeZone4.updateAirVolume(airconAirVolume);
         }
     }
 
-    @Override
     public void updateAirconAirDistributionZone1(AirconAirDistribution airconAirDistribution, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirDistributionZone1] airDistribution='%1', valid='%2'", (Object)(null == airconAirDistribution ? "null" : airconAirDistribution.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirDistributionZone1] airDistribution='%1', valid='%2'", (Object)(null == airconAirDistribution ? "null" : airconAirDistribution.toString()), (long)n);
         if (1 == n) {
             this.airDistributionZone1.updateAirDistribution(airconAirDistribution);
         }
     }
 
-    @Override
     public void updateAirconAirDistributionZone2(AirconAirDistribution airconAirDistribution, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirDistributionZone2] airDistribution='%1', valid='%2'", (Object)(null == airconAirDistribution ? "null" : airconAirDistribution.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirDistributionZone2] airDistribution='%1', valid='%2'", (Object)(null == airconAirDistribution ? "null" : airconAirDistribution.toString()), (long)n);
         if (1 == n) {
             this.airDistributionZone2.updateAirDistribution(airconAirDistribution);
         }
     }
 
-    @Override
     public void updateAirconAirDistributionZone3(AirconAirDistribution airconAirDistribution, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirDistributionZone3] airDistribution='%1', valid='%2'", (Object)(null == airconAirDistribution ? "null" : airconAirDistribution.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirDistributionZone3] airDistribution='%1', valid='%2'", (Object)(null == airconAirDistribution ? "null" : airconAirDistribution.toString()), (long)n);
         if (1 == n) {
             this.airDistributionZone3.updateAirDistribution(airconAirDistribution);
         }
     }
 
-    @Override
     public void updateAirconAirDistributionZone4(AirconAirDistribution airconAirDistribution, int n) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconAirDistributionZone4] airDistribution='%1', valid='%2'", (Object)(null == airconAirDistribution ? "null" : airconAirDistribution.toString()), (long)n);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconAirDistributionZone4] airDistribution='%1', valid='%2'", (Object)(null == airconAirDistribution ? "null" : airconAirDistribution.toString()), (long)n);
         if (1 == n) {
             this.airDistributionZone4.updateAirDistribution(airconAirDistribution);
         }
     }
 
-    @Override
     public void updateAirconFootwellTempZone1(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconFootwellTempZone1] footwellTemp='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconFootwellTempZone1] footwellTemp='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             int n3;
             this.footwellTempRangeModelSyncZone1.notifyUpdateReceived(27, n);
@@ -970,16 +1328,15 @@ implements IAirconConstants {
                 n3 = this.convertFootwellTemperatureDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconFootwellTempZone1] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconFootwellTempZone1] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(842074368).setValue(n3);
+            this.getChoiceModel(602418).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconFootwellTempZone2(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconFootwellTempZone2] footwellTemp='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconFootwellTempZone2] footwellTemp='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             int n3;
             this.footwellTempRangeModelSyncZone2.notifyUpdateReceived(33, n);
@@ -987,16 +1344,15 @@ implements IAirconConstants {
                 n3 = this.convertFootwellTemperatureDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconFootwellTempZone2] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconFootwellTempZone2] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(1647315200).setValue(n3);
+            this.getChoiceModel(602210).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconFootwellTempZone3(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconFootwellTempZone3] footwellTemp='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconFootwellTempZone3] footwellTemp='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             int n3;
             this.footwellTempRangeModelSyncZone3.notifyUpdateReceived(39, n);
@@ -1004,16 +1360,15 @@ implements IAirconConstants {
                 n3 = this.convertFootwellTemperatureDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconFootwellTempZone3] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconFootwellTempZone3] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(1630537984).setValue(n3);
+            this.getChoiceModel(602209).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconFootwellTempZone4(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconFootwellTempZone4] footwellTemp='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconFootwellTempZone4] footwellTemp='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             int n3;
             this.footwellTempRangeModelSyncZone4.notifyUpdateReceived(45, n);
@@ -1021,120 +1376,112 @@ implements IAirconConstants {
                 n3 = this.convertFootwellTemperatureDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconFootwellTempZone4] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconFootwellTempZone4] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(1596983552).setValue(n3);
+            this.getChoiceModel(602207).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconClimateStyleZone1(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconClimateStyleZone1] style='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconClimateStyleZone1] style='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             int n3;
             try {
                 n3 = this.convertClimateStyleDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconClimateStyleZone1] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconClimateStyleZone1] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(-13629184).setValue(n3);
+            this.getChoiceModel(602367).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconClimateStyleZone2(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconClimateStyleZone2] style='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconClimateStyleZone2] style='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             int n3;
             try {
                 n3 = this.convertClimateStyleDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconClimateStyleZone2] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconClimateStyleZone2] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(1898907904).setValue(n3);
+            this.getChoiceModel(601969).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconClimateStyleZone3(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconClimateStyleZone3] style='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconClimateStyleZone3] style='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             int n3;
             try {
                 n3 = this.convertClimateStyleDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconClimateStyleZone3] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconClimateStyleZone3] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(1848576256).setValue(n3);
+            this.getChoiceModel(601966).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconClimateStyleZone4(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconClimateStyleZone4] style='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconClimateStyleZone4] style='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             int n3;
             try {
                 n3 = this.convertClimateStyleDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconClimateStyleZone4] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconClimateStyleZone4] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(1865353472).setValue(n3);
+            this.getChoiceModel(601967).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconIonisatorZone1(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconIonisatorZone1] state='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconIonisatorZone1] state='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2 && this.isUpdateIonizer(1)) {
             int n3;
             try {
                 n3 = this.convertIonizerStateDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconIonisatorZone1] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconIonisatorZone1] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(691079424).setValue(n3);
+            this.getChoiceModel(602409).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconIonisatorZone2(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconIonisatorZone2] state='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconIonisatorZone2] state='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2 && this.isUpdateIonizer(2)) {
             int n3;
             try {
                 n3 = this.convertIonizerStateDSI2HMI(n);
             }
             catch (ValueConverterStrategyException valueConverterStrategyException) {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#updateAirconIonisatorZone2] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
+                this.getLogChannel().log(100000, "[AbstractAirconComponent#updateAirconIonisatorZone2] ValueConverterStrategyException occurred. Reason: '%1'", (long)valueConverterStrategyException.getReason());
                 return;
             }
-            this.getChoiceModel(691079424).setValue(n3);
+            this.getChoiceModel(602409).setValue(n3);
         }
     }
 
-    @Override
     public void updateAirconIonisatorZone3(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconIonisatorZone3] state='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconIonisatorZone3] state='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             super.updateAirconIonisatorZone3(n, n2);
         }
     }
 
-    @Override
     public void updateAirconIonisatorZone4(int n, int n2) {
-        this.getLogChannel(1).log(1078071040, "[AbstractAirconComponent#updateAirconIonisatorZone4] state='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel(1).log(1000000, "[AbstractAirconComponent#updateAirconIonisatorZone4] state='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             super.updateAirconIonisatorZone3(n, n2);
         }
@@ -1148,47 +1495,47 @@ implements IAirconConstants {
         if (null != (rangeModelApp = this.getRangeModel(iRangeModelSyncParameterAccess.getRangeModelID()))) {
             rangeModelApp.setValue(iRangeModelSyncParameterAccess.getCurrentValue());
         } else {
-            this.getLogChannel().log(-1601830656, "[AbstractAirconComponent#setRangeModelValue] Model with ID='%1' not available. Update ignored.", (long)iRangeModelSyncParameterAccess.getRangeModelID());
+            this.getLogChannel().log(100000, "[AbstractAirconComponent#setRangeModelValue] Model with ID='%1' not available. Update ignored.", (long)iRangeModelSyncParameterAccess.getRangeModelID());
         }
     }
 
-    private int convertFootwellTemperatureDSI2HMI(int n) {
+    private int convertFootwellTemperatureDSI2HMI(int n) throws ValueConverterStrategyException {
         return (Integer)this.footwellTemperatureConverterStrategy.getHMIValue(new Integer(n));
     }
 
-    private int convertFootwellTemperatureHMI2DSI(int n) {
+    private int convertFootwellTemperatureHMI2DSI(int n) throws ValueConverterStrategyException {
         return (Integer)this.footwellTemperatureConverterStrategy.getDSIValue(new Integer(n));
     }
 
-    private int convertClimateStyleDSI2HMI(int n) {
+    private int convertClimateStyleDSI2HMI(int n) throws ValueConverterStrategyException {
         return (Integer)this.climateStyleConverterStrategy.getHMIValue(new Integer(n));
     }
 
-    private int convertClimateStyleHMI2DSI(int n) {
+    private int convertClimateStyleHMI2DSI(int n) throws ValueConverterStrategyException {
         return (Integer)this.climateStyleConverterStrategy.getDSIValue(new Integer(n));
     }
 
-    private int convertIonizerStateDSI2HMI(int n) {
+    private int convertIonizerStateDSI2HMI(int n) throws ValueConverterStrategyException {
         return (Integer)this.ionizerConverterStrategy.getHMIValue(new Integer(n));
     }
 
-    private int convertIonizerStateHMI2DSI(int n) {
+    private int convertIonizerStateHMI2DSI(int n) throws ValueConverterStrategyException {
         return (Integer)this.ionizerConverterStrategy.getDSIValue(new Integer(n));
     }
 
-    private int convertCirculationSensitivityDSI2HMI(int n) {
+    private int convertCirculationSensitivityDSI2HMI(int n) throws ValueConverterStrategyException {
         return (Integer)this.airCirculationSensitivityConverterStrategy.getHMIValue(new Integer(n));
     }
 
-    private int convertCirculationSensitivityHMI2DSI(int n) {
+    private int convertCirculationSensitivityHMI2DSI(int n) throws ValueConverterStrategyException {
         return (Integer)this.airCirculationSensitivityConverterStrategy.getDSIValue(new Integer(n));
     }
 
-    private int convertMiddleExhaustionDSI2HMI(int n) {
+    private int convertMiddleExhaustionDSI2HMI(int n) throws ValueConverterStrategyException {
         return (Integer)this.middleExhaustionConverterStrategy.getHMIValue(new Integer(n));
     }
 
-    private int convertMiddleExhaustionHMI2DSI(int n) {
+    private int convertMiddleExhaustionHMI2DSI(int n) throws ValueConverterStrategyException {
         return (Integer)this.middleExhaustionConverterStrategy.getDSIValue(new Integer(n));
     }
 
@@ -1208,7 +1555,7 @@ implements IAirconConstants {
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent.convertRowDSI2HMI] Row('%1') not supported.", (long)n);
+                this.getLogChannel().log(100000, "[AbstractAirconComponent.convertRowDSI2HMI] Row('%1') not supported.", (long)n);
                 n2 = -1;
             }
         }
@@ -1231,7 +1578,7 @@ implements IAirconConstants {
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent.convertRowHMI2DSI] Row('%1') not supported.", (long)n);
+                this.getLogChannel().log(100000, "[AbstractAirconComponent.convertRowHMI2DSI] Row('%1') not supported.", (long)n);
                 n2 = -1;
             }
         }
@@ -1258,7 +1605,7 @@ implements IAirconConstants {
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent.convertZoneDSI2HMI] Zone('%1') not supported.", (long)n);
+                this.getLogChannel().log(100000, "[AbstractAirconComponent.convertZoneDSI2HMI] Zone('%1') not supported.", (long)n);
                 n2 = -1;
             }
         }
@@ -1285,163 +1632,597 @@ implements IAirconConstants {
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[AbstractAirconComponent.convertZoneHMI2DSI] Zone('%1') not supported.", (long)n);
+                this.getLogChannel().log(100000, "[AbstractAirconComponent.convertZoneHMI2DSI] Zone('%1') not supported.", (long)n);
                 n2 = -1;
             }
         }
         return n2;
     }
 
-    @Override
     public void acknowledgeAirconNozzleControlRow1(boolean bl, boolean bl2) {
     }
 
-    @Override
     public void responseAirconNozzleListRow1(CarArrayListUpdateInfo carArrayListUpdateInfo, AirconNozzleListRecord[] airconNozzleListRecordArray) {
     }
 
-    static /* synthetic */ RangeModelApp access$000(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getRangeModel(n);
+    public class AirVolumeHandler {
+        private final String name;
+        private final int hmiZone;
+        private final int airVolumeAttributeID;
+        private final RangeModelApp airVolumeModelValue;
+        private final ChoiceModelApp airVolumeModelAuto;
+        private boolean sendDefault = false;
+        private AirconAirVolume currentAirVolume;
+        private final RangeModelSynchronizer airVolumeRangeModelSync;
+
+        public AirVolumeHandler(String string, int n, int n2, int n3, int n4) {
+            this.name = string;
+            this.hmiZone = n;
+            this.airVolumeAttributeID = n2;
+            this.airVolumeModelValue = AbstractAirconComponent.this.getRangeModel(n3);
+            this.airVolumeModelAuto = AbstractAirconComponent.this.getChoiceModel(n4);
+            this.airVolumeRangeModelSync = new RangeModelSynchronizer(string, AbstractAirconComponent.this.rangeModelSyncListener, 1000L, AbstractAirconComponent.this.getLogChannel());
+            this.airVolumeRangeModelSync.addWatchedAttribute(n2, true, this.airVolumeModelValue);
+        }
+
+        private void callDSISetAirconAirVolume(AirconAirVolume airconAirVolume) {
+            int n = AbstractAirconComponent.this.convertZoneHMI2DSI(this.hmiZone);
+            if (-1 != n) {
+                AbstractAirconComponent.this.getLogChannel(1).log(1000000, "---> DSI.callDSISetAirconAirVolume(%1, %2)", (Object)Integer.toString(n), (Object)airconAirVolume.toString());
+                AbstractAirconComponent.this.getDSI().setAirconAirVolume(n, airconAirVolume);
+            }
+        }
+
+        private AirconAirVolume copy(AirconAirVolume airconAirVolume) {
+            return null == airconAirVolume ? new AirconAirVolume() : new AirconAirVolume(airconAirVolume.airVolume, airconAirVolume.airVolumeRegulated, airconAirVolume.airVolumeAuto);
+        }
+
+        public void incrementVolume(int n) {
+            this.airVolumeRangeModelSync.notifyIncrement(this.airVolumeAttributeID, n);
+        }
+
+        public void decrementVolume(int n) {
+            this.airVolumeRangeModelSync.notifyDecrement(this.airVolumeAttributeID, n);
+        }
+
+        public void dsiSetVolume(int n) {
+            if (null == this.currentAirVolume) {
+                AbstractAirconComponent.this.getLogChannel().log(100000, "[AirVolumeHandler(%1)#dsiSetVolume] No AirVolume-Information received yet.", (Object)this.name);
+                if (!this.sendDefault) {
+                    return;
+                }
+            }
+            AirconAirVolume airconAirVolume = this.copy(this.currentAirVolume);
+            airconAirVolume.airVolume = n;
+            this.callDSISetAirconAirVolume(airconAirVolume);
+        }
+
+        public void dsiSetVolumeAuto(int n) {
+            if (null == this.currentAirVolume) {
+                AbstractAirconComponent.this.getLogChannel().log(100000, "[AirVolumeHandler(%1)#dsiSetVolumeAuto] No AirVolume-Information received yet.", (Object)this.name);
+                if (!this.sendDefault) {
+                    return;
+                }
+            }
+            AirconAirVolume airconAirVolume = this.copy(this.currentAirVolume);
+            airconAirVolume.airVolumeAuto = n;
+            this.callDSISetAirconAirVolume(airconAirVolume);
+        }
+
+        public void updateAirVolume(AirconAirVolume airconAirVolume) {
+            if (null != airconAirVolume) {
+                this.currentAirVolume = airconAirVolume;
+                int n = airconAirVolume.getAirVolume();
+                int n2 = airconAirVolume.getAirVolumeAuto();
+                if (null != this.airVolumeRangeModelSync) {
+                    this.airVolumeRangeModelSync.notifyUpdateReceived(this.airVolumeAttributeID, n);
+                }
+                if (null != this.airVolumeModelAuto) {
+                    this.airVolumeModelAuto.setValue(n2);
+                }
+                AbstractAirconComponent.this.notifyAutoModeStateChanged(this.hmiZone, 1);
+            }
+        }
     }
 
-    static /* synthetic */ RangeModelApp access$100(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getRangeModel(n);
+    private class TemperatureModel {
+        private static final int LABEL_TEMP_VALUE = 0;
+        private static final int LABEL_LO_SYMBOL = 1;
+        private static final int LABEL_HI_SYMBOL = 2;
+        private final float tempStartCelsius;
+        private final float tempEndCelsius;
+        private final float tempStepCelsius;
+        private final float tempStartFahrenheit;
+        private final float tempEndFahrenheit;
+        private final float tempStepFahrenheit;
+        private RangeModelApp celsiusRange = null;
+        private RangeModelApp fahrenheitRange = null;
+        private ChoiceModelApp labelChoice = null;
+        private MetricsModelApp tempMetric = null;
+        private int currentTemperature = 0;
+
+        public TemperatureModel(RangeModelApp rangeModelApp, RangeModelApp rangeModelApp2, ChoiceModelApp choiceModelApp, MetricsModelApp metricsModelApp, float f2, float f3, float f4, float f5, float f6, float f7) {
+            this.celsiusRange = rangeModelApp;
+            this.fahrenheitRange = rangeModelApp2;
+            this.labelChoice = choiceModelApp;
+            this.tempMetric = metricsModelApp;
+            this.tempStartCelsius = f2;
+            this.tempEndCelsius = f3;
+            this.tempStepCelsius = f4;
+            this.tempStartFahrenheit = f5;
+            this.tempEndFahrenheit = f6;
+            this.tempStepFahrenheit = f7;
+        }
+
+        private float dsiToCelsius(int n) {
+            float f2 = (n - this.celsiusRange.getMinimum()) / this.celsiusRange.getStep();
+            float f3 = this.tempStartCelsius + f2 * this.tempStepCelsius;
+            return AbstractCarComponent.clip(f3, this.tempStartCelsius, this.tempEndCelsius);
+        }
+
+        private float dsiToFahrenheit(int n) {
+            float f2 = (n - this.fahrenheitRange.getMinimum()) / this.fahrenheitRange.getStep();
+            float f3 = this.tempStartFahrenheit + f2 * this.tempStepFahrenheit;
+            return AbstractCarComponent.clip(f3, this.tempStartFahrenheit, this.tempEndFahrenheit);
+        }
+
+        private void updateTemperatureModels(float f2, float f3, float f4, int n) {
+            float f5 = AbstractCarComponent.clip(f2, f3, f4);
+            int n2 = f5 == f3 ? 1 : (f5 == f4 ? 2 : 0);
+            Temperature temperature = new Temperature(f2, n);
+            this.labelChoice.setValue(n2);
+            this.tempMetric.setMetric(temperature);
+        }
+
+        public int getCurrentTemperature() {
+            return this.currentTemperature;
+        }
+
+        public void updateHMI(AirconTemp airconTemp) {
+            switch (airconTemp.getTempUnit()) {
+                case 0: {
+                    this.currentTemperature = AbstractCarComponent.clip(airconTemp.getTempValue(), this.celsiusRange.getMinimum(), this.celsiusRange.getMaximum());
+                    this.celsiusRange.setValue(this.currentTemperature);
+                    this.updateTemperatureModels(this.dsiToCelsius(this.currentTemperature), this.tempStartCelsius, this.tempEndCelsius, 1);
+                    break;
+                }
+                case 1: {
+                    this.currentTemperature = AbstractCarComponent.clip(airconTemp.getTempValue(), this.fahrenheitRange.getMinimum(), this.fahrenheitRange.getMaximum());
+                    this.fahrenheitRange.setValue(this.currentTemperature);
+                    this.updateTemperatureModels(this.dsiToFahrenheit(this.currentTemperature), this.tempStartFahrenheit, this.tempEndFahrenheit, 2);
+                    break;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ ChoiceModelApp access$200(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getChoiceModel(n);
+    public class TemperatureHandler {
+        private final String name;
+        private final int hmiZone;
+        private final TemperatureModel temperatureModel;
+
+        public TemperatureHandler(String string, int n, int n2, int n3, int n4, int n5) {
+            this.name = string;
+            this.hmiZone = n;
+            this.temperatureModel = new TemperatureModel(AbstractAirconComponent.this.getRangeModel(n2), AbstractAirconComponent.this.getRangeModel(n3), AbstractAirconComponent.this.getChoiceModel(n4), AbstractAirconComponent.this.getMetricsModel(n5), AbstractAirconComponent.this.getConfig().getTemperatureStartCelsius(), AbstractAirconComponent.this.getConfig().getTemperatureEndCelsius(), AbstractAirconComponent.this.getConfig().getTemperatureStepCelsius(), AbstractAirconComponent.this.getConfig().getTemperatureStartFahrenheit(), AbstractAirconComponent.this.getConfig().getTemperatureEndFahrenheit(), AbstractAirconComponent.this.getConfig().getTemperatureStepFahrenheit());
+        }
+
+        private void callDSISetAirconTempZone(AirconTemp airconTemp) {
+            int n = AbstractAirconComponent.this.convertZoneHMI2DSI(this.hmiZone);
+            if (-1 != n) {
+                AbstractAirconComponent.this.getLogChannel(1).log(1000000, "---> DSI.setAirconTempZone(%1, %2)", (Object)Integer.toString(n), (Object)airconTemp.toString());
+                AbstractAirconComponent.this.getDSI().setAirconTempZone(n, airconTemp);
+            }
+        }
+
+        public void incrementTemperature(int n, int n2) {
+            int n3 = ValueConverterCollection.convertTemperatureUnitHMI2DSI(Temperature.getSystemUnit());
+            int n4 = ValueConverterCollection.convertTemperatureUnitHMI2DSI(n2);
+            if (-1 != n3 && n3 == n4) {
+                AirconTemp airconTemp = new AirconTemp();
+                airconTemp.tempValue = this.temperatureModel.getCurrentTemperature() + n;
+                airconTemp.tempUnit = n4;
+                this.callDSISetAirconTempZone(airconTemp);
+            } else {
+                AbstractAirconComponent.this.getLogChannel().log(100000, "[TemperatureHandler(%1)#incrementTemperature] Trying to update DSI with wrong unit: Master='%2', Model='%3'", (Object)this.name, (long)n3, (long)n4);
+            }
+        }
+
+        public void decrementTemperature(int n, int n2) {
+            int n3 = ValueConverterCollection.convertTemperatureUnitHMI2DSI(Temperature.getSystemUnit());
+            int n4 = ValueConverterCollection.convertTemperatureUnitHMI2DSI(n2);
+            if (-1 != n3 && n3 == n4) {
+                AirconTemp airconTemp = new AirconTemp();
+                airconTemp.tempValue = this.temperatureModel.getCurrentTemperature() - n;
+                airconTemp.tempUnit = n4;
+                this.callDSISetAirconTempZone(airconTemp);
+            } else {
+                AbstractAirconComponent.this.getLogChannel().log(100000, "[TemperatureHandler(%1)#decrementTemperature] Trying to update DSI with wrong unit: Master='%2', Model='%3'", (Object)this.name, (long)n3, (long)n4);
+            }
+        }
+
+        public void updateTemperature(AirconTemp airconTemp) {
+            this.temperatureModel.updateHMI(airconTemp);
+        }
     }
 
-    static /* synthetic */ MetricsModelApp access$300(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getMetricsModel(n);
+    public class AirDistributionHandler {
+        private static final int DSI_DISTRIBUTION_ON = 12;
+        private static final int DSI_DISTRIBUTION_OFF = 0;
+        private final String name;
+        private final int hmiZone;
+        private final ChoiceModelApp airDistributionModelUp;
+        private final ChoiceModelApp airDistributionModelIDMiddle;
+        private final ChoiceModelApp airDistributionModelIDDown;
+        private final ChoiceModelApp airDistributionModelIDAuto;
+        private boolean sendDefault = false;
+        private AirconAirDistribution currentAirDistribution;
+
+        public AirDistributionHandler(String string, int n, int n2, int n3, int n4, int n5) {
+            this.name = string;
+            this.hmiZone = n;
+            this.airDistributionModelUp = AbstractAirconComponent.this.getChoiceModel(n2);
+            this.airDistributionModelIDMiddle = AbstractAirconComponent.this.getChoiceModel(n3);
+            this.airDistributionModelIDDown = AbstractAirconComponent.this.getChoiceModel(n4);
+            this.airDistributionModelIDAuto = AbstractAirconComponent.this.getChoiceModel(n5);
+        }
+
+        private void callDSISetAirconAirDistribution(AirconAirDistribution airconAirDistribution) {
+            int n = AbstractAirconComponent.this.convertZoneHMI2DSI(this.hmiZone);
+            if (-1 != n) {
+                AbstractAirconComponent.this.getLogChannel(1).log(1000000, "---> DSI.setAirconAirDistribution(%1, %2)", (Object)Integer.toString(n), (Object)airconAirDistribution.toString());
+                AbstractAirconComponent.this.getDSI().setAirconAirDistribution(n, airconAirDistribution);
+            }
+        }
+
+        private AirconAirDistribution copy(AirconAirDistribution airconAirDistribution) {
+            return null == airconAirDistribution ? new AirconAirDistribution() : new AirconAirDistribution(airconAirDistribution.up, airconAirDistribution.body, airconAirDistribution.footwell, airconAirDistribution.indirect, airconAirDistribution.automode, airconAirDistribution.autoDemandOriented, airconAirDistribution.side);
+        }
+
+        public void dsiSetUp(int n) {
+            if (null == this.currentAirDistribution) {
+                AbstractAirconComponent.this.getLogChannel().log(100000, "[AirDistributionHandler(%1)#setUp] No AirDistribution-Information received yet.", (Object)this.name);
+                if (!this.sendDefault) {
+                    return;
+                }
+            }
+            AirconAirDistribution airconAirDistribution = this.copy(this.currentAirDistribution);
+            airconAirDistribution.up = n;
+            this.callDSISetAirconAirDistribution(airconAirDistribution);
+        }
+
+        public void dsiSetBody(int n) {
+            if (null == this.currentAirDistribution) {
+                AbstractAirconComponent.this.getLogChannel().log(100000, "[AirDistributionHandler(%1)#setBody] No AirDistribution-Information received yet.", (Object)this.name);
+                if (!this.sendDefault) {
+                    return;
+                }
+            }
+            AirconAirDistribution airconAirDistribution = this.copy(this.currentAirDistribution);
+            airconAirDistribution.body = n;
+            this.callDSISetAirconAirDistribution(airconAirDistribution);
+        }
+
+        public void dsiSetFootwell(int n) {
+            if (null == this.currentAirDistribution) {
+                AbstractAirconComponent.this.getLogChannel().log(100000, "[AirDistributionHandler(%1)#setFootwell] No AirDistribution-Information received yet.", (Object)this.name);
+                if (!this.sendDefault) {
+                    return;
+                }
+            }
+            AirconAirDistribution airconAirDistribution = this.copy(this.currentAirDistribution);
+            airconAirDistribution.footwell = n;
+            this.callDSISetAirconAirDistribution(airconAirDistribution);
+        }
+
+        public void dsiSetAutomode(boolean bl) {
+            if (null == this.currentAirDistribution) {
+                AbstractAirconComponent.this.getLogChannel().log(100000, "[AirDistributionHandler(%1)#setAutomode] No AirDistribution-Information received yet.", (Object)this.name);
+                if (!this.sendDefault) {
+                    return;
+                }
+            }
+            AirconAirDistribution airconAirDistribution = this.copy(this.currentAirDistribution);
+            airconAirDistribution.automode = bl;
+            this.callDSISetAirconAirDistribution(airconAirDistribution);
+        }
+
+        public void updateAirDistribution(AirconAirDistribution airconAirDistribution) {
+            if (null != airconAirDistribution) {
+                int n;
+                this.currentAirDistribution = airconAirDistribution;
+                int n2 = 12 == airconAirDistribution.getUp() ? 1 : 0;
+                int n3 = 12 == airconAirDistribution.getBody() ? 1 : 0;
+                int n4 = 12 == airconAirDistribution.getFootwell() ? 1 : 0;
+                int n5 = n = airconAirDistribution.isAutomode() ? 1 : 0;
+                if (null != this.airDistributionModelUp) {
+                    this.airDistributionModelUp.setValue(n2);
+                }
+                if (null != this.airDistributionModelIDMiddle) {
+                    this.airDistributionModelIDMiddle.setValue(n3);
+                }
+                if (null != this.airDistributionModelIDDown) {
+                    this.airDistributionModelIDDown.setValue(n4);
+                }
+                if (null != this.airDistributionModelIDAuto) {
+                    this.airDistributionModelIDAuto.setValue(n);
+                }
+                AbstractAirconComponent.this.notifyAutoModeStateChanged(this.hmiZone, 0);
+            }
+        }
     }
 
-    static /* synthetic */ ChoiceModelApp access$400(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getChoiceModel(n);
+    private class RangeModelSyncListener
+    implements IRangeModelSyncListener {
+        private RangeModelSyncListener() {
+        }
+
+        public void setDSIParameter(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
+            AbstractAirconComponent.this.getLogChannel().log(1000000, "[AbstractAirconComponent.RangeModelSyncListener#setDSIParameter] called with attribute ID: %1", (long)iRangeModelSyncParameterAccess.getRangeModelID());
+            switch (iRangeModelSyncParameterAccess.getAttributeID()) {
+                case 25: {
+                    AbstractAirconComponent.this.airVolumeZone1.dsiSetVolume(iRangeModelSyncParameterAccess.getCurrentValue());
+                    break;
+                }
+                case 31: {
+                    AbstractAirconComponent.this.airVolumeZone2.dsiSetVolume(iRangeModelSyncParameterAccess.getCurrentValue());
+                    break;
+                }
+                case 37: {
+                    AbstractAirconComponent.this.airVolumeZone3.dsiSetVolume(iRangeModelSyncParameterAccess.getCurrentValue());
+                    break;
+                }
+                case 43: {
+                    AbstractAirconComponent.this.airVolumeZone4.dsiSetVolume(iRangeModelSyncParameterAccess.getCurrentValue());
+                    break;
+                }
+                case 27: {
+                    AbstractAirconComponent.this.getLogChannel(1).log(1000000, "---> DSI.setAirconFootwellTemp(%1, %2)", 1L, (long)iRangeModelSyncParameterAccess.getCurrentValue());
+                    AbstractAirconComponent.this.getDSI().setAirconFootwellTemp(1, iRangeModelSyncParameterAccess.getCurrentValue());
+                    break;
+                }
+                case 33: {
+                    AbstractAirconComponent.this.getLogChannel(1).log(1000000, "---> DSI.setAirconFootwellTemp(%1, %2)", 2L, (long)iRangeModelSyncParameterAccess.getCurrentValue());
+                    AbstractAirconComponent.this.getDSI().setAirconFootwellTemp(2, iRangeModelSyncParameterAccess.getCurrentValue());
+                    break;
+                }
+                case 39: {
+                    AbstractAirconComponent.this.getLogChannel(1).log(1000000, "---> DSI.setAirconFootwellTemp(%1, %2)", 4L, (long)iRangeModelSyncParameterAccess.getCurrentValue());
+                    AbstractAirconComponent.this.getDSI().setAirconFootwellTemp(4, iRangeModelSyncParameterAccess.getCurrentValue());
+                    break;
+                }
+                case 45: {
+                    AbstractAirconComponent.this.getLogChannel(1).log(1000000, "---> DSI.setAirconFootwellTemp(%1, %2)", 8L, (long)iRangeModelSyncParameterAccess.getCurrentValue());
+                    AbstractAirconComponent.this.getDSI().setAirconFootwellTemp(8, iRangeModelSyncParameterAccess.getCurrentValue());
+                    break;
+                }
+                case 5: {
+                    AbstractAirconComponent.this.getLogChannel(1).log(1000000, "---> DSI.setAirconAirCirculationSensitivity(%1)", (long)iRangeModelSyncParameterAccess.getCurrentValue());
+                    AbstractAirconComponent.this.getDSI().setAirconAirCirculationSensitivity(iRangeModelSyncParameterAccess.getCurrentValue());
+                    break;
+                }
+                default: {
+                    AbstractAirconComponent.this.getLogChannel().log(100000, "[AbstractAirconComponent.RangeModelSyncListener#setDSIParameter] Unexpected attribute ID: %1", (long)iRangeModelSyncParameterAccess.getRangeModelID());
+                }
+            }
+        }
+
+        public void updateRangeModelByTurningRotary(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
+            AbstractAirconComponent.this.setRangeModelValue(iRangeModelSyncParameterAccess);
+        }
+
+        public void updateRangeModelByDSINotitification(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
+            AbstractAirconComponent.this.setRangeModelValue(iRangeModelSyncParameterAccess);
+        }
     }
 
-    static /* synthetic */ ChoiceModelApp access$500(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getChoiceModel(n);
+    private class DefaultIonizerConverterStrategy
+    implements IValueConverterStrategy {
+        private static final int IONIZER_OFF = 0;
+        private static final int IONIZER_ON = 1;
+        private static final int IONIZER_AUTO = 2;
+
+        private DefaultIonizerConverterStrategy() {
+        }
+
+        public Object getDSIValue(Object object) throws ValueConverterStrategyException {
+            int n;
+            switch ((Integer)object) {
+                case 0: {
+                    n = 0;
+                    break;
+                }
+                case 1: {
+                    n = 1;
+                    break;
+                }
+                case 2: {
+                    n = 2;
+                    break;
+                }
+                default: {
+                    throw new ValueConverterStrategyException(1);
+                }
+            }
+            return new Integer(n);
+        }
+
+        public Object getHMIValue(Object object) throws ValueConverterStrategyException {
+            int n;
+            switch ((Integer)object) {
+                case 0: {
+                    n = 0;
+                    break;
+                }
+                case 1: {
+                    n = 1;
+                    break;
+                }
+                case 2: {
+                    n = 2;
+                    break;
+                }
+                default: {
+                    throw new ValueConverterStrategyException(1);
+                }
+            }
+            return new Integer(n);
+        }
     }
 
-    static /* synthetic */ ChoiceModelApp access$600(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getChoiceModel(n);
+    private class DefaultClimateStyleConverterStrategy
+    implements IValueConverterStrategy {
+        private static final int CLIMATE_STYLE_WEAK = 0;
+        private static final int CLIMATE_STYLE_MEDIUM = 1;
+        private static final int CLIMATE_STYLE_STRONG = 2;
+
+        private DefaultClimateStyleConverterStrategy() {
+        }
+
+        public Object getDSIValue(Object object) throws ValueConverterStrategyException {
+            int n;
+            switch ((Integer)object) {
+                case 0: {
+                    n = 0;
+                    break;
+                }
+                case 1: {
+                    n = 1;
+                    break;
+                }
+                case 2: {
+                    n = 2;
+                    break;
+                }
+                default: {
+                    throw new ValueConverterStrategyException(1);
+                }
+            }
+            return new Integer(n);
+        }
+
+        public Object getHMIValue(Object object) throws ValueConverterStrategyException {
+            int n;
+            switch ((Integer)object) {
+                case 0: {
+                    n = 0;
+                    break;
+                }
+                case 1: {
+                    n = 1;
+                    break;
+                }
+                case 2: {
+                    n = 2;
+                    break;
+                }
+                default: {
+                    throw new ValueConverterStrategyException(1);
+                }
+            }
+            return new Integer(n);
+        }
     }
 
-    static /* synthetic */ ChoiceModelApp access$700(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getChoiceModel(n);
+    private class DefaultMiddleExhaustionConverterStrategy
+    implements IValueConverterStrategy {
+        private static final int DSI_VALUE_OFF = 0;
+        private static final int DSI_VALUE_ON = -1;
+        private static final int HMI_VALUE_OFF = 0;
+        private static final int HMI_VALUE_ON = 1;
+
+        private DefaultMiddleExhaustionConverterStrategy() {
+        }
+
+        public Object getDSIValue(Object object) throws ValueConverterStrategyException {
+            int n;
+            switch ((Integer)object) {
+                case 0: {
+                    n = 0;
+                    break;
+                }
+                case 1: {
+                    n = -1;
+                    break;
+                }
+                default: {
+                    throw new ValueConverterStrategyException(1);
+                }
+            }
+            return new Integer(n);
+        }
+
+        public Object getHMIValue(Object object) throws ValueConverterStrategyException {
+            int n;
+            switch ((Integer)object) {
+                case 0: {
+                    n = 0;
+                    break;
+                }
+                case -1: {
+                    n = 1;
+                    break;
+                }
+                default: {
+                    throw new ValueConverterStrategyException(1);
+                }
+            }
+            return new Integer(n);
+        }
     }
 
-    static /* synthetic */ RangeModelApp access$800(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getRangeModel(n);
-    }
+    private class DefaultFootwellTemperatureConverterStrategy
+    implements IValueConverterStrategy {
+        private static final int FOOTWELL_TEMP_COLDER = 0;
+        private static final int FOOTWELL_TEMP_NORMAL = 1;
+        private static final int FOOTWELL_TEMP_WARMER = 2;
 
-    static /* synthetic */ ChoiceModelApp access$900(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getChoiceModel(n);
-    }
+        private DefaultFootwellTemperatureConverterStrategy() {
+        }
 
-    static /* synthetic */ AbstractAirconComponent$RangeModelSyncListener access$1000(AbstractAirconComponent abstractAirconComponent) {
-        return abstractAirconComponent.rangeModelSyncListener;
-    }
+        public Object getDSIValue(Object object) throws ValueConverterStrategyException {
+            int n;
+            switch ((Integer)object) {
+                case 0: {
+                    n = -2;
+                    break;
+                }
+                case 1: {
+                    n = 0;
+                    break;
+                }
+                case 2: {
+                    n = 2;
+                    break;
+                }
+                default: {
+                    throw new ValueConverterStrategyException(1);
+                }
+            }
+            return new Integer(n);
+        }
 
-    static /* synthetic */ void access$1100(AbstractAirconComponent abstractAirconComponent, IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
-        abstractAirconComponent.setRangeModelValue(iRangeModelSyncParameterAccess);
-    }
-
-    static /* synthetic */ void access$1600(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setStateAC(bl);
-    }
-
-    static /* synthetic */ void access$1700(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setStateEcoAC(bl);
-    }
-
-    static /* synthetic */ void access$1800(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setStateMaxAC(bl);
-    }
-
-    static /* synthetic */ void access$1900(AbstractAirconComponent abstractAirconComponent, int n) {
-        abstractAirconComponent.setAirCirculationSensitivity(n);
-    }
-
-    static /* synthetic */ void access$2000(AbstractAirconComponent abstractAirconComponent, int n) {
-        abstractAirconComponent.setMiddleExhaustion(n);
-    }
-
-    static /* synthetic */ void access$2100(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setAirCirculationAuto(bl);
-    }
-
-    static /* synthetic */ void access$2200(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setIndirectVentilation(bl);
-    }
-
-    static /* synthetic */ void access$2300(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setHeater(bl);
-    }
-
-    static /* synthetic */ void access$2400(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setFrontWindowHeaterAuto(bl);
-    }
-
-    static /* synthetic */ void access$2500(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setSteeringWheelHeating(bl);
-    }
-
-    static /* synthetic */ void access$2600(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setSolar(bl);
-    }
-
-    static /* synthetic */ void access$2700(AbstractAirconComponent abstractAirconComponent, boolean bl) {
-        abstractAirconComponent.setRearControlFondPlus(bl);
-    }
-
-    static /* synthetic */ void access$2800(AbstractAirconComponent abstractAirconComponent, int n, int n2) {
-        abstractAirconComponent.setIonizerState(n, n2);
-    }
-
-    static /* synthetic */ void access$2900(AbstractAirconComponent abstractAirconComponent, int n, boolean bl) {
-        abstractAirconComponent.setSynchronization(n, bl);
-    }
-
-    static /* synthetic */ void access$3000(AbstractAirconComponent abstractAirconComponent, int n, boolean bl) {
-        abstractAirconComponent.setSystemOnOff(n, bl);
-    }
-
-    static /* synthetic */ void access$3100(AbstractAirconComponent abstractAirconComponent, int n, int n2) {
-        abstractAirconComponent.setFootwellTemperature(n, n2);
-    }
-
-    static /* synthetic */ void access$3200(AbstractAirconComponent abstractAirconComponent, int n, int n2) {
-        abstractAirconComponent.setClimateStyle(n, n2);
-    }
-
-    static /* synthetic */ RangeModelApp access$3300(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$3400(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$3500(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$3600(AbstractAirconComponent abstractAirconComponent, int n) {
-        return abstractAirconComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelSynchronizer access$3700(AbstractAirconComponent abstractAirconComponent) {
-        return abstractAirconComponent.airCirculationSensitivityModelSync;
-    }
-
-    static /* synthetic */ void access$3800(AbstractAirconComponent abstractAirconComponent, int n, int n2) {
-        abstractAirconComponent.decrementFootwellTemperature(n, n2);
-    }
-
-    static /* synthetic */ void access$3900(AbstractAirconComponent abstractAirconComponent, int n, int n2) {
-        abstractAirconComponent.incrementFootwellTemperature(n, n2);
+        public Object getHMIValue(Object object) throws ValueConverterStrategyException {
+            int n;
+            switch ((Integer)object) {
+                case -2: {
+                    n = 0;
+                    break;
+                }
+                case 0: {
+                    n = 1;
+                    break;
+                }
+                case 2: {
+                    n = 2;
+                    break;
+                }
+                default: {
+                    throw new ValueConverterStrategyException(1);
+                }
+            }
+            return new Integer(n);
+        }
     }
 }
 

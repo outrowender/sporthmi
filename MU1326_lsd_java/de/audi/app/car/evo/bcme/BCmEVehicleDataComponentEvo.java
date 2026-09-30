@@ -13,19 +13,15 @@ extends AbstractBCmEVehicleDataComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(DynamicVehicleInfoMidFrequentViewOptions dynamicVehicleInfoMidFrequentViewOptions) {
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 
-    @Override
     public int getID() {
         return 27;
     }

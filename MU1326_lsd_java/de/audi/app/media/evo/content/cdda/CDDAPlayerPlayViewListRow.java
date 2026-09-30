@@ -18,36 +18,36 @@ import org.dsi.ifc.global.ResourceLocator;
 public class CDDAPlayerPlayViewListRow
 extends AbstractMediaPlayViewListRow {
     private static final int[] EMPTY_PROPERTIES = new int[0];
-    private static final String EMPTY_TEXT_CELL;
-    private static final int EMPTY_INT_CELL;
-    private static final int RECORDSET_BIT_CDTEXT;
-    private static final int RECORDSET_BIT_PLAYING;
-    private static final int RECORDSET_BIT_ERROR;
-    private static final int CELL_COUNT;
-    private static final int CELL_ID_UNIQUE_ID;
-    private static final int CELL_ID_RECORD_SET;
-    private static final int CELL_ID_TRACK_NUMBER;
-    private static final int CELL_ID_CD_TEXT;
-    private static final int CELL_ID_PLAYTIME;
-    private static final int CELL_ID_PLAYTIME_REMAINING;
-    private static final int CELL_ID_PLAYTIME_PROGRESS;
-    private static final int CELL_ID_ICON;
-    private static final int CELL_ID_ERROR;
-    private static final int CELL_ID_ENABLED;
-    private static final int CELL_ID_PROPERTY;
-    private static final int CELL_ID_ALBUM;
-    private static final int CELL_ID_ALBUM_I18N;
-    private static final int CELL_ID_ARTIST;
-    private static final int CELL_ID_ARTIST_I18N;
-    private static final int CELL_ID_COVERART;
-    private static final int CELL_ID_DEFAULTCOVER_ID;
-    private static final int CELL_ID_LAYOUT;
-    private static final int LAYOUT_TWO_LINES;
-    public static final int ERROR_STATE_NONE;
-    public static final int ERROR_STATE_RIPPING_IMPORT_RUNNING;
-    public static final int ERROR_STATE_RIPPING_IMPORT_PENDING;
-    public static final int ERROR_STATE_RIPPING_NOT_PLAYABLE;
-    public static final int ERROR_STATE_CORRUPT;
+    private static final String EMPTY_TEXT_CELL = "";
+    private static final int EMPTY_INT_CELL = 0;
+    private static final int RECORDSET_BIT_CDTEXT = 1;
+    private static final int RECORDSET_BIT_PLAYING = 2;
+    private static final int RECORDSET_BIT_ERROR = 4;
+    private static final int CELL_COUNT = 19;
+    private static final int CELL_ID_UNIQUE_ID = 0;
+    private static final int CELL_ID_RECORD_SET = 1;
+    private static final int CELL_ID_TRACK_NUMBER = 2;
+    private static final int CELL_ID_CD_TEXT = 3;
+    private static final int CELL_ID_PLAYTIME = 4;
+    private static final int CELL_ID_PLAYTIME_REMAINING = 5;
+    private static final int CELL_ID_PLAYTIME_PROGRESS = 6;
+    private static final int CELL_ID_ICON = 7;
+    private static final int CELL_ID_ERROR = 8;
+    private static final int CELL_ID_ENABLED = 9;
+    private static final int CELL_ID_PROPERTY = 10;
+    private static final int CELL_ID_ALBUM = 11;
+    private static final int CELL_ID_ALBUM_I18N = 12;
+    private static final int CELL_ID_ARTIST = 13;
+    private static final int CELL_ID_ARTIST_I18N = 14;
+    private static final int CELL_ID_COVERART = 15;
+    private static final int CELL_ID_DEFAULTCOVER_ID = 16;
+    private static final int CELL_ID_LAYOUT = 18;
+    private static final int LAYOUT_TWO_LINES = 2;
+    public static final int ERROR_STATE_NONE = 0;
+    public static final int ERROR_STATE_RIPPING_IMPORT_RUNNING = 1;
+    public static final int ERROR_STATE_RIPPING_IMPORT_PENDING = 2;
+    public static final int ERROR_STATE_RIPPING_NOT_PLAYABLE = 3;
+    public static final int ERROR_STATE_CORRUPT = 4;
     private final I18NString title;
 
     public CDDAPlayerPlayViewListRow(MediaListEntry mediaListEntry) {
@@ -66,16 +66,16 @@ extends AbstractMediaPlayViewListRow {
             this.setText(3, this.title.getI18NString());
             this.setText(2, CDDAPlayerPlayViewListRow.extractTrackNumberFromFileName(mediaListEntry.getFilename().getOriginalString()));
         } else {
-            this.setText(3, "");
+            this.setText(3, EMPTY_TEXT_CELL);
             this.setText(2, this.title.getI18NString());
         }
-        this.setText(4, "");
-        this.setText(5, "");
+        this.setText(4, EMPTY_TEXT_CELL);
+        this.setText(5, EMPTY_TEXT_CELL);
         this.setInteger(6, 0);
         this.setInteger(12, 0);
-        this.setText(11, "");
+        this.setText(11, EMPTY_TEXT_CELL);
         this.setInteger(14, 0);
-        this.setText(13, "");
+        this.setText(13, EMPTY_TEXT_CELL);
         this.setInteger(7, n);
         this.setHMIResourceLocator(15, new HMIResourceLocator(mediaListEntry.getCovertArt() == null ? -1 : mediaListEntry.getCovertArt().getId(), mediaListEntry.getCovertArt() == null ? ResourceLocatorModelApp.UNDEFINED_URI : mediaListEntry.getCovertArt().getUrl()));
         this.setInteger(16, (int)mediaListEntry.getAlbumID());
@@ -90,17 +90,17 @@ extends AbstractMediaPlayViewListRow {
 
     private static int getCategory(int n, boolean bl) {
         if (n == 4 || n == 3) {
-            return 1715074328;
+            return 418724198;
         }
         if (bl) {
-            return 1305543806;
+            return 2114244941;
         }
-        return -1068327696;
+        return -258190656;
     }
 
     private static int[] getProperties(int n) {
         if (n == 1) {
-            return new int[]{1279797183};
+            return new int[]{-1087944628};
         }
         return EMPTY_PROPERTIES;
     }
@@ -112,21 +112,18 @@ extends AbstractMediaPlayViewListRow {
         return 19;
     }
 
-    @Override
     public boolean isEnabled() {
         return this.getInteger(9) == 1;
     }
 
-    @Override
     public I18NString getTitle() {
         return this.title;
     }
 
-    @Override
     public void setTime(PlayTime playTime) {
         if (playTime == null) {
-            this.setText(4, "");
-            this.setText(5, "");
+            this.setText(4, EMPTY_TEXT_CELL);
+            this.setText(5, EMPTY_TEXT_CELL);
             this.setInteger(6, 0);
         } else {
             this.setText(4, playTime.getRestrictedPlayTimeStr());
@@ -135,7 +132,6 @@ extends AbstractMediaPlayViewListRow {
         }
     }
 
-    @Override
     public void setPlaying(boolean bl) {
         int n = this.getInteger(1);
         if (bl) {
@@ -148,7 +144,6 @@ extends AbstractMediaPlayViewListRow {
         }
     }
 
-    @Override
     public void setDetailInfos(MediaDetailInfo mediaDetailInfo) {
         if (this.getEntryID() != mediaDetailInfo.getPlayingTrack().getEntryID()) {
             return;
@@ -163,7 +158,6 @@ extends AbstractMediaPlayViewListRow {
         }
     }
 
-    @Override
     public void setCoverArt(ResourceLocator resourceLocator) {
         if (-1 == ((HMIResourceLocator)this.getCell(15)).getResourceID()) {
             this.setHMIResourceLocator(15, new HMIResourceLocator(resourceLocator == null ? -1 : resourceLocator.getId(), resourceLocator == null ? ResourceLocatorModelApp.UNDEFINED_URI : resourceLocator.getUrl()));
@@ -182,12 +176,10 @@ extends AbstractMediaPlayViewListRow {
         return "0";
     }
 
-    @Override
     public EvoListRow copy() {
         return new CDDAPlayerPlayViewListRow(this);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(100);
         buffer.append("[eID='");

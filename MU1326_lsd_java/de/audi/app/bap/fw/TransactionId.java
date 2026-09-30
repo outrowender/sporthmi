@@ -6,7 +6,7 @@ package de.audi.app.bap.fw;
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
 
 public final class TransactionId {
-    public static final int NO_EXPECTED_VALUE;
+    public static final int NO_EXPECTED_VALUE = -1;
     private final int initialValue;
     private final int maxValue;
     private final AtomicInteger count;

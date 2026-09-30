@@ -19,13 +19,10 @@ public class Dump {
     private Dump() {
     }
 
-    private static native void JavaDumpImpl() {
-    }
+    private static native void JavaDumpImpl();
 
-    private static native void HeapDumpImpl() {
-    }
+    private static native void HeapDumpImpl();
 
-    private static native void SystemDumpImpl() {
-    }
+    private static native void SystemDumpImpl();
 }
 

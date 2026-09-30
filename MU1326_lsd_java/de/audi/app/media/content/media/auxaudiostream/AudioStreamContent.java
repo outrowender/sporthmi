@@ -12,7 +12,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class AudioStreamContent
 extends AbstractMediaContent {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AudioStreamContent";
     private final DirectFadeToAudioConnectionHandler audioConnectionHandler;
 
     public AudioStreamContent(IContentContext iContentContext, IMediaTerminal iMediaTerminal) {
@@ -20,9 +20,8 @@ extends AbstractMediaContent {
         this.audioConnectionHandler = new DirectFadeToAudioConnectionHandler(iMediaTerminal);
     }
 
-    @Override
     public void activate(IActivationContext iActivationContext) {
-        this.logger.main().log(1078071040, "[%1.activate]", (Object)"AudioStreamContent");
+        this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
         super.activate(iActivationContext);
         this.getTerminal().getAudioManager().requestAudio(iActivationContext.getSlot().getSource().getAudioConnection(iActivationContext.getSlot()), true);
         this.getTerminal().getAudioManager().releaseVolumelock("AUX activated");
@@ -30,16 +29,15 @@ extends AbstractMediaContent {
         this.notifyContentActivationFinished();
     }
 
-    @Override
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate]", (Object)"AudioStreamContent");
+        this.logger.main().log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.getTerminal().getAudioManager().removeAudioContextListener(this.audioConnectionHandler);
         super.deactivate();
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("AudioStreamContent").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 }

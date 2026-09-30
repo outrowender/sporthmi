@@ -4,28 +4,20 @@
 package de.audi.atip.hmi.view;
 
 public interface IScreenOverlay {
-    default public void show() {
-    }
+    public void show();
 
-    default public void hide() {
-    }
+    public void hide();
 
-    default public void hideNow() {
-    }
+    public void hideNow();
 
-    default public boolean isShown() {
-    }
+    public boolean isShown();
 
-    default public boolean isVisible() {
-    }
+    public boolean isVisible();
 
-    default public boolean isAnimating() {
-    }
+    public boolean isAnimating();
 
-    default public void startFadeoutTimer() {
-    }
+    public void startFadeoutTimer();
 
-    default public void stopFadeoutTimer() {
-    }
+    public void stopFadeoutTimer();
 }
 

@@ -9,21 +9,20 @@ import de.audi.atip.log.LogChannel;
 
 public class JobActivation
 extends AbstractFilePlayerJob {
-    private static final String LOGCLASS;
-    private static final int STATE_WAIT_FOR_CAPABILITIES;
-    private static final int STATE_RECEIVE_CAPABILITIES;
-    private static final int STATE_WAIT_FOR_PLAYMODES;
-    private static final int STATE_RECEIVE_PLAYMODES;
-    private static final int STATE_ACTIVATION_FINISHED;
+    private static final String LOGCLASS = "JobActivation";
+    private static final int STATE_WAIT_FOR_CAPABILITIES = 2;
+    private static final int STATE_RECEIVE_CAPABILITIES = 3;
+    private static final int STATE_WAIT_FOR_PLAYMODES = 4;
+    private static final int STATE_RECEIVE_PLAYMODES = 5;
+    private static final int STATE_ACTIVATION_FINISHED = 6;
     private int state;
 
     public JobActivation(LogChannel logChannel, IFilePlayer iFilePlayer) {
         super(logChannel, "ACTIVATION", iFilePlayer);
     }
 
-    @Override
     public void start() {
-        this.logger.log(14808325, "[%1.start]", (Object)"JobActivation");
+        this.logger.log(100000000, "[%1.start]", (Object)LOGCLASS);
         this.setState(2);
     }
 
@@ -31,11 +30,11 @@ extends AbstractFilePlayerJob {
         this.state = n;
         switch (this.state) {
             case 2: {
-                this.logger.log(1078071040, "[%1.setState] STATE_WAIT_FOR_CAPABILITIES", (Object)"JobActivation");
+                this.logger.log(1000000, "[%1.setState] STATE_WAIT_FOR_CAPABILITIES", (Object)LOGCLASS);
                 break;
             }
             case 3: {
-                this.logger.log(1078071040, "[%1.setState] STATE_RECEIVE_CAPABILITIES", (Object)"JobActivation");
+                this.logger.log(1000000, "[%1.setState] STATE_RECEIVE_CAPABILITIES", (Object)LOGCLASS);
                 if (this.getPlayer().getState().getActiveSlot().getCapabilities().isPlaymodes()) {
                     this.setState(4);
                     return;
@@ -44,33 +43,31 @@ extends AbstractFilePlayerJob {
                 break;
             }
             case 4: {
-                this.logger.log(1078071040, "[%1.setState] STATE_WAIT_FOR_PLAYMODES", (Object)"JobActivation");
+                this.logger.log(1000000, "[%1.setState] STATE_WAIT_FOR_PLAYMODES", (Object)LOGCLASS);
                 break;
             }
             case 5: {
-                this.logger.log(1078071040, "[%1.setState] STATE_RECEIVE_PLAYMODES", (Object)"JobActivation");
+                this.logger.log(1000000, "[%1.setState] STATE_RECEIVE_PLAYMODES", (Object)LOGCLASS);
                 this.setState(6);
                 break;
             }
             case 6: {
-                this.logger.log(1078071040, "[%1.setState] STATE_ACTIVATION_FINISHED", (Object)"JobActivation");
+                this.logger.log(1000000, "[%1.setState] STATE_ACTIVATION_FINISHED", (Object)LOGCLASS);
                 this.getExecutionContext().jobFinished();
                 break;
             }
         }
     }
 
-    @Override
     public void onCapabilitiesChanged() {
-        this.logger.log(14808325, "[%1.onCapabilitiesChanged]", (Object)"JobActivation");
+        this.logger.log(100000000, "[%1.onCapabilitiesChanged]", (Object)LOGCLASS);
         if (this.state == 2) {
             this.setState(3);
         }
     }
 
-    @Override
     public void onPlaybackModeListChanged() {
-        this.logger.log(14808325, "[%1.onPlaybackModeListChanged]", (Object)"JobActivation");
+        this.logger.log(100000000, "[%1.onPlaybackModeListChanged]", (Object)LOGCLASS);
         if (this.state == 4) {
             this.setState(5);
         }

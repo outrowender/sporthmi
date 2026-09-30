@@ -24,8 +24,8 @@ import org.dsi.ifc.telephoneng.CallStackEntry;
 public class TelEvoCallForwardHandler
 extends AbstractTelCallForwardingHandler
 implements MenuModelListener {
-    private static final int MENU_ITEM_CALLSTACK_LIST;
-    private static final int MENU_ITEM_SEARCH_RESULT_LIST;
+    private static final int MENU_ITEM_CALLSTACK_LIST = 300772;
+    private static final int MENU_ITEM_SEARCH_RESULT_LIST = 300766;
     private final TelEvoCallForwardCallStackHandler callStackHandler;
     private volatile IGlobalTelephoneStateStruct telephoneState;
     private final TelCallFowardSearchModelHandler searchHandler;
@@ -37,7 +37,6 @@ implements MenuModelListener {
         this.callStackHandler = new TelEvoCallForwardCallStackHandler(iTelApplication, this);
     }
 
-    @Override
     protected AbstractTelCallForwardingStatusIconHandler createCallForawardingStatusIconHandler() {
         if (this.getApplication().getFrameworkAccess().isCn()) {
             return new TelEvoCallForwardingStatusIconHandler(this.log, this.getApplication().getFrameworkAccess().getHmiServiceApp());
@@ -45,35 +44,31 @@ implements MenuModelListener {
         return null;
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
         this.callStackHandler.init();
-        this.getMenuModel(144114688).setListener(this);
-        this.getResourceLocatorModel(160891904).setStatus(0);
+        this.getMenuModel(300808).setListener(this);
+        this.getResourceLocatorModel(300809).setStatus(0);
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
         this.callStackHandler.deinit();
-        this.getMenuModel(144114688).resetListener();
+        this.getMenuModel(300808).resetListener();
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         super.updateGlobalTelephoneStateProperty(n, iGlobalTelephoneStateStruct);
         this.telephoneState = iGlobalTelephoneStateStruct;
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
         this.checkShowPicture(n, l);
     }
 
     protected void checkShowPicture(int n, long l) {
-        if (n == -459930624) {
+        if (n == 300772) {
             CallStackEntry callStackEntry = null;
             CallStackEntry[] callStackEntryArray = this.telephoneState != null ? this.telephoneState.getCombinedCallStackEntries() : new CallStackEntry[]{};
             for (int i2 = 0; i2 < callStackEntryArray.length; ++i2) {
@@ -84,7 +79,7 @@ implements MenuModelListener {
             if (callStackEntry != null) {
                 this.setPictureModel(callStackEntry.getAdbPictureID());
             }
-        } else if (n == -560593920) {
+        } else if (n == 300766) {
             EvoListRow evoListRow = this.getBaseListModel(n).getRowByUniqueID(l);
             if (evoListRow instanceof IntellicallCallStackSearchResultRow) {
                 IntellicallCallStackSearchResultRow intellicallCallStackSearchResultRow = (IntellicallCallStackSearchResultRow)evoListRow;
@@ -103,16 +98,16 @@ implements MenuModelListener {
 
     private void setPictureModel(ResourceLocator resourceLocator) {
         if (PhoneUtils.isPictureAvailable(resourceLocator)) {
-            this.getResourceLocatorModel(160891904).setResourceLocator(resourceLocator.getId(), resourceLocator.getUrl());
-            this.getResourceLocatorModel(160891904).setStatus(1);
+            this.getResourceLocatorModel(300809).setResourceLocator(resourceLocator.getId(), resourceLocator.getUrl());
+            this.getResourceLocatorModel(300809).setStatus(1);
         } else {
             this.resetPictureModel();
         }
     }
 
     private void resetPictureModel() {
-        this.getResourceLocatorModel(160891904).setResourceLocator(-1, ResourceLocatorModelApp.UNDEFINED_URI);
-        this.getResourceLocatorModel(160891904).setStatus(0);
+        this.getResourceLocatorModel(300809).setResourceLocator(-1, ResourceLocatorModelApp.UNDEFINED_URI);
+        this.getResourceLocatorModel(300809).setStatus(0);
     }
 }
 

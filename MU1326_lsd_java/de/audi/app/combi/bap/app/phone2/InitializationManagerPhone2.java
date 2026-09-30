@@ -17,15 +17,13 @@ extends AbstractBAPModuleInitializationManagerFSG {
         super(abstractCombiModule, bAPFunctionPropertyFSG, iDSIBAPController, iPowerState);
     }
 
-    @Override
     public void appStateChanged(String string, int n) {
-        this.logChannel.log(14808325, "[CombiModulePhone2.InitializationManagerPhone2#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
+        this.logChannel.log(100000000, "[CombiModulePhone2.InitializationManagerPhone2#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
         if ("Phone".equals(string)) {
             this.processAppStateChanged(n);
         }
     }
 
-    @Override
     public String appStatesToString() {
         Buffer buffer = new Buffer();
         buffer.append("appStatePhone = ");
@@ -34,7 +32,6 @@ extends AbstractBAPModuleInitializationManagerFSG {
         return buffer.toString();
     }
 
-    @Override
     public boolean setFSGOperationStateValue(int n) {
         int n2;
         switch (n) {
@@ -67,7 +64,6 @@ extends AbstractBAPModuleInitializationManagerFSG {
         return false;
     }
 
-    @Override
     public boolean isOpStateNormalOperation() {
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)this.fsgOperationStateFunction.getLastStatus();
         return fSG_OperationState_Status.op_State == 0;

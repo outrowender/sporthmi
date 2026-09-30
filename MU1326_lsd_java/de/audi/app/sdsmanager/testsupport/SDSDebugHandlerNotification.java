@@ -13,18 +13,16 @@ import de.esolutions.fw.util.commons.Buffer;
 public class SDSDebugHandlerNotification
 extends DefaultTestSupportHandlerNotification {
     private volatile boolean testSupportDebugVisible = false;
-    private static final int DEBUG_CHANNEL_START_ENTRY_ID;
+    private static final int DEBUG_CHANNEL_START_ENTRY_ID = 1;
 
     public boolean isVisible() {
         return this.testSupportDebugVisible;
     }
 
-    @Override
     public void debugDataVisible(boolean bl) {
         this.testSupportDebugVisible = bl;
     }
 
-    @Override
     public void commandEntrySelected(int n) {
         if (n == 0) {
             SDSDebugMsgQueueVisibleSizeEnum sDSDebugMsgQueueVisibleSizeEnum = SDSDebugHandler.getMsgQueueVisibleSize().getNextSize();
@@ -38,7 +36,6 @@ extends DefaultTestSupportHandlerNotification {
         }
     }
 
-    @Override
     public TestSupportDataReceiverEntry[] getCommandEntries() {
         int n = 1 + SDSDebugChannelsEnum.getChannelsSize();
         TestSupportDataReceiverEntry[] testSupportDataReceiverEntryArray = new TestSupportDataReceiverEntry[n];

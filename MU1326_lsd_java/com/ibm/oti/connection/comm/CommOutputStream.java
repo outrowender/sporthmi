@@ -19,8 +19,7 @@ extends OutputStream {
         this.open = true;
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         if (this.open) {
             this.connection.closeStream(false);
         }
@@ -31,8 +30,7 @@ extends OutputStream {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (!this.open) throw new IOException(Msg.getString("K0059"));
         if (byArray == null) throw new NullPointerException();
         if (n < 0 || n2 < 0 || n > byArray.length || byArray.length - n < n2) {
@@ -44,8 +42,7 @@ extends OutputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         if (this.open) {
             CommOutputStream commOutputStream = this;
             synchronized (commOutputStream) {

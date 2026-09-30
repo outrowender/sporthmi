@@ -16,18 +16,18 @@ import org.dsi.ifc.messaging.MessageListEntry;
 
 final class EntryListToolTipRow
 extends ListRow {
-    static final int COLUMN_COUNT;
-    static final int RECORDSET_COUNT;
-    static final int RECORDSET_DESCRIPTOR_ROW;
-    static final int RECORDSET_TIMESTAMP_ROW;
-    static final int RECORDSET_SUBJECT_ROW;
-    private static final int CELL_ID_ICON;
-    private static final int CELL_ID_DESCRIPTOR;
-    private static final int CELL_ID_DATETIME;
-    private static final int CELL_ID_SUBJECT;
-    private static final int CELL_ID_RECORDSET;
+    static final int COLUMN_COUNT = 5;
+    static final int RECORDSET_COUNT = 3;
+    static final int RECORDSET_DESCRIPTOR_ROW = 0;
+    static final int RECORDSET_TIMESTAMP_ROW = 1;
+    static final int RECORDSET_SUBJECT_ROW = 2;
+    private static final int CELL_ID_ICON = 0;
+    private static final int CELL_ID_DESCRIPTOR = 1;
+    private static final int CELL_ID_DATETIME = 2;
+    private static final int CELL_ID_SUBJECT = 3;
+    private static final int CELL_ID_RECORDSET = 4;
 
-    EntryListToolTipRow(EntryListRow entryListRow, int n, ITextLookup iTextLookup) {
+    EntryListToolTipRow(EntryListRow entryListRow, int n, ITextLookup iTextLookup) throws IllegalArgumentException {
         ListCell[] listCellArray = new ListCell[5];
         MessageListEntry messageListEntry = entryListRow.getListEntry().getMessageListEntry();
         switch (n) {
@@ -51,7 +51,7 @@ extends ListRow {
                 break;
             }
             default: {
-                throw new IllegalArgumentException(new StringBuffer().append("Unexpected recordset = ").append(n).toString());
+                throw new IllegalArgumentException("Unexpected recordset = " + n);
             }
         }
         listCellArray[4] = IntegerListCell.create(n);
@@ -71,7 +71,6 @@ extends ListRow {
         return string;
     }
 
-    @Override
     public boolean equals(Object object) {
         boolean bl = false;
         try {
@@ -85,7 +84,6 @@ extends ListRow {
         return bl;
     }
 
-    @Override
     public int hashCode() {
         return this.getRecordset();
     }

@@ -10,7 +10,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class TelFavoriteStorage
 implements ITelFavorite {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 0L;
     private final String combinedName;
     private final String telNumber;
     private final int phoneNumberType;
@@ -31,17 +31,14 @@ implements ITelFavorite {
         this.phoneNumberType = n;
     }
 
-    @Override
     public String getName() {
         return this.combinedName;
     }
 
-    @Override
     public String getTelNumber() {
         return this.telNumber;
     }
 
-    @Override
     public int getPhoneNumberType() {
         return this.phoneNumberType;
     }
@@ -58,7 +55,6 @@ implements ITelFavorite {
         return buffer.toString();
     }
 
-    @Override
     public FavoriteListRow getFavoriteListRow() {
         return new TelEvoFavoriteListRow(this);
     }

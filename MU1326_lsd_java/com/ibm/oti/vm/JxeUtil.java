@@ -13,21 +13,19 @@ import java.io.InputStream;
 public final class JxeUtil {
     static {
         try {
-            System.loadLibrary(new StringBuffer("iverel").append(System.getProperty("com.ibm.oti.vm.library.version", "23")).toString());
+            System.loadLibrary("iverel" + System.getProperty("com.ibm.oti.vm.library.version", "23"));
         }
         catch (UnsatisfiedLinkError unsatisfiedLinkError) {
             try {
-                System.loadLibrary(new StringBuffer("j9vmall").append(System.getProperty("com.ibm.oti.vm.library.version", "23")).toString());
+                System.loadLibrary("j9vmall" + System.getProperty("com.ibm.oti.vm.library.version", "23"));
             }
             catch (UnsatisfiedLinkError unsatisfiedLinkError2) {}
         }
     }
 
-    private static native long nativeGetRomImagePointerFromJxePointer(long l) {
-    }
+    private static native long nativeGetRomImagePointerFromJxePointer(long var0);
 
-    private static native String nativeGetRelocationMessage(int n) {
-    }
+    private static native String nativeGetRelocationMessage(int var0);
 
     static String getRelocationMessage(int n) {
         return JxeUtil.nativeGetRelocationMessage(n);
@@ -44,13 +42,11 @@ public final class JxeUtil {
         return byArray;
     }
 
-    private static native boolean nativeGetRomClassCookie(long l, long l2, String string, byte[] byArray) {
-    }
+    private static native boolean nativeGetRomClassCookie(long var0, long var2, String var4, byte[] var5);
 
-    private static native long nativeRomImageLoad(long l, ClassLoader classLoader, long l2, long l3) {
-    }
+    private static native long nativeRomImageLoad(long var0, ClassLoader var2, long var3, long var5);
 
-    public static void romImageLoad(Jxe jxe, ClassLoader classLoader) {
+    public static void romImageLoad(Jxe jxe, ClassLoader classLoader) throws JxeException {
         if (jxe.romSegmentPointer != 0L) {
             throw new JxeException(Msg.getString("K0228"));
         }
@@ -65,59 +61,52 @@ public final class JxeUtil {
         jxe.romSegmentPointer = l2;
     }
 
-    private static native int nativeRelocateJxeInPlace(long l) {
-    }
+    private static native int nativeRelocateJxeInPlace(long var0);
 
-    static void relocateJxeInPlace(long l) {
+    static void relocateJxeInPlace(long l) throws JxeException {
         int n = JxeUtil.nativeRelocateJxeInPlace(l);
         if (n != 0) {
             throw JxeException.jxeExceptionFromRelocationReturnCode(n);
         }
     }
 
-    private static native int nativeRelocateJxeStreaming(InputStream inputStream, JxeOutputStream jxeOutputStream, int n, int n2, long l) {
-    }
+    private static native int nativeRelocateJxeStreaming(InputStream var0, JxeOutputStream var1, int var2, int var3, long var4);
 
-    public static void relocateJxeStreaming(InputStream inputStream, JxeOutputStream jxeOutputStream, int n, int n2, long l) {
+    public static void relocateJxeStreaming(InputStream inputStream, JxeOutputStream jxeOutputStream, int n, int n2, long l) throws JxeException {
         int n3 = JxeUtil.nativeRelocateJxeStreaming(inputStream, jxeOutputStream, n, n2, l);
         if (n3 != 0) {
             throw JxeException.jxeExceptionFromRelocationReturnCode(n3);
         }
     }
 
-    private static native String nativeGetEnvironmentVariable(String string) {
-    }
+    private static native String nativeGetEnvironmentVariable(String var0);
 
     public static String getEnvironmentVariable(String string) {
         return JxeUtil.nativeGetEnvironmentVariable(string);
     }
 
-    private static native int nativeVerifyJxe(long l) {
-    }
+    private static native int nativeVerifyJxe(long var0);
 
-    public static void verifyJxe(long l) {
+    public static void verifyJxe(long l) throws JxeException {
         int n = JxeUtil.nativeVerifyJxe(l);
         if (n != 0) {
             throw JxeException.jxeExceptionFromRelocationReturnCode(n);
         }
     }
 
-    private static native int nativeGetCurrentRomImageVersion() {
-    }
+    private static native int nativeGetCurrentRomImageVersion();
 
     public static long getCurrentRomImageVersion() {
         return JxeUtil.nativeGetCurrentRomImageVersion();
     }
 
-    private static native int nativeGetLowestRomImageVersion() {
-    }
+    private static native int nativeGetLowestRomImageVersion();
 
     public static long getLowestRomImageVersion() {
         return JxeUtil.nativeGetLowestRomImageVersion();
     }
 
-    public static native String[] nativeGetClassList(byte[] byArray) {
-    }
+    public static native String[] nativeGetClassList(byte[] var0);
 
     public static String[] getClassList(String string) {
         byte[] byArray = Util.getBytes(string);
@@ -133,8 +122,7 @@ public final class JxeUtil {
         return true;
     }
 
-    static native void nativeRegisterJxe(long l, long l2, long l3) {
-    }
+    static native void nativeRegisterJxe(long var0, long var2, long var4);
 
     static boolean unregisterJxe(Jxe jxe) {
         long l = JxeUtil.nativeGetRomImagePointerFromJxePointer(jxe.getJxePointer());
@@ -145,7 +133,6 @@ public final class JxeUtil {
         return true;
     }
 
-    static native void nativeUnregisterJxe(long l) {
-    }
+    static native void nativeUnregisterJxe(long var0);
 }
 

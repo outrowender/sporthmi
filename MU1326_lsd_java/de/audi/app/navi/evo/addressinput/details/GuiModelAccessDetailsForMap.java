@@ -28,22 +28,18 @@ implements GuiModelAccessDetailsNavi {
         this.detailsHandler = iDestinationHandler;
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation) {
-        this.env.getLogChannel().log(-2137614336, "GuiModelAccessDetailsForMap#onUpdateLocation - location=%1", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.env.getLogChannel().log(10000000, "GuiModelAccessDetailsForMap#onUpdateLocation - location=%1", (Object)LocationFormatter.formatLocationShort(navLocation));
         GuiModelAccessDetailsEvo guiModelAccessDetailsEvo = !Util.isEmpty(LocationFormatter.formatPOIName(navLocation)) ? new GuiModelAccessDetailsLocationPoi(this.env, this.iconHandler, this.detailsHandler) : new GuiModelAccessDetailsLocationAddress(this.env, this.detailsHandler);
         guiModelAccessDetailsEvo.onUpdateLocation(navLocation);
     }
 
-    @Override
     public void onUpdateLocation(OperatorCallResult operatorCallResult) {
     }
 
-    @Override
     public void onUpdateLocationsForTour(NavLocation[] navLocationArray, String string) {
     }
 
-    @Override
     public GuiTooltipInformationContainer createMapTooltipInformationContainer(NavLocation navLocation, String string) {
         return null;
     }

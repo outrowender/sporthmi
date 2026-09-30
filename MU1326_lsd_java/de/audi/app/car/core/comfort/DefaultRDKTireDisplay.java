@@ -26,66 +26,66 @@ import org.dsi.ifc.carcomfort.RDKWheelTemperatures;
 
 public class DefaultRDKTireDisplay
 implements IRDKTireDisplay {
-    protected static final int INVALID_VALUE;
-    private static final int INVALID_PRESSURE_VALUE;
-    protected static final int L0_ROW_ACTUAL_PRESSURE_FL;
-    protected static final int L0_ROW_ACTUAL_PRESSURE_FR;
-    protected static final int L0_ROW_ACTUAL_PRESSURE_RL;
-    protected static final int L0_ROW_ACTUAL_PRESSURE_RR;
-    protected static final int L0_ROW_ACTUAL_PRESSURE_SW;
-    protected static final int L0_ROW_TARGET_PRESSURE_FL;
-    protected static final int L0_ROW_TARGET_PRESSURE_FR;
-    protected static final int L0_ROW_TARGET_PRESSURE_RL;
-    protected static final int L0_ROW_TARGET_PRESSURE_RR;
-    protected static final int L0_ROW_TARGET_PRESSURE_SW;
-    protected static final int TIRE_PRESSURE_MONITOR_DATA_LIST_SIZE;
-    protected static final int L1_ROW_ACTUAL_TEMPERATURE_FL;
-    protected static final int L1_ROW_ACTUAL_TEMPERATURE_FR;
-    protected static final int L1_ROW_ACTUAL_TEMPERATURE_RL;
-    protected static final int L1_ROW_ACTUAL_TEMPERATURE_RR;
-    protected static final int L1_ROW_ACTUAL_TEMPERATURE_SW;
-    protected static final int TIRE_TEMPERATURE_MONITOR_DATA_LIST_SIZE;
-    protected static final int L2_ROW_STATE_FL;
-    protected static final int L2_ROW_STATE_FR;
-    protected static final int L2_ROW_STATE_RL;
-    protected static final int L2_ROW_STATE_RR;
-    protected static final int L2_ROW_STATE_SW;
-    protected static final int TIRE_STATE_MONITOR_DATA_LIST_SIZE;
-    private static final int RDK_WHEELSTATE_OK;
-    private static final int RDK_WHEELSTATE_NOT_DISPLAYED;
-    private static final int RDK_WHEELSTATE_LOW_WARNING;
-    private static final int RDK_WHEELSTATE_HARD_WARNING;
-    private static final int RDK_WHEELSTATE_BREAKDOWN;
-    private static final int RDK_WHEELSTATE_UNKNOWN;
-    private static final int RDK_WHEELSTATE_WHEELCHANGED;
-    private static final int RDK_WHEELSTATE_PARTLOADOBSERVED;
-    private static final int RDK_WHEELSTATE_FULLLOADOBSERVED;
-    private static final int RDK_WHEELSTATE_FASTFORPRESSURE;
-    private static final int RDK_WHEELSTATE_FASTFORWHEEL;
-    private static final int RDK_WHEELSTATE_CHANGE_SWITCH_PRESS_LONGER;
-    private static final int RDK_WHEELSTATE_SWITCH_PRESS_LONGER;
-    private static final int RDK_WHEELSTATE_CHANGE_PRESS_LONGER;
-    private static final int RDK_WHEELSTATE_NOT_OK;
-    private static final int RDK_WHEELSTATE_LEARNING_ABOVE_SPEEDLEVEL;
-    private static final int RDK_WHEELSTATE_LEARNING_STATE;
-    private static final int RDK_WHEELSTATE_RACETRACK_MODE;
-    private static final int RDK_WHEELSTATE_LEARNING_REQUIRED;
-    private static final int RDK_WHEELSTATE_LEARNING_MODE;
-    private static final int RDK_WHEELSTATE_CUSTOM_MODE;
-    private static final int RDK_WHEELSTATE_OVER_TEMPERATURE;
-    private static final int RDK_WHEELSTATE_OVER_PRESSURE;
-    private static final int RDK_WHEELSTATE_PRESSURE_STORED;
-    private static final int RDK_WHEELSTATE_BATTERY_LOW;
-    private static final int RDK_WHEELTYPE_UNKNOWN;
-    private static final int RDK_WHEELTYPE_WINTER;
-    private static final int RDK_WHEELTYPE_SUMMER;
-    private static final int RDK_WHEELTYPE_ALLSEASON;
-    private static final int RDK_WHEELTYPE_CUSTOM;
-    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_POSITION;
-    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_VENDORNAME;
-    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_WHEELSIZE;
-    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_WHEELTYPE;
-    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_SELECTION;
+    protected static final int INVALID_VALUE = -1;
+    private static final int INVALID_PRESSURE_VALUE = 32768;
+    protected static final int L0_ROW_ACTUAL_PRESSURE_FL = 0;
+    protected static final int L0_ROW_ACTUAL_PRESSURE_FR = 1;
+    protected static final int L0_ROW_ACTUAL_PRESSURE_RL = 2;
+    protected static final int L0_ROW_ACTUAL_PRESSURE_RR = 3;
+    protected static final int L0_ROW_ACTUAL_PRESSURE_SW = 4;
+    protected static final int L0_ROW_TARGET_PRESSURE_FL = 5;
+    protected static final int L0_ROW_TARGET_PRESSURE_FR = 6;
+    protected static final int L0_ROW_TARGET_PRESSURE_RL = 7;
+    protected static final int L0_ROW_TARGET_PRESSURE_RR = 8;
+    protected static final int L0_ROW_TARGET_PRESSURE_SW = 9;
+    protected static final int TIRE_PRESSURE_MONITOR_DATA_LIST_SIZE = 10;
+    protected static final int L1_ROW_ACTUAL_TEMPERATURE_FL = 0;
+    protected static final int L1_ROW_ACTUAL_TEMPERATURE_FR = 1;
+    protected static final int L1_ROW_ACTUAL_TEMPERATURE_RL = 2;
+    protected static final int L1_ROW_ACTUAL_TEMPERATURE_RR = 3;
+    protected static final int L1_ROW_ACTUAL_TEMPERATURE_SW = 4;
+    protected static final int TIRE_TEMPERATURE_MONITOR_DATA_LIST_SIZE = 5;
+    protected static final int L2_ROW_STATE_FL = 0;
+    protected static final int L2_ROW_STATE_FR = 1;
+    protected static final int L2_ROW_STATE_RL = 2;
+    protected static final int L2_ROW_STATE_RR = 3;
+    protected static final int L2_ROW_STATE_SW = 4;
+    protected static final int TIRE_STATE_MONITOR_DATA_LIST_SIZE = 5;
+    private static final int RDK_WHEELSTATE_OK = 0;
+    private static final int RDK_WHEELSTATE_NOT_DISPLAYED = 1;
+    private static final int RDK_WHEELSTATE_LOW_WARNING = 2;
+    private static final int RDK_WHEELSTATE_HARD_WARNING = 3;
+    private static final int RDK_WHEELSTATE_BREAKDOWN = 4;
+    private static final int RDK_WHEELSTATE_UNKNOWN = 5;
+    private static final int RDK_WHEELSTATE_WHEELCHANGED = 6;
+    private static final int RDK_WHEELSTATE_PARTLOADOBSERVED = 7;
+    private static final int RDK_WHEELSTATE_FULLLOADOBSERVED = 8;
+    private static final int RDK_WHEELSTATE_FASTFORPRESSURE = 9;
+    private static final int RDK_WHEELSTATE_FASTFORWHEEL = 10;
+    private static final int RDK_WHEELSTATE_CHANGE_SWITCH_PRESS_LONGER = 11;
+    private static final int RDK_WHEELSTATE_SWITCH_PRESS_LONGER = 12;
+    private static final int RDK_WHEELSTATE_CHANGE_PRESS_LONGER = 13;
+    private static final int RDK_WHEELSTATE_NOT_OK = 14;
+    private static final int RDK_WHEELSTATE_LEARNING_ABOVE_SPEEDLEVEL = 15;
+    private static final int RDK_WHEELSTATE_LEARNING_STATE = 16;
+    private static final int RDK_WHEELSTATE_RACETRACK_MODE = 17;
+    private static final int RDK_WHEELSTATE_LEARNING_REQUIRED = 18;
+    private static final int RDK_WHEELSTATE_LEARNING_MODE = 19;
+    private static final int RDK_WHEELSTATE_CUSTOM_MODE = 20;
+    private static final int RDK_WHEELSTATE_OVER_TEMPERATURE = 21;
+    private static final int RDK_WHEELSTATE_OVER_PRESSURE = 22;
+    private static final int RDK_WHEELSTATE_PRESSURE_STORED = 23;
+    private static final int RDK_WHEELSTATE_BATTERY_LOW = 24;
+    private static final int RDK_WHEELTYPE_UNKNOWN = 0;
+    private static final int RDK_WHEELTYPE_WINTER = 1;
+    private static final int RDK_WHEELTYPE_SUMMER = 2;
+    private static final int RDK_WHEELTYPE_ALLSEASON = 3;
+    private static final int RDK_WHEELTYPE_CUSTOM = 4;
+    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_POSITION = 0;
+    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_VENDORNAME = 1;
+    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_WHEELSIZE = 2;
+    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_WHEELTYPE = 3;
+    private static final int TIRE_SELECTION_DATA_LIST_COLUMN_SELECTION = 4;
     private final int[] wheelStateDSIMappingTable = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
     protected final IFrameworkAccess frameworkAccess;
     protected final LogChannel logChannel;
@@ -155,40 +155,40 @@ implements IRDKTireDisplay {
 
     protected void updateCollectedStateData(int n) {
         this.tireCollectedStateChoiceModel.setValue(n);
-        this.frameworkAccess.getHmiServiceApp().getChoiceModel(-1456731904).setValue(1 == n ? 0 : 1);
+        this.frameworkAccess.getHmiServiceApp().getChoiceModel(601257).setValue(1 == n ? 0 : 1);
     }
 
     protected void updatePressureData(RDKWheelPressures rDKWheelPressures, RDKWheelPressures rDKWheelPressures2) {
         int n = this.getPressureUnitValue(rDKWheelPressures.getPressureUnit());
         if (-1 == n) {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updatePressureData] Invalid actual pressure unit: %1, update ignored.", (long)rDKWheelPressures.getPressureUnit());
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updatePressureData] Invalid actual pressure unit: %1, update ignored.", (long)rDKWheelPressures.getPressureUnit());
             return;
         }
         int n2 = this.getPressureUnitValue(rDKWheelPressures2.getPressureUnit());
         if (-1 == n2) {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updatePressureData] Invalid target pressure unit: %1, update ignored.", (long)rDKWheelPressures2.getPressureUnit());
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updatePressureData] Invalid target pressure unit: %1, update ignored.", (long)rDKWheelPressures2.getPressureUnit());
             return;
         }
         Pressure pressure = this.calculatePressure(rDKWheelPressures.getFrontLeft(), n);
-        pressure.setMetricValid(0x800000 != rDKWheelPressures.getFrontLeft());
+        pressure.setMetricValid(32768 != rDKWheelPressures.getFrontLeft());
         Pressure pressure2 = this.calculatePressure(rDKWheelPressures.getFrontRight(), n);
-        pressure2.setMetricValid(0x800000 != rDKWheelPressures.getFrontRight());
+        pressure2.setMetricValid(32768 != rDKWheelPressures.getFrontRight());
         Pressure pressure3 = this.calculatePressure(rDKWheelPressures.getRearLeft(), n);
-        pressure3.setMetricValid(0x800000 != rDKWheelPressures.getRearLeft());
+        pressure3.setMetricValid(32768 != rDKWheelPressures.getRearLeft());
         Pressure pressure4 = this.calculatePressure(rDKWheelPressures.getRearRight(), n);
-        pressure4.setMetricValid(0x800000 != rDKWheelPressures.getRearRight());
+        pressure4.setMetricValid(32768 != rDKWheelPressures.getRearRight());
         Pressure pressure5 = this.calculatePressure(rDKWheelPressures.getSpareWheel(), n);
-        pressure5.setMetricValid(0x800000 != rDKWheelPressures.getSpareWheel());
+        pressure5.setMetricValid(32768 != rDKWheelPressures.getSpareWheel());
         Pressure pressure6 = this.calculatePressure(rDKWheelPressures2.getFrontLeft(), n2);
-        pressure6.setMetricValid(0x800000 != rDKWheelPressures2.getFrontLeft());
+        pressure6.setMetricValid(32768 != rDKWheelPressures2.getFrontLeft());
         Pressure pressure7 = this.calculatePressure(rDKWheelPressures2.getFrontRight(), n2);
-        pressure7.setMetricValid(0x800000 != rDKWheelPressures2.getFrontRight());
+        pressure7.setMetricValid(32768 != rDKWheelPressures2.getFrontRight());
         Pressure pressure8 = this.calculatePressure(rDKWheelPressures2.getRearLeft(), n2);
-        pressure8.setMetricValid(0x800000 != rDKWheelPressures2.getRearLeft());
+        pressure8.setMetricValid(32768 != rDKWheelPressures2.getRearLeft());
         Pressure pressure9 = this.calculatePressure(rDKWheelPressures2.getRearRight(), n2);
-        pressure9.setMetricValid(0x800000 != rDKWheelPressures2.getRearRight());
+        pressure9.setMetricValid(32768 != rDKWheelPressures2.getRearRight());
         Pressure pressure10 = this.calculatePressure(rDKWheelPressures2.getSpareWheel(), n2);
-        pressure10.setMetricValid(0x800000 != rDKWheelPressures2.getSpareWheel());
+        pressure10.setMetricValid(32768 != rDKWheelPressures2.getSpareWheel());
         this.setListData(this.tirePressureMonitorDataListModel, new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, new AbstractMetrics[]{pressure, pressure2, pressure3, pressure4, pressure5, pressure6, pressure7, pressure8, pressure9, pressure10});
         this.tirePressureActualFLMetricsModel.setMetric(pressure);
         this.tirePressureActualFRMetricsModel.setMetric(pressure2);
@@ -205,19 +205,19 @@ implements IRDKTireDisplay {
     protected void updateDifferentialPressureData(RDKWheelPressures rDKWheelPressures) {
         int n = this.getPressureUnitValue(rDKWheelPressures.getPressureUnit());
         if (-1 == n) {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updatePressureData] Invalid pressure unit: %1, update ignored.", (long)rDKWheelPressures.getPressureUnit());
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updatePressureData] Invalid pressure unit: %1, update ignored.", (long)rDKWheelPressures.getPressureUnit());
             return;
         }
         Pressure pressure = this.calculatePressure(rDKWheelPressures.getFrontLeft(), n);
-        pressure.setMetricValid(0x800000 != rDKWheelPressures.getFrontLeft());
+        pressure.setMetricValid(32768 != rDKWheelPressures.getFrontLeft());
         Pressure pressure2 = this.calculatePressure(rDKWheelPressures.getFrontRight(), n);
-        pressure2.setMetricValid(0x800000 != rDKWheelPressures.getFrontRight());
+        pressure2.setMetricValid(32768 != rDKWheelPressures.getFrontRight());
         Pressure pressure3 = this.calculatePressure(rDKWheelPressures.getRearLeft(), n);
-        pressure3.setMetricValid(0x800000 != rDKWheelPressures.getRearLeft());
+        pressure3.setMetricValid(32768 != rDKWheelPressures.getRearLeft());
         Pressure pressure4 = this.calculatePressure(rDKWheelPressures.getRearRight(), n);
-        pressure4.setMetricValid(0x800000 != rDKWheelPressures.getRearRight());
+        pressure4.setMetricValid(32768 != rDKWheelPressures.getRearRight());
         Pressure pressure5 = this.calculatePressure(rDKWheelPressures.getSpareWheel(), n);
-        pressure5.setMetricValid(0x800000 != rDKWheelPressures.getSpareWheel());
+        pressure5.setMetricValid(32768 != rDKWheelPressures.getSpareWheel());
         this.tirePressureDifferenceFLMetricsModel.setMetric(pressure);
         this.tirePressureDifferenceFRMetricsModel.setMetric(pressure2);
         this.tirePressureDifferenceRLMetricsModel.setMetric(pressure3);
@@ -242,7 +242,7 @@ implements IRDKTireDisplay {
     protected void updateTemperatureData(RDKWheelTemperatures rDKWheelTemperatures) {
         int n = this.getTemperatureUnitValue(rDKWheelTemperatures.getTemperatureUnit());
         if (-1 == n) {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updateTemperatureData] Invalid temperature unit: %1, update ignored.", (long)rDKWheelTemperatures.getTemperatureUnit());
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updateTemperatureData] Invalid temperature unit: %1, update ignored.", (long)rDKWheelTemperatures.getTemperatureUnit());
             return;
         }
         Temperature temperature = this.calculateTemperature(rDKWheelTemperatures.getFrontLeft(), n);
@@ -256,22 +256,22 @@ implements IRDKTireDisplay {
     protected void updateColdTirePressuresData(RDKTireInfo rDKTireInfo) {
         int n = this.getSpeedUnitValue(rDKTireInfo.getSpeedLimit1().getSpeedUnit());
         if (-1 == n) {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updateColdTirePressuresData] Invalid temperature unit: %1, update ignored.", (long)rDKTireInfo.getSpeedLimit1().getSpeedUnit());
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updateColdTirePressuresData] Invalid temperature unit: %1, update ignored.", (long)rDKTireInfo.getSpeedLimit1().getSpeedUnit());
             return;
         }
         int n2 = this.getSpeedUnitValue(rDKTireInfo.getSpeedLimit2().getSpeedUnit());
         if (-1 == n2) {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updateColdTirePressuresData] Invalid temperature unit: %1, update ignored.", (long)rDKTireInfo.getSpeedLimit2().getSpeedUnit());
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updateColdTirePressuresData] Invalid temperature unit: %1, update ignored.", (long)rDKTireInfo.getSpeedLimit2().getSpeedUnit());
             return;
         }
         int n3 = this.getSpeedUnitValue(rDKTireInfo.getSpeedLimit3().getSpeedUnit());
         if (-1 == n3) {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updateColdTirePressuresData] Invalid temperature unit: %1, update ignored.", (long)rDKTireInfo.getSpeedLimit3().getSpeedUnit());
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updateColdTirePressuresData] Invalid temperature unit: %1, update ignored.", (long)rDKTireInfo.getSpeedLimit3().getSpeedUnit());
             return;
         }
         int n4 = this.getPressureUnitValue(rDKTireInfo.getPressureUnit());
         if (-1 == n4) {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updateColdTirePressuresData] Invalid pressure unit: %1, update ignored.", (long)rDKTireInfo.getPressureUnit());
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updateColdTirePressuresData] Invalid pressure unit: %1, update ignored.", (long)rDKTireInfo.getPressureUnit());
             return;
         }
         Speed speed = this.calculateSpeed(rDKTireInfo.getSpeedLimit1().getSpeedValue(), n);
@@ -335,7 +335,7 @@ implements IRDKTireDisplay {
         } else if (0 == rDKTireInfoArray.length) {
             this.tireSelectionDataListModel.setLength(0);
         } else {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updateTireSelectionData] Invalid list size: %1", (long)rDKTireInfoArray.length);
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updateTireSelectionData] Invalid list size: %1", (long)rDKTireInfoArray.length);
         }
     }
 
@@ -406,13 +406,13 @@ implements IRDKTireDisplay {
     protected Pressure calculatePressure(int n, int n2) {
         switch (n2) {
             case 1: {
-                float f2 = (float)n * -842216387;
+                float f2 = (float)n * 0.1f;
                 Pressure pressure = new Pressure(f2, n2);
                 pressure.setUseInstanceUnit(this.useInstanceUnit);
                 return pressure;
             }
             case 2: {
-                float f3 = (float)Math.round((float)n / 2.0f / 63) * 63;
+                float f3 = (float)Math.round((float)n / 2.0f / 0.5f) * 0.5f;
                 Pressure pressure = new Pressure(f3, n2);
                 pressure.setUseInstanceUnit(this.useInstanceUnit);
                 return pressure;
@@ -431,13 +431,13 @@ implements IRDKTireDisplay {
         int n4 = n2 - n;
         switch (n3) {
             case 1: {
-                float f2 = (float)n4 * -842216387;
+                float f2 = (float)n4 * 0.1f;
                 Pressure pressure = new Pressure(f2, n3);
                 pressure.setUseInstanceUnit(this.useInstanceUnit);
                 return pressure;
             }
             case 2: {
-                float f3 = (float)Math.round((float)n4 / 2.0f / 63) * 63;
+                float f3 = (float)Math.round((float)n4 / 2.0f / 0.5f) * 0.5f;
                 Pressure pressure = new Pressure(f3, n3);
                 pressure.setUseInstanceUnit(this.useInstanceUnit);
                 return pressure;
@@ -484,103 +484,101 @@ implements IRDKTireDisplay {
         return speed;
     }
 
-    @Override
     public void initialize() {
         int n;
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[DefaultRDKTireDisplay#initialize] called.");
+            this.logChannel.log(1000000, "[DefaultRDKTireDisplay#initialize] called.");
         }
-        this.tirePressureMonitorDataListModel = (BufferedListModel)this.frameworkAccess.getHmiServiceApp().getListModel(1496189184);
+        this.tirePressureMonitorDataListModel = (BufferedListModel)this.frameworkAccess.getHmiServiceApp().getListModel(601689);
         this.tirePressureMonitorDataListModel.setMaxColumns(1);
         this.tirePressureMonitorDataListModel.setMaxRows(10);
         for (n = 0; n < 10; ++n) {
             this.tirePressureMonitorDataListModel.addRow(new MetricsListCell(new Pressure(0.0f, 1)));
         }
-        this.tirePressureActualFLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1915685120);
+        this.tirePressureActualFLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601970);
         this.tirePressureActualFLMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureActualFRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(2016348416);
+        this.tirePressureActualFRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601976);
         this.tirePressureActualFRMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureActualRLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(439421184);
+        this.tirePressureActualRLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(602394);
         this.tirePressureActualRLMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureActualRRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(-80738048);
+        this.tirePressureActualRRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(602363);
         this.tirePressureActualRRMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureActualSWMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1949239552);
+        this.tirePressureActualSWMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601972);
         this.tirePressureActualSWMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureRequiredFLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1999571200);
+        this.tirePressureRequiredFLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601975);
         this.tirePressureRequiredFLMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureRequiredFRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1966016768);
+        this.tirePressureRequiredFRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601973);
         this.tirePressureRequiredFRMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureRequiredRLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(2049902848);
+        this.tirePressureRequiredRLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601978);
         this.tirePressureRequiredRLMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureRequiredRRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1982793984);
+        this.tirePressureRequiredRRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601974);
         this.tirePressureRequiredRRMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureRequiredSWMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(2066680064);
+        this.tirePressureRequiredSWMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601979);
         this.tirePressureRequiredSWMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureDifferenceFLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1630472448);
+        this.tirePressureDifferenceFLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601953);
         this.tirePressureDifferenceFLMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureDifferenceFRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(204540160);
+        this.tirePressureDifferenceFRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(602380);
         this.tirePressureDifferenceFRMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureDifferenceRLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1747912960);
+        this.tirePressureDifferenceRLMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601960);
         this.tirePressureDifferenceRLMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureDifferenceRRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(-131069696);
+        this.tirePressureDifferenceRRMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(602360);
         this.tirePressureDifferenceRRMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureDifferenceSWMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1697581312);
+        this.tirePressureDifferenceSWMetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601957);
         this.tirePressureDifferenceSWMetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tirePressureStateFLChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(120654080);
+        this.tirePressureStateFLChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(602375);
         this.tirePressureStateFLChoiceModel.setValue(5);
-        this.tirePressureStateFRChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(-97515264);
+        this.tirePressureStateFRChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(602362);
         this.tirePressureStateFRChoiceModel.setValue(5);
-        this.tirePressureStateRLChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(1731135744);
+        this.tirePressureStateRLChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(601959);
         this.tirePressureStateRLChoiceModel.setValue(5);
-        this.tirePressureStateRRChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(1647249664);
+        this.tirePressureStateRRChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(601954);
         this.tirePressureStateRRChoiceModel.setValue(5);
-        this.tirePressureStateSWChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(1714358528);
+        this.tirePressureStateSWChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(601958);
         this.tirePressureStateSWChoiceModel.setValue(5);
-        this.tireCollectedStateChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(-2144401152);
+        this.tireCollectedStateChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(601984);
         this.tireCollectedStateChoiceModel.setValue(5);
-        this.tireTemperatureMonitorDataListModel = (BufferedListModel)this.frameworkAccess.getHmiServiceApp().getListModel(1663961344);
+        this.tireTemperatureMonitorDataListModel = (BufferedListModel)this.frameworkAccess.getHmiServiceApp().getListModel(601699);
         this.tireTemperatureMonitorDataListModel.setMaxColumns(1);
         this.tireTemperatureMonitorDataListModel.setMaxRows(5);
         for (n = 0; n < 5; ++n) {
             this.tireTemperatureMonitorDataListModel.addRow(new MetricsListCell(new Temperature(0.0f, 1)));
         }
-        this.tireStateMonitorDataListModel = (BufferedListModel)this.frameworkAccess.getHmiServiceApp().getListModel(1546520832);
+        this.tireStateMonitorDataListModel = (BufferedListModel)this.frameworkAccess.getHmiServiceApp().getListModel(601692);
         this.tireStateMonitorDataListModel.setMaxColumns(1);
         this.tireStateMonitorDataListModel.setMaxRows(5);
         for (n = 0; n < 5; ++n) {
             this.tireStateMonitorDataListModel.addRow(IntegerListCell.create(5));
         }
-        this.tireInfoSpeedLimit1MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1580075264);
+        this.tireInfoSpeedLimit1MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601694);
         this.tireInfoSpeedLimit1MetricsModel.setMetric(new Speed(0.0f, 1));
-        this.tireInfoSpeedLimit2MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1680738560);
+        this.tireInfoSpeedLimit2MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601700);
         this.tireInfoSpeedLimit2MetricsModel.setMetric(new Speed(0.0f, 1));
-        this.tireInfoSpeedLimit3MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1512966400);
+        this.tireInfoSpeedLimit3MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601690);
         this.tireInfoSpeedLimit3MetricsModel.setMetric(new Speed(0.0f, 1));
-        this.tireInfoFrontPressure1MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1613629696);
+        this.tireInfoFrontPressure1MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601696);
         this.tireInfoFrontPressure1MetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tireInfoFrontPressure2MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1596852480);
+        this.tireInfoFrontPressure2MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601695);
         this.tireInfoFrontPressure2MetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tireInfoFrontPressure3MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1647184128);
+        this.tireInfoFrontPressure3MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601698);
         this.tireInfoFrontPressure3MetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tireInfoFrontPressure4MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(36768000);
+        this.tireInfoFrontPressure4MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(602370);
         this.tireInfoFrontPressure4MetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tireInfoRearPressure1MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1563298048);
+        this.tireInfoRearPressure1MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601693);
         this.tireInfoRearPressure1MetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tireInfoRearPressure2MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1630406912);
+        this.tireInfoRearPressure2MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601697);
         this.tireInfoRearPressure2MetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tireInfoRearPressure3MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1529743616);
+        this.tireInfoRearPressure3MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601691);
         this.tireInfoRearPressure3MetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tireInfoRearPressure4MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(1529809152);
+        this.tireInfoRearPressure4MetricsModel = this.frameworkAccess.getHmiServiceApp().getMetricsModel(601947);
         this.tireInfoRearPressure4MetricsModel.setMetric(new Pressure(0.0f, 1));
-        this.tireSelectionDataListModel = this.frameworkAccess.getHmiServiceApp().getBaseListModel(1982728448);
+        this.tireSelectionDataListModel = this.frameworkAccess.getHmiServiceApp().getBaseListModel(601718);
         this.tireSelectionDataListModel.setLength(0);
-        this.tireSelectionDataListSelectionChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(1479411968);
+        this.tireSelectionDataListSelectionChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(601688);
         this.tireSelectionDataListSelectionChoiceModel.setValue(-1);
-        this.wheelSizeDataLabelModel = this.frameworkAccess.getHmiServiceApp().getLabelModel(1412303104);
-        this.wheelTypeDataChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(1429080320);
+        this.wheelSizeDataLabelModel = this.frameworkAccess.getHmiServiceApp().getLabelModel(601684);
+        this.wheelTypeDataChoiceModel = this.frameworkAccess.getHmiServiceApp().getChoiceModel(601685);
     }
 
-    @Override
     public void updateDisplayData(RDKTireDisplayData rDKTireDisplayData) {
         if (null != rDKTireDisplayData) {
             this.updateCollectedStateData(rDKTireDisplayData.getWheelStates().getCollectedState());
@@ -592,7 +590,6 @@ implements IRDKTireDisplay {
         }
     }
 
-    @Override
     public void updateTireSetupTireList(RDKTireInfo[] rDKTireInfoArray) {
         if (null == rDKTireInfoArray || 0 == rDKTireInfoArray.length) {
             this.currentTireList = new RDKTireInfo[0];
@@ -604,7 +601,6 @@ implements IRDKTireDisplay {
         this.updateTireSetupSelectedTire(this.currentTireSelectionDSIValue);
     }
 
-    @Override
     public void updateTireSetupSelectedTire(int n) {
         if (-1 == n) {
             return;
@@ -620,7 +616,7 @@ implements IRDKTireDisplay {
         }
         this.currentTireSelectionHMIValue = n2;
         if (-1 == n2) {
-            this.logChannel.log(-1601830656, "[DefaultRDKTireDisplay#updateTireSetupSelectedTire] Invalid position: '%1'", (long)n);
+            this.logChannel.log(100000, "[DefaultRDKTireDisplay#updateTireSetupSelectedTire] Invalid position: '%1'", (long)n);
             return;
         }
         if (null != this.currentTireList) {
@@ -639,11 +635,9 @@ implements IRDKTireDisplay {
         }
     }
 
-    @Override
     public void updateSpeedLimit(int n) {
     }
 
-    @Override
     public void updateDifferentialPressure(RDKWheelPressures rDKWheelPressures) {
         if (null != rDKWheelPressures) {
             this.updateDifferentialPressureData(rDKWheelPressures);

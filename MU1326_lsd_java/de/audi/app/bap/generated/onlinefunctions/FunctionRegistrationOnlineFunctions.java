@@ -53,14 +53,14 @@ implements IFunctionRegistrationFSG {
     }
 
     private void initialize(AbstractBAPModuleFSG abstractBAPModuleFSG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationOnlineFunctions#initialize] start initialization");
+        this.logChannel.log(10000000, "[FunctionRegistrationOnlineFunctions#initialize] start initialization");
         this.initializeProperties(abstractBAPModuleFSG);
         this.initialized = true;
-        this.logChannel.log(-2137614336, "[FunctionRegistrationOnlineFunctions#initialize] initialization completed");
+        this.logChannel.log(10000000, "[FunctionRegistrationOnlineFunctions#initialize] initialization completed");
     }
 
     private void initializeProperties(AbstractBAPModuleFSG abstractBAPModuleFSG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationOnlineFunctions#initializeProperties] initialize properties");
+        this.logChannel.log(10000000, "[FunctionRegistrationOnlineFunctions#initializeProperties] initialize properties");
         this.bapConfig = abstractBAPModuleFSG.createBAPFunctionPropertyFSG(2);
         this.bapConfig.setResetSerializer(new BAP_Config_Reset());
         this.allProperties.add(this.bapConfig);
@@ -81,7 +81,6 @@ implements IFunctionRegistrationFSG {
         this.allProperties.add(this.trafficLightOnlineTime);
     }
 
-    @Override
     public BAPFunctionMethodFSG getBAPFunctionMethodFSG(int n) {
         try {
             return (BAPFunctionMethodFSG)this.getBAPFunction(n);
@@ -92,7 +91,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public BAPFunctionPropertyFSG getBAPFunctionPropertyFSG(int n) {
         try {
             return (BAPFunctionPropertyFSG)this.getBAPFunction(n);
@@ -103,7 +101,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public BAPFunctionArrayFSG getBAPFunctionArrayFSG(int n) {
         try {
             return (BAPFunctionArrayFSG)this.getBAPFunction(n);
@@ -114,7 +111,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public IBAPFunction getBAPFunction(int n) {
         if (!this.initialized) {
             this.logChannel.log(10000, "[FunctionRegistrationOnlineFunctions#getBAPFunction] function registration not initialized yet for lsgID=%1", (Object)LSGIDs.getDescription(42), (long)n);
@@ -149,24 +145,20 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public List getAllProperties() {
         return this.allProperties;
     }
 
-    @Override
     public List getAllMethods() {
         return this.allMethods;
     }
 
-    @Override
     public List getAllArrays() {
         return this.allArrays;
     }
 
-    @Override
     public void resetBAPFunctions() {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationOnlineFunctions#resetBAPFunctions]");
+        this.logChannel.log(10000000, "[FunctionRegistrationOnlineFunctions#resetBAPFunctions]");
         Iterator iterator = this.allArrays.iterator();
         while (iterator.hasNext()) {
             ((IBAPFunction)iterator.next()).reset();
@@ -181,7 +173,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public ResultMethod createResultForMethodFSG(int n) {
         switch (n) {
             default: 
@@ -190,7 +181,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public StatusProperty createStatusForPropertyFSG(int n) {
         switch (n) {
             case 2: {
@@ -222,7 +212,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public StatusAckProperty createStatusAckForPropertyFSG(int n) {
         switch (n) {
             default: 
@@ -231,7 +220,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public StatusArray createStatusArrayForArrayFSG(int n) {
         switch (n) {
             default: 
@@ -240,7 +228,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public ChangedArray createChangedArrayForArrayFSG(int n) {
         switch (n) {
             default: 

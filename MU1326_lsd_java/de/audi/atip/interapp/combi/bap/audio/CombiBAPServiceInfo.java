@@ -7,16 +7,12 @@ import de.audi.atip.interapp.combi.bap.CombiBAPService;
 
 public interface CombiBAPServiceInfo
 extends CombiBAPService {
-    default public void skipResult(boolean bl) {
-    }
+    public void skipResult(boolean var1);
 
-    default public void updateTPMemoInfo(short s, short s2, short s3, short s4, String string) {
-    }
+    public void updateTPMemoInfo(short var1, short var2, short var3, short var4, String var5);
 
-    default public void notifyMessagePlaybackActive(boolean bl) {
-    }
+    public void notifyMessagePlaybackActive(boolean var1);
 
-    default public void updateTAMessageRecordingActive(boolean bl) {
-    }
+    public void updateTAMessageRecordingActive(boolean var1);
 }
 

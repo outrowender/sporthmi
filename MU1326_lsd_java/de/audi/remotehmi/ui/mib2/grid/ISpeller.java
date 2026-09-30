@@ -3,63 +3,50 @@
  */
 package de.audi.remotehmi.ui.mib2.grid;
 
-import de.audi.remotehmi.ui.mib2.grid.ISpeller$1;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface ISpeller {
-    public static final int TYPE_SCAN_GRID;
-    public static final int TYPE_FREE;
-    public static final Map typeOptions;
-    public static final int DEFAULT_TYPE;
+    public static final int TYPE_SCAN_GRID = 0;
+    public static final int TYPE_FREE = 1;
+    public static final Map typeOptions = new HashMap(){
+        private static final long serialVersionUID = 9212433984669498163L;
+        {
+            this.put("scanGrid", new Integer(0));
+            this.put("free", new Integer(1));
+        }
+    };
+    public static final int DEFAULT_TYPE = 1;
 
-    default public int getType() {
-    }
+    public int getType();
 
-    default public String getInitialText() {
-    }
+    public String getInitialText();
 
-    default public void setInitialText(String string) {
-    }
+    public void setInitialText(String var1);
 
-    default public String getHelpText() {
-    }
+    public String getHelpText();
 
-    default public void setHelpText(String string) {
-    }
+    public void setHelpText(String var1);
 
-    default public String getInfoText() {
-    }
+    public String getInfoText();
 
-    default public void setInfoText(String string) {
-    }
+    public void setInfoText(String var1);
 
-    default public void setOkButtonDisabled(boolean bl) {
-    }
+    public void setOkButtonDisabled(boolean var1);
 
-    default public boolean isOkButtonDisabled() {
-    }
+    public boolean isOkButtonDisabled();
 
-    default public Object getSpellerListener() {
-    }
+    public Object getSpellerListener();
 
-    default public void setSpellerListener(Object object) {
-    }
+    public void setSpellerListener(Object var1);
 
-    default public List getDrawerTypes() {
-    }
+    public List getDrawerTypes();
 
-    default public void setDrawerTypes(List list) {
-    }
+    public void setDrawerTypes(List var1);
 
-    default public void setText(String string) {
-    }
+    public void setText(String var1);
 
-    default public String getText() {
-    }
-
-    static {
-        typeOptions = new ISpeller$1();
-    }
+    public String getText();
 }
 

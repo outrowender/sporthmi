@@ -13,55 +13,51 @@ extends AbstractPEAComponent
 implements PEAComponentHybridAccess {
     private final boolean hybridFunctionsAvailable;
     private volatile int hybridCombustorVisibility = 1;
-    private static final int VARIANT_INVALID;
-    private static final int VARIANT_1_CHECKBOX_ONLY;
-    private static final int VARIANT_2_NORMAL;
-    private static final int VARIANT_3_HYBRID;
+    private static final int VARIANT_INVALID = 0;
+    private static final int VARIANT_1_CHECKBOX_ONLY = 1;
+    private static final int VARIANT_2_NORMAL = 2;
+    private static final int VARIANT_3_HYBRID = 3;
 
     public PEAComponentEvo(ICarApplication iCarApplication, boolean bl) {
         super(iCarApplication);
         this.hybridFunctionsAvailable = bl;
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(757729536, (short)55);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1373107968, (short)55);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1356330752, (short)55);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(774506752, (short)55);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(757729536, 1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600621, (short)55);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600238, (short)55);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600239, (short)55);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600622, (short)55);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600621, 1);
         if (this.hybridFunctionsAvailable) {
             this.getApplication().getMenuEntryRegistry().registerMenuEntry(451, (short)55);
             this.getApplication().getMenuEntryRegistry().registerMenuEntry(452, (short)55);
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(452, 1);
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(451, 1);
-            this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1456862976, (short)55);
-            this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1440085760, (short)55);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1440085760, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1456862976, 1);
+            this.getApplication().getMenuEntryRegistry().registerMenuEntry(600745, (short)55);
+            this.getApplication().getMenuEntryRegistry().registerMenuEntry(600746, (short)55);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600746, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600745, 1);
         }
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1373107968);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1356330752);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(774506752);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(757729536);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600238);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600239);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600622);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600621);
         if (this.hybridFunctionsAvailable) {
             this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(451);
             this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(452);
-            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1456862976);
-            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1440085760);
+            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600745);
+            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600746);
         }
     }
 
-    @Override
     protected synchronized void updateMenuEntryVisibility() {
         this.updateVisibility();
     }
 
-    @Override
     public synchronized void updateHybridFunctionVisibility(int n) {
         this.hybridCombustorVisibility = n;
         this.updateVisibility();
@@ -78,40 +74,39 @@ implements PEAComponentHybridAccess {
         boolean bl4 = this.hybridCombustorVisibility != 1;
         int n = 0;
         n = bl && !bl2 && !bl3 && !bl4 ? 1 : (!bl4 ? 2 : 3);
-        this.getLogChannel().log(1078071040, "[PEAComponentEvo#updateVisibility] determined variant is '%1', setting visibility accordingly", (long)n);
+        this.getLogChannel().log(1000000, "[PEAComponentEvo#updateVisibility] determined variant is '%1', setting visibility accordingly", (long)n);
         switch (n) {
             case 1: {
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(757729536, this.getMenuEntryVisibilityState(eAViewOptions.getSystem()));
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1373107968, 1);
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(774506752, 1);
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1356330752, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600621, this.getMenuEntryVisibilityState(eAViewOptions.getSystem()));
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600238, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600622, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600239, 1);
                 this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(451, 1);
                 this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(452, 1);
                 break;
             }
             case 2: {
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(757729536, 1);
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1373107968, this.getMenuEntryVisibilityState(eAViewOptions.getSystem()));
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(774506752, this.getMenuEntryVisibilityState(eAViewOptions.freeWheeling));
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1356330752, this.getMenuEntryVisibilityState(eAViewOptions.getPedalJerk()));
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600621, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600238, this.getMenuEntryVisibilityState(eAViewOptions.getSystem()));
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600622, this.getMenuEntryVisibilityState(eAViewOptions.freeWheeling));
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600239, this.getMenuEntryVisibilityState(eAViewOptions.getPedalJerk()));
                 this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(451, 1);
                 this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(452, 1);
                 break;
             }
             default: {
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(757729536, 1);
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1373107968, this.getMenuEntryVisibilityState(eAViewOptions.getSystem()));
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(774506752, this.getMenuEntryVisibilityState(eAViewOptions.freeWheeling));
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1356330752, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600621, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600238, this.getMenuEntryVisibilityState(eAViewOptions.getSystem()));
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600622, this.getMenuEntryVisibilityState(eAViewOptions.freeWheeling));
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600239, 1);
                 this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(451, this.getMenuEntryVisibilityState(eAViewOptions.getPedalJerk()));
                 this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(452, this.hybridCombustorVisibility);
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1456862976, this.getMenuEntryVisibilityState(eAViewOptions.getPedalJerk()));
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1440085760, this.hybridCombustorVisibility);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600745, this.getMenuEntryVisibilityState(eAViewOptions.getPedalJerk()));
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600746, this.hybridCombustorVisibility);
             }
         }
     }
 
-    @Override
     public int getID() {
         return 39;
     }

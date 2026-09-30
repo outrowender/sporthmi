@@ -4,7 +4,7 @@
 package de.audi.atip.audio;
 
 public final class TerminalMapper {
-    public static final int OLD_CONN_LIMIT;
+    public static final int OLD_CONN_LIMIT = 500;
 
     public static int toAudioTerminal(int n) {
         switch (n) {
@@ -34,7 +34,7 @@ public final class TerminalMapper {
                 return 2;
             }
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Unknown audio terminal: ").append(n).toString());
+        throw new IllegalArgumentException("Unknown audio terminal: " + n);
     }
 
     private TerminalMapper() {

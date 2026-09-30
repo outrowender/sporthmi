@@ -3,17 +3,12 @@
  */
 package de.audi.kbd.dsi;
 
-import de.audi.kbd.dsi.GestureStateMachine$GestureInitState;
-import de.audi.kbd.dsi.GestureStateMachine$GestureMultiFinger;
-import de.audi.kbd.dsi.GestureStateMachine$GestureOneFinger;
-import de.audi.kbd.dsi.GestureStateMachine$State;
-
 public class GestureStateMachine {
-    private final GestureStateMachine$State stateInit = new GestureStateMachine$GestureInitState(this, null);
-    private final GestureStateMachine$State stateOneFinger = new GestureStateMachine$GestureOneFinger(this, null);
-    private final GestureStateMachine$State stateMultiFinger = new GestureStateMachine$GestureMultiFinger(this, null);
-    private GestureStateMachine$State lastState = this.stateInit;
-    private GestureStateMachine$State currentState = this.stateInit;
+    private final State stateInit = new GestureInitState();
+    private final State stateOneFinger = new GestureOneFinger();
+    private final State stateMultiFinger = new GestureMultiFinger();
+    private State lastState = this.stateInit;
+    private State currentState = this.stateInit;
     private int fingerPressed = 0;
     private int gestureID = 0;
 
@@ -22,43 +17,97 @@ public class GestureStateMachine {
         return this.gestureID;
     }
 
-    private void setState(GestureStateMachine$State gestureStateMachine$State) {
-        if (!gestureStateMachine$State.equals(this.currentState)) {
+    private void setState(State state) {
+        if (!state.equals(this.currentState)) {
             this.lastState = this.currentState;
             this.lastState.onExit();
-            this.currentState = gestureStateMachine$State;
+            this.currentState = state;
             this.currentState.onEnter();
         }
     }
 
-    static /* synthetic */ GestureStateMachine$State access$300(GestureStateMachine gestureStateMachine) {
-        return gestureStateMachine.stateOneFinger;
+    public abstract class State {
+        protected void onEnter() {
+        }
+
+        protected void onExit() {
+        }
+
+        protected void onEvent(int n, int n2, int n3) {
+        }
     }
 
-    static /* synthetic */ void access$400(GestureStateMachine gestureStateMachine, GestureStateMachine$State state) {
-        gestureStateMachine.setState(state);
+    private final class GestureInitState
+    extends State {
+        private GestureInitState() {
+        }
+
+        protected void onEvent(int n, int n2, int n3) {
+            if (n == 1) {
+                GestureStateMachine.this.setState(GestureStateMachine.this.stateOneFinger);
+            } else if (n > 1) {
+                GestureStateMachine.this.setState(GestureStateMachine.this.stateMultiFinger);
+            }
+        }
+
+        protected void onEnter() {
+            GestureStateMachine.this.fingerPressed = 0;
+        }
     }
 
-    static /* synthetic */ GestureStateMachine$State access$500(GestureStateMachine gestureStateMachine) {
-        return gestureStateMachine.stateMultiFinger;
+    private final class GestureOneFinger
+    extends State {
+        private GestureOneFinger() {
+        }
+
+        protected void onEvent(int n, int n2, int n3) {
+            if (n == 0) {
+                GestureStateMachine.this.setState(GestureStateMachine.this.stateInit);
+            } else if (n == 1) {
+                GestureStateMachine.this.gestureID = 5;
+            } else if (n > 1) {
+                GestureStateMachine.this.setState(GestureStateMachine.this.stateMultiFinger);
+            }
+        }
+
+        protected void onEnter() {
+            if (GestureStateMachine.this.fingerPressed > 1) {
+                GestureStateMachine.this.gestureID = 3;
+            } else {
+                GestureStateMachine.this.gestureID = 4;
+            }
+            GestureStateMachine.this.fingerPressed = 1;
+        }
+
+        protected void onExit() {
+            GestureStateMachine.this.gestureID = 3;
+        }
     }
 
-    static /* synthetic */ int access$602(GestureStateMachine gestureStateMachine, int n) {
-        gestureStateMachine.fingerPressed = n;
-        return gestureStateMachine.fingerPressed;
-    }
+    private final class GestureMultiFinger
+    extends State {
+        private GestureMultiFinger() {
+        }
 
-    static /* synthetic */ int access$702(GestureStateMachine gestureStateMachine, int n) {
-        gestureStateMachine.gestureID = n;
-        return gestureStateMachine.gestureID;
-    }
+        protected void onEvent(int n, int n2, int n3) {
+            if (n == 1) {
+                GestureStateMachine.this.setState(GestureStateMachine.this.stateOneFinger);
+            }
+            if (n > 1) {
+                GestureStateMachine.this.gestureID = 9;
+            } else {
+                GestureStateMachine.this.setState(GestureStateMachine.this.stateInit);
+            }
+        }
 
-    static /* synthetic */ GestureStateMachine$State access$800(GestureStateMachine gestureStateMachine) {
-        return gestureStateMachine.stateInit;
-    }
+        protected void onEnter() {
+            GestureStateMachine.this.fingerPressed = 2;
+            GestureStateMachine.this.gestureID = 8;
+        }
 
-    static /* synthetic */ int access$600(GestureStateMachine gestureStateMachine) {
-        return gestureStateMachine.fingerPressed;
+        protected void onExit() {
+            GestureStateMachine.this.gestureID = 3;
+        }
     }
 }
 

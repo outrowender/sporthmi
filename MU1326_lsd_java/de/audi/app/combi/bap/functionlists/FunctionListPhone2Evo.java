@@ -9,7 +9,6 @@ import de.vw.mib.bap.generated.telephone2.serializer.FunctionList_Status;
 
 public class FunctionListPhone2Evo
 extends AbstractFunctionListPhone2 {
-    @Override
     protected void initFunctionListStatusWithVariantAndRegion(int n, int n2) {
         this.functionSupported = new boolean[this.getMaxFctID() + 1];
         if (n == 0) {
@@ -54,32 +53,26 @@ extends AbstractFunctionListPhone2 {
         bAPFunctionPropertyFSG.setInitialStatus(functionList_Status);
     }
 
-    @Override
     protected int getMinModuleSpecificFctID() {
         return 16;
     }
 
-    @Override
     protected int getMaxFctID() {
         return 26;
     }
 
-    @Override
     public int getGetAllFctID() {
         return 1;
     }
 
-    @Override
     public int getBAPConfigBAPFctID() {
         return 2;
     }
 
-    @Override
     public int getFctListBAPFctID() {
         return 3;
     }
 
-    @Override
     public int getOperationStateBAPFctID() {
         return 15;
     }

@@ -4,19 +4,14 @@
 package de.audi.remotehmi;
 
 public interface IOsrUserCacheInformation {
-    default public Object getUser() {
-    }
+    public Object getUser();
 
-    default public String getProfilePath() {
-    }
+    public String getProfilePath();
 
-    default public boolean isAuthenticated() {
-    }
+    public boolean isAuthenticated();
 
-    default public String getDomain() {
-    }
+    public String getDomain();
 
-    default public void setAuthenticated(boolean bl) {
-    }
+    public void setAuthenticated(boolean var1);
 }
 

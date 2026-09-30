@@ -17,11 +17,10 @@ extends AbstractPhoneCallCommand {
         super(logChannel, string, sDSHandlerService, iTelServiceSDS, hMIService, phoneSDSHandlerImpl);
     }
 
-    @Override
     public void execute() {
         String string = this.phoneService.getMailboxNumber();
         if (SDSUtils.isEmpty(string)) {
-            this.logger.log(-2137614336, "%1#execute: No mailbox number available!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: No mailbox number available!", (Object)this.getName());
             this.sendResult(30002);
             return;
         }

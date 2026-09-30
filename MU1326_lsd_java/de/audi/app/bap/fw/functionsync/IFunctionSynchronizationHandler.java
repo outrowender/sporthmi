@@ -7,47 +7,35 @@ import de.audi.app.bap.fw.functiontypes.BAPFunctionPropertyFSG;
 import de.vw.mib.bap.requests.StatusProperty;
 
 public interface IFunctionSynchronizationHandler {
-    public static final int SYNC_TYPE_NO_SYNC;
-    public static final int SYNC_STATE_IDLE;
-    public static final int SYNC_STATE_STARTING_WAIT_FOR_ACKNOWLEDGE;
-    public static final int SYNC_STATE_RUNNING;
-    public static final int SYNC_STATE_COMPLETED_WAIT_FOR_ACKNOWLEDGE;
-    public static final int SYNC_STATE_COMPLETED;
+    public static final int SYNC_TYPE_NO_SYNC = -1;
+    public static final int SYNC_STATE_IDLE = 0;
+    public static final int SYNC_STATE_STARTING_WAIT_FOR_ACKNOWLEDGE = 1;
+    public static final int SYNC_STATE_RUNNING = 2;
+    public static final int SYNC_STATE_COMPLETED_WAIT_FOR_ACKNOWLEDGE = 3;
+    public static final int SYNC_STATE_COMPLETED = 4;
 
-    default public void setFunctionSyncDisabled(boolean bl) {
-    }
+    public void setFunctionSyncDisabled(boolean var1);
 
-    default public boolean isFunctionSyncDisabled() {
-    }
+    public boolean isFunctionSyncDisabled();
 
-    default public int getCurrentSyncType() {
-    }
+    public int getCurrentSyncType();
 
-    default public boolean isSyncActive() {
-    }
+    public boolean isSyncActive();
 
-    default public boolean isSyncCancelled() {
-    }
+    public boolean isSyncCancelled();
 
-    default public boolean isSyncPending() {
-    }
+    public boolean isSyncPending();
 
-    default public int getSyncState() {
-    }
+    public int getSyncState();
 
-    default public void startSync(int n) {
-    }
+    public void startSync(int var1);
 
-    default public void completeSync() {
-    }
+    public void completeSync();
 
-    default public boolean enqueuePropertyUpdate(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, StatusProperty statusProperty) {
-    }
+    public boolean enqueuePropertyUpdate(BAPFunctionPropertyFSG var1, StatusProperty var2);
 
-    default public boolean isQueuedPropertiesSent() {
-    }
+    public boolean isQueuedPropertiesSent();
 
-    default public String getStatus() {
-    }
+    public String getStatus();
 }
 

@@ -25,7 +25,6 @@ ChoiceModelGUI {
         super(n, n2);
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(100);
         buffer.append(super.dumpContent());
@@ -36,7 +35,6 @@ ChoiceModelGUI {
         return buffer.toString();
     }
 
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             ChoiceModel choiceModel = (ChoiceModel)abstractModel;
@@ -49,17 +47,14 @@ ChoiceModelGUI {
         }
     }
 
-    @Override
     public int getModelType() {
         return 2;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.value < 0;
     }
 
-    @Override
     public int getValue() {
         return this.value;
     }
@@ -67,7 +62,6 @@ ChoiceModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setValue(int n) {
         boolean bl;
         Object object = this.mutex;
@@ -78,28 +72,24 @@ ChoiceModelGUI {
                 this.stateChanged();
             }
         }
-        this.lc.log(14808325, "(%2) ChoiceModel.setValue( %1 ) forceUpdate:%3", (long)n, (long)this.id, this.forceUpdate);
+        this.lc.log(100000000, "(%2) ChoiceModel.setValue( %1 ) forceUpdate:%3", (long)n, (long)this.id, this.forceUpdate);
         if (bl) {
             this.fireModelUpdateEvent(1, n);
         }
     }
 
-    @Override
     public void setChoiceListener(ChoiceListener choiceListener) {
         this.setButtonListener(choiceListener);
     }
 
-    @Override
     public void forceUpdate(boolean bl) {
         this.forceUpdate = bl;
     }
 
-    @Override
     public boolean isForceUpdateEnabled() {
         return this.forceUpdate;
     }
 
-    @Override
     public void itemSelected(int n, int n2) {
         try {
             ((ChoiceListener)this.buttonListener).itemSelected(this.id, n, 0, n2);
@@ -109,7 +99,6 @@ ChoiceModelGUI {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2) {
         try {
             ((ChoiceListener)this.buttonListener).itemFocused(this.id, n, 0, n2);

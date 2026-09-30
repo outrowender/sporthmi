@@ -51,7 +51,7 @@ extends AbstractBAPFunction {
             }
             arrayList = new ArrayList(this.acknowledgeTimeoutListeners);
         }
-        this.logChannel.log(14808325, "[AbstractBAPFunctionWithAck#notifyListenersAcknowledgeTimeout] inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(100000000, "[AbstractBAPFunctionWithAck#notifyListenersAcknowledgeTimeout] inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         object = arrayList.iterator();
         while (object.hasNext()) {
             ((IAcknowledgeTimeoutListener)object.next()).processAcknowledgeTimeout(this.fctID);

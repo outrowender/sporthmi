@@ -27,17 +27,14 @@ extends AbstractListAdapterFastListPhone {
         super(favoriteNumbersListHandler);
     }
 
-    @Override
     public int getDSIListID() {
         return 3;
     }
 
-    @Override
     public int[] getDSINotifications() {
         return new int[0];
     }
 
-    @Override
     public boolean sendFullRangeUpdate() {
         this.sendCurrentListSize();
         this.sendCurrentList();
@@ -45,7 +42,7 @@ extends AbstractListAdapterFastListPhone {
     }
 
     private void sendCurrentListSize() {
-        this.logChannel.log(-2137614336, "[FavoriteNumbersListAdapterFastList#sendCurrentListSize] called (currentListSizeNotification=%1)", this.currentListSizeNotification);
+        this.logChannel.log(10000000, "[FavoriteNumbersListAdapterFastList#sendCurrentListSize] called (currentListSizeNotification=%1)", this.currentListSizeNotification);
         if (this.currentListSizeNotification) {
             CombiBAPArrayElement[] combiBAPArrayElementArray = ((FavoriteNumbersListHandler)this.listHandler).getManagedList();
             this.dsiFastListControllerFavoriteNumbers.pushCurrentListSizeFavoriteNumbers(combiBAPArrayElementArray.length);
@@ -53,7 +50,7 @@ extends AbstractListAdapterFastListPhone {
     }
 
     private void sendCurrentList() {
-        this.logChannel.log(-2137614336, "[FavoriteNumbersListAdapterFastList#sendCurrentList] called (pushListNotification=%1)", this.pushListNotification);
+        this.logChannel.log(10000000, "[FavoriteNumbersListAdapterFastList#sendCurrentList] called (pushListNotification=%1)", this.pushListNotification);
         if (this.pushListNotification) {
             CombiBAPArrayElement[] combiBAPArrayElementArray = ((FavoriteNumbersListHandler)this.listHandler).getManagedList();
             this.dsiFastListControllerFavoriteNumbers.pushupdateFavoriteNumbers(this.convertList(combiBAPArrayElementArray));
@@ -77,26 +74,22 @@ extends AbstractListAdapterFastListPhone {
             dataFavoriteList.numberType = combiBAPFavoriteNumberEntry.getNumberType();
             dataFavoriteList.telNumber = combiBAPFavoriteNumberEntry.getTelNumber();
         } else {
-            this.logChannel.log(10000, "[FavoriteNumbersListAdapterFastList#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPFavoriteNumberEntry == null ? (class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPFavoriteNumberEntry = FavoriteNumbersListAdapterFastList.class$("de.audi.atip.interapp.combi.bap.phone.data.CombiBAPFavoriteNumberEntry")) : class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPFavoriteNumberEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[FavoriteNumbersListAdapterFastList#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPFavoriteNumberEntry == null ? (class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPFavoriteNumberEntry = FavoriteNumbersListAdapterFastList.class$("de.audi.atip.interapp.combi.bap.phone.data.CombiBAPFavoriteNumberEntry")) : class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPFavoriteNumberEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return dataFavoriteList;
     }
 
-    @Override
     public boolean isSpontaneousStatusRequestSupported() {
         return true;
     }
 
-    @Override
     public void sendStatusRequest(GetArrayIndication getArrayIndication, CombiBAPArrayElement[] combiBAPArrayElementArray) {
     }
 
-    @Override
     public void sendChangedArrayRequest(ListDelta listDelta) {
         this.sendFullRangeUpdate();
     }
 
-    @Override
     public void setNotificationFavoriteList(boolean bl) {
         this.pushListNotification = bl;
         if (bl) {
@@ -104,11 +97,9 @@ extends AbstractListAdapterFastListPhone {
         }
     }
 
-    @Override
     public void setNotificationCombinedNumbers(boolean bl) {
     }
 
-    @Override
     public void setNotificationCurrentListSizes(boolean bl) {
         this.currentListSizeNotification = bl;
         if (bl) {
@@ -116,20 +107,16 @@ extends AbstractListAdapterFastListPhone {
         }
     }
 
-    @Override
     public void addPhonebookJob(int n, int n2, ArrayHeader arrayHeader) {
     }
 
-    @Override
     public void addPhonebookJobs(int n, int n2, ArrayHeader[] arrayHeaderArray) {
     }
 
-    @Override
     public IDSIController getDSIController() {
         return this.dsiFastListControllerFavoriteNumbers;
     }
 
-    @Override
     public void responseInitials(int n, int n2, int n3, DataInitials[] dataInitialsArray) {
         this.dsiFastListControllerFavoriteNumbers.responseGetInitialsTelephone(n, n2, n3, dataInitialsArray);
     }

@@ -4,10 +4,8 @@
 package de.audi.app.ecall.core.audio;
 
 public interface IAudioConnectionHandler {
-    default public void switchAudioSource() {
-    }
+    public void switchAudioSource();
 
-    default public void scheduleMutePinConnectionRequest() {
-    }
+    public void scheduleMutePinConnectionRequest();
 }
 

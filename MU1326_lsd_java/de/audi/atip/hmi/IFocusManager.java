@@ -6,13 +6,10 @@ package de.audi.atip.hmi;
 import de.audi.atip.power.PowerEventListener;
 
 public interface IFocusManager {
-    default public int getFocusedTerminal() {
-    }
+    public int getFocusedTerminal();
 
-    default public PowerEventListener getPowerEventListener() {
-    }
+    public PowerEventListener getPowerEventListener();
 
-    default public void setActiveApplication(int n, int n2) {
-    }
+    public void setActiveApplication(int var1, int var2);
 }
 

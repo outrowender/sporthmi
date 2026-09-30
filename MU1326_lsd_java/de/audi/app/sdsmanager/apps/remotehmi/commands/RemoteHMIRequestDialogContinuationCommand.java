@@ -17,14 +17,13 @@ extends AbstractSystemCallCommand {
         this.onlineService = onlineService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         this.onlineService.requestDialogContinuation();
     }
 
     public void setRemoteHMICategorySetFinished(byte by) {
-        this.logger.log(-2137614336, "%1#setRemoteHMICategorySetFinished: returnType=%3, %2continuing dialog!", (Object)this.getName(), (Object)(by == 0 ? "" : "not "), (long)by);
+        this.logger.log(10000000, "%1#setRemoteHMICategorySetFinished: returnType=%3, %2continuing dialog!", (Object)this.getName(), (Object)(by == 0 ? "" : "not "), (long)by);
         switch (by) {
             case 0: {
                 break;
@@ -33,7 +32,7 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#setRemoteHMICategorySetFinished: Unhandled returnType %2!", (Object)this.getName(), (long)by);
+                this.logger.log(100000, "%1#setRemoteHMICategorySetFinished: Unhandled returnType %2!", (Object)this.getName(), (long)by);
             }
         }
         this.processingFinished();

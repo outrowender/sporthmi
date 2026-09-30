@@ -12,7 +12,7 @@ import de.audi.atip.log.LogChannel;
 
 public class JobAbort
 extends AbstractJobTransfer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobAbort";
     private final TransferLockHandler transferLockHandler;
 
     public JobAbort(LogChannel logChannel, TransferController transferController, MediaDSIRecorderControllerImpl mediaDSIRecorderControllerImpl, AbstractMediaBrowser abstractMediaBrowser, TransferLockHandler transferLockHandler) {
@@ -20,52 +20,44 @@ extends AbstractJobTransfer {
         this.transferLockHandler = transferLockHandler;
     }
 
-    @Override
     public int getType() {
         return 6;
     }
 
-    @Override
     public String getName() {
         return "AbortTransfer";
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 
-    @Override
     public void start() {
-        this.logger.log(1078071040, "[%1.start]", (Object)"JobAbort");
+        this.logger.log(1000000, "[%1.start]", (Object)LOGCLASS);
         this.getMediaDSIRecorder().abortImport();
     }
 
-    @Override
     public void importStatusChanged(int n) {
-        this.logger.log(1078071040, "[%1.importStatusChanged]", (Object)"JobAbort");
+        this.logger.log(1000000, "[%1.importStatusChanged]", (Object)LOGCLASS);
         if (0 == n) {
             this.getTransferController().getTransferStateNotifier().notifyImportStopped();
             this.finishJob();
         }
     }
 
-    @Override
     public void deletionStatusChanged(int n) {
-        this.logger.log(1078071040, "[%1.deletionStatusChanged]", (Object)"JobAbort");
+        this.logger.log(1000000, "[%1.deletionStatusChanged]", (Object)LOGCLASS);
         if (0 == n) {
             this.finishJob();
         }
     }
 
-    @Override
     public void asyncException(int n, int n2) {
-        this.logger.log(1078071040, "[%1.asyncException]", (Object)"JobAbort");
+        this.logger.log(1000000, "[%1.asyncException]", (Object)LOGCLASS);
         this.finishJob();
     }
 
-    @Override
     public void updateImportSummary(long l, long l2, long l3, long l4, long l5, long l6) {
-        this.logger.log(1078071040, "[%1.updateImportSummary]", (Object)"JobAbort");
+        this.logger.log(1000000, "[%1.updateImportSummary]", (Object)LOGCLASS);
         this.getTransferListener().importAborted(l + l5, l4 + l6, l2, l == l4 && l5 == l6);
     }
 

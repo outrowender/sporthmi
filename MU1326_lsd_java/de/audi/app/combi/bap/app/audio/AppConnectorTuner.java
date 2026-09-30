@@ -40,7 +40,6 @@ implements CombiBAPServiceTuner {
         super(combiModuleAudio);
     }
 
-    @Override
     public void setAppServiceListener(BAPServiceListener bAPServiceListener) {
         super.setAppServiceListener(bAPServiceListener);
         if (bAPServiceListener == null && this.moduleFsg.getAppServiceListener("Media") == null) {
@@ -59,22 +58,18 @@ implements CombiBAPServiceTuner {
         }
     }
 
-    @Override
     protected int getAudioApplication() {
         return 0;
     }
 
-    @Override
     protected String getAudioApplicationName() {
         return "Tuner";
     }
 
-    @Override
     protected boolean isAudioApplicationInFocus() {
         return ((CombiModuleAudio)this.moduleFsg).getAudioApplicationFocusHandler().isTunerInFocus();
     }
 
-    @Override
     protected void sendSourceChangeRelatedProperties() {
         super.sendSourceChangeRelatedProperties();
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(31);
@@ -83,7 +78,6 @@ implements CombiBAPServiceTuner {
         this.doUpdatePresetList(this.currentRadioPresetList);
     }
 
-    @Override
     public void updateActiveSource(int n, int n2, int n3, boolean bl, boolean bl2, int n4) {
         CombiBAPAudioSource combiBAPAudioSource = new CombiBAPAudioSource();
         combiBAPAudioSource.setSourceType(n);
@@ -96,19 +90,17 @@ implements CombiBAPServiceTuner {
         this.updateActiveSource(combiBAPAudioSource, combiBAPAudioListStates);
     }
 
-    @Override
     public void updateCurrentStation(CombiBAPCurrentStationInfo combiBAPCurrentStationInfo) {
         super.updateCurrentStation(combiBAPCurrentStationInfo);
         super.updateStationArt(combiBAPCurrentStationInfo);
     }
 
-    @Override
     protected void updateCurrentStationHandle(CombiBAPCurrentStationInfo combiBAPCurrentStationInfo) {
         super.updateCurrentStationHandle(combiBAPCurrentStationInfo);
         ReceptionListHandler receptionListHandler = (ReceptionListHandler)this.moduleFsg.getBAPFunctionArrayFSG(23).getArrayHandler();
         CombiBAPReceptionListEntry combiBAPReceptionListEntry = (CombiBAPReceptionListEntry)receptionListHandler.getArrayElement(combiBAPCurrentStationInfo.getListRef());
         if (combiBAPReceptionListEntry != null) {
-            this.logChannel.log(-2137614336, "[AppConnectorTuner#updateCurrentStationHandle] list entry=%1", (Object)combiBAPReceptionListEntry);
+            this.logChannel.log(10000000, "[AppConnectorTuner#updateCurrentStationHandle] list entry=%1", (Object)combiBAPReceptionListEntry);
             this.currentStationHandleStatus.fsgHandle_absolutePosition = combiBAPReceptionListEntry.getAbsPos();
             BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(31);
             ReceptionListType_Status receptionListType_Status = (ReceptionListType_Status)bAPFunctionPropertyFSG.getLastStatus();
@@ -117,18 +109,16 @@ implements CombiBAPServiceTuner {
                 this.currentStationHandleStatus.dab_Ensemble_absolutePosition = combiBAPReceptionListEntry.getDABEnsembleAbsPos();
             }
         } else {
-            this.logChannel.log(-1601830656, "[AppConnectorTuner#updateCurrentStationHandle] list entry not found in reception list (posID=%1)", (long)combiBAPCurrentStationInfo.getListRef());
+            this.logChannel.log(100000, "[AppConnectorTuner#updateCurrentStationHandle] list entry not found in reception list (posID=%1)", (long)combiBAPCurrentStationInfo.getListRef());
         }
     }
 
-    @Override
     public void updateSourceListTuner(CombiBAPAudioSource[] combiBAPAudioSourceArray) {
-        this.logChannel.log(1078071040, "[AppConnectorTuner#updateSourceListTuner] called (complete list)");
+        this.logChannel.log(1000000, "[AppConnectorTuner#updateSourceListTuner] called (complete list)");
         BAPFunctionArrayFSG bAPFunctionArrayFSG = this.moduleFsg.getBAPFunctionArrayFSG(32);
         ((SourceListHandler)bAPFunctionArrayFSG.getArrayHandler()).updateSources(0, combiBAPAudioSourceArray);
     }
 
-    @Override
     public void updateReceptionListAutoUpdateInformation(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
         Object object;
         if (this.logChannel.isDebug()) {
@@ -139,7 +129,7 @@ implements CombiBAPServiceTuner {
             ((Buffer)object).append(", autoUpdateSDARSList=").append(bl4);
             ((Buffer)object).append(", autoUpdateAMLWList=").append(bl5);
             ((Buffer)object).append(", autoUpdateAMSWList=").append(bl6);
-            this.logChannel.log(-2137614336, "[AppConnectorTuner#updateReceptionListAutoUpdateInformation] called (%1)", object);
+            this.logChannel.log(10000000, "[AppConnectorTuner#updateReceptionListAutoUpdateInformation] called (%1)", object);
         }
         object = this.moduleFsg.getBAPFunctionPropertyFSG(14);
         FSG_Setup_Status fSG_Setup_Status = (FSG_Setup_Status)((BAPFunctionPropertyFSG)object).getLastStatus();
@@ -166,9 +156,8 @@ implements CombiBAPServiceTuner {
         ((BAPFunctionPropertyFSG)object).sendStatusIfChanged(fSG_Setup_Status2);
     }
 
-    @Override
     public void updateMuteState(MuteState muteState) {
-        this.logChannel.log(1078071040, "[AppConnectorTuner#updateMuteState] muteState: %1", (Object)muteState);
+        this.logChannel.log(1000000, "[AppConnectorTuner#updateMuteState] muteState: %1", (Object)muteState);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(19);
         Mute_Status mute_Status = (Mute_Status)bAPFunctionPropertyFSG.getLastStatus();
         Mute_Status mute_Status2 = new Mute_Status();
@@ -182,10 +171,9 @@ implements CombiBAPServiceTuner {
         bAPFunctionPropertyFSG.sendStatusIfChanged(mute_Status2);
     }
 
-    @Override
     public void updateReceptionList(int n, CombiBAPReceptionListEntry[] combiBAPReceptionListEntryArray) {
         int n2;
-        this.logChannel.log(1078071040, "[AppConnectorTuner#updateReceptionList] called (listType=%1, listSize=%2)", (long)n, (long)combiBAPReceptionListEntryArray.length);
+        this.logChannel.log(1000000, "[AppConnectorTuner#updateReceptionList] called (listType=%1, listSize=%2)", (long)n, (long)combiBAPReceptionListEntryArray.length);
         this.currentReceptionListType = n2 = n == 0 ? 1 : n;
         this.currentReceptionList = combiBAPReceptionListEntryArray;
         if (this.isAudioApplicationInFocus()) {
@@ -193,56 +181,50 @@ implements CombiBAPServiceTuner {
         }
     }
 
-    @Override
     public void startStationListUpdateResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorTuner#startStationListUpdateResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorTuner#startStationListUpdateResult] called (result=%1)", (long)n);
         if (this.isAudioApplicationInFocus()) {
             ((CombiModuleAudio)this.moduleFsg).getDedicatedAudioControlHandler().processResult(5, n);
         } else {
-            this.logChannel.log(-2137614336, "[AppConnectorTuner#startStationListUpdateResult] %1 not active -> ignore update (active audio application is %2)", (Object)this.getAudioApplicationName(), (Object)((CombiModuleAudio)this.moduleFsg).getAudioApplicationFocusHandler().getAudioApplicationInFocusName());
+            this.logChannel.log(10000000, "[AppConnectorTuner#startStationListUpdateResult] %1 not active -> ignore update (active audio application is %2)", (Object)this.getAudioApplicationName(), (Object)((CombiModuleAudio)this.moduleFsg).getAudioApplicationFocusHandler().getAudioApplicationInFocusName());
         }
     }
 
-    @Override
     public void cancelStationListUpdateResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorTuner#cancelStationListUpdateResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorTuner#cancelStationListUpdateResult] called (result=%1)", (long)n);
         if (this.isAudioApplicationInFocus()) {
             ((CombiModuleAudio)this.moduleFsg).getDedicatedAudioControlHandler().processResult(6, n);
         } else {
-            this.logChannel.log(-2137614336, "[AppConnectorTuner#cancelStationListUpdateResult] %1 not active -> ignore update (active audio application is %2)", (Object)this.getAudioApplicationName(), (Object)((CombiModuleAudio)this.moduleFsg).getAudioApplicationFocusHandler().getAudioApplicationInFocusName());
+            this.logChannel.log(10000000, "[AppConnectorTuner#cancelStationListUpdateResult] %1 not active -> ignore update (active audio application is %2)", (Object)this.getAudioApplicationName(), (Object)((CombiModuleAudio)this.moduleFsg).getAudioApplicationFocusHandler().getAudioApplicationInFocusName());
         }
     }
 
-    @Override
     public void updateAnnouncementInfo(int n, String string) {
-        this.logChannel.log(1078071040, "[AppConnectorTuner#updateAnnouncementInfo] called (stationName=%1, announcementType=%2)", (Object)string, (long)n);
+        this.logChannel.log(1000000, "[AppConnectorTuner#updateAnnouncementInfo] called (stationName=%1, announcementType=%2)", (Object)string, (long)n);
         AnnouncementInfo_Status announcementInfo_Status = new AnnouncementInfo_Status();
         announcementInfo_Status.announcementType = n;
         announcementInfo_Status.stationName.setContent(string);
         this.moduleFsg.getBAPFunctionPropertyFSG(28).sendStatusIfChanged(announcementInfo_Status);
     }
 
-    @Override
     public void cancelAnnouncementResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorTuner#cancelAnnouncementResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorTuner#cancelAnnouncementResult] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(29);
         AnnouncementEscape_Result announcementEscape_Result = (AnnouncementEscape_Result)this.moduleFsg.createResultSerializer(29);
         announcementEscape_Result.announcementEscapeResult = n;
         bAPFunctionMethodFSG.resultREQ(announcementEscape_Result);
     }
 
-    @Override
     public void updatePresetList(CombiBAPPresetListEntry[] combiBAPPresetListEntryArray) {
-        this.logChannel.log(1078071040, "[AppConnectorTuner#updatePresetList] called (listSize=%1)", (long)combiBAPPresetListEntryArray.length);
+        this.logChannel.log(1000000, "[AppConnectorTuner#updatePresetList] called (listSize=%1)", (long)combiBAPPresetListEntryArray.length);
         this.currentRadioPresetList = combiBAPPresetListEntryArray;
         if (this.isAudioApplicationInFocus()) {
             this.doUpdatePresetList(combiBAPPresetListEntryArray);
         }
     }
 
-    @Override
     public void updateProgramStringLength(boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "[AppConnectorTuner#updateProgramStringLength] called (dabLongPS=%1, sdarsLongPS=%2)", bl, bl2);
+        this.logChannel.log(1000000, "[AppConnectorTuner#updateProgramStringLength] called (dabLongPS=%1, sdarsLongPS=%2)", bl, bl2);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(43);
         ASG_Capabilities_Status aSG_Capabilities_Status = new ASG_Capabilities_Status();
         aSG_Capabilities_Status.presentationCapabilities.dabLongPs = bl;
@@ -250,9 +232,8 @@ implements CombiBAPServiceTuner {
         bAPFunctionPropertyFSG.sendStatus(aSG_Capabilities_Status);
     }
 
-    @Override
     public void updateCommonList(CombiBAPCommonListEntry[] combiBAPCommonListEntryArray) {
-        this.logChannel.log(1078071040, "[AppConnectorTuner#updateCommonList] called (listSize=%1)", (long)combiBAPCommonListEntryArray.length);
+        this.logChannel.log(1000000, "[AppConnectorTuner#updateCommonList] called (listSize=%1)", (long)combiBAPCommonListEntryArray.length);
         BAPFunctionArrayFSG bAPFunctionArrayFSG = this.moduleFsg.getBAPFunctionArrayFSG(50);
         ((CommonListHandler)bAPFunctionArrayFSG.getArrayHandler()).updateList(combiBAPCommonListEntryArray);
     }

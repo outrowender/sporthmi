@@ -9,37 +9,26 @@ import org.dsi.ifc.carcomfort.DSICarComfort;
 import org.dsi.ifc.carcomfort.UGDOViewOptions;
 
 public interface IUGDOComponent {
-    default public DSICarComfort getDSICarComfort() {
-    }
+    public DSICarComfort getDSICarComfort();
 
-    default public UGDOViewOptions getCurrentViewOptionsObject() {
-    }
+    public UGDOViewOptions getCurrentViewOptionsObject();
 
-    default public int getLearningHMIPopupID() {
-    }
+    public int getLearningHMIPopupID();
 
-    default public int getSyncHMIPopupID() {
-    }
+    public int getSyncHMIPopupID();
 
-    default public int getStandbyHMIPopupID() {
-    }
+    public int getStandbyHMIPopupID();
 
-    default public LogChannel getDSILogChannel() {
-    }
+    public LogChannel getDSILogChannel();
 
-    default public LogChannel getDefaultLogChannel() {
-    }
+    public LogChannel getDefaultLogChannel();
 
-    default public ArrayList getInternalButtonList() {
-    }
+    public ArrayList getInternalButtonList();
 
-    default public int getCurrentVisiblePopupPrio() {
-    }
+    public int getCurrentVisiblePopupPrio();
 
-    default public void learningResultChanged(int n, int n2) {
-    }
+    public void learningResultChanged(int var1, int var2);
 
-    default public void syncResultChanged(int n, int n2) {
-    }
+    public void syncResultChanged(int var1, int var2);
 }
 

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MediaListSourceStateDiffer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaListSourceStateDiffer";
     private final LogChannel logger;
     private final ISourceStateUpdater sourceStateUpdater;
     private Map lastSourcesSlotListMap;
@@ -39,14 +39,14 @@ public class MediaListSourceStateDiffer {
             n = (Integer)iterator.next();
             List list = (List)map.get(n);
             if (((Object)list).equals(this.lastSourcesSlotListMap.get(n))) continue;
-            this.logger.log(-2137614336, "[%1.updateSourceSlots] [%2] Changed", (Object)"MediaListSourceStateDiffer", (Object)LogUtil.getSourceTypeStr(n));
+            this.logger.log(10000000, "[%1.updateSourceSlots] [%2] Changed", (Object)LOGCLASS, (Object)LogUtil.getSourceTypeStr(n));
             hashMap.put(n, list);
         }
         iterator = this.lastSourcesSlotListMap.keySet().iterator();
         while (iterator.hasNext()) {
             n = (Integer)iterator.next();
             if (map.containsKey(n)) continue;
-            this.logger.log(-2137614336, "[%1.updateSourceSlots] [%2] Removed", (Object)"MediaListSourceStateDiffer", (Object)LogUtil.getSourceTypeStr(n));
+            this.logger.log(10000000, "[%1.updateSourceSlots] [%2] Removed", (Object)LOGCLASS, (Object)LogUtil.getSourceTypeStr(n));
             hashMap.put(n, new ArrayList(0));
         }
         this.lastSourcesSlotListMap = map;

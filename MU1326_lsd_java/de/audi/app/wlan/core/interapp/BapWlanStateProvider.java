@@ -29,12 +29,10 @@ extends AbstractWlanComponent {
         this.tracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceConnectivity == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceConnectivity = BapWlanStateProvider.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServiceConnectivity")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceConnectivity).getName(), (ServiceTrackerCustomizer)this);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void updateRFActive(int n, int n2) {
         if (n2 != 1) {
             return;
@@ -57,7 +55,6 @@ extends AbstractWlanComponent {
         this.updateState();
     }
 
-    @Override
     public void updateProfile(Profile profile, int n) {
         if (n != 1) {
             return;
@@ -66,7 +63,6 @@ extends AbstractWlanComponent {
         this.updateState();
     }
 
-    @Override
     public void updateNodeList(Node[] nodeArray, int n) {
         if (n != 1) {
             return;
@@ -81,7 +77,6 @@ extends AbstractWlanComponent {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof CombiBAPServiceConnectivity) {
@@ -93,7 +88,6 @@ extends AbstractWlanComponent {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CombiBAPServiceConnectivity) {
             this.bapService = (CombiBAPServiceConnectivity)object;
@@ -102,7 +96,6 @@ extends AbstractWlanComponent {
         }
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CombiBAPServiceConnectivity) {
             this.bapService = (CombiBAPServiceConnectivity)object;
@@ -112,13 +105,11 @@ extends AbstractWlanComponent {
         }
     }
 
-    @Override
     public void init() {
         super.init();
         this.tracker.open();
     }
 
-    @Override
     public void deinit() {
         this.tracker.close();
         super.deinit();

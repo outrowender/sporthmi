@@ -4,7 +4,12 @@
 package de.audi.app.messaging.core.viewmessage;
 
 public interface IMessageOptionsManagerObserver {
-    default public void messageDetailsChanged() {
+    public void messageDetailsChanged();
+
+    public static class EmptyImplementation
+    implements IMessageOptionsManagerObserver {
+        public void messageDetailsChanged() {
+        }
     }
 }
 

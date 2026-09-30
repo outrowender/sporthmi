@@ -8,37 +8,26 @@ import de.audi.atip.hmi.view.Screen;
 import de.audi.atip.mmicombi.IViewSizeManager;
 
 public interface IScreenChangeManager {
-    default public int getScreenChangeState() {
-    }
+    public int getScreenChangeState();
 
-    default public void reinitScreen(IScreenData iScreenData, boolean bl) {
-    }
+    public void reinitScreen(IScreenData var1, boolean var2);
 
-    default public void removeCurrentConnectedPopup(IScreenData iScreenData) {
-    }
+    public void removeCurrentConnectedPopup(IScreenData var1);
 
-    default public void showHighestPrioPopup(IScreenData iScreenData) {
-    }
+    public void showHighestPrioPopup(IScreenData var1);
 
-    default public void showScreen(IScreenData iScreenData) {
-    }
+    public void showScreen(IScreenData var1);
 
-    default public void setFocus(int n) {
-    }
+    public void setFocus(int var1);
 
-    default public Screen getScreen(IScreenData iScreenData) {
-    }
+    public Screen getScreen(IScreenData var1);
 
-    default public void notifyScreenFadedOut(Screen screen) {
-    }
+    public void notifyScreenFadedOut(Screen var1);
 
-    default public void notifyScreenConnected(Screen screen) {
-    }
+    public void notifyScreenConnected(Screen var1);
 
-    default public void setViewSizeManager(IViewSizeManager iViewSizeManager) {
-    }
+    public void setViewSizeManager(IViewSizeManager var1);
 
-    default public IViewSizeManager getViewSizeManager() {
-    }
+    public IViewSizeManager getViewSizeManager();
 }
 

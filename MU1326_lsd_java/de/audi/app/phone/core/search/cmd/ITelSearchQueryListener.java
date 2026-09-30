@@ -8,19 +8,14 @@ import org.dsi.ifc.search.SearchResult;
 
 public interface ITelSearchQueryListener
 extends ITelSearchRequestSuggestionListener {
-    default public void searchStarted(int n) {
-    }
+    public void searchStarted(int var1);
 
-    default public void searchEnded(int n) {
-    }
+    public void searchEnded(int var1);
 
-    default public void searchCanceled(int n) {
-    }
+    public void searchCanceled(int var1);
 
-    default public void updateSearchResult(int n, SearchResult searchResult) {
-    }
+    public void updateSearchResult(int var1, SearchResult var2);
 
-    default public void dataInvalidated(int n, int[] nArray) {
-    }
+    public void dataInvalidated(int var1, int[] var2);
 }
 

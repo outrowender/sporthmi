@@ -16,12 +16,10 @@ implements ATIPMediaRouterService {
         super(logChannel, "ATIPMediaRouterService");
     }
 
-    @Override
     public void setAudioRoutes(ATIPAudioRoute[] aTIPAudioRouteArray) {
         this.log("setAudioRoutes");
     }
 
-    @Override
     public void setDSIMediaRouter(DSIMediaRouter dSIMediaRouter) {
         this.log("setService");
     }

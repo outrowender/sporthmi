@@ -34,10 +34,10 @@ public class ClientKeyExchange {
 
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(new StringBuffer("====Client Key Exchange====").append(lineTerminator).toString());
-        stringBuffer.append(new StringBuffer("PreMasterSecret (").append(this.preMasterSecret.length).append("): ").append(Util.getStringForByteArray(this.preMasterSecret)).append(lineTerminator).toString());
-        stringBuffer.append(new StringBuffer("Encrypted PreMasterSecret (").append(this.encodedData.length).append("): ").append(Util.getStringForByteArray(this.encodedData)).append(lineTerminator).toString());
-        stringBuffer.append(new StringBuffer("===========================").append(lineTerminator).toString());
+        stringBuffer.append("====Client Key Exchange====" + lineTerminator);
+        stringBuffer.append("PreMasterSecret (" + this.preMasterSecret.length + "): " + Util.getStringForByteArray(this.preMasterSecret) + lineTerminator);
+        stringBuffer.append("Encrypted PreMasterSecret (" + this.encodedData.length + "): " + Util.getStringForByteArray(this.encodedData) + lineTerminator);
+        stringBuffer.append("===========================" + lineTerminator);
         return stringBuffer.toString();
     }
 }

@@ -12,7 +12,7 @@ import org.dsi.ifc.online.OperatorCallResult;
 
 public class PoiResultListRowEvo
 extends PoiResultListRow {
-    protected static final int COLUMN_CATEGORY;
+    protected static final int COLUMN_CATEGORY = 4;
 
     public PoiResultListRowEvo(OperatorCallResult operatorCallResult, NavigationHandler navigationHandler, AbstractHistoryCallData abstractHistoryCallData) {
         super(operatorCallResult, navigationHandler, abstractHistoryCallData);
@@ -22,20 +22,17 @@ extends PoiResultListRow {
         super(poiResultListRow);
     }
 
-    @Override
     public void createPropertyListCell() {
-        this.setPropertyCell(4, new PropertyListCell(-299048008, new int[0]));
+        this.setPropertyCell(4, new PropertyListCell(-1193071378, new int[0]));
     }
 
-    @Override
     public int getCategory() {
         PropertyListCell propertyListCell = (PropertyListCell)this.getCell(4);
         return propertyListCell.getCategory();
     }
 
-    @Override
     public EvoListRow copy() {
-        this.logChannel.log(-2137614336, "PoiResultListRowEvo#copy: called!");
+        this.logChannel.log(10000000, "PoiResultListRowEvo#copy: called!");
         return new PoiResultListRowEvo(this);
     }
 }

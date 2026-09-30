@@ -5,47 +5,47 @@ package de.audi.app.messaging.evo.templates;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.dsi.messaging.DsiMessagingEmptyListener;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
+import de.audi.app.messaging.core.templates.ISaveTemplateControllerObserver;
+import de.audi.app.messaging.core.templates.ITemplatePropertyFactory;
 import de.audi.app.messaging.core.templates.SaveTemplateController;
-import de.audi.app.messaging.evo.templates.TemplateCreator$MyBaseListModelListener;
-import de.audi.app.messaging.evo.templates.TemplateCreator$MyButtonListener;
-import de.audi.app.messaging.evo.templates.TemplateCreator$MyDsiMessagingListener;
-import de.audi.app.messaging.evo.templates.TemplateCreator$MySpellerListener;
-import de.audi.app.messaging.evo.templates.TemplateCreator$SaveTemplateControllerObserver;
-import de.audi.atip.base.IFrameworkAccess;
+import de.audi.app.messaging.core.templates.TemplateListRow;
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
+import de.audi.atip.hmi.model.list.EvoListRow;
+import de.audi.atip.hmi.model.listener.DefaultSpellerListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
-import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.messaging.Template;
 
 public final class TemplateCreator
 extends AbstractMessagingComponent {
-    private final BaseListModelApp listModel = this.framework.getHmiServiceApp().getBaseListModel(1972576512);
-    private final SpellerModelApp spellerModel = this.framework.getHmiServiceApp().getSpellerModel(1955799296);
-    private final ChoiceModelApp isExistingTemplate = this.framework.getHmiServiceApp().getChoiceModel(-1701633792);
+    private final BaseListModelApp listModel = this.framework.getHmiServiceApp().getBaseListModel(2200437);
+    private final SpellerModelApp spellerModel = this.framework.getHmiServiceApp().getSpellerModel(2200436);
+    private final ChoiceModelApp isExistingTemplate = this.framework.getHmiServiceApp().getChoiceModel(2200474);
     private volatile Template currentTemplate = null;
 
     public TemplateCreator(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        this.listModel.setListener(new TemplateCreator$MyBaseListModelListener(this, null));
+        this.listModel.setListener(new MyBaseListModelListener());
         abstractMsgApplication.getModelAccess().initSpellerModel(this.spellerModel.getID(), 1, 256);
-        this.spellerModel.setSpellerListener(new TemplateCreator$MySpellerListener(this, null));
-        TemplateCreator$MyButtonListener templateCreator$MyButtonListener = new TemplateCreator$MyButtonListener(this, null);
-        this.framework.getHmiServiceApp().getButtonModel(1939022080).setButtonListener(templateCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1922244864).setButtonListener(templateCreator$MyButtonListener);
-        abstractMsgApplication.getNewMessage().getSaveTemplateController().addObserver(new TemplateCreator$SaveTemplateControllerObserver(this, null));
-        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new TemplateCreator$MyDsiMessagingListener(this, null));
+        this.spellerModel.setSpellerListener(new MySpellerListener());
+        MyButtonListener myButtonListener = new MyButtonListener();
+        this.framework.getHmiServiceApp().getButtonModel(2200435).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200434).setButtonListener(myButtonListener);
+        abstractMsgApplication.getNewMessage().getSaveTemplateController().addObserver(new SaveTemplateControllerObserver());
+        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new MyDsiMessagingListener());
     }
 
     private void setCurrentTemplate(Template template) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TemplateCreator#setCurrentTemplate] template = %1", (Object)String.valueOf(template));
+            this.log.log(10000000, "[TemplateCreator#setCurrentTemplate] template = %1", (Object)String.valueOf(template));
         }
         this.currentTemplate = template;
         if (this.currentTemplate == null) {
@@ -62,13 +62,13 @@ extends AbstractMessagingComponent {
     }
 
     private void createTemplateNewButton(int n, int n2) {
-        this.log.log(1078071040, "[TemplateCreator#createTemplateNewButton]");
+        this.log.log(1000000, "[TemplateCreator#createTemplateNewButton]");
         this.setCurrentTemplate(null);
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
     private void createTemplateSaveButton(int n, int n2) {
-        this.log.log(1078071040, "[TemplateCreator#createTemplateSaveButton]");
+        this.log.log(1000000, "[TemplateCreator#createTemplateSaveButton]");
         long l = this.msgApp.getUniqueIdDispenser().getNextId();
         String string = this.spellerModel.getText();
         SaveTemplateController saveTemplateController = this.msgApp.getNewMessage().getSaveTemplateController();
@@ -76,64 +76,82 @@ extends AbstractMessagingComponent {
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
-    static /* synthetic */ void access$500(TemplateCreator templateCreator, int n, int n2) {
-        templateCreator.createTemplateNewButton(n, n2);
+    private final class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            if (n == 2200435) {
+                TemplateCreator.this.createTemplateNewButton(n, n3);
+            } else if (n == 2200434) {
+                TemplateCreator.this.createTemplateSaveButton(n, n3);
+            } else {
+                TemplateCreator.this.log.log(10000, "[TemplateCreator#keyTyped] Unexpected modelID = %1", (long)n);
+            }
+        }
     }
 
-    static /* synthetic */ void access$600(TemplateCreator templateCreator, int n, int n2) {
-        templateCreator.createTemplateSaveButton(n, n2);
+    private class MySpellerListener
+    extends DefaultSpellerListener {
+        private MySpellerListener() {
+        }
+
+        public void textChanged(int n, String string, char c2, int n2) {
+            TemplateCreator.this.log.log(10000000, "[TemplateCreator#textChanged] text = %1", (Object)string);
+            TemplateCreator.this.spellerModel.setText(string);
+        }
     }
 
-    static /* synthetic */ LogChannel access$700(TemplateCreator templateCreator) {
-        return templateCreator.log;
+    private class MyDsiMessagingListener
+    extends DsiMessagingEmptyListener {
+        private MyDsiMessagingListener() {
+        }
+
+        public void getTemplatesResponse(int n, Template[] templateArray) {
+            TemplateCreator.this.log.log(10000000, "[TemplateCreator#getTemplatesResponse]");
+            if (n == 0) {
+                ITemplatePropertyFactory iTemplatePropertyFactory = TemplateCreator.this.msgApp.getTemplateList().getTemplatePropertyFactory();
+                BaseListModelApp baseListModelApp = TemplateCreator.this.listModel.getCopy();
+                baseListModelApp.removeAll();
+                for (int i2 = 0; i2 < templateArray.length; ++i2) {
+                    TemplateListRow templateListRow = new TemplateListRow(templateArray[i2], i2, iTemplatePropertyFactory);
+                    baseListModelApp.append(templateListRow);
+                }
+                TemplateCreator.this.listModel.update(baseListModelApp);
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$800(TemplateCreator templateCreator) {
-        return templateCreator.log;
+    private final class MyBaseListModelListener
+    extends DefaultBaseListModelListener {
+        private MyBaseListModelListener() {
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            TemplateCreator.this.log.log(1000000, "[TemplateCreator#itemSelected] row = %1", (Object)evoListRow);
+            Template template = ((TemplateListRow)evoListRow).getTemplate();
+            TemplateCreator.this.setCurrentTemplate(template);
+            TemplateCreator.this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n4);
+        }
+
+        public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            TemplateCreator.this.log.log(1000000, "[TemplateCreator#itemFocused] row = %1", (Object)evoListRow);
+            Template template = ((TemplateListRow)evoListRow).getTemplate();
+            TemplateCreator.this.msgApp.getNewMessage().getDeleteTemplateController().setDeleteCandidate(template);
+        }
     }
 
-    static /* synthetic */ void access$900(TemplateCreator templateCreator, Template template) {
-        templateCreator.setCurrentTemplate(template);
-    }
+    private final class SaveTemplateControllerObserver
+    extends ISaveTemplateControllerObserver.EmptyImplementation {
+        private SaveTemplateControllerObserver() {
+        }
 
-    static /* synthetic */ IFrameworkAccess access$1000(TemplateCreator templateCreator) {
-        return templateCreator.framework;
-    }
-
-    static /* synthetic */ LogChannel access$1100(TemplateCreator templateCreator) {
-        return templateCreator.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$1200(TemplateCreator templateCreator) {
-        return templateCreator.msgApp;
-    }
-
-    static /* synthetic */ LogChannel access$1300(TemplateCreator templateCreator) {
-        return templateCreator.log;
-    }
-
-    static /* synthetic */ SpellerModelApp access$1400(TemplateCreator templateCreator) {
-        return templateCreator.spellerModel;
-    }
-
-    static /* synthetic */ LogChannel access$1500(TemplateCreator templateCreator) {
-        return templateCreator.log;
-    }
-
-    static /* synthetic */ LogChannel access$1600(TemplateCreator templateCreator) {
-        return templateCreator.log;
-    }
-
-    static /* synthetic */ LogChannel access$1700(TemplateCreator templateCreator) {
-        return templateCreator.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$1800(TemplateCreator templateCreator) {
-        return templateCreator.msgApp;
-    }
-
-    static /* synthetic */ BaseListModelApp access$1900(TemplateCreator templateCreator) {
-        return templateCreator.listModel;
+        public void responseSaveTemplate(long l, boolean bl) {
+            if (TemplateCreator.this.log.isDebug()) {
+                TemplateCreator.this.log.log(10000000, "[TemplateCreator#responseSaveTemplate] clientRequestId = %1, isResultOk = %2", (Object)String.valueOf(l), (Object)String.valueOf(bl));
+            }
+        }
     }
 }
 

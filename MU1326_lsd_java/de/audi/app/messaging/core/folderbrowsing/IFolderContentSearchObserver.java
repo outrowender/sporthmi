@@ -6,7 +6,12 @@ package de.audi.app.messaging.core.folderbrowsing;
 import de.audi.atip.search.util.SearchResultListRow;
 
 public interface IFolderContentSearchObserver {
-    default public void searchResultSelected(SearchResultListRow searchResultListRow) {
+    public void searchResultSelected(SearchResultListRow var1);
+
+    public static class DefaultFolderContentSearchObserver
+    implements IFolderContentSearchObserver {
+        public void searchResultSelected(SearchResultListRow searchResultListRow) {
+        }
     }
 }
 

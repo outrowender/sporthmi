@@ -32,7 +32,6 @@ extends AbstractTelSearchDataProvider {
         this.activeListHandler = telFavoriteListHandler;
     }
 
-    @Override
     protected DataSet[] getDataSet() {
         TelFavoriteListHandler telFavoriteListHandler = this.activeListHandler;
         if (telFavoriteListHandler != null) {

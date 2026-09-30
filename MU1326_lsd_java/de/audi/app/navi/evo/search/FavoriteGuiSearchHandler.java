@@ -3,7 +3,6 @@
  */
 package de.audi.app.navi.evo.search;
 
-import de.audi.app.navi.evo.search.FavoriteGuiSearchHandler$1;
 import de.audi.app.navi.evo.search.IIntelliDestSearchTimer;
 import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler;
 import de.audi.app.navi.evo.search.SearchResultFormatterNavDb;
@@ -25,6 +24,7 @@ import de.audi.tghu.navi.app.adb.NaviADBHandler;
 import de.audi.tghu.navi.app.addressinput.IAddressInputForm;
 import de.audi.tghu.navi.app.addressinput.commands.HidePreviewMapCommand;
 import de.audi.tghu.navi.app.addressinput.poi.IPoiService;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.favorite.INaviFavoriteHandler;
 import de.audi.tghu.navi.app.map.MapInterface;
 import de.audi.tghu.navi.app.navlocationextractor.SearchResultAsyncNavLocationExtractor;
@@ -37,26 +37,27 @@ extends IntelliDestGuiSearchHandler {
         this.registryFormatter.put(new Integer(5), searchResultFormatterNavDb);
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "%1#commandPressed # model=%2, index=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.lc.log(10000000, "%1#commandPressed # model=%2, index=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         CommandList commandList = this.commandListFactory.createCommandList();
         if (n2 == 4711) {
             commandList.add(new HidePreviewMapCommand(this.previewMap));
             commandList.execute("FavoriteGuiSearchHandler hidePreviewMap");
         } else if (n2 == 4712) {
             if (this.env.getFramework().isAsia()) {
-                commandList.add(new FavoriteGuiSearchHandler$1(this, "FavoriteGuiSearchHandler itemFocused"));
+                commandList.add(new NavCommand("FavoriteGuiSearchHandler itemFocused"){
+
+                    public void execute() {
+                        FavoriteGuiSearchHandler.this.previewMap.setPreviewAreaAroundCCP(1);
+                        this.getCommandList().commandFinished();
+                    }
+                });
                 commandList.execute("FavoriteGuiSearchHandler previewAreaAroundCCP");
             } else {
                 commandList.add(new HidePreviewMapCommand(this.previewMap));
                 commandList.execute("FavoriteGuiSearchHandler hidePreviewMap");
             }
         }
-    }
-
-    static /* synthetic */ IPreviewMap access$000(FavoriteGuiSearchHandler favoriteGuiSearchHandler) {
-        return favoriteGuiSearchHandler.previewMap;
     }
 }
 

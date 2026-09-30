@@ -9,14 +9,10 @@ import de.audi.remotehmi.IRemoteHMISpeechNoHelpPrompt;
 
 public interface IRemoteHMISpeechTopicContext
 extends IRemoteHMISpeechContext {
-    default public String getLabel() {
-    }
+    public String getLabel();
 
-    default public IRemoteHMISpeechNoHelpPrompt getNoHelpPrompt() {
-    }
+    public IRemoteHMISpeechNoHelpPrompt getNoHelpPrompt();
 
-    @Override
-    default public IRemoteHMISpeechCommandSDS[] getCommands() {
-    }
+    public IRemoteHMISpeechCommandSDS[] getCommands();
 }
 

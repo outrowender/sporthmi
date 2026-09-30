@@ -4,19 +4,15 @@
 package de.audi.atip.mmicombi;
 
 public interface IMMICombiScreen {
-    public static final int MMICOMBI_CONTEXT_POPUP_HMI;
-    public static final int MMICOMBI_CONTEXT_POPUP_COMBI;
+    public static final int MMICOMBI_CONTEXT_POPUP_HMI = 1000;
+    public static final int MMICOMBI_CONTEXT_POPUP_COMBI = 1001;
 
-    default public int getMmiCombiContextID() {
-    }
+    public int getMmiCombiContextID();
 
-    default public void setMmiCombiContextID(int n, boolean bl) {
-    }
+    public void setMmiCombiContextID(int var1, boolean var2);
 
-    default public boolean isHMIScreen() {
-    }
+    public boolean isHMIScreen();
 
-    default public void setSelectionDrawerVisible(boolean bl) {
-    }
+    public void setSelectionDrawerVisible(boolean var1);
 }
 

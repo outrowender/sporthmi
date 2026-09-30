@@ -18,12 +18,12 @@ import de.audi.atip.mmicombi.IMMICombiViewSizeSync;
 import de.audi.atip.mmicombi.IViewSizeManager;
 import de.audi.atip.msg.MsgListener;
 import de.audi.atip.power.PowerEventListener;
+import de.audi.atip.timer.DefaultTimerListener;
+import de.audi.atip.timer.Timer;
 import de.audi.kbd.KeyMap;
 import de.audi.kbd.dsi.ComboKeyDetector;
 import de.audi.kbd.dsi.GestureStateMachine;
 import de.audi.kbd.dsi.KbdHandler;
-import de.audi.kbd.dsi.KbdListener$1;
-import de.audi.kbd.dsi.KbdListener$VolumeLongPressTimer;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.job.Job;
 import org.dsi.ifc.keypanel.DSIKeyPanelListener;
@@ -38,9 +38,9 @@ ExternalKeyListener,
 PowerEventListener,
 RSESettingsEventListener,
 MsgListener {
-    private static final int A3_WORKAROUND_INACTIVE;
-    private static final int ONE_FINGER;
-    private static final boolean IS_OLD_KEYPANEL;
+    private static final int A3_WORKAROUND_INACTIVE = 0;
+    private static final int ONE_FINGER = 1;
+    private static final boolean IS_OLD_KEYPANEL = Boolean.valueOf(System.getProperty("de.audi.kbd.dsi.oldKeyPanel", "false"));
     private final IFrameworkAccess fwServices;
     private final LogChannel logChannelInput;
     private final LogChannel logChannelKeyEvent;
@@ -65,12 +65,12 @@ MsgListener {
     private volatile boolean ignoreNextMutePressButtonFlag;
     private KbdHandler kbdHandler;
     private Job[] keyEventJobs = new Job[150];
-    private static final int LONG_PRESS_TIME;
-    private static final int DOUBLE_PRESS_TIME;
+    private static final int LONG_PRESS_TIME = 750;
+    private static final int DOUBLE_PRESS_TIME = 200;
     private GestureStateMachine gestureIDcalculator;
     private final ServiceTracker tracker;
     private SDISRangeListener volumeChangerService = null;
-    private final KbdListener$VolumeLongPressTimer volumeLongPressTimer = new KbdListener$VolumeLongPressTimer(this, null);
+    private final VolumeLongPressTimer volumeLongPressTimer = new VolumeLongPressTimer();
     static /* synthetic */ Class class$de$audi$atip$interapp$audio$SDISRangeListener;
 
     public KbdListener(IFrameworkAccess iFrameworkAccess, IKeyBoardManager iKeyBoardManager) {
@@ -103,7 +103,7 @@ MsgListener {
     }
 
     public void setSDSService(SDSService sDSService) {
-        this.logChannelInput.log(1078071040, "KbdListener.setSDSService(%1)", (Object)sDSService);
+        this.logChannelInput.log(1000000, "KbdListener.setSDSService(%1)", (Object)sDSService);
         this.sdsService = sDSService;
     }
 
@@ -111,7 +111,7 @@ MsgListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void setEjectHandler(IEjectHandler iEjectHandler) {
-        this.logChannelInput.log(1078071040, "KbdListener.setEjectHandler(%1)", (Object)iEjectHandler);
+        this.logChannelInput.log(1000000, "KbdListener.setEjectHandler(%1)", (Object)iEjectHandler);
         boolean bl = false;
         KbdListener kbdListener = this;
         synchronized (kbdListener) {
@@ -122,89 +122,77 @@ MsgListener {
             }
         }
         if (bl) {
-            this.logChannelInput.log(1078071040, "KbdListener.setEjectHandler: Forward pending eject command to eject handler (service=%1)", (Object)iEjectHandler);
+            this.logChannelInput.log(1000000, "KbdListener.setEjectHandler: Forward pending eject command to eject handler (service=%1)", (Object)iEjectHandler);
             iEjectHandler.ejectCD();
         }
     }
 
     public void triggerHmiKeyPressedEvent(int n, int n2) {
-        this.logChannelKeyEvent.log(-2137614336, "KbdListener.triggerHmiKeyPressedEvent(%1, %2)", (long)n, (long)n2);
+        this.logChannelKeyEvent.log(10000000, "KbdListener.triggerHmiKeyPressedEvent(%1, %2)", (long)n, (long)n2);
         this.keyBoardManager.fireKeyEvent(10401, this.fwServices.getMonotonicTime(), n, n2);
     }
 
     public void triggerKeyPressedEvent(int n, int n2) {
-        this.logChannelKeyEvent.log(-2137614336, "KbdListener.triggerKeyPressedEvent(%1, %2)", (long)n, (long)n2);
+        this.logChannelKeyEvent.log(10000000, "KbdListener.triggerKeyPressedEvent(%1, %2)", (long)n, (long)n2);
         this.fireKeyPressedEvent(n, n2);
     }
 
     public void triggerKeyReleasedEvent(int n, int n2) {
-        this.logChannelKeyEvent.log(-2137614336, "KbdListener.triggerKeyReleasedEvent(%1, %2)", (long)n, (long)n2);
+        this.logChannelKeyEvent.log(10000000, "KbdListener.triggerKeyReleasedEvent(%1, %2)", (long)n, (long)n2);
         this.fireKeyReleasedEvent(n, n2);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
-        this.logChannelInput.log(1078071040, "KbdListener.notifyPowerListenerOnEnterState(%1, %2)", (long)n, (long)n2);
+        this.logChannelInput.log(1000000, "KbdListener.notifyPowerListenerOnEnterState(%1, %2)", (long)n, (long)n2);
         Object object = this.powerEventLock;
         synchronized (object) {
             this.powerState[n2] = n;
         }
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        this.logChannelInput.log(1078071040, "KbdListener.updateClampState(clamp15=%1)", bl2);
+        this.logChannelInput.log(1000000, "KbdListener.updateClampState(clamp15=%1)", bl2);
     }
 
-    @Override
     public void processAudioUsageRestriction(boolean bl) {
     }
 
-    @Override
     public void processTunerUsageRestriction(boolean bl) {
     }
 
-    @Override
     public void processTVUsageRestriction(boolean bl) {
     }
 
-    @Override
     public void processCDCUsageRestriction(boolean bl) {
     }
 
-    @Override
     public void processFunctionUsageRestriction(boolean bl) {
-        this.logChannelInput.log(1078071040, "KbdListener.processFunctionUsageRestriction(%1)", bl);
+        this.logChannelInput.log(1000000, "KbdListener.processFunctionUsageRestriction(%1)", bl);
         this.restrictFunctionUsage = bl;
     }
 
-    @Override
     public void processChildProtection(boolean bl) {
-        this.logChannelInput.log(1078071040, "KbdListener.processChildProtection(%1)", bl);
+        this.logChannelInput.log(1000000, "KbdListener.processChildProtection(%1)", bl);
         this.childProtectionActivated = bl;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.logChannelInput.log(10000, "KbdListener.asyncException(errorCode=%1, requestType=%2)", (long)n, (long)n2);
         this.logChannelInput.log(10000, "KbdListener.asyncException(errorMsg=%1)", (Object)string);
     }
 
-    @Override
     public void updateKey2(int n, int n2, int n3, int n4, int n5) {
-        this.logChannelInput.log(-1601830656, "KbdListener.updateKey2(keyboardID=%1, keyID=%2, keyState=%3)", (long)n, (long)n2, (long)n3);
-        this.logChannelInput.log(-1601830656, "KbdListener.updateKey2(time=%1, validFlag=%2)", (long)n4, (long)n5);
+        this.logChannelInput.log(100000, "KbdListener.updateKey2(keyboardID=%1, keyID=%2, keyState=%3)", (long)n, (long)n2, (long)n3);
+        this.logChannelInput.log(100000, "KbdListener.updateKey2(time=%1, validFlag=%2)", (long)n4, (long)n5);
         if (n5 != 1) {
             if (n == 13 && n5 == 2 && (n2 == 61 || n2 == 62 || n2 == 63 || n2 == 64 || n2 == 65 || n2 == 66 || n2 == 101 || n2 == 102)) {
                 this.updateKeyInternal(n, n2, 7);
@@ -217,15 +205,14 @@ MsgListener {
             } else if (n3 == 7) {
                 this.isHandsOnRing = false;
             }
-            this.logChannelInput.log(-2137614336, "KbdListener.updateKey2(isHandsOnRing=%1)", this.isHandsOnRing);
+            this.logChannelInput.log(10000000, "KbdListener.updateKey2(isHandsOnRing=%1)", this.isHandsOnRing);
         }
         this.updateKeyInternal(n, n2, n3);
     }
 
-    @Override
     public void supplyExternalKey(int n, int n2, int n3, int n4) {
-        this.logChannelInput.log(-1601830656, "KbdListener.supplyExternalKey(keyboardID=%1, keyID=%2, keyState=%3)", (long)n, (long)n2, (long)n3);
-        this.logChannelInput.log(-1601830656, "KbdListener.supplyExternalKey(validFlag=%1)", (long)n4);
+        this.logChannelInput.log(100000, "KbdListener.supplyExternalKey(keyboardID=%1, keyID=%2, keyState=%3)", (long)n, (long)n2, (long)n3);
+        this.logChannelInput.log(100000, "KbdListener.supplyExternalKey(validFlag=%1)", (long)n4);
         if (n4 == 1) {
             this.updateKeyInternal(n, n2, n3);
         }
@@ -234,15 +221,15 @@ MsgListener {
     private void fireGestureEvent(int n, int n2, int n3, int n4, int n5, int n6, long l, int n7) {
         int n8 = KeyMap.getHmiGestureKeyCode(n);
         if (n8 == 10901) {
-            this.logChannelKeyEvent.log(-1601830656, "KbdListener.fireGestureEvent: Ignore input key! (keyCode=%1)", (long)n);
+            this.logChannelKeyEvent.log(100000, "KbdListener.fireGestureEvent: Ignore input key! (keyCode=%1)", (long)n);
             return;
         }
         this.keyBoardManager.fireGestureEvent(n8, n2, n3, n4, n5, n6, l, n7);
     }
 
     private void updateGesture(int n, int n2, int n3, int n4, int n5) {
-        this.logChannelInput.log(-1601830656, "KbdListener.updateGesture(keyboardID=%1, gestureId=%2, validFlag=%3)", (long)n, (long)n2, (long)n5);
-        this.logChannelInput.log(-1601830656, "KbdListener.updateGesture(x=%1, y=%2)", (long)n3, (long)n4);
+        this.logChannelInput.log(100000, "KbdListener.updateGesture(keyboardID=%1, gestureId=%2, validFlag=%3)", (long)n, (long)n2, (long)n5);
+        this.logChannelInput.log(100000, "KbdListener.updateGesture(x=%1, y=%2)", (long)n3, (long)n4);
         if (n5 == 1 && !this.getFramework().isPorsche()) {
             switch (n2) {
                 case 1: {
@@ -295,66 +282,58 @@ MsgListener {
         }
     }
 
-    @Override
     public void updateDisplayTurnMechStatus(int n, int n2) {
-        this.logChannelInput.log(-1601830656, "KbdListener.updateDisplayTurnMechStatus(displayTurnMechStatus=%1, validFlag=%2)", (long)n, (long)n2);
+        this.logChannelInput.log(100000, "KbdListener.updateDisplayTurnMechStatus(displayTurnMechStatus=%1, validFlag=%2)", (long)n, (long)n2);
     }
 
-    @Override
     public void updateRecognizerMode(int n, int n2, int n3) {
-        this.logChannelInput.log(-2137614336, "KbdListener.updateRecognizerMode(keyboardID=%1, recognizerMode=%2, validFlag=%3)", (long)n, (long)n2, (long)n3);
+        this.logChannelInput.log(10000000, "KbdListener.updateRecognizerMode(keyboardID=%1, recognizerMode=%2, validFlag=%3)", (long)n, (long)n2, (long)n3);
     }
 
-    @Override
     public void updateProximity(int n, int n2, int n3) {
-        this.logChannelInput.log(-1601830656, "KbdListener.updateProximity(keyboardID=%1, distance=%2, validFlag=%3)", (long)n, (long)n2, (long)n3);
+        this.logChannelInput.log(100000, "KbdListener.updateProximity(keyboardID=%1, distance=%2, validFlag=%3)", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.fireProximityEvent(n2, KeyMap.kbdID2termID(n));
         }
     }
 
-    @Override
     public void genericSettingResponse(int n, int n2, int n3) {
-        this.logChannelInput.log(-2137614336, "KbdListener.genericSettingResponse(respKeyboardID=%1, respKey=%2, respValue=%3)", (long)n, (long)n2, (long)n3);
+        this.logChannelInput.log(10000000, "KbdListener.genericSettingResponse(respKeyboardID=%1, respKey=%2, respValue=%3)", (long)n, (long)n2, (long)n3);
         this.kbdHandler.setGenericSettingResponse(n2, n3);
     }
 
-    @Override
     public void lastKey(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateEncoder2(int n, int n2, int n3, int n4, int n5) {
-        this.logChannelInput.log(-1601830656, "KbdListener.updateEncoder2(keyboardID=%1, keyID=%2, incCount=%3)", (long)n, (long)n2, (long)n3);
-        this.logChannelInput.log(-1601830656, "KbdListener.updateEncoder2(time=%1, validFlag=%2)", (long)n4, (long)n5);
+        this.logChannelInput.log(100000, "KbdListener.updateEncoder2(keyboardID=%1, keyID=%2, incCount=%3)", (long)n, (long)n2, (long)n3);
+        this.logChannelInput.log(100000, "KbdListener.updateEncoder2(time=%1, validFlag=%2)", (long)n4, (long)n5);
         if (n2 == 5) {
             byte by = (byte)n3;
             byte by2 = (byte)(n3 >> 8);
-            this.logChannelInput.log(-1601830656, "KbdListener.updateEncoder2: hDDS event: mainClicks=%1 and subClicks=%2", (long)by, (long)by2);
+            this.logChannelInput.log(100000, "KbdListener.updateEncoder2: hDDS event: mainClicks=%1 and subClicks=%2", (long)by, (long)by2);
             if (this.isHandsOnRing) {
                 this.updateEncoderInternal(n, 16, by, by2, n5);
             } else if (by != 0) {
-                this.logChannelInput.log(-1601830656, "KbdListener.updateEncoder2: Hands are not on ring - do not propagate sublicks");
+                this.logChannelInput.log(100000, "KbdListener.updateEncoder2: Hands are not on ring - do not propagate sublicks");
                 this.updateEncoderInternal(n, 16, by, 0, n5);
             } else {
-                this.logChannelInput.log(-1601830656, "KbdListener.updateEncoder2: Ignore updateEncoder because it only has subClicks an hand is not on Ring");
+                this.logChannelInput.log(100000, "KbdListener.updateEncoder2: Ignore updateEncoder because it only has subClicks an hand is not on Ring");
             }
         } else {
             this.updateEncoderInternal(n, n2, n3, n5);
         }
     }
 
-    @Override
     public void updateRecognizerLanguage2(int n, String string, int n2, int n3) {
-        this.logChannelInput.log(-2137614336, "KbdListener.updateRecognizerLanguage2(keyboardID=%1, validFlag=%2)", (long)n, (long)n3);
-        this.logChannelInput.log(-2137614336, "KbdListener.updateRecognizerLanguage2(language=%1, langCode=%2)", (Object)string, (long)n2);
+        this.logChannelInput.log(10000000, "KbdListener.updateRecognizerLanguage2(keyboardID=%1, validFlag=%2)", (long)n, (long)n3);
+        this.logChannelInput.log(10000000, "KbdListener.updateRecognizerLanguage2(language=%1, langCode=%2)", (Object)string, (long)n2);
     }
 
-    @Override
     public void updateCharacterEvent2(int n, String[] stringArray, int[] nArray, int n2) {
-        this.logChannelInput.log(-1601830656, "KbdListener.updateCharacterEvent2(keyboardID=%1, validFlag=%2)", (long)n, (long)n2);
-        this.logChannelInput.log(-1601830656, "KbdListener.updateCharacterEvent2(recognizedCharacters=%1)", (Object)stringArray);
-        this.logChannelInput.log(-1601830656, "KbdListener.updateCharacterEvent2(confidence=%1)", (Object)nArray);
+        this.logChannelInput.log(100000, "KbdListener.updateCharacterEvent2(keyboardID=%1, validFlag=%2)", (long)n, (long)n2);
+        this.logChannelInput.log(100000, "KbdListener.updateCharacterEvent2(recognizedCharacters=%1)", (Object)stringArray);
+        this.logChannelInput.log(100000, "KbdListener.updateCharacterEvent2(confidence=%1)", (Object)nArray);
         if (n2 != 1) {
             return;
         }
@@ -362,7 +341,7 @@ MsgListener {
             if (stringArray != null && nArray != null) {
                 this.fireRecognizedGestureEvent(stringArray, nArray, KeyMap.kbdID2termID(n));
             } else {
-                this.logChannelInput.log(-1601830656, "KbdListener.updateCharacterEvent2: recognizedCharacters or confidence are null - discard");
+                this.logChannelInput.log(100000, "KbdListener.updateCharacterEvent2: recognizedCharacters or confidence are null - discard");
             }
         } else if (stringArray != null && nArray != null) {
             Buffer buffer = new Buffer(stringArray.length);
@@ -375,7 +354,7 @@ MsgListener {
                     continue;
                 }
                 if (string.length() <= 1) continue;
-                this.logChannelInput.log(-1601830656, "KbdListener.updateCharacterEvent2: The keypanel recognized multiple character result. They will be mapped. recognizedString=%1", (Object)string);
+                this.logChannelInput.log(100000, "KbdListener.updateCharacterEvent2: The keypanel recognized multiple character result. They will be mapped. recognizedString=%1", (Object)string);
                 char c2 = this.mapCharacter(string);
                 buffer.append(c2);
             }
@@ -393,21 +372,20 @@ MsgListener {
 
     private char mapCharacter(String string) {
         if (string.equals("\u0644\u0627")) {
-            return '\ufbfe0000';
+            return '\ufefb';
         }
         if (string.equals("\u0644\u0622")) {
-            return '\uf5fe0000';
+            return '\ufef5';
         }
         if (string.equals("\u0644\u0623")) {
-            return '\uf7fe0000';
+            return '\ufef7';
         }
         if (string.equals("\u0644\u0625")) {
-            return '\uf9fe0000';
+            return '\ufef9';
         }
         return string.charAt(0);
     }
 
-    @Override
     public void updateGesture2(int n, int n2, int n3, boolean bl, int n4, int n5, int n6, int n7, int n8, int n9) {
         if (this.logChannelInput.isDebug()) {
             Buffer buffer = new Buffer(144);
@@ -421,7 +399,7 @@ MsgListener {
             buffer.append("param2(distance)=").append(n7).append(' ');
             buffer.append("time=").append(n8).append(' ');
             buffer.append("validFlag=").append(n9).append(' ');
-            this.logChannelInput.log(-2137614336, "KbdListener.updateGesture2( %1)", (Object)buffer);
+            this.logChannelInput.log(10000000, "KbdListener.updateGesture2( %1)", (Object)buffer);
         }
         if (n9 != 1) {
             return;
@@ -455,10 +433,9 @@ MsgListener {
         }
     }
 
-    @Override
     public void updateKeyboardType(int n, int n2) {
         System.out.println(new StringBuffer().append("KbdListener.updateKeyboardType(keyboardType=").append(n).append(", validFlag=").append(n2).append(")").toString());
-        this.logChannelInput.log(-2137614336, "KbdListener.updateKeyboardType(keyboardType=%1, validFlag=%2)", (long)n, (long)n2);
+        this.logChannelInput.log(10000000, "KbdListener.updateKeyboardType(keyboardType=%1, validFlag=%2)", (long)n, (long)n2);
         if (n2 == 1) {
             this.currentKeyboardType = n;
             this.kbdHandler.updateRecognizerConfig();
@@ -474,24 +451,21 @@ MsgListener {
         }
     }
 
-    @Override
     public void updateTouchSensitiveArea(int n, int n2, int n3, int n4, int n5, int n6) {
-        this.logChannelInput.log(1078071040, "KbdListener.updateTouchSensitiveArea( keybordID=%1, x=%2, y=%3 )", (long)n, (long)n2, (long)n3);
-        this.logChannelInput.log(1078071040, "KbdListener.updateTouchSensitiveArea( width=%1, height=%2, validFlag=%3 )", (long)n4, (long)n5, (long)n6);
+        this.logChannelInput.log(1000000, "KbdListener.updateTouchSensitiveArea( keybordID=%1, x=%2, y=%3 )", (long)n, (long)n2, (long)n3);
+        this.logChannelInput.log(1000000, "KbdListener.updateTouchSensitiveArea( width=%1, height=%2, validFlag=%3 )", (long)n4, (long)n5, (long)n6);
         this.keyBoardManager.fireGestureEvent(10914, 0, n2, n3, n4, n5, -1L, KeyMap.kbdID2termID(n));
     }
 
-    @Override
     public void updateInputPanelReady(int n, int n2, int n3) {
-        this.logChannelInput.log(1078071040, "KbdListener.updateInputPanelReady(keyboardID=%1, startupState=%2, validFlag=%3)", (long)n, (long)n2, (long)n3);
+        this.logChannelInput.log(1000000, "KbdListener.updateInputPanelReady(keyboardID=%1, startupState=%2, validFlag=%3)", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             this.kbdHandler.updateRecognizerConfig();
         }
     }
 
-    @Override
     public void getVersionInfo(int n, int n2, String string) {
-        this.logChannelInput.log(1078071040, "KbdListener.getVersionInfo(keyboardID=%2, versionInfo=%3, version=%1)", (Object)string, (long)n, (long)n2);
+        this.logChannelInput.log(1000000, "KbdListener.getVersionInfo(keyboardID=%2, versionInfo=%3, version=%1)", (Object)string, (long)n, (long)n2);
     }
 
     private void handleSimulateMIB2JUpJDownViaSESW(int n, int n2, int n3, int n4) {
@@ -504,7 +478,7 @@ MsgListener {
         }
     }
 
-    private synchronized void updateKeyInternal(int n, int n2, int n3) {
+    private synchronized void updateKeyInternal(int n, int n2, final int n3) {
         if (KeyMap.isVolumeKey(n2) && this.ignoreNextMutePressButtonFlag) {
             this.ignoreNextMutePressButtonFlag = false;
             return;
@@ -517,12 +491,17 @@ MsgListener {
         if (this.checkMFWFilters(n, n2, bl)) {
             if (this.isMIB2HighMMICombi() && (n2 == 37 || n2 == 36)) {
                 if (this.sdsService != null) {
-                    this.logChannelInput.log(-1601830656, "KbdListener.updateKeyInternal: abort sds session upon arrow left/right");
+                    this.logChannelInput.log(100000, "KbdListener.updateKeyInternal: abort sds session upon arrow left/right");
                     this.sdsService.abortSDSSession(false, (byte)2);
                 }
                 if (this.viewSizeManager != null) {
-                    long l = this.fwServices.getMonotonicTime();
-                    RunnableEvent runnableEvent = new RunnableEvent(false, new KbdListener$1(this, n3, l));
+                    final long l = this.fwServices.getMonotonicTime();
+                    RunnableEvent runnableEvent = new RunnableEvent(false, new Runnable(){
+
+                        public void run() {
+                            KbdListener.this.viewSizeManager.mfwArrowKeyPressed(n3, l);
+                        }
+                    });
                     this.fwServices.getHMIService().getEventDispatcher().postEvent(runnableEvent);
                 }
             }
@@ -559,31 +538,31 @@ MsgListener {
                 }
                 if (n2 == 42) {
                     if (this.volumeChangerService != null) {
-                        this.logChannelInput.log(-2137614336, "KbdListener#updateKeyInternal() - Changing (inc) volume via SDISRangeListener.");
+                        this.logChannelInput.log(10000000, "KbdListener#updateKeyInternal() - Changing (inc) volume via SDISRangeListener.");
                         this.volumeChangerService.increment(-1, 1, n4);
                         break;
                     }
-                    this.logChannelInput.log(-1601830656, "KbdListener#updateKeyInternal() - No SDISRangeListener available, changing (inc) volume via Fallback Implementation.");
+                    this.logChannelInput.log(100000, "KbdListener#updateKeyInternal() - No SDISRangeListener available, changing (inc) volume via Fallback Implementation.");
                     this.fireWheelButtonEvent(16, 0, 1, KeyMap.kbdID2termID(n));
                     break;
                 }
                 if (n2 == 43) {
                     if (this.volumeChangerService != null) {
-                        this.logChannelInput.log(-2137614336, "KbdListener#updateEncoderInternal() - Changing (inc) volume via SDISRangeListener.");
+                        this.logChannelInput.log(10000000, "KbdListener#updateEncoderInternal() - Changing (inc) volume via SDISRangeListener.");
                         this.volumeChangerService.decrement(-1, 1, n4);
                         break;
                     }
-                    this.logChannelInput.log(-1601830656, "KbdListener#updateEncoderInternal() - No SDISRangeListener available, changing (inc) volume via Fallback Implementation.");
+                    this.logChannelInput.log(100000, "KbdListener#updateEncoderInternal() - No SDISRangeListener available, changing (inc) volume via Fallback Implementation.");
                     this.fireWheelButtonEvent(16, 1, 1, KeyMap.kbdID2termID(n));
                     break;
                 }
                 if (bl) {
                     if (this.fwServices.isFrontMU() && KeyMap.isVolumeKey(n2)) {
-                        this.logChannelInput.log(-1601830656, "KbdListener.updateKeyInternal: Ignore volume key on main unit during standby!");
+                        this.logChannelInput.log(100000, "KbdListener.updateKeyInternal: Ignore volume key on main unit during standby!");
                         break;
                     }
                 } else if (this.powerstateNoDisplay(n4) && (n2 == 13 || n2 == 16)) {
-                    this.logChannelInput.log(-1601830656, "KbdListener.updateKeyInternal: Ignore back key if power state is HMI_ON_NO_DISPLAY!");
+                    this.logChannelInput.log(100000, "KbdListener.updateKeyInternal: Ignore back key if power state is HMI_ON_NO_DISPLAY!");
                     break;
                 }
                 if (!bl && this.comboKeyDetector.keyPressedConsumed(n2, n4)) break;
@@ -592,18 +571,18 @@ MsgListener {
                 Job job = this.keyEventJobs[n2];
                 if (job != null) {
                     KeyEvent keyEvent = (KeyEvent)job.getPayload();
-                    long l = keyEvent.getWhen() - 0;
-                    if (this.fwServices.getMonotonicTime() - l < 0) {
+                    long l = keyEvent.getWhen() - 750L;
+                    if (this.fwServices.getMonotonicTime() - l < 200L) {
                         this.fireKeyDoublePressedEvent(n2, n4);
                     }
                 }
-                this.keyEventJobs[n2] = job = this.fireKeyLongPressedEvent(n2, 0, n4);
+                this.keyEventJobs[n2] = job = this.fireKeyLongPressedEvent(n2, 750L, n4);
                 break;
             }
             case 0: {
                 Job job;
                 if (n2 == 42 || n2 == 43) {
-                    KbdListener$VolumeLongPressTimer.access$200(this.volumeLongPressTimer);
+                    this.volumeLongPressTimer.cancel();
                     break;
                 }
                 if (n == 5) {
@@ -619,9 +598,9 @@ MsgListener {
             }
             case 3: {
                 if (n2 == 42) {
-                    KbdListener$VolumeLongPressTimer.access$300(this.volumeLongPressTimer, 0, n);
+                    this.volumeLongPressTimer.start(0, n);
                 } else if (n2 == 43) {
-                    KbdListener$VolumeLongPressTimer.access$300(this.volumeLongPressTimer, 1, n);
+                    this.volumeLongPressTimer.start(1, n);
                 }
                 this.fireKeyLongPressedEvent(n2, 0L, n4);
                 break;
@@ -665,7 +644,7 @@ MsgListener {
             return;
         }
         if (this.restrictFunctionUsage && this.isRSE && !KeyMap.isVolumeKey(n2)) {
-            this.logChannelInput.log(-1601830656, "KbdListener.updateEncoderInternal:  Function restriction is active! Ignore key event! (keyID=%1)", (long)n2);
+            this.logChannelInput.log(100000, "KbdListener.updateEncoderInternal:  Function restriction is active! Ignore key event! (keyID=%1)", (long)n2);
             return;
         }
         int n6 = KeyMap.kbdID2termID(n);
@@ -675,7 +654,7 @@ MsgListener {
         switch (n2) {
             case 16: {
                 if (this.powerstateNoDisplay(n6)) {
-                    this.logChannelInput.log(-2137614336, "KbdListener.updateEncoderInternal: Ignore DDS key if power state is HMI_ON_NO_DISPLAY!");
+                    this.logChannelInput.log(10000000, "KbdListener.updateEncoderInternal: Ignore DDS key if power state is HMI_ON_NO_DISPLAY!");
                     this.reactivateDisplay(n, n2, n6);
                     break;
                 }
@@ -700,20 +679,20 @@ MsgListener {
             case 88: {
                 if (n3 > 0) {
                     if (this.volumeChangerService != null) {
-                        this.logChannelInput.log(-2137614336, "KbdListener#updateEncoderInternal() - Changing (inc) volume via SDISRangeListener.");
+                        this.logChannelInput.log(10000000, "KbdListener#updateEncoderInternal() - Changing (inc) volume via SDISRangeListener.");
                         this.volumeChangerService.increment(-1, n3, n6);
                         break;
                     }
-                    this.logChannelInput.log(-1601830656, "KbdListener#updateEncoderInternal() - No SDISRangeListener available, changing (inc) volume via Fallback Implementation.");
+                    this.logChannelInput.log(100000, "KbdListener#updateEncoderInternal() - No SDISRangeListener available, changing (inc) volume via Fallback Implementation.");
                     this.fireWheelButtonEvent(16, 0, n3, n6);
                     break;
                 }
                 if (this.volumeChangerService != null) {
-                    this.logChannelInput.log(-2137614336, "KbdListener#updateEncoderInternal() - Changing (dec) volume via SDISRangeListener.");
+                    this.logChannelInput.log(10000000, "KbdListener#updateEncoderInternal() - Changing (dec) volume via SDISRangeListener.");
                     this.volumeChangerService.decrement(-1, -n3, n6);
                     break;
                 }
-                this.logChannelInput.log(-1601830656, "KbdListener#updateEncoderInternal() - No SDISRangeListener available, changing (dec) volume via Fallback Implementation.");
+                this.logChannelInput.log(100000, "KbdListener#updateEncoderInternal() - No SDISRangeListener available, changing (dec) volume via Fallback Implementation.");
                 this.fireWheelButtonEvent(16, 1, -1 * n3, n6);
                 break;
             }
@@ -747,10 +726,10 @@ MsgListener {
     private void toggleViewSize() {
         if (this.iMMICombiViewSizeSync != null) {
             this.currentViewSize = this.currentViewSize == 1 ? 2 : 1;
-            this.logChannelInput.log(-2137614336, "KbdListener.toggleViewSize:  Trigger change of HMI view size! (size=%1)", (long)this.currentViewSize);
+            this.logChannelInput.log(10000000, "KbdListener.toggleViewSize:  Trigger change of HMI view size! (size=%1)", (long)this.currentViewSize);
             this.iMMICombiViewSizeSync.requestViewSize(this.currentViewSize);
         } else {
-            this.logChannelInput.log(-2137614336, "KbdListener.toggleViewSize:  No change of HMI view size possible! Service IMMICombiViewSizeSync is not available!");
+            this.logChannelInput.log(10000000, "KbdListener.toggleViewSize:  No change of HMI view size possible! Service IMMICombiViewSizeSync is not available!");
         }
     }
 
@@ -767,21 +746,21 @@ MsgListener {
             bl = !this.ejectPending;
         }
         if (bl) {
-            this.logChannelInput.log(-2137614336, "KbdListener.handleEject: Forward eject command to eject handler! (service=%1)", (Object)iEjectHandler);
+            this.logChannelInput.log(10000000, "KbdListener.handleEject: Forward eject command to eject handler! (service=%1)", (Object)iEjectHandler);
             iEjectHandler.ejectCD();
         }
     }
 
     private void reactivateDisplay(int n, int n2, int n3) {
         if (n == 1 || n == 10 || n == 2 || n == 3 || n == 13) {
-            this.logChannelInput.log(-2137614336, "KbdListener.reactivateDisplay: Trigger power management! (terminal=%1, keyID=%2)", (long)n3, (long)n2);
+            this.logChannelInput.log(10000000, "KbdListener.reactivateDisplay: Trigger power management! (terminal=%1, keyID=%2)", (long)n3, (long)n2);
             this.fwServices.getPowerMgr().displayButtonTyped(n3, n2);
         }
     }
 
     private void triggerHK(int n, int n2, int n3) {
         if (n == 1 || n == 10 || n == 2 || n == 3 || n == 13) {
-            this.logChannelInput.log(-2137614336, "KbdListener.triggerHK: Trigger power management! (terminal=%1, keyID=%2)", (long)n3, (long)n2);
+            this.logChannelInput.log(10000000, "KbdListener.triggerHK: Trigger power management! (terminal=%1, keyID=%2)", (long)n3, (long)n2);
             this.fwServices.getPowerMgr().hardKeyTyped(n3, n2);
         }
     }
@@ -879,7 +858,7 @@ MsgListener {
     private void fireTouchEvent(int n, int n2, int n3, int n4, int n5, int n6) {
         int n7 = KeyMap.getHmiKeyCode(n2);
         if (n7 == 0) {
-            this.logChannelKeyEvent.log(-1601830656, "KbdListener.fireTouchEvent: Ignore input key! (keyCode=%1)", (long)n2);
+            this.logChannelKeyEvent.log(100000, "KbdListener.fireTouchEvent: Ignore input key! (keyCode=%1)", (long)n2);
             return;
         }
         this.keyBoardManager.fireTouchEvent(n, this.fwServices.getMonotonicTime(), n7, n3, n4, n5, n6);
@@ -908,7 +887,7 @@ MsgListener {
     private void fireKeyPressedEvent(int n, int n2) {
         int n3 = KeyMap.getHmiKeyCode(n);
         if (n3 == 0) {
-            this.logChannelKeyEvent.log(-1601830656, "KbdListener.fireKeyPressedEvent: Ignore input key! (keyCode=%1)", (long)n);
+            this.logChannelKeyEvent.log(100000, "KbdListener.fireKeyPressedEvent: Ignore input key! (keyCode=%1)", (long)n);
             return;
         }
         this.abortSDSsession(n3);
@@ -936,7 +915,7 @@ MsgListener {
     private void fireKeyReleasedEvent(int n, int n2) {
         int n3 = KeyMap.getHmiKeyCode(n);
         if (n3 == 0) {
-            this.logChannelKeyEvent.log(-1601830656, "KbdListener.fireKeyReleasedEvent: Ignore input key! (keyCode=%1)", (long)n);
+            this.logChannelKeyEvent.log(100000, "KbdListener.fireKeyReleasedEvent: Ignore input key! (keyCode=%1)", (long)n);
             return;
         }
         this.keyBoardManager.fireKeyEvent(10402, this.fwServices.getMonotonicTime(), n3, n2);
@@ -961,26 +940,26 @@ MsgListener {
 
     private void abortSDSsession(int n) {
         if (this.sdsService != null && KeyMap.isSdsAbortKey(n)) {
-            this.logChannelInput.log(-2137614336, "KbdListener.abortSDSsession: Forward abort command! (service=%1)", (Object)this.sdsService);
+            this.logChannelInput.log(10000000, "KbdListener.abortSDSsession: Forward abort command! (service=%1)", (Object)this.sdsService);
             this.sdsService.abortSDSSession(false, (byte)2);
         }
     }
 
     private boolean checkMFWFilters(int n, int n2, boolean bl) {
         if (this.isMFWBoard(n) && bl) {
-            this.logChannelInput.log(-1601830656, "KbdListener.checkMFWFilters: Ignore MFW keys during standby!");
+            this.logChannelInput.log(100000, "KbdListener.checkMFWFilters: Ignore MFW keys during standby!");
             return true;
         }
         if (!(this.isMIB2HighMMICombi() || this.fwServices.isShowDDP2Combi() || n2 != 99 && n2 != 100 && n2 != 40)) {
-            this.logChannelInput.log(-1601830656, "KbdListener.checkMFWFilters: Ignore MFW side menu keys and MFW left roller for all systems apart from MIB2HighMMICombi and DDP2Combi!");
+            this.logChannelInput.log(100000, "KbdListener.checkMFWFilters: Ignore MFW side menu keys and MFW left roller for all systems apart from MIB2HighMMICombi and DDP2Combi!");
             return true;
         }
         if (n2 == 37) {
-            this.logChannelInput.log(-1601830656, "KbdListener.checkMFWFilters: Ignore MFW left arrow!");
+            this.logChannelInput.log(100000, "KbdListener.checkMFWFilters: Ignore MFW left arrow!");
             return true;
         }
         if (n2 == 36) {
-            this.logChannelInput.log(-1601830656, "KbdListener.checkMFWFilters: Ignore MFW right arrow!");
+            this.logChannelInput.log(100000, "KbdListener.checkMFWFilters: Ignore MFW right arrow!");
             return true;
         }
         return false;
@@ -995,11 +974,11 @@ MsgListener {
     }
 
     public void blinkInfo(String string) {
-        this.getFramework().getHMIService().showVisualFeedback(0, string, 0);
+        this.getFramework().getHMIService().showVisualFeedback(3000L, string, 0);
     }
 
     public void blinkScreen() {
-        this.getFramework().getHMIService().showVisualFeedback(0, null, 0);
+        this.getFramework().getHMIService().showVisualFeedback(1000L, null, 0);
     }
 
     public String getName() {
@@ -1011,7 +990,7 @@ MsgListener {
     }
 
     public void setIgnoreNextMutePressButtonFlag() {
-        this.logChannelInput.log(-2137614336, "KbdListener.setIgnoreNextMutePressButtonFlag()");
+        this.logChannelInput.log(10000000, "KbdListener.setIgnoreNextMutePressButtonFlag()");
         this.ignoreNextMutePressButtonFlag = true;
     }
 
@@ -1019,15 +998,12 @@ MsgListener {
         this.viewSizeManager = iViewSizeManager;
     }
 
-    @Override
     public void getProperty(int n, int n2, int n3, int n4, byte[] byArray) {
     }
 
-    @Override
     public void updateAdvancedProximity(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
     }
 
-    @Override
     public void processMsg(int n) {
         switch (n) {
             case 101: {
@@ -1039,25 +1015,22 @@ MsgListener {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.fwServices.getBundleCxt().getService(serviceReference);
         if (object instanceof SDISRangeListener) {
-            this.logChannelInput.log(-2137614336, "KbdListener#addingService() - SDISRangeListener has been registered.");
+            this.logChannelInput.log(10000000, "KbdListener#addingService() - SDISRangeListener has been registered.");
             this.volumeChangerService = (SDISRangeListener)object;
         }
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         this.fwServices.getBundleCxt().ungetService(serviceReference);
         if (object instanceof SDISRangeListener) {
-            this.logChannelInput.log(-2137614336, "KbdListener#removedService() - SDISRangeListener has been unregistered.");
+            this.logChannelInput.log(10000000, "KbdListener#removedService() - SDISRangeListener has been unregistered.");
             this.volumeChangerService = null;
         }
     }
@@ -1071,20 +1044,31 @@ MsgListener {
         }
     }
 
-    static /* synthetic */ IViewSizeManager access$100(KbdListener kbdListener) {
-        return kbdListener.viewSizeManager;
-    }
+    private class VolumeLongPressTimer
+    extends DefaultTimerListener {
+        private final Timer timer = new Timer("VolumeLongPressTimer", 200L, false, this);
+        private volatile int direction;
+        private volatile int keyboardID;
 
-    static /* synthetic */ LogChannel access$400(KbdListener kbdListener) {
-        return kbdListener.logChannelInput;
-    }
+        private VolumeLongPressTimer() {
+        }
 
-    static /* synthetic */ void access$500(KbdListener kbdListener, int n, int n2, int n3, int n4) {
-        kbdListener.fireWheelButtonEvent(n, n2, n3, n4);
-    }
+        private void start(int n, int n2) {
+            KbdListener.this.logChannelInput.log(10000000, "KbdListener.VolumeLongPressTimer.start() direction=%1", (long)n);
+            this.direction = n;
+            this.keyboardID = n2;
+            this.timer.restart();
+        }
 
-    static {
-        IS_OLD_KEYPANEL = Boolean.valueOf(System.getProperty("de.audi.kbd.dsi.oldKeyPanel", "false"));
+        private void cancel() {
+            KbdListener.this.logChannelInput.log(10000000, "KbdListener.VolumeLongPressTimer.cancel()");
+            this.timer.cancel();
+        }
+
+        public void fireTimer(Timer timer) {
+            KbdListener.this.logChannelInput.log(10000000, "KbdListener.VolumeLongPressTimer.fireTimer() direction=%1", (long)this.direction);
+            KbdListener.this.fireWheelButtonEvent(16, this.direction, 1, KeyMap.kbdID2termID(this.keyboardID));
+        }
     }
 }
 

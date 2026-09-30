@@ -29,20 +29,17 @@ extends AbstractAddressInputModelAccessNAR {
         this.tiledListModel = navigationEnv.getTiledListModel(n);
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "%1#onStart(%2)", (Object)this.CLASS_NAME, (Object)navLocation);
+            this.logChannel.log(100000000, "%1#onStart(%2)", (Object)this.CLASS_NAME, (Object)navLocation);
         }
         this.tiledListModel.removeAll();
     }
 
-    @Override
     public void onInputChanged() {
         this.tiledListModel.removeAll();
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         LIValueListElement[] lIValueListElementArray = Util.isListValid(lIValueList) ? lIValueList.getList() : new LIValueListElement[]{};
         this.tiledListModel.setLength((int)l);
@@ -57,21 +54,18 @@ extends AbstractAddressInputModelAccessNAR {
     protected AddressInputLIValueListElementListRow[] createUpdateArray(LIValueListElement[] lIValueListElementArray, String string) {
         AddressInputLIValueListElementListRow[] addressInputLIValueListElementListRowArray = new AddressInputLIValueListElementListRow[lIValueListElementArray.length];
         for (int i2 = 0; i2 < lIValueListElementArray.length; ++i2) {
-            addressInputLIValueListElementListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 160082217);
+            addressInputLIValueListElementListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 698976777);
         }
         return addressInputLIValueListElementListRowArray;
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
         this.modelAccessHelper.onUpdateLocation(this.env, this.logChannel, navLocation, map);
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
         LIValueListElement[] lIValueListElementArray = Util.isListValid(lIValueList) ? lIValueList.getList() : new LIValueListElement[]{};
         this.tiledListModel.setLength((int)l);
@@ -83,19 +77,15 @@ extends AbstractAddressInputModelAccessNAR {
         }
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
     }
 
-    @Override
     public void onRestore() {
     }
 }

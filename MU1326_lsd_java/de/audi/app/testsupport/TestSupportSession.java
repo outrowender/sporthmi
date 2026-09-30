@@ -25,32 +25,27 @@ implements ITestSupportSession {
         this.id = n;
     }
 
-    @Override
     public void activateMenuEntry(boolean bl) {
-        this.logChannel.log(1078071040, "[TestSupportSession#activateMenuEntry] providerID='%2', activate='%1'", bl, (long)this.id);
+        this.logChannel.log(1000000, "[TestSupportSession#activateMenuEntry] providerID='%2', activate='%1'", bl, (long)this.id);
         this.sessionHandler.activateMenuEntry(this, bl);
     }
 
-    @Override
     public void flashText(String string, long l) {
-        this.logChannel.log(1078071040, "[TestSupportSession#flashText] providerID='%1'", (long)this.id);
+        this.logChannel.log(1000000, "[TestSupportSession#flashText] providerID='%1'", (long)this.id);
         this.sessionHandler.flashText(string, l);
     }
 
-    @Override
     public void flashScreen() {
-        this.logChannel.log(1078071040, "[TestSupportSession#flashScreen] providerID='%1'", (long)this.id);
+        this.logChannel.log(1000000, "[TestSupportSession#flashScreen] providerID='%1'", (long)this.id);
         this.sessionHandler.flashScreen();
     }
 
-    @Override
     public void updateData(String[] stringArray) {
-        this.logChannel.log(1078071040, "[TestSupportSession#updateData] providerID='%1'", (long)this.id);
+        this.logChannel.log(1000000, "[TestSupportSession#updateData] providerID='%1'", (long)this.id);
         this.data = stringArray;
         this.sessionHandler.updateData(this);
     }
 
-    @Override
     public int getStatus() {
         return this.status;
     }
@@ -60,7 +55,7 @@ implements ITestSupportSession {
     }
 
     protected void setStatus(int n) {
-        this.logChannel.log(1078071040, "[TestSupportSession#setStatus] status for providerID='%1' set to '%2'", (long)this.id, (long)n);
+        this.logChannel.log(1000000, "[TestSupportSession#setStatus] status for providerID='%1' set to '%2'", (long)this.id, (long)n);
         this.status = n;
         this.provider.updateStatus(n);
     }

@@ -49,8 +49,7 @@ IDSIServiceStateListener {
         this.pwState = new PowerState();
     }
 
-    public abstract String getName() {
-    }
+    public abstract String getName();
 
     public IFrameworkAccess getFrameworkAccess() {
         return this.frameworkAccess;
@@ -85,7 +84,7 @@ IDSIServiceStateListener {
     }
 
     public void registerModule(AbstractBAPModule abstractBAPModule) {
-        this.logChannel.log(-2137614336, "[AbstractBAPApplication#registerModule] registering module %1", (Object)LSGIDs.getDescription(abstractBAPModule.getLSGID()));
+        this.logChannel.log(10000000, "[AbstractBAPApplication#registerModule] registering module %1", (Object)LSGIDs.getDescription(abstractBAPModule.getLSGID()));
         this.modules.put(new Integer(abstractBAPModule.getLSGID()), abstractBAPModule);
     }
 
@@ -125,9 +124,8 @@ IDSIServiceStateListener {
         this.dsiBAPListener = null;
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
-        this.logChannel.log(-2137614336, "[AbstractBAPApplication#notifyPowerListenerOnEnterState] pwrevt=%1, terminalID=%2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "[AbstractBAPApplication#notifyPowerListenerOnEnterState] pwrevt=%1, terminalID=%2", (long)n, (long)n2);
         if (n2 != 0) {
             return;
         }
@@ -140,14 +138,12 @@ IDSIServiceStateListener {
         }
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
-        this.logChannel.log(-2137614336, "[AbstractBAPApplication#notifyPowerListenerOnExitState] pwrevt=%1, terminalID=%2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "[AbstractBAPApplication#notifyPowerListenerOnExitState] pwrevt=%1, terminalID=%2", (long)n, (long)n2);
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
-        this.logChannel.log(-2137614336, "[AbstractBAPApplication#notifyPowerTriggerAction] trigger=%1, terminalID=%2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "[AbstractBAPApplication#notifyPowerTriggerAction] trigger=%1, terminalID=%2", (long)n, (long)n2);
         this.pwState.setPowerStateTrigger(n);
         if (n == 7 && n2 == 0) {
             Iterator iterator = this.modules.values().iterator();
@@ -161,11 +157,9 @@ IDSIServiceStateListener {
         return this.pwState;
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
     }
 
-    @Override
     public void notifyDSIAvailable(Class clazz, boolean bl) {
         if (clazz.equals(class$org$dsi$ifc$bap$DSIBAP == null ? (class$org$dsi$ifc$bap$DSIBAP = AbstractBAPApplication.class$("org.dsi.ifc.bap.DSIBAP")) : class$org$dsi$ifc$bap$DSIBAP) && bl) {
             Iterator iterator = this.modules.keySet().iterator();
@@ -182,7 +176,7 @@ IDSIServiceStateListener {
         if (abstractBAPModule != null) {
             abstractBAPModule.getInitializationManager().notifyBAPStackStateChanged(n2);
         } else {
-            this.logChannel.log(-2137614336, "[AbstractBAPApplication#processBAPStateStatus] no module found for lsgID: %1", (long)n);
+            this.logChannel.log(10000000, "[AbstractBAPApplication#processBAPStateStatus] no module found for lsgID: %1", (long)n);
         }
     }
 

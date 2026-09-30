@@ -13,7 +13,6 @@ extends AbstractPictureManager {
         super(iFrameworkAccess);
     }
 
-    @Override
     protected int getDefaultPictureImageID(int n) {
         int n2;
         switch (n) {

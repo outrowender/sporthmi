@@ -4,112 +4,93 @@
 package de.audi.atip.hmi;
 
 public interface KbdService {
-    public static final int RECOGNIZERMODE_OFF;
-    public static final int RECOGNIZERMODE_MIB2_VIRTUAL_KEYS;
-    public static final int RECOGNIZERMODE_MIB2_GESTURES;
-    public static final int RECOGNIZERMODE_MIB2_CHAR_RECOGNITION;
-    public static final int RECOGNIZERMODE_VW_NUMBER_FIRST;
-    public static final int RECOGNIZERMODE_VW_NUMBER_FIRST_TEL;
-    public static final int RECOGNIZERMODE_VW_NUMBER_FIRST_ZIP;
-    public static final int RECOGNIZERMODE_VW_NUMBER_FIRST_HOUSE_NUM;
-    public static final int RECOGNIZERMODE_VW_LETTER_FIRST;
-    public static final int RECOGNIZERMODE_VW_FREETEXT;
-    public static final int RECOGNIZER_LANGCODE_UNKNOWN;
-    public static final int RECOGNIZER_LANGCODE_LATIN_COMMON;
-    public static final int RECOGNIZER_LANGCODE_LATIN_EXTENDED;
-    public static final int RECOGNIZER_LANGCODE_CYRILLIC;
-    public static final int RECOGNIZER_LANGCODE_CYRILLIC_LATIN_COMMON;
-    public static final int RECOGNIZER_LANGCODE_CYRILLIC_LATIN_EXTENDED;
-    public static final int RECOGNIZER_LANGCODE_ARABIC;
-    public static final int RECOGNIZER_LANGCODE_ARABIC_LATIN_COMMON;
-    public static final int RECOGNIZER_LANGCODE_ARABIC_LATIN_EXTENDED;
-    public static final int RECOGNIZER_LANGCODE_CHINESE;
-    public static final int RECOGNIZER_LANGCODE_CHINESE_LATIN_COMMON;
-    public static final int RECOGNIZER_LANGCODE_CHINESE_LATIN_EXTENDED;
-    public static final int RECOGNIZER_LANGCODE_JAPANESE;
-    public static final int RECOGNIZER_LANGCODE_JAPANESE_LATIN_COMMON;
-    public static final int RECOGNIZER_LANGCODE_JAPANESE_LATIN_EXTENDED;
-    public static final int RECOGNIZER_LANGCODE_KOREAN;
-    public static final int RECOGNIZER_LANGCODE_KOREAN_LATIN_COMMON;
-    public static final int RECOGNIZER_LANGCODE_KOREAN_LATIN_EXTENDED;
-    public static final int RECOGNIZER_LANGCODE_TAIWANESE;
-    public static final int RECOGNIZER_LANGCODE_TAIWANESE_LATIN_COMMON;
-    public static final int RECOGNIZER_LANGCODE_TAIWANESE_LATIN_EXTENDED;
-    public static final int RECOGNIZER_LANGCODE_HONGKONG;
-    public static final int RECOGNIZER_LANGCODE_HONGKONG_LATIN_COMMON;
-    public static final int RECOGNIZER_LANGCODE_HONGKONG_LATIN_EXTENDED;
-    public static final int KBDTYPE_UNKONWN;
-    public static final int KBDTYPE_AU_LOW_TONE_CAR;
-    public static final int KBDTYPE_AU_LOW_NAV_TEL;
-    public static final int KBDTYPE_AU_LOW_PLUS_TONE_CAR;
-    public static final int KBDTYPE_AU_LOW_PLUS_NAV_TEL;
-    public static final int KBDTYPE_AU_TOUCHWHEEL;
-    public static final int KBDTYPE_AU_ALLINTOUCH;
-    public static final int KBDTYPE_AU_RS232;
-    public static final int KBDTYPE_AU_AB3;
-    public static final int KBDTYPE_VW_ABT_LOW;
-    public static final int KBDTYPE_VW_ABT_HIGH;
-    public static final int RECOGNIZER_TIMEOUT_ASIA_SHORT;
-    public static final int RECOGNIZER_TIMEOUT_ASIA_MEDIUM;
-    public static final int RECOGNIZER_TIMEOUT_ASIA_LONG;
-    public static final int GENERICSETTING_HOR_ACTIVE;
-    public static final int GENERICSETTING_TP_DRIVE_MODE;
+    public static final int RECOGNIZERMODE_OFF = 0;
+    public static final int RECOGNIZERMODE_MIB2_VIRTUAL_KEYS = 24;
+    public static final int RECOGNIZERMODE_MIB2_GESTURES = 25;
+    public static final int RECOGNIZERMODE_MIB2_CHAR_RECOGNITION = 26;
+    public static final int RECOGNIZERMODE_VW_NUMBER_FIRST = 19;
+    public static final int RECOGNIZERMODE_VW_NUMBER_FIRST_TEL = 20;
+    public static final int RECOGNIZERMODE_VW_NUMBER_FIRST_ZIP = 21;
+    public static final int RECOGNIZERMODE_VW_NUMBER_FIRST_HOUSE_NUM = 22;
+    public static final int RECOGNIZERMODE_VW_LETTER_FIRST = 23;
+    public static final int RECOGNIZERMODE_VW_FREETEXT = 12;
+    public static final int RECOGNIZER_LANGCODE_UNKNOWN = 0;
+    public static final int RECOGNIZER_LANGCODE_LATIN_COMMON = 1;
+    public static final int RECOGNIZER_LANGCODE_LATIN_EXTENDED = 2;
+    public static final int RECOGNIZER_LANGCODE_CYRILLIC = 3;
+    public static final int RECOGNIZER_LANGCODE_CYRILLIC_LATIN_COMMON = 4;
+    public static final int RECOGNIZER_LANGCODE_CYRILLIC_LATIN_EXTENDED = 5;
+    public static final int RECOGNIZER_LANGCODE_ARABIC = 6;
+    public static final int RECOGNIZER_LANGCODE_ARABIC_LATIN_COMMON = 7;
+    public static final int RECOGNIZER_LANGCODE_ARABIC_LATIN_EXTENDED = 8;
+    public static final int RECOGNIZER_LANGCODE_CHINESE = 9;
+    public static final int RECOGNIZER_LANGCODE_CHINESE_LATIN_COMMON = 10;
+    public static final int RECOGNIZER_LANGCODE_CHINESE_LATIN_EXTENDED = 11;
+    public static final int RECOGNIZER_LANGCODE_JAPANESE = 12;
+    public static final int RECOGNIZER_LANGCODE_JAPANESE_LATIN_COMMON = 13;
+    public static final int RECOGNIZER_LANGCODE_JAPANESE_LATIN_EXTENDED = 14;
+    public static final int RECOGNIZER_LANGCODE_KOREAN = 15;
+    public static final int RECOGNIZER_LANGCODE_KOREAN_LATIN_COMMON = 16;
+    public static final int RECOGNIZER_LANGCODE_KOREAN_LATIN_EXTENDED = 17;
+    public static final int RECOGNIZER_LANGCODE_TAIWANESE = 18;
+    public static final int RECOGNIZER_LANGCODE_TAIWANESE_LATIN_COMMON = 19;
+    public static final int RECOGNIZER_LANGCODE_TAIWANESE_LATIN_EXTENDED = 20;
+    public static final int RECOGNIZER_LANGCODE_HONGKONG = 21;
+    public static final int RECOGNIZER_LANGCODE_HONGKONG_LATIN_COMMON = 22;
+    public static final int RECOGNIZER_LANGCODE_HONGKONG_LATIN_EXTENDED = 23;
+    public static final int KBDTYPE_UNKONWN = 0;
+    public static final int KBDTYPE_AU_LOW_TONE_CAR = 1;
+    public static final int KBDTYPE_AU_LOW_NAV_TEL = 2;
+    public static final int KBDTYPE_AU_LOW_PLUS_TONE_CAR = 3;
+    public static final int KBDTYPE_AU_LOW_PLUS_NAV_TEL = 4;
+    public static final int KBDTYPE_AU_TOUCHWHEEL = 5;
+    public static final int KBDTYPE_AU_ALLINTOUCH = 6;
+    public static final int KBDTYPE_AU_RS232 = 14;
+    public static final int KBDTYPE_AU_AB3 = 15;
+    public static final int KBDTYPE_VW_ABT_LOW = 16;
+    public static final int KBDTYPE_VW_ABT_HIGH = 17;
+    public static final int RECOGNIZER_TIMEOUT_ASIA_SHORT = 500;
+    public static final int RECOGNIZER_TIMEOUT_ASIA_MEDIUM = 750;
+    public static final int RECOGNIZER_TIMEOUT_ASIA_LONG = 1000;
+    public static final int GENERICSETTING_HOR_ACTIVE = 192;
+    public static final int GENERICSETTING_TP_DRIVE_MODE = 249;
 
-    default public KbdService getKbdService() {
-    }
+    public KbdService getKbdService();
 
-    default public int getCurrentKeyboardType() {
-    }
+    public int getCurrentKeyboardType();
 
-    default public boolean isTouchKeypanel() {
-    }
+    public boolean isTouchKeypanel();
 
-    default public boolean isPanelWithJoystick() {
-    }
+    public boolean isPanelWithJoystick();
 
-    default public void synchronizeSettings(KbdService kbdService) {
-    }
+    public void synchronizeSettings(KbdService var1);
 
-    default public void setHKIlluminationExclusive(int n) {
-    }
+    public void setHKIlluminationExclusive(int var1);
 
-    default public void setHKIlluminationOff() {
-    }
+    public void setHKIlluminationOff();
 
-    default public void setAdditionHKIllumination(int n, boolean bl) {
-    }
+    public void setAdditionHKIllumination(int var1, boolean var2);
 
-    default public void setSKIlluminationExclusive(int n) {
-    }
+    public void setSKIlluminationExclusive(int var1);
 
-    default public void setSKIlluminationOff() {
-    }
+    public void setSKIlluminationOff();
 
-    default public boolean setRecognizerMode(int n) {
-    }
+    public boolean setRecognizerMode(int var1);
 
-    default public int getRecognizerMode() {
-    }
+    public int getRecognizerMode();
 
-    default public void setRecognizerLanguage(String string, int n) {
-    }
+    public void setRecognizerLanguage(String var1, int var2);
 
-    default public void setTouchSensitiveArea(int n, int n2, int n3, int n4) {
-    }
+    public void setTouchSensitiveArea(int var1, int var2, int var3, int var4);
 
-    default public void setIgnoreNextMutePressButtonFlag() {
-    }
+    public void setIgnoreNextMutePressButtonFlag();
 
-    default public void setRecognitionTimeoutAsia(int n) {
-    }
+    public void setRecognitionTimeoutAsia(int var1);
 
-    default public void setGenericSetting(int n, int n2) {
-    }
+    public void setGenericSetting(int var1, int var2);
 
-    default public int getGenericSettingPresetLayout() {
-    }
+    public int getGenericSettingPresetLayout();
 
-    default public void clearRecognizer() {
-    }
+    public void clearRecognizer();
 }
 

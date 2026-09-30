@@ -17,14 +17,12 @@ extends AbstractTVSource {
         super(iMediaTerminal, iSourceStateUpdater, 7, "TV", iSourceActivationCallbackHandler);
     }
 
-    @Override
     public int getExternalSourceType() {
         return 0;
     }
 
-    @Override
     protected MediaSourceSlot createSlot(int n, int n2) {
-        return new MediaSourceSlot(this, n, 0, 16, 0, 0, "", "", MediaFlags.EMPTY_FLAGS, MediaCapabilities.EMPTY_CAPABILITIES, n2, -1, "");
+        return new MediaSourceSlot(this, n, 0, 16, 99L, 99L, "", "", MediaFlags.EMPTY_FLAGS, MediaCapabilities.EMPTY_CAPABILITIES, n2, -1, "");
     }
 }
 

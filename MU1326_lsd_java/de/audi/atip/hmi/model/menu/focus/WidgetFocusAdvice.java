@@ -30,10 +30,9 @@ extends FocusAdvice {
         return this.topAligned;
     }
 
-    @Override
     public String toString() {
         String string = this.topAligned ? "top" : "bottom";
-        return new StringBuffer().append("WidgetFocusAdvice [").append(this.pixel).append(", ").append(string).append("]").toString();
+        return "WidgetFocusAdvice [" + this.pixel + ", " + string + "]";
     }
 }
 

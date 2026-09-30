@@ -4,13 +4,14 @@
 package de.audi.app.messaging.evo.readout;
 
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
 import de.audi.app.messaging.core.readout.EppMarkup;
 import de.audi.app.messaging.core.readout.IReadable;
 import de.audi.app.messaging.core.readout.IReadableProvider;
-import de.audi.app.messaging.core.readout.MessagingReadoutService$DialogState;
+import de.audi.app.messaging.core.readout.MessagingReadoutService;
 import de.audi.app.messaging.core.readout.Readable;
 import de.audi.app.messaging.core.readout.SsmlMarkup;
 import de.audi.app.messaging.core.readout.TemplateContainer;
@@ -21,11 +22,7 @@ import de.audi.app.messaging.core.util.MessageContacts;
 import de.audi.app.messaging.core.util.Messages;
 import de.audi.app.messaging.core.util.Strings;
 import de.audi.app.messaging.core.util.Times;
-import de.audi.app.messaging.evo.readout.EvoReadableProvider$1;
 import de.audi.app.messaging.evo.readout.EvoTemplateProperties;
-import de.audi.app.messaging.evo.readout.EvoTemplateProperties$Bool;
-import de.audi.app.messaging.evo.readout.EvoTemplateProperties$MessageStatus;
-import de.audi.app.messaging.evo.readout.EvoTemplateProperties$MessageType;
 import de.audi.atip.hmi.SDPromptTextAccess;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
@@ -34,16 +31,18 @@ import java.util.Map;
 import org.dsi.ifc.messaging.MatchedAddress;
 import org.dsi.ifc.messaging.MessageDetails;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public final class EvoReadableProvider
 extends AbstractMessagingComponent
 implements IReadableProvider {
-    private static final String VARIABLE_CONTACT;
-    private static final String VARIABLE_DATE;
-    private static final String VARIABLE_TIME;
-    private static final String VARIABLE_SUBJECT;
+    private static final String VARIABLE_CONTACT = "$<0>";
+    private static final String VARIABLE_DATE = "$<1>";
+    private static final String VARIABLE_TIME = "$<2>";
+    private static final String VARIABLE_SUBJECT = "$<3>";
     private volatile TemplateContainer regularTemplateContainer;
     private volatile TemplateContainer conciseTemplateContainer;
     private volatile TemplateContainer fallbackTemplateContainer;
@@ -55,7 +54,6 @@ implements IReadableProvider {
         this.setTemplateContainers();
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -66,20 +64,28 @@ implements IReadableProvider {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         String string = ServiceFilterBuilder.createFilterString("objectClass", (class$de$audi$atip$hmi$SDPromptTextAccess == null ? (class$de$audi$atip$hmi$SDPromptTextAccess = EvoReadableProvider.class$("de.audi.atip.hmi.SDPromptTextAccess")) : class$de$audi$atip$hmi$SDPromptTextAccess).getName());
         Filter filter = this.bundleContext.createFilter(string);
-        EvoReadableProvider$1 evoReadableProvider$1 = new EvoReadableProvider$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)evoReadableProvider$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                EvoReadableProvider.this.setSdPromptAccess((SDPromptTextAccess)object);
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                EvoReadableProvider.this.setSdPromptAccess(null);
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     private void setSdPromptAccess(SDPromptTextAccess sDPromptTextAccess) {
-        this.log.log(-2137614336, "[EvoReadableProvider#setSdPromptAccess] sdPromptTextAccess = %1.", (Object)sDPromptTextAccess);
+        this.log.log(10000000, "[EvoReadableProvider#setSdPromptAccess] sdPromptTextAccess = %1.", (Object)sDPromptTextAccess);
         this.sdPromptTextAccess = sDPromptTextAccess;
         this.setTemplateContainers();
     }
 
-    @Override
     public IReadable getReadable() {
         Readable readable = null;
         try {
@@ -95,7 +101,7 @@ implements IReadableProvider {
                     this.log.log(10000, "[EvoReadableProvider#getReadable] Nothing to read: headerSpeakTask = %1, bodySpeakTask = %2", (Object)string, (Object)string2);
                 } else {
                     if (string == null || string2 == null) {
-                        this.log.log(-1601830656, "[EvoReadableProvider#getReadable] Text is null: headerSpeakTask = %1, bodySpeakTask = %2", (Object)string, (Object)string2);
+                        this.log.log(100000, "[EvoReadableProvider#getReadable] Text is null: headerSpeakTask = %1, bodySpeakTask = %2", (Object)string, (Object)string2);
                     }
                     ArrayList arrayList = new ArrayList(2);
                     if (!Strings.isNullOrEmpty(string)) {
@@ -105,7 +111,7 @@ implements IReadableProvider {
                         arrayList.add(string2);
                     }
                     if (this.log.isInfo()) {
-                        this.log.log(1078071040, "[EvoReadableProvider#getReadable] headerSpeakTask = %1", (Object)String.valueOf(string));
+                        this.log.log(1000000, "[EvoReadableProvider#getReadable] headerSpeakTask = %1", (Object)String.valueOf(string));
                     }
                     readable = new Readable(arrayList);
                 }
@@ -170,87 +176,87 @@ implements IReadableProvider {
         object = SsmlMarkup.asDate(Times.formatDate(messageDetails.getDateTime()));
         string2 = SsmlMarkup.asTime(Times.formatTime(messageDetails.getDateTime()));
         string = SsmlMarkup.toTtsReadableText(messageDetails.getSubject());
-        hashMap.put("$<0>", string3);
-        hashMap.put("$<1>", object);
-        hashMap.put("$<2>", string2);
-        hashMap.put("$<3>", string);
+        hashMap.put(VARIABLE_CONTACT, string3);
+        hashMap.put(VARIABLE_DATE, object);
+        hashMap.put(VARIABLE_TIME, string2);
+        hashMap.put(VARIABLE_SUBJECT, string);
         return hashMap;
     }
 
     private String getHeaderTemplate(MessageDetails messageDetails) {
         String string = null;
         EvoTemplateProperties evoTemplateProperties = new EvoTemplateProperties(EvoReadableProvider.getMessageType(messageDetails), EvoReadableProvider.getMessageStatus(messageDetails), EvoReadableProvider.getHasContact(messageDetails), EvoReadableProvider.getHasTimestamp(messageDetails), EvoReadableProvider.getHasSubject(messageDetails));
-        MessagingReadoutService$DialogState messagingReadoutService$DialogState = this.msgApp.getMessagingReadoutService().getDialogState();
-        if (messagingReadoutService$DialogState.isActive()) {
-            this.log.log(1078071040, "[EvoReadableProvider#getHeaderTemplate] Using regular templates.");
+        MessagingReadoutService.DialogState dialogState = this.msgApp.getMessagingReadoutService().getDialogState();
+        if (dialogState.isActive()) {
+            this.log.log(1000000, "[EvoReadableProvider#getHeaderTemplate] Using regular templates.");
             String string2 = this.regularTemplateContainer.getTemplate(evoTemplateProperties);
             if (string2 == null) {
-                this.log.log(-1601830656, "[EvoReadableProvider#getHeaderTemplate] No template found, properties = %1, regularTemplateContainer = %2", (Object)evoTemplateProperties, (Object)this.regularTemplateContainer);
+                this.log.log(100000, "[EvoReadableProvider#getHeaderTemplate] No template found, properties = %1, regularTemplateContainer = %2", (Object)evoTemplateProperties, (Object)this.regularTemplateContainer);
             } else {
                 string = string2;
             }
         } else if (Messages.isEmail(messageDetails)) {
-            this.log.log(1078071040, "[EvoReadableProvider#getHeaderTemplate] Using concise templates.");
+            this.log.log(1000000, "[EvoReadableProvider#getHeaderTemplate] Using concise templates.");
             String string3 = this.conciseTemplateContainer.getTemplate(evoTemplateProperties);
             if (string3 == null) {
-                this.log.log(-1601830656, "[EvoReadableProvider#getHeaderTemplate] No template found, properties = %1, conciseTemplateContainer = %2", (Object)evoTemplateProperties, (Object)this.regularTemplateContainer);
+                this.log.log(100000, "[EvoReadableProvider#getHeaderTemplate] No template found, properties = %1, conciseTemplateContainer = %2", (Object)evoTemplateProperties, (Object)this.regularTemplateContainer);
             } else {
                 string = string3;
             }
         } else {
-            this.log.log(1078071040, "[EvoReadableProvider#getHeaderTemplate] Not using a template, header readout is to be skipped.");
+            this.log.log(1000000, "[EvoReadableProvider#getHeaderTemplate] Not using a template, header readout is to be skipped.");
             string = "";
         }
         if (string == null) {
-            this.log.log(-1601830656, "[EvoReadableProvider#getHeaderTemplate] No template found, using fallback templates.", (Object)evoTemplateProperties, (Object)this);
+            this.log.log(100000, "[EvoReadableProvider#getHeaderTemplate] No template found, using fallback templates.", (Object)evoTemplateProperties, (Object)this);
             string = this.fallbackTemplateContainer.getTemplate(evoTemplateProperties);
         }
         return string;
     }
 
-    private static EvoTemplateProperties$MessageType getMessageType(MessageDetails messageDetails) {
+    private static EvoTemplateProperties.MessageType getMessageType(MessageDetails messageDetails) {
         int n = messageDetails.getType();
-        EvoTemplateProperties$MessageType evoTemplateProperties$MessageType = n == 1 ? EvoTemplateProperties$MessageType.SMS : EvoTemplateProperties$MessageType.EMAIL;
-        return evoTemplateProperties$MessageType;
+        EvoTemplateProperties.MessageType messageType = n == 1 ? EvoTemplateProperties.MessageType.SMS : EvoTemplateProperties.MessageType.EMAIL;
+        return messageType;
     }
 
-    private static EvoTemplateProperties$MessageStatus getMessageStatus(MessageDetails messageDetails) {
-        EvoTemplateProperties$MessageStatus evoTemplateProperties$MessageStatus;
+    private static EvoTemplateProperties.MessageStatus getMessageStatus(MessageDetails messageDetails) {
+        EvoTemplateProperties.MessageStatus messageStatus;
         int n = messageDetails.getMessageStatus();
         switch (n) {
             case 6: 
             case 7: {
-                evoTemplateProperties$MessageStatus = EvoTemplateProperties$MessageStatus.SENT;
+                messageStatus = EvoTemplateProperties.MessageStatus.SENT;
                 break;
             }
             case 2: {
-                evoTemplateProperties$MessageStatus = EvoTemplateProperties$MessageStatus.DRAFT;
+                messageStatus = EvoTemplateProperties.MessageStatus.DRAFT;
                 break;
             }
             case 5: 
             case 8: {
-                evoTemplateProperties$MessageStatus = EvoTemplateProperties$MessageStatus.OUTBOX;
+                messageStatus = EvoTemplateProperties.MessageStatus.OUTBOX;
                 break;
             }
             default: {
-                evoTemplateProperties$MessageStatus = EvoTemplateProperties$MessageStatus.RECEIVED;
+                messageStatus = EvoTemplateProperties.MessageStatus.RECEIVED;
             }
         }
-        return evoTemplateProperties$MessageStatus;
+        return messageStatus;
     }
 
-    private static EvoTemplateProperties$Bool getHasContact(MessageDetails messageDetails) {
-        return MessageContacts.hasPrimaryContact(messageDetails) ? EvoTemplateProperties$Bool.TRUE : EvoTemplateProperties$Bool.FALSE;
+    private static EvoTemplateProperties.Bool getHasContact(MessageDetails messageDetails) {
+        return MessageContacts.hasPrimaryContact(messageDetails) ? EvoTemplateProperties.Bool.TRUE : EvoTemplateProperties.Bool.FALSE;
     }
 
-    private static EvoTemplateProperties$Bool getHasTimestamp(MessageDetails messageDetails) {
+    private static EvoTemplateProperties.Bool getHasTimestamp(MessageDetails messageDetails) {
         boolean bl = Times.isTimeStampValid(messageDetails.getDateTime());
-        return bl ? EvoTemplateProperties$Bool.TRUE : EvoTemplateProperties$Bool.FALSE;
+        return bl ? EvoTemplateProperties.Bool.TRUE : EvoTemplateProperties.Bool.FALSE;
     }
 
-    private static EvoTemplateProperties$Bool getHasSubject(MessageDetails messageDetails) {
+    private static EvoTemplateProperties.Bool getHasSubject(MessageDetails messageDetails) {
         boolean bl = !Strings.isNullOrEmpty(messageDetails.getSubject());
-        return bl ? EvoTemplateProperties$Bool.TRUE : EvoTemplateProperties$Bool.FALSE;
+        return bl ? EvoTemplateProperties.Bool.TRUE : EvoTemplateProperties.Bool.FALSE;
     }
 
     private void setTemplateContainers() {
@@ -265,76 +271,76 @@ implements IReadableProvider {
         if (sDPromptTextAccess != null) {
             EvoTemplateProperties evoTemplateProperties = null;
             String string = null;
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.RECEIVED, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.RECEIVED, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3095);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.RECEIVED, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.RECEIVED, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3096);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.SENT, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.SENT, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3099);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.SENT, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.SENT, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3100);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.DRAFT, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.DRAFT, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3103);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.DRAFT, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.DRAFT, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3104);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.OUTBOX, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.OUTBOX, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3107);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.OUTBOX, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.OUTBOX, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3108);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.RECEIVED, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.RECEIVED, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3062);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.RECEIVED, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.RECEIVED, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3065);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.RECEIVED, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.RECEIVED, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3066);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.RECEIVED, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.RECEIVED, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3069);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.SENT, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.SENT, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3070);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.SENT, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.SENT, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3073);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.SENT, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.SENT, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3074);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.SENT, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.SENT, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3077);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.DRAFT, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.DRAFT, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3079);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.DRAFT, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.DRAFT, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3080);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.DRAFT, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.DRAFT, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3082);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.DRAFT, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.DRAFT, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3085);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.OUTBOX, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.OUTBOX, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3087);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.OUTBOX, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.OUTBOX, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3088);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.OUTBOX, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.OUTBOX, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3093);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.OUTBOX, EvoTemplateProperties$Bool.TRUE, EvoTemplateProperties$Bool.FALSE, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.OUTBOX, EvoTemplateProperties.Bool.TRUE, EvoTemplateProperties.Bool.FALSE, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3093);
             templateContainer.put(evoTemplateProperties, string);
         }
@@ -346,40 +352,40 @@ implements IReadableProvider {
         if (sDPromptTextAccess != null) {
             EvoTemplateProperties evoTemplateProperties = null;
             String string = null;
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.RECEIVED, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.RECEIVED, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3096);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.SENT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.SENT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3100);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.DRAFT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.DRAFT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3104);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.OUTBOX, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.OUTBOX, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3108);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.RECEIVED, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.RECEIVED, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3066);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.RECEIVED, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.RECEIVED, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3069);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.SENT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.SENT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3074);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.SENT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.SENT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3077);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.DRAFT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.DRAFT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3082);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.DRAFT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.DRAFT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3085);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.OUTBOX, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.TRUE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.OUTBOX, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.TRUE);
             string = sDPromptTextAccess.getSDPromptText(3093);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.OUTBOX, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.FALSE);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.OUTBOX, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.FALSE);
             string = sDPromptTextAccess.getSDPromptText(3093);
             templateContainer.put(evoTemplateProperties, string);
         }
@@ -391,10 +397,10 @@ implements IReadableProvider {
         if (sDPromptTextAccess != null) {
             EvoTemplateProperties evoTemplateProperties = null;
             String string = null;
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.SMS, EvoTemplateProperties$MessageStatus.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.SMS, EvoTemplateProperties.MessageStatus.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3095);
             templateContainer.put(evoTemplateProperties, string);
-            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties$MessageType.EMAIL, EvoTemplateProperties$MessageStatus.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT, EvoTemplateProperties$Bool.IRRELEVANT);
+            evoTemplateProperties = new EvoTemplateProperties(EvoTemplateProperties.MessageType.EMAIL, EvoTemplateProperties.MessageStatus.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT, EvoTemplateProperties.Bool.IRRELEVANT);
             string = sDPromptTextAccess.getSDPromptText(3062);
             templateContainer.put(evoTemplateProperties, string);
         }
@@ -420,10 +426,6 @@ implements IReadableProvider {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ void access$000(EvoReadableProvider evoReadableProvider, SDPromptTextAccess sDPromptTextAccess) {
-        evoReadableProvider.setSdPromptAccess(sDPromptTextAccess);
     }
 }
 

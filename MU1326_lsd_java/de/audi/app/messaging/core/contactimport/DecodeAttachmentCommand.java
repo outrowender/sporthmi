@@ -5,7 +5,6 @@ package de.audi.app.messaging.core.contactimport;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.commands.ICommandCallback;
-import de.audi.app.messaging.core.contactimport.DecodeAttachmentCommand$Result;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.messaging.AttachmentInformation;
@@ -20,10 +19,9 @@ extends AbstractDsiMessagingCommand {
         this.attachmentInformation = attachmentInformation;
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[DecodeAttachmentCommand#execute]");
+            this.logger.log(10000000, "[DecodeAttachmentCommand#execute]");
             this.dsiMessagingAccess.decodeAttachmentRequest(this.attachmentInformation);
         }
         catch (Exception exception) {
@@ -32,12 +30,29 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void decodeAttachmentResponse(int n, ResourceLocator resourceLocator) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "[DecodeAttachmentCommand#decodeAttachmentResponse] result = %1, resourceLocator = %2", (Object)String.valueOf(n), (Object)String.valueOf(resourceLocator));
+            this.logger.log(10000000, "[DecodeAttachmentCommand#decodeAttachmentResponse] result = %1, resourceLocator = %2", (Object)String.valueOf(n), (Object)String.valueOf(resourceLocator));
         }
-        this.setResult(new DecodeAttachmentCommand$Result(this, n, resourceLocator, null));
+        this.setResult(new Result(n, resourceLocator));
+    }
+
+    public final class Result {
+        private final int resultCode;
+        private final ResourceLocator resourceLocator;
+
+        private Result(int n, ResourceLocator resourceLocator) {
+            this.resultCode = n;
+            this.resourceLocator = resourceLocator;
+        }
+
+        public int getResultCode() {
+            return this.resultCode;
+        }
+
+        public ResourceLocator getResourceLocator() {
+            return this.resourceLocator;
+        }
     }
 }
 

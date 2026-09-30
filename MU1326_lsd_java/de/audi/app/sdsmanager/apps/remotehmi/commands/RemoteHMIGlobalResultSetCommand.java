@@ -20,10 +20,9 @@ extends AbstractSystemCallCommand {
         this.onlineService = onlineService;
     }
 
-    @Override
     public void execute() {
         long l = this.nBestHandler.getSlotObjID(0, 0);
-        this.logger.log(-2137614336, "%1#execute: topSlotObjID=%2!", (Object)this.getName(), l);
+        this.logger.log(10000000, "%1#execute: topSlotObjID=%2!", (Object)this.getName(), l);
         this.onlineService.setRemoteHMIGlobalRecognizedID((int)l);
         this.sendResult(3000);
     }

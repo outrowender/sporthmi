@@ -4,33 +4,26 @@
 package de.audi.app.media.sdis;
 
 import de.audi.atip.sdis.IHMISyncMediaReplies;
-import de.audi.atip.sdis.IHMISyncMediaRequests$ListEntry;
-import de.audi.atip.sdis.IHMISyncMediaRequests$Source;
+import de.audi.atip.sdis.IHMISyncMediaRequests;
 
 public class NullHMISyncMediaReplies
 implements IHMISyncMediaReplies {
-    @Override
     public void updatePlaybackState(int n) {
     }
 
-    @Override
-    public void updateSourceList(IHMISyncMediaRequests$Source[] iHMISyncMediaRequests$SourceArray) {
+    public void updateSourceList(IHMISyncMediaRequests.Source[] sourceArray) {
     }
 
-    @Override
-    public void updateActiveSource(IHMISyncMediaRequests$Source iHMISyncMediaRequests$Source) {
+    public void updateActiveSource(IHMISyncMediaRequests.Source source) {
     }
 
-    @Override
     public void updatePlayingPosition(long l, String string, String string2, int n) {
     }
 
-    @Override
-    public void updatePlayingTrack(IHMISyncMediaRequests$ListEntry iHMISyncMediaRequests$ListEntry) {
+    public void updatePlayingTrack(IHMISyncMediaRequests.ListEntry listEntry) {
     }
 
-    @Override
-    public void updatePlayList(IHMISyncMediaRequests$ListEntry[] iHMISyncMediaRequests$ListEntryArray) {
+    public void updatePlayList(IHMISyncMediaRequests.ListEntry[] listEntryArray) {
     }
 }
 

@@ -20,17 +20,15 @@ implements IActionProxyDispatcher {
         this.listeners = new HashMap();
     }
 
-    @Override
     public void init() {
-        this.logChannel.log(-2137614336, "[ActionProxyDispatcher#init] called");
+        this.logChannel.log(10000000, "[ActionProxyDispatcher#init] called");
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.logChannel.log(-2137614336, "[ActionProxyDispatcher#deinit] called");
+        this.logChannel.log(10000000, "[ActionProxyDispatcher#deinit] called");
         Map map = this.listeners;
         synchronized (map) {
             this.listeners.clear();
@@ -40,9 +38,8 @@ implements IActionProxyDispatcher {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addActionProxyListener(int n, IActionProxyListener iActionProxyListener) {
-        this.logChannel.log(-2137614336, "[ActionProxyDispatcher#addActionProxyListener] methodID='%1', listener='%2'", (Object)Integer.toString(n), (Object)iActionProxyListener);
+        this.logChannel.log(10000000, "[ActionProxyDispatcher#addActionProxyListener] methodID='%1', listener='%2'", (Object)Integer.toString(n), (Object)iActionProxyListener);
         Map map = this.listeners;
         synchronized (map) {
             LinkedList linkedList = (LinkedList)this.listeners.get(new Integer(n));
@@ -51,7 +48,7 @@ implements IActionProxyDispatcher {
                 this.listeners.put(new Integer(n), linkedList);
             }
             if (linkedList.contains(iActionProxyListener)) {
-                this.logChannel.log(-2137614336, "[ActionProxyDispatcher#addActionProxyListener] Listener is already added.");
+                this.logChannel.log(10000000, "[ActionProxyDispatcher#addActionProxyListener] Listener is already added.");
                 return;
             }
             linkedList.add(iActionProxyListener);
@@ -61,9 +58,8 @@ implements IActionProxyDispatcher {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeActionProxyListener(int n, IActionProxyListener iActionProxyListener) {
-        this.logChannel.log(-2137614336, "[ActionProxyDispatcher#removeActionProxyListener] called for method '%1', listener='%2'", (Object)Integer.toString(n), (Object)iActionProxyListener);
+        this.logChannel.log(10000000, "[ActionProxyDispatcher#removeActionProxyListener] called for method '%1', listener='%2'", (Object)Integer.toString(n), (Object)iActionProxyListener);
         Map map = this.listeners;
         synchronized (map) {
             LinkedList linkedList = (LinkedList)this.listeners.get(new Integer(n));
@@ -74,7 +70,6 @@ implements IActionProxyDispatcher {
         }
     }
 
-    @Override
     public void notifyActionProxyCall(int n) {
         this.notifyActionProxyCall(n, null);
     }
@@ -82,10 +77,9 @@ implements IActionProxyDispatcher {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyActionProxyCall(int n, Map map) {
         LinkedList linkedList;
-        this.logChannel.log(-2137614336, "[ActionProxyDispatcher#notifyActionProxyCall] methodID='%1', parameters='%2'", (Object)Integer.toString(n), (Object)map);
+        this.logChannel.log(10000000, "[ActionProxyDispatcher#notifyActionProxyCall] methodID='%1', parameters='%2'", (Object)Integer.toString(n), (Object)map);
         Object object = this.listeners;
         synchronized (object) {
             LinkedList linkedList2 = (LinkedList)this.listeners.get(new Integer(n));
@@ -100,12 +94,11 @@ implements IActionProxyDispatcher {
                 ((IActionProxyListener)object.next()).actionProxyCallPerformed(n, map);
             }
             catch (Exception exception) {
-                this.logChannel.log(-1601830656, "[ActionProxyDispatcher#notifyActionProxyCall] exception occured: ", (Throwable)exception);
+                this.logChannel.log(100000, "[ActionProxyDispatcher#notifyActionProxyCall] exception occured: ", (Throwable)exception);
             }
         }
     }
 
-    @Override
     public LogChannel getAPLogChannel() {
         return this.logChannel;
     }

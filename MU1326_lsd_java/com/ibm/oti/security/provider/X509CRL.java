@@ -5,18 +5,17 @@ package com.ibm.oti.security.provider;
 
 import com.ibm.oti.security.provider.ASN1OID;
 import com.ibm.oti.security.provider.X500Principal;
-import com.ibm.oti.security.provider.X509CRL$1;
 import com.ibm.oti.security.provider.X509CRLEntry;
 import com.ibm.oti.security.provider.X509Certificate;
 import com.ibm.oti.security.provider.X509Extension;
 import com.ibm.oti.util.ASN1Decoder;
-import com.ibm.oti.util.ASN1Decoder$BitString;
-import com.ibm.oti.util.ASN1Decoder$Node;
 import com.ibm.oti.util.ASN1Encoder;
 import com.ibm.oti.util.ASN1Exception;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.Principal;
 import java.security.PublicKey;
 import java.security.Signature;
@@ -34,7 +33,7 @@ public class X509CRL
 extends java.security.cert.X509CRL {
     private byte[] encoded;
     private int originalOffsetIntoRawBytes;
-    private ASN1Decoder$Node tbsNode;
+    private ASN1Decoder.Node tbsNode;
     private int version;
     private String sigAlgOID;
     private byte[] sigAlgParams;
@@ -51,22 +50,18 @@ extends java.security.cert.X509CRL {
     protected X509CRL() {
     }
 
-    @Override
-    public byte[] getEncoded() {
+    public byte[] getEncoded() throws CRLException {
         return this.encoded;
     }
 
-    @Override
     public Principal getIssuerDN() {
         return this.issuer;
     }
 
-    @Override
     public Date getNextUpdate() {
         return this.nextUpdate;
     }
 
-    @Override
     public java.security.cert.X509CRLEntry getRevokedCertificate(BigInteger bigInteger) {
         if (this.revokedCertificates == null) {
             return null;
@@ -74,7 +69,6 @@ extends java.security.cert.X509CRL {
         return (java.security.cert.X509CRLEntry)this.revokedCertificates.get(bigInteger);
     }
 
-    @Override
     public Set getRevokedCertificates() {
         if (this.revokedCertificates == null) {
             return null;
@@ -87,45 +81,37 @@ extends java.security.cert.X509CRL {
         return hashSet;
     }
 
-    @Override
     public String getSigAlgName() {
         return this.signatureName;
     }
 
-    @Override
     public String getSigAlgOID() {
         return this.sigAlgOID;
     }
 
-    @Override
     public byte[] getSigAlgParams() {
         return this.sigAlgParams;
     }
 
-    @Override
     public byte[] getSignature() {
         return this.rawSignature;
     }
 
-    @Override
-    public byte[] getTBSCertList() {
+    public byte[] getTBSCertList() throws CRLException {
         byte[] byArray = new byte[this.tbsNode.endPosition - this.tbsNode.startPosition + 1];
         System.arraycopy((Object)this.encoded, this.tbsNode.startPosition - this.originalOffsetIntoRawBytes, (Object)byArray, 0, byArray.length);
         return byArray;
     }
 
-    @Override
     public Date getThisUpdate() {
         return this.thisUpdate;
     }
 
-    @Override
     public int getVersion() {
         return this.version;
     }
 
-    @Override
-    public void verify(PublicKey publicKey) {
+    public void verify(PublicKey publicKey) throws CRLException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
         if (this.signatureProviderName != null) {
             this.verify(publicKey, this.signatureProviderName);
         } else {
@@ -137,8 +123,7 @@ extends java.security.cert.X509CRL {
         }
     }
 
-    @Override
-    public void verify(PublicKey publicKey, String string) {
+    public void verify(PublicKey publicKey, String string) throws CRLException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
         if (this.signatureName == null) {
             throw new NoSuchAlgorithmException(this.sigAlgOID);
         }
@@ -146,7 +131,7 @@ extends java.security.cert.X509CRL {
         this.verify(publicKey, signature);
     }
 
-    private void verify(PublicKey publicKey, Signature signature) {
+    private void verify(PublicKey publicKey, Signature signature) throws CRLException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
         signature.initVerify(publicKey);
         signature.update(this.getTBSCertList());
         boolean bl = signature.verify(this.getSignature());
@@ -155,7 +140,6 @@ extends java.security.cert.X509CRL {
         }
     }
 
-    @Override
     public boolean isRevoked(Certificate certificate) {
         try {
             java.security.cert.X509Certificate x509Certificate = (java.security.cert.X509Certificate)certificate;
@@ -167,7 +151,6 @@ extends java.security.cert.X509CRL {
         }
     }
 
-    @Override
     public boolean hasUnsupportedCriticalExtension() {
         Set set = this.getCriticalExtensionOIDs();
         if (set == null) {
@@ -198,17 +181,14 @@ extends java.security.cert.X509CRL {
         return hashSet;
     }
 
-    @Override
     public Set getCriticalExtensionOIDs() {
         return this.getExtensionOIDs(true);
     }
 
-    @Override
     public Set getNonCriticalExtensionOIDs() {
         return this.getExtensionOIDs(false);
     }
 
-    @Override
     public byte[] getExtensionValue(String string) {
         if (this.extensions == null) {
             return null;
@@ -221,13 +201,12 @@ extends java.security.cert.X509CRL {
         if (byArray == null) {
             byArray = new byte[]{};
         }
-        ASN1Decoder$Node aSN1Decoder$Node = new ASN1Decoder$Node();
-        aSN1Decoder$Node.type = 4;
-        aSN1Decoder$Node.data = x509Extension.value();
-        return ASN1Encoder.encodeNode(aSN1Decoder$Node);
+        ASN1Decoder.Node node = new ASN1Decoder.Node();
+        node.type = 4;
+        node.data = x509Extension.value();
+        return ASN1Encoder.encodeNode(node);
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("X.509 CRL v");
@@ -244,68 +223,76 @@ extends java.security.cert.X509CRL {
 
     public static ASN1Decoder CRLDecoder(InputStream inputStream) {
         ASN1Decoder aSN1Decoder = new ASN1Decoder(inputStream);
-        X509CRL$1 x509CRL$1 = new X509CRL$1();
-        aSN1Decoder.configureTypeRedirection(2, x509CRL$1);
+        ASN1Decoder.TypeMapper typeMapper = new ASN1Decoder.TypeMapper(){
+
+            public int map(int n, int n2, int n3) {
+                if (n == 0) {
+                    return 16;
+                }
+                return n;
+            }
+        };
+        aSN1Decoder.configureTypeRedirection(2, typeMapper);
         return aSN1Decoder;
     }
 
-    private void configureRevokedCertificates(ASN1Decoder$Node aSN1Decoder$Node, byte[] byArray) {
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node.data;
+    private void configureRevokedCertificates(ASN1Decoder.Node node, byte[] byArray) throws CRLException {
+        ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])node.data;
         this.revokedCertificates = new Hashtable();
         int n = 0;
-        while (n < aSN1Decoder$NodeArray.length) {
-            ASN1Decoder$Node aSN1Decoder$Node2 = aSN1Decoder$NodeArray[n];
-            X509CRLEntry x509CRLEntry = X509CRLEntry.X509CRLEntryFromASN1Object(aSN1Decoder$Node2, byArray);
+        while (n < nodeArray.length) {
+            ASN1Decoder.Node node2 = nodeArray[n];
+            X509CRLEntry x509CRLEntry = X509CRLEntry.X509CRLEntryFromASN1Object(node2, byArray);
             this.revokedCertificates.put(x509CRLEntry.getSerialNumber(), x509CRLEntry);
             ++n;
         }
     }
 
-    private void configureExtensions(ASN1Decoder$Node aSN1Decoder$Node) {
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node.data;
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray2 = (ASN1Decoder$Node[])aSN1Decoder$NodeArray[0].data;
+    private void configureExtensions(ASN1Decoder.Node node) {
+        ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])node.data;
+        ASN1Decoder.Node[] nodeArray2 = (ASN1Decoder.Node[])nodeArray[0].data;
         this.extensions = new Hashtable();
         int n = 0;
-        while (n < aSN1Decoder$NodeArray2.length) {
-            ASN1Decoder$Node aSN1Decoder$Node2 = aSN1Decoder$NodeArray2[n];
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray3 = (ASN1Decoder$Node[])aSN1Decoder$Node2.data;
+        while (n < nodeArray2.length) {
+            ASN1Decoder.Node node2 = nodeArray2[n];
+            ASN1Decoder.Node[] nodeArray3 = (ASN1Decoder.Node[])node2.data;
             boolean bl = false;
-            if (aSN1Decoder$NodeArray3.length > 2) {
-                bl = (Boolean)aSN1Decoder$NodeArray3[1].data;
+            if (nodeArray3.length > 2) {
+                bl = (Boolean)nodeArray3[1].data;
             }
-            ASN1OID aSN1OID = new ASN1OID((int[])aSN1Decoder$NodeArray3[0].data);
-            byte[] byArray = (byte[])aSN1Decoder$NodeArray3[aSN1Decoder$NodeArray3.length - 1].data;
+            ASN1OID aSN1OID = new ASN1OID((int[])nodeArray3[0].data);
+            byte[] byArray = (byte[])nodeArray3[nodeArray3.length - 1].data;
             X509Extension x509Extension = new X509Extension(aSN1OID, byArray, bl);
             this.extensions.put(x509Extension.name(), x509Extension);
             ++n;
         }
     }
 
-    private void configureSignature(ASN1Decoder$Node[] aSN1Decoder$NodeArray) {
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray2 = (ASN1Decoder$Node[])aSN1Decoder$NodeArray[1].data;
-        ASN1Decoder$BitString aSN1Decoder$BitString = (ASN1Decoder$BitString)aSN1Decoder$NodeArray[2].data;
-        this.rawSignature = aSN1Decoder$BitString.data;
-        this.sigAlgOID = ASN1OID.OIDToString((int[])aSN1Decoder$NodeArray2[0].data);
+    private void configureSignature(ASN1Decoder.Node[] nodeArray) {
+        ASN1Decoder.Node[] nodeArray2 = (ASN1Decoder.Node[])nodeArray[1].data;
+        ASN1Decoder.BitString bitString = (ASN1Decoder.BitString)nodeArray[2].data;
+        this.rawSignature = bitString.data;
+        this.sigAlgOID = ASN1OID.OIDToString((int[])nodeArray2[0].data);
         String[] stringArray = new String[1];
         this.signatureName = X509Certificate.getAlias("Alg.Alias.Signature.", this.sigAlgOID, stringArray);
         this.signatureProviderName = stringArray[0];
-        if (aSN1Decoder$NodeArray2.length > 1) {
-            ASN1Decoder$Node aSN1Decoder$Node = aSN1Decoder$NodeArray2[1];
-            if (aSN1Decoder$Node.type != 5) {
-                this.sigAlgParams = new byte[aSN1Decoder$Node.endPosition - aSN1Decoder$Node.startPosition + 1];
-                System.arraycopy((Object)this.encoded, aSN1Decoder$Node.startPosition - this.originalOffsetIntoRawBytes, (Object)this.sigAlgParams, 0, this.sigAlgParams.length);
+        if (nodeArray2.length > 1) {
+            ASN1Decoder.Node node = nodeArray2[1];
+            if (node.type != 5) {
+                this.sigAlgParams = new byte[node.endPosition - node.startPosition + 1];
+                System.arraycopy((Object)this.encoded, node.startPosition - this.originalOffsetIntoRawBytes, (Object)this.sigAlgParams, 0, this.sigAlgParams.length);
             }
         }
     }
 
-    static CRL CRLFromASN1Object(ASN1Decoder$Node aSN1Decoder$Node, byte[] byArray) {
+    static CRL CRLFromASN1Object(ASN1Decoder.Node node, byte[] byArray) throws CRLException {
         try {
             int n;
             Object object;
             X509CRL x509CRL = new X509CRL();
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node.data;
-            int n2 = aSN1Decoder$Node.startPosition;
-            int n3 = aSN1Decoder$Node.endPosition;
+            ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])node.data;
+            int n2 = node.startPosition;
+            int n3 = node.endPosition;
             if (n2 == 0 && n3 == byArray.length - 1) {
                 x509CRL.encoded = byArray;
             } else {
@@ -313,45 +300,45 @@ extends java.security.cert.X509CRL {
                 System.arraycopy((Object)byArray, n2, (Object)x509CRL.encoded, 0, x509CRL.encoded.length);
             }
             x509CRL.originalOffsetIntoRawBytes = n2;
-            x509CRL.configureSignature(aSN1Decoder$NodeArray);
-            ASN1Decoder$Node aSN1Decoder$Node2 = aSN1Decoder$NodeArray[0];
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray2 = (ASN1Decoder$Node[])aSN1Decoder$Node2.data;
-            x509CRL.tbsNode = aSN1Decoder$Node2;
-            if (aSN1Decoder$NodeArray2[0].type == 2) {
-                object = (BigInteger)aSN1Decoder$NodeArray2[0].data;
+            x509CRL.configureSignature(nodeArray);
+            ASN1Decoder.Node node2 = nodeArray[0];
+            ASN1Decoder.Node[] nodeArray2 = (ASN1Decoder.Node[])node2.data;
+            x509CRL.tbsNode = node2;
+            if (nodeArray2[0].type == 2) {
+                object = (BigInteger)nodeArray2[0].data;
                 x509CRL.version = ((BigInteger)object).intValue() + 1;
                 n = 0;
             } else {
                 x509CRL.version = 2;
                 n = -1;
             }
-            x509CRL.issuer = object = new X500Principal(aSN1Decoder$NodeArray2[n + 2]);
-            ASN1Decoder$Node aSN1Decoder$Node3 = aSN1Decoder$NodeArray2[n + 3];
-            x509CRL.thisUpdate = (Date)aSN1Decoder$Node3.data;
-            if (aSN1Decoder$NodeArray2.length <= n + 4) {
+            x509CRL.issuer = object = new X500Principal(nodeArray2[n + 2]);
+            ASN1Decoder.Node node3 = nodeArray2[n + 3];
+            x509CRL.thisUpdate = (Date)node3.data;
+            if (nodeArray2.length <= n + 4) {
                 return x509CRL;
             }
-            aSN1Decoder$Node3 = aSN1Decoder$NodeArray2[n + 4];
-            if (aSN1Decoder$Node3.type == 23 || aSN1Decoder$Node3.type == 24) {
-                x509CRL.nextUpdate = (Date)aSN1Decoder$Node3.data;
+            node3 = nodeArray2[n + 4];
+            if (node3.type == 23 || node3.type == 24) {
+                x509CRL.nextUpdate = (Date)node3.data;
             } else {
                 --n;
             }
-            if (aSN1Decoder$NodeArray2.length <= n + 5) {
+            if (nodeArray2.length <= n + 5) {
                 return x509CRL;
             }
-            ASN1Decoder$Node aSN1Decoder$Node4 = aSN1Decoder$NodeArray2[n + 5];
-            if (aSN1Decoder$Node4.originalType == 16) {
-                x509CRL.configureRevokedCertificates(aSN1Decoder$Node4, byArray);
+            ASN1Decoder.Node node4 = nodeArray2[n + 5];
+            if (node4.originalType == 16) {
+                x509CRL.configureRevokedCertificates(node4, byArray);
             } else {
                 --n;
             }
-            if (aSN1Decoder$NodeArray2.length <= n + 6) {
+            if (nodeArray2.length <= n + 6) {
                 return x509CRL;
             }
-            ASN1Decoder$Node aSN1Decoder$Node5 = aSN1Decoder$NodeArray2[n + 6];
-            if (aSN1Decoder$Node5.originalType == 0) {
-                x509CRL.configureExtensions(aSN1Decoder$Node5);
+            ASN1Decoder.Node node5 = nodeArray2[n + 6];
+            if (node5.originalType == 0) {
+                x509CRL.configureExtensions(node5);
             }
             return x509CRL;
         }
@@ -360,12 +347,12 @@ extends java.security.cert.X509CRL {
         }
     }
 
-    static CRL CRLFromASN1Object(InputStream inputStream) {
+    static CRL CRLFromASN1Object(InputStream inputStream) throws CRLException {
         try {
             ASN1Decoder aSN1Decoder = X509CRL.CRLDecoder(inputStream);
             aSN1Decoder.collectBytes(true);
-            ASN1Decoder$Node aSN1Decoder$Node = aSN1Decoder.readContents();
-            X509CRL x509CRL = (X509CRL)X509CRL.CRLFromASN1Object(aSN1Decoder$Node, aSN1Decoder.collectedBytes());
+            ASN1Decoder.Node node = aSN1Decoder.readContents();
+            X509CRL x509CRL = (X509CRL)X509CRL.CRLFromASN1Object(node, aSN1Decoder.collectedBytes());
             return x509CRL;
         }
         catch (ASN1Exception aSN1Exception) {
@@ -376,7 +363,6 @@ extends java.security.cert.X509CRL {
         }
     }
 
-    @Override
     public javax.security.auth.x500.X500Principal getIssuerX500Principal() {
         return new javax.security.auth.x500.X500Principal(this.issuer.getName());
     }

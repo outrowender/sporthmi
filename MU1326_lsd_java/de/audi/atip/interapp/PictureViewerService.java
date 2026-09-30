@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface PictureViewerService {
-    default public void slideshowLeft() {
-    }
+    public void slideshowLeft();
 }
 

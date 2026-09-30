@@ -4,68 +4,53 @@
 package de.audi.remotehmi.media;
 
 public interface IOnlineMediaSession {
-    public static final String STATE_NOT_READY;
-    public static final String STATE_READY;
-    public static final String STATE_PLAYING;
-    public static final String STATE_PAUSED;
-    public static final String STATE_CLOSED;
-    public static final String STATE_SEEK;
-    public static final String STATE_ERROR;
-    public static final String STATE_EOF;
-    public static final String STATE_BUFFER_UNDERRUN;
-    public static final String BUFFER_FILLED;
-    public static final String BUFFER_UNDEFINED;
-    public static final String BUFFER_UNDERRUN;
-    public static final String STATE_METADATA_CHANGED;
-    public static final String BUFFER_FILLED_CHANGED;
-    public static final String EVENT_SHUFFLE_CHANGED;
-    public static final String EVENT_REPEAT_CHANGED;
-    public static final String EVENT_SESSION_UPDATE;
-    public static final String EVENT_SKIP;
+    public static final String STATE_NOT_READY = "MEDIA_NOT_READY";
+    public static final String STATE_READY = "MEDIA_READY";
+    public static final String STATE_PLAYING = "MEDIA_PLAYING";
+    public static final String STATE_PAUSED = "MEDIA_PAUSED";
+    public static final String STATE_CLOSED = "MEDIA_CLOSED";
+    public static final String STATE_SEEK = "MEDIA_SEEKING";
+    public static final String STATE_ERROR = "MEDIA_ERROR";
+    public static final String STATE_EOF = "MEDIA_EOF";
+    public static final String STATE_BUFFER_UNDERRUN = "MEDIA_BUFFER_UNDERRUN";
+    public static final String BUFFER_FILLED = "MEDIA_BUFFER_FILLED";
+    public static final String BUFFER_UNDEFINED = "MEDIA_BUFFER_UNDEFINED";
+    public static final String BUFFER_UNDERRUN = "MEDIA_BUFFER_UNDERRUN";
+    public static final String STATE_METADATA_CHANGED = "MEDIA_METADATA_CHANGED";
+    public static final String BUFFER_FILLED_CHANGED = "MEDIA_BUFFER_FILLED_CHANGED";
+    public static final String EVENT_SHUFFLE_CHANGED = "MEDIA_SHUFFLE_CHANGED";
+    public static final String EVENT_REPEAT_CHANGED = "MEDIA_REPEAT_CHANGED";
+    public static final String EVENT_SESSION_UPDATE = "MEDIA_SESSION_UPDATE";
+    public static final String EVENT_SKIP = "MEDIA_SKIP";
 
-    default public String getState() {
-    }
+    public String getState();
 
-    default public String getLastError() {
-    }
+    public String getLastError();
 
-    default public String getServiceID() {
-    }
+    public String getServiceID();
 
-    default public int getTimeCurrent() {
-    }
+    public int getTimeCurrent();
 
-    default public int getTimeTotal() {
-    }
+    public int getTimeTotal();
 
-    default public int getBufferLevel() {
-    }
+    public int getBufferLevel();
 
-    default public String getBufferStatus() {
-    }
+    public String getBufferStatus();
 
-    default public boolean isRepeatEnabled() {
-    }
+    public boolean isRepeatEnabled();
 
-    default public boolean isSeekEnabled() {
-    }
+    public boolean isSeekEnabled();
 
-    default public boolean isSkipEnabled() {
-    }
+    public boolean isSkipEnabled();
 
-    default public boolean isShuffleEnabled() {
-    }
+    public boolean isShuffleEnabled();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public long getChangedTrackId() {
-    }
+    public long getChangedTrackId();
 
-    default public boolean isForward() {
-    }
+    public boolean isForward();
 
-    default public int getSkipCount() {
-    }
+    public int getSkipCount();
 }
 

@@ -12,8 +12,8 @@ import com.ibm.oti.util.Msg;
 import java.io.IOException;
 
 public class CipherAlgorithm {
-    public static final int CIPHER_TYPE_STREAM;
-    public static final int CIPHER_TYPE_BLOCK;
+    public static final int CIPHER_TYPE_STREAM = 1;
+    public static final int CIPHER_TYPE_BLOCK = 2;
     protected ConnectionState state;
     Provider provider;
     Key clientWriteKey = null;
@@ -80,7 +80,7 @@ public class CipherAlgorithm {
         return Util.equals(byArray, byArray3);
     }
 
-    public byte[] decipher(byte[] byArray, byte by, int n) {
+    public byte[] decipher(byte[] byArray, byte by, int n) throws IOException {
         if (this.serverWriteKey == null) {
             this.serverWriteKey = this.provider.createKey(this.state.serverWriteKey);
         }
@@ -98,7 +98,7 @@ public class CipherAlgorithm {
         return byArray4;
     }
 
-    public byte[] encipher(byte[] byArray, byte by, int n) {
+    public byte[] encipher(byte[] byArray, byte by, int n) throws IOException {
         byte[] byArray2 = this.computeMACHash(byArray, by, this.state.transmitSequenceNumber, this.state.clientWriteMACSecret);
         byte[] byArray3 = Util.concatenate(byArray, byArray2);
         if (this.clientWriteKey == null) {

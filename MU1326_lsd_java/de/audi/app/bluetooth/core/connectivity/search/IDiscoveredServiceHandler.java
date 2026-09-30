@@ -4,7 +4,6 @@
 package de.audi.app.bluetooth.core.connectivity.search;
 
 public interface IDiscoveredServiceHandler {
-    default public void updateDiscoveredServices(String string, String string2, int n, int n2) {
-    }
+    public void updateDiscoveredServices(String var1, String var2, int var3, int var4);
 }
 

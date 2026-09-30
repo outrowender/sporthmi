@@ -14,7 +14,6 @@ implements IVolumeMapService {
         super(logChannel, "IVolumeMapService");
     }
 
-    @Override
     public int getVolume(int n, int n2) {
         this.log("getVolume");
         return 0;

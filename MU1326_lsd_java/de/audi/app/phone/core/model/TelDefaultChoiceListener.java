@@ -40,13 +40,11 @@ implements ChoiceListener {
         this.choiceModel = this.getChoiceModel(n);
     }
 
-    @Override
     public void init() {
         super.init();
         this.choiceModel.setChoiceListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.choiceModel.resetListener();
@@ -56,45 +54,39 @@ implements ChoiceListener {
         return this.choiceModel;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#keyPressed] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultButtonListener#keyPressed] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#keyReleased] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultButtonListener#keyReleased] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (this.log.isInfo()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#keyTyped] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultButtonListener#keyTyped] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#keyLongTyped] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultButtonListener#keyLongTyped] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelDefaultButtonListener#itemSelected] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3, n4));
+            this.log.log(1000000, "[TelDefaultButtonListener#itemSelected] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3, n4));
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#itemFocused] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3, n4));
+            this.log.log(10000000, "[TelDefaultButtonListener#itemFocused] %1", (Object)TelDefaultChoiceListener.getLogMessage(n, n2, n3, n4));
         }
     }
 }

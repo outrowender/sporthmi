@@ -9,10 +9,8 @@ import de.audi.app.car.common.handler.business.HandlerTransactionData;
 
 public interface RangeModelEventBusiness
 extends ButtonModelEventBusiness {
-    default public boolean processAdjustment(int n, RangeModelHandler rangeModelHandler) {
-    }
+    public boolean processAdjustment(int var1, RangeModelHandler var2);
 
-    default public boolean processAdjustment(HandlerTransactionData handlerTransactionData, RangeModelHandler rangeModelHandler) {
-    }
+    public boolean processAdjustment(HandlerTransactionData var1, RangeModelHandler var2);
 }
 

@@ -55,7 +55,6 @@ extends AbstractListManager {
         combiModuleAudio.getBAPFunctionArrayFSG(50).setArrayHandler((ArrayHandler)object);
     }
 
-    @Override
     protected int convertMostOperationState(int n) {
         switch (n) {
             case 0: {

@@ -6,8 +6,8 @@ package de.audi.app.bap.fw;
 import de.audi.app.bap.fw.CommunicationUpListener;
 
 public final class CommunicationState {
-    private static final int DOWN;
-    private static final int UP;
+    private static final int DOWN = 0;
+    private static final int UP = 1;
     private volatile int initState = 0;
     private volatile int fsgOperationState = 1;
     private final CommunicationUpListener listener;

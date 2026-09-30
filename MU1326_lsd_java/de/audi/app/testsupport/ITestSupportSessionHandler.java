@@ -6,16 +6,12 @@ package de.audi.app.testsupport;
 import de.audi.app.testsupport.TestSupportSession;
 
 public interface ITestSupportSessionHandler {
-    default public void updateData(TestSupportSession testSupportSession) {
-    }
+    public void updateData(TestSupportSession var1);
 
-    default public void activateMenuEntry(TestSupportSession testSupportSession, boolean bl) {
-    }
+    public void activateMenuEntry(TestSupportSession var1, boolean var2);
 
-    default public void flashText(String string, long l) {
-    }
+    public void flashText(String var1, long var2);
 
-    default public void flashScreen() {
-    }
+    public void flashScreen();
 }
 

@@ -13,100 +13,68 @@ import org.dsi.ifc.media.EntryInfo;
 import org.dsi.ifc.media.PlaybackMode;
 
 public interface IMediaPlayerListener {
-    default public void indicationDvdEvent(int n) {
-    }
+    public void indicationDvdEvent(int var1);
 
-    default public void responseCmdBlocked(int n) {
-    }
+    public void responseCmdBlocked(int var1);
 
-    default public void responseCoverArtURL(RequestParameterEntryID requestParameterEntryID, long l, ResourceLocator resourceLocator) {
-    }
+    public void responseCoverArtURL(RequestParameterEntryID var1, long var2, ResourceLocator var4);
 
-    default public void responseDetailInfo(RequestParameterEntryID requestParameterEntryID, EntryInfo entryInfo) {
-    }
+    public void responseDetailInfo(RequestParameterEntryID var1, EntryInfo var2);
 
-    default public void responsePlayView(RequestParameterList requestParameterList, MediaListEntry[] mediaListEntryArray, int n, int n2) {
-    }
+    public void responsePlayView(RequestParameterList var1, MediaListEntry[] var2, int var3, int var4);
 
-    default public void updatePlayViewSize(int n, int n2) {
-    }
+    public void updatePlayViewSize(int var1, int var2);
 
-    default public void playViewSizeInvalidated() {
-    }
+    public void playViewSizeInvalidated();
 
-    default public void responseFullyQualifiedName(long l, String string) {
-    }
+    public void responseFullyQualifiedName(long var1, String var3);
 
-    default public void responsePlaySimilarEntry(long l, boolean bl) {
-    }
+    public void responsePlaySimilarEntry(long var1, boolean var3);
 
-    default public void responseSetPlaySelection(int n, boolean bl) {
-    }
+    public void responseSetPlaySelection(int var1, boolean var2);
 
-    default public void responseSetPlaySelectionCoverflow(int n, boolean bl) {
-    }
+    public void responseSetPlaySelectionCoverflow(int var1, boolean var2);
 
-    default public void responseTempPMLRequest(int n) {
-    }
+    public void responseTempPMLRequest(int var1);
 
-    default public void updateActiveAudioStream(int n) {
-    }
+    public void updateActiveAudioStream(int var1);
 
-    default public void updateActiveSubtitle(int n) {
-    }
+    public void updateActiveSubtitle(int var1);
 
-    default public void updateActiveVideoAngle(int n) {
-    }
+    public void updateActiveVideoAngle(int var1);
 
-    default public void updateAudioStreamList(AudioStream[] audioStreamArray) {
-    }
+    public void updateAudioStreamList(AudioStream[] var1);
 
-    default public void updateCapabilities(Capabilities capabilities) {
-    }
+    public void updateCapabilities(Capabilities var1);
 
-    default public void updateCmdBlockingMask(int n) {
-    }
+    public void updateCmdBlockingMask(int var1);
 
-    default public void updateNumVideoAngles(int n) {
-    }
+    public void updateNumVideoAngles(int var1);
 
-    default public void updatePlayPosition(long l, int n, int n2) {
-    }
+    public void updatePlayPosition(long var1, int var3, int var4);
 
-    default public void playPositionInvalidated() {
-    }
+    public void playPositionInvalidated();
 
-    default public void responseSetPlaybackURL(String string) {
-    }
+    public void responseSetPlaybackURL(String var1);
 
-    default public void updatePlaybackFolder(MediaListEntry[] mediaListEntryArray) {
-    }
+    public void updatePlaybackFolder(MediaListEntry[] var1);
 
-    default public void updatePlaybackMode(int n) {
-    }
+    public void updatePlaybackMode(int var1);
 
-    default public void updatePlaybackModeList(PlaybackMode[] playbackModeArray) {
-    }
+    public void updatePlaybackModeList(PlaybackMode[] var1);
 
-    default public void updatePlaybackState(int n) {
-    }
+    public void updatePlaybackState(int var1);
 
-    default public void updateSubtitleList(int[] nArray) {
-    }
+    public void updateSubtitleList(int[] var1);
 
-    default public void updateVideoFormat(int n) {
-    }
+    public void updateVideoFormat(int var1);
 
-    default public void updateVideoNorm(int n) {
-    }
+    public void updateVideoNorm(int var1);
 
-    default public void responseFidForPlaylistEntryID(long l, long l2) {
-    }
+    public void responseFidForPlaylistEntryID(long var1, long var3);
 
-    default public void errorPlayViewListRequestAborted(int n) {
-    }
+    public void errorPlayViewListRequestAborted(int var1);
 
-    default public void error(int n) {
-    }
+    public void error(int var1);
 }
 

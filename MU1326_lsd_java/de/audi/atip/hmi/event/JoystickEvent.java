@@ -8,15 +8,15 @@ import de.audi.atip.hmi.event.KeyEvent;
 
 public class JoystickEvent
 extends KeyEvent {
-    public static final int JOYSTICK_IDLE;
-    public static final int JOYSTICK_NW;
-    public static final int JOYSTICK_N;
-    public static final int JOYSTICK_NE;
-    public static final int JOYSTICK_E;
-    public static final int JOYSTICK_SE;
-    public static final int JOYSTICK_S;
-    public static final int JOYSTICK_SW;
-    public static final int JOYSTICK_W;
+    public static final int JOYSTICK_IDLE = 0;
+    public static final int JOYSTICK_NW = 1;
+    public static final int JOYSTICK_N = 2;
+    public static final int JOYSTICK_NE = 3;
+    public static final int JOYSTICK_E = 4;
+    public static final int JOYSTICK_SE = 5;
+    public static final int JOYSTICK_S = 6;
+    public static final int JOYSTICK_SW = 7;
+    public static final int JOYSTICK_W = 8;
     private int direction;
 
     public JoystickEvent(ATIPEventListener aTIPEventListener, int n, long l, int n2, int n3, int n4) {
@@ -62,9 +62,8 @@ extends KeyEvent {
         return "<UNKNOWN>";
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append("JoystickEvent: keyCode = ").append(this.keycode2Text()).append('(').append(this.getKeyCode()).append("), direction = ").append(this.direction2Text()).append('(').append(this.direction).append(')').toString();
+        return "JoystickEvent: keyCode = " + this.keycode2Text() + '(' + this.getKeyCode() + "), direction = " + this.direction2Text() + '(' + this.direction + ')';
     }
 }
 

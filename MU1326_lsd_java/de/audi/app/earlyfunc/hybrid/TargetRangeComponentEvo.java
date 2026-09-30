@@ -15,17 +15,14 @@ extends AbstractTargetRangeComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(16, (short)41);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(16);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(BCViewOptions bCViewOptions) {
         if (bCViewOptions.getConfiguration() != null && bCViewOptions.getConfiguration().primaryEngineType == 3) {
             if (this.currentState == 1) {
@@ -40,7 +37,6 @@ extends AbstractTargetRangeComponent {
         }
     }
 
-    @Override
     protected void updateVisibilityForRangeAtStateChange(int n) {
         this.currentState = n;
         if (n == 1) {
@@ -50,7 +46,6 @@ extends AbstractTargetRangeComponent {
         }
     }
 
-    @Override
     public int getID() {
         return 11;
     }

@@ -11,7 +11,7 @@ import de.audi.app.car.common.service.AbstractDSICarVehicleStatesAdapter;
 public abstract class AbstractMenuStateComponent
 extends AbstractDSICarVehicleStatesAdapter
 implements IPowerEventListener {
-    private static final String LOGCHANNEL_NAME;
+    private static final String LOGCHANNEL_NAME = "App.EarlyFunc.MenuState";
     private volatile boolean menusVisible;
     private volatile boolean clamp15on;
     private volatile boolean dsiAvailable;
@@ -19,48 +19,39 @@ implements IPowerEventListener {
     private final Object mutex = new Object();
 
     public AbstractMenuStateComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.EarlyFunc.MenuState");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getPowerEventDispatcher().addPowerEventListener(this);
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getPowerEventDispatcher().removePowerEventListener(this);
         super.deinit();
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 
-    @Override
     public String getName() {
         return "MenuState";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[0];
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return "component does not use view options";
     }
@@ -90,7 +81,6 @@ implements IPowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void dsiAvailable(boolean bl) {
         Object object = this.mutex;
         synchronized (object) {
@@ -101,12 +91,12 @@ implements IPowerEventListener {
 
     private void checkState() {
         if (this.dsiAvailable) {
-            this.getLogChannel().log(-2137614336, "[AbstractMenuStateComponent#checkState] carMenusVisible='%1', clamp15='%2', phevGoodbyeVisible='%3'", this.menusVisible, this.clamp15on, this.goodbyeVisible);
+            this.getLogChannel().log(10000000, "[AbstractMenuStateComponent#checkState] carMenusVisible='%1', clamp15='%2', phevGoodbyeVisible='%3'", this.menusVisible, this.clamp15on, this.goodbyeVisible);
             if (this.menusVisible && this.clamp15on || this.goodbyeVisible) {
-                this.getLogChannel().log(1078071040, "dsi.setCarMenuState(true)");
+                this.getLogChannel().log(1000000, "dsi.setCarMenuState(true)");
                 this.getDSI().setCarMenuState(true);
             } else {
-                this.getLogChannel().log(1078071040, "dsi.setCarMenuState(false)");
+                this.getLogChannel().log(1000000, "dsi.setCarMenuState(false)");
                 this.getDSI().setCarMenuState(false);
             }
         }
@@ -115,7 +105,6 @@ implements IPowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         Object object = this.mutex;
         synchronized (object) {
@@ -124,15 +113,12 @@ implements IPowerEventListener {
         }
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n) {
     }
 }

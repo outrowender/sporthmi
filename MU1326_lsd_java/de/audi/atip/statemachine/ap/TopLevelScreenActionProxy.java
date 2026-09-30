@@ -7,7 +7,6 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface TopLevelScreenActionProxy
 extends ActionProxy {
-    default public void setTopLevelScreen(int n, int n2, boolean bl) {
-    }
+    public void setTopLevelScreen(int var1, int var2, boolean var3);
 }
 

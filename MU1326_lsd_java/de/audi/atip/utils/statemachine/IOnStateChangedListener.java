@@ -6,7 +6,6 @@ package de.audi.atip.utils.statemachine;
 import de.audi.atip.utils.statemachine.IState;
 
 public interface IOnStateChangedListener {
-    default public void onStateChanged(IState iState) {
-    }
+    public void onStateChanged(IState var1);
 }
 

@@ -31,50 +31,41 @@ extends AbstractBAPModuleFSG {
         this.functionListFsg.init(this);
     }
 
-    @Override
     protected String getLSGDescription() {
         return "0x2a (OnlineFunctions)";
     }
 
-    @Override
     protected boolean isRelevantForUpdateProperties(int n) {
         return n != this.getFunctionList().getFctListBAPFctID() && n != this.getFunctionList().getBAPConfigBAPFctID();
     }
 
-    @Override
     protected void initModuleComponents() {
-        this.logChannel.log(-2137614336, "[OnlineFunctionsModule#initModuleComponents]");
+        this.logChannel.log(10000000, "[OnlineFunctionsModule#initModuleComponents]");
         this.indicationHandler = new BAPIndicationHandlerOnlineFunctions(this);
         this.functionRegistration = new FunctionRegistrationOnlineFunctions(this);
         this.initializationManager = new InitializationManagerOnlineFunctions(this, this.getBAPFunctionPropertyFSG(15), this.bapApplication.getDSIBAPController(), this.bapApplication.getPowerState());
     }
 
-    @Override
     protected void initServiceManager(BundleContext bundleContext) {
         this.serviceManager = new OnlineFunctionsServiceManager(this, bundleContext);
     }
 
-    @Override
     protected IFunctionIDs getFunctionIDs() {
         return new FunctionIDsOnlineFunctions();
     }
 
-    @Override
     protected IErrorCodes getErrorIDs() {
         return new ErrorCodesOnlineFunctions();
     }
 
-    @Override
     public int[] getErrorMapping() {
         return new int[1];
     }
 
-    @Override
     protected IDataTypeMapping getDataTypeMapping() {
         return new DataTypeMappingOnlineFunctions();
     }
 
-    @Override
     protected void initDiagnosisConnector() {
     }
 }

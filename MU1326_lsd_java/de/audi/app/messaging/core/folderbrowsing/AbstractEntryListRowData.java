@@ -23,23 +23,23 @@ import org.dsi.ifc.search.SearchResult;
 import org.dsi.ifc.search.Token;
 
 public abstract class AbstractEntryListRowData {
-    private static final int RECORDSET_FOLDER;
-    private static final int RECORDSET_FOLDER_UNREAD_COUNT;
-    private static final int RECORDSET_MESSAGE;
-    private static final int RECORDSET_MESSAGE_TYPE_INFO;
-    private static final int ICON_FOLDER;
-    private static final int ICON_MSG_UNREAD;
-    private static final int ICON_MSG_READ;
-    private static final int ICON_MSG_BINARY;
-    private static final int ICON_MSG_SENT;
-    private static final int ICON_MSG_DRAFT;
-    private static final int ICON_MSG_HAS_ATTACHMENTS;
-    private static final int ICON_MSG_HIGH_IMPORTANCE;
-    private static final int ENTRY_TYPE_FOLDER;
-    private static final int ENTRY_TYPE_MSG_UNKNOWN;
-    private static final int ENTRY_TYPE_SMS_REGULAR;
-    private static final int ENTRY_TYPE_SMS_BINARY;
-    private static final int ENTRY_TYPE_EMAIL;
+    private static final int RECORDSET_FOLDER = 0;
+    private static final int RECORDSET_FOLDER_UNREAD_COUNT = 1;
+    private static final int RECORDSET_MESSAGE = 2;
+    private static final int RECORDSET_MESSAGE_TYPE_INFO = 3;
+    private static final int ICON_FOLDER = 0;
+    private static final int ICON_MSG_UNREAD = 1;
+    private static final int ICON_MSG_READ = 2;
+    private static final int ICON_MSG_BINARY = 3;
+    private static final int ICON_MSG_SENT = 4;
+    private static final int ICON_MSG_DRAFT = 6;
+    private static final int ICON_MSG_HAS_ATTACHMENTS = 8;
+    private static final int ICON_MSG_HIGH_IMPORTANCE = 9;
+    private static final int ENTRY_TYPE_FOLDER = 0;
+    private static final int ENTRY_TYPE_MSG_UNKNOWN = 1;
+    private static final int ENTRY_TYPE_SMS_REGULAR = 2;
+    private static final int ENTRY_TYPE_SMS_BINARY = 3;
+    private static final int ENTRY_TYPE_EMAIL = 6;
     private final ListEntry listEntry;
     private final IEntryPropertyFactory entryPropertyFactory;
     private final int itemOffset;
@@ -56,8 +56,7 @@ public abstract class AbstractEntryListRowData {
         this.isToggle = 0;
     }
 
-    public abstract void setColumns(EvoListRow evoListRow, AbstractEntryListRowData abstractEntryListRowData, SearchResult searchResult) {
-    }
+    public abstract void setColumns(EvoListRow var1, AbstractEntryListRowData var2, SearchResult var3);
 
     public ListEntry getListEntry() {
         return this.listEntry;
@@ -79,8 +78,7 @@ public abstract class AbstractEntryListRowData {
         return this.textLookup;
     }
 
-    public abstract int getColumnCount() {
-    }
+    public abstract int getColumnCount();
 
     public int isToggle() {
         return this.isToggle;

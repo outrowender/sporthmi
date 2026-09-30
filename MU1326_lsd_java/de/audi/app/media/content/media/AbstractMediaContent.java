@@ -17,12 +17,10 @@ implements IContentMedia {
         super(n, iContentContext, iMediaTerminal);
     }
 
-    @Override
     public IPlayer getPlayer() {
         return new NullPlayer();
     }
 
-    @Override
     public void diagResetBrowser() {
     }
 }

@@ -30,12 +30,11 @@ implements IJoystickBlock {
         this.listMode = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
         int n = this.getSelectedIndex();
         if (n == -1) {
-            this.logger.log(-2137614336, "%1#execute: index=-1, mailbox selected!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: index=-1, mailbox selected!", (Object)this.getName());
             this.sendResult(30011);
             return;
         }
@@ -45,35 +44,35 @@ implements IJoystickBlock {
             return;
         }
         int n2 = this.determineEntryTypeOfCallstackEntry(n);
-        this.logger.log(-2137614336, "%1#execute: index=%2, response=%3!", (Object)this.getName(), (long)n, (long)n2);
+        this.logger.log(10000000, "%1#execute: index=%2, response=%3!", (Object)this.getName(), (long)n, (long)n2);
         this.sendResult(n2);
     }
 
     private int getSelectedIndex() {
         int n = this.sdsHandlerService.getSelectedRow();
-        this.logger.log(-2137614336, "%1#getSelectedIndex: enumStatus=%2, enumValue=%3", (Object)this.getName(), (long)SDSModelAccess.getEnumerationNumberStatus(), (long)SDSModelAccess.getEnumerationNumberValue());
-        this.logger.log(-2137614336, "%1#getSelectedIndex: row=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#getSelectedIndex: enumStatus=%2, enumValue=%3", (Object)this.getName(), (long)SDSModelAccess.getEnumerationNumberStatus(), (long)SDSModelAccess.getEnumerationNumberValue());
+        this.logger.log(10000000, "%1#getSelectedIndex: row=%2", (Object)this.getName(), (long)n);
         switch (this.listMode) {
             case 0: 
             case 2: 
             case 3: {
                 if (n != -1) {
-                    this.logger.log(-2137614336, "%1#getSelectedIndex: Line selection via DDS/item selected!", (Object)this.getName());
+                    this.logger.log(10000000, "%1#getSelectedIndex: Line selection via DDS/item selected!", (Object)this.getName());
                     return n;
                 }
                 int n2 = SDSModelAccess.getEnumerationNumberStatus();
-                this.logger.log(-2137614336, "%1#getSelectedIndex: index = %2", (Object)this.getName(), (long)n2);
+                this.logger.log(10000000, "%1#getSelectedIndex: index = %2", (Object)this.getName(), (long)n2);
                 return n2;
             }
             case 1: {
                 long l = SDSUtils.getSelectedObjectId(this.nBest, this.logger, 0);
-                this.logger.log(-2137614336, "%1#getSelectedIndex: Line selection via command, objID=%2!", (Object)this.getName(), l);
+                this.logger.log(10000000, "%1#getSelectedIndex: Line selection via command, objID=%2!", (Object)this.getName(), l);
                 int n3 = this.phoneHandler.getCallStackIndexByADBId(l);
-                this.logger.log(-2137614336, "%1#getSelectedIndex: callStackIndex=%2!", (Object)this.getName(), (long)n3);
+                this.logger.log(10000000, "%1#getSelectedIndex: callStackIndex=%2!", (Object)this.getName(), (long)n3);
                 return n3;
             }
         }
-        this.logger.log(-1601830656, "%1#getSelectedIndex: Unhandled listMode %2!", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(100000, "%1#getSelectedIndex: Unhandled listMode %2!", (Object)this.getName(), (long)this.listMode);
         return -1;
     }
 
@@ -85,15 +84,15 @@ implements IJoystickBlock {
         SDSModelAccess.setADBEntryNameModel(string);
         this.setPhoneCategoryAndLocation(s);
         if (SDSUtils.isEmpty(string2)) {
-            this.logger.log(-2137614336, "%1#execute -> unknown number", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute -> unknown number", (Object)this.getName());
             return 30009;
         }
         if (!SDSUtils.isEmpty(string) && l > 0L) {
-            this.logger.log(-2137614336, "%1#execute -> adb entry = %2", (Object)this.getName(), (Object)string);
+            this.logger.log(10000000, "%1#execute -> adb entry = %2", (Object)this.getName(), (Object)string);
             this.adbHandler.setSelectedEntryID(l);
             return 30008;
         }
-        this.logger.log(-2137614336, "%1#execute -> phone number", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute -> phone number", (Object)this.getName());
         return 30010;
     }
 

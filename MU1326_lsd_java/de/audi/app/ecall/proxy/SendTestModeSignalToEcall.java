@@ -15,20 +15,17 @@ implements IActionProxyListener {
         super(iEcallApplication, "App.Ecall.Main");
     }
 
-    @Override
     public void init() {
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(6, this);
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(6, this);
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (n == 6) {
-            this.log.log(1078071040, "SendTestModeSignalToEcall#actionProxyCallPerformed(methodID, parameters) --> Called.");
+            this.log.log(1000000, "SendTestModeSignalToEcall#actionProxyCallPerformed(methodID, parameters) --> Called.");
             this.getEcallBapServiceAdapter().startTestMode();
         }
     }

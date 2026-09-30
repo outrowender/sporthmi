@@ -18,15 +18,13 @@ extends AbstractBAPModuleInitializationManagerFSG {
         super(abstractBAPModuleFSG, bAPFunctionPropertyFSG, iDSIBAPController, iPowerState);
     }
 
-    @Override
     protected int getAppState() {
         return 1;
     }
 
-    @Override
     public synchronized void updateHMIState() {
         int n;
-        this.logChannel.log(14808325, "[InitializationManagerOnlineFunctions#updateHMIState] called for lsgID=%1", (Object)this.lsgIDDescription);
+        this.logChannel.log(100000000, "[InitializationManagerOnlineFunctions#updateHMIState] called for lsgID=%1", (Object)this.lsgIDDescription);
         if (!this.isDsiBapAvailable()) {
             n = 0;
         } else if (this.getBapStackState() == 0) {
@@ -39,7 +37,7 @@ extends AbstractBAPModuleInitializationManagerFSG {
             return;
         }
         if (this.getHMIState() != n) {
-            this.logChannel.log(-2137614336, "[InitializationManagerOnlineFunctions#updateHMIState] new hmi state for lsgID=%1 is now: %2", (Object)this.lsgIDDescription, (Object)LoggingUtils.getHMIStateDescription(n));
+            this.logChannel.log(10000000, "[InitializationManagerOnlineFunctions#updateHMIState] new hmi state for lsgID=%1 is now: %2", (Object)this.lsgIDDescription, (Object)LoggingUtils.getHMIStateDescription(n));
             if (n == 1) {
                 this.setInitState(2);
             } else if (n == 2) {
@@ -50,15 +48,13 @@ extends AbstractBAPModuleInitializationManagerFSG {
             }
             this.dsiController.setHMIState(this.module.getLSGID(), n);
         } else {
-            this.logChannel.log(-2137614336, "[InitializationManagerOnlineFunctions#updateHMIState] hmi state didn't change (hmiState=%1, bapStackState=%2, initstate=%3)", (Object)new Integer(this.getHMIState()), (Object)new Integer(this.getBapStackState()), (Object)new Integer(this.getInitState()));
+            this.logChannel.log(10000000, "[InitializationManagerOnlineFunctions#updateHMIState] hmi state didn't change (hmiState=%1, bapStackState=%2, initstate=%3)", (Object)new Integer(this.getHMIState()), (Object)new Integer(this.getBapStackState()), (Object)new Integer(this.getInitState()));
         }
     }
 
-    @Override
     public void appStateChanged(String string, int n) {
     }
 
-    @Override
     public String appStatesToString() {
         Buffer buffer = new Buffer();
         buffer.append("appStateOnlineFunctions = ");
@@ -67,13 +63,11 @@ extends AbstractBAPModuleInitializationManagerFSG {
         return buffer.toString();
     }
 
-    @Override
     public boolean isOpStateNormalOperation() {
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)this.fsgOperationStateFunction.getLastStatus();
         return fSG_OperationState_Status.op_State == 0;
     }
 
-    @Override
     public boolean setFSGOperationStateValue(int n) {
         int n2;
         switch (n) {

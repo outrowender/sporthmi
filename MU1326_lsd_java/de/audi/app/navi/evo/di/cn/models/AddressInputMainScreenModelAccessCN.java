@@ -22,45 +22,35 @@ extends AbstractAddressInputModelAccessCN {
         this.logChannel = navigationEnv.getAddressInputLogChannel();
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
-        this.env.getBaseListModel(-1474361856).removeAll();
+        this.env.getBaseListModel(401320).removeAll();
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
         this.modelAccessHelper.onUpdateLocation(this.env, this.logChannel, navLocation, map);
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
     }
 
-    @Override
     public void onRestore() {
     }
 
-    @Override
     public void onInputChanged() {
     }
 }

@@ -15,77 +15,62 @@ implements LoadSpeedThreshold {
         this.upDownLoadData = byArray;
     }
 
-    @Override
     public int getVideoCutOffThreshold() {
         return this.getByte(0, 30);
     }
 
-    @Override
     public int getVideoHysteresis() {
         return this.getHysteresis(1, 10, this.getVideoCutOffThreshold());
     }
 
-    @Override
     public int getSlideshowCutOffThreshold() {
         return this.getByte(4, 30);
     }
 
-    @Override
     public int getSlideshowHysteresis() {
         return this.getHysteresis(5, 10, this.getSlideshowCutOffThreshold());
     }
 
-    @Override
     public int getSlideshowDisplayDuration1() {
         return (this.upDownLoadData[6] & 0xFF) << 8 | this.upDownLoadData[7] & 0xFF;
     }
 
-    @Override
     public int getSlideshowDisplayDuration2() {
         return (this.upDownLoadData[8] & 0xFF) << 8 | this.upDownLoadData[9] & 0xFF;
     }
 
-    @Override
     public int getDestinationInputCutOffThreshold() {
         return this.getByte(16, 30);
     }
 
-    @Override
     public int getDestinationInputHysteresis() {
         return this.getHysteresis(17, 10, this.getDestinationInputCutOffThreshold());
     }
 
-    @Override
     public int getBtBondingCutOffThreshold() {
         return this.getByte(18, 30);
     }
 
-    @Override
     public int getBtBondingHysteresis() {
         return this.getHysteresis(19, 10, this.getBtBondingCutOffThreshold());
     }
 
-    @Override
     public int getMessagingTextEditorCutOffThreshold() {
         return this.getByte(20, 30);
     }
 
-    @Override
     public int getMessagingTextEditorHysteresis() {
         return this.getHysteresis(21, 10, this.getMessagingTextEditorCutOffThreshold());
     }
 
-    @Override
     public int getRadioTextCutOffThreshold() {
         return this.getByte(22, 30);
     }
 
-    @Override
     public int getRadioTextHysteresis() {
         return this.getHysteresis(23, 10, this.getRadioTextCutOffThreshold());
     }
 
-    @Override
     public int getRadioTextDisplayTime() {
         return (this.upDownLoadData[24] & 0xFF) << 8 | this.upDownLoadData[25] & 0xFF;
     }

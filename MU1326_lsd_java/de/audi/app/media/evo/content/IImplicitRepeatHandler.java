@@ -4,10 +4,8 @@
 package de.audi.app.media.evo.content;
 
 public interface IImplicitRepeatHandler {
-    default public boolean isImplicitRepeatByCategory(int n) {
-    }
+    public boolean isImplicitRepeatByCategory(int var1);
 
-    default public boolean isImplicitRepeatByContentType(int n) {
-    }
+    public boolean isImplicitRepeatByContentType(int var1);
 }
 

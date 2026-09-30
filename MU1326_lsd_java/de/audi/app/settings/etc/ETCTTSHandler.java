@@ -12,9 +12,9 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class ETCTTSHandler
 implements TTSListener {
-    private static final int PRIO_NONE;
-    private static final int PRIO_INFO;
-    private static final int PRIO_ERROR;
+    private static final int PRIO_NONE = -1;
+    private static final int PRIO_INFO = 0;
+    private static final int PRIO_ERROR = 1;
     private final LogChannel lc;
     private AbstractETCTextFactory textFactory;
     private boolean isSpeaking = false;
@@ -38,7 +38,7 @@ implements TTSListener {
         if (tTSSingleSpeakService == null) {
             tTSSingleSpeakService = this.nullTTSService;
         }
-        this.lc.log(-2137614336, "ETCTTSHandler.setTTSService(): set TTS service %1 for ID %2", (Object)super.getClass().getName(), (long)n);
+        this.lc.log(10000000, "ETCTTSHandler.setTTSService(): set TTS service %1 for ID %2", (Object)tTSSingleSpeakService.getClass().getName(), (long)n);
         if (n == 13) {
             this.setWarningTTSService(tTSSingleSpeakService);
         } else if (n == 14) {
@@ -51,7 +51,7 @@ implements TTSListener {
     void speakErrorMessage(int n) {
         if (this.textFactory != null) {
             String string = this.textFactory.getErrorMessageText(n);
-            this.lc.log(-2137614336, "ETCTTSHandler.speakErrorMessage(%1)", (Object)string);
+            this.lc.log(10000000, "ETCTTSHandler.speakErrorMessage(%1)", (Object)string);
             if (string.length() > 0) {
                 this.speak(1, string);
             }
@@ -64,7 +64,7 @@ implements TTSListener {
         if (this.textFactory != null) {
             String string = this.textFactory.getTollInfoText(bl, bl2);
             string = this.insertAmount(string, n);
-            this.lc.log(-2137614336, "ETCTTSHandler.speakTollInfo(): %1 [\u00a5%2]", (Object)string, (long)n);
+            this.lc.log(10000000, "ETCTTSHandler.speakTollInfo(): %1 [\u00a5%2]", (Object)string, (long)n);
             this.speak(0, string);
         } else {
             this.lc.log(10000, "ETCTTSHandler.speakTollInfo(): Text factory is not defined");
@@ -74,7 +74,7 @@ implements TTSListener {
     void speakWarningMessage(boolean bl) {
         if (this.textFactory != null) {
             String string = this.textFactory.getWarningMessageCardInsertedText(bl);
-            this.lc.log(-2137614336, "ETCTTSHandler.speakWarningMessage(%1)", (Object)string);
+            this.lc.log(10000000, "ETCTTSHandler.speakWarningMessage(%1)", (Object)string);
             this.speak(0, string);
         } else {
             this.lc.log(10000, "ETCTTSHandler.speakWarningMessage(): Text factory is not defined");
@@ -88,10 +88,10 @@ implements TTSListener {
                     this.getTTSService(this.currentPrio).abortSpeaking();
                 }
                 this.currentPrio = n;
-                this.lc.log(-2137614336, "ETCTTSHandler.speak(prio=%1): '%2'", (Object)string);
+                this.lc.log(10000000, "ETCTTSHandler.speak(prio=%1): '%2'", (Object)string);
                 this.getTTSService(this.currentPrio).speak(string);
             } else {
-                this.lc.log(1078071040, "ETCTTSHandler.speak(): Hight priority speaking is active, ignore speaking ['%1'] because of lower priority", (Object)string);
+                this.lc.log(1000000, "ETCTTSHandler.speak(): Hight priority speaking is active, ignore speaking ['%1'] because of lower priority", (Object)string);
             }
         } else {
             this.lc.log(10000, "ETCTTSHandler.speak(%1,%2): undefined message!", (Object)Integer.toString(n), (Object)string);
@@ -131,24 +131,21 @@ implements TTSListener {
         this.ttsServiceETCInfo = tTSSingleSpeakService;
     }
 
-    @Override
     public void speakingStarted() {
-        this.lc.log(-2137614336, "ETCTTSHandler.speakingStarted");
+        this.lc.log(10000000, "ETCTTSHandler.speakingStarted");
         this.isSpeaking = true;
     }
 
-    @Override
     public void speakingPaused() {
-        this.lc.log(-2137614336, "ETCTTSHandler.speakingPaused");
+        this.lc.log(10000000, "ETCTTSHandler.speakingPaused");
         this.isSpeaking = false;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void speakingFinished() {
-        this.lc.log(-2137614336, "ETCTTSHandler.speakingFinished");
+        this.lc.log(10000000, "ETCTTSHandler.speakingFinished");
         this.isSpeaking = false;
         ETCTTSHandler eTCTTSHandler = this;
         synchronized (eTCTTSHandler) {
@@ -156,18 +153,16 @@ implements TTSListener {
         }
     }
 
-    @Override
     public void speakingAborted() {
-        this.lc.log(-2137614336, "ETCTTSHandler.speakingAborted");
+        this.lc.log(10000000, "ETCTTSHandler.speakingAborted");
         this.isSpeaking = false;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void speakingFailed() {
-        this.lc.log(-2137614336, "ETCTTSHandler.speakingFailed");
+        this.lc.log(10000000, "ETCTTSHandler.speakingFailed");
         this.isSpeaking = false;
         ETCTTSHandler eTCTTSHandler = this;
         synchronized (eTCTTSHandler) {
@@ -175,29 +170,24 @@ implements TTSListener {
         }
     }
 
-    @Override
     public void sessionStarted() {
-        this.lc.log(-2137614336, "ETCTTSHandler.sessionStarted");
+        this.lc.log(10000000, "ETCTTSHandler.sessionStarted");
     }
 
-    @Override
     public void sessionPaused() {
-        this.lc.log(-2137614336, "ETCTTSHandler.sessionPaused");
+        this.lc.log(10000000, "ETCTTSHandler.sessionPaused");
     }
 
-    @Override
     public void sessionResumed() {
-        this.lc.log(-2137614336, "ETCTTSHandler.sessionResumed");
+        this.lc.log(10000000, "ETCTTSHandler.sessionResumed");
     }
 
-    @Override
     public void audioAvailable(boolean bl) {
-        this.lc.log(-2137614336, "ETCTTSHandler.audioAvailable");
+        this.lc.log(10000000, "ETCTTSHandler.audioAvailable");
     }
 
-    @Override
     public void sessionStopped() {
-        this.lc.log(-2137614336, "ETCTTSHandler.sessionStopped");
+        this.lc.log(10000000, "ETCTTSHandler.sessionStopped");
     }
 }
 

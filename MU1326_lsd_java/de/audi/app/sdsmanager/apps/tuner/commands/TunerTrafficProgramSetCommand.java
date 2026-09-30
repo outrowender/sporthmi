@@ -21,11 +21,10 @@ extends AbstractSystemCallCommand {
         this.tpSettingMode = SDSUtils.retrieveBoolean(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: tpSettingMode=%2", (Object)this.getName(), (Object)this.tpSettingMode);
+        this.logger.log(10000000, "%1#execute: tpSettingMode=%2", (Object)this.getName(), (Object)this.tpSettingMode);
         byte by = this.tunerService.switchTrafficAnnouncements(this.tpSettingMode);
-        this.logger.log(-2137614336, "%1#execute: trafficSetReply=%2!", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#execute: trafficSetReply=%2!", (Object)this.getName(), (long)by);
         this.sendResult(by == 0 ? 10005 : 10008);
     }
 }

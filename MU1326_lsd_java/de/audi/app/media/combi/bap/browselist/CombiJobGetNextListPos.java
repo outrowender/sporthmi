@@ -25,35 +25,30 @@ extends AbstractCombiBrowserJob {
         this.entry = combiBAPMediaEntry;
     }
 
-    @Override
     public int getType() {
         return 8;
     }
 
-    @Override
     public String getName() {
         return "GETNEXTLISTPOS";
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort]", (Object)"CombiJobGetNextListPos");
+        this.logger.log(1000000, "[%1.abort]", (Object)"CombiJobGetNextListPos");
         this.sendGetNextListPosResult(false, this.entry, null, 0);
     }
 
-    @Override
     public void start() {
         this.getCombiAdapter().requestBrowseListByEntryId(this.entry.getEntryID(), this.entry.getEntryContentType(), 1);
     }
 
-    @Override
     public void responseList(int n, MediaListEntry[] mediaListEntryArray) {
         if (this.destIndex == -1) {
-            this.logger.log(14808325, "[%1.responseList] Receive response (index).", (Object)"CombiJobGetNextListPos");
+            this.logger.log(100000000, "[%1.responseList] Receive response (index).", (Object)"CombiJobGetNextListPos");
             int n2 = CombiBAPUtils.getAbsolutePosition(this.entry.getEntryID(), this.entry.getEntryContentType(), mediaListEntryArray, n);
-            this.logger.log(1078071040, "[%1.responsePlayViewList] absolutePosition='%2' (currentEntryID='%3').", (Object)"CombiJobGetNextListPos", (long)n2, this.entry.getEntryID());
+            this.logger.log(1000000, "[%1.responsePlayViewList] absolutePosition='%2' (currentEntryID='%3').", (Object)"CombiJobGetNextListPos", (long)n2, this.entry.getEntryID());
             if (n2 == 0) {
-                this.logger.log(-1601830656, "[%1.responseList] Found no absolute position.", (Object)"CombiJobGetNextListPos");
+                this.logger.log(100000, "[%1.responseList] Found no absolute position.", (Object)"CombiJobGetNextListPos");
                 this.sendGetNextListPosResult(false, this.entry, null, 0);
                 this.getExecutionContext().jobFinished();
                 return;
@@ -62,7 +57,7 @@ extends AbstractCombiBrowserJob {
             this.getCombiAdapter().requestBrowseListByIndex(this.destIndex, 1);
         } else {
             MediaListEntry mediaListEntry;
-            this.logger.log(14808325, "[%1.responseList] Receive response (pos).", (Object)"CombiJobGetNextListPos");
+            this.logger.log(100000000, "[%1.responseList] Receive response (pos).", (Object)"CombiJobGetNextListPos");
             try {
                 mediaListEntry = mediaListEntryArray[this.destIndex - n];
             }
@@ -73,7 +68,7 @@ extends AbstractCombiBrowserJob {
                 return;
             }
             if (mediaListEntry == null) {
-                this.logger.log(-1601830656, "[%1.responseList] No dest entry found.", (Object)"CombiJobGetNextListPos");
+                this.logger.log(100000, "[%1.responseList] No dest entry found.", (Object)"CombiJobGetNextListPos");
                 this.sendGetNextListPosResult(false, this.entry, null, 0);
                 this.getExecutionContext().jobFinished();
                 return;
@@ -83,23 +78,20 @@ extends AbstractCombiBrowserJob {
         }
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted] List request aborted ('%2').", (Object)"CombiJobGetNextListPos", (Object)this);
+        this.logger.log(1000000, "[%1.errorListRequestAborted] List request aborted ('%2').", (Object)"CombiJobGetNextListPos", (Object)this);
         this.sendGetNextListPosResult(false, this.entry, null, 0);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void browseFolderChanged(MediaListEntry[] mediaListEntryArray, int n) {
     }
 
-    @Override
     public void errorFolderChangeAborted() {
     }
 
     private void sendGetNextListPosResult(boolean bl, CombiBAPMediaEntry combiBAPMediaEntry, CombiBAPMediaEntry combiBAPMediaEntry2, int n) {
-        this.logger.log(14808325, "[%2.sendGetNextListPosResult] ok='%1'", bl, (Object)"CombiJobGetNextListPos");
+        this.logger.log(100000000, "[%2.sendGetNextListPosResult] ok='%1'", bl, (Object)"CombiJobGetNextListPos");
         this.getCombiAdapter().getCombiAccessor().getNextListPosResult(bl, combiBAPMediaEntry, combiBAPMediaEntry2, n);
     }
 

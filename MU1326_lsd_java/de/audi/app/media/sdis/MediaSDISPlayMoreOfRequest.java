@@ -11,7 +11,7 @@ import de.esolutions.fw.comm.core.method.MethodException;
 
 public class MediaSDISPlayMoreOfRequest
 implements ISelectionListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaSDISPlayMoreOfRequest";
     private final ASIHMISyncMediaReply reply;
     private final LogChannel logger;
     private final int category;
@@ -24,13 +24,12 @@ implements ISelectionListener {
         this.entryId = l;
     }
 
-    @Override
     public void notifySelectionChanged(IDataSelectionContext iDataSelectionContext, boolean bl) {
         try {
             this.reply.responsePlayMoreFrom(this.entryId, this.category, bl ? 0 : 1);
         }
         catch (MethodException methodException) {
-            this.logger.log(-1601830656, "[%1.responsePlayMoreFrom] '%2'", (Object)"MediaSDISPlayMoreOfRequest", (Throwable)methodException);
+            this.logger.log(100000, "[%1.responsePlayMoreFrom] '%2'", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 }

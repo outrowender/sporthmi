@@ -25,8 +25,8 @@ import org.osgi.framework.BundleContext;
 public abstract class AbstractWirelessChargingApplication
 implements IWirelessChargingApplication,
 HMIApplication {
-    public static final int WIRELESS_CHARGING_REMINDER_POPUP_DISABLED;
-    public static final int WIRELESS_CHARGING_REMINDER_POPUP_ENABLED;
+    public static final int WIRELESS_CHARGING_REMINDER_POPUP_DISABLED = 0;
+    public static final int WIRELESS_CHARGING_REMINDER_POPUP_ENABLED = 1;
     private final IFrameworkAccess frameworkAccess;
     private final BundleContext bundleContext;
     protected final LogChannel log;
@@ -46,10 +46,8 @@ HMIApplication {
         this.wlcInfoPopupModel = iFrameworkAccess.getHMIService().getChoiceModel(4343);
     }
 
-    protected abstract void addComponents() {
-    }
+    protected abstract void addComponents();
 
-    @Override
     public void init() {
         this.addComponents();
         this.initComponents();
@@ -58,7 +56,6 @@ HMIApplication {
         this.initDiagnosis();
     }
 
-    @Override
     public void deinit() {
         this.deinitComponents();
         this.deinitDispatchers();
@@ -70,7 +67,7 @@ HMIApplication {
     }
 
     private void registerHMIApplication() {
-        this.log.log(-2137614336, "[AbstractEcallApplication#registerHMIApplication] called");
+        this.log.log(10000000, "[AbstractEcallApplication#registerHMIApplication] called");
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppWirelessCharging");
         hashtable.put("moduleID", new Integer(this.getId()));
@@ -79,7 +76,7 @@ HMIApplication {
     }
 
     private void deregisterHMIApplication() {
-        this.log.log(-2137614336, "[AbstractEcallApplication#deregisterHMIApplication] called");
+        this.log.log(10000000, "[AbstractEcallApplication#deregisterHMIApplication] called");
         if (this.hmiApplicationService != null) {
             this.hmiApplicationService.stopService();
         }
@@ -89,7 +86,6 @@ HMIApplication {
         this.components.add(iWirelessChargingComponent);
     }
 
-    @Override
     public IFrameworkAccess getFrameworkAccess() {
         return this.frameworkAccess;
     }
@@ -114,37 +110,31 @@ HMIApplication {
         this.messageDispatcher.deinit();
     }
 
-    @Override
     public void addDiagnosisComponent(IWirelessChargingDiagComponent iWirelessChargingDiagComponent) {
         this.diagnosis.addDiagnosisComponent(iWirelessChargingDiagComponent);
     }
 
-    @Override
     public void logStartupEvent(String string) {
         this.getFrameworkAccess().getStartupMgr().logStartupEvent(string);
     }
 
-    @Override
     public BundleContext getBundleContext() {
         return this.bundleContext;
     }
 
-    @Override
     public IMessageDispatcher getMessageDispatcher() {
         return this.messageDispatcher;
     }
 
-    @Override
     public boolean isWLCInfoPopupEnabled() {
         if (this.wlcInfoPopupModel != null) {
             int n = this.wlcInfoPopupModel.getValue();
-            this.log.log(1078071040, "AbstractWirelessChargingApplication#isWLCInfoPopupEnabled() value of WIRELESS_CHARGING_INFO_POPUP_CHOICE is %1", (long)n);
+            this.log.log(1000000, "AbstractWirelessChargingApplication#isWLCInfoPopupEnabled() value of WIRELESS_CHARGING_INFO_POPUP_CHOICE is %1", (long)n);
             return n == 0;
         }
         return false;
     }
 
-    @Override
     public void resetFactorySettings() {
         this.frameworkAccess.getStorageMgr().setInt(1009, 10, 0);
         if (this.wlcInfoPopupModel != null) {

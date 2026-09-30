@@ -5,8 +5,11 @@ package de.audi.app.terminalmode.audio;
 
 import de.audi.app.terminalmode.util.Enum;
 
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
 public class AudioState
-extends Enum {
+extends Enum<AudioState> {
     public static final AudioState UNKNOWN = new AudioState(-1, "UNKNOWN");
     public static final AudioState UNDEFINED = new AudioState(0, "UNDEFINED");
     public static final AudioState STARTED = new AudioState(1, "STARTED");

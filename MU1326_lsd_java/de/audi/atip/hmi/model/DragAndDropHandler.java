@@ -34,7 +34,6 @@ implements IDragAndDropHandler {
         }
     }
 
-    @Override
     public int startDrag(int n, long l, int n2) {
         for (int i2 = 0; i2 < this.possibleSourceModelIds.length; ++i2) {
             if (this.possibleSourceModelIds[i2] != n) continue;
@@ -46,17 +45,14 @@ implements IDragAndDropHandler {
         return 1;
     }
 
-    @Override
     public void stopDrag(int n, long l, int n2, long l2) {
         this.listener.itemDragStopped(n, l, n2, l2);
     }
 
-    @Override
     public void drop(int n, long l, int n2, long l2, int n3, int n4) {
         this.listener.itemDropped(n, l, n2, l2, n3, n4);
     }
 
-    @Override
     public void addListener(DragAndDropListener dragAndDropListener) {
         this.listener = dragAndDropListener != null ? dragAndDropListener : FallbackDragAndDropListener.INSTANCE;
     }

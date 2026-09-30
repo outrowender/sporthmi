@@ -4,16 +4,16 @@
 package de.audi.app.car.common.util;
 
 public class MiscHybridHelper {
-    public static final int BATTERY_CHARGE_MIN_LEVEL_0_SEGMENTS;
-    public static final int BATTERY_CHARGE_MIN_LEVEL_1_SEGMENTS;
-    public static final int BATTERY_CHARGE_MIN_LEVEL_2_SEGMENTS;
-    public static final int BATTERY_CHARGE_MIN_LEVEL_3_SEGMENTS;
-    public static final int BATTERY_CHARGE_MIN_LEVEL_4_SEGMENTS;
-    public static final int BATTERY_CHARGE_MIN_LEVEL_5_SEGMENTS;
-    public static final int BATTERY_CHARGE_MIN_LEVEL_6_SEGMENTS;
-    public static final int BATTERY_CHARGE_MIN_LEVEL_7_SEGMENTS;
-    public static final int BATTERY_CHARGE_MIN_LEVEL_8_SEGMENTS;
-    public static final int BATTERY_CHARGE_MAX_LEVEL_8_SEGMENTS;
+    public static final int BATTERY_CHARGE_MIN_LEVEL_0_SEGMENTS = 0;
+    public static final int BATTERY_CHARGE_MIN_LEVEL_1_SEGMENTS = 1;
+    public static final int BATTERY_CHARGE_MIN_LEVEL_2_SEGMENTS = 10;
+    public static final int BATTERY_CHARGE_MIN_LEVEL_3_SEGMENTS = 25;
+    public static final int BATTERY_CHARGE_MIN_LEVEL_4_SEGMENTS = 38;
+    public static final int BATTERY_CHARGE_MIN_LEVEL_5_SEGMENTS = 50;
+    public static final int BATTERY_CHARGE_MIN_LEVEL_6_SEGMENTS = 63;
+    public static final int BATTERY_CHARGE_MIN_LEVEL_7_SEGMENTS = 75;
+    public static final int BATTERY_CHARGE_MIN_LEVEL_8_SEGMENTS = 88;
+    public static final int BATTERY_CHARGE_MAX_LEVEL_8_SEGMENTS = 100;
 
     private MiscHybridHelper() {
     }

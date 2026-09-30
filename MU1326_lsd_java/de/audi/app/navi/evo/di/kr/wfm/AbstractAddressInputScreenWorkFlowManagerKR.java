@@ -14,7 +14,7 @@ import de.audi.tghu.navi.app.li.sc.SpellerContextManager;
 import de.audi.tghu.navi.app.util.Util;
 
 public abstract class AbstractAddressInputScreenWorkFlowManagerKR {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final NavigationEnv env;
     protected final LogChannel logChannel;
     protected final ICommandListFactory commandListFactory;
@@ -28,8 +28,7 @@ public abstract class AbstractAddressInputScreenWorkFlowManagerKR {
         this.logChannel = navigationEnv.getAddressInputLogChannel();
     }
 
-    public abstract CommandList handleWorkFlow(CommandList commandList, int n) {
-    }
+    public abstract CommandList handleWorkFlow(CommandList var1, int var2);
 
     public void setAddressInputManager(AddressInputManagerKR addressInputManagerKR) {
         this.inputManager = addressInputManagerKR;

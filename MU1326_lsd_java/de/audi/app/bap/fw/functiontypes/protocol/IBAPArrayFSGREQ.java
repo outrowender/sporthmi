@@ -7,10 +7,8 @@ import de.vw.mib.bap.requests.ChangedArray;
 import de.vw.mib.bap.requests.StatusArray;
 
 public interface IBAPArrayFSGREQ {
-    default public void statusArrayREQ(int n, StatusArray statusArray) {
-    }
+    public void statusArrayREQ(int var1, StatusArray var2);
 
-    default public void changedArrayREQ(ChangedArray changedArray) {
-    }
+    public void changedArrayREQ(ChangedArray var1);
 }
 

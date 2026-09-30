@@ -4,7 +4,6 @@
 package de.audi.app.ecall.license;
 
 public interface ILicenseScreenState {
-    default public int getLincenseScreenId() {
-    }
+    public int getLincenseScreenId();
 }
 

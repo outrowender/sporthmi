@@ -8,16 +8,16 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class Pressure
 extends AbstractMetrics {
-    private static final String TEXT_PRESSURE_PSI;
-    private static final String TEXT_PRESSURE_BAR;
-    private static final String TEXT_PRESSURE_KPA;
-    private static String TEXT_INVALID;
-    public static final int BAR;
-    public static final int PSI;
-    public static final int KPA;
-    private static final float PSI2BAR;
-    private static final float BAR2KPA;
-    private static int systemUnit;
+    private static final String TEXT_PRESSURE_PSI = " psi";
+    private static final String TEXT_PRESSURE_BAR = " bar";
+    private static final String TEXT_PRESSURE_KPA = " kPa";
+    private static String TEXT_INVALID = "---";
+    public static final int BAR = 1;
+    public static final int PSI = 2;
+    public static final int KPA = 3;
+    private static final float PSI2BAR = 0.06893f;
+    private static final float BAR2KPA = 100.0f;
+    private static int systemUnit = 1;
     private boolean showUnitString = true;
 
     public Pressure(float f2, int n) {
@@ -26,19 +26,19 @@ extends AbstractMetrics {
     }
 
     protected final float bar2psi(float f2) {
-        return f2 / 741051709;
+        return f2 / 0.06893f;
     }
 
     protected final float psi2bar(float f2) {
-        return f2 * 741051709;
+        return f2 * 0.06893f;
     }
 
     protected final float bar2kPa(float f2) {
-        return f2 * 51266;
+        return f2 * 100.0f;
     }
 
     protected final float kPa2bar(float f2) {
-        return f2 / 51266;
+        return f2 / 100.0f;
     }
 
     private final void importValue() {
@@ -69,18 +69,15 @@ extends AbstractMetrics {
         return systemUnit;
     }
 
-    @Override
     public void setValue(float f2) {
         this.value = f2;
         this.importValue();
     }
 
-    @Override
     public float getValue() {
         return this.getValueInUnit(systemUnit);
     }
 
-    @Override
     public float getValue(int n) {
         if (!Pressure.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -100,7 +97,6 @@ extends AbstractMetrics {
         return this.value;
     }
 
-    @Override
     public String format() {
         if (this.unit != 0) {
             return this.format(this.unit);
@@ -112,7 +108,6 @@ extends AbstractMetrics {
         this.showUnitString = bl;
     }
 
-    @Override
     public String format(int n) {
         if (!Pressure.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -122,7 +117,7 @@ extends AbstractMetrics {
             default: {
                 float f2 = this.value;
                 int n2 = (int)Math.abs(f2);
-                int n3 = (int)((double)Math.abs(f2 * 8257) + 0.5) - Math.abs(n2 * 10);
+                int n3 = (int)((double)Math.abs(f2 * 10.0f) + 0.5) - Math.abs(n2 * 10);
                 n2 += n3 / 10;
                 n3 %= 10;
                 if (0.0f > this.value) {
@@ -136,7 +131,7 @@ extends AbstractMetrics {
             case 2: {
                 float f3 = this.bar2psi(this.value);
                 int n4 = (int)Math.abs(f3);
-                int n5 = (int)((double)Math.abs(f3 * 8257) + 0.5) - Math.abs(n4 * 10);
+                int n5 = (int)((double)Math.abs(f3 * 10.0f) + 0.5) - Math.abs(n4 * 10);
                 n4 += n5 / 10;
                 n5 %= 10;
                 if (0.0f > this.value) {
@@ -166,15 +161,15 @@ extends AbstractMetrics {
         if (string == null) {
             switch (n) {
                 case 27: {
-                    string = " bar";
+                    string = TEXT_PRESSURE_BAR;
                     break;
                 }
                 case 26: {
-                    string = " psi";
+                    string = TEXT_PRESSURE_PSI;
                     break;
                 }
                 case 28: {
-                    string = " kPa";
+                    string = TEXT_PRESSURE_KPA;
                     break;
                 }
                 case 30: {
@@ -193,12 +188,10 @@ extends AbstractMetrics {
         return string;
     }
 
-    @Override
     public String getFormattedMetricUnit() {
         return this.getFormattedUnit(this.useInstanceUnit ? this.unit : systemUnit);
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         if (!Pressure.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -220,7 +213,6 @@ extends AbstractMetrics {
         return null != string ? string.trim() : "";
     }
 
-    @Override
     public String getFormattedValue() {
         return this.getFormattedValue(this.useInstanceUnit ? this.unit : systemUnit);
     }
@@ -228,7 +220,6 @@ extends AbstractMetrics {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getFormattedValue(int n) {
         boolean bl = this.showUnitString;
         try {
@@ -241,19 +232,12 @@ extends AbstractMetrics {
         }
     }
 
-    @Override
     public String[] getStringValueAndUnit() {
         return new String[]{this.getFormattedValue(), this.getFormattedMetricUnit()};
     }
 
-    @Override
     public String getInvalidText() {
         return TEXT_INVALID;
-    }
-
-    static {
-        TEXT_INVALID = "---";
-        systemUnit = 1;
     }
 }
 

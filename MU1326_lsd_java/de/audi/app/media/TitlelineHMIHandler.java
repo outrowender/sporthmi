@@ -16,86 +16,79 @@ public class TitlelineHMIHandler
 extends AbstractMediaTerminalComponent
 implements ITitlelineHMIHandler,
 IActiveSourceListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TitlelineHMIHandler";
     private final ModelGroup modelGroup = new ModelGroup();
-    private static final int BT_STATE_OTHER;
-    private static final int BT_STATE_NOT_READY;
-    private static final int BT_STATE_PLAYING;
+    private static final int BT_STATE_OTHER = 0;
+    private static final int BT_STATE_NOT_READY = 1;
+    private static final int BT_STATE_PLAYING = 2;
 
     public TitlelineHMIHandler(IMediaTerminal iMediaTerminal) {
         super(iMediaTerminal);
     }
 
     public void init() {
-        this.logger.hmi().log(1078071040, "[%1.init]", (Object)"TitlelineHMIHandler");
-        this.modelGroup.add(this.getModel(1611531008));
+        this.logger.hmi().log(1000000, "[%1.init]", (Object)LOGCLASS);
+        this.modelGroup.add(this.getModel(200288));
         this.modelGroup.add(this.getTerminal().getFramework().getHmiServiceApp().getChoiceModel(3861));
         this.modelGroup.add(this.getTerminal().getFramework().getHmiServiceApp().getChoiceModel(3864));
         this.getTerminal().getSourceController().addActiveSourceListener(this);
     }
 
     public void deinit() {
-        this.logger.hmi().log(1078071040, "[%1.deinit]", (Object)"TitlelineHMIHandler");
+        this.logger.hmi().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.modelGroup.removeAll();
         this.getTerminal().getSourceController().removeActiveSourceListener(this);
     }
 
-    @Override
     public void setSourceIcon(ISourceSlot iSourceSlot) {
         int n = MediaUtils.getHMISourceIcon(iSourceSlot);
-        this.logger.hmi().log(1078071040, "[%1.setSourceIcon] '%2','%3'", (Object)"TitlelineHMIHandler", (Object)iSourceSlot.getSource(), (long)n);
-        this.getResourceLocatorModel(1611531008).setResourceLocator(n, iSourceSlot.getCaptionIcon());
+        this.logger.hmi().log(1000000, "[%1.setSourceIcon] '%2','%3'", (Object)LOGCLASS, (Object)iSourceSlot.getSource(), (long)n);
+        this.getResourceLocatorModel(200288).setResourceLocator(n, iSourceSlot.getCaptionIcon());
     }
 
-    @Override
     public void resetIcons() {
-        this.logger.hmi().log(1078071040, "[%1.resetIcons]", (Object)"TitlelineHMIHandler");
+        this.logger.hmi().log(1000000, "[%1.resetIcons]", (Object)LOGCLASS);
         this.getTerminal().getFramework().getHmiServiceApp().getChoiceModel(3864).setValue(0);
         this.getTerminal().getFramework().getHmiServiceApp().getChoiceModel(3861).setValue(0);
     }
 
-    @Override
     public void setRepeatScopeIcon(int n) {
-        this.logger.hmi().log(1078071040, "[%1.setRepeatScopeIcon] '%2'", (Object)"TitlelineHMIHandler", (long)n);
+        this.logger.hmi().log(1000000, "[%1.setRepeatScopeIcon] '%2'", (Object)LOGCLASS, (long)n);
         this.getTerminal().getFramework().getHmiServiceApp().getChoiceModel(3864).setValue(n);
     }
 
-    @Override
     public void setMixIcon(boolean bl) {
-        this.logger.hmi().log(1078071040, "[%1.setMixIcon] '%2'", (Object)"TitlelineHMIHandler", (Object)(bl ? "ENABLED" : "DISABLED"));
+        this.logger.hmi().log(1000000, "[%1.setMixIcon] '%2'", (Object)LOGCLASS, (Object)(bl ? "ENABLED" : "DISABLED"));
         this.getTerminal().getFramework().getHmiServiceApp().getChoiceModel(3861).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void flush() {
-        this.logger.hmi().log(1078071040, "[%1.flush]", (Object)"TitlelineHMIHandler");
+        this.logger.hmi().log(1000000, "[%1.flush]", (Object)LOGCLASS);
         this.modelGroup.flush();
     }
 
-    @Override
     public void activeSourceChanged(boolean bl, ActiveSourceState activeSourceState) {
         int n;
-        this.logger.hmi().log(1078071040, "[%1.activeSourceChanged] ", (Object)"TitlelineHMIHandler");
+        this.logger.hmi().log(1000000, "[%1.activeSourceChanged] ", (Object)LOGCLASS);
         if (activeSourceState.getSlot().getSource().getType() == 11) {
-            this.logger.hmi().log(1078071040, "[%1.activeSourceChanged] Bluetooth source is active", (Object)"TitlelineHMIHandler");
+            this.logger.hmi().log(1000000, "[%1.activeSourceChanged] Bluetooth source is active", (Object)LOGCLASS);
             if (activeSourceState.getState() == 1) {
-                this.logger.hmi().log(1078071040, "[%1.activeSourceChanged] Bluetooth is playing", (Object)"TitlelineHMIHandler");
+                this.logger.hmi().log(1000000, "[%1.activeSourceChanged] Bluetooth is playing", (Object)LOGCLASS);
                 n = 2;
             } else if (activeSourceState.getState() == 11) {
-                this.logger.hmi().log(1078071040, "[%1.activeSourceChanged] Bluetooth is off", (Object)"TitlelineHMIHandler");
+                this.logger.hmi().log(1000000, "[%1.activeSourceChanged] Bluetooth is off", (Object)LOGCLASS);
                 n = 0;
             } else {
-                this.logger.hmi().log(1078071040, "[%1.activeSourceChanged] Bluetooth source is active but not ready", (Object)"TitlelineHMIHandler");
+                this.logger.hmi().log(1000000, "[%1.activeSourceChanged] Bluetooth source is active but not ready", (Object)LOGCLASS);
                 n = 1;
             }
         } else {
-            this.logger.hmi().log(1078071040, "[%1.activeSourceChanged] Bluetooth not active", (Object)"TitlelineHMIHandler");
+            this.logger.hmi().log(1000000, "[%1.activeSourceChanged] Bluetooth not active", (Object)LOGCLASS);
             n = 0;
         }
         this.getTerminal().getFramework().getHmiServiceApp().getChoiceModel(4501).setValue(n);
     }
 
-    @Override
     public void sourceDeactivated() {
     }
 }

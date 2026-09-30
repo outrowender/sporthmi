@@ -4,16 +4,12 @@
 package de.audi.app.car.core.comfort;
 
 public interface IUGDOSynchronizationHandler {
-    default public void startSync(int n) {
-    }
+    public void startSync(int var1);
 
-    default public void abortSync(int n) {
-    }
+    public void abortSync(int var1);
 
-    default public boolean isSyncRunning() {
-    }
+    public boolean isSyncRunning();
 
-    default public void setInitValueOfRollingCodeState() {
-    }
+    public void setInitValueOfRollingCodeState();
 }
 

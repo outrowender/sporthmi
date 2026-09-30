@@ -50,47 +50,39 @@ implements IApplication {
         }
     }
 
-    @Override
     public void init() {
         this.initComponents();
         this.registerDSIListener();
         this.startDSI();
         this.startCommandListManager();
-        this.log.log(-2137614336, "AbstractApplication#init(): %1 initialized", (Object)super.getClass().getName());
+        this.log.log(10000000, "AbstractApplication#init(): %1 initialized", (Object)this.getClass().getName());
     }
 
-    protected abstract void registerDSIListener() {
-    }
+    protected abstract void registerDSIListener();
 
-    protected abstract void startDSI() {
-    }
+    protected abstract void startDSI();
 
     private void startCommandListManager() {
         this.commandListManager.start();
     }
 
-    @Override
     public void deinit() {
         this.deinitComponents();
         this.commandListManager.destroy();
     }
 
-    @Override
     public BundleContext getBundleContext() {
         return this.bundleContext;
     }
 
-    @Override
     public CommandListManager getCommandListManager() {
         return this.commandListManager;
     }
 
-    @Override
     public IFrameworkAccess getFramework() {
         return this.framework;
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.log;
     }

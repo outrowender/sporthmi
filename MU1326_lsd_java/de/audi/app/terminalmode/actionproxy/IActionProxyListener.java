@@ -6,7 +6,6 @@ package de.audi.app.terminalmode.actionproxy;
 import java.util.Map;
 
 public interface IActionProxyListener {
-    default public void actionProxyCallPerformed(int n, Map map) {
-    }
+    public void actionProxyCallPerformed(int var1, Map var2);
 }
 

@@ -4,21 +4,23 @@
 package de.audi.app.messaging.core.audio;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
-import de.audi.app.messaging.core.audio.AudioManager$1;
-import de.audi.app.messaging.core.audio.AudioManager$NewMessageIndicationManagerObserver;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.component.IMessagingComponent;
+import de.audi.app.messaging.core.indication.INewMessageIndicationManagerObserver;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
 import de.audi.atip.audio.HMIAudioService;
 import de.audi.atip.audio.HMIAudioServiceListener;
-import de.audi.atip.log.LogChannel;
 import de.audi.tghu.waveplayer.SystemTonePlayer;
+import de.audi.tghu.waveplayer.WavePlayer;
 import de.audi.tghu.waveplayer.WavePlayerListener;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -40,13 +42,11 @@ WavePlayerListener {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        abstractMsgApplication.getNewMessageIndicationManager().addObserver(new AudioManager$NewMessageIndicationManagerObserver(this, null));
+        abstractMsgApplication.getNewMessageIndicationManager().addObserver(new NewMessageIndicationManagerObserver());
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -61,17 +61,17 @@ WavePlayerListener {
     }
 
     private void setHmiAudioService(HMIAudioService hMIAudioService) {
-        this.log.log(-2137614336, "[AudioManager#setHmiAudioService]");
+        this.log.log(10000000, "[AudioManager#setHmiAudioService]");
         this.hmiAudioService = hMIAudioService;
     }
 
     private void clearHmiAudioService() {
-        this.log.log(-2137614336, "[AudioManager#clearHmiAudioService]");
+        this.log.log(10000000, "[AudioManager#clearHmiAudioService]");
         this.hmiAudioService = null;
     }
 
     private void setSystemTonePlayer(SystemTonePlayer systemTonePlayer) {
-        this.log.log(-2137614336, "[AudioManager#setSystemTonePlayer]");
+        this.log.log(10000000, "[AudioManager#setSystemTonePlayer]");
         this.systemTonePlayer = systemTonePlayer;
         if (systemTonePlayer != null) {
             systemTonePlayer.setListener(this);
@@ -79,7 +79,7 @@ WavePlayerListener {
     }
 
     private void clearSystemTonePlayer() {
-        this.log.log(-2137614336, "[AudioManager#clearSystemTonePlayer]");
+        this.log.log(10000000, "[AudioManager#clearSystemTonePlayer]");
         SystemTonePlayer systemTonePlayer = this.systemTonePlayer;
         this.systemTonePlayer = null;
         if (systemTonePlayer != null) {
@@ -96,7 +96,7 @@ WavePlayerListener {
     }
 
     private void playNewMessageTone() {
-        this.log.log(1078071040, "[AudioManager#playNewMessageTone]");
+        this.log.log(1000000, "[AudioManager#playNewMessageTone]");
         if (this.hmiAudioService == null) {
             this.log.log(10000, "[AudioManager#playNewMessageTone] Audio service not available.");
         } else {
@@ -106,18 +106,18 @@ WavePlayerListener {
 
     private void setNewMessagesAvailable() {
         boolean bl = this.msgApp.getNewMessageIndicationManager().newMessagesAvailable();
-        this.log.log(1078071040, "[AudioManager#setNewMessagesAvailable] newMessageToneEnabled = %1; this.newMessagesAvailable = %2, newMessagesAvailable = %3", this.newMessageToneEnabled, this.newMessagesAvailable, bl);
+        this.log.log(1000000, "[AudioManager#setNewMessagesAvailable] newMessageToneEnabled = %1; this.newMessagesAvailable = %2, newMessagesAvailable = %3", this.newMessageToneEnabled, this.newMessagesAvailable, bl);
         if (this.newMessagesAvailable != bl || this.framework.getSysConst(4168) == 7) {
             boolean bl2;
             this.newMessagesAvailable = bl;
-            boolean bl3 = bl2 = this.msgApp.getFramework().getHMIService().getChoiceModel(-1483406336).getValue() == 1;
+            boolean bl3 = bl2 = this.msgApp.getFramework().getHMIService().getChoiceModel(300455).getValue() == 1;
             if (bl && this.newMessageToneEnabled && !bl2) {
                 this.playNewMessageTone();
             }
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         ServiceFilterBuilder serviceFilterBuilder = new ServiceFilterBuilder();
         serviceFilterBuilder.beginOr();
         serviceFilterBuilder.beginAnd();
@@ -128,15 +128,31 @@ WavePlayerListener {
         serviceFilterBuilder.endOr();
         String string = serviceFilterBuilder.createFilterString();
         Filter filter = this.bundleContext.createFilter(string);
-        AudioManager$1 audioManager$1 = new AudioManager$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)audioManager$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                if (object instanceof HMIAudioService) {
+                    AudioManager.this.setHmiAudioService((HMIAudioService)object);
+                } else {
+                    AudioManager.this.setSystemTonePlayer(((WavePlayer)object).getSystemTonePlayer());
+                }
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                if (object instanceof HMIAudioService) {
+                    AudioManager.this.clearHmiAudioService();
+                } else {
+                    AudioManager.this.clearSystemTonePlayer();
+                }
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
-    @Override
     public void fadedIn(int n, int n2) {
         if (n == 123 && n2 == 0) {
             if (this.systemTonePlayer != null) {
-                this.log.log(1078071040, "[AudioManager#fadedIn] Playing new message tone with newMessageToneId = %1", (long)this.newMessageToneId);
+                this.log.log(1000000, "[AudioManager#fadedIn] Playing new message tone with newMessageToneId = %1", (long)this.newMessageToneId);
                 this.systemTonePlayer.playTone(0, this.newMessageToneId);
             } else {
                 this.log.log(10000, "[AudioManager#fadedIn] SystemTonePlayer not available, releasing audio connection.");
@@ -147,29 +163,25 @@ WavePlayerListener {
         }
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
-        this.log.log(1078071040, "[AudioManager#updateAMAvailable] available = %1", bl);
+        this.log.log(1000000, "[AudioManager#updateAMAvailable] available = %1", bl);
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
         if (n == 123) {
-            this.log.log(1078071040, "[AudioManager#stopConnection] connection = %1, hmiTerminal = %2", (long)n, (long)n2);
+            this.log.log(1000000, "[AudioManager#stopConnection] connection = %1, hmiTerminal = %2", (long)n, (long)n2);
         }
     }
 
-    @Override
     public void pauseConnection(int n, int n2) {
         if (n == 123) {
-            this.log.log(1078071040, "[AudioManager#pauseConnection] connection = %1, hmiTerminal = %2", (long)n, (long)n2);
+            this.log.log(1000000, "[AudioManager#pauseConnection] connection = %1, hmiTerminal = %2", (long)n, (long)n2);
         }
     }
 
-    @Override
     public void startConnection(int n, int n2) {
         if (n == 123 && n2 == 0) {
-            this.log.log(1078071040, "[AudioManager#startConnection] connection = %1, hmiTerminal = %2", (long)n, (long)n2);
+            this.log.log(1000000, "[AudioManager#startConnection] connection = %1, hmiTerminal = %2", (long)n, (long)n2);
             if (this.hmiAudioService == null) {
                 this.log.log(10000, "[AudioManager#startConnection] Audio service not available.");
             } else {
@@ -178,26 +190,22 @@ WavePlayerListener {
         }
     }
 
-    @Override
     public void errorConnection(int n, int n2, int n3) {
         if (n == 123) {
             this.log.log(10000, "[AudioManager#errorConnection] connection = %1, hmiTerminal = %2, errorCode = %3", (long)n, (long)n2, (long)n3);
         }
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
     }
 
-    @Override
     public void state(int n) {
-        this.log.log(1078071040, "[AudioManager#state] status = %1", (long)n);
+        this.log.log(1000000, "[AudioManager#state] status = %1", (long)n);
         if (n != 0 && this.hmiAudioService != null) {
             this.hmiAudioService.releaseConnection(123, 0);
         }
     }
 
-    @Override
     public void playToneInfo(int n) {
     }
 
@@ -210,28 +218,17 @@ WavePlayerListener {
         }
     }
 
-    static /* synthetic */ void access$100(AudioManager audioManager, HMIAudioService hMIAudioService) {
-        audioManager.setHmiAudioService(hMIAudioService);
-    }
+    private class NewMessageIndicationManagerObserver
+    implements INewMessageIndicationManagerObserver {
+        private NewMessageIndicationManagerObserver() {
+        }
 
-    static /* synthetic */ void access$200(AudioManager audioManager, SystemTonePlayer systemTonePlayer) {
-        audioManager.setSystemTonePlayer(systemTonePlayer);
-    }
-
-    static /* synthetic */ void access$300(AudioManager audioManager) {
-        audioManager.clearHmiAudioService();
-    }
-
-    static /* synthetic */ void access$400(AudioManager audioManager) {
-        audioManager.clearSystemTonePlayer();
-    }
-
-    static /* synthetic */ LogChannel access$500(AudioManager audioManager) {
-        return audioManager.log;
-    }
-
-    static /* synthetic */ void access$600(AudioManager audioManager) {
-        audioManager.setNewMessagesAvailable();
+        public void indicateIndicationStateChanged(int n) {
+            AudioManager.this.log.log(10000000, "[AudioManager#indicateIndicationStateChanged] stateAspect = %1", (long)n);
+            if (n == 0) {
+                AudioManager.this.setNewMessagesAvailable();
+            }
+        }
     }
 }
 

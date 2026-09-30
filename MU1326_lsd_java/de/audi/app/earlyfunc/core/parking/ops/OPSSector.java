@@ -13,12 +13,12 @@ public class OPSSector {
     private final ChoiceModelApp statusModel;
     private OPSSegment activeSegment;
     private int currentVisibilityStatus = 14;
-    public static final int VISIBLE;
-    public static final int INVISIBLE;
+    public static final int VISIBLE = 1;
+    public static final int INVISIBLE = 0;
     private ArrayList segments;
     private LogChannel logChannel;
     private int constantRange = 0;
-    public static final int DEFAULT_CONSTANT_RANGE;
+    public static final int DEFAULT_CONSTANT_RANGE = 15;
     private int lastDistanceValue;
 
     public OPSSector(LogChannel logChannel, ChoiceModelApp choiceModelApp, ArrayList arrayList) {
@@ -60,7 +60,7 @@ public class OPSSector {
         if (this.isVisibleStatus(n) && this.activeSegment != null) {
             this.activeSegment.setStatus(n, this.lastDistanceValue, this.constantRange);
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[OPSSector#applyCurrentStatus] activeSegment='%1', statusLvl='%2', distanceModel='%3'", (Object)this.activeSegment, (Object)new Integer(n), (long)this.getDistanceModel().getID());
+                this.logChannel.log(1000000, "[OPSSector#applyCurrentStatus] activeSegment='%1', statusLvl='%2', distanceModel='%3'", (Object)this.activeSegment, (Object)new Integer(n), (long)this.getDistanceModel().getID());
             }
         }
     }
@@ -81,7 +81,7 @@ public class OPSSector {
 
     private void setVisibility(int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[OPSSector#setVisibility] visibility='%1', currentVisibilityStatus='%2', activeSegment='%3', statusModel='%4'", (Object)new Integer(n), (Object)new Integer(this.currentVisibilityStatus), (Object)this.activeSegment, (long)this.statusModel.getID());
+            this.logChannel.log(1000000, "[OPSSector#setVisibility] visibility='%1', currentVisibilityStatus='%2', activeSegment='%3', statusModel='%4'", (Object)new Integer(n), (Object)new Integer(this.currentVisibilityStatus), (Object)this.activeSegment, (long)this.statusModel.getID());
         }
         this.statusModel.setValue(n);
     }
@@ -116,7 +116,7 @@ public class OPSSector {
             if (!oPSSegment.isActive(n, this.segments.size(), this.constantRange)) continue;
             this.activeSegment = oPSSegment;
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[OPSSector#setActiveSegment] activeSegment='%1', updatedDistValue='%2', distanceModel='%3'", (Object)this.activeSegment, (Object)new Integer(n), (long)this.getDistanceModel().getID());
+                this.logChannel.log(1000000, "[OPSSector#setActiveSegment] activeSegment='%1', updatedDistValue='%2', distanceModel='%3'", (Object)this.activeSegment, (Object)new Integer(n), (long)this.getDistanceModel().getID());
             }
             return;
         }

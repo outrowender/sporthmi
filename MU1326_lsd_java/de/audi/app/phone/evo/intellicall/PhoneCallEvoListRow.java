@@ -18,73 +18,73 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public class PhoneCallEvoListRow
 extends EvoListRow {
-    public static final int MAX_COLUMNS;
-    public static final int MAX_ROWS;
-    public static final int CANCEL_ICON_INVALID;
-    public static final int CANCEL_ICON_HANGUP;
-    public static final int CANCEL_ICON_HOLD;
-    public static final int ACTION_HANGUP;
-    public static final int ACTION_SWAP;
-    public static final int ACTION_NONE;
-    protected static final int DISCREASON_INVALID;
-    protected static final int DISCREASON_NORMAL;
-    protected static final int DISCREASON_NOLINE;
-    protected static final int DISCREASON_SYSTEM_BUSY;
-    protected static final int DISCREASON_NUMBER_BUSY;
-    protected static final int DISCREASON_NUMBER_NOT_ASSIGNED;
-    protected static final int DISCREASON_NUMBER_NOT_REACHABLE;
-    protected static final int DISCREASON_NETWORK_FAILURE;
-    protected static final int DISCREASON_CALL_BARRING_ACTIVE;
-    protected static final int DISCREASON_USER_NOT_RESPONDING;
-    protected static final int DISCREASON_CALL_REJECTED;
-    protected static final int DISCREASON_NUMBER_CHANGED;
-    protected static final int DISCREASON_NUMBER_INVALID_INCOMPLETE;
-    protected static final int DISCREASON_SERVICE_NOT_AVAILABLE;
-    protected static final int DISCREASON_NO_INFO_AVAILABLE;
-    protected static final int DISCREASON_NUMBER_TEMP_FORBIDDEN;
-    protected static final int COL_CALLID;
-    protected static final int COL_NAME;
-    protected static final int COL_PHONETYPEICON;
-    protected static final int COL_NUMBER;
-    protected static final int COL_DISCONNECTING_DISABLED_PRIMARY_ACTION_TEXT;
-    protected static final int COL_CALLDURATION;
-    protected static final int COL_DISCONNECTREASON;
-    protected static final int COL_PROPERTIES;
-    protected static final int COL_RECORDSET_NAME_NUMBER;
-    protected static final int COL_CALLTYPE_ICON;
-    protected static final int COL_CANCEL_ICON;
-    protected static final int COL_RESOURCELOCATOR;
-    protected static final int COL_RECORDSET_ACTIVE_NONACTIVE_LAYOUT;
-    protected static final int COL_TEXT_SECOND_LINE_ACTIVE_CALL;
-    protected static final int COL_TEXT_SECOND_LINE_HELD_CALL;
-    protected static final int COL_TEXT_THIRD_LINE_ACTIVE_CALL;
-    private static final long SECS_PER_HOUR;
-    private static final long SECS_PER_MINUTE;
-    private static final int RECORDSET_USE_NAME_COLUMN;
-    private static final int RECORDSET_USE_CALLTYPE_COLUMN;
-    private static final int RECORDSET_LARGE_ACTIVE_ADBMATCH;
-    private static final int RECORDSET_LARGE_ACTIVE_NO_ADBMATCH;
-    private static final int RECORDSET_LARGE_DIALING_ALEARTING_ADBMATCH;
-    private static final int RECORDSET_LARGE_DIALING_ALEARTING_NO_ADBMATCH;
-    private static final int RECORDSET_LARGE_DISCONNECTING_ACTIVE_ALEARING_DIALING_ADBMATCH;
-    private static final int RECORDSET_LARGE_DISCONNECTING_ACTIVE_ALEARING_DIALING_NO_ADBMATCH;
-    private static final int RECORDSET_LARGE_HOLD_ADBMATCH;
-    private static final int RECORDSET_LARGE_HOLD_NO_ADBMATCH;
-    private static final int RECORDSET_LARGE_DISCONNECTING_HOLD_RINGING_ADBMATCH;
-    private static final int RECORDSET_LARGE_DISCONNECTING_HOLD_RINGING_NO_ADBMATCH;
-    private static final int RECORDSET_SMALL_ACTIVE_ADBMATCH;
-    private static final int RECORDSET_SMALL_ACTIVE_NO_ADBMATCH;
-    private static final int RECORDSET_SMALL_DIALING_ALEARTING_ADBMATCH;
-    private static final int RECORDSET_SMALL_DIALING_ALEARTING_NO_ADBMATCH;
-    private static final int RECORDSET_SMALL_DISCONNECTING_ACTIVE_ALEARING_DIALING_ADBMATCH;
-    private static final int RECORDSET_SMALL_DISCONNECTING_ACTIVE_ALEARING_DIALING_NO_ADBMATCH;
-    private static final int RECORDSET_SMALL_HOLD_ADBMATCH;
-    private static final int RECORDSET_SMALL_HOLD_NO_ADBMATCH;
-    private static final int RECORDSET_SMALL_DISCONNECTING_HOLD_RINGING_ADBMATCH;
-    private static final int RECORDSET_SMALL_DISCONNECTING_HOLD_RINGING_NO_ADBMATCH;
-    private static final int CALLTYPEICON_DUMMY_SINGLE;
-    private static final int CALLTYPEICON_SINGLE_PICTURE;
-    private static final int CALLTYPEICON_DUMMY_CONFERENCE;
+    public static final int MAX_COLUMNS = 16;
+    public static final int MAX_ROWS = 3;
+    public static final int CANCEL_ICON_INVALID = -1;
+    public static final int CANCEL_ICON_HANGUP = 1;
+    public static final int CANCEL_ICON_HOLD = 2;
+    public static final int ACTION_HANGUP = 0;
+    public static final int ACTION_SWAP = 1;
+    public static final int ACTION_NONE = 2;
+    protected static final int DISCREASON_INVALID = -1;
+    protected static final int DISCREASON_NORMAL = 0;
+    protected static final int DISCREASON_NOLINE = 1;
+    protected static final int DISCREASON_SYSTEM_BUSY = 2;
+    protected static final int DISCREASON_NUMBER_BUSY = 3;
+    protected static final int DISCREASON_NUMBER_NOT_ASSIGNED = 4;
+    protected static final int DISCREASON_NUMBER_NOT_REACHABLE = 5;
+    protected static final int DISCREASON_NETWORK_FAILURE = 6;
+    protected static final int DISCREASON_CALL_BARRING_ACTIVE = 7;
+    protected static final int DISCREASON_USER_NOT_RESPONDING = 8;
+    protected static final int DISCREASON_CALL_REJECTED = 9;
+    protected static final int DISCREASON_NUMBER_CHANGED = 10;
+    protected static final int DISCREASON_NUMBER_INVALID_INCOMPLETE = 11;
+    protected static final int DISCREASON_SERVICE_NOT_AVAILABLE = 12;
+    protected static final int DISCREASON_NO_INFO_AVAILABLE = 13;
+    protected static final int DISCREASON_NUMBER_TEMP_FORBIDDEN = 14;
+    protected static final int COL_CALLID = 0;
+    protected static final int COL_NAME = 1;
+    protected static final int COL_PHONETYPEICON = 2;
+    protected static final int COL_NUMBER = 3;
+    protected static final int COL_DISCONNECTING_DISABLED_PRIMARY_ACTION_TEXT = 4;
+    protected static final int COL_CALLDURATION = 5;
+    protected static final int COL_DISCONNECTREASON = 6;
+    protected static final int COL_PROPERTIES = 7;
+    protected static final int COL_RECORDSET_NAME_NUMBER = 8;
+    protected static final int COL_CALLTYPE_ICON = 9;
+    protected static final int COL_CANCEL_ICON = 10;
+    protected static final int COL_RESOURCELOCATOR = 11;
+    protected static final int COL_RECORDSET_ACTIVE_NONACTIVE_LAYOUT = 12;
+    protected static final int COL_TEXT_SECOND_LINE_ACTIVE_CALL = 13;
+    protected static final int COL_TEXT_SECOND_LINE_HELD_CALL = 14;
+    protected static final int COL_TEXT_THIRD_LINE_ACTIVE_CALL = 15;
+    private static final long SECS_PER_HOUR = 3600L;
+    private static final long SECS_PER_MINUTE = 60L;
+    private static final int RECORDSET_USE_NAME_COLUMN = 0;
+    private static final int RECORDSET_USE_CALLTYPE_COLUMN = 1;
+    private static final int RECORDSET_LARGE_ACTIVE_ADBMATCH = 0;
+    private static final int RECORDSET_LARGE_ACTIVE_NO_ADBMATCH = 1;
+    private static final int RECORDSET_LARGE_DIALING_ALEARTING_ADBMATCH = 2;
+    private static final int RECORDSET_LARGE_DIALING_ALEARTING_NO_ADBMATCH = 3;
+    private static final int RECORDSET_LARGE_DISCONNECTING_ACTIVE_ALEARING_DIALING_ADBMATCH = 4;
+    private static final int RECORDSET_LARGE_DISCONNECTING_ACTIVE_ALEARING_DIALING_NO_ADBMATCH = 5;
+    private static final int RECORDSET_LARGE_HOLD_ADBMATCH = 6;
+    private static final int RECORDSET_LARGE_HOLD_NO_ADBMATCH = 7;
+    private static final int RECORDSET_LARGE_DISCONNECTING_HOLD_RINGING_ADBMATCH = 8;
+    private static final int RECORDSET_LARGE_DISCONNECTING_HOLD_RINGING_NO_ADBMATCH = 9;
+    private static final int RECORDSET_SMALL_ACTIVE_ADBMATCH = 10;
+    private static final int RECORDSET_SMALL_ACTIVE_NO_ADBMATCH = 11;
+    private static final int RECORDSET_SMALL_DIALING_ALEARTING_ADBMATCH = 12;
+    private static final int RECORDSET_SMALL_DIALING_ALEARTING_NO_ADBMATCH = 13;
+    private static final int RECORDSET_SMALL_DISCONNECTING_ACTIVE_ALEARING_DIALING_ADBMATCH = 14;
+    private static final int RECORDSET_SMALL_DISCONNECTING_ACTIVE_ALEARING_DIALING_NO_ADBMATCH = 15;
+    private static final int RECORDSET_SMALL_HOLD_ADBMATCH = 16;
+    private static final int RECORDSET_SMALL_HOLD_NO_ADBMATCH = 17;
+    private static final int RECORDSET_SMALL_DISCONNECTING_HOLD_RINGING_ADBMATCH = 18;
+    private static final int RECORDSET_SMALL_DISCONNECTING_HOLD_RINGING_NO_ADBMATCH = 19;
+    private static final int CALLTYPEICON_DUMMY_SINGLE = 0;
+    private static final int CALLTYPEICON_SINGLE_PICTURE = 1;
+    private static final int CALLTYPEICON_DUMMY_CONFERENCE = 2;
     private volatile int primaryAction = 2;
     protected final LogChannel log;
     protected final AbstractPhoneCall call;
@@ -132,7 +132,6 @@ extends EvoListRow {
         return this.call.getTelRemPictureId();
     }
 
-    @Override
     public EvoListRow copy() {
         return new PhoneCallEvoListRow(this, this.log, this.nrCallRows, this.call);
     }
@@ -146,20 +145,20 @@ extends EvoListRow {
 
     private static String formatTime(long l) {
         Buffer buffer = new Buffer();
-        long l2 = l / 0;
-        long l3 = l % 0 / 0;
-        long l4 = l % 0;
+        long l2 = l / 3600L;
+        long l3 = l % 3600L / 60L;
+        long l4 = l % 60L;
         String string = Long.toString(l2);
         if (l2 > 0L) {
             buffer.append(string);
             buffer.append(':');
         }
-        if (l3 < 0 && l2 > 0L) {
+        if (l3 < 10L && l2 > 0L) {
             buffer.append('0');
         }
         buffer.append(Long.toString(l3));
         buffer.append(':');
-        if (l4 < 0) {
+        if (l4 < 10L) {
             buffer.append('0');
         }
         buffer.append(Long.toString(l4));
@@ -169,7 +168,7 @@ extends EvoListRow {
     private int getCancelIconValue(AbstractPhoneCall abstractPhoneCall) {
         int n;
         if (abstractPhoneCall == null) {
-            this.log.log(-2137614336, "[PhoneCallListRow#getCancelIconValue] phoneCall is null.");
+            this.log.log(10000000, "[PhoneCallListRow#getCancelIconValue] phoneCall is null.");
             return -1;
         }
         block0 : switch (abstractPhoneCall.getTelCallState()) {
@@ -215,27 +214,27 @@ extends EvoListRow {
     private PropertyListCell getProperties(AbstractPhoneCall abstractPhoneCall) {
         PropertyListCell propertyListCell;
         if (abstractPhoneCall == null) {
-            this.log.log(-2137614336, "[PhoneCallEvoListRow#getProperties] phoneCall is null.");
+            this.log.log(10000000, "[PhoneCallEvoListRow#getProperties] phoneCall is null.");
             return PropertyListCell.create(0, new int[0]);
         }
         boolean bl = abstractPhoneCall.isConferenceCall();
         switch (abstractPhoneCall.getTelCallState()) {
             case 4: {
-                propertyListCell = PropertyListCell.create(bl ? -1870334089 : -2092804066, new int[0]);
+                propertyListCell = PropertyListCell.create(bl ? 2012710032 : 509100675, new int[0]);
                 break;
             }
             case 1: 
             case 2: {
-                propertyListCell = PropertyListCell.create(bl ? 305144287 : 1274181782, new int[0]);
+                propertyListCell = PropertyListCell.create(bl ? -551473134 : -1770458549, new int[0]);
                 break;
             }
             case 5: {
-                propertyListCell = PropertyListCell.create(bl ? -1896195209 : -180290914, new int[0]);
+                propertyListCell = PropertyListCell.create(bl ? 2002516622 : -1627766539, new int[0]);
                 break;
             }
             case 6: 
             case 8: {
-                propertyListCell = PropertyListCell.create(bl ? 1686777316 : 674348036, new int[0]);
+                propertyListCell = PropertyListCell.create(bl ? -466777500 : 79442216, new int[0]);
                 break;
             }
             default: {
@@ -264,7 +263,7 @@ extends EvoListRow {
     private int getSimpleCallStateLayout(AbstractPhoneCall abstractPhoneCall) {
         int n = -1;
         if (abstractPhoneCall == null) {
-            this.log.log(-2137614336, "[PhoneCallEvoListRow#getSimpleCallStateLayout] phoneCall is null.");
+            this.log.log(10000000, "[PhoneCallEvoListRow#getSimpleCallStateLayout] phoneCall is null.");
             return n;
         }
         block0 : switch (abstractPhoneCall.getTelCallState()) {
@@ -322,7 +321,7 @@ extends EvoListRow {
     private int recordSetLayoutForCallStateDisconnecting(boolean bl, boolean bl2, AbstractPhoneCall abstractPhoneCall, CallStateStruct callStateStruct) {
         int n = -1;
         if (abstractPhoneCall == null) {
-            this.log.log(-2137614336, "[PhoneCallEvoListRow#recordSetLayoutForCallStateDisconnecting] phoneCall is null.");
+            this.log.log(10000000, "[PhoneCallEvoListRow#recordSetLayoutForCallStateDisconnecting] phoneCall is null.");
             return n;
         }
         int n2 = abstractPhoneCall.getPreviousCallState();
@@ -360,7 +359,7 @@ extends EvoListRow {
     private int getCallStateLayout(AbstractPhoneCall abstractPhoneCall, ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState, int n) {
         int n2 = -1;
         if (abstractPhoneCall == null) {
-            this.log.log(-2137614336, "[PhoneCallListRow#getCallStateLayout] phoneCall is null.");
+            this.log.log(10000000, "[PhoneCallListRow#getCallStateLayout] phoneCall is null.");
             return n2;
         }
         CallStateStruct callStateStruct = iTelDSIMobileEquipmentDeviceState != null ? iTelDSIMobileEquipmentDeviceState.getCallState() : null;
@@ -408,7 +407,7 @@ extends EvoListRow {
 
     private void setListRowCellsForEmergencyCall(AbstractPhoneCall abstractPhoneCall) {
         if (abstractPhoneCall == null) {
-            this.log.log(-2137614336, "[PhoneCallListRow#setListRowCellsForEmergencyCall] phoneCall is null.");
+            this.log.log(10000000, "[PhoneCallListRow#setListRowCellsForEmergencyCall] phoneCall is null.");
             return;
         }
         int n = PhoneCallEvoListRow.getCallTypeIcon(abstractPhoneCall);
@@ -433,11 +432,11 @@ extends EvoListRow {
 
     private void setListRowCells(AbstractPhoneCall abstractPhoneCall, ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState, ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState2) {
         if (abstractPhoneCall == null) {
-            this.log.log(-2137614336, "[PhoneCallListRow#setListRowCells] phoneCall is null.");
+            this.log.log(10000000, "[PhoneCallListRow#setListRowCells] phoneCall is null.");
             return;
         }
         if (iTelDSIMobileEquipmentDeviceState == null) {
-            this.log.log(-2137614336, "[PhoneCallListRow#setListRowCells] callLeadingState is null.");
+            this.log.log(10000000, "[PhoneCallListRow#setListRowCells] callLeadingState is null.");
             return;
         }
         this.setInteger(0, abstractPhoneCall.getTelCallID());
@@ -470,7 +469,7 @@ extends EvoListRow {
         boolean bl6 = bl = bl4 || bl5;
         if (bl) {
             string = iTelDSIMobileEquipmentDeviceState != null ? (this.isHFPorSAP(iTelDSIMobileEquipmentDeviceState) ? this.getBtDeviceName(iTelDSIMobileEquipmentDeviceState) : this.getSIMText()) : "";
-            this.log.log(-2137614336, "[PhoneCallListRow#getThirdLineTextIntegerValue] activeCallAt %1", (Object)string);
+            this.log.log(10000000, "[PhoneCallListRow#getThirdLineTextIntegerValue] activeCallAt %1", (Object)string);
         } else {
             string = "";
         }
@@ -492,7 +491,7 @@ extends EvoListRow {
     private int getPriamryActionText(AbstractPhoneCall abstractPhoneCall) {
         int n;
         if (abstractPhoneCall == null) {
-            this.log.log(-2137614336, "[PhoneCallListRow#getPriamryActionText] phoneCall is null.");
+            this.log.log(10000000, "[PhoneCallListRow#getPriamryActionText] phoneCall is null.");
             return 2;
         }
         block0 : switch (abstractPhoneCall.getTelCallState()) {
@@ -533,7 +532,7 @@ extends EvoListRow {
 
     private void determinePrimaryAction(AbstractPhoneCall abstractPhoneCall) {
         if (abstractPhoneCall == null) {
-            this.log.log(-2137614336, "[PhoneCallListRow#determinePrimaryAction] phoneCall is null.");
+            this.log.log(10000000, "[PhoneCallListRow#determinePrimaryAction] phoneCall is null.");
             this.primaryAction = 2;
             return;
         }
@@ -552,12 +551,11 @@ extends EvoListRow {
             }
             default: {
                 this.primaryAction = 2;
-                this.log.log(-2137614336, "[PhoneCallListRow#determinePrimaryAction] no primary action for call state %1", (long)n);
+                this.log.log(10000000, "[PhoneCallListRow#determinePrimaryAction] no primary action for call state %1", (long)n);
             }
         }
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(super.toString());
         buffer.append(", action=");

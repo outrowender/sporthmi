@@ -19,12 +19,10 @@ extends AbstractListAdapterFastList {
         super(arrayHandler);
     }
 
-    @Override
     protected final DSIListener getDSIListener() {
         return this.dsiListener;
     }
 
-    @Override
     protected final Class getDSIListenerClass() {
         return class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudioListener == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudioListener = AbstractListAdapterFastListAudio.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingAudioListener")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudioListener;
     }
@@ -32,21 +30,16 @@ extends AbstractListAdapterFastList {
     public final void setNotificationCommonList(boolean bl) {
     }
 
-    public abstract void setNotificationReceptionList(boolean bl) {
-    }
+    public abstract void setNotificationReceptionList(boolean var1);
 
-    public abstract void setNotificationCurrentListSizes(boolean bl) {
-    }
+    public abstract void setNotificationCurrentListSizes(boolean var1);
 
-    public abstract void addMediaBrowserJob(int n, int n2, ArrayHeader arrayHeader) {
-    }
+    public abstract void addMediaBrowserJob(int var1, int var2, ArrayHeader var3);
 
-    public abstract void addMediaBrowserJobs(int n, int n2, ArrayHeader[] arrayHeaderArray) {
-    }
+    public abstract void addMediaBrowserJobs(int var1, int var2, ArrayHeader[] var3);
 
-    @Override
     public void responseInitials(int n, int n2, int n3, DataInitials[] dataInitialsArray) {
-        this.logChannel.log(-1601830656, "[AbstractListAdapterFastListAudio#responseInitials] not supported");
+        this.logChannel.log(100000, "[AbstractListAdapterFastListAudio#responseInitials] not supported");
     }
 
     static /* synthetic */ Class class$(String string) {

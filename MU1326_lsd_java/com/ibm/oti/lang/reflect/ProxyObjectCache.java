@@ -14,7 +14,7 @@ class ProxyObjectCache {
             n = 13;
         }
         this.elementSize = 0;
-        this.threshold = (int)((float)n * -1007343553);
+        this.threshold = (int)((float)n * 0.66f);
         this.keyTable = new Object[n];
         this.valueTable = new int[n];
     }
@@ -31,7 +31,7 @@ class ProxyObjectCache {
     }
 
     int hashCode(Object object) {
-        return (object.hashCode() & 0xFFFFFF7F) % this.keyTable.length;
+        return (object.hashCode() & Integer.MAX_VALUE) % this.keyTable.length;
     }
 
     int put(Object object, int n) {

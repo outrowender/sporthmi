@@ -8,58 +8,40 @@ import de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviDestination;
 
 public interface CombiBAPServiceNaviListener
 extends CombiBAPServiceListener {
-    default public void startRouteGuidanceToHomeAddress() {
-    }
+    public void startRouteGuidanceToHomeAddress();
 
-    default public void startRouteGuidance(CombiBAPNaviDestination combiBAPNaviDestination) {
-    }
+    public void startRouteGuidance(CombiBAPNaviDestination var1);
 
-    default public void stopRouteGuidance() {
-    }
+    public void stopRouteGuidance();
 
-    default public void repeatLastNavAnnouncement() {
-    }
+    public void repeatLastNavAnnouncement();
 
-    default public void setVoiceGuidanceState(int n) {
-    }
+    public void setVoiceGuidanceState(int var1);
 
-    default public void setActiveRGType(int n) {
-    }
+    public void setActiveRGType(int var1);
 
-    default public void setMapColor(int n) {
-    }
+    public void setMapColor(int var1);
 
-    default public void setMapType(int n, int n2) {
-    }
+    public void setMapType(int var1, int var2);
 
-    default public void setMapView(int n, int n2) {
-    }
+    public void setMapView(int var1, int var2);
 
-    default public void mapViewChanged(boolean bl) {
-    }
+    public void mapViewChanged(boolean var1);
 
-    default public void setMapVisibility(boolean bl, boolean bl2) {
-    }
+    public void setMapVisibility(boolean var1, boolean var2);
 
-    default public void setMapOrientation(int n) {
-    }
+    public void setMapOrientation(int var1);
 
-    default public void setMapScale(int n) {
-    }
+    public void setMapScale(int var1);
 
-    default public void setMapScaleSetting(int n) {
-    }
+    public void setMapScaleSetting(int var1);
 
-    default public void startPOISearch(int n, int n2) {
-    }
+    public void startPOISearch(int var1, int var2);
 
-    default public void setMapPresentation(boolean bl, boolean bl2, boolean bl3) {
-    }
+    public void setMapPresentation(boolean var1, boolean var2, boolean var3);
 
-    default public void resetSupportedMapViews() {
-    }
+    public void resetSupportedMapViews();
 
-    default public void updateLockingState(boolean bl) {
-    }
+    public void updateLockingState(boolean var1);
 }
 

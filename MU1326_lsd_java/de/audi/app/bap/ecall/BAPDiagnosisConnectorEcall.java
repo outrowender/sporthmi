@@ -16,17 +16,13 @@ import de.audi.atip.interapp.bap.ecall.BAPServiceEcall;
 import de.audi.atip.interapp.bap.ecall.BAPServiceEcallListener;
 import de.audi.atip.interapp.bap.ecall.data.EcallProvider;
 import de.audi.atip.interapp.bap.ecall.data.FunctionalState;
-import de.audi.atip.interapp.bap.ecall.data.FunctionalState$Builder;
 import de.audi.atip.interapp.bap.ecall.data.MdsTransmissionResult;
-import de.audi.atip.interapp.bap.ecall.data.MdsTransmissionResult$Builder;
 import de.audi.atip.interapp.bap.ecall.data.NetworkRegistrationData;
 import de.audi.atip.interapp.bap.ecall.data.NetworkRegistrationVoice;
 import de.audi.atip.interapp.bap.ecall.data.PendingServiceRequests;
-import de.audi.atip.interapp.bap.ecall.data.PendingServiceRequests$Builder;
 import de.audi.atip.interapp.bap.ecall.data.PhoneCall;
 import de.audi.atip.interapp.bap.ecall.data.SignalQuality;
 import de.audi.atip.interapp.bap.ecall.data.SupportedServices;
-import de.audi.atip.interapp.bap.ecall.data.SupportedServices$Builder;
 import de.esolutions.fw.util.commons.Buffer;
 import de.mib.swdiagnosis.bap.AbstractBAPDiagnosisConnectorASG;
 import de.vw.mib.bap.generated.ecall.serializer.BAP_Config_Reset;
@@ -237,14 +233,14 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdOnServiceRequests(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
-        PendingServiceRequests$Builder pendingServiceRequests$Builder = PendingServiceRequests.builder();
-        pendingServiceRequests$Builder.setAccidentalDamageManagementPending(bl);
-        pendingServiceRequests$Builder.setAutomaticCrashNotificationPending(bl2);
-        pendingServiceRequests$Builder.setBreakdownServicePending(bl3);
-        pendingServiceRequests$Builder.setInfoCallPending(bl4);
-        pendingServiceRequests$Builder.setManualEmergencyCallPending(bl5);
-        pendingServiceRequests$Builder.setTestModePending(bl6);
-        this.eCallListener().onServiceRequests(pendingServiceRequests$Builder.build());
+        PendingServiceRequests.Builder builder = PendingServiceRequests.builder();
+        builder.setAccidentalDamageManagementPending(bl);
+        builder.setAutomaticCrashNotificationPending(bl2);
+        builder.setBreakdownServicePending(bl3);
+        builder.setInfoCallPending(bl4);
+        builder.setManualEmergencyCallPending(bl5);
+        builder.setTestModePending(bl6);
+        this.eCallListener().onServiceRequests(builder.build());
     }
 
     public void cmdOnServiceRequestResult(int n) {
@@ -252,32 +248,32 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdOnServiceState(int n, int n2, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6, boolean bl7, boolean bl8) {
-        MdsTransmissionResult$Builder mdsTransmissionResult$Builder = MdsTransmissionResult.builder();
-        mdsTransmissionResult$Builder.setMininumDataSetSentViaSmsSuceeded(bl);
-        mdsTransmissionResult$Builder.setMininumDataSetSentViaSmsFailed(bl2);
-        mdsTransmissionResult$Builder.setMininumDataSetReceptionAcknowledgedSuceeded(bl3);
-        mdsTransmissionResult$Builder.setMininumDataSetReceptionAcknowledgedFailed(bl4);
-        mdsTransmissionResult$Builder.setMininumDataSetSentViaInternetProtocolSuceeded(bl5);
-        mdsTransmissionResult$Builder.setMininumDataSetSentViaInternetProtocolFailed(bl6);
-        mdsTransmissionResult$Builder.setMininumDataSetSentViaInbandModemSuceeded(bl7);
-        mdsTransmissionResult$Builder.setMininumDataSetSentViaInbandModemFailed(bl8);
-        this.eCallListener().onServiceState(n, n2, mdsTransmissionResult$Builder.build());
+        MdsTransmissionResult.Builder builder = MdsTransmissionResult.builder();
+        builder.setMininumDataSetSentViaSmsSuceeded(bl);
+        builder.setMininumDataSetSentViaSmsFailed(bl2);
+        builder.setMininumDataSetReceptionAcknowledgedSuceeded(bl3);
+        builder.setMininumDataSetReceptionAcknowledgedFailed(bl4);
+        builder.setMininumDataSetSentViaInternetProtocolSuceeded(bl5);
+        builder.setMininumDataSetSentViaInternetProtocolFailed(bl6);
+        builder.setMininumDataSetSentViaInbandModemSuceeded(bl7);
+        builder.setMininumDataSetSentViaInbandModemFailed(bl8);
+        this.eCallListener().onServiceState(n, n2, builder.build());
     }
 
     public void cmdOnSupportedServices(boolean bl, boolean bl2, boolean bl3) {
-        SupportedServices$Builder supportedServices$Builder = SupportedServices.builder();
-        supportedServices$Builder.setBreakdownCallSupported(bl);
-        supportedServices$Builder.setInfoCallSupported(bl2);
-        supportedServices$Builder.setManualEmergencyCallSupported(bl3);
-        this.eCallListener().onSupportedServices(supportedServices$Builder.build());
+        SupportedServices.Builder builder = SupportedServices.builder();
+        builder.setBreakdownCallSupported(bl);
+        builder.setInfoCallSupported(bl2);
+        builder.setManualEmergencyCallSupported(bl3);
+        this.eCallListener().onSupportedServices(builder.build());
     }
 
     public void cmdOnFunctionalStates(boolean bl, boolean bl2, boolean bl3) {
-        FunctionalState$Builder functionalState$Builder = FunctionalState.builder();
-        functionalState$Builder.setAudioFunctional(bl);
-        functionalState$Builder.setAudioUplinkFunctional(bl2);
-        functionalState$Builder.setAudioDownlinkFunctional(bl3);
-        this.eCallListener().onFunctionalState(functionalState$Builder.build());
+        FunctionalState.Builder builder = FunctionalState.builder();
+        builder.setAudioFunctional(bl);
+        builder.setAudioUplinkFunctional(bl2);
+        builder.setAudioDownlinkFunctional(bl3);
+        this.eCallListener().onFunctionalState(builder.build());
     }
 
     public void cmdSendBAPConfigStatusWithSupportedConfig() {

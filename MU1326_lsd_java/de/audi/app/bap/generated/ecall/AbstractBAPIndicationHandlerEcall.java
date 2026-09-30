@@ -46,7 +46,6 @@ extends AbstractBAPIndicationHandlerASG {
         super(abstractBAPModuleASG, logChannel);
     }
 
-    @Override
     public void processIndicationResult(BAPFunctionMethodASG bAPFunctionMethodASG, ResultMethod resultMethod) {
         switch (bAPFunctionMethodASG.getFctID()) {
             case 18: {
@@ -71,7 +70,6 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    @Override
     public void processIndicationStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, StatusProperty statusProperty) {
         switch (bAPFunctionPropertyASG.getFctID()) {
             case 2: {
@@ -140,7 +138,6 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    @Override
     public void processIndicationStatusAck(BAPFunctionPropertyASG bAPFunctionPropertyASG, StatusAckProperty statusAckProperty) {
         switch (bAPFunctionPropertyASG.getFctID()) {
             case 16: {
@@ -157,7 +154,6 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    @Override
     public void processIndicationChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, ChangedArray changedArray) {
         switch (bAPFunctionArrayASG.getFctID()) {
             case 29: {
@@ -174,7 +170,6 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    @Override
     public void processIndicationStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, StatusArray statusArray) {
         switch (bAPFunctionArrayASG.getFctID()) {
             case 29: {
@@ -191,79 +186,54 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    protected abstract void processBapConfigStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, BAP_Config_Status bAP_Config_Status) {
-    }
+    protected abstract void processBapConfigStatus(BAPFunctionPropertyASG var1, BAP_Config_Status var2);
 
-    protected abstract void processFunctionListStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FunctionList_Status functionList_Status) {
-    }
+    protected abstract void processFunctionListStatus(BAPFunctionPropertyASG var1, FunctionList_Status var2);
 
-    protected abstract void processFsgControlStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FSG_Control_Status fSG_Control_Status) {
-    }
+    protected abstract void processFsgControlStatus(BAPFunctionPropertyASG var1, FSG_Control_Status var2);
 
-    protected abstract void processFsgSetupStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FSG_Setup_Status fSG_Setup_Status) {
-    }
+    protected abstract void processFsgSetupStatus(BAPFunctionPropertyASG var1, FSG_Setup_Status var2);
 
-    protected abstract void processFsgOperationStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FSG_OperationState_Status fSG_OperationState_Status) {
-    }
+    protected abstract void processFsgOperationStateStatus(BAPFunctionPropertyASG var1, FSG_OperationState_Status var2);
 
-    protected abstract void processAudioStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, AudioState_Status audioState_Status) {
-    }
+    protected abstract void processAudioStateStatus(BAPFunctionPropertyASG var1, AudioState_Status var2);
 
-    protected abstract void processAudioStateStatusAck(BAPFunctionPropertyASG bAPFunctionPropertyASG, AudioState_StatusAck audioState_StatusAck) {
-    }
+    protected abstract void processAudioStateStatusAck(BAPFunctionPropertyASG var1, AudioState_StatusAck var2);
 
-    protected abstract void processCallStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, CallState_Status callState_Status) {
-    }
+    protected abstract void processCallStateStatus(BAPFunctionPropertyASG var1, CallState_Status var2);
 
-    protected abstract void processCallStateStatusAck(BAPFunctionPropertyASG bAPFunctionPropertyASG, CallState_StatusAck callState_StatusAck) {
-    }
+    protected abstract void processCallStateStatusAck(BAPFunctionPropertyASG var1, CallState_StatusAck var2);
 
-    protected abstract void processHangupCallResult(BAPFunctionMethodASG bAPFunctionMethodASG, HangupCall_Result hangupCall_Result) {
-    }
+    protected abstract void processHangupCallResult(BAPFunctionMethodASG var1, HangupCall_Result var2);
 
-    protected abstract void processAcceptCallResult(BAPFunctionMethodASG bAPFunctionMethodASG, AcceptCall_Result acceptCall_Result) {
-    }
+    protected abstract void processAcceptCallResult(BAPFunctionMethodASG var1, AcceptCall_Result var2);
 
-    protected abstract void processDisconnectReasonStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, DisconnectReason_Status disconnectReason_Status) {
-    }
+    protected abstract void processDisconnectReasonStatus(BAPFunctionPropertyASG var1, DisconnectReason_Status var2);
 
-    protected abstract void processRegisterStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, RegisterState_Status registerState_Status) {
-    }
+    protected abstract void processRegisterStateStatus(BAPFunctionPropertyASG var1, RegisterState_Status var2);
 
-    protected abstract void processNetworkProviderStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, NetworkProvider_Status networkProvider_Status) {
-    }
+    protected abstract void processNetworkProviderStatus(BAPFunctionPropertyASG var1, NetworkProvider_Status var2);
 
-    protected abstract void processSignalQualityStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, SignalQuality_Status signalQuality_Status) {
-    }
+    protected abstract void processSignalQualityStatus(BAPFunctionPropertyASG var1, SignalQuality_Status var2);
 
-    protected abstract void processServiceRequestStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, ServiceRequest_Status serviceRequest_Status) {
-    }
+    protected abstract void processServiceRequestStatus(BAPFunctionPropertyASG var1, ServiceRequest_Status var2);
 
-    protected abstract void processServiceControlResult(BAPFunctionMethodASG bAPFunctionMethodASG, ServiceControl_Result serviceControl_Result) {
-    }
+    protected abstract void processServiceControlResult(BAPFunctionMethodASG var1, ServiceControl_Result var2);
 
-    protected abstract void processServiceStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, ServiceState_Status serviceState_Status) {
-    }
+    protected abstract void processServiceStateStatus(BAPFunctionPropertyASG var1, ServiceState_Status var2);
 
-    protected abstract void processSupportedServicesStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, SupportedServices_Status supportedServices_Status) {
-    }
+    protected abstract void processSupportedServicesStatus(BAPFunctionPropertyASG var1, SupportedServices_Status var2);
 
-    protected abstract void processFunctionalRestrictionsStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FunctionalRestrictions_Status functionalRestrictions_Status) {
-    }
+    protected abstract void processFunctionalRestrictionsStatus(BAPFunctionPropertyASG var1, FunctionalRestrictions_Status var2);
 
-    protected abstract void processAllowedEmergencyNumbersChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, AllowedEmergencyNumbers_ChangedArray allowedEmergencyNumbers_ChangedArray) {
-    }
+    protected abstract void processAllowedEmergencyNumbersChangedArray(BAPFunctionArrayASG var1, AllowedEmergencyNumbers_ChangedArray var2);
 
-    protected abstract void processAllowedEmergencyNumbersStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, AllowedEmergencyNumbers_StatusArray allowedEmergencyNumbers_StatusArray) {
-    }
+    protected abstract void processAllowedEmergencyNumbersStatusArray(BAPFunctionArrayASG var1, AllowedEmergencyNumbers_StatusArray var2);
 
-    protected abstract void processDialNumberResult(BAPFunctionMethodASG bAPFunctionMethodASG, DialNumber_Result dialNumber_Result) {
-    }
+    protected abstract void processDialNumberResult(BAPFunctionMethodASG var1, DialNumber_Result var2);
 
-    protected abstract void processDisasterWarningChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, DisasterWarning_ChangedArray disasterWarning_ChangedArray) {
-    }
+    protected abstract void processDisasterWarningChangedArray(BAPFunctionArrayASG var1, DisasterWarning_ChangedArray var2);
 
-    protected abstract void processDisasterWarningStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, DisasterWarning_StatusArray disasterWarning_StatusArray) {
-    }
+    protected abstract void processDisasterWarningStatusArray(BAPFunctionArrayASG var1, DisasterWarning_StatusArray var2);
 }
 

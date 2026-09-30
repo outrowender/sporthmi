@@ -6,7 +6,6 @@ package de.audi.remotehmi.ui.mib2.grid;
 import de.audi.remotehmi.ui.mib2.grid.IGridCell;
 
 public interface IGridCellAction {
-    default public boolean modify(IGridCell iGridCell) {
-    }
+    public boolean modify(IGridCell var1);
 }
 

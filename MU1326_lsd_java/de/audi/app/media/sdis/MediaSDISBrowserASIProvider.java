@@ -10,7 +10,6 @@ import de.audi.app.media.dsi.media.IMediaBrowserListener;
 import de.audi.app.media.dsi.media.IMediaBrowserStateListener;
 import de.audi.app.media.dsi.media.MediaDSIBrowserControllerImpl;
 import de.audi.app.media.dsi.media.MediaListEntry;
-import de.audi.app.media.sdis.MediaSDISBrowserASIProvider$NullASIHMISyncMediaBrowserReply;
 import de.audi.app.media.sdis.MediaUtilsSDIS;
 import de.audi.app.media.source.ISource;
 import de.audi.app.media.source.ISourceSlotListener;
@@ -38,8 +37,8 @@ IASIProvider,
 IDSIControllerStateListener,
 ISourceSlotListener,
 IMediaBrowserListListener {
-    private static final String LOGCLASS;
-    protected static final int CLIENT_ID;
+    private static final String LOGCLASS = "MediaSDISBrowserASIProvider";
+    protected static final int CLIENT_ID = 1;
     private final LogChannel logger;
     private final IMediaTerminal terminal;
     private final ASIHMISyncMediaBrowserService asiMediaBrowser;
@@ -57,19 +56,19 @@ IMediaBrowserListListener {
         this.logger = iMediaTerminal.getFramework().getLogChannel("App.Media.SDIS");
         this.dsiBrowserController = new MediaDSIBrowserControllerImpl(n, iMediaTerminal.getServiceManager(), iMediaTerminal.getFramework(), iMediaTerminal.getDispatcher(), iMediaTerminal.getLogger().dsi());
         this.asiMediaBrowser = new ASIHMISyncMediaBrowserService(n, this);
-        this.browserReply = this.nullBrowserReply = new MediaSDISBrowserASIProvider$NullASIHMISyncMediaBrowserReply(this, null);
+        this.browserReply = this.nullBrowserReply = new NullASIHMISyncMediaBrowserReply();
         try {
             this.updateASIVersion("2.2.00");
             this.updateRequestIDs(new short[]{3, 4, 5, 12, 13, 14, 0, 1, 2, 6, 7, 11});
             this.updateReplyIDs(new short[]{8, 9, 10, 16, 15, 17, 18, 19, 20, 21, 22, 23});
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.MediaSDISBrowserASIProvider] - could not register ASI version!", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.MediaSDISBrowserASIProvider] - could not register ASI version!", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.dsiBrowserController.init();
         this.dsiBrowserController.setBrowserListener(this);
         this.dsiBrowserController.setBrowserStateListener(this);
@@ -78,7 +77,7 @@ IMediaBrowserListListener {
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.dsiBrowserController.deinit();
         if (null != this.registerService) {
             this.terminal.getServiceManager().unregisterService(this.registerService);
@@ -86,15 +85,13 @@ IMediaBrowserListListener {
         }
     }
 
-    @Override
     public void dsiAvailable() {
-        this.logger.log(1078071040, "[%1.dsiAvailable]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.dsiAvailable]", (Object)LOGCLASS);
         this.registerService = this.terminal.getServiceManager().registerService(class$de$audi$atip$agent$IASIProvider == null ? (class$de$audi$atip$agent$IASIProvider = MediaSDISBrowserASIProvider.class$("de.audi.atip.agent.IASIProvider")) : class$de$audi$atip$agent$IASIProvider, this, new Hashtable(0));
     }
 
-    @Override
     public void dsiUnavailable() {
-        this.logger.log(1078071040, "[%1.dsiUnavailable]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.dsiUnavailable]", (Object)LOGCLASS);
         if (null != this.registerService) {
             this.terminal.getServiceManager().unregisterService(this.registerService);
             this.registerService = null;
@@ -103,24 +100,20 @@ IMediaBrowserListListener {
         this.isMetadataAvailable = false;
     }
 
-    @Override
     public IService getService() {
         return this.asiMediaBrowser;
     }
 
-    @Override
     public void attachStub(IStub iStub) {
-        this.logger.log(1078071040, "[%1.attachStub] '%2'", (Object)"MediaSDISBrowserASIProvider", (Object)iStub);
+        this.logger.log(1000000, "[%1.attachStub] '%2'", (Object)LOGCLASS, (Object)iStub);
     }
 
-    @Override
     public void detachStub(IStub iStub) {
-        this.logger.log(1078071040, "[%1.detachStub] '%2'", (Object)"MediaSDISBrowserASIProvider", (Object)iStub);
+        this.logger.log(1000000, "[%1.detachStub] '%2'", (Object)LOGCLASS, (Object)iStub);
     }
 
-    @Override
-    public void activate(MediaSourceSlot mediaSourceSlot, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"MediaSDISBrowserASIProvider");
+    public void activate(MediaSourceSlot mediaSourceSlot, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) throws MethodException {
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.setReplyService(aSIHMISyncMediaBrowserReply);
         de.audi.app.media.source.MediaSourceSlot mediaSourceSlot2 = MediaUtilsSDIS.get2DSISourceSlot(mediaSourceSlot, this.terminal.getSourceController());
         this.dsiBrowserController.activate(mediaSourceSlot2);
@@ -131,9 +124,8 @@ IMediaBrowserListListener {
         this.terminal.getSourceController().addSourceSlotListener(mediaSourceSlot2.getSource(), this, true);
     }
 
-    @Override
-    public void deactivate(ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"MediaSDISBrowserASIProvider");
+    public void deactivate(ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) throws MethodException {
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.setReplyService(aSIHMISyncMediaBrowserReply);
         this.dsiBrowserController.removeAllBrowserListListener();
         this.isFilesystemAvailable = false;
@@ -141,197 +133,175 @@ IMediaBrowserListListener {
         this.dsiBrowserController.deactivate();
     }
 
-    @Override
-    public void setBrowseMode(int n, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
-        this.logger.log(1078071040, "[%1.setBrowseMode]", (Object)"MediaSDISBrowserASIProvider");
+    public void setBrowseMode(int n, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) throws MethodException {
+        this.logger.log(1000000, "[%1.setBrowseMode]", (Object)LOGCLASS);
         this.setReplyService(aSIHMISyncMediaBrowserReply);
         this.dsiBrowserController.setBrowseMode(n);
     }
 
-    @Override
-    public void changeFolder(MediaEntry[] mediaEntryArray, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
-        this.logger.log(1078071040, "[%1.changeFolder]", (Object)"MediaSDISBrowserASIProvider");
+    public void changeFolder(MediaEntry[] mediaEntryArray, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) throws MethodException {
+        this.logger.log(1000000, "[%1.changeFolder]", (Object)LOGCLASS);
         this.setReplyService(aSIHMISyncMediaBrowserReply);
         this.dsiBrowserController.changeFolder(MediaUtilsSDIS.convertASIEntries2MediaEntries(mediaEntryArray));
     }
 
-    @Override
-    public void addSelection(int n, MediaEntry mediaEntry, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
-        this.logger.log(1078071040, "[%1.addSelection]", (Object)"MediaSDISBrowserASIProvider");
+    public void addSelection(int n, MediaEntry mediaEntry, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) throws MethodException {
+        this.logger.log(1000000, "[%1.addSelection]", (Object)LOGCLASS);
         this.setReplyService(aSIHMISyncMediaBrowserReply);
         MediaListEntry mediaListEntry = MediaUtilsSDIS.convertMediaEntry2MediaListEntry(mediaEntry);
         this.dsiBrowserController.addSelection(true, n, mediaListEntry.getEntryID(), mediaListEntry.getContentType(), false);
     }
 
-    @Override
-    public void requestList(int n, long l, int n2, int n3, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) {
-        this.logger.log(1078071040, "[%1.requestList]", (Object)"MediaSDISBrowserASIProvider");
+    public void requestList(int n, long l, int n2, int n3, ASIHMISyncMediaBrowserReply aSIHMISyncMediaBrowserReply) throws MethodException {
+        this.logger.log(1000000, "[%1.requestList]", (Object)LOGCLASS);
         this.setReplyService(aSIHMISyncMediaBrowserReply);
         this.dsiBrowserController.requestList(l, n2, n, n3, 1);
     }
 
-    @Override
     public void browseSourceActivated() {
-        this.logger.log(1078071040, "[%1.browseSourceActivated]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.browseSourceActivated]", (Object)LOGCLASS);
         try {
             this.updateActiveSlot(this.activeSourceSlot, true);
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.browseSourceActivated]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.browseSourceActivated]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
-    @Override
     public void browseSourceDeactivated() {
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logger.log(1078071040, "[%1.asyncException]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.asyncException]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updateBrowseFolder(MediaListEntry[] mediaListEntryArray) {
-        this.logger.log(1078071040, "[%1.updateBrowseFolder]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.updateBrowseFolder]", (Object)LOGCLASS);
         try {
             this.updateBrowseFolder(MediaUtilsSDIS.convert2ASIMediaEntries(mediaListEntryArray), true);
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.updateBrowseFolder]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.updateBrowseFolder]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
-    @Override
     public void updateBrowseMode(int n) {
-        this.logger.log(1078071040, "[%1.updateBrowseMode]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.updateBrowseMode]", (Object)LOGCLASS);
         this.dsiBrowserController.setContentFilter(7);
         try {
             this.updateBrowseMode(n, true);
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.updateBrowseMode]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.updateBrowseMode]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
-    @Override
     public void updateContentFilter(int n) {
-        this.logger.log(1078071040, "[%1.updateContentFilter]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.updateContentFilter]", (Object)LOGCLASS);
         this.dsiBrowserController.enableRecurseSubdirectories(true);
     }
 
-    @Override
     public void updateListSize(int n, int n2) {
-        this.logger.log(1078071040, "[%1.updateListSize]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.updateListSize]", (Object)LOGCLASS);
         try {
             this.updateListSize(n, true);
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.updateListSize]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.updateListSize]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
-    @Override
     public void selectionResult(int n, int n2, boolean bl, long l, long l2, long l3, long l4, long l5) {
-        this.logger.log(1078071040, "[%1.selectionResult]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.selectionResult]", (Object)LOGCLASS);
         try {
             this.browserReply.responseAddSelection(0 == n);
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.selectionResult]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.selectionResult]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
-    @Override
     public void errorFolderChange() {
-        this.logger.log(1078071040, "[%1.errorFolderChange]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.errorFolderChange]", (Object)LOGCLASS);
         try {
             this.browserReply.responseChangeFolder(false);
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.errorFolderChange]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.errorFolderChange]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
-    @Override
     public void errorBrowseMode() {
-        this.logger.log(1078071040, "[%1.errorBrowseMode]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.errorBrowseMode]", (Object)LOGCLASS);
     }
 
-    @Override
     public void errorSelection() {
-        this.logger.log(1078071040, "[%1.errorSelection]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.errorSelection]", (Object)LOGCLASS);
         try {
             this.browserReply.responseAddSelection(false);
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.errorSelection]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.errorSelection]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
-    @Override
     public void slotsChanged(ISource iSource) {
         MediaFlags mediaFlags = iSource.getSlot(this.activeSourceSlot.getSlotIdx()).getFlags();
         MediaCapabilities mediaCapabilities = iSource.getSlot(this.activeSourceSlot.getSlotIdx()).getCapabilities();
         boolean bl = mediaFlags.isFilesystemSyncComplete();
         boolean bl2 = mediaFlags.isMetaDataSyncComplete();
         if (this.isFilesystemAvailable != bl && mediaCapabilities.isRawBrowsing()) {
-            this.logger.log(1078071040, "[%1.slotsChanged] Filesystem sync state changed to '%2'", (Object)"MediaSDISBrowserASIProvider", (Object)String.valueOf(bl));
+            this.logger.log(1000000, "[%1.slotsChanged] Filesystem sync state changed to '%2'", (Object)LOGCLASS, (Object)String.valueOf(bl));
             try {
                 this.updateRawMode(bl, true);
                 this.isFilesystemAvailable = bl;
             }
             catch (MethodException methodException) {
-                this.logger.log(10000, "[%1.slotsChanged]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+                this.logger.log(10000, "[%1.slotsChanged]", (Object)LOGCLASS, (Throwable)methodException);
             }
         }
         if (this.isMetadataAvailable != bl2 && mediaCapabilities.isContentBrowsing()) {
-            this.logger.log(1078071040, "[%1.slotsChanged] Metadata sync state changed to '%2'", (Object)"MediaSDISBrowserASIProvider", (Object)String.valueOf(bl2));
+            this.logger.log(1000000, "[%1.slotsChanged] Metadata sync state changed to '%2'", (Object)LOGCLASS, (Object)String.valueOf(bl2));
             try {
                 this.updateDatabaseMode(bl2, true);
                 this.isMetadataAvailable = bl2;
             }
             catch (MethodException methodException) {
-                this.logger.log(10000, "[%1.slotsChanged]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+                this.logger.log(10000, "[%1.slotsChanged]", (Object)LOGCLASS, (Throwable)methodException);
             }
         }
     }
 
-    @Override
     public int getClientID() {
         return 1;
     }
 
-    @Override
     public void responseList(MediaListEntry[] mediaListEntryArray, int n) {
-        this.logger.log(1078071040, "[%1.responseList]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.responseList]", (Object)LOGCLASS);
         try {
             this.browserReply.responseList(true, n, MediaUtilsSDIS.convert2ASIMediaEntries(mediaListEntryArray));
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.responseList]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.responseList]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
-    @Override
     public void updateAlphabeticalIndex(CharacterInfo[] characterInfoArray) {
     }
 
-    @Override
     public void responsePickList(MediaListEntry[] mediaListEntryArray) {
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted]", (Object)"MediaSDISBrowserASIProvider");
+        this.logger.log(1000000, "[%1.errorListRequestAborted]", (Object)LOGCLASS);
         try {
             this.browserReply.responseList(false, -1, new MediaEntry[0]);
         }
         catch (MethodException methodException) {
-            this.logger.log(10000, "[%1.errorListRequestAborted]", (Object)"MediaSDISBrowserASIProvider", (Throwable)methodException);
+            this.logger.log(10000, "[%1.errorListRequestAborted]", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 
-    @Override
     public void errorPickListRequestAborted() {
     }
 
@@ -342,7 +312,6 @@ IMediaBrowserListListener {
         this.browserReply = aSIHMISyncMediaBrowserReply;
     }
 
-    @Override
     public void browseSourceInvalidated() {
     }
 
@@ -352,6 +321,48 @@ IMediaBrowserListListener {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private final class NullASIHMISyncMediaBrowserReply
+    implements ASIHMISyncMediaBrowserReply {
+        private NullASIHMISyncMediaBrowserReply() {
+        }
+
+        public void responseChangeFolder(boolean bl) throws MethodException {
+        }
+
+        public void responseAddSelection(boolean bl) throws MethodException {
+        }
+
+        public void responseList(boolean bl, int n, MediaEntry[] mediaEntryArray) throws MethodException {
+        }
+
+        public void updateASIVersion(String string, boolean bl) throws MethodException {
+        }
+
+        public void updateActiveSlot(MediaSourceSlot mediaSourceSlot, boolean bl) throws MethodException {
+        }
+
+        public void updateBrowseMode(int n, boolean bl) throws MethodException {
+        }
+
+        public void updateDatabaseMode(boolean bl, boolean bl2) throws MethodException {
+        }
+
+        public void updateRawMode(boolean bl, boolean bl2) throws MethodException {
+        }
+
+        public void updateBrowseFolder(MediaEntry[] mediaEntryArray, boolean bl) throws MethodException {
+        }
+
+        public void updateListSize(int n, boolean bl) throws MethodException {
+        }
+
+        public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
+        }
+
+        public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         }
     }
 }

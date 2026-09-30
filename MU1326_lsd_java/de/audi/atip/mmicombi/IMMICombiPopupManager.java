@@ -9,31 +9,22 @@ import de.audi.atip.mmicombi.IMMICombiScreenChangeManager;
 
 public interface IMMICombiPopupManager
 extends IPopupManager {
-    default public void showPopupRequestFromCombi(int n) {
-    }
+    public void showPopupRequestFromCombi(int var1);
 
-    default public void removePopupRequestFromCombi() {
-    }
+    public void removePopupRequestFromCombi();
 
-    default public void setMainUnitPopupManager(IPopupManager iPopupManager) {
-    }
+    public void setMainUnitPopupManager(IPopupManager var1);
 
-    default public void setScreenChangeSync(IMMICombiScreenChangeManager iMMICombiScreenChangeManager) {
-    }
+    public void setScreenChangeSync(IMMICombiScreenChangeManager var1);
 
-    default public IPopupManager getMainUnitPopupManager() {
-    }
+    public IPopupManager getMainUnitPopupManager();
 
-    default public IMMICombiPopupEventListener getMMICombiPopupEventListener() {
-    }
+    public IMMICombiPopupEventListener getMMICombiPopupEventListener();
 
-    default public boolean isPopupRequested(int n) {
-    }
+    public boolean isPopupRequested(int var1);
 
-    default public void deregisterPopupAtZPM(int n) {
-    }
+    public void deregisterPopupAtZPM(int var1);
 
-    default public int getLastVisibleZPMPopupID() {
-    }
+    public int getLastVisibleZPMPopupID();
 }
 

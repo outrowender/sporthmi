@@ -18,8 +18,8 @@ extends DefaultDSISoundListener {
     private final BaseAudioService audioService;
     private ISoundListener[] soundListeners = new ISoundListener[0];
     private final ChoiceModelApp mutePinActiveChoice;
-    private static final int MUTE_PIN_INACTIVE;
-    private static final int MUTE_PIN_ACTIVE;
+    private static final int MUTE_PIN_INACTIVE = 0;
+    private static final int MUTE_PIN_ACTIVE = 1;
     private final ChoiceModelApp eCallCodedChoice;
 
     public DSISoundListenerImpl(AudioEnv audioEnv, BaseAudioService baseAudioService, ChoiceModelApp choiceModelApp, ChoiceModelApp choiceModelApp2) {
@@ -33,15 +33,14 @@ extends DefaultDSISoundListener {
         this.soundListeners = iSoundListenerArray;
     }
 
-    @Override
     public void updateVolume(int n, int n2, short s, int n3) {
         if (n == 9) {
-            this.env.lcVol.log(1078071040, "<- [DSISoundListenerImpl.updateVolume] vol:%1 Ignore update for ENT_SUPPRESION!", (long)s);
+            this.env.lcVol.log(1000000, "<- [DSISoundListenerImpl.updateVolume] vol:%1 Ignore update for ENT_SUPPRESION!", (long)s);
             return;
         }
         if (this.env.lcVol.isDebug()) {
             String string = AudioTools.toString(n, n2, s);
-            this.env.lcVol.log(-2137614336, "<- [DSISoundListenerImpl.updateVolume] %1 (valid:%2)", (Object)string, (long)n3);
+            this.env.lcVol.log(10000000, "<- [DSISoundListenerImpl.updateVolume] %1 (valid:%2)", (Object)string, (long)n3);
         }
         if (n3 != 1) {
             return;
@@ -64,9 +63,8 @@ extends DefaultDSISoundListener {
         }
     }
 
-    @Override
     public void menuVolumeRange(int n, int n2, int n3, int n4) {
-        this.env.lcVol.log(-2137614336, "<- [DSISoundListenerImpl.menuVolumeRange] min:%1 max:%2 connection:%3", (long)n3, (long)n4, (long)n);
+        this.env.lcVol.log(10000000, "<- [DSISoundListenerImpl.menuVolumeRange] min:%1 max:%2 connection:%3", (long)n3, (long)n4, (long)n);
         try {
             for (int i2 = 0; i2 < this.soundListeners.length; ++i2) {
                 this.soundListeners[i2].menuVolumeRange(n, n2, n3, n4);
@@ -78,9 +76,8 @@ extends DefaultDSISoundListener {
         }
     }
 
-    @Override
     public void updateVolumeRange(int n, int n2, int n3) {
-        this.env.lcVol.log(-2137614336, "<- [DSISoundListenerImpl.updateVolumeRange] min:%1 max:%2 valid:%3", (long)n, (long)n2, (long)n3);
+        this.env.lcVol.log(10000000, "<- [DSISoundListenerImpl.updateVolumeRange] min:%1 max:%2 valid:%3", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             try {
                 for (int i2 = 0; i2 < this.soundListeners.length; ++i2) {
@@ -94,9 +91,8 @@ extends DefaultDSISoundListener {
         }
     }
 
-    @Override
     public void updateMuteTheftProtection(boolean bl, int n) {
-        this.env.lcDSI.log(-2137614336, "<- [DSISoundListenerImpl.updateMuteTheftProtection] active:%1 valid:%2", bl, (long)n);
+        this.env.lcDSI.log(10000000, "<- [DSISoundListenerImpl.updateMuteTheftProtection] active:%1 valid:%2", bl, (long)n);
         if (n != 1) {
             return;
         }
@@ -107,13 +103,12 @@ extends DefaultDSISoundListener {
         }
     }
 
-    @Override
     public void updateMutePinState(boolean bl, int n) {
         if (this.eCallCodedChoice.getValue() == 1) {
-            this.env.lcDSI.log(1078071040, "<- [DSISoundListenerImpl.updateMutePinState] eCall is coded, mutePin must be handled by eCall app - mutePinState:%1 valid:%2", bl, (long)n);
+            this.env.lcDSI.log(1000000, "<- [DSISoundListenerImpl.updateMutePinState] eCall is coded, mutePin must be handled by eCall app - mutePinState:%1 valid:%2", bl, (long)n);
             return;
         }
-        this.env.lcDSI.log(-2137614336, "<- [DSISoundListenerImpl.updateMutePinState] mutePinState:%1 valid:%2", bl, (long)n);
+        this.env.lcDSI.log(10000000, "<- [DSISoundListenerImpl.updateMutePinState] mutePinState:%1 valid:%2", bl, (long)n);
         if (n != 1) {
             return;
         }

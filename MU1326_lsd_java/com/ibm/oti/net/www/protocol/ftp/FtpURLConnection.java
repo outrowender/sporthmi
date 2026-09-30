@@ -29,21 +29,21 @@ extends URLConnection {
     private String replyCode;
     private String hostName;
     int dataPort;
-    private static final int FTP_PORT;
+    private static final int FTP_PORT = 21;
     private String PASSWORD = "";
     private String USERNAME = "anonymous";
-    private static final int FTP_DATAOPEN;
-    private static final int FTP_OPENDATA;
-    private static final int FTP_OK;
-    private static final int FTP_USERREADY;
-    private static final int FTP_TRANSFEROK;
-    private static final int FTP_PASV;
-    private static final int FTP_LOGGEDIN;
-    private static final int FTP_FILEOK;
-    private static final int FTP_PASWD;
-    private static final int FTP_DATAERROR;
-    private static final int FTP_ERROR;
-    private static final int FTP_NOTFOUND;
+    private static final int FTP_DATAOPEN = 125;
+    private static final int FTP_OPENDATA = 150;
+    private static final int FTP_OK = 200;
+    private static final int FTP_USERREADY = 220;
+    private static final int FTP_TRANSFEROK = 226;
+    private static final int FTP_PASV = 227;
+    private static final int FTP_LOGGEDIN = 230;
+    private static final int FTP_FILEOK = 250;
+    private static final int FTP_PASWD = 331;
+    private static final int FTP_DATAERROR = 451;
+    private static final int FTP_ERROR = 500;
+    private static final int FTP_NOTFOUND = 550;
 
     protected FtpURLConnection(URL uRL) {
         super(uRL);
@@ -60,14 +60,14 @@ extends URLConnection {
         }
     }
 
-    private void cd() {
+    private void cd() throws IOException {
         int n = this.url.getFile().lastIndexOf(47);
         if (n > 0) {
             String string = this.url.getFile().substring(0, n);
-            this.write(new StringBuffer("CWD ").append(string).append("\r\n").toString());
+            this.write("CWD " + string + "\r\n");
             int n2 = this.getReply();
             if (n2 != 250 && string.length() > 0 && string.charAt(0) == '/') {
-                this.write(new StringBuffer("CWD ").append(string.substring(1)).append("\r\n").toString());
+                this.write("CWD " + string.substring(1) + "\r\n");
                 n2 = this.getReply();
             }
             if (n2 != 250) {
@@ -76,8 +76,7 @@ extends URLConnection {
         }
     }
 
-    @Override
-    public void connect() {
+    public void connect() throws IOException {
         int n = this.url.getPort();
         if (n <= 0) {
             n = 21;
@@ -112,7 +111,6 @@ extends URLConnection {
         }
     }
 
-    @Override
     public String getContentType() {
         String string = FtpURLConnection.guessContentTypeFromName(this.url.getFile());
         if (string == null) {
@@ -121,12 +119,12 @@ extends URLConnection {
         return string;
     }
 
-    private void getFile() {
+    private void getFile() throws IOException {
         String string = this.url.getFile();
-        this.write(new StringBuffer("RETR ").append(string).append("\r\n").toString());
+        this.write("RETR " + string + "\r\n");
         int n = this.getReply();
         if (n == 550 && string.length() > 0 && string.charAt(0) == '/') {
-            this.write(new StringBuffer("RETR ").append(string.substring(1)).append("\r\n").toString());
+            this.write("RETR " + string.substring(1) + "\r\n");
             n = this.getReply();
         }
         if (n != 150 && n != 226) {
@@ -134,32 +132,29 @@ extends URLConnection {
         }
     }
 
-    @Override
-    public InputStream getInputStream() {
+    public InputStream getInputStream() throws IOException {
         if (!this.connected) {
             this.connect();
         }
         return this.inputStream;
     }
 
-    @Override
-    public Permission getPermission() {
+    public Permission getPermission() throws IOException {
         int n = this.url.getPort();
         if (n <= 0) {
             n = 21;
         }
-        return new SocketPermission(new StringBuffer(String.valueOf(this.hostName)).append(":").append(n).toString(), "connect, resolve");
+        return new SocketPermission(String.valueOf(this.hostName) + ":" + n, "connect, resolve");
     }
 
-    @Override
-    public OutputStream getOutputStream() {
+    public OutputStream getOutputStream() throws IOException {
         if (!this.connected) {
             this.connect();
         }
         return this.dataSocket.getOutputStream();
     }
 
-    private int getReply() {
+    private int getReply() throws IOException {
         byte[] byArray = new byte[3];
         this.ctrlInput.read(byArray, 0, byArray.length);
         this.replyCode = new String(byArray, "ISO8859_1");
@@ -175,18 +170,18 @@ extends URLConnection {
         return Integer.parseInt(new String(byArray, "ISO8859_1"));
     }
 
-    private void login() {
+    private void login() throws IOException {
         int n = this.getReply();
         if (n != 220) {
             throw new IOException(Msg.getString("K0097", this.url.getHost()));
         }
-        this.write(new StringBuffer("USER ").append(this.USERNAME).append("\r\n").toString());
+        this.write("USER " + this.USERNAME + "\r\n");
         n = this.getReply();
         if (n != 331 && n != 230) {
             throw new IOException(Msg.getString("K0098", this.url.getHost()));
         }
         if (n == 331) {
-            this.write(new StringBuffer("PASS ").append(this.PASSWORD).append("\r\n").toString());
+            this.write("PASS " + this.PASSWORD + "\r\n");
             n = this.getReply();
             if (n != 200 && n != 220 && n != 230) {
                 throw new IOException(Msg.getString("K0098", this.url.getHost()));
@@ -194,14 +189,14 @@ extends URLConnection {
         }
     }
 
-    private void port() {
-        this.write(new StringBuffer("PORT ").append(this.controlSocket.getLocalAddress().getHostAddress().replace('.', ',')).append(',').append(this.dataPort >> 8).append(',').append(this.dataPort & 0xFF).append("\r\n").toString());
+    private void port() throws IOException {
+        this.write("PORT " + this.controlSocket.getLocalAddress().getHostAddress().replace('.', ',') + ',' + (this.dataPort >> 8) + ',' + (this.dataPort & 0xFF) + "\r\n");
         if (this.getReply() != 200) {
             throw new IOException(Msg.getString("K0099"));
         }
     }
 
-    private String readLine() {
+    private String readLine() throws IOException {
         int n;
         StringBuffer stringBuffer = new StringBuffer();
         while ((n = this.ctrlInput.read()) != 10) {
@@ -210,7 +205,7 @@ extends URLConnection {
         return stringBuffer.toString();
     }
 
-    private boolean readMultiLine() {
+    private boolean readMultiLine() throws IOException {
         String string = this.readLine();
         if (string.length() < 4) {
             return true;
@@ -218,15 +213,14 @@ extends URLConnection {
         return !string.substring(0, 3).equals(this.replyCode) || string.charAt(3) != ' ';
     }
 
-    private void sendFile() {
-        this.write(new StringBuffer("STOR ").append(this.url.getFile().substring(this.url.getFile().lastIndexOf(47) + 1, this.url.getFile().length())).append("\r\n").toString());
+    private void sendFile() throws IOException {
+        this.write("STOR " + this.url.getFile().substring(this.url.getFile().lastIndexOf(47) + 1, this.url.getFile().length()) + "\r\n");
         int n = this.getReply();
         if (n != 150 && n != 200 && n != 125) {
             throw new IOException(Msg.getString("K009a"));
         }
     }
 
-    @Override
     public void setDoInput(boolean bl) {
         if (this.connected) {
             throw new IllegalAccessError();
@@ -235,7 +229,6 @@ extends URLConnection {
         this.doOutput = !bl;
     }
 
-    @Override
     public void setDoOutput(boolean bl) {
         if (this.connected) {
             throw new IllegalAccessError();
@@ -244,14 +237,14 @@ extends URLConnection {
         this.doInput = !bl;
     }
 
-    private void setType() {
+    private void setType() throws IOException {
         this.write("TYPE I\r\n");
         if (this.getReply() != 200) {
             throw new IOException(Msg.getString("K009b"));
         }
     }
 
-    private void write(String string) {
+    private void write(String string) throws IOException {
         this.ctrlOutput.write(string.getBytes("ISO8859_1"));
     }
 }

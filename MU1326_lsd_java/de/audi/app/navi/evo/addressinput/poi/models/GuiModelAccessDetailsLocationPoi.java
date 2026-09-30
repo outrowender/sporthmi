@@ -30,9 +30,8 @@ extends GuiModelAccessDetailsEvo {
         this.env = navigationEnv;
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "[PoiInputModel] %2#onUpdateLocation - navlocation=%1", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "[PoiInputModel] %2#onUpdateLocation - navlocation=%1", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)this.CLASS_NAME);
         super.onUpdateLocation(navLocation);
         LocationFormattingResponse locationFormattingResponse = AddressFormatter.formatTwoLines(navLocation, this.env);
         int n = LocationFormatter.getIconResourceID(this.iconHandler, navLocation);
@@ -46,9 +45,8 @@ extends GuiModelAccessDetailsEvo {
         this.addressList.update(baseListModelApp);
     }
 
-    @Override
     public void onUpdateLocation(OperatorCallResult operatorCallResult) {
-        this.logChannel.log(-2137614336, "[PoiInputModel] %2#onUpdateLocation - operatorCallResult=%1", (Object)operatorCallResult, (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "[PoiInputModel] %2#onUpdateLocation - operatorCallResult=%1", (Object)operatorCallResult, (Object)this.CLASS_NAME);
         super.onUpdateLocation(operatorCallResult);
         LocationFormattingResponse locationFormattingResponse = AddressFormatter.formatTwoLines(operatorCallResult, this.env);
         BaseListModelApp baseListModelApp = this.addressList.getEmptyCopy();
@@ -61,11 +59,9 @@ extends GuiModelAccessDetailsEvo {
         this.addressList.update(baseListModelApp);
     }
 
-    @Override
     public void onUpdateLocationsForTour(NavLocation[] navLocationArray, String string) {
     }
 
-    @Override
     public GuiTooltipInformationContainer createMapTooltipInformationContainer(NavLocation navLocation, String string) {
         return null;
     }

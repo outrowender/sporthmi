@@ -4,34 +4,24 @@
 package de.audi.atip.interapp.online;
 
 public interface OnlineApplicationOtherContext {
-    default public String getAppName() {
-    }
+    public String getAppName();
 
-    default public String getAppContext() {
-    }
+    public String getAppContext();
 
-    default public String getSourceListIconActive() {
-    }
+    public String getSourceListIconActive();
 
-    default public String getSourceListIconInactive() {
-    }
+    public String getSourceListIconInactive();
 
-    default public String getSourceListIconReflection() {
-    }
+    public String getSourceListIconReflection();
 
-    default public String getCaptionIcon() {
-    }
+    public String getCaptionIcon();
 
-    default public String getLoadingIcon() {
-    }
+    public String getLoadingIcon();
 
-    default public int getEntryPointId() {
-    }
+    public int getEntryPointId();
 
-    default public String getSubEntryPoint() {
-    }
+    public String getSubEntryPoint();
 
-    default public boolean isEnabled() {
-    }
+    public boolean isEnabled();
 }
 

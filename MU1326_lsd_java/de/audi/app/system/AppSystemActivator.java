@@ -36,7 +36,6 @@ extends AbstractAppSystemActivator {
     static /* synthetic */ Class class$de$audi$atip$diag$sw$SwDiagnosisManager;
     static /* synthetic */ Class class$de$audi$atip$power$PowerEventListener;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         AppSystemEvo appSystemEvo = new AppSystemEvo(this.framework);
@@ -51,7 +50,6 @@ extends AbstractAppSystemActivator {
         this.initTracker();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.tracker = this.closeTracker(this.tracker);
         this.framework.getSysApp().registerAppSystem(null);
@@ -68,7 +66,6 @@ extends AbstractAppSystemActivator {
         this.bundleContext.registerService((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = AppSystemActivator.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), (Object)this.lockingEvaluator, null);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         String string = (String)serviceReference.getProperty("DEVICE_NAME");
         Object object = this.bundleContext.getService(serviceReference);
@@ -82,7 +79,6 @@ extends AbstractAppSystemActivator {
         return object;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSICarVehicleStates) {
             this.lockingEvaluator.releaseDSI();

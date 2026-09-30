@@ -16,14 +16,13 @@ implements TunerActionProxy {
     }
 
     public void tunerListSearchEntered(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerListSearchEntered]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerListSearchEntered]");
     }
 
     public void tunerListSearchLeft(int n) {
-        this.lc.log(1078071040, "[TunerActionProxy.tunerListSearchLeft]");
+        this.lc.log(1000000, "[TunerActionProxy.tunerListSearchLeft]");
     }
 
-    @Override
     public void tunerListUpdateLeft(int n) {
     }
 }

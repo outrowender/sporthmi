@@ -4,7 +4,6 @@
 package de.audi.atip.hmi.model.update;
 
 import de.audi.atip.hmi.model.update.ModelUpdateData;
-import de.audi.atip.hmi.model.update.ModelUpdateData$Key;
 
 public class ModelTrigger
 extends ModelUpdateData {
@@ -26,12 +25,11 @@ extends ModelUpdateData {
 
     private ModelTrigger(String string) {
         super(19);
-        this.put(ModelUpdateData$Key.TRIGGER, string);
+        this.put(ModelUpdateData.Key.TRIGGER, string);
     }
 
-    @Override
     public String toString() {
-        return this.get(ModelUpdateData$Key.TRIGGER).toString();
+        return this.get(ModelUpdateData.Key.TRIGGER).toString();
     }
 }
 

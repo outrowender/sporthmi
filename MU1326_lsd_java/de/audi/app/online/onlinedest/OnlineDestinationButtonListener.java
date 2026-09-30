@@ -16,35 +16,31 @@ implements ButtonListener {
     private LogChannel logChannel;
 
     public OnlineDestinationButtonListener(HMIService hMIService, LogChannel logChannel) {
-        this.rhmiDistributedServiceChoice = hMIService.getChoiceModel(-1273289984);
-        this.switchToMyAudiDestinationButton = hMIService.getButtonModel(1226777344);
+        this.rhmiDistributedServiceChoice = hMIService.getChoiceModel(2300852);
+        this.switchToMyAudiDestinationButton = hMIService.getButtonModel(2301769);
         this.switchToMyAudiDestinationButton.setButtonListener(this);
         this.logChannel = logChannel;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "OnlineDestinationButtonListener#keyPressed modelID: %1, keyID: %2, terminal ID: %3", (long)n, (long)n2, (long)n3);
-        if (n == 1226777344) {
-            this.logChannel.log(-2137614336, "OnlineDestinationButtonListener#keyPressed transitioning to myAudi");
+        this.logChannel.log(10000000, "OnlineDestinationButtonListener#keyPressed modelID: %1, keyID: %2, terminal ID: %3", (long)n, (long)n2, (long)n3);
+        if (n == 2301769) {
+            this.logChannel.log(10000000, "OnlineDestinationButtonListener#keyPressed transitioning to myAudi");
             this.rhmiDistributedServiceChoice.setValue(1);
             this.switchToMyAudiDestinationButton.fireEvent(n3);
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.logChannel.log(-1601830656, "OnlineDestinationButtonListener#keyReleased not implemented");
+        this.logChannel.log(100000, "OnlineDestinationButtonListener#keyReleased not implemented");
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-1601830656, "OnlineDestinationButtonListener#keyTyped not implemented");
+        this.logChannel.log(100000, "OnlineDestinationButtonListener#keyTyped not implemented");
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
-        this.logChannel.log(-1601830656, "OnlineDestinationButtonListener#keyLongTyped not implemented");
+        this.logChannel.log(100000, "OnlineDestinationButtonListener#keyLongTyped not implemented");
     }
 }
 

@@ -7,34 +7,24 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface SettingsActionProxy
 extends ActionProxy {
-    default public void enterETCDesktopHistory(int n) {
-    }
+    public void enterETCDesktopHistory(int var1);
 
-    default public void leaveETCDesktopHistory(int n) {
-    }
+    public void leaveETCDesktopHistory(int var1);
 
-    default public void enterLicenseBrowser(int n) {
-    }
+    public void enterLicenseBrowser(int var1);
 
-    default public void enterMMISettings(int n) {
-    }
+    public void enterMMISettings(int var1);
 
-    default public void enterSystemSettings(int n) {
-    }
+    public void enterSystemSettings(int var1);
 
-    default public void enterRSESettings(int n) {
-    }
+    public void enterRSESettings(int var1);
 
-    default public void enterETCSettings(int n) {
-    }
+    public void enterETCSettings(int var1);
 
-    default public void leaveSettings(int n) {
-    }
+    public void leaveSettings(int var1);
 
-    default public void enterInstructionBookUpdate(int n) {
-    }
+    public void enterInstructionBookUpdate(int var1);
 
-    default public void leaveFactoryReset(int n) {
-    }
+    public void leaveFactoryReset(int var1);
 }
 

@@ -15,25 +15,23 @@ extends AbstractSysConstManager {
         this.isScale = bl;
     }
 
-    @Override
     void initVariant() {
         this.setSysConstBool(4581, !this.isScale);
         if (this.isScale) {
-            this.lc.log(-2137614336, "SysConstManagerEvoHighScale#initVariantG21HighScale");
+            this.lc.log(10000000, "SysConstManagerEvoHighScale#initVariantG21HighScale");
             this.initVariantG21HighScale();
         } else {
-            this.lc.log(-2137614336, "SysConstManagerEvoHighScale#initVariantG21High");
+            this.lc.log(10000000, "SysConstManagerEvoHighScale#initVariantG21High");
             super.initVariantDefault();
         }
     }
 
-    @Override
     void rangeCheckVariant() {
         if (this.isScale) {
-            this.lc.log(-2137614336, "SysConstManagerEvoHighScale#rangeCheckVariantG21HighScale");
+            this.lc.log(10000000, "SysConstManagerEvoHighScale#rangeCheckVariantG21HighScale");
             this.rangeCheckVariantG21HighScale();
         } else {
-            this.lc.log(-2137614336, "SysConstManagerEvoHighScale#rangeCheckVariantG21High");
+            this.lc.log(10000000, "SysConstManagerEvoHighScale#rangeCheckVariantG21High");
             super.rangeCheckVariantDefault();
         }
     }

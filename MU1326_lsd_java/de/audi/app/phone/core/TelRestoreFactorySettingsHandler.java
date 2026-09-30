@@ -29,7 +29,6 @@ ServiceTrackerCustomizer {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
         this.factoryResetServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$FactResetService == null ? (class$de$audi$atip$interapp$FactResetService = TelRestoreFactorySettingsHandler.class$("de.audi.atip.interapp.FactResetService")) : class$de$audi$atip$interapp$FactResetService).getName(), (ServiceTrackerCustomizer)this, this.log);
@@ -40,7 +39,6 @@ ServiceTrackerCustomizer {
         this.msgListenerServiceProvider.startService();
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
         if (this.msgListenerServiceProvider != null) {
@@ -51,15 +49,13 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;
-        if (n == 0x3000100) {
+        if (n == 65539) {
             this.updateFactoryResetService();
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "TelRestoreFactorySettingsHandler#addingService reference is null");
@@ -71,7 +67,7 @@ ServiceTrackerCustomizer {
             return null;
         }
         if (object instanceof FactResetService) {
-            this.log.log(1078071040, "[TelRestoreFactorySettingsHandler#addingService] FactResetService=%1", object);
+            this.log.log(1000000, "[TelRestoreFactorySettingsHandler#addingService] FactResetService=%1", object);
             this.setFactResetService((FactResetService)object);
             return object;
         }
@@ -79,11 +75,9 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (serviceReference == null) {
             this.log.log(10000, "TelRestoreFactorySettingsHandler#removedService reference is null");
@@ -94,7 +88,7 @@ ServiceTrackerCustomizer {
             return;
         }
         if (object instanceof FactResetService) {
-            this.log.log(1078071040, "[TelRestoreFactorySettingsHandler#removedService] FactResetService=%1", object);
+            this.log.log(1000000, "[TelRestoreFactorySettingsHandler#removedService] FactResetService=%1", object);
             this.getApplication().getBundleContext().ungetService(serviceReference);
             this.factoryResetService = null;
         }
@@ -112,14 +106,13 @@ ServiceTrackerCustomizer {
             int n = this.telephoneState.getActivationState().getTelActivationState();
             boolean bl = n != 5 && n != 1 && n != 12;
             boolean bl2 = n == 2;
-            this.log.log(1078071040, "[TelRestoreFactorySettingsHandler#updateFactoryResetService] activationState=%1, sending blockPhone=%2, blockBluetooth=%3", (Object)new Integer(n), (Object)bl, (Object)bl2);
+            this.log.log(1000000, "[TelRestoreFactorySettingsHandler#updateFactoryResetService] activationState=%1, sending blockPhone=%2, blockBluetooth=%3", (Object)new Integer(n), (Object)bl, (Object)bl2);
             factResetService.setPhoneStateBlockReset(bl, bl2);
         } else {
             this.log.log(10000, "[TelRestoreFactorySettingsHandler#updateFactoryResetService] service, state or activation state is null");
         }
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 28) {
             this.restoreTelephoneSettings();
@@ -127,7 +120,7 @@ ServiceTrackerCustomizer {
     }
 
     private void restoreTelephoneSettings() {
-        this.log.log(1078071040, "[TelRestoreFactorySettingsHandler#restoreTelephoneSettings]");
+        this.log.log(1000000, "[TelRestoreFactorySettingsHandler#restoreTelephoneSettings]");
         this.getApplication().getTelephoneDSIAccess().restoreFactorySettings(0);
     }
 

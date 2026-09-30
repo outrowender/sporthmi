@@ -13,7 +13,6 @@ extends AbstractVideoFormatSetting {
         super(iMediaTerminal, iMediaDSIPlayerController, n, nArray, n2);
     }
 
-    @Override
     protected int getBitcodeValue(int n) {
         switch (n) {
             case 0: {
@@ -38,7 +37,6 @@ extends AbstractVideoFormatSetting {
         return 0;
     }
 
-    @Override
     protected int convertListItem2HMIId(int n) {
         switch (n) {
             case 0: {
@@ -63,7 +61,6 @@ extends AbstractVideoFormatSetting {
         return 0;
     }
 
-    @Override
     protected int convertHMIId2ListItem(int n) {
         switch (n) {
             case 0: {

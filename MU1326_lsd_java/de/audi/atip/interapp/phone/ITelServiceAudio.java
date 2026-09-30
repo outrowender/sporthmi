@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.phone;
 
 public interface ITelServiceAudio {
-    default public void muteIncomingCallRingtone() {
-    }
+    public void muteIncomingCallRingtone();
 }
 

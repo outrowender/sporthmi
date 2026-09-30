@@ -41,7 +41,6 @@ import org.dsi.ifc.sdars.SeekEntry;
 
 public class ListRowFactoryEvo
 extends AbstractListRowFactory {
-    @Override
     public AbstractAmFmRow getAmFmListRow(int n, AMFMStation aMFMStation, de.audi.tuner.app.amfm.stationlist.RecordSets recordSets, int n2) {
         switch (n) {
             case 1: {
@@ -52,10 +51,9 @@ extends AbstractListRowFactory {
                 return new AmListRowEvo(aMFMStation, recordSets, n2);
             }
         }
-        throw new IllegalStateException(new StringBuffer().append("[ListRowFactoryEvo.makeRow] band ").append(n).toString());
+        throw new IllegalStateException("[ListRowFactoryEvo.makeRow] band " + n);
     }
 
-    @Override
     public int getNumOfCols(int n) {
         switch (n) {
             case 1: {
@@ -71,50 +69,41 @@ extends AbstractListRowFactory {
                 return 23;
             }
         }
-        throw new IllegalStateException(new StringBuffer().append("[ListRowFactoryEvo.getNumOfCols] band ").append(n).toString());
+        throw new IllegalStateException("[ListRowFactoryEvo.getNumOfCols] band " + n);
     }
 
-    @Override
     public DabListRow getDabListRow(RecordSets recordSets, DabStation dabStation, boolean bl, int n) {
         return new DabListRowEvo(recordSets, dabStation, bl, n);
     }
 
-    @Override
     public UniListRow getUniListRow(UnifiedStationExt unifiedStationExt, boolean bl, int n) {
         return new UniListRowEvo(unifiedStationExt, bl, n);
     }
 
-    @Override
     public SDARSListRow getSdarsListRow(StationInfoExt stationInfoExt, boolean bl, boolean bl2) {
         return new SDARSListRowEvo(stationInfoExt, bl, bl2);
     }
 
-    @Override
     public AbstractMemoryRow getAmFmFavRow(AMFMStation aMFMStation, int n, int n2) {
         return new AmFmFavRowEvo(aMFMStation, n, n2);
     }
 
-    @Override
     public AbstractMemoryRow getDabFavRow(TunerObjectContainer tunerObjectContainer, int n) {
         return new DABFavRowEvo(tunerObjectContainer, n);
     }
 
-    @Override
     public AbstractMemoryRow getUniFavRow(UnifiedStationExt unifiedStationExt, int n) {
         return new UniFavRowEvo(unifiedStationExt, n);
     }
 
-    @Override
     public AbstractMemoryRow getSdarsFavRow(TunerObjectContainer tunerObjectContainer, int n, int n2) {
         return new SDARSFavRowEvo(tunerObjectContainer.getSDARSService(), n);
     }
 
-    @Override
     public AbstractMemoryRow getEmptyFavRow(int n) {
         return new EmptyFavRowEvo(n);
     }
 
-    @Override
     public AbstractMemoryRow getFavRow(TunerObjectContainer tunerObjectContainer, int n, int n2) {
         switch (tunerObjectContainer.getType()) {
             case 3: {
@@ -133,7 +122,6 @@ extends AbstractListRowFactory {
         throw new IllegalArgumentException();
     }
 
-    @Override
     public EPGListRow[] getEpgRows(de.audi.tuner.app.epg.dab.EPGShortInfoExt ePGShortInfoExt, long l) {
         EPGListRowServiceName ePGListRowServiceName = new EPGListRowServiceName(ePGShortInfoExt);
         EPGListRowInfo ePGListRowInfo = new EPGListRowInfo(ePGShortInfoExt, 1, l);
@@ -141,7 +129,6 @@ extends AbstractListRowFactory {
         return new EPGListRow[]{ePGListRowServiceName, ePGListRowInfo, ePGListRowInfo2};
     }
 
-    @Override
     public AbstractSdarsEpgListRow[] getSdarsGlobalEpgRows(EPGShortInfoExt ePGShortInfoExt, long l, int n) {
         StationInfoExt stationInfoExt = ePGShortInfoExt.station;
         int n2 = 1 + Math.min(n, ePGShortInfoExt.epgProgramInfo.length);
@@ -154,12 +141,10 @@ extends AbstractListRowFactory {
         return abstractSdarsEpgListRowArray;
     }
 
-    @Override
     public AlertRow getSdarsAlertRow(StationInfoExt stationInfoExt, SeekEntry seekEntry, String string, String string2) {
         return new AlertRowEvo(stationInfoExt, seekEntry, string, string2);
     }
 
-    @Override
     public ArtistTitleRow getSdarsArtistTitleRow(RadioText radioText, StationInfoExt stationInfoExt, int n) {
         return new ArtistTitleRow(radioText, stationInfoExt, n);
     }

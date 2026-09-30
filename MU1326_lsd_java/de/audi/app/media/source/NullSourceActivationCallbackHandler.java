@@ -9,31 +9,27 @@ import de.audi.atip.log.LogChannel;
 
 public final class NullSourceActivationCallbackHandler
 implements ISourceActivationCallbackHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NullSourceActivationCallbackHandler";
     private final LogChannel logger;
 
     public NullSourceActivationCallbackHandler(LogChannel logChannel) {
         this.logger = logChannel;
     }
 
-    @Override
     public void sourceDeviceActivated(ISourceSlot iSourceSlot, int n, boolean bl) {
-        this.logger.log(1078071040, "[%1.sourceDeviceActivated] '%2'", (Object)"NullSourceActivationCallbackHandler", (Object)iSourceSlot);
+        this.logger.log(1000000, "[%1.sourceDeviceActivated] '%2'", (Object)LOGCLASS, (Object)iSourceSlot);
     }
 
-    @Override
     public void sourceDeviceDeactivated() {
-        this.logger.log(1078071040, "[%1.sourceDeviceDeactivated]", (Object)"NullSourceActivationCallbackHandler");
+        this.logger.log(1000000, "[%1.sourceDeviceDeactivated]", (Object)LOGCLASS);
     }
 
-    @Override
     public void sourceDevicePending(long l) {
-        this.logger.log(1078071040, "[%1.sourceDevicePending] '%2'", (Object)"NullSourceActivationCallbackHandler", l);
+        this.logger.log(1000000, "[%1.sourceDevicePending] '%2'", (Object)LOGCLASS, l);
     }
 
-    @Override
     public void sourceActivationFailed() {
-        this.logger.log(1078071040, "[%1.sourceActivationFailed]", (Object)"NullSourceActivationCallbackHandler");
+        this.logger.log(1000000, "[%1.sourceActivationFailed]", (Object)LOGCLASS);
     }
 }
 

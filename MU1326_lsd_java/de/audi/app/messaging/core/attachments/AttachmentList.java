@@ -4,8 +4,6 @@
 package de.audi.app.messaging.core.attachments;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
-import de.audi.app.messaging.core.attachments.AttachmentList$1;
-import de.audi.app.messaging.core.attachments.AttachmentList$MyButtonListener;
 import de.audi.app.messaging.core.attachments.AttachmentListRow;
 import de.audi.app.messaging.core.attachments.AttachmentUtil;
 import de.audi.app.messaging.core.attachments.IAttachmentObserver;
@@ -14,10 +12,10 @@ import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.viewmessage.GetMessageContentsCommand;
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.BaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
-import de.audi.atip.log.LogChannel;
 import java.util.Iterator;
 import org.dsi.ifc.messaging.AttachmentInformation;
 import org.dsi.ifc.messaging.MessageDetails;
@@ -25,8 +23,8 @@ import org.dsi.ifc.messaging.MessageDetails;
 public final class AttachmentList
 extends AbstractMessagingComponent
 implements BaseListModelListener {
-    private static final int ATTACHMENT_TYPE_UNSUPPORTED;
-    private static final int ATTACHMENT_TYPE_VCARD;
+    private static final int ATTACHMENT_TYPE_UNSUPPORTED = 0;
+    private static final int ATTACHMENT_TYPE_VCARD = 1;
     private final BaseListModelApp listModel;
     private volatile CopyOnWriteArrayList observers = new CopyOnWriteArrayList();
     private volatile AttachmentInformation[] attachmentInformations;
@@ -35,14 +33,13 @@ implements BaseListModelListener {
 
     public AttachmentList(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.listModel = this.framework.getHmiServiceApp().getBaseListModel(-1114496768);
+        this.listModel = this.framework.getHmiServiceApp().getBaseListModel(2200253);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         this.listModel.setListener(this);
-        this.framework.getHmiServiceApp().getButtonModel(-1064165120).setButtonListener(new AttachmentList$MyButtonListener(this, null));
+        this.framework.getHmiServiceApp().getButtonModel(2200256).setButtonListener(new MyButtonListener());
     }
 
     public void setUseVariantSpecificListListener(boolean bl) {
@@ -50,7 +47,7 @@ implements BaseListModelListener {
     }
 
     public void setAttachments(AttachmentInformation[] attachmentInformationArray, int n) {
-        this.log.log(-2137614336, "[AttachmentList#setAttachments] messageType = %1", (long)n);
+        this.log.log(10000000, "[AttachmentList#setAttachments] messageType = %1", (long)n);
         this.attachmentInformations = attachmentInformationArray;
         this.messageType = n;
         this.listModel.removeAll();
@@ -65,20 +62,25 @@ implements BaseListModelListener {
     }
 
     private void viewAttachmentsButton(int n, int n2) {
-        this.log.log(1078071040, "[AttachmentList#viewAttachmentsButton]");
+        this.log.log(1000000, "[AttachmentList#viewAttachmentsButton]");
         this.downloadAttachments();
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
     public void downloadAttachments() {
-        this.log.log(1078071040, "[AttachmentList#downloadAttachments]");
+        this.log.log(1000000, "[AttachmentList#downloadAttachments]");
         this.emitDownloadResult(3);
         try {
-            this.msgApp.getModelAccess().setOperationStateChoice(-1131273984, 0);
+            this.msgApp.getModelAccess().setOperationStateChoice(2200252, 0);
             int n = this.msgApp.getAccountManager().getSelectedAccount().getAccountID();
             String string = this.msgApp.getMessageOptionsManager().getFocusedMessageListEntry().getMessageID();
-            AttachmentList$1 attachmentList$1 = new AttachmentList$1(this);
-            new GetMessageContentsCommand(this.msgApp, n, string, 2, attachmentList$1).schedule();
+            GetMessageContentsCommand.ResultHandler resultHandler = new GetMessageContentsCommand.ResultHandler(){
+
+                public void handleResult(boolean bl, MessageDetails messageDetails, int n) {
+                    AttachmentList.this.handleCommandResult(bl, messageDetails, n);
+                }
+            };
+            new GetMessageContentsCommand(this.msgApp, n, string, 2, resultHandler).schedule();
         }
         catch (Exception exception) {
             Logs.logException(this.log, exception, "[AttachmentList#viewAttachmentsButton]");
@@ -90,7 +92,7 @@ implements BaseListModelListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void handleCommandResult(boolean bl, MessageDetails messageDetails, int n) {
-        this.log.log(1078071040, "[AttachmentList#handleCommandResult]");
+        this.log.log(1000000, "[AttachmentList#handleCommandResult]");
         int n2 = 2;
         AttachmentInformation[] attachmentInformationArray = new AttachmentInformation[]{};
         int n3 = 4;
@@ -115,25 +117,23 @@ implements BaseListModelListener {
         }
         finally {
             this.setAttachments(attachmentInformationArray, n3);
-            this.msgApp.getModelAccess().setOperationStateChoice(-1131273984, n2);
+            this.msgApp.getModelAccess().setOperationStateChoice(2200252, n2);
             this.emitDownloadResult(n4);
         }
     }
 
     public void setAttachmentSelectionType(int n) {
-        this.log.log(-2137614336, "[AttachmentList#setAttachmentSelectionType] attachmentType = %1", (long)n);
-        this.framework.getHmiServiceApp().getChoiceModel(1402151168).setValue(n);
+        this.log.log(10000000, "[AttachmentList#setAttachmentSelectionType] attachmentType = %1", (long)n);
+        this.framework.getHmiServiceApp().getChoiceModel(2200403).setValue(n);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         AttachmentListRow attachmentListRow = (AttachmentListRow)evoListRow;
         AttachmentInformation attachmentInformation = attachmentListRow.getAttachmentInformation();
-        this.log.log(1078071040, "[AttachmentList#itemSelected] row = %1, attachmentInformation = %2", (Object)evoListRow, (Object)attachmentInformation);
+        this.log.log(1000000, "[AttachmentList#itemSelected] row = %1, attachmentInformation = %2", (Object)evoListRow, (Object)attachmentInformation);
         if (this.useVariantSpecificListListener) {
             this.emitAttachmentSelected(attachmentInformation);
         } else {
@@ -151,21 +151,19 @@ implements BaseListModelListener {
         }
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
     public void addObserver(IAttachmentObserver iAttachmentObserver) {
-        this.log.log(-2137614336, "[AttachmentList#addObserver]");
+        this.log.log(10000000, "[AttachmentList#addObserver]");
         this.observers.add(iAttachmentObserver);
     }
 
     public void emitDownloadResult(int n) {
-        this.log.log(-2137614336, "[AttachmentList#emitDownloadResult]");
+        this.log.log(10000000, "[AttachmentList#emitDownloadResult]");
         Iterator iterator = this.observers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -178,7 +176,7 @@ implements BaseListModelListener {
     }
 
     public void emitAttachmentSelected(AttachmentInformation attachmentInformation) {
-        this.log.log(-2137614336, "[AttachmentList#emitDownloadResult]");
+        this.log.log(10000000, "[AttachmentList#emitDownloadResult]");
         Iterator iterator = this.observers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -190,16 +188,18 @@ implements BaseListModelListener {
         }
     }
 
-    static /* synthetic */ void access$100(AttachmentList attachmentList, boolean bl, MessageDetails messageDetails, int n) {
-        attachmentList.handleCommandResult(bl, messageDetails, n);
-    }
+    private class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
 
-    static /* synthetic */ void access$200(AttachmentList attachmentList, int n, int n2) {
-        attachmentList.viewAttachmentsButton(n, n2);
-    }
-
-    static /* synthetic */ LogChannel access$300(AttachmentList attachmentList) {
-        return attachmentList.log;
+        public void keyTyped(int n, int n2, int n3) {
+            if (n == 2200256) {
+                AttachmentList.this.viewAttachmentsButton(n, n3);
+            } else {
+                AttachmentList.this.log.log(10000, "[AttachmentList#keyTyped] Unexpected modelID = %1", (long)n);
+            }
+        }
     }
 }
 

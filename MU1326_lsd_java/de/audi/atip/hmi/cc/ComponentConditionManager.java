@@ -7,7 +7,6 @@ import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.HMIBundle;
 import de.audi.atip.hmi.HMIConditionBank;
 import de.audi.atip.hmi.HMIService;
-import de.audi.atip.hmi.cc.ComponentConditionManager$NullCondition;
 import de.audi.atip.hmi.cc.ComponentConditionTable;
 import de.audi.atip.hmi.cc.IComponentConditionManager;
 import de.audi.atip.hmi.cc.PendingCCIDs;
@@ -35,9 +34,9 @@ implements IComponentConditionManager {
     public void add(HMIBundle hMIBundle) {
         this.hmiBundles[hMIBundle.getId()] = hMIBundle;
         int[] nArray = this.pendingCCIDs.toArray();
-        this.lc.log(-2137614336, "[CCM.add] HMIBundle ID:%2 %1", (Object)hMIBundle, (long)hMIBundle.getId());
+        this.lc.log(10000000, "[CCM.add] HMIBundle ID:%2 %1", (Object)hMIBundle, (long)hMIBundle.getId());
         if (nArray.length > 0) {
-            this.lc.log(-2137614336, "[CCM.add] Activate pending ccIDs %1", (Object)nArray);
+            this.lc.log(10000000, "[CCM.add] Activate pending ccIDs %1", (Object)nArray);
             for (int i2 = 0; i2 < nArray.length; ++i2) {
                 this.activateCC(nArray[i2]);
             }
@@ -45,13 +44,12 @@ implements IComponentConditionManager {
     }
 
     public void remove(HMIBundle hMIBundle) {
-        this.lc.log(-2137614336, "[CCM.remove] ID:%2 HMIBundle:%1", (Object)hMIBundle, (long)hMIBundle.getId());
+        this.lc.log(10000000, "[CCM.remove] ID:%2 HMIBundle:%1", (Object)hMIBundle, (long)hMIBundle.getId());
         if (hMIBundle == this.hmiBundles[hMIBundle.getId()]) {
             this.hmiBundles[hMIBundle.getId()] = null;
         }
     }
 
-    @Override
     public void activateCC(int n) {
         int[] nArray = this.getModelsByCondition(n);
         try {
@@ -61,7 +59,7 @@ implements IComponentConditionManager {
                     ((ModelInternals)((Object)this.getHMIService().getModel(nArray[i2]))).addCondition(n, this);
                     continue;
                 }
-                this.lc.log(-2137614336, "[CCM.activateCC] ccID:%1 No HMI bundle registered yet for model %2", (long)n, (long)nArray[i2]);
+                this.lc.log(10000000, "[CCM.activateCC] ccID:%1 No HMI bundle registered yet for model %2", (long)n, (long)nArray[i2]);
                 this.pendingCCIDs.add(n);
             }
         }
@@ -71,7 +69,6 @@ implements IComponentConditionManager {
         }
     }
 
-    @Override
     public void deactivateCC(int n) {
         try {
             int[] nArray = this.getModelsByCondition(n);
@@ -84,14 +81,13 @@ implements IComponentConditionManager {
                 }
                 this.lc.log(10000, "[CCM.deactivateCC] ccID:%1 model %2 not found!", (long)n, (long)nArray[i2]);
             }
-            this.lc.log(-2137614336, "[CCM.deactivateCC] ccID:%2 modelIDs:%1", (Object)nArray, (long)n);
+            this.lc.log(10000000, "[CCM.deactivateCC] ccID:%2 modelIDs:%1", (Object)nArray, (long)n);
         }
         catch (Exception exception) {
             this.lc.log(10000, "[CCM.deactivateCC] ccID:%1", (long)n, (Throwable)exception);
         }
     }
 
-    @Override
     public boolean isTrue(int n, int n2) {
         return this.evaluate(this.getCondition(n), n2);
     }
@@ -100,7 +96,7 @@ implements IComponentConditionManager {
         int[] nArray = this.ccTable.getConditionIDs(n);
         IntList intList = new IntList(nArray.length);
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "[CCM.modelStateChanged] model:%2 conditionIDs:%1", (Object)Converter.array2String(nArray), (long)n);
+            this.lc.log(10000000, "[CCM.modelStateChanged] model:%2 conditionIDs:%1", (Object)Converter.array2String(nArray), (long)n);
         }
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             int n3 = nArray[i2];
@@ -112,7 +108,7 @@ implements IComponentConditionManager {
         }
         if (!intList.isEmpty()) {
             int[] nArray2 = intList.toArray();
-            this.lc.log(-2137614336, "[CCM.modelStateChanged] model:%2 changedCCIDs:%1", (Object)nArray2, (long)n);
+            this.lc.log(10000000, "[CCM.modelStateChanged] model:%2 changedCCIDs:%1", (Object)nArray2, (long)n);
             this.getHMIService().postComponentConditionEvent(nArray2);
         }
     }
@@ -128,7 +124,7 @@ implements IComponentConditionManager {
             return false;
         }
         catch (Exception exception) {
-            this.lc.log(-2137614336, "[CCM.evaluate] Call failed!", (Throwable)exception);
+            this.lc.log(10000000, "[CCM.evaluate] Call failed!", (Throwable)exception);
             return false;
         }
     }
@@ -141,23 +137,23 @@ implements IComponentConditionManager {
         HMIBundle hMIBundle = this.getBundle(n);
         if (hMIBundle == null) {
             this.lc.log(10000, "[ConditionsObserver.getCondition] No HMIBundle found for condition ID %1!", (long)n);
-            return new ComponentConditionManager$NullCondition(n);
+            return new NullCondition(n);
         }
         HMIConditionBank hMIConditionBank = hMIBundle.getConditionBank();
         if (hMIConditionBank == null) {
             this.lc.log(10000, "[ConditionsObserver.getCondition] No HMIConditionBank found for condition ID %1!", (long)n);
-            return new ComponentConditionManager$NullCondition(n);
+            return new NullCondition(n);
         }
         AbstractCondition abstractCondition = hMIConditionBank.getCondition(n);
         if (abstractCondition == null) {
             this.lc.log(10000, "[ConditionsObserver.getCondition] Condition %1 not found!", (long)n);
-            return new ComponentConditionManager$NullCondition(n);
+            return new NullCondition(n);
         }
         return abstractCondition;
     }
 
     private HMIBundle getBundle(int n) {
-        int n2 = n / -1601830656;
+        int n2 = n / 100000;
         if (n2 < 0 || n2 >= this.hmiBundles.length || this.hmiBundles[n2] == null) {
             return null;
         }
@@ -174,6 +170,20 @@ implements IComponentConditionManager {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private static class NullCondition
+    extends AbstractCondition {
+        public NullCondition(int n) {
+        }
+
+        public int[] getModelIds() {
+            return new int[0];
+        }
+
+        public boolean evaluate(int n) {
+            return false;
         }
     }
 }

@@ -14,9 +14,6 @@ import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.evo.ITelEvoApplication;
 import de.audi.app.phone.evo.adb.TelEvoADBMatchSpellerListRow;
 import de.audi.app.phone.evo.intellicall.ISpellerMode;
-import de.audi.app.phone.evo.intellicall.TelEvoADBMatchSpellerHandler$MatchSpellerMode;
-import de.audi.app.phone.evo.intellicall.TelEvoADBMatchSpellerHandler$NoneSpellerMode;
-import de.audi.app.phone.evo.intellicall.TelEvoADBMatchSpellerHandler$SpecialCharSearchMode;
 import de.audi.app.phone.evo.intellicall.TelStdIntellicalSearchModelHanlder;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
@@ -30,11 +27,11 @@ import org.dsi.ifc.organizer.DataSet;
 public class TelEvoADBMatchSpellerHandler
 extends AbstractTelADBOrganizerSearch
 implements IGlobalTelephoneStateListener {
-    private static final String EMPTY_STRING;
+    private static final String EMPTY_STRING = "";
     private volatile boolean isADBReady;
-    private final ISpellerMode noneSpellerMode = new TelEvoADBMatchSpellerHandler$NoneSpellerMode(this);
-    private final ISpellerMode specialCharsSearchMode = new TelEvoADBMatchSpellerHandler$SpecialCharSearchMode(this);
-    private final ISpellerMode matchSpellerMode = new TelEvoADBMatchSpellerHandler$MatchSpellerMode(this, null);
+    private final ISpellerMode noneSpellerMode = new NoneSpellerMode();
+    private final ISpellerMode specialCharsSearchMode = new SpecialCharSearchMode();
+    private final ISpellerMode matchSpellerMode = new MatchSpellerMode();
     private volatile ISpellerMode currentSpellerMode = this.noneSpellerMode;
     private TelStdIntellicalSearchModelHanlder stdSearchSpellerHandler;
     private final ITelEvoApplication telEvoApplication;
@@ -55,9 +52,8 @@ implements IGlobalTelephoneStateListener {
         this.stdSearchSpellerHandler.deinit();
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (this.isIdle(iGlobalTelephoneStateStruct) && this.currentSpellerMode instanceof TelEvoADBMatchSpellerHandler$MatchSpellerMode) {
+        if (this.isIdle(iGlobalTelephoneStateStruct) && this.currentSpellerMode instanceof MatchSpellerMode) {
             this.enableCusorPositioningOnListUpdates(true);
         }
     }
@@ -66,7 +62,6 @@ implements IGlobalTelephoneStateListener {
         return iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallState() != null && iGlobalTelephoneStateStruct.getCallState().isIdle();
     }
 
-    @Override
     protected EvoListRow[] getRows(DataSet[] dataSetArray) {
         if (dataSetArray == null) {
             this.log.log(10000, "TelEvoADBMatchSpellerHandler#getRows dataSetList is null.");
@@ -80,7 +75,7 @@ implements IGlobalTelephoneStateListener {
     }
 
     private void hideMailbox() {
-        this.hmiService.getChoiceModel(-1701444608).setValue(1);
+        this.hmiService.getChoiceModel(300698).setValue(1);
     }
 
     public void entrySelected(long l, String string, ADBSearchListRow aDBSearchListRow, int n) {
@@ -97,11 +92,10 @@ implements IGlobalTelephoneStateListener {
             buffer.append(", ");
             buffer.append("index=");
             buffer.append(n);
-            this.log.log(1078071040, "[TelEvoADBMatchSpellerHandler#entrySelected] %1", (Object)buffer);
+            this.log.log(1000000, "[TelEvoADBMatchSpellerHandler#entrySelected] %1", (Object)buffer);
         }
     }
 
-    @Override
     public void setRowOpenState(EvoListRow evoListRow, boolean bl, BaseListModelApp baseListModelApp) {
         if (evoListRow != null && evoListRow instanceof TelEvoADBMatchSpellerListRow) {
             ((TelEvoADBMatchSpellerListRow)evoListRow).setOpen(bl);
@@ -112,16 +106,15 @@ implements IGlobalTelephoneStateListener {
     public void handleInvalidData(int n, boolean bl) {
         Buffer buffer = new Buffer("reason=");
         buffer.append(n).append(" reloadMainList=").append(bl);
-        this.log.log(1078071040, new StringBuffer().append("TelEvoADBMatchSpellerHandler#handleInvalidData(): ").append(buffer.toString()).toString());
+        this.log.log(1000000, new StringBuffer().append("TelEvoADBMatchSpellerHandler#handleInvalidData(): ").append(buffer.toString()).toString());
         this.enableFiltering(true);
         this.startSearch();
     }
 
-    @Override
     public void refreshFromStart() {
-        this.log.log(1078071040, "TelEvoADBMatchSpellerHandler#refreshFromStart()");
+        this.log.log(1000000, "TelEvoADBMatchSpellerHandler#refreshFromStart()");
         if (this.isSpellerOpened) {
-            this.log.log(1078071040, "TelEvoADBMatchSpellerHandler#refreshFromStart(): enableCusorPositioningOnListUpdates(false);");
+            this.log.log(1000000, "TelEvoADBMatchSpellerHandler#refreshFromStart(): enableCusorPositioningOnListUpdates(false);");
             this.enableCusorPositioningOnListUpdates(false);
             super.refreshFromStart();
         } else {
@@ -130,9 +123,8 @@ implements IGlobalTelephoneStateListener {
         }
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.log.log(1078071040, "TelEvoADBMatchSpellerHandler#textChanged(): text %1, latestChar: %2", (Object)string, (long)c2);
+        this.log.log(1000000, "TelEvoADBMatchSpellerHandler#textChanged(): text %1, latestChar: %2", (Object)string, (long)c2);
         this.setupSearchMode(string, c2);
         this.currentSpellerMode.textChanged(n, string, c2, n2);
     }
@@ -157,7 +149,6 @@ implements IGlobalTelephoneStateListener {
         this.disableTelIconInSpeller();
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (n == this.getSpellerModel().getID()) {
             this.telEvoApplication.getIntellicallHandler().dialNumber(this.getSpellerModel().getText(), n3);
@@ -181,10 +172,9 @@ implements IGlobalTelephoneStateListener {
         return string != null && string.length() == 1 && c2 != '\b';
     }
 
-    @Override
     public void spellerResult(int n, DataSet[] dataSetArray, int n2, String string, String string2) {
-        if ("".equals(string2) && this.currentSpellerMode instanceof TelEvoADBMatchSpellerHandler$MatchSpellerMode) {
-            this.log.log(1078071040, "TelEvoADBMatchSpellerHandler#spellerResult(): uniqueChars %1, currentSpellerMode %2", (Object)string2, (Object)this.currentSpellerMode.toString());
+        if (EMPTY_STRING.equals(string2) && this.currentSpellerMode instanceof MatchSpellerMode) {
+            this.log.log(1000000, "TelEvoADBMatchSpellerHandler#spellerResult(): uniqueChars %1, currentSpellerMode %2", (Object)string2, (Object)this.currentSpellerMode.toString());
             this.setupNoneSpellerMode();
             this.currentSpellerMode.spellerModeChanged();
             this.stdSearchSpellerHandler.clearSearchSpeller();
@@ -208,10 +198,9 @@ implements IGlobalTelephoneStateListener {
         return this.currentSpellerMode.getValidChars(string);
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.log.log(1078071040, "TelEvoADBMatchSpellerHandler#commandPressed(): model %1, index %2, terminal %3", (long)n, (long)n2, (long)n3);
-        if (n == -845806592) {
+        this.log.log(1000000, "TelEvoADBMatchSpellerHandler#commandPressed(): model %1, index %2, terminal %3", (long)n, (long)n2, (long)n3);
+        if (n == 300749) {
             if (n2 == 4711) {
                 this.isSpellerOpened = true;
             } else if (n2 == 4712) {
@@ -224,40 +213,64 @@ implements IGlobalTelephoneStateListener {
         return this.getMatchListModel();
     }
 
-    static /* synthetic */ LogChannel access$100(TelEvoADBMatchSpellerHandler telEvoADBMatchSpellerHandler) {
-        return telEvoADBMatchSpellerHandler.log;
+    public class NoneSpellerMode
+    implements ISpellerMode {
+        public void spellerModeChanged() {
+            TelEvoADBMatchSpellerHandler.this.enableCusorPositioningOnListUpdates(false);
+            TelEvoADBMatchSpellerHandler.this.log.log(10000000, "TelEvoADBMatchSpellerHandler.NoneSpellerMode#spellerModeChanged(): called");
+        }
+
+        public void textChanged(int n, String string, char c2, int n2) {
+            TelEvoADBMatchSpellerHandler.this.log.log(10000000, "TelEvoADBMatchSpellerHandler.NoneSpellerMode#textChanged(): text %1, latestChar %2", (Object)string, (long)c2);
+            TelEvoADBMatchSpellerHandler.this.stdSearchSpellerHandler.clearSearchSpeller();
+        }
+
+        public String getValidChars(String string) {
+            return null;
+        }
     }
 
-    static /* synthetic */ TelStdIntellicalSearchModelHanlder access$200(TelEvoADBMatchSpellerHandler telEvoADBMatchSpellerHandler) {
-        return telEvoADBMatchSpellerHandler.stdSearchSpellerHandler;
+    private class MatchSpellerMode
+    implements ISpellerMode {
+        private MatchSpellerMode() {
+        }
+
+        public void spellerModeChanged() {
+            TelEvoADBMatchSpellerHandler.this.log.log(10000000, "TelEvoADBMatchSpellerHandler.MatchSpellerMode#spellerModeChanged(): called");
+            TelEvoADBMatchSpellerHandler.this.stdSearchSpellerHandler.showSearchResultList();
+            TelEvoADBMatchSpellerHandler.this.hideMailbox();
+            TelEvoADBMatchSpellerHandler.this.enableCusorPositioningOnListUpdates(true);
+        }
+
+        public void textChanged(int n, String string, char c2, int n2) {
+            TelEvoADBMatchSpellerHandler.this.log.log(10000000, "TelEvoADBMatchSpellerHandler.MatchSpellerMode#textChanged(): text %1, latestChar %2", (Object)string, (long)c2);
+            TelEvoADBMatchSpellerHandler.super.textChanged(n, string, c2, n2);
+        }
+
+        public String getValidChars(String string) {
+            return string;
+        }
     }
 
-    static /* synthetic */ void access$300(TelEvoADBMatchSpellerHandler telEvoADBMatchSpellerHandler) {
-        telEvoADBMatchSpellerHandler.hideMailbox();
-    }
+    public class SpecialCharSearchMode
+    implements ISpellerMode {
+        public void spellerModeChanged() {
+            TelEvoADBMatchSpellerHandler.this.enableCusorPositioningOnListUpdates(false);
+            TelEvoADBMatchSpellerHandler.this.log.log(10000000, "TelEvoADBMatchSpellerHandler.SpecialCharSearchMode#spellerModeChanged(): called");
+            TelEvoADBMatchSpellerHandler.this.getMatchList().removeAll();
+        }
 
-    static /* synthetic */ LogChannel access$400(TelEvoADBMatchSpellerHandler telEvoADBMatchSpellerHandler) {
-        return telEvoADBMatchSpellerHandler.log;
-    }
+        public void textChanged(int n, String string, char c2, int n2) {
+            TelEvoADBMatchSpellerHandler.this.log.log(10000000, "TelEvoADBMatchSpellerHandler.SpecialCharSearchMode#textChanged(): text %1, latestChar %2", (Object)string, (long)c2);
+            TelEvoADBMatchSpellerHandler.this.stdSearchSpellerHandler.spellerTextChanged(string);
+            TelEvoADBMatchSpellerHandler.this.getSpellerModel().setText(string);
+            TelEvoADBMatchSpellerHandler.this.getSpellerModel().setValidChars(TelIntellicallIGIUtil.VALID_PHONE_NUMBER_SYMBOLS);
+            TelEvoADBMatchSpellerHandler.this.getSpellerModel().setStatus(1);
+        }
 
-    static /* synthetic */ void access$501(TelEvoADBMatchSpellerHandler telEvoADBMatchSpellerHandler, int n, String string, char c2, int n2) {
-        super.textChanged(n, string, c2, n2);
-    }
-
-    static /* synthetic */ LogChannel access$600(TelEvoADBMatchSpellerHandler telEvoADBMatchSpellerHandler) {
-        return telEvoADBMatchSpellerHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$700(TelEvoADBMatchSpellerHandler telEvoADBMatchSpellerHandler) {
-        return telEvoADBMatchSpellerHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$800(TelEvoADBMatchSpellerHandler telEvoADBMatchSpellerHandler) {
-        return telEvoADBMatchSpellerHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$900(TelEvoADBMatchSpellerHandler telEvoADBMatchSpellerHandler) {
-        return telEvoADBMatchSpellerHandler.log;
+        public String getValidChars(String string) {
+            return TelIntellicallIGIUtil.VALID_PHONE_NUMBER_SYMBOLS;
+        }
     }
 }
 

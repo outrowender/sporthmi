@@ -6,19 +6,14 @@ package de.audi.atip.interapp.eni;
 import de.audi.atip.interapp.bap.eni.data.Destination;
 
 public interface ENIServiceEcallListener {
-    default public void onError() {
-    }
+    public void onError();
 
-    default public void onExpirationWarning(boolean bl, int n, boolean bl2) {
-    }
+    public void onExpirationWarning(boolean var1, int var2, boolean var3);
 
-    default public void onLicenceExpired() {
-    }
+    public void onLicenceExpired();
 
-    default public void onDestination(Destination destination) {
-    }
+    public void onDestination(Destination var1);
 
-    default public void setEcallPrivacyDisclaimerTextVisible(boolean bl) {
-    }
+    public void setEcallPrivacyDisclaimerTextVisible(boolean var1);
 }
 

@@ -3,10 +3,11 @@
  */
 package de.audi.app.car.sdis.comp;
 
+import de.audi.app.car.sdis.base.AbstractCarStateHandler;
 import de.audi.app.car.sdis.base.AbstractDSICarComfort;
+import de.audi.app.car.sdis.base.ICoding;
 import de.audi.app.car.sdis.base.IDSIObserver;
 import de.audi.app.car.sdis.base.ISDISFramework;
-import de.audi.app.car.sdis.comp.CarComfortComponent$CarStateHandler;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.comm.asi.hmisync.car.service.TireDisplayData;
 import de.esolutions.fw.comm.asi.hmisync.car.service.WheelPressures;
@@ -23,24 +24,24 @@ import org.dsi.ifc.carcomfort.RDKViewOptions;
 public class CarComfortComponent
 extends AbstractDSICarComfort
 implements IDSIObserver {
-    private static final String LOG_CHANNEL_NAME;
-    public static final byte[] CODING;
+    private static final String LOG_CHANNEL_NAME = "App.CarSDIS.CarComfort";
+    public static final byte[] CODING = new byte[]{11};
     private final LogChannel logger;
     private DSICarComfort dsi;
     private ISDISFramework baseService;
-    private CarComfortComponent$CarStateHandler carStates;
+    private CarStateHandler carStates;
     private ASIHMISyncCarServiceAbstractBaseService toSDIS;
     private RDKTireDisplayData displayData;
-    private static final int[] attributes;
+    private static final int[] attributes = new int[]{33, 37};
     static /* synthetic */ Class class$org$dsi$ifc$carcomfort$DSICarComfort;
     static /* synthetic */ Class class$org$dsi$ifc$carcomfort$DSICarComfortListener;
 
     public CarComfortComponent(ISDISFramework iSDISFramework) {
-        super(iSDISFramework.getLogChannel("App.CarSDIS.CarComfort"));
-        this.logger = iSDISFramework.getLogChannel("App.CarSDIS.CarComfort");
+        super(iSDISFramework.getLogChannel(LOG_CHANNEL_NAME));
+        this.logger = iSDISFramework.getLogChannel(LOG_CHANNEL_NAME);
         this.baseService = iSDISFramework;
         this.toSDIS = this.baseService.getASIDataUpdater().getServiceASI();
-        this.carStates = new CarComfortComponent$CarStateHandler(this, this.logger);
+        this.carStates = new CarStateHandler(this.logger);
     }
 
     public void init() {
@@ -60,26 +61,24 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
         this.dsi = (DSICarComfort)dSIBase;
         this.dsi.setNotification(attributes, (DSIListener)this);
     }
 
-    @Override
     public synchronized void updateRDKViewOptions(RDKViewOptions rDKViewOptions, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "updateRDKViewOptions: %1", (Object)rDKViewOptions);
-        int n2 = CarComfortComponent$CarStateHandler.access$002(this.carStates, this.baseService.updateVisibility(rDKViewOptions.getActualPressure(), (short)11));
+        this.logger.log(10000000, "updateRDKViewOptions: %1", (Object)rDKViewOptions);
+        int n2 = this.carStates.rdkVisibility = this.baseService.updateVisibility(rDKViewOptions.getActualPressure(), (short)11);
         int n3 = this.carStates.updateMenuEntryVisibility((short)11, n2);
         this.sendUpdateTireDisplayDataVisibilityState(n3);
     }
 
     private void sendUpdateTireDisplayDataVisibilityState(int n) {
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateTireDisplayDataVisibilityState %1", (long)n);
+            this.logger.log(10000000, "Send update to devices -> updateTireDisplayDataVisibilityState %1", (long)n);
             this.toSDIS.updateTireDisplayDataVisibilityState(n);
         }
         catch (MethodException methodException) {
@@ -87,12 +86,11 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateRDKTireDisplay(RDKTireDisplayData rDKTireDisplayData, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "updateRDKTireDisplay: %1", (Object)rDKTireDisplayData);
+        this.logger.log(10000000, "updateRDKTireDisplay: %1", (Object)rDKTireDisplayData);
         this.displayData = rDKTireDisplayData;
         WheelPressures wheelPressures = new WheelPressures();
         this.setPressureValues(wheelPressures);
@@ -112,7 +110,7 @@ implements IDSIObserver {
         tireDisplayData.requiredWheelPressures = wheelPressures2;
         tireDisplayData.wheelTemperatures = wheelTemperatures;
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateTireDisplayData: %1", (Object)tireDisplayData);
+            this.logger.log(10000000, "Send update to devices -> updateTireDisplayData: %1", (Object)tireDisplayData);
             this.toSDIS.updateTireDisplayData(tireDisplayData);
         }
         catch (MethodException methodException) {
@@ -145,17 +143,51 @@ implements IDSIObserver {
         }
     }
 
-    static /* synthetic */ ISDISFramework access$100(CarComfortComponent carComfortComponent) {
-        return carComfortComponent.baseService;
-    }
+    public class CarStateHandler
+    extends AbstractCarStateHandler {
+        private volatile int rdkVisibility;
 
-    static /* synthetic */ void access$200(CarComfortComponent carComfortComponent, int n) {
-        carComfortComponent.sendUpdateTireDisplayDataVisibilityState(n);
-    }
+        public CarStateHandler(LogChannel logChannel) {
+            super(logChannel, CarComfortComponent.this.baseService);
+        }
 
-    static {
-        CODING = new byte[]{11};
-        attributes = new int[]{33, 37};
+        public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
+            super.updateClampState(bl, bl2, bl3, bl4);
+            this.logger.log(1000000, "[updateClampState] clamp15=%1", bl2);
+            this.updateVisibilityAfterCarStateChange((short)11, this.rdkVisibility);
+        }
+
+        public void exceedsUpperThreshold(int n) {
+            super.exceedsUpperThreshold(n);
+            this.logger.log(1000000, "[exceedsUpperThreshold] =%1", this.isUnderVThr);
+            this.updateVisibilityAfterCarStateChange((short)11, this.rdkVisibility);
+        }
+
+        public void belowLowerThreshold(int n) {
+            super.belowLowerThreshold(n);
+            this.logger.log(1000000, "[belowLowerThreshold] =%1", this.isUnderVThr);
+            this.updateVisibilityAfterCarStateChange((short)11, this.rdkVisibility);
+        }
+
+        public void updateStandStill(boolean bl) {
+            super.updateStandStill(bl);
+            this.logger.log(1000000, "[updateStandStill] =%1", bl);
+            this.updateVisibilityAfterCarStateChange((short)11, this.rdkVisibility);
+        }
+
+        private void updateVisibilityAfterCarStateChange(short s, int n) {
+            int n2 = this.updateMenuEntryVisibility(s, n);
+            this.logger.log(10000000, "updateVisibilityAfterCarStateChange: %1 %2 rdkVisiblity:%3", (Object)ICoding.CODING_INDEX_TEXT[s], (long)n2, (long)this.rdkVisibility);
+            switch (s) {
+                case 11: {
+                    CarComfortComponent.this.sendUpdateTireDisplayDataVisibilityState(n2);
+                    break;
+                }
+                default: {
+                    this.logger.log(100000, "Coding %1 not supported", (long)s);
+                }
+            }
+        }
     }
 }
 

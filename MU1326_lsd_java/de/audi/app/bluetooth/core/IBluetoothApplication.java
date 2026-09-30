@@ -21,50 +21,36 @@ import de.audi.app.connectivity.core.common.PhoneProxy;
 
 public interface IBluetoothApplication
 extends IApplication {
-    public static final String MODULE_NAME;
-    public static final String LOGCHANNEL;
-    public static final String LOGCHANNEL_CMD;
+    public static final String MODULE_NAME = "AppBluetooth";
+    public static final String LOGCHANNEL = "App.Bluetooth.Main";
+    public static final String LOGCHANNEL_CMD = "App.Bluetooth.Commands";
 
-    default public IAccessibility getAccessibility() {
-    }
+    public IAccessibility getAccessibility();
 
-    default public IAudio getAudio() {
-    }
+    public IAudio getAudio();
 
-    default public IBondingState getBondingState() {
-    }
+    public IBondingState getBondingState();
 
-    default public IConnection getConnection() {
-    }
+    public IConnection getConnection();
 
-    default public BaseSapUpgradeHandler getSapUpgrade() {
-    }
+    public BaseSapUpgradeHandler getSapUpgrade();
 
-    default public IDeviceProfileList getDeviceProfileList() {
-    }
+    public IDeviceProfileList getDeviceProfileList();
 
-    default public IInquiry getInquiry() {
-    }
+    public IInquiry getInquiry();
 
-    default public IMediaBluetoothStateProvider getMediaBluetoothStateProvider() {
-    }
+    public IMediaBluetoothStateProvider getMediaBluetoothStateProvider();
 
-    default public PhoneProxy getPhone() {
-    }
+    public PhoneProxy getPhone();
 
-    default public IClampStateProvider getClampStateProvider() {
-    }
+    public IClampStateProvider getClampStateProvider();
 
-    default public IReconnect getReconnect() {
-    }
+    public IReconnect getReconnect();
 
-    default public ISecurity getSecurity() {
-    }
+    public ISecurity getSecurity();
 
-    default public ISupportedBtProfiles getSupportedBtProfiles() {
-    }
+    public ISupportedBtProfiles getSupportedBtProfiles();
 
-    default public ITrustedDeviceList getTrustedDeviceList() {
-    }
+    public ITrustedDeviceList getTrustedDeviceList();
 }
 

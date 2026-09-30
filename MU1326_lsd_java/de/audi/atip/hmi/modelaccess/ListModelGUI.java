@@ -8,40 +8,30 @@ import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 
 public interface ListModelGUI
 extends HMIModelGUI {
-    public static final int NO_SELECTION;
-    public static final int FLAG_DATA_CHANGED;
-    public static final int FLAG_SELECTION_CHANGED;
-    public static final int FLAG_MAX_ROWS_CHANGED;
-    public static final int FLAG_MAX_COLS_CHANGED;
+    public static final int NO_SELECTION = -1;
+    public static final int FLAG_DATA_CHANGED = 1;
+    public static final int FLAG_SELECTION_CHANGED = 2;
+    public static final int FLAG_MAX_ROWS_CHANGED = 4;
+    public static final int FLAG_MAX_COLS_CHANGED = 8;
 
-    default public ListCell getCell(int n, int n2) {
-    }
+    public ListCell getCell(int var1, int var2);
 
-    default public Class getColumnType(int n) {
-    }
+    public Class getColumnType(int var1);
 
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public int getMaxColumns() {
-    }
+    public int getMaxColumns();
 
-    default public int getMaxRows() {
-    }
+    public int getMaxRows();
 
-    default public boolean getRow(int n, ListCell[] listCellArray) {
-    }
+    public boolean getRow(int var1, ListCell[] var2);
 
-    default public int getSelected() {
-    }
+    public int getSelected();
 
-    default public void itemFocused(int n, int n2, int n3) {
-    }
+    public void itemFocused(int var1, int var2, int var3);
 
-    default public void itemSelected(int n, int n2, int n3) {
-    }
+    public void itemSelected(int var1, int var2, int var3);
 
-    default public void itemReleased(int n, int n2, int n3) {
-    }
+    public void itemReleased(int var1, int var2, int var3);
 }
 

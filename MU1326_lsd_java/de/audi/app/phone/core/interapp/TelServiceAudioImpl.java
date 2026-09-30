@@ -6,9 +6,9 @@ package de.audi.app.phone.core.interapp;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceProvider;
-import de.audi.app.phone.core.interapp.TelServiceAudioImpl$1;
+import de.audi.app.phone.core.audio.ITelAudio;
+import de.audi.app.phone.core.event.AbstractTelInterappEvent;
 import de.audi.atip.interapp.phone.ITelServiceAudio;
-import de.audi.atip.log.LogChannel;
 
 public class TelServiceAudioImpl
 extends AbstractPhoneComponent
@@ -20,13 +20,11 @@ implements ITelServiceAudio {
         super(iTelApplication, "App.Phone.Audio");
     }
 
-    @Override
     public void init() {
         this.telServiceAudioProvider = new PhoneServiceProvider((class$de$audi$atip$interapp$phone$ITelServiceAudio == null ? (class$de$audi$atip$interapp$phone$ITelServiceAudio = TelServiceAudioImpl.class$("de.audi.atip.interapp.phone.ITelServiceAudio")) : class$de$audi$atip$interapp$phone$ITelServiceAudio).getName(), this, null, this.getApplication().getBundleContext(), this.log);
         this.telServiceAudioProvider.startService();
     }
 
-    @Override
     public void deinit() {
         if (this.telServiceAudioProvider != null) {
             this.telServiceAudioProvider.stopService();
@@ -34,9 +32,19 @@ implements ITelServiceAudio {
         }
     }
 
-    @Override
     public void muteIncomingCallRingtone() {
-        this.getApplication().enqueueEvent(new TelServiceAudioImpl$1(this, "TelServiceAudioImpl#muteIncomingCallRingtone"));
+        this.getApplication().enqueueEvent(new AbstractTelInterappEvent("TelServiceAudioImpl#muteIncomingCallRingtone"){
+
+            public void run() {
+                ITelAudio iTelAudio = TelServiceAudioImpl.this.getApplication().getAudio();
+                if (iTelAudio != null) {
+                    TelServiceAudioImpl.this.log.log(1000000, "[TelServiceAudioImpl#muteIncomingCallRingtone] muting ringtone");
+                    iTelAudio.muteRingtone(true);
+                } else {
+                    TelServiceAudioImpl.this.log.log(100000, "[TelServiceAudioImpl#muteIncomingCallRingtone] audioCmp is null --> NOP!");
+                }
+            }
+        });
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -46,18 +54,6 @@ implements ITelServiceAudio {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ ITelApplication access$000(TelServiceAudioImpl telServiceAudioImpl) {
-        return telServiceAudioImpl.getApplication();
-    }
-
-    static /* synthetic */ LogChannel access$100(TelServiceAudioImpl telServiceAudioImpl) {
-        return telServiceAudioImpl.log;
-    }
-
-    static /* synthetic */ LogChannel access$200(TelServiceAudioImpl telServiceAudioImpl) {
-        return telServiceAudioImpl.log;
     }
 }
 

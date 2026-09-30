@@ -6,10 +6,8 @@ package de.audi.app.tuner.truffles.frequency;
 import de.audi.app.tuner.truffles.RadioSearchListRow;
 
 public interface IFrequencySearch {
-    default public RadioSearchListRow getRowForFrequency(String string) {
-    }
+    public RadioSearchListRow getRowForFrequency(String var1);
 
-    default public void updateBandInformation(Object[] objectArray) {
-    }
+    public void updateBandInformation(Object[] var1);
 }
 

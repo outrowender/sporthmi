@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.audio.IAudioManager
  */
 package de.audi.app.terminalmode;
 
@@ -34,97 +31,66 @@ import de.audi.tghu.command.CommandListManager;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 public interface IContext {
-    default public int getTerminalId() {
-    }
+    public int getTerminalId();
 
-    default public ITerminalLogger getLogger() {
-    }
+    public ITerminalLogger getLogger();
 
-    default public IServiceManager getServiceManager() {
-    }
+    public IServiceManager getServiceManager();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 
-    default public DispatcherBase getDispatcher() {
-    }
+    public DispatcherBase getDispatcher();
 
-    default public IAudioManager getAudioManager() {
-    }
+    public IAudioManager getAudioManager();
 
-    default public ITerminalModeConfiguration getConfiguration() {
-    }
+    public ITerminalModeConfiguration getConfiguration();
 
-    default public void addActionProxyListener(int n, IActionProxyListener iActionProxyListener) {
-    }
+    public void addActionProxyListener(int var1, IActionProxyListener var2);
 
-    default public void removeActionProxyListener(IActionProxyListener iActionProxyListener) {
-    }
+    public void removeActionProxyListener(IActionProxyListener var1);
 
-    default public VirtualButtonModelApp getVirtualButtonModel(int n) {
-    }
+    public VirtualButtonModelApp getVirtualButtonModel(int var1);
 
-    default public ChoiceModelApp getChoiceModel(int n) {
-    }
+    public ChoiceModelApp getChoiceModel(int var1);
 
-    default public ButtonModelApp getButtonModel(int n) {
-    }
+    public ButtonModelApp getButtonModel(int var1);
 
-    default public LabelModelApp getLabelModel(int n) {
-    }
+    public LabelModelApp getLabelModel(int var1);
 
-    default public RangeModelApp getRangeModel(int n) {
-    }
+    public RangeModelApp getRangeModel(int var1);
 
-    default public void fireEventOnModel(int n) {
-    }
+    public void fireEventOnModel(int var1);
 
-    default public CommandListManager getCommandListManager() {
-    }
+    public CommandListManager getCommandListManager();
 
-    default public CommandListHelper getCommandListHelper() {
-    }
+    public CommandListHelper getCommandListHelper();
 
-    default public IDSISmartphoneManager getSmartphoneDSIManager() {
-    }
+    public IDSISmartphoneManager getSmartphoneDSIManager();
 
-    default public IDiagnosisManager getDiagnosisManager() {
-    }
+    public IDiagnosisManager getDiagnosisManager();
 
-    default public PhoneAppHandler getPhoneAppHandler() {
-    }
+    public PhoneAppHandler getPhoneAppHandler();
 
-    default public NaviAppHandler getNaviAppHandler() {
-    }
+    public NaviAppHandler getNaviAppHandler();
 
-    default public IDeviceManager getDeviceManager() {
-    }
+    public IDeviceManager getDeviceManager();
 
-    default public INightDayModeHandler getNightDayModeHandler() {
-    }
+    public INightDayModeHandler getNightDayModeHandler();
 
-    default public IEventBus getEventBus() {
-    }
+    public IEventBus getEventBus();
 
-    default public IActionProxyDispatcher getActionProxyDispatcher() {
-    }
+    public IActionProxyDispatcher getActionProxyDispatcher();
 
-    default public TMKeyEventsHandler getKeyEventsHandler() {
-    }
+    public TMKeyEventsHandler getKeyEventsHandler();
 
-    default public TMVirtualButtonListener getTMKeyEventController() {
-    }
+    public TMVirtualButtonListener getTMKeyEventController();
 
-    default public ISmartphoneIntegrationDSIController getSMIDSIController() {
-    }
+    public ISmartphoneIntegrationDSIController getSMIDSIController();
 
-    default public HardKeyDSIListener getHardKeyDSIListener() {
-    }
+    public HardKeyDSIListener getHardKeyDSIListener();
 
-    default public Object get(Class clazz) {
-    }
+    public Object get(Class var1);
 
-    default public Object get(Object object, Class clazz) {
-    }
+    public Object get(Object var1, Class var2);
 }
 

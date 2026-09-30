@@ -29,7 +29,6 @@ extends AbstractCombiElement {
         combiCursorBarElement.animationStyle = this.animationStyle;
     }
 
-    @Override
     public void reset() {
         this.position = 0;
         this.showCursor = false;

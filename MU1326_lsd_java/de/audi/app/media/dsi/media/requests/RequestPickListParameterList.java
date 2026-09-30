@@ -16,7 +16,6 @@ extends AbstractRequestParameter {
         this.clientId = n;
     }
 
-    @Override
     public boolean equals(Object object) {
         try {
             RequestPickListParameterList requestPickListParameterList = (RequestPickListParameterList)object;
@@ -34,7 +33,6 @@ extends AbstractRequestParameter {
         }
     }
 
-    @Override
     public int hashCode() {
         return 0;
     }
@@ -43,7 +41,6 @@ extends AbstractRequestParameter {
         return this.entryIDs;
     }
 
-    @Override
     public int getClientID() {
         return this.clientId;
     }

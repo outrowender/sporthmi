@@ -17,9 +17,9 @@ import org.dsi.ifc.caraircondition.DSICarAirCondition;
 public class CarAirConditionComponent
 extends AbstractDSICarAirCondition
 implements IDSIObserver {
-    private static final String LOG_CHANNEL_NAME;
-    public static final byte[] CODING;
-    private static final int[] DSI_ATTRIBUTES;
+    private static final String LOG_CHANNEL_NAME = "AppCarSCON.CarAirCondition";
+    public static final byte[] CODING = new byte[]{8};
+    private static final int[] DSI_ATTRIBUTES = new int[]{24, 30, 82};
     private DSICarAirCondition dsi;
     private ISDISFramework baseService;
     private ASIHMISyncCarClimateAbstractBaseService toSDIS;
@@ -27,30 +27,28 @@ implements IDSIObserver {
     static /* synthetic */ Class class$org$dsi$ifc$caraircondition$DSICarAirConditionListener;
 
     public CarAirConditionComponent(ISDISFramework iSDISFramework) {
-        super(iSDISFramework.getLogChannel("AppCarSCON.CarAirCondition"));
+        super(iSDISFramework.getLogChannel(LOG_CHANNEL_NAME));
         this.baseService = iSDISFramework;
         this.toSDIS = this.baseService.getASIDataUpdater().getClimateASI();
     }
 
     public void init() {
-        this.logger.log(-2137614336, "register DSICarAirCondition");
+        this.logger.log(10000000, "register DSICarAirCondition");
         this.baseService.registerDSI((class$org$dsi$ifc$caraircondition$DSICarAirCondition == null ? (class$org$dsi$ifc$caraircondition$DSICarAirCondition = CarAirConditionComponent.class$("org.dsi.ifc.caraircondition.DSICarAirCondition")) : class$org$dsi$ifc$caraircondition$DSICarAirCondition).getName(), (class$org$dsi$ifc$caraircondition$DSICarAirConditionListener == null ? (class$org$dsi$ifc$caraircondition$DSICarAirConditionListener = CarAirConditionComponent.class$("org.dsi.ifc.caraircondition.DSICarAirConditionListener")) : class$org$dsi$ifc$caraircondition$DSICarAirConditionListener).getName(), this);
     }
 
     public void deinit() {
-        this.logger.log(-2137614336, "deregister DSICarAirCondition");
+        this.logger.log(10000000, "deregister DSICarAirCondition");
         this.baseService.deRegisterDSI((class$org$dsi$ifc$caraircondition$DSICarAirCondition == null ? (class$org$dsi$ifc$caraircondition$DSICarAirCondition = CarAirConditionComponent.class$("org.dsi.ifc.caraircondition.DSICarAirCondition")) : class$org$dsi$ifc$caraircondition$DSICarAirCondition).getName());
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
         this.dsi = (DSICarAirCondition)dSIBase;
         this.dsi.setNotification(DSI_ATTRIBUTES, (DSIListener)this);
     }
 
-    @Override
     public void updateAirconMaxAC(boolean bl, int n) {
-        this.logger.log(1078071040, "[CarAirConditionComponent#updateAirconMaxAC] maxAC='%1' , validFlag='%2'", bl, (long)n);
+        this.logger.log(1000000, "[CarAirConditionComponent#updateAirconMaxAC] maxAC='%1' , validFlag='%2'", bl, (long)n);
         if (n == 1) {
             try {
                 this.toSDIS.updateAirconMaxAC(bl);
@@ -61,9 +59,8 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateAirconTempZone1(AirconTemp airconTemp, int n) {
-        this.logger.log(1078071040, "[CarAirConditionComponent#updateAirconTempZone1] temp='%1' , validFlag='%2'", (Object)airconTemp, (long)n);
+        this.logger.log(1000000, "[CarAirConditionComponent#updateAirconTempZone1] temp='%1' , validFlag='%2'", (Object)airconTemp, (long)n);
         if (n == 1) {
             IntBaseType intBaseType = new IntBaseType(airconTemp.getTempValue(), airconTemp.getTempUnit(), 0);
             try {
@@ -75,9 +72,8 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateAirconTempZone2(AirconTemp airconTemp, int n) {
-        this.logger.log(1078071040, "[CarAirConditionComponent#updateAirconTempZone2] temp='%1' , validFlag='%2'", (Object)airconTemp, (long)n);
+        this.logger.log(1000000, "[CarAirConditionComponent#updateAirconTempZone2] temp='%1' , validFlag='%2'", (Object)airconTemp, (long)n);
         if (n == 1) {
             IntBaseType intBaseType = new IntBaseType(airconTemp.getTempValue(), airconTemp.getTempUnit(), 0);
             try {
@@ -96,11 +92,6 @@ implements IDSIObserver {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        CODING = new byte[]{8};
-        DSI_ATTRIBUTES = new int[]{24, 30, 82};
     }
 }
 

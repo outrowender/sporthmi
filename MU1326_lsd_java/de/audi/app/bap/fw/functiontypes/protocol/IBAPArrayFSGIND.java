@@ -8,19 +8,14 @@ import de.vw.mib.bap.requests.GetArray;
 import de.vw.mib.bap.requests.SetGetArray;
 
 public interface IBAPArrayFSGIND {
-    default public void setGetArrayIND(SetGetArray setGetArray) {
-    }
+    public void setGetArrayIND(SetGetArray var1);
 
-    default public void setArrayIND(SetGetArray setGetArray) {
-    }
+    public void setArrayIND(SetGetArray var1);
 
-    default public void getArrayIND(GetArray getArray) {
-    }
+    public void getArrayIND(GetArray var1);
 
-    default public void ackArrayIND() {
-    }
+    public void ackArrayIND();
 
-    default public void ackArrayIND(BAPArray bAPArray) {
-    }
+    public void ackArrayIND(BAPArray var1);
 }
 

@@ -4,7 +4,6 @@
 package de.audi.app.bap.fw.indication;
 
 public interface IErrorIndicationListener {
-    default public void processIndicationError(int n, int n2) {
-    }
+    public void processIndicationError(int var1, int var2);
 }
 

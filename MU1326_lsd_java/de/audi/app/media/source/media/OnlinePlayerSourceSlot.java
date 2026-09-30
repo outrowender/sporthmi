@@ -26,27 +26,22 @@ extends MediaSourceSlot {
         this.entryPointID = n3;
     }
 
-    @Override
     public String getActiveSourceListIcon() {
         return this.activeSourceListIcon;
     }
 
-    @Override
     public String getActiveSourceListReflectionIcon() {
         return this.activeSourceListReflectionIcon;
     }
 
-    @Override
     public String getActiveSourceListClosedIcon() {
         return this.activeSourceListClosedIcon;
     }
 
-    @Override
     public String getCaptionIcon() {
         return this.captionIcon;
     }
 
-    @Override
     public String getLoadingIcon() {
         return this.loadingIcon;
     }

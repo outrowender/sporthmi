@@ -7,33 +7,24 @@ import de.audi.app.media.dsi.media.MediaListEntry;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface ITransferItem {
-    public static final int INVALID;
+    public static final int INVALID = -1;
 
-    default public boolean isFolder() {
-    }
+    public boolean isFolder();
 
-    default public long getEntryId() {
-    }
+    public long getEntryId();
 
-    default public int getContentType() {
-    }
+    public int getContentType();
 
-    default public boolean isContentTypeCDDA() {
-    }
+    public boolean isContentTypeCDDA();
 
-    default public MediaListEntry[] getTransferFolder() {
-    }
+    public MediaListEntry[] getTransferFolder();
 
-    default public boolean isPhysicalFolder() {
-    }
+    public boolean isPhysicalFolder();
 
-    default public boolean isDeletionSource() {
-    }
+    public boolean isDeletionSource();
 
-    default public boolean isDynamicTransferFolder() {
-    }
+    public boolean isDynamicTransferFolder();
 
-    default public ISourceSlot getTransferSourceSlot() {
-    }
+    public ISourceSlot getTransferSourceSlot();
 }
 

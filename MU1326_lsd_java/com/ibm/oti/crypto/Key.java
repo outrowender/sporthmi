@@ -9,14 +9,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class Key {
-    public static final int OPERATION_ENCRYPT;
-    public static final int OPERATION_DECRYPT;
-    public static final int PAD_NONE;
-    public static final int PAD_PKCS5;
-    public static final int PAD_SSL;
-    public static final int PAD_TLS;
-    public static final int PAD_MIN;
-    public static final int PAD_MAX;
+    public static final int OPERATION_ENCRYPT = 1;
+    public static final int OPERATION_DECRYPT = 2;
+    public static final int PAD_NONE = 1;
+    public static final int PAD_PKCS5 = 2;
+    public static final int PAD_SSL = 3;
+    public static final int PAD_TLS = 4;
+    public static final int PAD_MIN = 1;
+    public static final int PAD_MAX = 4;
     Provider provider;
     byte[] key;
     int operation;
@@ -26,7 +26,7 @@ public class Key {
     private int buffInputCount = 0;
     private ByteArrayOutputStream buffOutput = new ByteArrayOutputStream();
 
-    Key(Provider provider, byte[] byArray) {
+    Key(Provider provider, byte[] byArray) throws IOException {
         if (provider.isDestroyed()) {
             throw new IOException(Msg.getString("K01f8"));
         }
@@ -38,7 +38,7 @@ public class Key {
         this.buffInput = (byte[])(provider.getBlockLength() == 0 ? null : new byte[byArray.length]);
     }
 
-    public void cryptInit(int n, int n2, byte[] byArray) {
+    public void cryptInit(int n, int n2, byte[] byArray) throws IOException {
         if (n != 1 && n != 2) {
             throw new IOException(Msg.getString("K01fb"));
         }
@@ -53,7 +53,7 @@ public class Key {
         this.buffOutput.reset();
     }
 
-    public void cryptUpdate(byte[] byArray, int n, int n2) {
+    public void cryptUpdate(byte[] byArray, int n, int n2) throws IOException {
         int n3;
         if (!this.cryptInit) {
             throw new IllegalStateException();
@@ -83,7 +83,7 @@ public class Key {
         }
     }
 
-    public byte[] cryptFinish() {
+    public byte[] cryptFinish() throws IOException {
         if (this.buffInputCount > 0) {
             this.buffOutput.write(this.provider.cryptUpdate(this, this.buffInput, 0, this.buffInputCount, true));
         }

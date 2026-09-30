@@ -39,50 +39,45 @@ extends AbstractGuiSearchHandler {
         this.refreshQuery();
     }
 
-    @Override
     public void refreshQuery() {
-        this.log.log(1078071040, "AbstractADBTruffleSearchGuiHandler#refreshQuery()");
+        this.log.log(1000000, "AbstractADBTruffleSearchGuiHandler#refreshQuery()");
         super.refreshQuery();
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
         if (searchResultListRow instanceof ADBSearchListRow) {
             ADBSearchListRow aDBSearchListRow = (ADBSearchListRow)((Object)searchResultListRow);
-            this.log.log(1078071040, "AbstractADBTruffleSearchGuiHandler#searchResultSelected(): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
+            this.log.log(1000000, "AbstractADBTruffleSearchGuiHandler#searchResultSelected(): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
             this.appAdr.entrySelected(this.adbSearch, aDBSearchListRow, n2, n);
         } else {
             this.log.log(10000, "AbstractADBTruffleSearchGuiHandler#searchResultSelected(): listRow is not an ADBSearchListRow!");
         }
     }
 
-    @Override
     public void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
         if (searchResultListRow instanceof ADBSearchListRow) {
             ADBSearchListRow aDBSearchListRow = (ADBSearchListRow)((Object)searchResultListRow);
-            this.log.log(1078071040, "AbstractADBTruffleSearchGuiHandler#requestChildrenNodes(): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
+            this.log.log(1000000, "AbstractADBTruffleSearchGuiHandler#requestChildrenNodes(): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
             this.appAdr.entrySelected(this.adbSearch, aDBSearchListRow, this.mdlListSearchResults.getID(), n);
         } else {
             this.log.log(10000, "AbstractADBTruffleSearchGuiHandler#requestChildrenNodes(): listRow is not an ADBSearchListRow!");
         }
     }
 
-    @Override
     public void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
         if (evoListRow instanceof ADBEntryDetailsListRow) {
             ADBEntryDetailsListRow aDBEntryDetailsListRow = (ADBEntryDetailsListRow)evoListRow;
-            this.log.log(1078071040, "AbstractADBTruffleSearchGuiHandler#childNodeSelected(): %1", (Object)ADBDbgUtils.dbgShort(aDBEntryDetailsListRow.getEntry()));
+            this.log.log(1000000, "AbstractADBTruffleSearchGuiHandler#childNodeSelected(): %1", (Object)ADBDbgUtils.dbgShort(aDBEntryDetailsListRow.getEntry()));
             this.appAdr.detailsSelected(aDBEntryDetailsListRow, n2, n);
         } else {
             this.log.log(10000, "AbstractADBTruffleSearchGuiHandler#childNodeSelected(): listRow is not an ADBEntryDetailsListRow!");
         }
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (evoListRow != null && evoListRow instanceof ADBListRow) {
             ADBListRow aDBListRow = (ADBListRow)((Object)evoListRow);
-            this.log.log(1078071040, "AbstractADBTruffleSearchGuiHandler#itemFocused(): \"%1\", entryId: %2", (Object)aDBListRow.getCombinedName(), aDBListRow.getEntryId());
+            this.log.log(1000000, "AbstractADBTruffleSearchGuiHandler#itemFocused(): \"%1\", entryId: %2", (Object)aDBListRow.getCombinedName(), aDBListRow.getEntryId());
             this.appAdr.setFocusedEntryId(aDBListRow.getEntryId());
             this.appAdr.setFocusedEntryType(aDBListRow.getEntryType());
             if (this.contactPicture != null) {
@@ -93,9 +88,8 @@ extends AbstractGuiSearchHandler {
         }
     }
 
-    @Override
     protected synchronized void performQuery(String string) {
-        this.log.log(1078071040, "AbstractADBTruffleSearchGuiHandler#performQuery(): searchText: %1", (Object)string);
+        this.log.log(1000000, "AbstractADBTruffleSearchGuiHandler#performQuery(): searchText: %1", (Object)string);
         super.performQuery(string);
     }
 }

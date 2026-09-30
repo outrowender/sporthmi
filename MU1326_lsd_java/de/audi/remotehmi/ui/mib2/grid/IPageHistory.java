@@ -6,13 +6,10 @@ package de.audi.remotehmi.ui.mib2.grid;
 import de.audi.remotehmi.ui.mib2.grid.IGridList;
 
 public interface IPageHistory {
-    default public void setExpansionState(String string, int n, boolean bl) {
-    }
+    public void setExpansionState(String var1, int var2, boolean var3);
 
-    default public boolean isExpanded(String string, int n, boolean bl) {
-    }
+    public boolean isExpanded(String var1, int var2, boolean var3);
 
-    default public void restoreToGrid(IGridList iGridList) {
-    }
+    public void restoreToGrid(IGridList var1);
 }
 

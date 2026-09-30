@@ -24,12 +24,11 @@ extends AbstractADBCommand {
     }
 
     public AbstractGetEntryCommand(AbstractAddressBookApplication abstractAddressBookApplication, long l) {
-        this(abstractAddressBookApplication, l, abstractAddressBookApplication.getHMIService().getModelApp(1370491392));
+        this(abstractAddressBookApplication, l, abstractAddressBookApplication.getHMIService().getModelApp(700497));
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "AbstractGetEntryCommand#execute(): entryId: %1", this.entryId);
+        this.logger.log(1000000, "AbstractGetEntryCommand#execute(): entryId: %1", this.entryId);
         boolean bl = this.adbDSIAccess.getEntries(new long[]{this.entryId}, 0, 0);
         if (!bl) {
             this.logger.log(10000, "AbstractGetEntryCommand#execute(): dsi call was not successful, finishing command and setting syncModel status to ERROR!.");
@@ -38,11 +37,10 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(-2137614336, "AbstractGetEntryCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "AbstractGetEntryCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0 && adbEntryArray != null && adbEntryArray.length == 1) {
-            this.logger.log(-2137614336, "AbstractGetEntryCommand#getEntriesResult(): got entry: %1", (Object)adbEntryArray[0]);
+            this.logger.log(10000000, "AbstractGetEntryCommand#getEntriesResult(): got entry: %1", (Object)adbEntryArray[0]);
             this.appAdr.setCurrentEntry(adbEntryArray[0]);
             this.appAdr.setFocusedEntryId(adbEntryArray[0].entryId);
             this.appAdr.setFocusedEntryType(adbEntryArray[0].entryType);
@@ -56,7 +54,6 @@ extends AbstractADBCommand {
         this.commandList.commandFinished();
     }
 
-    protected abstract boolean handleGetEntryResult(AdbEntry adbEntry) {
-    }
+    protected abstract boolean handleGetEntryResult(AdbEntry var1);
 }
 

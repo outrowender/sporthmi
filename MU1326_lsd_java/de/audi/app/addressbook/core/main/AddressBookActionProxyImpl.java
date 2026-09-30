@@ -16,7 +16,7 @@ public class AddressBookActionProxyImpl {
     }
 
     public void adrEditNavEntered(int n) {
-        this.log.log(-2137614336, "AddressBookActionProxyImpl#adrEditNavEntered(): terminalID: %1", (long)n);
+        this.log.log(10000000, "AddressBookActionProxyImpl#adrEditNavEntered(): terminalID: %1", (long)n);
         this.appAdr.getLocationInputHandler().adrEditNavEntered();
     }
 
@@ -33,30 +33,30 @@ public class AddressBookActionProxyImpl {
                     break;
                 }
                 default: {
-                    string = new StringBuffer().append(n2).append(" (unknown)").toString();
+                    string = n2 + " (unknown)";
                 }
             }
-            this.log.log(1078071040, "AddressBookActionProxyImpl#adrState(): state: %1, terminalID: %2", (Object)string, (long)n);
+            this.log.log(1000000, "AddressBookActionProxyImpl#adrState(): state: %1, terminalID: %2", (Object)string, (long)n);
         }
     }
 
     public void adrEnteredViaSpeech(int n, int n2) {
-        this.log.log(1078071040, "AddressBookActionProxyImpl#adrEnteredViaSpeech(): mode: %1, terminalID: %2", (long)n2, (long)n);
+        this.log.log(1000000, "AddressBookActionProxyImpl#adrEnteredViaSpeech(): mode: %1, terminalID: %2", (long)n2, (long)n);
         this.appAdr.loadMainList(n2);
     }
 
     public void adrImportListHKReturn(int n) {
-        this.log.log(-2137614336, "AddressBookActionProxyImpl#adrImportListHKReturn(): terminalID: %1", (long)n);
+        this.log.log(10000000, "AddressBookActionProxyImpl#adrImportListHKReturn(): terminalID: %1", (long)n);
         this.appAdr.getVCardExchangeADBHandler().oneFolderUp();
     }
 
     public void adrEnterPreviewMapScreen(int n, int n2, int n3) {
-        this.log.log(-2137614336, "AddressBookActionProxyImpl#adrEnterPreviewMapScreen(): terminalID: %1, width: %2, height: %3", (long)n, (long)n2, (long)n3);
+        this.log.log(10000000, "AddressBookActionProxyImpl#adrEnterPreviewMapScreen(): terminalID: %1, width: %2, height: %3", (long)n, (long)n2, (long)n3);
         this.appAdr.getNaviGateway().enterPreviewMap(n2, n3);
     }
 
     public void adrExitPreviewMapScreen(int n) {
-        this.log.log(-2137614336, "AddressBookActionProxyImpl#adrExitPreviewMapScreen(): terminalID: %1", (long)n);
+        this.log.log(10000000, "AddressBookActionProxyImpl#adrExitPreviewMapScreen(): terminalID: %1", (long)n);
         this.appAdr.getNaviGateway().exitPreviewMap();
     }
 }

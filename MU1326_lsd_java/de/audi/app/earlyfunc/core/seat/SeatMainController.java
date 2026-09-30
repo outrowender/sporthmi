@@ -32,7 +32,7 @@ TimerListener {
     private boolean popinListenerServiceTracked = false;
     private boolean isStandbyPopupVisible = false;
     private final Timer deferredRequestTimer;
-    private static final long DEFERRED_REQUEST_TIMER_TIME;
+    private static final long DEFERRED_REQUEST_TIMER_TIME = 150L;
     private ISeatPopupHandlerController popupHandlerController;
     private ISeatPopupController popupController;
     private final AbstractSeatPopupFactory factory;
@@ -43,27 +43,23 @@ TimerListener {
         this.component = abstractSeatPopupFactory.getComponent();
         this.factory = abstractSeatPopupFactory;
         this.configurationHandler = this.component.getConfigurationHandler();
-        this.deferredRequestTimer = new Timer("SeatPopinControllerProcesDeferredRequestTimer", 0, true, this);
+        this.deferredRequestTimer = new Timer("SeatPopinControllerProcesDeferredRequestTimer", 150L, true, this);
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logChannel;
     }
 
-    @Override
     public SeatPopinConfigurationHandler getConfigurationHandler() {
         return this.configurationHandler;
     }
 
-    @Override
     public void init() {
         this.popupHandlerController = this.factory.createInstancePopupHandlerController();
         this.popupController = this.factory.createInstancePopupController();
         this.popupHandlerController.init(this.factory.getPopupIDs());
     }
 
-    @Override
     public void deinit() {
         this.popupHandlerController.deinit();
     }
@@ -71,11 +67,10 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateConfigurationHandler(SeatViewOptions seatViewOptions) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
-            this.getLogChannel().log(1078071040, "[SeatMainController#updateConfigurationHandler] isSeatViewOptionsEmpty: %1", this.isSeatVisualizationConfigEmpty(seatViewOptions));
+            this.getLogChannel().log(1000000, "[SeatMainController#updateConfigurationHandler] isSeatViewOptionsEmpty: %1", this.isSeatVisualizationConfigEmpty(seatViewOptions));
             this.configurationHandler.updateConfiguration(seatViewOptions);
             if (!this.isSeatVisualizationConfigEmpty(seatViewOptions)) {
                 this.popupController.createPopups();
@@ -86,11 +81,10 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateConfigurationHandler(SeatPneumaticViewOptions seatPneumaticViewOptions) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
-            this.getLogChannel().log(1078071040, "[SeatMainController#updateConfigurationHandler] isSeatPneumaticViewOptionsEmpty: %1", this.isSeatPneumaticVisualizationConfigEmpty(seatPneumaticViewOptions));
+            this.getLogChannel().log(1000000, "[SeatMainController#updateConfigurationHandler] isSeatPneumaticViewOptionsEmpty: %1", this.isSeatPneumaticVisualizationConfigEmpty(seatPneumaticViewOptions));
             this.configurationHandler.updateConfiguration(seatPneumaticViewOptions);
             if (!this.isSeatPneumaticVisualizationConfigEmpty(seatPneumaticViewOptions)) {
                 this.popupController.createPneumaticPopups();
@@ -121,7 +115,6 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setSeatPopinListenerServiceTracked(boolean bl) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -139,13 +132,12 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void processDeferredRequest() {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
             if (this.deferredSeatRequest != null && this.isSeatPopinListenerServiceTracked() && (this.deferredSeatRequest.isPneumaticSeatContent() && this.popupController.arePneumaticSeatPopinsCreated() || !this.deferredSeatRequest.isPneumaticSeatContent() && this.popupController.areSeatPopinsCreated())) {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "[SeatMainController#processDeferredRequest] process deferred request: content='%1'", (Object)this.deferredSeatRequest);
+                    this.getLogChannel().log(1000000, "[SeatMainController#processDeferredRequest] process deferred request: content='%1'", (Object)this.deferredSeatRequest);
                 }
                 this.popupController.performActionOnPopins(this.deferredSeatRequest, PopinAction.POPIN_ACTION_REQUEST, -1);
                 this.deferredSeatRequest = null;
@@ -156,7 +148,6 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSeatContent(SeatContent seatContent) {
         SeatPopinContent seatPopinContent = new SeatPopinContent(seatContent);
         ISeatPopupController iSeatPopupController = this.popupController;
@@ -168,7 +159,6 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSeatContent(SeatPneumaticContent seatPneumaticContent) {
         SeatPopinContent seatPopinContent = new SeatPopinContent(seatPneumaticContent);
         ISeatPopupController iSeatPopupController = this.popupController;
@@ -180,7 +170,6 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void requestSeatPopin(SeatContent seatContent) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -190,7 +179,7 @@ TimerListener {
                 this.popupController.performActionOnPopins(seatPopinContent, PopinAction.POPIN_ACTION_REQUEST, -1);
             } else {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "[SeatMainController#requestSeatPopin] SeatPopup-Request is deferred until %1: content='%2'", (Object)(this.popupController.areSeatPopinsCreated() ? "PartialPopupListener Service is tracked" : "SeatViewOptions are received"), (Object)seatPopinContent);
+                    this.getLogChannel().log(1000000, "[SeatMainController#requestSeatPopin] SeatPopup-Request is deferred until %1: content='%2'", (Object)(this.popupController.areSeatPopinsCreated() ? "PartialPopupListener Service is tracked" : "SeatViewOptions are received"), (Object)seatPopinContent);
                 }
                 this.deferredSeatRequest = seatPopinContent;
             }
@@ -200,7 +189,6 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void requestSeatPopin(SeatPneumaticContent seatPneumaticContent) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -210,64 +198,57 @@ TimerListener {
                 this.popupController.performActionOnPopins(seatPopinContent, PopinAction.POPIN_ACTION_REQUEST, -1);
             } else {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "[SeatMainController#requestSeatPopin] SeatPopup-Request is deferred until %1: content='%2'", (Object)(this.popupController.arePneumaticSeatPopinsCreated() ? "PartialPopupListener Service is tracked" : "SeatPneumaticViewOptions are received"), (Object)seatPopinContent);
+                    this.getLogChannel().log(1000000, "[SeatMainController#requestSeatPopin] SeatPopup-Request is deferred until %1: content='%2'", (Object)(this.popupController.arePneumaticSeatPopinsCreated() ? "PartialPopupListener Service is tracked" : "SeatPneumaticViewOptions are received"), (Object)seatPopinContent);
                 }
                 this.deferredSeatRequest = seatPopinContent;
             }
         }
     }
 
-    @Override
     public void acknowledgeSeatPopup(SeatContent seatContent) {
         if (seatContent.getContent1RL() == 0 && seatContent.getContent1RR() == 0) {
-            this.getLogChannel().log(1078071040, "[SeatMainController#acknowledgeSeatPopup] acknowledge SeatPopup with NONE content: seatContent='%1'", (Object)seatContent);
+            this.getLogChannel().log(1000000, "[SeatMainController#acknowledgeSeatPopup] acknowledge SeatPopup with NONE content: seatContent='%1'", (Object)seatContent);
             this.setSeatControlPowerManagementActive(false);
         }
     }
 
-    @Override
     public void acknowledgeSeatPopup(SeatPneumaticContent seatPneumaticContent) {
         if (seatPneumaticContent.getContent1RL() == 0 && seatPneumaticContent.getContent1RR() == 0) {
-            this.getLogChannel().log(1078071040, "[SeatMainController#acknowledgeSeatPopup] acknowledge SeatPneumaticPopup with NONE content: seatContent='%1'", (Object)seatPneumaticContent);
+            this.getLogChannel().log(1000000, "[SeatMainController#acknowledgeSeatPopup] acknowledge SeatPneumaticPopup with NONE content: seatContent='%1'", (Object)seatPneumaticContent);
             this.setSeatControlPowerManagementActive(false);
         }
     }
 
-    @Override
     public void callDSIcancelPopup(SeatContent seatContent, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatMainConroller#callDSIcancelPopup] dsi.cancelSeatPopup: cancelContent='%1', cancelReason='%2'", (Object)seatContent, (long)n);
+            this.getLogChannel().log(1000000, "[SeatMainConroller#callDSIcancelPopup] dsi.cancelSeatPopup: cancelContent='%1', cancelReason='%2'", (Object)seatContent, (long)n);
         }
         this.component.getDSI().cancelSeatPopup(seatContent, n);
     }
 
-    @Override
     public void callDSIcancelPopup(SeatPneumaticContent seatPneumaticContent, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatMainConroller#callDSIcancelPopup] dsi.cancelSeatPneumaticPopup: cancelContent='%1', cancelReason='%1'", (Object)seatPneumaticContent, (long)n);
+            this.getLogChannel().log(1000000, "[SeatMainConroller#callDSIcancelPopup] dsi.cancelSeatPneumaticPopup: cancelContent='%1', cancelReason='%1'", (Object)seatPneumaticContent, (long)n);
         }
         this.component.getDSI().cancelSeatPneumaticPopup(seatPneumaticContent, n);
     }
 
-    @Override
     public void callDSIshowPopup(SeatContent seatContent) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatMainController#callDSIshowPopup] dsi.showSeatPopup: shownContent='%1'", (Object)seatContent);
+            this.getLogChannel().log(1000000, "[SeatMainController#callDSIshowPopup] dsi.showSeatPopup: shownContent='%1'", (Object)seatContent);
         }
         this.component.getDSI().showSeatPopup(seatContent);
     }
 
-    @Override
     public void callDSIshowPopup(SeatPneumaticContent seatPneumaticContent) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatMainController#callDSIshowPopup] dsi.showSeatPneumaticPopup: shownContent='%1'", (Object)seatPneumaticContent);
+            this.getLogChannel().log(1000000, "[SeatMainController#callDSIshowPopup] dsi.showSeatPneumaticPopup: shownContent='%1'", (Object)seatPneumaticContent);
         }
         this.component.getDSI().showSeatPneumaticPopup(seatPneumaticContent);
     }
 
-    @Override
     public void setSeatControlPowerManagementActive(boolean bl) {
-        this.getLogChannel().log(1078071040, "[SeatMainController#setSeatControlPowerManagementActive] powerManager.setExtendedPowerState: active='%1'", bl);
+        this.getLogChannel().log(1000000, "[SeatMainController#setSeatControlPowerManagementActive] powerManager.setExtendedPowerState: active='%1'", bl);
         try {
             if (bl) {
                 this.setStandbyPopupVisibilityState();
@@ -279,7 +260,6 @@ TimerListener {
         }
     }
 
-    @Override
     public boolean isStandbyPopupVisible() {
         return this.isStandbyPopupVisible;
     }
@@ -300,12 +280,10 @@ TimerListener {
         return this.deferredRequestTimer;
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         this.processDeferredRequest();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

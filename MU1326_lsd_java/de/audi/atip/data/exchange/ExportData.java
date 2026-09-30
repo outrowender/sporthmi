@@ -4,28 +4,20 @@
 package de.audi.atip.data.exchange;
 
 public interface ExportData {
-    default public void add(int n, int n2, boolean bl) {
-    }
+    public void add(int var1, int var2, boolean var3);
 
-    default public void add(int n, int n2, byte by) {
-    }
+    public void add(int var1, int var2, byte var3);
 
-    default public void add(int n, int n2, short s) {
-    }
+    public void add(int var1, int var2, short var3);
 
-    default public void add(int n, int n2, int n3) {
-    }
+    public void add(int var1, int var2, int var3);
 
-    default public void add(int n, int n2, long l) {
-    }
+    public void add(int var1, int var2, long var3);
 
-    default public void add(int n, int n2, float f2) {
-    }
+    public void add(int var1, int var2, float var3);
 
-    default public void add(int n, int n2, double d2) {
-    }
+    public void add(int var1, int var2, double var3);
 
-    default public void add(int n, int n2, String string) {
-    }
+    public void add(int var1, int var2, String var3);
 }
 

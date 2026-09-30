@@ -4,7 +4,6 @@
 package de.audi.atip.sdis;
 
 public interface IHMISyncAudioReplies {
-    default public void updateCurrentVolume(int n) {
-    }
+    public void updateCurrentVolume(int var1);
 }
 

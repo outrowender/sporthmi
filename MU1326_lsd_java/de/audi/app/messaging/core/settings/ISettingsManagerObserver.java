@@ -4,7 +4,6 @@
 package de.audi.app.messaging.core.settings;
 
 public interface ISettingsManagerObserver {
-    default public void indicateResetToFactorySettings() {
-    }
+    public void indicateResetToFactorySettings();
 }
 

@@ -8,37 +8,26 @@ import org.dsi.ifc.media.DatabaseSpace;
 import org.dsi.ifc.media.ListEntry;
 
 public interface IMediaRecorderListener {
-    default public void sourceSlotActivated(MediaSourceSlot mediaSourceSlot) {
-    }
+    public void sourceSlotActivated(MediaSourceSlot var1);
 
-    default public void responseSetSelection(int n, boolean bl) {
-    }
+    public void responseSetSelection(int var1, boolean var2);
 
-    default public void updateDatabaseSpace(DatabaseSpace databaseSpace) {
-    }
+    public void updateDatabaseSpace(DatabaseSpace var1);
 
-    default public void updateDeletionProgress(long l) {
-    }
+    public void updateDeletionProgress(long var1);
 
-    default public void updateDeletionStatus(int n) {
-    }
+    public void updateDeletionStatus(int var1);
 
-    default public void updateImportProgress(long l, ListEntry listEntry) {
-    }
+    public void updateImportProgress(long var1, ListEntry var3);
 
-    default public void updateImportStatus(int n) {
-    }
+    public void updateImportStatus(int var1);
 
-    default public void updateImportSummary(long l, long l2, long l3, long l4, long l5, long l6) {
-    }
+    public void updateImportSummary(long var1, long var3, long var5, long var7, long var9, long var11);
 
-    default public void responseSetEncodingQuality(int n) {
-    }
+    public void responseSetEncodingQuality(int var1);
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3);
 
-    default public void dsiServiceRemoved() {
-    }
+    public void dsiServiceRemoved();
 }
 

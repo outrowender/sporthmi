@@ -20,49 +20,40 @@ implements IMediaFilePlayerSession {
         this.name = string;
     }
 
-    @Override
     public int getAudioConnection() {
         return this.connection;
     }
 
-    @Override
     public int getType() {
         return this.type;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public void onActive(IMediaSessionPlayer iMediaSessionPlayer) {
         this.player = (IMediaFileSessionPlayer)iMediaSessionPlayer;
     }
 
-    @Override
     public void onSuspend() {
         this.player = null;
     }
 
-    @Override
     public void onClose() {
         this.player = null;
     }
 
-    @Override
     public void updateState(int n) {
-        System.out.println(new StringBuffer().append("[DiagSession.updateState][").append(this.getName()).append("] ").append(n).toString());
+        System.out.println("[DiagSession.updateState][" + this.getName() + "] " + n);
     }
 
-    @Override
     public void updateVideoContext(int n) {
-        System.out.println(new StringBuffer().append("[DiagSession.updateVideoContext][").append(this.getName()).append("] ").append(n).toString());
+        System.out.println("[DiagSession.updateVideoContext][" + this.getName() + "] " + n);
     }
 
-    @Override
     public void updatePlayPosition(int n, int n2) {
-        System.out.println(new StringBuffer().append("[DiagSession.updatePlayPosition][").append(this.getName()).append("] ").append(n).toString());
+        System.out.println("[DiagSession.updatePlayPosition][" + this.getName() + "] " + n);
     }
 
     public void playURL(String string) {

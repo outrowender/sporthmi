@@ -16,57 +16,55 @@ public abstract class AbstractHUDComponent
 extends AbstractDSICarKombiAdapter
 implements ChoiceListener,
 RangeListener {
-    public static final short CODING_ID;
-    private static final String LOGCHANNEL_NAME;
-    private static final int RNG_MIN_BRIGHTNESS;
-    private static final int RNG_MAX_BRIGHTNESS;
-    private static final int RNG_STEP_BRIGHTNESS;
-    private static final int MIN_ROTATION;
-    private static final int MAX_ROTATION;
-    private static final int STEP_ROTATION;
+    public static final short CODING_ID = 22;
+    private static final String LOGCHANNEL_NAME = "App.Car.HUD";
+    private static final int RNG_MIN_BRIGHTNESS = 0;
+    private static final int RNG_MAX_BRIGHTNESS = 100;
+    private static final int RNG_STEP_BRIGHTNESS = 10;
+    private static final int MIN_ROTATION = -10;
+    private static final int MAX_ROTATION = 10;
+    private static final int STEP_ROTATION = 1;
     protected volatile HUDContent currContent = new HUDContent();
     protected volatile HUDViewOptions currViewOptions;
     private RangeModelWatcherTimer brightnessWatcher;
     private RangeModelWatcherTimer rotationWatcher;
 
     public AbstractHUDComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.HUD");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     protected void initModels() {
-        this.getRangeModel(1479215360).setRangeListener(this);
-        this.getRangeModel(1479215360).setLimits(0, 100, 10);
-        this.getRangeModel(371984640).setRangeListener(this);
-        this.getRangeModel(371984640).setLimits(-10, 10, 1);
-        this.brightnessWatcher = new RangeModelWatcherTimer("HUD_BRIGHTNESS_RANGE", this.getRangeModel(1479215360), 0, this.getLogChannel());
-        this.rotationWatcher = new RangeModelWatcherTimer("HUD_ROTATION_RANGE", this.getRangeModel(371984640), 0, this.getLogChannel());
-        this.getChoiceModel(1428883712).setChoiceListener(this);
-        this.getChoiceModel(1529547008).setChoiceListener(this);
-        this.getChoiceModel(1563101440).setChoiceListener(this);
-        this.getChoiceModel(1730873600).setChoiceListener(this);
-        this.getChoiceModel(1663764736).setChoiceListener(this);
-        this.getChoiceModel(1764428032).setChoiceListener(this);
-        this.getChoiceModel(1697319168).setChoiceListener(this);
-        this.getChoiceModel(338430208).setChoiceListener(this);
-        this.getChoiceModel(606865664).setChoiceListener(this);
-        this.getChoiceModel(-47249152).setChoiceListener(this);
+        this.getRangeModel(600920).setRangeListener(this);
+        this.getRangeModel(600920).setLimits(0, 100, 10);
+        this.getRangeModel(601110).setRangeListener(this);
+        this.getRangeModel(601110).setLimits(-10, 10, 1);
+        this.brightnessWatcher = new RangeModelWatcherTimer("HUD_BRIGHTNESS_RANGE", this.getRangeModel(600920), 1000L, this.getLogChannel());
+        this.rotationWatcher = new RangeModelWatcherTimer("HUD_ROTATION_RANGE", this.getRangeModel(601110), 1000L, this.getLogChannel());
+        this.getChoiceModel(600917).setChoiceListener(this);
+        this.getChoiceModel(600923).setChoiceListener(this);
+        this.getChoiceModel(600925).setChoiceListener(this);
+        this.getChoiceModel(600935).setChoiceListener(this);
+        this.getChoiceModel(600931).setChoiceListener(this);
+        this.getChoiceModel(600937).setChoiceListener(this);
+        this.getChoiceModel(600933).setChoiceListener(this);
+        this.getChoiceModel(601108).setChoiceListener(this);
+        this.getChoiceModel(601124).setChoiceListener(this);
+        this.getChoiceModel(602109).setChoiceListener(this);
     }
 
-    @Override
     protected void deinitModels() {
-        this.getRangeModel(1479215360).resetListener();
-        this.getRangeModel(371984640).resetListener();
-        this.getChoiceModel(1428883712).resetListener();
-        this.getChoiceModel(1529547008).resetListener();
-        this.getChoiceModel(1563101440).resetListener();
-        this.getChoiceModel(1730873600).resetListener();
-        this.getChoiceModel(1663764736).resetListener();
-        this.getChoiceModel(1764428032).resetListener();
-        this.getChoiceModel(1697319168).resetListener();
-        this.getChoiceModel(338430208).resetListener();
-        this.getChoiceModel(606865664).resetListener();
-        this.getChoiceModel(-47249152).resetListener();
+        this.getRangeModel(600920).resetListener();
+        this.getRangeModel(601110).resetListener();
+        this.getChoiceModel(600917).resetListener();
+        this.getChoiceModel(600923).resetListener();
+        this.getChoiceModel(600925).resetListener();
+        this.getChoiceModel(600935).resetListener();
+        this.getChoiceModel(600931).resetListener();
+        this.getChoiceModel(600937).resetListener();
+        this.getChoiceModel(600933).resetListener();
+        this.getChoiceModel(601108).resetListener();
+        this.getChoiceModel(601124).resetListener();
+        this.getChoiceModel(602109).resetListener();
     }
 
     private void modifyRange(int n, int n2, int n3) {
@@ -86,27 +84,26 @@ RangeListener {
     }
 
     protected void setHUDContent() {
-        this.getLogChannel().log(-2137614336, "dsi.setHUDContent(%1)", (Object)this.currContent);
+        this.getLogChannel().log(10000000, "dsi.setHUDContent(%1)", (Object)this.currContent);
         this.getDSI().setHUDContent(this.currContent);
     }
 
     private void setBrightness(int n) {
-        this.getLogChannel().log(-2137614336, "setBrightness: steps:%1", (long)n);
-        int n2 = AbstractHUDComponent.clip(this.getRangeModel(1479215360).getValue() + n, 0, 100);
-        this.getLogChannel().log(1078071040, "setBrightness: dsi.setHUDBrightness(%1)", (long)n2);
+        this.getLogChannel().log(10000000, "setBrightness: steps:%1", (long)n);
+        int n2 = AbstractHUDComponent.clip(this.getRangeModel(600920).getValue() + n, 0, 100);
+        this.getLogChannel().log(1000000, "setBrightness: dsi.setHUDBrightness(%1)", (long)n2);
         this.brightnessWatcher.setTempValue(n2);
         this.getDSI().setHUDBrightness((byte)n2);
     }
 
     private void setRotation(int n) {
-        this.getLogChannel().log(1078071040, "setRotation: steps: %1", (long)n);
-        int n2 = AbstractHUDComponent.clip(this.getRangeModel(371984640).getValue() + n, -10, 10);
-        this.getLogChannel().log(1078071040, "setRotation: dsi.setHUDRotationAdjustment(%1)", (long)n2);
+        this.getLogChannel().log(1000000, "setRotation: steps: %1", (long)n);
+        int n2 = AbstractHUDComponent.clip(this.getRangeModel(601110).getValue() + n, -10, 10);
+        this.getLogChannel().log(1000000, "setRotation: dsi.setHUDRotationAdjustment(%1)", (long)n2);
         this.rotationWatcher.setTempValue(n2);
         this.getDSI().setHUDRotationAdjustment(n2);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         this.logModelData("keyPressed:", n, n2, true);
         switch (n) {
@@ -124,31 +121,25 @@ RangeListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
         this.logModelData("decrement", n, n2, true);
         this.modifyRange(n, -n2, n3);
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
         this.logModelData("increment", n, n2, true);
         this.modifyRange(n, n2, n3);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("itemSelected:", n, n2, true);
         boolean bl = n2 == 1;
@@ -230,16 +221,13 @@ RangeListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{37}, new int[]{40, 39, 38, 66})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currViewOptions == null) {
             return "no view options received yet";
@@ -251,50 +239,46 @@ RangeListener {
         return this.currViewOptions;
     }
 
-    @Override
     public void updateHUDBrightness(byte by, int n) {
-        this.getLogChannel().log(1078071040, "updateHUDBrightness: '%1', valid='%2'", (long)by, (long)n);
+        this.getLogChannel().log(1000000, "updateHUDBrightness: '%1', valid='%2'", (long)by, (long)n);
         if (n == 1) {
             this.brightnessWatcher.setValidValue(by);
         }
     }
 
-    @Override
     public void updateHUDRotationAdjustment(int n, int n2) {
-        this.getLogChannel().log(1078071040, "updateHUDRotationAdjustment: '%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "updateHUDRotationAdjustment: '%1', valid='%2'", (long)n, (long)n2);
         if (n2 == 1) {
             this.rotationWatcher.setValidValue(n);
         }
     }
 
-    @Override
     public void updateHUDContent(HUDContent hUDContent, int n) {
-        this.getLogChannel().log(1078071040, "updateHUDContent: '%1', valid='%2'", (Object)hUDContent, (long)n);
+        this.getLogChannel().log(1000000, "updateHUDContent: '%1', valid='%2'", (Object)hUDContent, (long)n);
         if (n == 1) {
             this.currContent = hUDContent;
-            this.getChoiceModel(1428883712).setValue(hUDContent.acc ? 1 : 0);
-            this.getChoiceModel(1529547008).setValue(hUDContent.gra ? 1 : 0);
-            this.getChoiceModel(1563101440).setValue(hUDContent.hca ? 1 : 0);
-            this.getChoiceModel(1730873600).setValue(hUDContent.rgi ? 1 : 0);
+            this.getChoiceModel(600917).setValue(hUDContent.acc ? 1 : 0);
+            this.getChoiceModel(600923).setValue(hUDContent.gra ? 1 : 0);
+            this.getChoiceModel(600925).setValue(hUDContent.hca ? 1 : 0);
+            this.getChoiceModel(600935).setValue(hUDContent.rgi ? 1 : 0);
             if (hUDContent.rgi && hUDContent.navInfo) {
-                this.getChoiceModel(-47249152).setValue(2);
+                this.getChoiceModel(602109).setValue(2);
             } else if (hUDContent.rgi && !hUDContent.navInfo) {
-                this.getChoiceModel(-47249152).setValue(1);
+                this.getChoiceModel(602109).setValue(1);
             } else if (!hUDContent.rgi && !hUDContent.navInfo) {
-                this.getChoiceModel(-47249152).setValue(0);
+                this.getChoiceModel(602109).setValue(0);
             }
-            this.getChoiceModel(1663764736).setValue(hUDContent.nightvision ? 1 : 0);
-            this.getChoiceModel(1764428032).setValue(hUDContent.roadsign ? 1 : 0);
-            this.getChoiceModel(1697319168).setValue(hUDContent.telephone ? 1 : 0);
-            this.getChoiceModel(338430208).setValue(hUDContent.efficiencyAssist ? 1 : 0);
-            this.getChoiceModel(606865664).setValue(hUDContent.speedLimiter ? 1 : 0);
+            this.getChoiceModel(600931).setValue(hUDContent.nightvision ? 1 : 0);
+            this.getChoiceModel(600937).setValue(hUDContent.roadsign ? 1 : 0);
+            this.getChoiceModel(600933).setValue(hUDContent.telephone ? 1 : 0);
+            this.getChoiceModel(601108).setValue(hUDContent.efficiencyAssist ? 1 : 0);
+            this.getChoiceModel(601124).setValue(hUDContent.speedLimiter ? 1 : 0);
         }
     }
 
-    @Override
     public void updateHUDViewOptions(HUDViewOptions hUDViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateHUDViewOptions: '%1', valid='%2'", (Object)(hUDViewOptions != null ? this.formatViewOptionsLog(hUDViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "updateHUDViewOptions: '%1', valid='%2'", (Object)(hUDViewOptions != null ? this.formatViewOptionsLog(hUDViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && hUDViewOptions != null) {
             this.currViewOptions = hUDViewOptions;
@@ -303,13 +287,10 @@ RangeListener {
         }
     }
 
-    protected abstract void updateMenuEntryVisibility(HUDViewOptions hUDViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(HUDViewOptions var1);
 
-    protected abstract boolean isOnlySpeedLimiterGRA() {
-    }
+    protected abstract boolean isOnlySpeedLimiterGRA();
 
-    @Override
     public String getName() {
         return "HUD";
     }

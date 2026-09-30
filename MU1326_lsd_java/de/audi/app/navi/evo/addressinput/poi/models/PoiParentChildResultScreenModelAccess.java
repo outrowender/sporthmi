@@ -20,8 +20,8 @@ extends AbstractPoiScreenModelAccess
 implements IPoiParentChildResultScreenModelAccess {
     private final IEvoListRowBuilder listRowBuilder;
     private final TiledListModelApp previewList;
-    public static final int CHOICE_ENABLED;
-    public static final int CHOICE_DISABLED;
+    public static final int CHOICE_ENABLED = 1;
+    public static final int CHOICE_DISABLED = 0;
 
     public PoiParentChildResultScreenModelAccess(NavigationEnv navigationEnv, IEvoListRowBuilder iEvoListRowBuilder, int n) {
         super(navigationEnv);
@@ -29,25 +29,23 @@ implements IPoiParentChildResultScreenModelAccess {
         this.previewList = navigationEnv.getTiledListModel(n);
     }
 
-    @Override
     public void onStart() {
-        this.env.getPOILogChannel().log(-2137614336, " PoiParentChildResultScreenModelAccess#onStart()");
+        this.env.getPOILogChannel().log(10000000, " PoiParentChildResultScreenModelAccess#onStart()");
         this.previewList.removeAll();
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.env.getChoiceModel(35456512).setValue((int)l);
+        this.env.getChoiceModel(400642).setValue((int)l);
         this.previewList.setLength((int)l);
-        this.env.getPOILogChannel().log(-2137614336, " PoiParentChildResultScreenModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
+        this.env.getPOILogChannel().log(10000000, " PoiParentChildResultScreenModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.env.getPOILogChannel().log(-2137614336, "PoiParentChildResultScreenModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
+            this.env.getPOILogChannel().log(10000000, "PoiParentChildResultScreenModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
             this.previewList.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = this.previewList.getLength();
-        this.env.getPOILogChannel().log(-2137614336, "PoiParentChildResultScreenModelAccess#onUpdateResultList - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n);
+        this.env.getPOILogChannel().log(10000000, "PoiParentChildResultScreenModelAccess#onUpdateResultList - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n);
         try {
             EvoListRow[] evoListRowArray = this.createUpdateListRow(lIValueListElementArray);
             this.previewList.setRows(-1, 0, evoListRowArray);
@@ -67,24 +65,22 @@ implements IPoiParentChildResultScreenModelAccess {
         return evoListRowArray;
     }
 
-    @Override
     public void onElementSelected(LIValueListElement lIValueListElement) {
-        this.env.getChoiceModel(505284096).setValue(1);
-        this.env.getLogChannel().log(-2137614336, "PoiParentChildResultScreenModelAccess#onElementSelected");
-        this.env.getLabelModel(2098923008).setText(lIValueListElement.data);
+        this.env.getChoiceModel(400926).setValue(1);
+        this.env.getLogChannel().log(10000000, "PoiParentChildResultScreenModelAccess#onElementSelected");
+        this.env.getLabelModel(400253).setText(lIValueListElement.data);
     }
 
-    @Override
     public void onUpdateResultListForRequest(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
-        this.env.getPOILogChannel().log(-2137614336, " PoiParentChildResultScreenModelAccess#onUpdateResultListForRequest( %1, %2, %3, %4)", (Object)string, (Object)Long.toString(l), (Object)Integer.toString(n), (Object)Integer.toString(n2));
+        this.env.getPOILogChannel().log(10000000, " PoiParentChildResultScreenModelAccess#onUpdateResultListForRequest( %1, %2, %3, %4)", (Object)string, (Object)Long.toString(l), (Object)Integer.toString(n), (Object)Integer.toString(n2));
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.env.getPOILogChannel().log(-2137614336, "PoiParentChildResultScreenModelAccess#onUpdateResultListForRequest() - invalid value list: %1", (Object)lIValueList);
+            this.env.getPOILogChannel().log(10000000, "PoiParentChildResultScreenModelAccess#onUpdateResultListForRequest() - invalid value list: %1", (Object)lIValueList);
             this.previewList.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n3 = this.previewList.getLength();
-        this.env.getPOILogChannel().log(-2137614336, "PoiParentChildResultScreenModelAccess#onUpdateResultListForRequest - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n3);
+        this.env.getPOILogChannel().log(10000000, "PoiParentChildResultScreenModelAccess#onUpdateResultListForRequest - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n3);
         try {
             EvoListRow[] evoListRowArray = this.createUpdateListRow(lIValueListElementArray);
             this.previewList.setRows(n, n2, evoListRowArray);
@@ -94,22 +90,20 @@ implements IPoiParentChildResultScreenModelAccess {
         }
     }
 
-    @Override
     public void onUnrequestItems(int n, int n2) {
-        this.env.getPOILogChannel().log(-2137614336, "PoiParentChildResultScreenModelAccess#onUnrequestItems - startIndex = %1, length = %2", (long)n, (long)n2);
+        this.env.getPOILogChannel().log(10000000, "PoiParentChildResultScreenModelAccess#onUnrequestItems - startIndex = %1, length = %2", (long)n, (long)n2);
         this.previewList.clearRows(n, n2);
     }
 
-    @Override
     public void onElementFocused(NavLocation navLocation) {
         String string = LocationFormatter.getPhoneNumber(navLocation);
         if (this.env.getPOILogChannel().isDebug2()) {
-            this.env.getPOILogChannel().log(14808325, "PoiParentChildResultScreenModelAccess#onElementFocused - tel = %1", (Object)string);
+            this.env.getPOILogChannel().log(100000000, "PoiParentChildResultScreenModelAccess#onElementFocused - tel = %1", (Object)string);
         }
         if (Util.isEmpty(string)) {
-            this.env.getChoiceModel(-400554496).setValue(2);
+            this.env.getChoiceModel(401640).setValue(2);
         } else {
-            this.env.getChoiceModel(-400554496).setValue(1);
+            this.env.getChoiceModel(401640).setValue(1);
         }
     }
 }

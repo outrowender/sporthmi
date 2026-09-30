@@ -7,14 +7,13 @@ import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
 import de.audi.app.phone.core.dsi.TelDSIUtils;
-import de.audi.app.phone.core.interapp.TelDialNumberSessionHandler$TelCallControlHandler;
 import de.audi.app.phone.core.state.CallStateStruct;
 import de.audi.app.phone.core.state.GlobalTelephoneState;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.util.PhoneUtils;
+import de.audi.atip.interapp.phone.ITelCallControl;
 import de.audi.atip.interapp.phone.ITelCallInformation;
 import de.audi.atip.interapp.phone.ITelCallSession;
-import de.audi.atip.log.LogChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,28 +29,25 @@ extends AbstractPhoneComponent {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (n == 0x8000100 || n == 0x7000100 || n == 0x11000100 || n == 0x8000200 || n == 0x7000200 || n == 0x11000200 || n == 0x8000300 || n == 0x7000300 || n == 0x11000300) {
-            this.log.log(-2137614336, "[TelDialNumberSessionHandler#updateGlobalTelephoneStateProperty] update %1", (Object)GlobalTelephoneState.getAttributeName(n));
+        if (n == 65544 || n == 65543 || n == 65553 || n == 131080 || n == 131079 || n == 131089 || n == 196616 || n == 196615 || n == 196625) {
+            this.log.log(10000000, "[TelDialNumberSessionHandler#updateGlobalTelephoneStateProperty] update %1", (Object)GlobalTelephoneState.getAttributeName(n));
             ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = iGlobalTelephoneStateStruct.getCallLeadingDevice();
             if (iTelDSIMobileEquipmentDeviceState != null) {
-                this.log.log(-2137614336, "[TelDialNumberSessionHandler#updateGlobalTelephoneStateProperty] call leading device role is %1", (Object)TelDSIUtils.getRoleName(iTelDSIMobileEquipmentDeviceState.getDeviceRole()));
+                this.log.log(10000000, "[TelDialNumberSessionHandler#updateGlobalTelephoneStateProperty] call leading device role is %1", (Object)TelDSIUtils.getRoleName(iTelDSIMobileEquipmentDeviceState.getDeviceRole()));
                 this.updateSessions(iTelDSIMobileEquipmentDeviceState.getCallState(), iTelDSIMobileEquipmentDeviceState.getmICMuteState());
             } else {
-                this.log.log(-1601830656, "[TelDialNumberSessionHandler#updateGlobalTelephoneStateProperty] callLeadingDeviceState is null --> NOP!");
+                this.log.log(100000, "[TelDialNumberSessionHandler#updateGlobalTelephoneStateProperty] callLeadingDeviceState is null --> NOP!");
             }
         }
     }
@@ -60,7 +56,7 @@ extends AbstractPhoneComponent {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     void addSession(ITelCallSession iTelCallSession) {
-        this.log.log(-2137614336, "[TelDialNumberSessionHandler#addSession] session=%1", (Object)super.getClass().getName());
+        this.log.log(10000000, "[TelDialNumberSessionHandler#addSession] session=%1", (Object)iTelCallSession.getClass().getName());
         Object object = this.mapLock;
         synchronized (object) {
             this.numberToSessionMap.put(PhoneUtils.normalizeTelNumber(iTelCallSession.getTelephoneNumber()), iTelCallSession);
@@ -88,7 +84,7 @@ extends AbstractPhoneComponent {
                 synchronized (object3) {
                     object2 = (ITelCallSession)this.numberToSessionMap.get(((CallInformation)object4).getTelRemNumber());
                     if (object2 != null && !((Boolean)this.sessionActiveMap.get(object2)).booleanValue()) {
-                        object2.onActive(new TelDialNumberSessionHandler$TelCallControlHandler(this, ((CallInformation)object4).getTelCallID()));
+                        object2.onActive(new TelCallControlHandler(((CallInformation)object4).getTelCallID()));
                         this.sessionActiveMap.put(object2, Boolean.TRUE);
                     }
                 }
@@ -96,7 +92,7 @@ extends AbstractPhoneComponent {
                 object3 = object2.getClass().getName();
                 object = callStateStruct.getCall(((CallInformation)object4).getTelCallID());
                 n2 = n == 0 ? 0 : 1;
-                this.log.log(1078071040, "[TelDialNumberSessionHandler#updateSessions] session=%1, phoneCall=%2, micMuteState=%3", object3, (Object)((CallInformation)object).getTelRemNumber(), (long)n2);
+                this.log.log(1000000, "[TelDialNumberSessionHandler#updateSessions] session=%1, phoneCall=%2, micMuteState=%3", object3, (Object)((CallInformation)object).getTelRemNumber(), (long)n2);
                 object2.updateCallInformation((ITelCallInformation)object, n2);
             }
         }
@@ -107,7 +103,7 @@ extends AbstractPhoneComponent {
             while (object2.hasNext()) {
                 object3 = (String)object2.next();
                 if (arrayList.contains(object3) || (n2 = ((Boolean)this.sessionActiveMap.get(object = (ITelCallSession)this.numberToSessionMap.get(object3))).booleanValue()) == 0) continue;
-                this.log.log(-2137614336, "[TelDialNumberSessionHandler#updateSessions] adding session %1 to sessionsToInformIdle", (Object)super.getClass().getName());
+                this.log.log(10000000, "[TelDialNumberSessionHandler#updateSessions] adding session %1 to sessionsToInformIdle", (Object)object.getClass().getName());
                 arrayList2.add(object);
                 this.numberToSessionMap.remove(object3);
                 this.sessionActiveMap.remove(object);
@@ -117,25 +113,29 @@ extends AbstractPhoneComponent {
         while (object4.hasNext()) {
             object2 = (ITelCallSession)object4.next();
             if (object2 == null) continue;
-            this.log.log(1078071040, "[TelDialNumberSessionHandler#updateSessions] calling close on session %1", (Object)object2.getClass().getName());
+            this.log.log(1000000, "[TelDialNumberSessionHandler#updateSessions] calling close on session %1", (Object)object2.getClass().getName());
             object2.onClose();
         }
     }
 
-    static /* synthetic */ LogChannel access$000(TelDialNumberSessionHandler telDialNumberSessionHandler) {
-        return telDialNumberSessionHandler.log;
-    }
+    private class TelCallControlHandler
+    implements ITelCallControl {
+        private final short telCallId;
 
-    static /* synthetic */ ITelApplication access$100(TelDialNumberSessionHandler telDialNumberSessionHandler) {
-        return telDialNumberSessionHandler.getApplication();
-    }
+        public TelCallControlHandler(short s) {
+            this.telCallId = s;
+        }
 
-    static /* synthetic */ LogChannel access$200(TelDialNumberSessionHandler telDialNumberSessionHandler) {
-        return telDialNumberSessionHandler.log;
-    }
+        public void hangupCall() {
+            TelDialNumberSessionHandler.this.log.log(1000000, "[TelDialNumberSessionHandler.TelCallControlHandler#hangupCall] hanging up callID=%1", (long)this.telCallId);
+            TelDialNumberSessionHandler.this.getApplication().getTelephoneDSIAccess().hangupCall(this.telCallId, 0);
+        }
 
-    static /* synthetic */ ITelApplication access$300(TelDialNumberSessionHandler telDialNumberSessionHandler) {
-        return telDialNumberSessionHandler.getApplication();
+        public void muteMicrophone(boolean bl) {
+            TelDialNumberSessionHandler.this.log.log(1000000, "[TelDialNumberSessionHandler.TelCallControlHandler#muteMicrophone] mute=%1", bl);
+            int n = bl ? 0 : 1;
+            TelDialNumberSessionHandler.this.getApplication().getTelephoneDSIAccess().requestSetMICMuteState(n, 0);
+        }
     }
 }
 

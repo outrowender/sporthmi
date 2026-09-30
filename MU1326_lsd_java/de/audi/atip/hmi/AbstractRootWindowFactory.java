@@ -19,7 +19,6 @@ public abstract class AbstractRootWindowFactory {
         instance = this;
     }
 
-    public abstract IRootWindow getRootWindow(int n) {
-    }
+    public abstract IRootWindow getRootWindow(int var1);
 }
 

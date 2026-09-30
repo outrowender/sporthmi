@@ -21,21 +21,21 @@ implements ISystemCall {
 
     private static Set createNoResponseSet() {
         HashSet hashSet = new HashSet();
-        hashSet.add(new Integer(1947271424));
-        hashSet.add(new Integer(1913716992));
-        hashSet.add(new Integer(-869531392));
-        hashSet.add(new Integer(-14417664));
-        hashSet.add(new Integer(-131858176));
-        hashSet.add(new Integer(1964048640));
+        hashSet.add(new Integer(70004));
+        hashSet.add(new Integer(70002));
+        hashSet.add(new Integer(77004));
+        hashSet.add(new Integer(75007));
+        hashSet.add(new Integer(75000));
+        hashSet.add(new Integer(70005));
         hashSet.add(new Integer(20016));
-        hashSet.add(new Integer(1620836352));
-        hashSet.add(new Integer(1788608512));
-        hashSet.add(new Integer(-2137260032));
-        hashSet.add(new Integer(1251737600));
-        hashSet.add(new Integer(1268514816));
-        hashSet.add(new Integer(1520173056));
-        hashSet.add(new Integer(-1482948608));
-        hashSet.add(new Integer(-1449394176));
+        hashSet.add(new Integer(40032));
+        hashSet.add(new Integer(40042));
+        hashSet.add(new Integer(40064));
+        hashSet.add(new Integer(40010));
+        hashSet.add(new Integer(40011));
+        hashSet.add(new Integer(40026));
+        hashSet.add(new Integer(40103));
+        hashSet.add(new Integer(40105));
         hashSet.add(new Integer(10006));
         hashSet.add(new Integer(30010));
         hashSet.add(new Integer(1002));
@@ -59,8 +59,8 @@ implements ISystemCall {
         hashSet.add(new Integer(1052));
         hashSet.add(new Integer(1059));
         hashSet.add(new Integer(1064));
-        hashSet.add(new Integer(-1399062528));
-        hashSet.add(new Integer(-1348730880));
+        hashSet.add(new Integer(40108));
+        hashSet.add(new Integer(40111));
         return Collections.unmodifiableSet(hashSet);
     }
 
@@ -119,22 +119,18 @@ implements ISystemCall {
         this.parameters = new ISystemCallParameter[]{new SystemCallParameter(new String(string)), new SystemCallParameter(new Integer(n2))};
     }
 
-    @Override
     public int getId() {
         return this.id;
     }
 
-    @Override
     public ISystemCallParameter[] getParameters() {
         return this.parameters;
     }
 
-    @Override
     public String getName() {
         return SDSManagerBaseActivator.getSystemCallNames().getName(this.id);
     }
 
-    @Override
     public boolean requiresResponse() {
         return SystemCall.requiresResponse(this.id);
     }

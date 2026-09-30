@@ -38,7 +38,7 @@ public class ADBDSIAccess {
     }
 
     public void setDSIAdbList(DSIAdbList dSIAdbList, DSIAdbListListener dSIAdbListListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#setDSIAdbList(): got dsiAdbList: %1", (Object)dSIAdbList);
+        this.log.log(10000000, "ADBDSIAccess#setDSIAdbList(): got dsiAdbList: %1", (Object)dSIAdbList);
         this.dsiAdbList = dSIAdbList;
         try {
             dSIAdbList.setNotification(dSIAdbListListener);
@@ -50,7 +50,7 @@ public class ADBDSIAccess {
     }
 
     public void clearDSIAdbList(DSIAdbListListener dSIAdbListListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#clearDSIAdbList()");
+        this.log.log(10000000, "ADBDSIAccess#clearDSIAdbList()");
         if (this.dsiAdbList != null) {
             this.dsiAdbList.clearNotification(dSIAdbListListener);
             this.dsiAdbList = null;
@@ -58,7 +58,7 @@ public class ADBDSIAccess {
     }
 
     public void setDSIAdbEdit(DSIAdbEdit dSIAdbEdit, DSIAdbEditListener dSIAdbEditListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#setDSIAdbEdit(): got dsiAdbEdit: %1", (Object)dSIAdbEdit);
+        this.log.log(10000000, "ADBDSIAccess#setDSIAdbEdit(): got dsiAdbEdit: %1", (Object)dSIAdbEdit);
         this.dsiAdbEdit = dSIAdbEdit;
         try {
             dSIAdbEdit.setNotification(dSIAdbEditListener);
@@ -70,7 +70,7 @@ public class ADBDSIAccess {
     }
 
     public void clearDSIAdbEdit(DSIAdbEditListener dSIAdbEditListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#clearDSIAdbEdit()");
+        this.log.log(10000000, "ADBDSIAccess#clearDSIAdbEdit()");
         if (this.dsiAdbEdit != null) {
             this.dsiAdbEdit.clearNotification(dSIAdbEditListener);
             this.dsiAdbEdit = null;
@@ -78,7 +78,7 @@ public class ADBDSIAccess {
     }
 
     public void setDSIAdbUserProfile(DSIAdbUserProfile dSIAdbUserProfile, DSIAdbUserProfileListener dSIAdbUserProfileListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#setDSIAdbUserProfile(): got dsiAdbUserProfile: %1", (Object)dSIAdbUserProfile);
+        this.log.log(10000000, "ADBDSIAccess#setDSIAdbUserProfile(): got dsiAdbUserProfile: %1", (Object)dSIAdbUserProfile);
         this.dsiAdbUserProfile = dSIAdbUserProfile;
         try {
             dSIAdbUserProfile.setNotification(dSIAdbUserProfileListener);
@@ -89,7 +89,7 @@ public class ADBDSIAccess {
     }
 
     public void clearDSIAdbUserProfile(DSIAdbUserProfileListener dSIAdbUserProfileListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#clearDSIAdbUserProfile()");
+        this.log.log(10000000, "ADBDSIAccess#clearDSIAdbUserProfile()");
         if (this.dsiAdbUserProfile != null) {
             this.dsiAdbUserProfile.clearNotification(dSIAdbUserProfileListener);
             this.dsiAdbUserProfile = null;
@@ -97,7 +97,7 @@ public class ADBDSIAccess {
     }
 
     public void setDSIAdbSetup(DSIAdbSetup dSIAdbSetup, DSIAdbSetupListener dSIAdbSetupListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#setDSIAdbSetup(): got dsiAdbSetup: %1", (Object)dSIAdbSetup);
+        this.log.log(10000000, "ADBDSIAccess#setDSIAdbSetup(): got dsiAdbSetup: %1", (Object)dSIAdbSetup);
         this.dsiAdbSetup = dSIAdbSetup;
         try {
             dSIAdbSetup.setNotification(dSIAdbSetupListener);
@@ -109,7 +109,7 @@ public class ADBDSIAccess {
     }
 
     public void clearDSIAdbSetup(DSIAdbSetupListener dSIAdbSetupListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#clearDSIAdbSetup()");
+        this.log.log(10000000, "ADBDSIAccess#clearDSIAdbSetup()");
         if (this.dsiAdbSetup != null) {
             this.dsiAdbSetup.clearNotification(dSIAdbSetupListener);
             this.dsiAdbSetup = null;
@@ -117,7 +117,7 @@ public class ADBDSIAccess {
     }
 
     public void setDSIAdbInit(DSIAdbInit dSIAdbInit, DSIAdbInitListener dSIAdbInitListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#setDSIAdbInit(): got dsiAdbInit: %1", (Object)dSIAdbInit);
+        this.log.log(10000000, "ADBDSIAccess#setDSIAdbInit(): got dsiAdbInit: %1", (Object)dSIAdbInit);
         this.dsiAdbInit = dSIAdbInit;
         try {
             dSIAdbInit.setNotification(dSIAdbInitListener);
@@ -129,7 +129,7 @@ public class ADBDSIAccess {
     }
 
     public void clearDSIAdbInit(DSIAdbInitListener dSIAdbInitListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#clearDSIAdbInit()");
+        this.log.log(10000000, "ADBDSIAccess#clearDSIAdbInit()");
         if (this.dsiAdbInit != null) {
             this.dsiAdbInit.clearNotification(dSIAdbInitListener);
             this.dsiAdbInit = null;
@@ -137,7 +137,7 @@ public class ADBDSIAccess {
     }
 
     public void setDSIAdbVCardExchange(DSIAdbVCardExchange dSIAdbVCardExchange, DSIAdbVCardExchangeListener dSIAdbVCardExchangeListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#setDSIAdbVCardExchange(): got dsiAdbVCardExchange: %1", (Object)dSIAdbVCardExchange);
+        this.log.log(10000000, "ADBDSIAccess#setDSIAdbVCardExchange(): got dsiAdbVCardExchange: %1", (Object)dSIAdbVCardExchange);
         this.dsiAdbVCardExchange = dSIAdbVCardExchange;
         try {
             dSIAdbVCardExchange.setNotification(dSIAdbVCardExchangeListener);
@@ -149,7 +149,7 @@ public class ADBDSIAccess {
     }
 
     public void clearDSIAdbVCardExchange(DSIAdbVCardExchangeListener dSIAdbVCardExchangeListener) {
-        this.log.log(-2137614336, "ADBDSIAccess#clearDSIAdbVCardExchange()");
+        this.log.log(10000000, "ADBDSIAccess#clearDSIAdbVCardExchange()");
         if (this.dsiAdbVCardExchange != null) {
             this.dsiAdbVCardExchange.clearNotification(dSIAdbVCardExchangeListener);
             this.dsiAdbVCardExchange = null;
@@ -158,7 +158,7 @@ public class ADBDSIAccess {
 
     public boolean getViewWindow(long l, int n, int n2, int n3) {
         Buffer buffer = new Buffer("entryId: ").append(l).append(", movement: ").append(ADBDbgUtils.dbgMovement(n)).append(", viewType: ").append(ADBDbgUtils.dbgViewType(n2)).append(", windowSize: ").append(n3);
-        this.log.log(-2137614336, "ADBDSIAccess#getViewWindow(): %1", (Object)buffer);
+        this.log.log(10000000, "ADBDSIAccess#getViewWindow(): %1", (Object)buffer);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.getViewWindow(l, n, n2, n3);
             return true;
@@ -169,7 +169,7 @@ public class ADBDSIAccess {
 
     public boolean getSpellerViewWindow(int n, long l, int n2, int n3, int n4) {
         Buffer buffer = new Buffer("spellerhandle: ").append(n).append(", entryId: ").append(l).append(", movement: ").append(ADBDbgUtils.dbgMovement(n2)).append(", viewType: ").append(ADBDbgUtils.dbgViewType(n3)).append(", windowSize: ").append(n4);
-        this.log.log(-2137614336, "ADBDSIAccess#getSpellerViewWindow(): %1", (Object)buffer);
+        this.log.log(10000000, "ADBDSIAccess#getSpellerViewWindow(): %1", (Object)buffer);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.getSpellerViewWindow(n, l, n2, n3, n4);
             return true;
@@ -179,7 +179,7 @@ public class ADBDSIAccess {
     }
 
     public boolean startSpeller(int n, int n2, int n3) {
-        this.log.log(-2137614336, "ADBDSIAccess#startSpeller(): viewType: %1, listSize: %2, searchMode: %3", (long)n, (long)n2, (long)n3);
+        this.log.log(10000000, "ADBDSIAccess#startSpeller(): viewType: %1, listSize: %2, searchMode: %3", (long)n, (long)n2, (long)n3);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.startSpeller(n, n2, n3);
             return true;
@@ -189,7 +189,7 @@ public class ADBDSIAccess {
     }
 
     public boolean stopSpeller(int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#stopSpeller(): spellerHandle: %1", (long)n);
+        this.log.log(10000000, "ADBDSIAccess#stopSpeller(): spellerHandle: %1", (long)n);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.stopSpeller(n);
             return true;
@@ -199,7 +199,7 @@ public class ADBDSIAccess {
     }
 
     public boolean addSpellerChars(int n, String string) {
-        this.log.log(-2137614336, "ADBDSIAccess#addSpellerChars(): spellerHandle: %2, characters: %1", (Object)string, (long)n);
+        this.log.log(10000000, "ADBDSIAccess#addSpellerChars(): spellerHandle: %2, characters: %1", (Object)string, (long)n);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.addSpellerChars(n, string);
             return true;
@@ -209,7 +209,7 @@ public class ADBDSIAccess {
     }
 
     public boolean removeSpellerChar(int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#removeSpellerChar(): spellerHandle: %1", (long)n);
+        this.log.log(10000000, "ADBDSIAccess#removeSpellerChar(): spellerHandle: %1", (long)n);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.removeSpellerChar(n);
             return true;
@@ -219,7 +219,7 @@ public class ADBDSIAccess {
     }
 
     public boolean validateSpellerChars(int n, String string) {
-        this.log.log(-2137614336, "ADBDSIAccess#validateSpellerChars(): spellerHandle: %2, charactes: %1", (Object)string, (long)n);
+        this.log.log(10000000, "ADBDSIAccess#validateSpellerChars(): spellerHandle: %2, charactes: %1", (Object)string, (long)n);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.validateSpellerChars(n, string);
             return true;
@@ -229,7 +229,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setListStyle(int n, int n2, int n3) {
-        this.log.log(-2137614336, "ADBDSIAccess#setListStyle(): filter: %1, line1: %2, line2: %3", (long)n, (long)n2, (long)n3);
+        this.log.log(10000000, "ADBDSIAccess#setListStyle(): filter: %1, line1: %2, line2: %3", (long)n, (long)n2, (long)n3);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.setListStyle(n, n2, n3);
             return true;
@@ -239,7 +239,7 @@ public class ADBDSIAccess {
     }
 
     public boolean addSpellerStroke(int n, String string) {
-        this.log.log(-2137614336, "ADBDSIAccess#addSpellerStroke(): spellerHandle: %2, stroke: %1", (Object)string, (long)n);
+        this.log.log(10000000, "ADBDSIAccess#addSpellerStroke(): spellerHandle: %2, stroke: %1", (Object)string, (long)n);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.addSpellerStroke(n, string);
             return true;
@@ -249,7 +249,7 @@ public class ADBDSIAccess {
     }
 
     public boolean getValidHanziCharsWindow(int n, int n2, int n3) {
-        this.log.log(-2137614336, "ADBDSIAccess#getValidHanziCharsWindow(): spellerHandle: %1, offset: %2, windowSize: %3", (long)n, (long)n2, (long)n3);
+        this.log.log(10000000, "ADBDSIAccess#getValidHanziCharsWindow(): spellerHandle: %1, offset: %2, windowSize: %3", (long)n, (long)n2, (long)n3);
         if (this.dsiAdbList != null) {
             this.dsiAdbList.getValidHanziCharsWindow(n, n2, n3);
             return true;
@@ -259,7 +259,7 @@ public class ADBDSIAccess {
     }
 
     public boolean getEntries(long[] lArray, int n, int n2) {
-        this.log.log(-2137614336, "ADBDSIAccess#getEntries(): entryIdList: %1, viewType: %2, listMode: %3", (Object)ADBDbgUtils.dbg(lArray), (long)n, (long)n2);
+        this.log.log(10000000, "ADBDSIAccess#getEntries(): entryIdList: %1, viewType: %2, listMode: %3", (Object)ADBDbgUtils.dbg(lArray), (long)n, (long)n2);
         if (this.dsiAdbEdit != null) {
             this.dsiAdbEdit.getEntries(lArray, n, n2);
             return true;
@@ -269,7 +269,7 @@ public class ADBDSIAccess {
     }
 
     public boolean deleteEntries(long[] lArray, int n, int n2) {
-        this.log.log(-2137614336, "ADBDSIAccess#deleteEntries(): entryIdList: %1, viewType: %2, listMode: %3", (Object)ADBDbgUtils.dbg(lArray), (long)n, (long)n2);
+        this.log.log(10000000, "ADBDSIAccess#deleteEntries(): entryIdList: %1, viewType: %2, listMode: %3", (Object)ADBDbgUtils.dbg(lArray), (long)n, (long)n2);
         if (this.dsiAdbEdit != null) {
             this.dsiAdbEdit.deleteEntries(lArray, n, n2);
             return true;
@@ -279,7 +279,7 @@ public class ADBDSIAccess {
     }
 
     public boolean insertEntry(AdbEntry adbEntry, int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#insertEntry(): entry: %1, profileNum: %2", (Object)adbEntry, (long)n);
+        this.log.log(10000000, "ADBDSIAccess#insertEntry(): entry: %1, profileNum: %2", (Object)adbEntry, (long)n);
         if (this.dsiAdbEdit != null) {
             this.dsiAdbEdit.insertEntry(adbEntry, n);
             return true;
@@ -289,7 +289,7 @@ public class ADBDSIAccess {
     }
 
     public boolean changeEntry(AdbEntry adbEntry, int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#changeEntry(): entry: %1, profileNum: %2", (Object)adbEntry, (long)n);
+        this.log.log(10000000, "ADBDSIAccess#changeEntry(): entry: %1, profileNum: %2", (Object)adbEntry, (long)n);
         if (this.dsiAdbEdit != null) {
             this.dsiAdbEdit.changeEntry(adbEntry, n);
             return true;
@@ -299,7 +299,7 @@ public class ADBDSIAccess {
     }
 
     public boolean getEntryDataSets(long[] lArray, int n, int n2) {
-        this.log.log(-2137614336, "ADBDSIAccess#getEntryDataSets(): entryIdList: %1, viewType: %2, listMode: %3", (Object)lArray, (long)n, (long)n2);
+        this.log.log(10000000, "ADBDSIAccess#getEntryDataSets(): entryIdList: %1, viewType: %2, listMode: %3", (Object)lArray, (long)n, (long)n2);
         if (this.dsiAdbEdit != null) {
             this.dsiAdbEdit.getEntryDataSets(lArray, n, n2);
             return true;
@@ -309,7 +309,7 @@ public class ADBDSIAccess {
     }
 
     public boolean getEntryByReferenceId(String string) {
-        this.log.log(-2137614336, "ADBDSIAccess#getEntryByReferenceId(): referenceId: %1", (Object)string);
+        this.log.log(10000000, "ADBDSIAccess#getEntryByReferenceId(): referenceId: %1", (Object)string);
         if (this.dsiAdbEdit != null) {
             this.dsiAdbEdit.getEntryByReferenceId(string);
             return true;
@@ -319,7 +319,7 @@ public class ADBDSIAccess {
     }
 
     public boolean deleteSpeedDial(int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#deleteSpeedDial(): speedDialKey: %1", (long)n);
+        this.log.log(10000000, "ADBDSIAccess#deleteSpeedDial(): speedDialKey: %1", (long)n);
         if (this.dsiAdbEdit != null) {
             this.dsiAdbEdit.deleteSpeedDial(n);
             return true;
@@ -329,7 +329,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setSpeedDial(AdbEntry adbEntry) {
-        this.log.log(-2137614336, "ADBDSIAccess#setSpeedDial(): speedDialEntry: %1", (Object)adbEntry);
+        this.log.log(10000000, "ADBDSIAccess#setSpeedDial(): speedDialEntry: %1", (Object)adbEntry);
         if (this.dsiAdbEdit != null) {
             this.dsiAdbEdit.setSpeedDial(adbEntry);
             return true;
@@ -339,7 +339,7 @@ public class ADBDSIAccess {
     }
 
     public boolean restartDownload() {
-        this.log.log(-2137614336, "ADBDSIAccess#restartDownload()");
+        this.log.log(10000000, "ADBDSIAccess#restartDownload()");
         if (this.dsiAdbUserProfile != null) {
             this.dsiAdbUserProfile.restartDownload();
             return true;
@@ -349,7 +349,7 @@ public class ADBDSIAccess {
     }
 
     public boolean entryMeter() {
-        this.log.log(-2137614336, "ADBDSIAccess#entryMeter()");
+        this.log.log(10000000, "ADBDSIAccess#entryMeter()");
         if (this.dsiAdbUserProfile != null) {
             this.dsiAdbUserProfile.entryMeter();
             return true;
@@ -359,7 +359,7 @@ public class ADBDSIAccess {
     }
 
     public boolean deleteProfiles(int[] nArray) {
-        this.log.log(-2137614336, "ADBDSIAccess#deleteProfiles(): profileNums: %1", (Object)nArray);
+        this.log.log(10000000, "ADBDSIAccess#deleteProfiles(): profileNums: %1", (Object)nArray);
         if (this.dsiAdbUserProfile != null) {
             this.dsiAdbUserProfile.deleteProfiles(nArray);
             return true;
@@ -369,7 +369,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setHomeId(long l) {
-        this.log.log(-2137614336, "ADBDSIAccess#setHomeId(): entryId: %1", l);
+        this.log.log(10000000, "ADBDSIAccess#setHomeId(): entryId: %1", l);
         if (this.dsiAdbUserProfile != null) {
             this.dsiAdbUserProfile.setHomeId(l);
             return true;
@@ -379,7 +379,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setSortOrder(int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#setSortOrder(): sortOrder: %1", (long)n);
+        this.log.log(10000000, "ADBDSIAccess#setSortOrder(): sortOrder: %1", (long)n);
         if (this.dsiAdbSetup != null) {
             this.dsiAdbSetup.setSortOrder(n);
             return true;
@@ -389,7 +389,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setLanguage(String string) {
-        this.log.log(-2137614336, "ADBDSIAccess#setLanguage()");
+        this.log.log(10000000, "ADBDSIAccess#setLanguage()");
         if (this.dsiAdbSetup != null) {
             this.dsiAdbSetup.setLanguage(string);
             return true;
@@ -399,7 +399,7 @@ public class ADBDSIAccess {
     }
 
     public boolean resetToFactorySettings() {
-        this.log.log(-2137614336, "ADBDSIAccess#resetToFactorySettings()");
+        this.log.log(10000000, "ADBDSIAccess#resetToFactorySettings()");
         if (this.dsiAdbSetup != null) {
             this.dsiAdbSetup.resetToFactorySettings();
             return true;
@@ -409,7 +409,7 @@ public class ADBDSIAccess {
     }
 
     public boolean resetTopDestination() {
-        this.log.log(-2137614336, "ADBDSIAccess#resetTopDestination()");
+        this.log.log(10000000, "ADBDSIAccess#resetTopDestination()");
         if (this.dsiAdbSetup != null) {
             this.dsiAdbSetup.resetTopDestination();
             return true;
@@ -419,7 +419,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setPublicProfileVisibility(boolean bl) {
-        this.log.log(-2137614336, "ADBDSIAccess#setPublicProfileVisibility()");
+        this.log.log(10000000, "ADBDSIAccess#setPublicProfileVisibility()");
         if (this.dsiAdbSetup != null) {
             this.dsiAdbSetup.setPublicProfileVisibility(bl);
             return true;
@@ -429,7 +429,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setContextSpecificVisibility(boolean bl) {
-        this.log.log(-2137614336, "ADBDSIAccess#setContextSpecificVisibility()");
+        this.log.log(10000000, "ADBDSIAccess#setContextSpecificVisibility()");
         if (this.dsiAdbSetup != null) {
             this.dsiAdbSetup.setContextSpecificVisibility(bl);
             return true;
@@ -439,7 +439,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setAutoProfileAllocation(boolean bl) {
-        this.log.log(-2137614336, "ADBDSIAccess#setAutoProfileAllocation()");
+        this.log.log(10000000, "ADBDSIAccess#setAutoProfileAllocation()");
         if (this.dsiAdbInit != null) {
             this.dsiAdbInit.setAutoProfileAllocation(bl);
             return true;
@@ -449,7 +449,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setDefaultPublicProfileVisibility(boolean bl) {
-        this.log.log(-2137614336, "ADBDSIAccess#setDefaultPublicProfileVisibility( %1 )", bl);
+        this.log.log(10000000, "ADBDSIAccess#setDefaultPublicProfileVisibility( %1 )", bl);
         if (this.dsiAdbInit != null) {
             this.dsiAdbInit.setDefaultPublicProfileVisibility(bl);
             return true;
@@ -459,7 +459,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setDefaultSortOrder(int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#setDefaultSortOrder()");
+        this.log.log(10000000, "ADBDSIAccess#setDefaultSortOrder()");
         if (this.dsiAdbInit != null) {
             this.dsiAdbInit.setDefaultSortOrder(n);
             return true;
@@ -469,7 +469,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setMaxPhoneEntries(int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#setMaxPhoneEntries()");
+        this.log.log(10000000, "ADBDSIAccess#setMaxPhoneEntries()");
         if (this.dsiAdbInit != null) {
             this.dsiAdbInit.setMaxPhoneEntries(n);
             return true;
@@ -479,7 +479,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setMaxLocalEntries(int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#setMaxLocalEntries()");
+        this.log.log(10000000, "ADBDSIAccess#setMaxLocalEntries()");
         if (this.dsiAdbInit != null) {
             this.dsiAdbInit.setMaxLocalEntries(n);
             return true;
@@ -489,7 +489,7 @@ public class ADBDSIAccess {
     }
 
     public boolean finalizeConfiguration() {
-        this.log.log(-2137614336, "ADBDSIAccess#finalizeConfiguration()");
+        this.log.log(10000000, "ADBDSIAccess#finalizeConfiguration()");
         if (this.dsiAdbInit != null) {
             this.dsiAdbInit.finalizeConfiguration();
             return true;
@@ -499,7 +499,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setSpeedDialType(int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#setSpeedDialType()");
+        this.log.log(10000000, "ADBDSIAccess#setSpeedDialType()");
         if (this.dsiAdbInit != null) {
             this.dsiAdbInit.setSpeedDialType(n);
             return true;
@@ -509,7 +509,7 @@ public class ADBDSIAccess {
     }
 
     public boolean setMaxSpeedDialEntries(int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#setMaxSpeedDialEntries()");
+        this.log.log(10000000, "ADBDSIAccess#setMaxSpeedDialEntries()");
         if (this.dsiAdbInit != null) {
             this.dsiAdbInit.setMaxSpeedDialEntries(n);
             return true;
@@ -521,7 +521,7 @@ public class ADBDSIAccess {
     public boolean exportVCard(int n, String string, long[] lArray, int n2) {
         if (this.log.isInfo()) {
             Buffer buffer = new Buffer("sourceView: ").append(ADBDbgUtils.dbgViewType(n)).append(", destMountPoint: ").append(string).append(", entryIdList: ").append(ADBDbgUtils.dbg(lArray)).append(", listMode: ").append(n2);
-            this.log.log(1078071040, "ADBDSIAccess#exportVCard(): %1", (Object)buffer);
+            this.log.log(1000000, "ADBDSIAccess#exportVCard(): %1", (Object)buffer);
         }
         if (this.dsiAdbVCardExchange != null) {
             this.dsiAdbVCardExchange.exportVCard(n, string, lArray, n2);
@@ -534,7 +534,7 @@ public class ADBDSIAccess {
     public boolean exportSpellerVCard(int n, int n2, String string, long[] lArray, int n3) {
         if (this.log.isDebug()) {
             Buffer buffer = new Buffer("spellerHandle: ").append(n).append(", sourceView: ").append(ADBDbgUtils.dbgViewType(n2)).append(", destMountPoint: ").append(string).append(", entryIdList: ").append(ADBDbgUtils.dbg(lArray)).append(", listMode: ").append(n3);
-            this.log.log(-2137614336, "ADBDSIAccess#exportSpellerVCard(): %1", (Object)buffer);
+            this.log.log(10000000, "ADBDSIAccess#exportSpellerVCard(): %1", (Object)buffer);
         }
         if (this.dsiAdbVCardExchange != null) {
             this.dsiAdbVCardExchange.exportSpellerVCard(n, n2, string, lArray, n3);
@@ -545,7 +545,7 @@ public class ADBDSIAccess {
     }
 
     public boolean importVCard(ResourceLocator[] resourceLocatorArray, int n) {
-        this.log.log(-2137614336, "ADBDSIAccess#importVCard(): resourceLocators: %1, destinationProfile: %2", (Object)resourceLocatorArray, (long)n);
+        this.log.log(10000000, "ADBDSIAccess#importVCard(): resourceLocators: %1, destinationProfile: %2", (Object)resourceLocatorArray, (long)n);
         if (this.dsiAdbVCardExchange != null) {
             this.dsiAdbVCardExchange.importVCard(resourceLocatorArray, n);
             return true;
@@ -555,7 +555,7 @@ public class ADBDSIAccess {
     }
 
     public boolean createVCard(int n, long[] lArray, int n2) {
-        this.log.log(-2137614336, "ADBDSIAccess#createVCard(): sourceView: %2, entryIdList: %1, listMode: %3", (Object)lArray, (long)n, (long)n2);
+        this.log.log(10000000, "ADBDSIAccess#createVCard(): sourceView: %2, entryIdList: %1, listMode: %3", (Object)lArray, (long)n, (long)n2);
         if (this.dsiAdbVCardExchange != null) {
             this.dsiAdbVCardExchange.createVCard(n, lArray, n2);
             return true;
@@ -565,7 +565,7 @@ public class ADBDSIAccess {
     }
 
     public boolean parseVCard(String string) {
-        this.log.log(-2137614336, "ADBDSIAccess#parseVCard(): fullPathToVCards: %1", (Object)string);
+        this.log.log(10000000, "ADBDSIAccess#parseVCard(): fullPathToVCards: %1", (Object)string);
         if (this.dsiAdbVCardExchange != null) {
             this.dsiAdbVCardExchange.parseVCard(string);
             return true;

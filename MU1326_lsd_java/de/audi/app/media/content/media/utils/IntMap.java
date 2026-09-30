@@ -26,10 +26,10 @@ public class IntMap {
         return this.map.containsKey(Integers.valueOf(n));
     }
 
-    public int get(int n) {
+    public int get(int n) throws NoMapElementException {
         Object object = this.map.get(Integers.valueOf(n));
         if (object == null) {
-            throw new NoMapElementException(new StringBuffer().append("The element for the key ").append(n).append(" was not found!").toString());
+            throw new NoMapElementException("The element for the key " + n + " was not found!");
         }
         return (Integer)object;
     }

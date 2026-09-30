@@ -5,8 +5,11 @@ package de.audi.app.media.transfer;
 
 import de.audi.app.media.IMediaTerminal;
 import de.audi.app.media.browser.AbstractMediaBrowser;
+import de.audi.app.media.browser.IBrowseListContext;
 import de.audi.app.media.configuration.IMediaConfiguration;
 import de.audi.app.media.osgi.IServiceManager;
+import de.audi.app.media.queue.IQueueCommand;
+import de.audi.app.media.queue.IQueueJob;
 import de.audi.app.media.source.ISource;
 import de.audi.app.media.source.ISourceController;
 import de.audi.app.media.source.ISourceSlot;
@@ -15,8 +18,6 @@ import de.audi.app.media.source.MediaSourceSlot;
 import de.audi.app.media.transfer.ITransferController;
 import de.audi.app.media.transfer.ITransferListener;
 import de.audi.app.media.transfer.NullTransferListener;
-import de.audi.app.media.transfer.TransferController$1;
-import de.audi.app.media.transfer.TransferController$2;
 import de.audi.app.media.transfer.TransferLockHandler;
 import de.audi.app.media.transfer.TransferLogger;
 import de.audi.app.media.transfer.TransferStateNotifier;
@@ -42,7 +43,7 @@ public class TransferController
 implements IMediaRecorderListener,
 ITransferController,
 ISourceSlotListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TransferController";
     private final NullTransferListener nullTransferListener;
     private final TransferLogger logger;
     private final MediaDSIRecorderControllerImpl mediaDSIRecorderController;
@@ -59,11 +60,11 @@ ISourceSlotListener {
     private final ISourceController sourceController;
     private Object transferStateMutex = new Object();
     private int transferState = 0;
-    public static final int TRANSFER_STATE_INITIALIZED;
-    public static final int TRANSFER_STATE_ACTIVATED;
-    public static final int TRANSFER_STATE_SOURCE_ACTIVATED;
-    public static final int TRANSFER_STATE_SET_ENCODING_QUALITY_FINISHED;
-    public static final int TRANSFER_STATE_TRANSFERING;
+    public static final int TRANSFER_STATE_INITIALIZED = 0;
+    public static final int TRANSFER_STATE_ACTIVATED = 1;
+    public static final int TRANSFER_STATE_SOURCE_ACTIVATED = 2;
+    public static final int TRANSFER_STATE_SET_ENCODING_QUALITY_FINISHED = 4;
+    public static final int TRANSFER_STATE_TRANSFERING = 8;
     static /* synthetic */ Class class$de$audi$app$media$transfer$ITransferController;
 
     public TransferController(IMediaTerminal iMediaTerminal) {
@@ -78,11 +79,25 @@ ISourceSlotListener {
         this.transferLockHandler.setTransferLockListener(this.nullTransferListener);
         this.transferStateListenerNotifier = new TransferStateNotifier(this.logger.main(), iMediaTerminal.getServiceManager());
         this.sourceController = iMediaTerminal.getSourceController();
-        this.transferBrowser = new TransferController$1(this, this.logger.main(), this.logger.dsi(), iMediaTerminal.getServiceManager(), iMediaTerminal.getFramework(), iMediaTerminal.getDispatcher(), 7, iMediaTerminal.getSourceController());
+        this.transferBrowser = new AbstractMediaBrowser(this.logger.main(), this.logger.dsi(), iMediaTerminal.getServiceManager(), iMediaTerminal.getFramework(), iMediaTerminal.getDispatcher(), 7, iMediaTerminal.getSourceController()){
+
+            protected void browserActivated(IBrowseListContext iBrowseListContext) {
+                this.logger.log(1000000, "[%1.browserActivated]", (Object)TransferController.LOGCLASS);
+                TransferController.this.transferJobQueue.getRunningTransferJob().browserActivated(iBrowseListContext.getSlot(), iBrowseListContext);
+            }
+
+            protected void browserDeactivated(ISourceSlot iSourceSlot, boolean bl) {
+                this.logger.log(1000000, "[%1.browserDeactivated]", (Object)TransferController.LOGCLASS);
+                AbstractJobTransfer abstractJobTransfer = TransferController.this.transferJobQueue.getRunningTransferJob();
+                if (abstractJobTransfer.getType() != 0) {
+                    abstractJobTransfer.browserDeactivated(iSourceSlot);
+                }
+            }
+        };
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"TransferController");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.mediaDSIRecorderController.setRecorderListener(this);
         this.mediaDSIRecorderController.init();
         this.transferJobQueue.reset();
@@ -94,7 +109,7 @@ ISourceSlotListener {
     }
 
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"TransferController");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.serviceManager.unregisterService(this.serviceRegistration);
         this.transferStateListenerNotifier.deinit();
         this.setTransferListener(this.nullTransferListener);
@@ -106,9 +121,8 @@ ISourceSlotListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void sourceSlotActivated(MediaSourceSlot mediaSourceSlot) {
-        this.logger.dsi().log(1078071040, "[%1.sourceSlotActivated] slot='%2'.", (Object)"TransferController", (Object)mediaSourceSlot);
+        this.logger.dsi().log(1000000, "[%1.sourceSlotActivated] slot='%2'.", (Object)LOGCLASS, (Object)mediaSourceSlot);
         Object object = this.activeSourceMutex;
         synchronized (object) {
             this.currentActiveSlot = mediaSourceSlot;
@@ -117,15 +131,13 @@ ISourceSlotListener {
         this.sourceController.addSourceSlotListener(mediaSourceSlot.getSource(), this, true);
     }
 
-    @Override
     public void responseSetSelection(int n, boolean bl) {
-        this.logger.dsi().log(1078071040, "[%1.responseSetSelection]", (Object)"TransferController");
+        this.logger.dsi().log(1000000, "[%1.responseSetSelection]", (Object)LOGCLASS);
         this.transferJobQueue.getRunningTransferJob().responseSetSelection(n, bl);
     }
 
-    @Override
     public void updateDatabaseSpace(DatabaseSpace databaseSpace) {
-        this.logger.dsi().log(1078071040, "[%1.updateDatabaseSpace] updating values ('%2').", (Object)"TransferController", (Object)databaseSpace);
+        this.logger.dsi().log(1000000, "[%1.updateDatabaseSpace] updating values ('%2').", (Object)LOGCLASS, (Object)databaseSpace);
         long l = 1L;
         long l2 = 1L;
         long l3 = 1L;
@@ -139,70 +151,62 @@ ISourceSlotListener {
             long l7 = databaseSpace.getNumEntries();
             long l8 = l7 & Long.MAX_VALUE;
             l4 = l3 - l8;
-            long l9 = (l - l2) * 0 / l;
-            long l10 = (l3 - l4) * 0 / l3;
-            l5 = 0 - l9;
-            l6 = 0 - l10;
+            long l9 = (l - l2) * 100L / l;
+            long l10 = (l3 - l4) * 100L / l3;
+            l5 = 100L - l9;
+            l6 = 100L - l10;
         }
         catch (ArithmeticException arithmeticException) {
-            this.logger.dsi().log(1000, "[%1.updateDatabaseSpace] Exception during calculating database space occured. Send parameters are wrong!", (Object)"TransferController");
+            this.logger.dsi().log(1000, "[%1.updateDatabaseSpace] Exception during calculating database space occured. Send parameters are wrong!", (Object)LOGCLASS);
         }
         this.transferListener.jukeboxSpaceChanged(l, l2, l5, l3, l4, l6);
     }
 
-    @Override
     public void updateImportStatus(int n) {
-        this.logger.dsi().log(1078071040, "[%1.updateImportStatus] status='%2'.", (Object)"TransferController", (Object)TransferController.importStatus2String(n));
+        this.logger.dsi().log(1000000, "[%1.updateImportStatus] status='%2'.", (Object)LOGCLASS, (Object)TransferController.importStatus2String(n));
         this.transferJobQueue.getRunningTransferJob().importStatusChanged(n);
     }
 
-    @Override
     public void updateDeletionStatus(int n) {
-        this.logger.dsi().log(1078071040, "[%1.updateDeletionStatus] status='%2'.", (Object)"TransferController", (Object)TransferController.deletionStatus2String(n));
+        this.logger.dsi().log(1000000, "[%1.updateDeletionStatus] status='%2'.", (Object)LOGCLASS, (Object)TransferController.deletionStatus2String(n));
         this.transferJobQueue.getRunningTransferJob().deletionStatusChanged(n);
     }
 
-    @Override
     public void updateDeletionProgress(long l) {
-        this.logger.dsi().log(1078071040, "[%1.updateDeletionProgress] '%2'.", (Object)"TransferController", l);
+        this.logger.dsi().log(1000000, "[%1.updateDeletionProgress] '%2'.", (Object)LOGCLASS, l);
         this.transferJobQueue.getRunningTransferJob().deletionProgressChanged(l);
     }
 
-    @Override
     public void updateImportProgress(long l, ListEntry listEntry) {
         if (this.logger.dsi().isInfo()) {
-            this.logger.dsi().log(1078071040, "[%1.updateImportProgress] progress='%2', entry='%3'.", (Object)"TransferController", (Object)new Long(l), (Object)listEntry);
+            this.logger.dsi().log(1000000, "[%1.updateImportProgress] progress='%2', entry='%3'.", (Object)LOGCLASS, (Object)new Long(l), (Object)listEntry);
         }
         this.transferJobQueue.getRunningTransferJob().importProgressChanged(l, listEntry);
     }
 
-    @Override
     public void updateImportSummary(long l, long l2, long l3, long l4, long l5, long l6) {
-        this.logger.dsi().log(1078071040, "[%1.updateImportSummary]", (Object)"TransferController");
+        this.logger.dsi().log(1000000, "[%1.updateImportSummary]", (Object)LOGCLASS);
         this.transferJobQueue.getRunningTransferJob().updateImportSummary(l, l2, l3, l4, l5, l6);
     }
 
-    @Override
     public void responseSetEncodingQuality(int n) {
-        this.logger.dsi().log(1078071040, "[%1.responseSetEncodingQuality]", (Object)"TransferController");
+        this.logger.dsi().log(1000000, "[%1.responseSetEncodingQuality]", (Object)LOGCLASS);
         this.transferJobQueue.getRunningTransferJob().encodingQualityChanged(n);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logger.dsi().log(10000, "[%1.asyncException] asyncException occured, errorCode='%2', errorMsg='%3', requestType='%4'.", (Object)"TransferController", (Object)Integer.toString(n), (Object)string, (Object)Integer.toString(n2));
+        this.logger.dsi().log(10000, "[%1.asyncException] asyncException occured, errorCode='%2', errorMsg='%3', requestType='%4'.", (Object)LOGCLASS, (Object)Integer.toString(n), (Object)string, (Object)Integer.toString(n2));
         this.transferJobQueue.getRunningTransferJob().asyncException(n2, n);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void start() {
-        this.logger.main().log(1078071040, "[%1.start]", (Object)"TransferController");
+        this.logger.main().log(1000000, "[%1.start]", (Object)LOGCLASS);
         if (this.isTransferState(2) && !this.isTransferState(8)) {
             if (this.isEncodingQualityNecessary()) {
-                this.logger.main().log(1078071040, "[%1.start] Encoding Quality is needed.", (Object)"TransferController");
+                this.logger.main().log(1000000, "[%1.start] Encoding Quality is needed.", (Object)LOGCLASS);
                 this.transferListener.startFailed();
             } else {
                 boolean bl = false;
@@ -220,9 +224,8 @@ ISourceSlotListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void abort() {
-        this.logger.main().log(1078071040, "[%1.abort]", (Object)"TransferController");
+        this.logger.main().log(1000000, "[%1.abort]", (Object)LOGCLASS);
         Object object = this.activeSourceMutex;
         synchronized (object) {
             if (null == this.currentActiveSlot) {
@@ -231,7 +234,7 @@ ISourceSlotListener {
             this.currentActiveSlot = null;
         }
         if (!this.isTransferState(1)) {
-            this.logger.main().log(1078071040, "[%1.abort] Transfer is not active. Ignore abort.", (Object)"TransferController");
+            this.logger.main().log(1000000, "[%1.abort] Transfer is not active. Ignore abort.", (Object)LOGCLASS);
             return;
         }
         int n = this.transferJobQueue.getRunningTransferJob().getType();
@@ -239,20 +242,27 @@ ISourceSlotListener {
             this.transferJobQueue.enqueue(new JobAbort(this.logger.main(), this, this.mediaDSIRecorderController, this.transferBrowser, this.transferLockHandler));
         } else {
             if (7 == n || 6 == n) {
-                this.logger.main().log(1078071040, "[%1.abort] Abort already running", (Object)"TransferController");
+                this.logger.main().log(1000000, "[%1.abort] Abort already running", (Object)LOGCLASS);
                 return;
             }
-            this.transferJobQueue.executeQueueCommand(new TransferController$2(this));
+            this.transferJobQueue.executeQueueCommand(new IQueueCommand(){
+
+                public void execute(IQueueJob iQueueJob, List list) {
+                    if (iQueueJob == null) {
+                        return;
+                    }
+                    iQueueJob.abort(true);
+                }
+            });
         }
     }
 
-    @Override
     public void setEncodingQuality(int n) {
         if (this.isTransferState(2)) {
-            this.logger.main().log(1078071040, "[%1.setEncodingQuality]", (Object)"TransferController");
+            this.logger.main().log(1000000, "[%1.setEncodingQuality]", (Object)LOGCLASS);
             this.transferJobQueue.enqueue(new JobSetEncodingQuality(this.logger.main(), this, this.mediaDSIRecorderController, this.transferBrowser, n));
         } else {
-            this.logger.main().log(1078071040, "[%1.setEncodingQuality] Transfer controller was not activated.", (Object)"TransferController");
+            this.logger.main().log(1000000, "[%1.setEncodingQuality] Transfer controller was not activated.", (Object)LOGCLASS);
             this.transferListener.encodingQualityChanged(true, n);
         }
     }
@@ -260,25 +270,24 @@ ISourceSlotListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void activate(ISourceSlot iSourceSlot) {
         if (!this.isTransferSupported(iSourceSlot)) {
-            this.logger.hmi().log(10000, "[%1.activate] Transfer not supported by source slot: %2", (Object)"TransferController", (Object)iSourceSlot);
+            this.logger.hmi().log(10000, "[%1.activate] Transfer not supported by source slot: %2", (Object)LOGCLASS, (Object)iSourceSlot);
             this.transferListener.activationFailed(iSourceSlot);
             return;
         }
         if (!this.isTransferState(1)) {
-            this.logger.main().log(10000, "[%1.activate(slot)] Transfer is not activated!", (Object)"TransferController");
+            this.logger.main().log(10000, "[%1.activate(slot)] Transfer is not activated!", (Object)LOGCLASS);
             this.transferListener.activationFailed(iSourceSlot);
             return;
         }
         if (this.isTransferState(8) || 2 == this.transferJobQueue.getRunningTransferJob().getType()) {
-            this.logger.main().log(1078071040, "[%1.activate] Transfer is busy.", (Object)"TransferController");
+            this.logger.main().log(1000000, "[%1.activate] Transfer is busy.", (Object)LOGCLASS);
             this.transferListener.activationFailed(iSourceSlot);
             return;
         }
         this.transferBrowser.deactivate();
-        this.logger.main().log(1078071040, "[%1.activate] slot='%2'.", (Object)"TransferController", (Object)iSourceSlot);
+        this.logger.main().log(1000000, "[%1.activate] slot='%2'.", (Object)LOGCLASS, (Object)iSourceSlot);
         ISourceSlot iSourceSlot2 = null;
         Object object = this.activeSourceMutex;
         synchronized (object) {
@@ -287,9 +296,8 @@ ISourceSlotListener {
         this.transferJobQueue.enqueue(new JobActivateSource(this.logger.main(), this, this.transferBrowser, this.mediaDSIRecorderController, iSourceSlot, iSourceSlot2));
     }
 
-    @Override
     public void dsiServiceRemoved() {
-        this.logger.main().log(1078071040, "[%1.dsiServiceRemoved]", (Object)"TransferController");
+        this.logger.main().log(1000000, "[%1.dsiServiceRemoved]", (Object)LOGCLASS);
         this.transferJobQueue.abort();
         this.removeTransferState(15);
         this.transferListener.unreadyToTransfer();
@@ -297,13 +305,12 @@ ISourceSlotListener {
         this.transferJobQueue.enqueue(new JobActivation(this.logger.main(), this, this.mediaDSIRecorderController, this.transferLockHandler, this.transferBrowser));
     }
 
-    @Override
     public void slotsChanged(ISource iSource) {
         if (!this.isTransferState(1)) {
-            this.logger.main().log(1078071040, "[%1.slotsChanged] Transfer is not activated.", (Object)"TransferController");
+            this.logger.main().log(1000000, "[%1.slotsChanged] Transfer is not activated.", (Object)LOGCLASS);
             return;
         }
-        this.logger.main().log(1078071040, "[%1.slotsChanged]", (Object)"TransferController");
+        this.logger.main().log(1000000, "[%1.slotsChanged]", (Object)LOGCLASS);
         List list = iSource.getSlots();
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -427,7 +434,7 @@ ISourceSlotListener {
     public void removeActiveSlot() {
         Object object = this.activeSourceMutex;
         synchronized (object) {
-            this.logger.main().log(1078071040, "[%1.removeActiveSlot]", (Object)"TransferController");
+            this.logger.main().log(1000000, "[%1.removeActiveSlot]", (Object)LOGCLASS);
             this.currentActiveSlot = null;
         }
     }
@@ -462,9 +469,8 @@ ISourceSlotListener {
         }
     }
 
-    @Override
     public void setTransferListener(ITransferListener iTransferListener) {
-        this.logger.main().log(1078071040, "[%1.setTransferListener] '%2'", (Object)"TransferController", (Object)iTransferListener);
+        this.logger.main().log(1000000, "[%1.setTransferListener] '%2'", (Object)LOGCLASS, (Object)iTransferListener);
         this.transferListener = iTransferListener;
         this.transferLockHandler.setTransferLockListener(iTransferListener);
         if (this.isTransferState(1) && !this.isTransferState(8)) {
@@ -486,12 +492,8 @@ ISourceSlotListener {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("TransferController").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
-    }
-
-    static /* synthetic */ TransferQueue access$000(TransferController transferController) {
-        return transferController.transferJobQueue;
     }
 
     static /* synthetic */ Class class$(String string) {

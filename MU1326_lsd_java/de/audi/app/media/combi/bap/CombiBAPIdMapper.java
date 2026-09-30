@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class CombiBAPIdMapper
 implements IDiagnosisDataProvider {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CombiBAPIdMapper";
     private final LogChannel logger;
     private final Map idMap;
     private final Map inverseIdMap;
@@ -34,7 +34,7 @@ implements IDiagnosisDataProvider {
      */
     public void reset(boolean bl, boolean bl2) {
         if (this.logger.isInfo()) {
-            this.logger.log(1078071040, "[%1.reset] Reset (%2 %3)", (Object)"CombiBAPIdMapper", (Object)(bl ? "PLAYINGTRACK" : ""), (Object)(bl2 ? "FOLDER" : ""));
+            this.logger.log(1000000, "[%1.reset] Reset (%2 %3)", (Object)LOGCLASS, (Object)(bl ? "PLAYINGTRACK" : ""), (Object)(bl2 ? "FOLDER" : ""));
         }
         Object object = this.mapMutex;
         synchronized (object) {
@@ -98,16 +98,16 @@ implements IDiagnosisDataProvider {
                 Integer n = new Integer(this.getNextCombiID());
                 this.idMap.put(combiBAPMediaEntry, n);
                 this.inverseIdMap.put(n, combiBAPMediaEntry);
-                this.logger.log(-2137614336, "[%1.getCombiID] '%2' -> '%3' (new)", (Object)"CombiBAPIdMapper", (Object)combiBAPMediaEntry, (Object)n);
+                this.logger.log(10000000, "[%1.getCombiID] '%2' -> '%3' (new)", (Object)LOGCLASS, (Object)combiBAPMediaEntry, (Object)n);
                 return n;
             }
             CombiBAPMediaEntry combiBAPMediaEntry2 = (CombiBAPMediaEntry)this.inverseIdMap.get(object);
             if (combiBAPMediaEntry2 == null || combiBAPMediaEntry2.getEntryFlags() != combiBAPMediaEntry.getEntryFlags()) {
-                this.logger.log(-2137614336, "[%1.getCombiID] '%2' -> '%3' (update flags)", (Object)"CombiBAPIdMapper", (Object)combiBAPMediaEntry, object);
+                this.logger.log(10000000, "[%1.getCombiID] '%2' -> '%3' (update flags)", (Object)LOGCLASS, (Object)combiBAPMediaEntry, object);
                 this.inverseIdMap.put(object, combiBAPMediaEntry);
                 this.idMap.put(combiBAPMediaEntry, object);
             } else {
-                this.logger.log(-2137614336, "[%1.getCombiID] '%2' -> '%3'", (Object)"CombiBAPIdMapper", (Object)combiBAPMediaEntry, object);
+                this.logger.log(10000000, "[%1.getCombiID] '%2' -> '%3'", (Object)LOGCLASS, (Object)combiBAPMediaEntry, object);
             }
         }
         return (Integer)object;
@@ -127,11 +127,11 @@ implements IDiagnosisDataProvider {
         int n = this.nextCombiID;
         int n2 = 0;
         do {
-            if (++n <= -65536) continue;
-            this.logger.log(1078071040, "[%1.getNextCombiID] Next combiID out of range.", (Object)"CombiBAPIdMapper");
+            if (++n <= 65535) continue;
+            this.logger.log(1000000, "[%1.getNextCombiID] Next combiID out of range.", (Object)LOGCLASS);
             n = 1;
             if (++n2 != 2) continue;
-            this.logger.log(10000, "[%1.getNextCombiID] No free combi ID found. Reset IDs.", (Object)"CombiBAPIdMapper");
+            this.logger.log(10000, "[%1.getNextCombiID] No free combi ID found. Reset IDs.", (Object)LOGCLASS);
             this.idMap.clear();
             this.inverseIdMap.clear();
             this.nextCombiID = 1;
@@ -141,7 +141,6 @@ implements IDiagnosisDataProvider {
         return this.nextCombiID;
     }
 
-    @Override
     public String getDiagKey() {
         return "Combi.BAP.idMapper";
     }
@@ -149,7 +148,6 @@ implements IDiagnosisDataProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getDiagValue() {
         Buffer buffer = new Buffer();
         buffer.append("COMBI ID\t <-> \tENTRY\n");
@@ -173,7 +171,7 @@ implements IDiagnosisDataProvider {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("CombiBAPIdMapper").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 }

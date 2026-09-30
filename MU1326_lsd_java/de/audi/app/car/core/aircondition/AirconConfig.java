@@ -8,27 +8,27 @@ import de.audi.app.car.core.aircondition.IAirconConstants;
 public class AirconConfig
 implements IAirconConstants {
     public float getTemperatureStartCelsius() {
-        return 12353;
+        return 11.0f;
     }
 
     public float getTemperatureEndCelsius() {
-        return 2626;
+        return 34.5f;
     }
 
     public float getTemperatureStepCelsius() {
-        return 63;
+        return 0.5f;
     }
 
     public float getTemperatureStartFahrenheit() {
-        return 18498;
+        return 50.0f;
     }
 
     public float getTemperatureEndFahrenheit() {
-        return 45634;
+        return 89.0f;
     }
 
     public float getTemperatureStepFahrenheit() {
-        return 63;
+        return 0.5f;
     }
 
     public int getTemperatureRangeMinCelsius() {

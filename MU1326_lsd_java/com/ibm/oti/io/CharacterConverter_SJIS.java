@@ -12,29 +12,25 @@ extends CharacterConverterSJIS {
     CharacterConverter_SJIS() {
     }
 
-    @Override
     String getByteTable() {
         return CharacterConverter_EUC_JP.jis208;
     }
 
-    @Override
     String getCharTableKeys() {
         return CharacterConverter_EUC_JP.keys;
     }
 
-    @Override
     String getCharTableValues() {
         return CharacterConverter_EUC_JP.values;
     }
 
-    @Override
     public byte[] convert(char[] cArray, int n, int n2) {
         int n3 = 0;
         n2 += n;
         int n4 = n;
         while (n4 < n2) {
             char c2 = cArray[n4];
-            n3 = c2 < '\u0080' || c2 == '\u00a5' || c2 >= '\u61ff0000' && c2 <= '\u9fff0000' ? ++n3 : (n3 += 2);
+            n3 = c2 < '\u0080' || c2 == '\u00a5' || c2 >= '\uff61' && c2 <= '\uff9f' ? ++n3 : (n3 += 2);
             ++n4;
         }
         n4 = 0;

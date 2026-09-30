@@ -8,7 +8,6 @@ import de.audi.app.media.dsi.media.IMediaDSIOnlineListener;
 
 public interface IMediaDSIOnlineController
 extends IDSIController {
-    default public void addMediaOnlineListener(IMediaDSIOnlineListener iMediaDSIOnlineListener) {
-    }
+    public void addMediaOnlineListener(IMediaDSIOnlineListener var1);
 }
 

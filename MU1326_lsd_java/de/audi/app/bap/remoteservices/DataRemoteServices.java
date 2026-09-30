@@ -4,7 +4,6 @@
 package de.audi.app.bap.remoteservices;
 
 import de.audi.atip.interapp.bap.remoteservices.data.MobileKeySetup;
-import de.audi.atip.interapp.bap.remoteservices.data.MobileKeySetup$Builder;
 import de.audi.atip.log.LogChannel;
 
 public final class DataRemoteServices {
@@ -17,9 +16,9 @@ public final class DataRemoteServices {
 
     public synchronized MobileKeySetup getCurrentMobileKeySetup() {
         if (this.currentMobileKeySetup == null) {
-            this.logCh.log(1078071040, "MobileKeySetup currently not valid! Return default values!");
-            MobileKeySetup$Builder mobileKeySetup$Builder = new MobileKeySetup$Builder();
-            this.setCurrentMobileKeySetup(mobileKeySetup$Builder.build());
+            this.logCh.log(1000000, "MobileKeySetup currently not valid! Return default values!");
+            MobileKeySetup.Builder builder = new MobileKeySetup.Builder();
+            this.setCurrentMobileKeySetup(builder.build());
         }
         return this.currentMobileKeySetup;
     }

@@ -18,21 +18,20 @@ extends AbstractSystemCallCommand {
         this.messagingService = iMessagingDictationService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         this.messagingService.requestSendMessage();
     }
 
     public void responseSendMessage(int n) {
-        this.logger.log(-2137614336, "%1#responseSendMessage: result=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseSendMessage: result=%2", (Object)this.getName(), (long)n);
         this.sendResult = n;
         this.messagingService.requestEndDialog();
     }
 
     public void responseEndDialog(int n) {
-        this.logger.log(-2137614336, "%1#responseEndDialog: result=%2", (Object)this.getName(), (long)n);
-        this.sendResult(this.sendResult == 0 ? -131858176 : -115080960);
+        this.logger.log(10000000, "%1#responseEndDialog: result=%2", (Object)this.getName(), (long)n);
+        this.sendResult(this.sendResult == 0 ? 75000 : 75001);
     }
 }
 

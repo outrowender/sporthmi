@@ -24,12 +24,11 @@ extends AbstractSettingsActivator {
     static /* synthetic */ Class class$de$audi$atip$interapp$sdis$ISDISBlockingService;
     static /* synthetic */ Class class$de$audi$atip$interapp$sdis$ISDISHeadUnitService;
 
-    @Override
     public void start(BundleContext bundleContext) {
         String[] stringArray;
-        this.getEnv().getVariantMapper().setRDKHighViewAvaliableChoiceID(589891840);
+        this.getEnv().getVariantMapper().setRDKHighViewAvaliableChoiceID(600355);
         this.getEnv().getVariantMapper().setShouldLinkSpeedAndDistance(false);
-        this.getEnv().setTimeZoneOffsets(new float[]{16449, 12353, 8257, 6209, 4161, 65, 57408, 53312, 49216, 47168, 45120, 41024, 36928, 32832, 24640, 16448, 2.0f, 1.0f, 0.0f, 32959, 192, 16576, 24768, 32960, 37056, 41152, 49344, 57536, 193, 4289, 6337, 8385, 12481});
+        this.getEnv().setTimeZoneOffsets(new float[]{12.0f, 11.0f, 10.0f, 9.5f, 9.0f, 8.0f, 7.0f, 6.5f, 6.0f, 5.75f, 5.5f, 5.0f, 4.5f, 4.0f, 3.5f, 3.0f, 2.0f, 1.0f, 0.0f, -1.0f, -2.0f, -3.0f, -3.5f, -4.0f, -4.5f, -5.0f, -6.0f, -7.0f, -8.0f, -9.0f, -9.5f, -10.0f, -11.0f});
         super.start(bundleContext);
         this.displayHandler = new DisplayHandlerEvo(this.getEnv(), null);
         this.sdisHandler = new SDISHandlerEvo(this.getEnv());
@@ -53,7 +52,6 @@ extends AbstractSettingsActivator {
         }
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         super.stop(bundleContext);
         this.sdisServiceTracker = this.closeTracker(this.sdisServiceTracker);

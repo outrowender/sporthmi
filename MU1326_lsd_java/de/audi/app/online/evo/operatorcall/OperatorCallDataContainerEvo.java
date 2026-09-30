@@ -18,7 +18,6 @@ extends AbstractOperatorCallDataContainer {
         super(string, iFrameworkAccess, navigationHandler, intelliDestOperatorCallDataProvider, bl, bl2, n, n2);
     }
 
-    @Override
     protected AbstractHistoryCallData createNewHistoryCallData(OperatorCallResult[] operatorCallResultArray, String string, Date date) {
         return new HistoryCallDataEvo(this.framework, this.naviHandler, operatorCallResultArray, this.calls, string, date);
     }

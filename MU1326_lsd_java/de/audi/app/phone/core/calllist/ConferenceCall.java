@@ -20,7 +20,6 @@ extends AbstractPhoneCall {
         super(callInformation, true);
     }
 
-    @Override
     public HMIResourceLocator getHMIResourceLocator() {
         return new HMIResourceLocator(-1, HMIResourceLocator.UNDEFINED_URI);
     }
@@ -28,7 +27,6 @@ extends AbstractPhoneCall {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("Conference Call\n");
@@ -86,7 +84,6 @@ extends AbstractPhoneCall {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setHangupByUser() {
         super.setHangupByUser();
         Object object = this.memberListMutex;

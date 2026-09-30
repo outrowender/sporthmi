@@ -6,15 +6,15 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelUnlockSIMCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 import org.dsi.ifc.telephoneng.LockStateStruct;
 
 public class TelUnlockSIMCmd
 extends AbstractTelDSIMECommand {
-    private static final long TIMEOUT;
+    private static final long TIMEOUT = 150000L;
     private final int telLockCode;
     private final String telCurrentCode;
     private final String telNewCode;
@@ -27,35 +27,40 @@ extends AbstractTelDSIMECommand {
         this.telNewCode = string2;
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 150000L;
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelUnlockSIMCmd.schedule(commandListManager, this, "TelUnlockSIMCmd", new TelUnlockSIMCmd$1(this, this.logger, "TelUnlockSIMCmdError"), monitor);
+        TelUnlockSIMCmd.schedule(commandListManager, this, "TelUnlockSIMCmd", new Command(this.logger, "TelUnlockSIMCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelUnlockSIMCmd.schedule().new Command() {...}#execute] Error.");
+                if (TelUnlockSIMCmd.this.listener != null) {
+                    TelUnlockSIMCmd.this.listener.responseUnlockSIM(65537, TelUnlockSIMCmd.this.terminalID, null);
+                }
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelUnlockSIMCmd#execute] lockCode=%3, currentCode=%1, newCode=%2", (Object)this.telCurrentCode, (Object)this.telNewCode, (long)this.telLockCode);
+        this.logger.log(1000000, "[TelUnlockSIMCmd#execute] lockCode=%3, currentCode=%1, newCode=%2", (Object)this.telCurrentCode, (Object)this.telNewCode, (long)this.telLockCode);
         if (this.isDSIAvailable()) {
             this.dsi.requestUnlockSIM(this.telLockCode, this.telCurrentCode, this.telNewCode);
         } else {
-            this.logger.log(-1601830656, "[TelUnlockSIMCmd#execute] dsi is null!");
+            this.logger.log(100000, "[TelUnlockSIMCmd#execute] dsi is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void updateLockState(LockStateStruct lockStateStruct, int n) {
-        this.logger.log(1078071040, "[TelUnlockSIMCmd#updateLockState] lockState=%1", (Object)lockStateStruct);
+        this.logger.log(1000000, "[TelUnlockSIMCmd#updateLockState] lockState=%1", (Object)lockStateStruct);
         this.lockState = lockStateStruct;
     }
 
-    @Override
     public void responseUnlockSIM(int n) {
-        this.logger.log(1078071040, "[TelUnlockSIMCmd#responseUnlockSIM] result=%1", (long)n);
+        this.logger.log(1000000, "[TelUnlockSIMCmd#responseUnlockSIM] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseUnlockSIM(n, this.terminalID, this.lockState);
         }

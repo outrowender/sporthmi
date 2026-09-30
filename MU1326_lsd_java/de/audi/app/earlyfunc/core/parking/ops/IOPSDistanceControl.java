@@ -14,61 +14,42 @@ import org.dsi.ifc.carparkingsystem.PDCStatusLevelRightLeft;
 import org.dsi.ifc.carparkingsystem.PDCWallDetection;
 
 public interface IOPSDistanceControl {
-    default public ChoiceModelApp getChoiceModel(int n) {
-    }
+    public ChoiceModelApp getChoiceModel(int var1);
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void activateForOPS() {
-    }
+    public void activateForOPS();
 
-    default public void activateForOPS360() {
-    }
+    public void activateForOPS360();
 
-    default public void updateDistancesFront(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear) {
-    }
+    public void updateDistancesFront(PDCDistanceValuesFrontRear var1);
 
-    default public void updateDistancesRearExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt) {
-    }
+    public void updateDistancesRearExt(PDCDistanceValuesFrontRearExt var1);
 
-    default public void updateDistancesFrontExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt) {
-    }
+    public void updateDistancesFrontExt(PDCDistanceValuesFrontRearExt var1);
 
-    default public void updateDistancesRear(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear) {
-    }
+    public void updateDistancesRear(PDCDistanceValuesFrontRear var1);
 
-    default public void updateDistancesLeft(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft) {
-    }
+    public void updateDistancesLeft(PDCDistanceValuesRightLeft var1);
 
-    default public void updateDistancesRight(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft) {
-    }
+    public void updateDistancesRight(PDCDistanceValuesRightLeft var1);
 
-    default public void applyFrontToStatusLvls(PDCStatusLevelFrontRear pDCStatusLevelFrontRear) {
-    }
+    public void applyFrontToStatusLvls(PDCStatusLevelFrontRear var1);
 
-    default public void applyRearToStatusLvls(PDCStatusLevelFrontRear pDCStatusLevelFrontRear) {
-    }
+    public void applyRearToStatusLvls(PDCStatusLevelFrontRear var1);
 
-    default public void applyFrontExtToStatusLvls(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt) {
-    }
+    public void applyFrontExtToStatusLvls(PDCStatusLevelFrontRearExt var1);
 
-    default public void applyRearExtToStatusLvls(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt) {
-    }
+    public void applyRearExtToStatusLvls(PDCStatusLevelFrontRearExt var1);
 
-    default public void applyLeftToStatusLvls(PDCStatusLevelRightLeft pDCStatusLevelRightLeft) {
-    }
+    public void applyLeftToStatusLvls(PDCStatusLevelRightLeft var1);
 
-    default public void applyRightToStatusLvls(PDCStatusLevelRightLeft pDCStatusLevelRightLeft) {
-    }
+    public void applyRightToStatusLvls(PDCStatusLevelRightLeft var1);
 
-    default public void setTrailerHitched(boolean bl) {
-    }
+    public void setTrailerHitched(boolean var1);
 
-    default public void updateWallFlags(PDCWallDetection pDCWallDetection) {
-    }
+    public void updateWallFlags(PDCWallDetection var1);
 
-    default public void updatePDCInfo(PDCInfo pDCInfo) {
-    }
+    public void updatePDCInfo(PDCInfo var1);
 }
 

@@ -46,9 +46,8 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void start() {
-        this.lc.log(-2137614336, "%1#start()", (Object)this.name);
+        this.lc.log(10000000, "%1#start()", (Object)this.name);
         ProgressMonitor progressMonitor = this;
         synchronized (progressMonitor) {
             this.tasksCompleted = 0;
@@ -62,9 +61,8 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stop() {
-        this.lc.log(-2137614336, "%1#stop()", (Object)this.name);
+        this.lc.log(10000000, "%1#stop()", (Object)this.name);
         ProgressMonitor progressMonitor = this;
         synchronized (progressMonitor) {
             if (this.progressTimer != null) {
@@ -74,14 +72,14 @@ TimerListener {
     }
 
     private void pause() {
-        this.lc.log(-2137614336, "%1#pause()", (Object)this.name);
+        this.lc.log(10000000, "%1#pause()", (Object)this.name);
         if (this.progressTimer != null) {
             this.progressTimer.cancel();
         }
     }
 
     private void resume() {
-        this.lc.log(-2137614336, "%1#resume()", (Object)this.name);
+        this.lc.log(10000000, "%1#resume()", (Object)this.name);
         if (this.progressTimer != null && !this.progressTimer.isRunning()) {
             this.progressTimer.restart();
         }
@@ -90,11 +88,10 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void taskCompleted(int n, boolean bl) {
         ProgressMonitor progressMonitor = this;
         synchronized (progressMonitor) {
-            this.lc.log(-2137614336, "%3#taskCompleted( %2, %1 )", bl, (Object)this.progressMap.taskIDToString(n), (Object)this.name);
+            this.lc.log(10000000, "%3#taskCompleted( %2, %1 )", bl, (Object)this.progressMap.taskIDToString(n), (Object)this.name);
             int n2 = this.progressMap.taskCompleted(n, bl);
             if (n2 != this.tasksCompleted) {
                 this.tasksCompleted = n2;
@@ -132,10 +129,10 @@ TimerListener {
                 this.progressModel.setValue(n);
             }
         } else {
-            this.lc.log(-2137614336, "%1#refreshProgress() - progress: %2 %", (Object)this.name, (long)n);
+            this.lc.log(10000000, "%1#refreshProgress() - progress: %2 %", (Object)this.name, (long)n);
         }
         if (this.progressLabel != null) {
-            this.progressLabel.setText(new StringBuffer().append(n).append(" %").toString());
+            this.progressLabel.setText(n + " %");
         }
     }
 
@@ -155,7 +152,6 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fireTimer(Timer timer) {
         ProgressMonitor progressMonitor = this;
         synchronized (progressMonitor) {
@@ -168,7 +164,6 @@ TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

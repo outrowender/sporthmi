@@ -7,22 +7,16 @@ import de.vw.mib.bap.requests.AbortResultMethod;
 import de.vw.mib.bap.requests.StartResultMethod;
 
 public interface IBAPMethodASGREQ {
-    default public void startResultREQ() {
-    }
+    public void startResultREQ();
 
-    default public void startResultREQ(StartResultMethod startResultMethod) {
-    }
+    public void startResultREQ(StartResultMethod var1);
 
-    default public void startREQ() {
-    }
+    public void startREQ();
 
-    default public void startREQ(StartResultMethod startResultMethod) {
-    }
+    public void startREQ(StartResultMethod var1);
 
-    default public void abortREQ() {
-    }
+    public void abortREQ();
 
-    default public void abortREQ(AbortResultMethod abortResultMethod) {
-    }
+    public void abortREQ(AbortResultMethod var1);
 }
 

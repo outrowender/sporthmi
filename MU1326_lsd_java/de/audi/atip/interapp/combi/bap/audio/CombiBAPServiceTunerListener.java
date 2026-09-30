@@ -7,19 +7,14 @@ import de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceAudioListener;
 
 public interface CombiBAPServiceTunerListener
 extends CombiBAPServiceAudioListener {
-    default public void startStationListUpdate() {
-    }
+    public void startStationListUpdate();
 
-    default public void cancelStationListUpdate() {
-    }
+    public void cancelStationListUpdate();
 
-    default public void cancelAnnouncement() {
-    }
+    public void cancelAnnouncement();
 
-    default public void setProgramStringLength(boolean bl, boolean bl2) {
-    }
+    public void setProgramStringLength(boolean var1, boolean var2);
 
-    default public void resendAllInfoForActiveBand() {
-    }
+    public void resendAllInfoForActiveBand();
 }
 

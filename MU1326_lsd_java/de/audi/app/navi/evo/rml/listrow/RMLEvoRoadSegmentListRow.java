@@ -33,7 +33,6 @@ extends AbstractRMLListRow {
         super(rMLEvoRoadSegmentListRow);
     }
 
-    @Override
     protected void fillIcon() {
         if (RMLUtil.isOfType(this.combinedRouteListElement, 7)) {
             this.fillFerrySegmentIcon();
@@ -69,23 +68,20 @@ extends AbstractRMLListRow {
         this.setIconCell(3, new IconCell(new HMIResourceLocator(-1)));
     }
 
-    @Override
     public EvoListRow copy() {
         return new RMLEvoRoadSegmentListRow(this);
     }
 
-    @Override
     protected void fillDistance() {
         this.setText(2, Util.formatDistance((int)(this.combinedRouteListElement.getStartDistance() - this.combinedRouteListElement.getEndDistance()), 1));
     }
 
-    @Override
     protected void fillName() {
         if (!Util.isHURegionAsia()) {
             IconCell iconCell = (IconCell)this.getCell(3);
             if (RMLUtil.isOffroad(this.combinedRouteListElement)) {
                 if (this.env.getRMLLogChannel().isDebug2()) {
-                    this.env.getRMLLogChannel().log(14808325, "RMLEvoRoadSegmentListRow#fillName - road part is offroad. Fill with TextConstant");
+                    this.env.getRMLLogChannel().log(100000000, "RMLEvoRoadSegmentListRow#fillName - road part is offroad. Fill with TextConstant");
                 }
                 this.setText(4, TextUtil.getOffRoadName());
             } else if (iconCell.getResourceLocator().getResourceID() == -1) {
@@ -95,7 +91,7 @@ extends AbstractRMLListRow {
             }
         } else if (RMLUtil.isOffroad(this.combinedRouteListElement)) {
             if (this.env.getRMLLogChannel().isDebug2()) {
-                this.env.getRMLLogChannel().log(14808325, "RMLEvoRoadSegmentListRow#fillName - road part is offroad. Fill with TextConstant");
+                this.env.getRMLLogChannel().log(100000000, "RMLEvoRoadSegmentListRow#fillName - road part is offroad. Fill with TextConstant");
             }
             this.setText(4, TextUtil.getOffRoadName());
         } else {
@@ -104,7 +100,6 @@ extends AbstractRMLListRow {
         }
     }
 
-    @Override
     protected void fillDetailsAllowed() {
         int n = this.getInteger(1);
         if (n == 1 || n == 2) {
@@ -114,12 +109,10 @@ extends AbstractRMLListRow {
         }
     }
 
-    @Override
     protected void fillLayout() {
         this.setInteger(0, 1);
     }
 
-    @Override
     public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
     }
 }

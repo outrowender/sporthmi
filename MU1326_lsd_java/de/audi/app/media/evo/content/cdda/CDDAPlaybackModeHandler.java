@@ -12,21 +12,20 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 
 public class CDDAPlaybackModeHandler
 extends PlaybackModeHandler {
-    private static final String LOGCLASS;
-    private static final int DEFAULT_REPEAT_DEVICE_SETTING;
-    private static final int DVDC_REPEAT_SCOPE_OFF;
-    private static final int DVDC_REPEAT_SCOPE_MEDIUM;
+    private static final String LOGCLASS = "CDDAPlaybackModeHandler";
+    private static final int DEFAULT_REPEAT_DEVICE_SETTING = 0;
+    private static final int DVDC_REPEAT_SCOPE_OFF = 0;
+    private static final int DVDC_REPEAT_SCOPE_MEDIUM = 1;
     private volatile int repeatMedium;
 
     public CDDAPlaybackModeHandler(IMediaTerminal iMediaTerminal, AbstractMediaPlayer abstractMediaPlayer, boolean bl) {
         super(iMediaTerminal, abstractMediaPlayer, bl);
     }
 
-    @Override
     public void activate(IActivationContext iActivationContext) {
         super.activate(iActivationContext);
-        this.logger.main().log(1078071040, "[%1.activate].", (Object)"CDDAPlaybackModeHandler");
-        ChoiceModelApp choiceModelApp = this.getChoiceModel(-32505088);
+        this.logger.main().log(1000000, "[%1.activate].", (Object)LOGCLASS);
+        ChoiceModelApp choiceModelApp = this.getChoiceModel(200958);
         choiceModelApp.setValue(0);
         choiceModelApp.setStatus(3);
         choiceModelApp.setButtonListener(this);
@@ -34,25 +33,23 @@ extends PlaybackModeHandler {
         this.getPlayModeModelGroup().flush();
     }
 
-    @Override
     public void deactivate() {
         super.deactivate();
-        this.logger.main().log(1078071040, "[%1.deactivate].", (Object)"CDDAPlaybackModeHandler");
-        ChoiceModelApp choiceModelApp = this.getChoiceModel(-32505088);
+        this.logger.main().log(1000000, "[%1.deactivate].", (Object)LOGCLASS);
+        ChoiceModelApp choiceModelApp = this.getChoiceModel(200958);
         choiceModelApp.setValue(0);
         choiceModelApp.setStatus(3);
         choiceModelApp.setButtonListener(null);
     }
 
-    @Override
     protected boolean restoreLastPlaymode() {
         int n;
         if (this.restorePlaybackMode) {
-            this.logger.main().log(1078071040, "[%1.restoreLastPlaymode] Persistence mode.", (Object)"CDDAPlaybackModeHandler");
+            this.logger.main().log(1000000, "[%1.restoreLastPlaymode] Persistence mode.", (Object)LOGCLASS);
             int n2 = this.getTerminal().getMediaPersistence().getStorage().load(this.getTerminal(), 110, 4, 0, 4);
             boolean bl = this.getTerminal().getMediaPersistence().getStorage().load(this.getTerminal(), 120, 0, 0, 1) == 1;
             this.repeatMedium = this.getTerminal().getMediaPersistence().getGlobalIntProperty("GLOBAL_KEY_DVDC_REPEAT_SCOPE");
-            this.logger.main().log(1078071040, "[%1.restoreLastPlaymode] repeatTrack='%3', repeatScope=%4,lastMix='%2'.", (Object)"CDDAPlaybackModeHandler", (Object)bl, (Object)(n2 == 3 ? 1 : 0), (Object)AbstractPlaybackModeHandler.getRepeatScopeStr(this.repeatMedium));
+            this.logger.main().log(1000000, "[%1.restoreLastPlaymode] repeatTrack='%3', repeatScope=%4,lastMix='%2'.", (Object)LOGCLASS, (Object)bl, (Object)(n2 == 3 ? 1 : 0), (Object)AbstractPlaybackModeHandler.getRepeatScopeStr(this.repeatMedium));
             n = this.setRepeatScope(n2 == 3 ? 3 : this.repeatMedium, bl);
         } else {
             n = this.setRepeatScope(0, false);
@@ -60,17 +57,15 @@ extends PlaybackModeHandler {
         return n == 3;
     }
 
-    @Override
     public void resetPlaybackMode() {
-        this.logger.main().log(1078071040, "[%1.resetPlaybackMode]", (Object)"CDDAPlaybackModeHandler");
+        this.logger.main().log(1000000, "[%1.resetPlaybackMode]", (Object)LOGCLASS);
         this.repeatMedium = 0;
         this.storeRepeatScope(this.repeatMedium, false);
         this.setRepeatScope(this.repeatMedium, false);
     }
 
-    @Override
     protected void storeRepeatScope(int n, boolean bl) {
-        this.logger.main().log(1078071040, "[%1.storeRepeatScope] '%2',mix='%3'.", (Object)"CDDAPlaybackModeHandler", (Object)String.valueOf(n), (Object)String.valueOf(bl));
+        this.logger.main().log(1000000, "[%1.storeRepeatScope] '%2',mix='%3'.", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)String.valueOf(bl));
         switch (n) {
             case 0: 
             case 1: {
@@ -85,15 +80,14 @@ extends PlaybackModeHandler {
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         switch (n) {
             case 200958: {
-                this.logger.hmi().log(1078071040, "[%1.itemSelected] DVDC_REPEAT_SCOPE_CHOICE", (Object)"CDDAPlaybackModeHandler");
+                this.logger.hmi().log(1000000, "[%1.itemSelected] DVDC_REPEAT_SCOPE_CHOICE", (Object)LOGCLASS);
                 this.repeatMedium = n2 == 1 ? 1 : 0;
                 this.getTerminal().getMediaPersistence().setGlobalIntProperty("GLOBAL_KEY_DVDC_REPEAT_SCOPE", this.repeatMedium);
-                this.getChoiceModel(-32505088).setValue(this.repeatMedium == 1 ? 1 : 0);
-                this.getChoiceModel(-32505088).setStatus(1);
+                this.getChoiceModel(200958).setValue(this.repeatMedium == 1 ? 1 : 0);
+                this.getChoiceModel(200958).setStatus(1);
                 if (!this.isRepeatTrack()) {
                     this.setRepeatScope(this.repeatMedium, this.isMix());
                 }
@@ -106,15 +100,13 @@ extends PlaybackModeHandler {
         }
     }
 
-    @Override
     public int setRepeatTitle(boolean bl) {
-        this.logger.main().log(1078071040, "[%1.setRepeatTitle] '%2' '%3'", (Object)"CDDAPlaybackModeHandler", (Object)bl, (Object)CDDAPlaybackModeHandler.getRepeatScopeStr(this.repeatMedium));
+        this.logger.main().log(1000000, "[%1.setRepeatTitle] '%2' '%3'", (Object)LOGCLASS, (Object)bl, (Object)CDDAPlaybackModeHandler.getRepeatScopeStr(this.repeatMedium));
         return this.setRepeatScope(bl ? 3 : this.repeatMedium, this.isMix());
     }
 
-    @Override
     protected void updateActiveRepeatScope(int n) {
-        this.logger.main().log(1078071040, "[%1.setRepeatTitle] '%2' ", (Object)"CDDAPlaybackModeHandler", (Object)CDDAPlaybackModeHandler.getRepeatScopeStr(n));
+        this.logger.main().log(1000000, "[%1.setRepeatTitle] '%2' ", (Object)LOGCLASS, (Object)CDDAPlaybackModeHandler.getRepeatScopeStr(n));
         switch (n) {
             case 0: 
             case 1: {
@@ -128,19 +120,17 @@ extends PlaybackModeHandler {
         }
     }
 
-    @Override
     public void playbackModeChanged() {
-        this.logger.main().log(1078071040, "[%1.updateActivePlaybackMode] '%2'.", (Object)"CDDAPlaybackModeHandler", (Object)CDDAPlaybackModeHandler.getRepeatScopeStr(this.getActiveRepeatScope()));
+        this.logger.main().log(1000000, "[%1.updateActivePlaybackMode] '%2'.", (Object)LOGCLASS, (Object)CDDAPlaybackModeHandler.getRepeatScopeStr(this.getActiveRepeatScope()));
         if (this.getActiveRepeatScope() != 3) {
             this.repeatMedium = this.getActiveRepeatScope();
         }
         super.playbackModeChanged();
-        this.getChoiceModel(-32505088).setValue(this.repeatMedium == 1 ? 1 : 0);
-        this.getChoiceModel(-32505088).setStatus(1);
+        this.getChoiceModel(200958).setValue(this.repeatMedium == 1 ? 1 : 0);
+        this.getChoiceModel(200958).setStatus(1);
         this.getPlayModeModelGroup().flush();
     }
 
-    @Override
     public boolean isRepeatOff() {
         return false;
     }

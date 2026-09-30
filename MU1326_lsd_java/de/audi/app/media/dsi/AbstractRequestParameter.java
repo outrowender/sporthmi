@@ -10,16 +10,12 @@ implements IRequestParameter {
     private boolean outDated = false;
     protected boolean retry = false;
 
-    @Override
-    public abstract boolean equals(Object object) {
-    }
+    public abstract boolean equals(Object var1);
 
-    @Override
     public void setOutDated(boolean bl) {
         this.outDated = bl;
     }
 
-    @Override
     public boolean isOutdated() {
         return this.outDated;
     }
@@ -28,7 +24,6 @@ implements IRequestParameter {
         return super.hashCode();
     }
 
-    @Override
     public boolean isRetry() {
         return this.retry;
     }

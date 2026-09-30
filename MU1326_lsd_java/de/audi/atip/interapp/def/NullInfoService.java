@@ -19,18 +19,15 @@ implements InfoService {
         return 0;
     }
 
-    @Override
     public int getTPInfoAvailable() {
         super.log();
         return 0;
     }
 
-    @Override
     public void speakTmcMessages(boolean bl) {
         super.log();
     }
 
-    @Override
     public void speakTIMMessages(boolean bl) {
         super.log();
     }

@@ -4,13 +4,10 @@
 package de.audi.app.ecall.core;
 
 public interface IOpenClosePopupHandler {
-    default public void showScreen(int n) {
-    }
+    public void showScreen(int var1);
 
-    default public void disactivateEcallSession() {
-    }
+    public void disactivateEcallSession();
 
-    default public void activateEcallSession() {
-    }
+    public void activateEcallSession();
 }
 

@@ -4,49 +4,34 @@
 package de.audi.app.media.configuration;
 
 public interface IMediaConfiguration {
-    default public boolean isSourceInstalled(int n) {
-    }
+    public boolean isSourceInstalled(int var1);
 
-    default public int getLastModeSource() {
-    }
+    public int getLastModeSource();
 
-    default public boolean isRippingEnabled() {
-    }
+    public boolean isRippingEnabled();
 
-    default public boolean isAudioIndepend() {
-    }
+    public boolean isAudioIndepend();
 
-    default public boolean isImportEnabled() {
-    }
+    public boolean isImportEnabled();
 
-    default public boolean isImportOverrideActive() {
-    }
+    public boolean isImportOverrideActive();
 
-    default public boolean isSpeedThresholdDisabled() {
-    }
+    public boolean isSpeedThresholdDisabled();
 
-    default public boolean isWLANStateSynchronizationDisabled() {
-    }
+    public boolean isWLANStateSynchronizationDisabled();
 
-    default public boolean isBluetoothListBrowsing() {
-    }
+    public boolean isBluetoothListBrowsing();
 
-    default public boolean isSpeedThresholdEnabledEver() {
-    }
+    public boolean isSpeedThresholdEnabledEver();
 
-    default public boolean isGracenoteEnabled() {
-    }
+    public boolean isGracenoteEnabled();
 
-    default public boolean isGracenoteOnlineAvailable() {
-    }
+    public boolean isGracenoteOnlineAvailable();
 
-    default public boolean isTVinMedia() {
-    }
+    public boolean isTVinMedia();
 
-    default public boolean isDVDVideoFormatSettingAvailable() {
-    }
+    public boolean isDVDVideoFormatSettingAvailable();
 
-    default public boolean isIAP2Supported() {
-    }
+    public boolean isIAP2Supported();
 }
 

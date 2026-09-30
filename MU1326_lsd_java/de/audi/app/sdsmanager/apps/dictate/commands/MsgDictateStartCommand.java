@@ -27,16 +27,15 @@ extends AbstractSystemCallCommand {
         this.textType = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: textType=%2", (Object)this.getName(), (long)this.textType);
+        this.logger.log(10000000, "%1#execute: textType=%2", (Object)this.getName(), (long)this.textType);
         this.dictationHandler.setStopRequested(false);
         this.dictationHandler.setDictationStep(this.textType);
         this.dictationAdapter.requestStartDictation(this.dictationHandler.getCurrentRecipient());
     }
 
     public void responseStartDictation(int n) {
-        this.logger.log(-2137614336, "%1#responseStartDictation: result=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseStartDictation: result=%2", (Object)this.getName(), (long)n);
         if (n == 0) {
             if (this.textType == 2 || this.textType == 5) {
                 this.popupHelper.triggerHapticalPopup(77, true);
@@ -44,9 +43,9 @@ extends AbstractSystemCallCommand {
             } else {
                 this.dictationHandler.dictationStarted();
             }
-            this.sendResult(-131858176);
+            this.sendResult(75000);
         } else {
-            this.sendResult(-115080960);
+            this.sendResult(75001);
         }
     }
 }

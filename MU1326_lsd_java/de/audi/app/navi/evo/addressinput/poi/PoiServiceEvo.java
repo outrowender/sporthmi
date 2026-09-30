@@ -5,9 +5,6 @@ package de.audi.app.navi.evo.addressinput.poi;
 
 import de.audi.app.navi.evo.addressinput.poi.PoiManager;
 import de.audi.app.navi.evo.addressinput.poi.PoiSDSHandlerEvo;
-import de.audi.app.navi.evo.addressinput.poi.PoiServiceEvo$1;
-import de.audi.app.navi.evo.addressinput.poi.PoiServiceEvo$2;
-import de.audi.app.navi.evo.addressinput.poi.PoiServiceEvo$3;
 import de.audi.app.navi.evo.addressinput.poi.PoiWorkFlowManager;
 import de.audi.app.navi.evo.addressinput.poi.details.MapPoiStackHMIListener;
 import de.audi.app.navi.evo.addressinput.poi.details.MapPoiStackModelAccess;
@@ -53,6 +50,7 @@ import de.audi.tghu.navi.app.audio.INaviAudioHandler;
 import de.audi.tghu.navi.app.car.IVehicleStatesEventsProvider;
 import de.audi.tghu.navi.app.car.IVehicleStatesObserver;
 import de.audi.tghu.navi.app.car.kombi.ICarKombiService;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDestinationHandler;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.favorite.INaviFavoriteHandler;
@@ -75,7 +73,7 @@ public class PoiServiceEvo
 implements IPoiService,
 IVehicleStatesObserver,
 IPoiDiagnosisUI {
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private final NavigationEnv env;
     private final IconHandler iconHandler;
     private final ICommandListFactory commandListFactory;
@@ -128,87 +126,90 @@ IPoiDiagnosisUI {
         naviInterface.getPOICategoryManager().registerObserver(this.poiWarningManager);
     }
 
-    @Override
     public void startPoiStackSequence(NavLocation navLocation) {
-        PoiByStackSequence poiByStackSequence = new PoiByStackSequence(new MapPoiStackModelAccess(this.env, this.mapPoiStackHMIListener, new PoiStackDetailsRowBuilder(this.iconHandler), -635566592), this.commandListFactory, this.env, navLocation, this.detailsScreen);
+        PoiByStackSequence poiByStackSequence = new PoiByStackSequence(new MapPoiStackModelAccess(this.env, this.mapPoiStackHMIListener, new PoiStackDetailsRowBuilder(this.iconHandler), 401114), this.commandListFactory, this.env, navLocation, this.detailsScreen);
         this.mapPoiStackHMIListener.setStackSequence(poiByStackSequence);
         poiByStackSequence.start();
     }
 
-    @Override
     public void onFullyOperable() {
         this.poiFuelWarningService.checkPendingEvents();
     }
 
-    @Override
     public void vehicleStatesEventsProviderAdded(IVehicleStatesEventsProvider iVehicleStatesEventsProvider) {
         iVehicleStatesEventsProvider.registerListener(this);
     }
 
-    @Override
     public IPoiSDSHandler getPoiSDSHandler() {
         return this.poiSDSHandler;
     }
 
-    @Override
-    public CommandList getParkingNearDestinationSequenceWithDistanceFromCCP(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "%1#getParkingNearDestinationSequenceWithDistanceFromCCP - destination=%2", (Object)this.CLASS_NAME, (Object)navLocation);
+    public CommandList getParkingNearDestinationSequenceWithDistanceFromCCP(final NavLocation navLocation) {
+        this.logChannel.log(10000000, "%1#getParkingNearDestinationSequenceWithDistanceFromCCP - destination=%2", (Object)this.CLASS_NAME, (Object)navLocation);
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new PoiServiceEvo$1(this, new StringBuffer().append(this.CLASS_NAME).append("#getParkingNearDestinationSequenceWithDistanceFromCCP - Setting Search Area").toString(), navLocation));
+        commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#getParkingNearDestinationSequenceWithDistanceFromCCP - Setting Search Area").toString()){
+
+            public void execute() {
+                this.dsiResponseContainer.setSelectedLocation(navLocation);
+                this.getCommandList().commandFinished();
+            }
+        });
         return this.poiManager.handlePoiSelectionEvent(commandList, 1204);
     }
 
-    @Override
-    public CommandList getParkingNearDestinationSequenceWithDistanceFromDestination(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "%1#getParkingNearDestinationSequenceWithDistanceFromDestination - destination=%2", (Object)this.CLASS_NAME, (Object)navLocation);
+    public CommandList getParkingNearDestinationSequenceWithDistanceFromDestination(final NavLocation navLocation) {
+        this.logChannel.log(10000000, "%1#getParkingNearDestinationSequenceWithDistanceFromDestination - destination=%2", (Object)this.CLASS_NAME, (Object)navLocation);
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new PoiServiceEvo$2(this, "PoiServiceEvo#getParkingNearDestinationSequenceWithDistanceFromDestination - Setting Search Area", navLocation));
+        commandList.add(new NavCommand("PoiServiceEvo#getParkingNearDestinationSequenceWithDistanceFromDestination - Setting Search Area"){
+
+            public void execute() {
+                this.dsiResponseContainer.setSelectedLocation(navLocation);
+                this.getCommandList().commandFinished();
+            }
+        });
         return this.poiManager.handlePoiSelectionEvent(commandList, 1204);
     }
 
-    @Override
     public CommandList getParkingAlongTheRouteSequence() {
-        this.logChannel.log(-2137614336, "%1#getParkingAlongTheRouteSequence - destination=%2", (Object)this.CLASS_NAME, (Object)this.vehicle.getVehicleLocation());
+        this.logChannel.log(10000000, "%1#getParkingAlongTheRouteSequence - destination=%2", (Object)this.CLASS_NAME, (Object)this.vehicle.getVehicleLocation());
         this.poiSearchArea.setSearchContext(1);
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new PoiServiceEvo$3(this, new StringBuffer().append(this.CLASS_NAME).append("#getParkingAlongTheRouteSequence - Setting Search Area").toString()));
+        commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#getParkingAlongTheRouteSequence - Setting Search Area").toString()){
+
+            public void execute() {
+                this.dsiResponseContainer.setSelectedLocation(PoiServiceEvo.this.vehicle.getVehicleLocation());
+                this.getCommandList().commandFinished();
+            }
+        });
         return this.poiManager.handlePoiSelectionEvent(commandList, 1205);
     }
 
-    @Override
     public void startParkingNearDestination(NavLocation navLocation) {
         this.getParkingNearDestinationSequenceWithDistanceFromDestination(navLocation).execute(new StringBuffer().append(this.CLASS_NAME).append("#startParkingNearDestination").toString());
     }
 
-    @Override
     public void enterPoiMainScreen(boolean bl, boolean bl2) {
         this.poiManager.startPoiMainScreen(bl, bl2);
     }
 
-    @Override
     public void updateTankInfo(TankInfo tankInfo) {
         this.poiFuelWarningService.updateTankInfo(tankInfo);
     }
 
-    @Override
     public void updateDisplayDayNightDesign(boolean bl) {
     }
 
-    @Override
     public void updateVehicleStandstill(boolean bl) {
     }
 
-    @Override
     public void updateESPData() {
     }
 
-    @Override
     public void destPOIHKReturn(int n, int n2) {
-        this.logChannel.log(-2137614336, "%1#destPOIHKReturn, removeHandler: %2", (Object)this.CLASS_NAME, (long)n2);
+        this.logChannel.log(10000000, "%1#destPOIHKReturn, removeHandler: %2", (Object)this.CLASS_NAME, (long)n2);
         this.poiManager.destPOIHKReturn(n, n2);
     }
 
-    @Override
     public void navFuelFeatureActive(int n, int n2) {
         if (n2 == 0) {
             this.fuelWarningHMIListener.fuelFeatureLeft();
@@ -217,50 +218,41 @@ IPoiDiagnosisUI {
         }
     }
 
-    @Override
     public void deletePersonalPOIDataBases() {
         this.personalPOIHandler.deletePersonalPOIDataBases();
     }
 
-    @Override
     public PoiWarningManager getPoiWarningManager() {
         return this.poiWarningManager;
     }
 
-    @Override
     public IPoiFuelWarningService getPoiFuelWarningService() {
         return this.poiFuelWarningService;
     }
 
-    @Override
     public void startPoiWithSearchContextAlongRoute() {
         this.startPoiWithSearchContext(1, null, true);
     }
 
-    @Override
     public void startPoiWithSearchContextLocationVicinity() {
         this.startPoiWithSearchContext(0, null, true);
     }
 
-    @Override
     public void startPoiWithSearchContext(int n, NavLocation navLocation, boolean bl) {
         this.startPoiWithSearchContext(n, navLocation, bl, false);
     }
 
-    @Override
     public void startPoiWithSearchContext(int n, NavLocation navLocation, boolean bl, boolean bl2) {
         this.poiSearchAreaSequence.updateSearchArea(n, navLocation);
         this.enterPoiMainScreen(bl, bl2);
     }
 
-    @Override
     public void startPoiHybridSearch(int n, NavLocation navLocation, boolean bl) {
-        this.logChannel.log(-2137614336, "PoiServiceEvo#startPoiHybridSearch - searchContext=%1, location=%2, resetSpellerStack=%3", (Object)new StringBuffer().append(n).append("").toString(), (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "PoiServiceEvo#startPoiHybridSearch - searchContext=%1, location=%2, resetSpellerStack=%3", (Object)new StringBuffer().append(n).append("").toString(), (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Boolean.toString(bl));
         this.poiSearchAreaSequence.updateSearchArea(n, navLocation);
         this.poiManager.executePoiSelectionEvent(this.commandListFactory.createCommandList(), 11);
     }
 
-    @Override
     public synchronized void cleanup() {
         if (this.poiWarningManager != null) {
             this.poiWarningManager.cleanup();
@@ -270,37 +262,27 @@ IPoiDiagnosisUI {
         }
     }
 
-    @Override
     public void setRouteGuidanceStartedByUser(boolean bl) {
         this.poiManager.setRouteGuidanceStartedByUser(bl);
     }
 
-    @Override
     public void showPoiDetailScreen(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "%1#showPoiDetailScreen", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#showPoiDetailScreen", (Object)this.CLASS_NAME);
         this.poiManager.showPoiDetailScreen(navLocation);
     }
 
-    @Override
     public boolean isFuelWarningActive() {
         return this.poiFuelWarningService.isFuelWarningActive();
     }
 
-    @Override
     public void setFuelWarningActive(boolean bl) {
     }
 
-    @Override
     public void onDisclaimerAccepted() {
     }
 
-    @Override
     public void resetSearchContext() {
         this.poiManager.resetPoiSearchArea();
-    }
-
-    static /* synthetic */ IVehicle access$000(PoiServiceEvo poiServiceEvo) {
-        return poiServiceEvo.vehicle;
     }
 }
 

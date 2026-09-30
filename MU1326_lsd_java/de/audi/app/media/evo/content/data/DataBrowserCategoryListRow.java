@@ -8,9 +8,9 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 public class DataBrowserCategoryListRow
 extends EvoListRow {
-    private static final int COLUMN_SIZE;
-    private static final int COL_CATEGORY_ID;
-    private static final DataBrowserCategoryListRow[] catRows;
+    private static final int COLUMN_SIZE = 1;
+    private static final int COL_CATEGORY_ID = 0;
+    private static final DataBrowserCategoryListRow[] catRows = new DataBrowserCategoryListRow[]{new DataBrowserCategoryListRow(0), new DataBrowserCategoryListRow(1), new DataBrowserCategoryListRow(2), new DataBrowserCategoryListRow(3), new DataBrowserCategoryListRow(4), new DataBrowserCategoryListRow(5), new DataBrowserCategoryListRow(6), new DataBrowserCategoryListRow(7), new DataBrowserCategoryListRow(8), new DataBrowserCategoryListRow(9), new DataBrowserCategoryListRow(10), new DataBrowserCategoryListRow(11), new DataBrowserCategoryListRow(12)};
 
     private DataBrowserCategoryListRow(int n) {
         super(n, 1);
@@ -30,18 +30,12 @@ extends EvoListRow {
         return this.getInteger(0);
     }
 
-    @Override
     public EvoListRow copy() {
         return new DataBrowserCategoryListRow(this);
     }
 
-    @Override
     public String toString() {
         return DataBrowserListLocator.categoryID2Str(this.getCategoryID());
-    }
-
-    static {
-        catRows = new DataBrowserCategoryListRow[]{new DataBrowserCategoryListRow(0), new DataBrowserCategoryListRow(1), new DataBrowserCategoryListRow(2), new DataBrowserCategoryListRow(3), new DataBrowserCategoryListRow(4), new DataBrowserCategoryListRow(5), new DataBrowserCategoryListRow(6), new DataBrowserCategoryListRow(7), new DataBrowserCategoryListRow(8), new DataBrowserCategoryListRow(9), new DataBrowserCategoryListRow(10), new DataBrowserCategoryListRow(11), new DataBrowserCategoryListRow(12)};
     }
 }
 

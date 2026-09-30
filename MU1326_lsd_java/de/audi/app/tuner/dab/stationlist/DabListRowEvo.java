@@ -15,15 +15,15 @@ import de.audi.tuner.app.dab.stationlist.RecordSets;
 
 public class DabListRowEvo
 extends DabListRow {
-    private static final int INDEX_PROPERTIES;
-    private static final int INDEX_ARTIST;
-    private static final int INDEX_TITLE;
-    private static final int INDEX_DASH;
-    private static final int INDEX_DEFAULT_IMAGE_ID;
-    private static final int INDEX_RADIOTEXT_ICON;
-    private static final int INDEX_SLIDESHOW_ICON;
-    private static final int INDEX_IS_ENSEMBLE;
-    public static final int NUM_COLS;
+    private static final int INDEX_PROPERTIES = 9;
+    private static final int INDEX_ARTIST = 10;
+    private static final int INDEX_TITLE = 11;
+    private static final int INDEX_DASH = 12;
+    private static final int INDEX_DEFAULT_IMAGE_ID = 13;
+    private static final int INDEX_RADIOTEXT_ICON = 14;
+    private static final int INDEX_SLIDESHOW_ICON = 15;
+    private static final int INDEX_IS_ENSEMBLE = 16;
+    public static final int NUM_COLS = 17;
     private final RadioRowProperties props;
 
     public DabListRowEvo(RecordSets recordSets, DabStation dabStation, boolean bl, int n) {
@@ -31,19 +31,19 @@ extends DabListRow {
         this.props = new RadioRowProperties();
         switch (dabStation.getType()) {
             case 1: {
-                this.props.setCategory(-277169847);
+                this.props.setCategory(1236892399);
                 break;
             }
             case 2: {
                 if (dabStation.ensemble.ensID != 0) {
-                    this.props.setCategory(181330000);
+                    this.props.setCategory(1356910090);
                     break;
                 }
-                this.props.setCategory(-1085152791);
+                this.props.setCategory(-371109441);
                 break;
             }
             case 3: {
-                this.props.setCategory(181330000);
+                this.props.setCategory(1356910090);
                 break;
             }
         }
@@ -59,12 +59,10 @@ extends DabListRow {
         this.props = dabListRowEvo.props;
     }
 
-    @Override
     public EvoListRow copy() {
         return new DabListRowEvo(this);
     }
 
-    @Override
     public void setStationActive(boolean bl) {
         super.setStationActive(bl);
         this.props.setActive(bl);
@@ -74,7 +72,6 @@ extends DabListRow {
         }
     }
 
-    @Override
     public final void setProgramData(DabStation dabStation, int n) {
         super.setProgramData(dabStation, n);
         this.setInteger(14, dabStation.getTag(64).length() > 0 ? 2 : 1);
@@ -83,13 +80,12 @@ extends DabListRow {
         this.setText(11, artistAndTitlePair.titleString);
         this.setInteger(12, Utilities.getDashCode(artistAndTitlePair.artistString, artistAndTitlePair.titleString));
         if (this.isEnsemble() && this.isClosed()) {
-            this.props.setCategory(1529762033);
+            this.props.setCategory(-246403493);
             this.props.setActive(true);
             this.setPropertyCell(9, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
         }
     }
 
-    @Override
     public void resetProgramData() {
         super.resetProgramData();
         this.setText(1, this.station.getFullName());
@@ -99,13 +95,12 @@ extends DabListRow {
         this.setInteger(14, 1);
         this.setInteger(15, 1);
         if (this.isEnsemble()) {
-            this.props.setCategory(-277169847);
+            this.props.setCategory(1236892399);
             this.props.setActive(false);
             this.setPropertyCell(9, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
         }
     }
 
-    @Override
     public void setSLSAvailability(HMIResourceLocator hMIResourceLocator) {
         if (hMIResourceLocator.containsResourceURI()) {
             this.setInteger(15, 2);
@@ -115,7 +110,6 @@ extends DabListRow {
         }
     }
 
-    @Override
     public DabListRow open(DabStation dabStation) {
         super.open(dabStation);
         if (this.isEnsemble()) {
@@ -124,14 +118,13 @@ extends DabListRow {
                 this.setText(11, "");
                 this.setInteger(12, Utilities.getDashCode("", ""));
             }
-            this.props.setCategory(-277169847);
+            this.props.setCategory(1236892399);
             this.props.setActive(false);
             this.setPropertyCell(9, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
         }
         return this;
     }
 
-    @Override
     public DabListRow close(DabStation dabStation) {
         super.close(dabStation);
         if (this.isEnsemble() && this.isActive(dabStation)) {
@@ -139,7 +132,7 @@ extends DabListRow {
             this.setText(10, artistAndTitlePair.artistString);
             this.setText(11, artistAndTitlePair.titleString);
             this.setInteger(12, Utilities.getDashCode(artistAndTitlePair.artistString, artistAndTitlePair.titleString));
-            this.props.setCategory(1529762033);
+            this.props.setCategory(-246403493);
             this.props.setActive(true);
             this.setPropertyCell(9, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
         }

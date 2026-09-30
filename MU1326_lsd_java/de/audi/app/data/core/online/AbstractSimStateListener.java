@@ -17,20 +17,20 @@ public class AbstractSimStateListener
 implements IApplicationComponent,
 IConnectivityPhoneStateListener,
 IDataBluetoothStateListener {
-    static final int SIM_STATE_OK;
-    static final int SIM_STATE_NA_DATA_ONLY;
-    static final int SIM_STATE_NA;
-    static final int SIM_STATE_SAP_NA;
-    static final int SIM_STATE_SAP;
-    static final int SIM_STATE_PIN_REQUIRED;
-    static final int SIM_STATE_PUK_REQUIRED;
-    static final int SIM_STATE_PUK_BLOCKED;
-    static final int SIM_STATE_FAILURE;
-    static final int SIM_STATE_NAD_OFF;
-    static final int SIM_STATE_GSM_CALL_ACTIVE;
-    static final int SIM_STATE_PENDING_DATA_ONLY;
-    static final int SIM_STATE_PENDING;
-    private static final String[] SIM_STATE_NAMES;
+    static final int SIM_STATE_OK = 0;
+    static final int SIM_STATE_NA_DATA_ONLY = 1;
+    static final int SIM_STATE_NA = 2;
+    static final int SIM_STATE_SAP_NA = 3;
+    static final int SIM_STATE_SAP = 4;
+    static final int SIM_STATE_PIN_REQUIRED = 5;
+    static final int SIM_STATE_PUK_REQUIRED = 6;
+    static final int SIM_STATE_PUK_BLOCKED = 7;
+    static final int SIM_STATE_FAILURE = 8;
+    static final int SIM_STATE_NAD_OFF = 9;
+    static final int SIM_STATE_GSM_CALL_ACTIVE = 10;
+    static final int SIM_STATE_PENDING_DATA_ONLY = 11;
+    static final int SIM_STATE_PENDING = 12;
+    private static final String[] SIM_STATE_NAMES = new String[]{"SIM_STATE_OK", "SIM_STATE_NA_DATA_ONLY", "SIM_STATE_NA", "SIM_STATE_SAP_NA", "SIM_STATE_SAP", "SIM_STATE_PIN_REQUIRED", "SIM_STATE_PUK_REQUIRED", "SIM_STATE_PUK_BLOCKED", "SIM_STATE_FAILURE", "SIM_STATE_NAD_OFF", "SIM_STATE_GSM_CALL_ACTIVE", "SIM_STATE_PENDING_DATA_ONLY", "SIM_STATE_PENDING"};
     private final LogChannel log;
     private final IDataApplication dataApplication;
     private ServiceRegistration registration1;
@@ -54,33 +54,28 @@ IDataBluetoothStateListener {
     public AbstractSimStateListener(IDataApplication iDataApplication, IHMIServiceApp iHMIServiceApp) {
         this.dataApplication = iDataApplication;
         this.log = iDataApplication.getLogChannel();
-        this.simStateChoice = iHMIServiceApp.getChoiceModel(925246976);
+        this.simStateChoice = iHMIServiceApp.getChoiceModel(2500151);
         this.eSIMUsage = iDataApplication.getFramework().getSysConstManager().getAdaptationANP().getESIMUUsage();
     }
 
-    @Override
     public void telAppEntered() {
         this.dataApplication.getOnline().telAppEntered();
     }
 
-    @Override
     public void telAppLeft() {
         this.dataApplication.getOnline().telAppLeft();
     }
 
-    @Override
     public void telUnlockEntered() {
         this.dataApplication.getOnline().telUnlockEntered();
     }
 
-    @Override
     public void telUnlockLeft() {
         this.dataApplication.getOnline().telUnlockLeft();
     }
 
-    @Override
     public void updatePhoneState(int n, int n2) {
-        this.log.log(-2137614336, "AbstractSimStateListener#updatePhoneState(): nadMode=%1, phoneModuleState=%2", (long)n, (long)n2);
+        this.log.log(10000000, "AbstractSimStateListener#updatePhoneState(): nadMode=%1, phoneModuleState=%2", (long)n, (long)n2);
         boolean bl = n == 2;
         boolean bl2 = bl != this.isNadModeDataOnly;
         this.isNadModeDataOnly = bl;
@@ -90,28 +85,25 @@ IDataBluetoothStateListener {
         this.updateSimState(bl2);
     }
 
-    @Override
     public void updateMESlotInfo(ITelMESlotState iTelMESlotState, ITelMESlotState iTelMESlotState2, ITelMESlotState iTelMESlotState3) {
-        this.log.log(-2137614336, "AbstractSimStateListener#updateMESlotInfo(): %1 %2 %3", (Object)iTelMESlotState, (Object)iTelMESlotState2, (Object)iTelMESlotState3);
+        this.log.log(10000000, "AbstractSimStateListener#updateMESlotInfo(): %1 %2 %3", (Object)iTelMESlotState, (Object)iTelMESlotState2, (Object)iTelMESlotState3);
         if (iTelMESlotState3 != null && iTelMESlotState3.getTelMode() != 3) {
             this.dataDevice = iTelMESlotState3;
             this.updateSimState(false);
         }
     }
 
-    @Override
     public void updateESIMInfo(String string, String string2, boolean bl, boolean bl2) {
-        this.log.log(-2137614336, "AbstractSimStateListener#updateESIMInfo(): eSimActive=%1", bl);
+        this.log.log(10000000, "AbstractSimStateListener#updateESIMInfo(): eSimActive=%1", bl);
         this.eSimActive = bl;
         this.updateSimState(false);
     }
 
-    @Override
     public void updateConnectedGatewayState(boolean bl) {
     }
 
     public void updateESimLicenseStatus(boolean bl) {
-        this.log.log(-2137614336, "AbstractSimStateListener#updateESimLicenseStatus(): esimLicenseAvailable=%1", bl);
+        this.log.log(10000000, "AbstractSimStateListener#updateESimLicenseStatus(): esimLicenseAvailable=%1", bl);
         this.esimLicenseAvailable = bl;
         this.updateSimState(false);
     }
@@ -121,9 +113,8 @@ IDataBluetoothStateListener {
         this.updateSimState(false);
     }
 
-    @Override
     public void updateHfpConnection(boolean bl, boolean bl2) {
-        this.log.log(1078071040, "AbstractSimStateListener#updateHfpConnection(): connected=%1, sapSupported=%2", bl, bl2);
+        this.log.log(1000000, "AbstractSimStateListener#updateHfpConnection(): connected=%1, sapSupported=%2", bl, bl2);
         this.hfpConnected = bl;
         this.sapSupported = bl2;
         this.updateSimState(false);
@@ -134,8 +125,8 @@ IDataBluetoothStateListener {
         int n = this.computeNewSimState(bl2);
         this.dataApplication.getDataProfile().esimActiveCheckIfisProfileStateAvailable(bl2);
         if (n != this.simState || bl) {
-            this.log.log(1078071040, new StringBuffer().append("AbstractSimStateListener#isESimCodedAndActiveAndLicensed(): eSIMUsage: ").append(this.eSIMUsage).append(", eSimActive: %1, esimLicenseAvailable=%2").toString(), this.eSimActive, this.esimLicenseAvailable);
-            this.log.log(1078071040, "AbstractSimStateListener#updateSimState(): old: %1, new: %2, isNadModeUpdate=%3", (Object)(this.simState >= 0 ? SIM_STATE_NAMES[this.simState] : ""), (Object)SIM_STATE_NAMES[n], (Object)bl);
+            this.log.log(1000000, new StringBuffer().append("AbstractSimStateListener#isESimCodedAndActiveAndLicensed(): eSIMUsage: ").append(this.eSIMUsage).append(", eSimActive: %1, esimLicenseAvailable=%2").toString(), this.eSimActive, this.esimLicenseAvailable);
+            this.log.log(1000000, "AbstractSimStateListener#updateSimState(): old: %1, new: %2, isNadModeUpdate=%3", (Object)(this.simState >= 0 ? SIM_STATE_NAMES[this.simState] : ""), (Object)SIM_STATE_NAMES[n], (Object)bl);
             this.simState = n;
             this.simStateChoice.setValue(this.simState);
             if (this.dataDevice != null) {
@@ -217,9 +208,9 @@ IDataBluetoothStateListener {
         } else if (n == 11) {
             n2 = 8;
         } else if (n == 1) {
-            this.log.log(-2137614336, "AbstractSimStateListener#checkLockState(): unlock in progress, waiting for result, doing nothing");
+            this.log.log(10000000, "AbstractSimStateListener#checkLockState(): unlock in progress, waiting for result, doing nothing");
         } else {
-            this.log.log(-1601830656, "AbstractSimStateListener#checkLockState(): Unhandled SIM lock state: %1", (long)n);
+            this.log.log(100000, "AbstractSimStateListener#checkLockState(): Unhandled SIM lock state: %1", (long)n);
         }
         return n2;
     }
@@ -236,13 +227,11 @@ IDataBluetoothStateListener {
         return this.profileState == -1;
     }
 
-    @Override
     public void init() {
         this.registration1 = this.dataApplication.getBundleContext().registerService((class$de$audi$atip$interapp$IConnectivityPhoneStateListener == null ? (class$de$audi$atip$interapp$IConnectivityPhoneStateListener = AbstractSimStateListener.class$("de.audi.atip.interapp.IConnectivityPhoneStateListener")) : class$de$audi$atip$interapp$IConnectivityPhoneStateListener).getName(), (Object)this, null);
         this.registration2 = this.dataApplication.getBundleContext().registerService((class$de$audi$app$bluetooth$core$interapp$IDataBluetoothStateListener == null ? (class$de$audi$app$bluetooth$core$interapp$IDataBluetoothStateListener = AbstractSimStateListener.class$("de.audi.app.bluetooth.core.interapp.IDataBluetoothStateListener")) : class$de$audi$app$bluetooth$core$interapp$IDataBluetoothStateListener).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         this.registration1.unregister();
         this.registration2.unregister();
@@ -257,10 +246,6 @@ IDataBluetoothStateListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        SIM_STATE_NAMES = new String[]{"SIM_STATE_OK", "SIM_STATE_NA_DATA_ONLY", "SIM_STATE_NA", "SIM_STATE_SAP_NA", "SIM_STATE_SAP", "SIM_STATE_PIN_REQUIRED", "SIM_STATE_PUK_REQUIRED", "SIM_STATE_PUK_BLOCKED", "SIM_STATE_FAILURE", "SIM_STATE_NAD_OFF", "SIM_STATE_GSM_CALL_ACTIVE", "SIM_STATE_PENDING_DATA_ONLY", "SIM_STATE_PENDING"};
     }
 }
 

@@ -17,7 +17,6 @@ extends Command {
         this.setName("SdisCmdDemute");
     }
 
-    @Override
     public void execute() {
         this.audioService.releaseConnection(8, 0);
         this.commandList.commandFinished();

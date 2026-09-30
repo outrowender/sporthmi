@@ -28,23 +28,23 @@ import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
 public class PoiOnlineListRow
 extends ListRow
 implements TooltipDataProvider {
-    public static final int COLUMN_NAME;
-    private static final int COLUMN_DIRECTION;
-    private static final int COLUMN_FORMATTED_DISTANCE;
-    private static final int COLUMN_ICON;
-    private static final int COLUMN_DISTANCE;
-    public static final int COLUMN_ENTRY;
-    private static final int COLUMN_FLAG_RRD;
-    private static final int COLUMN_GOOGLE_RATING;
-    private static final int COLUMN_INFO_TEXT;
-    private static final int COLUMN_ADDRESS;
-    public static final int COLUMN_PHONE;
-    private static final int COLUMN_RECORD_SELECTED;
-    public static final int COLUMN_RIGHT_CONTEXT;
-    private static final int MAX_COLUMN;
-    private static final int LLD_NAME;
-    private static final int LLD_DISTANCE;
-    private static final int LLD_DIRECTION_DISTANCE;
+    public static final int COLUMN_NAME = 0;
+    private static final int COLUMN_DIRECTION = 1;
+    private static final int COLUMN_FORMATTED_DISTANCE = 2;
+    private static final int COLUMN_ICON = 4;
+    private static final int COLUMN_DISTANCE = 5;
+    public static final int COLUMN_ENTRY = 6;
+    private static final int COLUMN_FLAG_RRD = 7;
+    private static final int COLUMN_GOOGLE_RATING = 8;
+    private static final int COLUMN_INFO_TEXT = 9;
+    private static final int COLUMN_ADDRESS = 10;
+    public static final int COLUMN_PHONE = 11;
+    private static final int COLUMN_RECORD_SELECTED = 12;
+    public static final int COLUMN_RIGHT_CONTEXT = 13;
+    private static final int MAX_COLUMN = 14;
+    private static final int LLD_NAME = 0;
+    private static final int LLD_DISTANCE = 1;
+    private static final int LLD_DIRECTION_DISTANCE = 2;
     private final LogChannel log;
 
     public PoiOnlineListRow(LogChannel logChannel, PoiOnlineSearchArea poiOnlineSearchArea, IVehicle iVehicle, PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, int n, IconHandler iconHandler, NavLocation navLocation, boolean bl) {
@@ -67,7 +67,7 @@ implements TooltipDataProvider {
             n4 = Util.convertRotatingDirection(n3, n2);
             n5 = Util.computeAirDistance(poiOnlineSearchArea.getNavLocation().longitude, poiOnlineSearchArea.getNavLocation().latitude, poiOnlineSearchValuelistElement.longitude, poiOnlineSearchValuelistElement.latitude);
         } else {
-            logChannel.log(-1601830656, "OnlineListRow#OnlineListRow() - no valid geo position");
+            logChannel.log(100000, "OnlineListRow#OnlineListRow() - no valid geo position");
         }
         boolean bl2 = poiOnlineSearchValuelistElement.phone != null && poiOnlineSearchValuelistElement.phone.length() > 0;
         ListCell[] listCellArray = new ListCell[14];
@@ -87,11 +87,11 @@ implements TooltipDataProvider {
         if (bl2) {
             int[] nArray2 = new int[1];
             nArray = nArray2;
-            nArray2[0] = -2040561860;
+            nArray2[0] = 1014980486;
         } else {
             nArray = new int[]{};
         }
-        listCellArray[13] = new PropertyListCell(-1331490722, nArray);
+        listCellArray[13] = new PropertyListCell(1578148784, nArray);
         ListCell[] listCellArray2 = listCellArray;
         this.setCells(listCellArray2);
     }
@@ -106,12 +106,10 @@ implements TooltipDataProvider {
         this.cells = null;
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append("OnlineListRow [log=").append(this.log).append(", cells=").append(this.cells != null ? Arrays.asList(this.cells) : null).append("]").toString();
+        return "OnlineListRow [log=" + this.log + ", cells=" + (this.cells != null ? Arrays.asList(this.cells) : null) + "]";
     }
 
-    @Override
     public boolean equals(Object object) {
         boolean bl = false;
         if (object instanceof PoiOnlineListRow) {
@@ -120,12 +118,10 @@ implements TooltipDataProvider {
         return bl;
     }
 
-    @Override
     public int hashCode() {
         return super.hashCode();
     }
 
-    @Override
     public String getPOIName() {
         TextListCell textListCell = (TextListCell)this.getCell(0);
         return textListCell.getText();
@@ -150,7 +146,6 @@ implements TooltipDataProvider {
         return 14;
     }
 
-    @Override
     public int getDirection() {
         IntegerListCell integerListCell = (IntegerListCell)this.getCell(1);
         int n = integerListCell.getValue();
@@ -160,7 +155,6 @@ implements TooltipDataProvider {
         return n;
     }
 
-    @Override
     public int getDistance() {
         MetricsListCell metricsListCell = (MetricsListCell)this.getCell(5);
         return (int)((Distance)metricsListCell.getMetrics()).getValue();
@@ -176,17 +170,14 @@ implements TooltipDataProvider {
         return textListCell != null && !textListCell.getText().equals("");
     }
 
-    @Override
     public int getLatitude() {
         return this.getEntry().latitude;
     }
 
-    @Override
     public int getLongitude() {
         return this.getEntry().longitude;
     }
 
-    @Override
     public boolean isMarkedAsRRD() {
         IntegerListCell integerListCell = (IntegerListCell)this.getCell(7);
         int n = integerListCell.getValue();
@@ -199,7 +190,6 @@ implements TooltipDataProvider {
         this.setCell(7, integerListCell);
     }
 
-    @Override
     public void setRRDDistance(int n) {
         this.setDistance(n);
         this.reformatDistance();
@@ -210,7 +200,6 @@ implements TooltipDataProvider {
         }
     }
 
-    @Override
     public void setAirDistance(int n) {
         this.setDistance(n);
         this.reformatDistance();
@@ -236,29 +225,24 @@ implements TooltipDataProvider {
         integerListCell.setValue(n);
     }
 
-    @Override
     public void reformatDistance() {
     }
 
-    @Override
     public void setDirection(int n) {
         IntegerListCell integerListCell = (IntegerListCell)this.getCell(1);
         integerListCell = IntegerListCell.create(this.isMarkedAsRRD() ? n + 8 : n);
         this.setCell(1, integerListCell);
     }
 
-    @Override
     public int getIcon() {
         IconCell iconCell = (IconCell)this.getCell(4);
         return iconCell.getResourceLocator().getResourceID();
     }
 
-    @Override
     public boolean isToRefine() {
         return false;
     }
 
-    @Override
     public String getAdditionalInfo() {
         String string = null;
         PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement = this.getEntry();
@@ -303,14 +287,12 @@ implements TooltipDataProvider {
         buffer.append(string2);
     }
 
-    @Override
     public void updateDirection(PosPosition posPosition) {
         int n = Util.computeAbsoluteDirection(posPosition, this.getLongitude(), this.getLatitude());
         int n2 = Util.convertRotatingDirection(n, posPosition.directionAngle);
         this.setDirection(n2);
     }
 
-    @Override
     public void updateAirDistance(PosPosition posPosition) {
         if (!this.isMarkedAsRRD()) {
             int n = Util.computeAirDistance(posPosition.getLongitude(), posPosition.getLatitude(), this.getLongitude(), this.getLatitude());
@@ -320,7 +302,7 @@ implements TooltipDataProvider {
 
     public static String getPostalAddress(PoiOnlineSearchValuelistElement poiOnlineSearchValuelistElement, boolean bl) {
         Buffer buffer = new Buffer();
-        buffer.append(PoiOnlineListRow.isEmpty(poiOnlineSearchValuelistElement.street) ? "" : new StringBuffer().append(poiOnlineSearchValuelistElement.street).append(", ").toString());
+        buffer.append(PoiOnlineListRow.isEmpty(poiOnlineSearchValuelistElement.street) ? "" : poiOnlineSearchValuelistElement.street + ", ");
         if (bl) {
             if (!PoiOnlineListRow.isEmpty(poiOnlineSearchValuelistElement.city)) {
                 buffer.append(poiOnlineSearchValuelistElement.city);

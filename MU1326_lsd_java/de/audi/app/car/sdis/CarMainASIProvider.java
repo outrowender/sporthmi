@@ -45,7 +45,7 @@ public class CarMainASIProvider {
         abstractActivator.registerService((class$de$audi$atip$agent$IASIProvider == null ? (class$de$audi$atip$agent$IASIProvider = CarMainASIProvider.class$("de.audi.atip.agent.IASIProvider")) : class$de$audi$atip$agent$IASIProvider).getName(), (Object)this.asiService, null);
         abstractActivator.registerService((class$de$audi$atip$agent$IASIProvider == null ? (class$de$audi$atip$agent$IASIProvider = CarMainASIProvider.class$("de.audi.atip.agent.IASIProvider")) : class$de$audi$atip$agent$IASIProvider).getName(), (Object)this.asiSportChrono, null);
         abstractActivator.registerService((class$de$audi$atip$agent$IASIProvider == null ? (class$de$audi$atip$agent$IASIProvider = CarMainASIProvider.class$("de.audi.atip.agent.IASIProvider")) : class$de$audi$atip$agent$IASIProvider).getName(), (Object)this.asiZeroEmission, null);
-        this.logChannel.log(1078071040, "[CarMainASIProvider#registerServices] services registered.");
+        this.logChannel.log(1000000, "[CarMainASIProvider#registerServices] services registered.");
     }
 
     public ASIHMISyncCarBordComputerAbstractBaseService getBordComputerASI() {

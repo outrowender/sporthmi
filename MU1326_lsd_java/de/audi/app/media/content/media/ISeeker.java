@@ -4,13 +4,10 @@
 package de.audi.app.media.content.media;
 
 public interface ISeeker {
-    default public boolean seek(boolean bl, int n) {
-    }
+    public boolean seek(boolean var1, int var2);
 
-    default public int getMaxSeekSpeed() {
-    }
+    public int getMaxSeekSpeed();
 
-    default public boolean isFixedSpeedSeeker() {
-    }
+    public boolean isFixedSpeedSeeker();
 }
 

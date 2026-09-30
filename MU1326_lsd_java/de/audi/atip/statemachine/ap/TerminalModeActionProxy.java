@@ -7,19 +7,14 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface TerminalModeActionProxy
 extends ActionProxy {
-    default public void hmiActivatedTerminalMode(int n) {
-    }
+    public void hmiActivatedTerminalMode(int var1);
 
-    default public void hmiDeactivatedTerminalMode(int n) {
-    }
+    public void hmiDeactivatedTerminalMode(int var1);
 
-    default public void resetNewDeviceDetection(int n) {
-    }
+    public void resetNewDeviceDetection(int var1);
 
-    default public void parkingActivatedTerminalMode(int n) {
-    }
+    public void parkingActivatedTerminalMode(int var1);
 
-    default public void parkingDeactivatedTerminalMode(int n) {
-    }
+    public void parkingDeactivatedTerminalMode(int var1);
 }
 

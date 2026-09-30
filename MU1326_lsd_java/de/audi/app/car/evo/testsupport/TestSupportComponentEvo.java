@@ -16,32 +16,29 @@ import de.esolutions.fw.util.commons.Buffer;
 public class TestSupportComponentEvo
 extends AbstractCarComponent
 implements ITestSupportHandlerNotification {
-    private static final String LOGCHANNEL_NAME;
+    private static final String LOGCHANNEL_NAME = "App.Car.TestSupport";
     private final ITestSupportHandler testSupportHandler;
-    private static String[] carMenuTxt;
+    private static String[] carMenuTxt = new String[]{"ACC", "INT_LIGHT", "PARKING", "AWV", "LDW", "SWA", "EXT_LIGHT", "WINDOW", "AIRCONDITION", "AUXHEATER", "BC_CLUSTER", "RDK", "WIPER", "SIA", "SEAT", "CENTRAL_LOCKING", "COMPASS", "CHARISMA", "OILLEVEL", "VIN", "CLOCK", "AIRSUSPENSION", "HUD", "UNITMASTER", "HYBRID", "UGDO", "NIGHTVISION", "SIDEVIEW", "RGS", "MFL_JOKER", "TSD", "ATTENTION_IDENT", "APTIVE_KEY_CLAMP", "MIRROR", "DRV_SCHOOL", "MKE", "BCME", "BATTERY_STATE", "BRAKE", "START_STOP_REASONS", "ANGLE_OF_SLOPE", "BATTERY_MGMNT", "REAR_SEAT_ENTERTAINMENT", "SPECIAL_FUNCTIONS", "TRAILER_ASSIST", "TV_TUNER", "AUX_COOLING", "PEDESTRIAN_ASSIST", "SEAT_PNEUMATIC", "CURVE_ASSIST", "E_CALL", "ENI", "SPORT_HMI", "AD_BLUE", "THING_BLUE", "PEA"};
     private TestSupportDataReceiverEntry[] entries;
 
     public TestSupportComponentEvo(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.TestSupport");
-        this.testSupportHandler = new TestSupportHandler("AppCar - Coding", true, true, this, iCarApplication.getBundleContext(), iCarApplication.getFrameworkAccess().getLogChannel("App.Car.TestSupport"));
+        super(iCarApplication, LOGCHANNEL_NAME);
+        this.testSupportHandler = new TestSupportHandler("AppCar - Coding", true, true, this, iCarApplication.getBundleContext(), iCarApplication.getFrameworkAccess().getLogChannel(LOGCHANNEL_NAME));
     }
 
-    @Override
     public void init() {
         super.init();
         this.entries = new TestSupportDataReceiverEntry[]{new TestSupportDataReceiverEntry(0, "Test Checkbox (unchecked)", true, false), new TestSupportDataReceiverEntry(1, "Test Checkbox (checked)", true, true), new TestSupportDataReceiverEntry(2, "Test Action", false, false)};
         this.testSupportHandler.init();
     }
 
-    @Override
     public void deinit() {
         this.testSupportHandler.deinit();
         super.deinit();
     }
 
-    @Override
     public void debugDataVisible(boolean bl) {
-        this.getLogChannel().log(1078071040, "[TestSupportComponentEvo#debugDataVisible] visible='%1'", bl);
+        this.getLogChannel().log(1000000, "[TestSupportComponentEvo#debugDataVisible] visible='%1'", bl);
         if (bl) {
             this.testSupportHandler.updateData(this.getCarFuncAdapStatus());
         } else {
@@ -49,9 +46,8 @@ implements ITestSupportHandlerNotification {
         }
     }
 
-    @Override
     public void commandEntrySelected(int n) {
-        this.getLogChannel().log(1078071040, "[TestSupportComponentEvo#entrySelected] entryID='%1'", (long)n);
+        this.getLogChannel().log(1000000, "[TestSupportComponentEvo#entrySelected] entryID='%1'", (long)n);
         switch (n) {
             case 0: {
                 this.entries[0].setChecked(!this.entries[0].isChecked());
@@ -66,7 +62,6 @@ implements ITestSupportHandlerNotification {
         }
     }
 
-    @Override
     public TestSupportDataReceiverEntry[] getCommandEntries() {
         return this.entries;
     }
@@ -101,59 +96,44 @@ implements ITestSupportHandlerNotification {
         return stringArray;
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 
-    @Override
     public String getName() {
         return "AppCar - TestSupport";
     }
 
-    @Override
     public int getID() {
         return 21;
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[0];
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return "no DSIs/ViewOptions are used";
     }
 
-    @Override
     public String getDSIListenerClassName() {
         return null;
     }
 
-    @Override
     public String getDSIClassName() {
         return null;
     }
 
-    @Override
     public boolean isUsingDSI() {
         return false;
-    }
-
-    static {
-        carMenuTxt = new String[]{"ACC", "INT_LIGHT", "PARKING", "AWV", "LDW", "SWA", "EXT_LIGHT", "WINDOW", "AIRCONDITION", "AUXHEATER", "BC_CLUSTER", "RDK", "WIPER", "SIA", "SEAT", "CENTRAL_LOCKING", "COMPASS", "CHARISMA", "OILLEVEL", "VIN", "CLOCK", "AIRSUSPENSION", "HUD", "UNITMASTER", "HYBRID", "UGDO", "NIGHTVISION", "SIDEVIEW", "RGS", "MFL_JOKER", "TSD", "ATTENTION_IDENT", "APTIVE_KEY_CLAMP", "MIRROR", "DRV_SCHOOL", "MKE", "BCME", "BATTERY_STATE", "BRAKE", "START_STOP_REASONS", "ANGLE_OF_SLOPE", "BATTERY_MGMNT", "REAR_SEAT_ENTERTAINMENT", "SPECIAL_FUNCTIONS", "TRAILER_ASSIST", "TV_TUNER", "AUX_COOLING", "PEDESTRIAN_ASSIST", "SEAT_PNEUMATIC", "CURVE_ASSIST", "E_CALL", "ENI", "SPORT_HMI", "AD_BLUE", "THING_BLUE", "PEA"};
     }
 }
 

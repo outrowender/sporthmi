@@ -21,7 +21,7 @@ public class SpeechGrammarListItem {
     }
 
     public String toString() {
-        return new StringBuffer("id=").append(this.id).append(", content=").append(this.content).toString();
+        return "id=" + this.id + ", content=" + this.content;
     }
 }
 

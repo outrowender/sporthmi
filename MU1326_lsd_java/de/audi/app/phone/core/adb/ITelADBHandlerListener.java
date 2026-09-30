@@ -9,25 +9,18 @@ import de.audi.app.addressbook.core.common.search.ADBSearchListRow;
 import org.dsi.ifc.organizer.ProfileInfo;
 
 public interface ITelADBHandlerListener {
-    default public void updateActiveProfile(ProfileInfo profileInfo) {
-    }
+    public void updateActiveProfile(ProfileInfo var1);
 
-    default public void profileDeleted(int n) {
-    }
+    public void profileDeleted(int var1);
 
-    default public void updateSortOrder(int n, int n2) {
-    }
+    public void updateSortOrder(int var1, int var2);
 
-    default public void setAdbReady(boolean bl) {
-    }
+    public void setAdbReady(boolean var1);
 
-    default public void handleInvalidData(int n, boolean bl) {
-    }
+    public void handleInvalidData(int var1, boolean var2);
 
-    default public void onEntrySelected(ADBSearch aDBSearch, ADBSearchListRow aDBSearchListRow, int n, int n2) {
-    }
+    public void onEntrySelected(ADBSearch var1, ADBSearchListRow var2, int var3, int var4);
 
-    default public void onDetailsSelected(ADBEntryDetailsListRow aDBEntryDetailsListRow, int n, int n2) {
-    }
+    public void onDetailsSelected(ADBEntryDetailsListRow var1, int var2, int var3);
 }
 

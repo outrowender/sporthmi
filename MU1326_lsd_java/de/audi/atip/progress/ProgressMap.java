@@ -4,16 +4,12 @@
 package de.audi.atip.progress;
 
 public interface ProgressMap {
-    default public void reset() {
-    }
+    public void reset();
 
-    default public int getTaskCount() {
-    }
+    public int getTaskCount();
 
-    default public int taskCompleted(int n, boolean bl) {
-    }
+    public int taskCompleted(int var1, boolean var2);
 
-    default public String taskIDToString(int n) {
-    }
+    public String taskIDToString(int var1);
 }
 

@@ -4,7 +4,6 @@
 package de.audi.app.combi.bap.dsi.fastlist.listener;
 
 public interface IDSIFastListScrollingListener {
-    default public Class getDSIListenerClass() {
-    }
+    public Class getDSIListenerClass();
 }
 

@@ -18,30 +18,24 @@ extends AbstractEventMediator {
         this.started = true;
     }
 
-    @Override
     public void start() {
     }
 
-    @Override
     public void stop() {
     }
 
-    @Override
     public int reactivate(boolean bl) {
         super.reactivate(false);
         return this.action;
     }
 
-    @Override
     public void processUpdate(ModelUpdateEvent modelUpdateEvent) {
     }
 
-    @Override
     public int getType() {
         return 4;
     }
 
-    @Override
     public void kill() {
         if (!this.started) {
             return;

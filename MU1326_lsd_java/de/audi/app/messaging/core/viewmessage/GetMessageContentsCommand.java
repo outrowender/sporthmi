@@ -4,9 +4,8 @@
 package de.audi.app.messaging.core.viewmessage;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
-import de.audi.app.messaging.core.viewmessage.GetMessageContentsCommand$1;
-import de.audi.app.messaging.core.viewmessage.GetMessageContentsCommand$ResultHandler;
 import de.audi.tghu.command.Command;
 import org.dsi.ifc.messaging.MessageDetails;
 
@@ -15,24 +14,22 @@ extends AbstractDsiMessagingCommand {
     private final int accountID;
     private final String messageID;
     private final int download;
-    private final GetMessageContentsCommand$ResultHandler resultHandler;
+    private final ResultHandler resultHandler;
 
-    public GetMessageContentsCommand(AbstractMsgApplication abstractMsgApplication, int n, String string, int n2, GetMessageContentsCommand$ResultHandler getMessageContentsCommand$ResultHandler) {
+    public GetMessageContentsCommand(AbstractMsgApplication abstractMsgApplication, int n, String string, int n2, ResultHandler resultHandler) {
         super(abstractMsgApplication);
         this.accountID = n;
         this.messageID = string;
         this.download = n2;
-        this.resultHandler = getMessageContentsCommand$ResultHandler;
+        this.resultHandler = resultHandler;
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 180000L;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[GetMessageContentsCommand#execute]");
+        this.logger.log(10000000, "[GetMessageContentsCommand#execute]");
         try {
             try {
                 this.msgApp.getNewMessage().indicateMessageDownload();
@@ -48,11 +45,10 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void getMessageContentsResponse(int n, MessageDetails messageDetails) {
         try {
             boolean bl;
-            this.logger.log(-2137614336, "[GetMessageContentsCommand#getMessageContentsResponse] result = %1", (long)n);
+            this.logger.log(10000000, "[GetMessageContentsCommand#getMessageContentsResponse] result = %1", (long)n);
             boolean bl2 = bl = n == 0;
             if (bl && messageDetails == null) {
                 this.logNullParameter("[GetMessageContentsCommand#getMessageContentsResponse]");
@@ -70,7 +66,7 @@ extends AbstractDsiMessagingCommand {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void signalResult(boolean bl, MessageDetails messageDetails) {
-        this.logger.log(-2137614336, "[GetMessageContentsCommand#signalResult] isResultOk = %1", bl);
+        this.logger.log(10000000, "[GetMessageContentsCommand#signalResult] isResultOk = %1", bl);
         try {
             this.resultHandler.handleResult(bl, messageDetails, this.download);
         }
@@ -82,13 +78,18 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new GetMessageContentsCommand$1(this, this.msgApp);
+        return new AbstractMessagingCommand(this.msgApp){
+
+            public void execute() {
+                this.logger.log(10000000, "[GetMessageContentsErrorCommand#execute]");
+                GetMessageContentsCommand.this.signalResult(false, null);
+            }
+        };
     }
 
-    static /* synthetic */ void access$000(GetMessageContentsCommand getMessageContentsCommand, boolean bl, MessageDetails messageDetails) {
-        getMessageContentsCommand.signalResult(bl, messageDetails);
+    public static interface ResultHandler {
+        public void handleResult(boolean var1, MessageDetails var2, int var3);
     }
 }
 

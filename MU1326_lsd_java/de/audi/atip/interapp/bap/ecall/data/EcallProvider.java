@@ -38,7 +38,7 @@ public final class EcallProvider {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         EcallProvider ecallProvider = (EcallProvider)object;
@@ -49,7 +49,7 @@ public final class EcallProvider {
     }
 
     public String toString() {
-        return new StringBuffer().append("Provider [available=").append(this.nameAvailable).append(", name=").append(this.name).append("]").toString();
+        return "Provider [available=" + this.nameAvailable + ", name=" + this.name + "]";
     }
 }
 

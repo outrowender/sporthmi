@@ -18,139 +18,112 @@ implements ITextLookup {
         return this.framework.getHmiServiceApp().getText(n);
     }
 
-    @Override
     public String getForwardPrefix() {
-        return this.get(-1013767936);
+        return this.get(2200515);
     }
 
-    @Override
     public String getReplyPrefix() {
-        return this.get(-996990720);
+        return this.get(2200516);
     }
 
-    @Override
     public String getTemplate1() {
-        return this.get(-1517084416);
+        return this.get(2200485);
     }
 
-    @Override
     public String getTemplate2() {
-        return this.get(-1500307200);
+        return this.get(2200486);
     }
 
-    @Override
     public String getTemplate3() {
-        return this.get(-1483529984);
+        return this.get(2200487);
     }
 
-    @Override
     public String getTemplate4() {
-        return this.get(-1466752768);
+        return this.get(2200488);
     }
 
-    @Override
     public String getTemplate5() {
-        return this.get(-1449975552);
+        return this.get(2200489);
     }
 
-    @Override
     public String getTemplate6() {
-        return this.get(-1433198336);
+        return this.get(2200490);
     }
 
-    @Override
     public String getTemplate7() {
-        return this.get(-1416421120);
+        return this.get(2200491);
     }
 
-    @Override
     public String getTemplate8() {
-        return this.get(-1399643904);
+        return this.get(2200492);
     }
 
-    @Override
     public String getTemplate9() {
-        return this.get(-1382866688);
+        return this.get(2200493);
     }
 
-    @Override
     public String getTemplate10() {
-        return this.get(-1366089472);
+        return this.get(2200494);
     }
 
-    @Override
     public String getFolderInbox() {
-        return this.get(445915392);
+        return this.get(2200602);
     }
 
-    @Override
     public String getFolderDrafts() {
-        return this.get(462692608);
+        return this.get(2200603);
     }
 
-    @Override
     public String getFolderSent() {
-        return this.get(479469824);
+        return this.get(2200604);
     }
 
-    @Override
     public String getFolderDeleted() {
-        return this.get(496247040);
+        return this.get(2200605);
     }
 
-    @Override
     public String getFolderOutbox() {
-        return this.get(513024256);
+        return this.get(2200606);
     }
 
-    @Override
     public String getSubjectNoneSms() {
-        return this.get(127213824);
+        return this.get(2200839);
     }
 
-    @Override
     public String getSubjectNoneEmail() {
-        return this.get(529801472);
+        return this.get(2200607);
     }
 
-    @Override
     public String getRecipientNone() {
-        return this.get(546578688);
+        return this.get(2200608);
     }
 
-    @Override
     public String getSenderNone() {
-        return this.get(563355904);
+        return this.get(2200609);
     }
 
-    @Override
     public String getTimeToday() {
-        return this.get(580133120);
+        return this.get(2200610);
     }
 
-    @Override
     public String getTimeYesterday() {
         return "";
     }
 
-    @Override
     public String getQuoteSeparator() {
-        return this.get(1704206592);
+        return this.get(2200677);
     }
 
-    @Override
     public String getTimeOfDayNone() {
-        return this.get(26550528);
+        return this.get(2200833);
     }
 
-    @Override
     public String getDateNone() {
-        return this.get(43327744);
+        return this.get(2200834);
     }
 
-    @Override
     public String getAttachmentsDiscardedHint() {
-        return this.get(-1248452352);
+        return this.get(2201269);
     }
 }
 

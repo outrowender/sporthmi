@@ -28,8 +28,8 @@ public class RemoteHMIAction {
 
     public String toString() {
         String string = "Action: ";
-        string = new StringBuffer().append(string).append(" Type: ").append(this.getType()).toString();
-        string = new StringBuffer().append(string).append(this.getParameters().toString()).toString();
+        string = string + " Type: " + this.getType();
+        string = string + this.getParameters().toString();
         return string;
     }
 }

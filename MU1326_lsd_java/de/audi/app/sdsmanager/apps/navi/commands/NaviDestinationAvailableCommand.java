@@ -23,19 +23,18 @@ extends AbstractSystemCallCommand {
         this.destinationType = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] destinationType=%2", (Object)this.getName(), (long)this.destinationType);
+        this.logger.log(10000000, "[%1#execute] destinationType=%2", (Object)this.getName(), (long)this.destinationType);
         SDSModelAccess.setNaviDestinationTypeModel(this.destinationType);
         int n = NaviSDSUtils.getNaviDestType(this.destinationType);
         if (n == -1) {
-            this.logger.log(-1601830656, "[%1#execute] No matching destination type found for destinationType %2!", (Object)this.getName(), (long)this.destinationType);
+            this.logger.log(100000, "[%1#execute] No matching destination type found for destinationType %2!", (Object)this.getName(), (long)this.destinationType);
             this.sendResult(3001);
             return;
         }
         boolean bl = this.service.isDestTypeAvailable(n);
-        this.logger.log(-2137614336, "[%1#execute] naviDestType=%3, destTypeAvailable=%2!", (Object)this.getName(), (Object)bl, (long)n);
-        int n2 = this.destinationType == 39 ? (bl ? 1402732544 : 1419509760) : (bl ? 3000 : 3001);
+        this.logger.log(10000000, "[%1#execute] naviDestType=%3, destTypeAvailable=%2!", (Object)this.getName(), (Object)bl, (long)n);
+        int n2 = this.destinationType == 39 ? (bl ? 40019 : 40020) : (bl ? 3000 : 3001);
         this.sendResult(n2);
     }
 }

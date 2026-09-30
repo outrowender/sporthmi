@@ -43,8 +43,7 @@ public abstract class AbstractADBEntryDetailsListRowBuilder {
         return (ADBEntryDetailsListRow[])arrayList.toArray(new ADBEntryDetailsListRow[arrayList.size()]);
     }
 
-    public abstract ADBEntryDetailsListRow createAddressDetailsRow(AdbEntry adbEntry, int n) {
-    }
+    public abstract ADBEntryDetailsListRow createAddressDetailsRow(AdbEntry var1, int var2);
 
     public ADBEntryDetailsListRow createAddressDetailsEmptyRow(AdbEntry adbEntry) {
         return new ADBEntryDetailsListRow(adbEntry, -1, null, null, null, null, null);

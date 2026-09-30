@@ -21,9 +21,8 @@ extends AbstractADBCommand {
         this.syncModel = hMIModelApp;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "DeleteProfilesCommand#execute(): profileNums: %1", (Object)ADBDbgUtils.dbg(this.profileNums));
+        this.logger.log(1000000, "DeleteProfilesCommand#execute(): profileNums: %1", (Object)ADBDbgUtils.dbg(this.profileNums));
         boolean bl = this.adbDSIAccess.deleteProfiles(this.profileNums);
         if (!bl) {
             this.logger.log(10000, "DeleteProfilesCommand#execute(): dsi call was not successful, finishing command.");
@@ -31,9 +30,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void deleteProfilesResult(int n) {
-        this.logger.log(1078071040, "DeleteProfilesCommand#deleteProfilesResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "DeleteProfilesCommand#deleteProfilesResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.syncModel.setStatus(1);
         this.commandList.commandFinished();
     }

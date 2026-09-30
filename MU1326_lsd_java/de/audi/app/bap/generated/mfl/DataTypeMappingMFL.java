@@ -7,7 +7,6 @@ import de.audi.app.bap.fw.request.IDataTypeMapping;
 
 public final class DataTypeMappingMFL
 implements IDataTypeMapping {
-    @Override
     public int getRequestDataType(int n, int n2) {
         int n3 = 3;
         switch (n) {
@@ -41,7 +40,6 @@ implements IDataTypeMapping {
         return n3;
     }
 
-    @Override
     public int getIndicationDataType(int n, int n2) {
         int n3 = 3;
         switch (n) {

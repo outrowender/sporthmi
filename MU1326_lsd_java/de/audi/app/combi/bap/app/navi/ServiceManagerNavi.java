@@ -29,16 +29,15 @@ extends AbstractBAPModuleServiceManager {
         this.logChannel = abstractCombiModule.getLogChannel();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof CombiBAPServiceNaviListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerNavi#addingService] CombiBAPServiceNaviListener found");
+            this.logChannel.log(10000000, "[ServiceManagerNavi#addingService] CombiBAPServiceNaviListener found");
             ((AppConnectorNavi)this.module.getAppConnectors().get("Navi")).setAppServiceListener((CombiBAPServiceNaviListener)object);
             return object;
         }
         if (object instanceof ExternalKeyListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerNavi#addingService] ExternalKeyListener found");
+            this.logChannel.log(10000000, "[ServiceManagerNavi#addingService] ExternalKeyListener found");
             ((CombiModuleNavi)this.module).setExternalKeyListener((ExternalKeyListener)object);
             return object;
         }
@@ -46,10 +45,9 @@ extends AbstractBAPModuleServiceManager {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CombiBAPServiceNaviListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerNavi#removedService] CombiBAPServiceNaviListener removed");
+            this.logChannel.log(10000000, "[ServiceManagerNavi#removedService] CombiBAPServiceNaviListener removed");
             ((AppConnectorNavi)this.module.getAppConnectors().get("Navi")).setAppServiceListener(null);
             this.bundleContext.ungetService(serviceReference);
         } else {
@@ -57,15 +55,13 @@ extends AbstractBAPModuleServiceManager {
         }
     }
 
-    @Override
     public void registerServices(AbstractActivator abstractActivator) {
-        this.logChannel.log(-2137614336, "[ServiceManagerNavi#registerServices] Registering AppConnectorNavi as CombiBAPServiceNavi");
+        this.logChannel.log(10000000, "[ServiceManagerNavi#registerServices] Registering AppConnectorNavi as CombiBAPServiceNavi");
         abstractActivator.registerService((class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNavi == null ? (class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNavi = ServiceManagerNavi.class$("de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNavi")) : class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNavi).getName(), this.module.getAppConnectors().get("Navi"), null);
-        this.logChannel.log(-2137614336, "[ServiceManagerNavi#registerServices] Registering InitializationManagerNavi as MessageListener");
+        this.logChannel.log(10000000, "[ServiceManagerNavi#registerServices] Registering InitializationManagerNavi as MessageListener");
         abstractActivator.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = ServiceManagerNavi.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)this.module.getInitializationManager(), null);
     }
 
-    @Override
     public void trackServices() {
         String[] stringArray = new String[]{(class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNaviListener == null ? (class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNaviListener = ServiceManagerNavi.class$("de.audi.atip.interapp.combi.bap.navi.CombiBAPServiceNaviListener")) : class$de$audi$atip$interapp$combi$bap$navi$CombiBAPServiceNaviListener).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = ServiceManagerNavi.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName()};
         this.serviceTracker = new ServiceTracker(this.bundleContext, stringArray, (ServiceTrackerCustomizer)this);

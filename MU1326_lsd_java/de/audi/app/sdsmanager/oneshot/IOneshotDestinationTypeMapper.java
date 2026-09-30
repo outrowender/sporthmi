@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.oneshot;
 
 public interface IOneshotDestinationTypeMapper {
-    default public int mapToOneshotLevel(int n) {
-    }
+    public int mapToOneshotLevel(int var1);
 }
 

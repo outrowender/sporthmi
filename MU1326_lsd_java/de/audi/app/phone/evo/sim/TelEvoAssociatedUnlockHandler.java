@@ -4,12 +4,12 @@
 package de.audi.app.phone.evo.sim;
 
 import de.audi.app.phone.core.ITelApplication;
+import de.audi.app.phone.core.ap.AbstractTelActionProxyListener;
+import de.audi.app.phone.core.screen.AbstractTelDefaultScreenStateListener;
 import de.audi.app.phone.core.sim.TelAssociatedUnlockHandler;
 import de.audi.app.phone.evo.screen.TelEvoPopupHandler;
-import de.audi.app.phone.evo.sim.TelEvoAssociatedUnlockHandler$TelAppEnteredListener;
-import de.audi.app.phone.evo.sim.TelEvoAssociatedUnlockHandler$TelAppLeftListener;
-import de.audi.app.phone.evo.sim.TelEvoAssociatedUnlockHandler$TelUnlockAssociatedPinBlockedScreenListener;
 import de.audi.app.phone.evo.sim.TelUnlockPopupListener;
+import java.util.Map;
 
 public class TelEvoAssociatedUnlockHandler
 extends TelAssociatedUnlockHandler {
@@ -18,33 +18,29 @@ extends TelAssociatedUnlockHandler {
 
     public TelEvoAssociatedUnlockHandler(ITelApplication iTelApplication) {
         super(iTelApplication);
-        this.unlockPopupAssociatedHandler = new TelEvoPopupHandler(iTelApplication, "App.Phone.LockState", -258800640);
+        this.unlockPopupAssociatedHandler = new TelEvoPopupHandler(iTelApplication, "App.Phone.LockState", 300016);
         this.addSubPhoneComponent(this.unlockPopupAssociatedHandler);
-        this.addSubPhoneComponent(new TelEvoAssociatedUnlockHandler$TelAppEnteredListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelEvoAssociatedUnlockHandler$TelAppLeftListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelEvoAssociatedUnlockHandler$TelUnlockAssociatedPinBlockedScreenListener(this, iTelApplication));
+        this.addSubPhoneComponent(new TelAppEnteredListener(iTelApplication));
+        this.addSubPhoneComponent(new TelAppLeftListener(iTelApplication));
+        this.addSubPhoneComponent(new TelUnlockAssociatedPinBlockedScreenListener(iTelApplication));
         this.addSubPhoneComponent(new TelUnlockPopupListener(iTelApplication));
     }
 
-    @Override
     protected void processPINRequired(int n) {
         super.processPINRequired(n);
         this.showUnlockPopup();
     }
 
-    @Override
     protected void processSIMNotFunctioning() {
         super.processSIMNotFunctioning();
         this.showUnlockPopup();
     }
 
-    @Override
     protected void processPUKBlocked() {
         super.processPUKBlocked();
         this.showUnlockPopup();
     }
 
-    @Override
     protected void processPUKRequired(int n) {
         super.processPUKRequired(n);
         this.showUnlockPopup();
@@ -52,22 +48,52 @@ extends TelAssociatedUnlockHandler {
 
     public void showUnlockPopup() {
         if (this.telEntered && this.lockHandlingRequired()) {
-            this.log.log(1078071040, "[TelEvoAssociatedUnlockHandler#showUnlockPopup]");
+            this.log.log(1000000, "[TelEvoAssociatedUnlockHandler#showUnlockPopup]");
             this.unlockPopupAssociatedHandler.requestShowPopup(0);
         }
     }
 
-    static /* synthetic */ boolean access$002(TelEvoAssociatedUnlockHandler telEvoAssociatedUnlockHandler, boolean bl) {
-        telEvoAssociatedUnlockHandler.telEntered = bl;
-        return telEvoAssociatedUnlockHandler.telEntered;
+    private class TelAppLeftListener
+    extends AbstractTelActionProxyListener {
+        public TelAppLeftListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.LockState", 8);
+        }
+
+        protected void actionProxyCalled(Map map) {
+            this.log.log(1000000, "[TelEvoAssociatedUnlockHandler.TelAppLeftListener#actionProxyCalled]");
+            TelEvoAssociatedUnlockHandler.this.telEntered = false;
+        }
     }
 
-    static /* synthetic */ boolean access$100(TelEvoAssociatedUnlockHandler telEvoAssociatedUnlockHandler) {
-        return telEvoAssociatedUnlockHandler.lockHandlingRequired();
+    private class TelAppEnteredListener
+    extends AbstractTelActionProxyListener {
+        public TelAppEnteredListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.LockState", 7);
+        }
+
+        protected void actionProxyCalled(Map map) {
+            TelEvoAssociatedUnlockHandler.this.telEntered = true;
+            if (TelEvoAssociatedUnlockHandler.this.lockHandlingRequired()) {
+                this.log.log(1000000, "[TelEvoAssociatedUnlockHandler.TelAppEnteredListener#actionProxyCalled] showing unlock popup");
+                TelEvoAssociatedUnlockHandler.this.showUnlockPopup();
+            }
+        }
     }
 
-    static /* synthetic */ void access$200(TelEvoAssociatedUnlockHandler telEvoAssociatedUnlockHandler) {
-        telEvoAssociatedUnlockHandler.resetPukConditionChoice();
+    private class TelUnlockAssociatedPinBlockedScreenListener
+    extends AbstractTelDefaultScreenStateListener {
+        public TelUnlockAssociatedPinBlockedScreenListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 300323);
+        }
+
+        public void notifyScreenConnected(int n) {
+            this.log.log(1000000, "[TelEvoAssociatedUnlockHandler.TelUnlockAssociatedPinBlockedScreenListener#notifyScreenConnected]");
+        }
+
+        public void notifyScreenFadedOut(int n) {
+            this.log.log(1000000, "[TelEvoAssociatedUnlockHandler.TelUnlockAssociatedPinBlockedScreenListener#notifyScreenFadedOut]");
+            TelEvoAssociatedUnlockHandler.this.resetPukConditionChoice();
+        }
     }
 }
 

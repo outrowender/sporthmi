@@ -20,12 +20,10 @@ implements ADBRemoteHMIService {
         this.log = addressBookEvoApplication.getLog();
     }
 
-    @Override
     public int[] getListModelIDs() {
-        return new int[]{-1297085952, -1280308736};
+        return new int[]{700594, 700595};
     }
 
-    @Override
     public ADBRemoteHMIAddress getAddress(EvoListRow evoListRow) {
         if (evoListRow == null || !(evoListRow instanceof ADBEntryDetailsListRow)) {
             this.log.log(10000, "AddressBookEvoRemoteHMIServiceImpl#getAddress(): invalid row: %1", (Object)evoListRow);
@@ -38,7 +36,7 @@ implements ADBRemoteHMIService {
         }
         AddressData addressData = aDBEntryDetailsListRow.getEntry().getAddressData()[aDBEntryDetailsListRow.getAddressIndex()];
         ADBRemoteHMIAddress aDBRemoteHMIAddress = this.getRHMIAddress(addressData, aDBEntryDetailsListRow.getAddressType());
-        this.log.log(1078071040, "AddressBookEvoRemoteHMIServiceImpl#getAddress(): returning ADBRemoteHMIAddress: %1", (Object)aDBRemoteHMIAddress);
+        this.log.log(1000000, "AddressBookEvoRemoteHMIServiceImpl#getAddress(): returning ADBRemoteHMIAddress: %1", (Object)aDBRemoteHMIAddress);
         return aDBRemoteHMIAddress;
     }
 
@@ -57,7 +55,7 @@ implements ADBRemoteHMIService {
             }
             return null;
         }
-        this.log.log(1078071040, "AddressBookEvoRemoteHMIServiceImpl#getRHMIAddress(): null AddressData passed to the method");
+        this.log.log(1000000, "AddressBookEvoRemoteHMIServiceImpl#getRHMIAddress(): null AddressData passed to the method");
         return null;
     }
 }

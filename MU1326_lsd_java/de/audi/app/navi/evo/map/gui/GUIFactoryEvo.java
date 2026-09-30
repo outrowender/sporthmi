@@ -14,12 +14,10 @@ import de.audi.tghu.navi.app.map.gui.MapPartialPopupEvoHandler;
 
 public class GUIFactoryEvo
 implements IGUIFactory {
-    @Override
     public GUIEventDispatcher createGUIEventDispatcher(NavigationEnv navigationEnv, MapManager mapManager) {
         return new GUIEventDispatcher(navigationEnv, mapManager);
     }
 
-    @Override
     public GUIInterface createGUIMain(NavigationEnv navigationEnv, AbstractMap abstractMap) {
         return new GUIMain(navigationEnv, abstractMap, new MapPartialPopupEvoHandler(navigationEnv));
     }

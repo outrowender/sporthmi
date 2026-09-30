@@ -8,7 +8,7 @@ import de.audi.app.online.evo.previews.PreviewUpdateTask;
 import de.audi.app.online.evo.previews.ReplacePreviewGridCellAction;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.IPreviewInfo;
-import de.audi.remotehmi.ui.mib2.Commands$StateUpdatePreviewsPayload;
+import de.audi.remotehmi.ui.mib2.Commands;
 import de.audi.remotehmi.ui.mib2.grid.GeoPosition;
 import de.audi.remotehmi.ui.mib2.grid.IGrid;
 import de.audi.remotehmi.ui.mib2.grid.IGridCell;
@@ -38,20 +38,19 @@ extends AbstractCommandHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void indicateCommand(int n, Object object) {
         boolean bl;
-        this.logChannel.log(-2137614336, "PreviewUpdateCommandHandler#indicateCommand called()");
-        Commands$StateUpdatePreviewsPayload commands$StateUpdatePreviewsPayload = (Commands$StateUpdatePreviewsPayload)object;
-        List list = commands$StateUpdatePreviewsPayload.getPreviews();
+        this.logChannel.log(10000000, "PreviewUpdateCommandHandler#indicateCommand called()");
+        Commands.StateUpdatePreviewsPayload stateUpdatePreviewsPayload = (Commands.StateUpdatePreviewsPayload)object;
+        List list = stateUpdatePreviewsPayload.getPreviews();
         if (list.isEmpty()) {
-            this.logChannel.log(1078071040, "PreviewUpdateCommandHandler#indicateCommand: no previews sent. Do nothing");
+            this.logChannel.log(1000000, "PreviewUpdateCommandHandler#indicateCommand: no previews sent. Do nothing");
             return;
         }
         HMIViewGridListener hMIViewGridListener = (HMIViewGridListener)this.remoteHmiService.getViewListener(13000);
         IGridList iGridList = hMIViewGridListener.getCurrentGridList();
         if (iGridList == null) {
-            this.logChannel.log(-1601830656, "PreviewUpdateCommandHandler#indicateCommand: no gridList available. Do nothing");
+            this.logChannel.log(100000, "PreviewUpdateCommandHandler#indicateCommand: no gridList available. Do nothing");
             return;
         }
         Object object2 = iGridList;
@@ -64,11 +63,11 @@ extends AbstractCommandHandler {
         if (remoteHMIContext != null && ((ContextManagerComponent)object2).isContextActive(remoteHMIContext)) {
             hMIViewGridListener.renderGridList(4, 6);
             if (bl) {
-                this.logChannel.log(1078071040, "PreviewUpdateCommandHandler#indicateCommand: re-triggered rrd calculation because geo position(s) changed.");
+                this.logChannel.log(1000000, "PreviewUpdateCommandHandler#indicateCommand: re-triggered rrd calculation because geo position(s) changed.");
                 this.rrdCalculationHandler.triggerRrdCalculation(iGridList);
             }
         } else {
-            this.logChannel.log(1078071040, "PreviewUpdateCommandHandler#indicateCommand: not rendering because root context is null or not active.");
+            this.logChannel.log(1000000, "PreviewUpdateCommandHandler#indicateCommand: not rendering because root context is null or not active.");
         }
     }
 
@@ -82,7 +81,7 @@ extends AbstractCommandHandler {
             IGrid iGrid = iPreviewInfo.getPreviewGrid();
             IGrid iGrid2 = iGrid;
             IGridCell iGridCell = iGrid2.getFirstCell(0);
-            this.logChannel.log(1078071040, "PreviewUpdateCommandHandler#replacePreviewGrid: id: %1, first text cell: %2", (Object)string, (Object)(iGridCell == null ? null : iGridCell.getStringValue()));
+            this.logChannel.log(1000000, "PreviewUpdateCommandHandler#replacePreviewGrid: id: %1, first text cell: %2", (Object)string, (Object)(iGridCell == null ? null : iGridCell.getStringValue()));
             IGrid iGrid3 = iGridList.replaceGridNode(string, iGrid2);
             if (iGrid2.hasRRDItems()) {
                 bl2 = true;
@@ -98,14 +97,13 @@ extends AbstractCommandHandler {
                 this.rrdCalculationHandler.updateGrid(iGridList, iGrid3, iGrid2);
                 continue;
             }
-            iGrid2.forEachCell(new ReplacePreviewGridCellAction(iGrid3, geoPosition2, this.logChannel), -129);
+            iGrid2.forEachCell(new ReplacePreviewGridCellAction(iGrid3, geoPosition2, this.logChannel), Integer.MAX_VALUE);
         }
         return bl2;
     }
 
-    @Override
     public RemoteHMITask createTask(int n, Object object) {
-        return new PreviewUpdateTask(this, this.getFullName(), n, (Commands$StateUpdatePreviewsPayload)object, this.logChannel);
+        return new PreviewUpdateTask(this, this.getFullName(), n, (Commands.StateUpdatePreviewsPayload)object, this.logChannel);
     }
 }
 

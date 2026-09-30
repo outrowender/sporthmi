@@ -45,7 +45,7 @@ import org.dsi.ifc.global.CarArrayListUpdateInfo;
 public abstract class AbstractDSICarParkingSystemAdapter
 extends AbstractCarComponent
 implements DSICarParkingSystemListener {
-    protected static final String LOGCHANNEL_NAME;
+    protected static final String LOGCHANNEL_NAME = "App.EarlyFunc.Parking";
     static /* synthetic */ Class class$org$dsi$ifc$carparkingsystem$DSICarParkingSystemListener;
     static /* synthetic */ Class class$org$dsi$ifc$carparkingsystem$DSICarParkingSystem;
 
@@ -57,17 +57,14 @@ implements DSICarParkingSystemListener {
         return (DSICarParkingSystem)this.getBaseDSI();
     }
 
-    @Override
     public final String getDSIListenerClassName() {
         return (class$org$dsi$ifc$carparkingsystem$DSICarParkingSystemListener == null ? (class$org$dsi$ifc$carparkingsystem$DSICarParkingSystemListener = AbstractDSICarParkingSystemAdapter.class$("org.dsi.ifc.carparkingsystem.DSICarParkingSystemListener")) : class$org$dsi$ifc$carparkingsystem$DSICarParkingSystemListener).getName();
     }
 
-    @Override
     public final String getDSIClassName() {
         return (class$org$dsi$ifc$carparkingsystem$DSICarParkingSystem == null ? (class$org$dsi$ifc$carparkingsystem$DSICarParkingSystem = AbstractDSICarParkingSystemAdapter.class$("org.dsi.ifc.carparkingsystem.DSICarParkingSystem")) : class$org$dsi$ifc$carparkingsystem$DSICarParkingSystem).getName();
     }
 
-    @Override
     public final boolean isUsingDSI() {
         return true;
     }
@@ -120,528 +117,422 @@ implements DSICarParkingSystemListener {
         return "UNKNOWN/INVALID POPUP";
     }
 
-    @Override
     public void updateParkingSystemViewOptions(ParkingSystemViewOptions parkingSystemViewOptions, int n) {
     }
 
-    @Override
     public void updatePDCDefaultParkingMode(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCFrequenceFront(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCFrequenceRear(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCFrequenceRight(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCFrequenceLeft(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCVolumeFront(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCVolumeRear(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCVolumeRight(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCVolumeLeft(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCMute(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCSystemOnOff(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCTrailerHitched(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCDistanceValuesFront(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCDistanceValuesRear(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCDistanceValuesRight(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCDistanceValuesLeft(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCStatusLevelFront(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCStatusLevelRear(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCStatusLevelRight(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCStatusLevelLeft(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCOPSAutoActivation(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCCrashWarning(PDCCrashWarning pDCCrashWarning, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCSteeringInformation(PDCSteeringInformation pDCSteeringInformation, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCFlankGuard(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCSoundReproduction(PDCSoundReproduction pDCSoundReproduction, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCInfo(PDCInfo pDCInfo, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCFailure(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCDistanceValuesFrontExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCDistanceValuesRearExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCStatusLevelFrontExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCStatusLevelRearExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCWallDetection(PDCWallDetection pDCWallDetection, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCPLAMessage(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCSoundFront(PDCSound pDCSound, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCSoundRear(PDCSound pDCSound, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCSoundLeft(PDCSound pDCSound, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCSoundRight(PDCSound pDCSound, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCPLAStatus(PDCPLAStatus pDCPLAStatus, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCPLABargraph(PDCPLABargraph pDCPLABargraph, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCPLAParkmodeSelection(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCPLASystemState(PDCPLASystemState pDCPLASystemState, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCOPSVisualisationPosition(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCOffroadMode(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCParkboxVisualisation(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSFollowUpTime(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSVideoInfo(VPSVideoInfo vPSVideoInfo, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSColor(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSContrast(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSBrightness(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSDefaultModeRV(VPSDefaultMode vPSDefaultMode, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSDefaultModeSV(VPSDefaultMode vPSDefaultMode, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSDefaultModeFV(VPSDefaultMode vPSDefaultMode, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSDefaultModeBV(VPSDefaultMode vPSDefaultMode, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSDefaultView(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSDynamicParkingMode(VPSDynParkingMode vPSDynParkingMode, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSOPSOverlay(VPSOPSOverlay vPSOPSOverlay, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSSystemOnOff(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSFailure(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateParkingPopupContent(DisplayContent displayContent, int n) {
     }
 
-    @Override
     public void requestParkingPopup(DisplayContent displayContent) {
     }
 
-    @Override
     public void acknowledgeParkingPopup(DisplayContent displayContent) {
     }
 
-    @Override
     public void responseLifeMonitoring(boolean bl) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgePdcSetFactoryDefault(boolean bl) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeVpsSetFactoryDefault(boolean bl) {
         this.logStub();
     }
 
-    @Override
     public void updateARAFailure(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateARAInfo(ARAInfo aRAInfo, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateARACurrentTrailerAngle(ARACurrentTrailerAngle aRACurrentTrailerAngle, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateARATargetTrailerAngle(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSExtCamConfig(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSExtCamManActivation(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPS3DBirdview(int n, int n2, int n3) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSSystemState(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSCameraStates(VPSCameraStates vPSCameraStates, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCManeuverAssistConfig(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCManeuverAssist(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCManeuverAssistState(PDCManeuverAssistState pDCManeuverAssistState, int n) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCManeuverAssistMessage(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCIPAMessage(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCContinueDrivingAssist(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCIpaConfig(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updatePDCPiloPaSystemState(PDCPiloPaSystemState pDCPiloPaSystemState, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSCameraCleaning(VPSCameraCleaning vPSCameraCleaning, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVPSRimProtection(VPSRimProtection vPSRimProtection, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateWCViewOptions(WCViewOptions wCViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateWCSystemOnOff(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateWCAutoActivation(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateWCPopupContent(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateWCMessage(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateWCPanelPosition(WCPanelInfo wCPanelInfo, int n) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeWCSetFactoryDefault(boolean bl) {
         this.logStub();
     }
 
-    @Override
     public void requestWCPopup(int n) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeWCPopup(int n) {
         this.logStub();
     }
 
-    @Override
     public void updateWCPanelListUpdateInfo(CarArrayListUpdateInfo carArrayListUpdateInfo, int[] nArray, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateWCPanelListTotalNumberOfElements(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateWCVehiclePanelInfo(WCVehiclePanelInfo wCVehiclePanelInfo, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateWCPinPukState(WCPinPukState wCPinPukState, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateWCScanningProgress(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateWCSoftwareUpdateProgress(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeWCEnterPinPuk(int n) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeWCScanning(int n) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeWCPairing(int n) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeWCSoftwareUpdate(int n) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeWCChangePin(int n) {
         this.logStub();
     }
 
-    @Override
     public void acknowledgeWCChangePanelName(int n) {
         this.logStub();
     }
 
-    @Override
     public void responseWCPanelList(CarArrayListUpdateInfo carArrayListUpdateInfo, WCPanelListRecord[] wCPanelListRecordArray) {
         this.logStub();
     }

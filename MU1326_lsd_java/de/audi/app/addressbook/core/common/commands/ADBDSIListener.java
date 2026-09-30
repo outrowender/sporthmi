@@ -4,90 +4,6 @@
 package de.audi.app.addressbook.core.common.commands;
 
 import de.audi.app.addressbook.core.common.commands.ADBDSIDefaultListener;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$1;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$10;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$11;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$12;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$13;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$14;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$15;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$16;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$17;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$18;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$19;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$2;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$20;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$21;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$22;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$23;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$24;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$25;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$26;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$27;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$28;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$29;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$3;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$30;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$31;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$32;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$33;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$34;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$35;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$36;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$37;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$38;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$39;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$4;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$40;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$41;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$42;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$43;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$44;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$45;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$46;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$47;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$48;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$49;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$5;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$50;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$51;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$52;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$53;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$54;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$55;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$56;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$57;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$58;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$59;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$6;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$60;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$61;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$62;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$63;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$64;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$65;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$66;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$67;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$68;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$69;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$7;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$70;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$71;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$72;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$73;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$74;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$75;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$76;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$77;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$78;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$79;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$8;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$80;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$81;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$82;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$83;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$84;
-import de.audi.app.addressbook.core.common.commands.ADBDSIListener$9;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.CommandListManager;
@@ -124,444 +40,776 @@ ICommandResponseSupplier {
         this.defaultListener = aDBDSIDefaultListener;
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.cmdListMgr.getActiveCommandList();
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.defaultListener;
     }
 
-    @Override
     public String getHandlerName() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.cmdListMgr.getLogChannel();
     }
 
-    @Override
-    public void asyncException(int n, String string, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$1(this, n, string, n2));
+    public void asyncException(final int n, final String string, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).asyncException(n, string, n2);
+            }
+        });
     }
+
+    public void getViewWindowResult(final int n, final DataSet[] dataSetArray, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void getViewWindowResult(int n, DataSet[] dataSetArray, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$2(this, n, dataSetArray, n2));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).getViewWindowResult(n, dataSetArray, n2);
+            }
+        });
     }
 
-    @Override
-    public void invalidData(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$3(this, n));
+    public void invalidData(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).invalidData(n);
+            }
+        });
     }
 
-    @Override
-    public void spellerResult(int n, int n2, DataSet[] dataSetArray, int n3, String string, String string2) {
-        CommandResponse.execute(this, new ADBDSIListener$4(this, n, n2, dataSetArray, n3, string, string2));
+    public void spellerResult(final int n, final int n2, final DataSet[] dataSetArray, final int n3, final String string, final String string2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).spellerResult(n, n2, dataSetArray, n3, string, string2);
+            }
+        });
     }
+
+    public void stopSpellerResult(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void stopSpellerResult(int n, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$5(this, n, n2));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).stopSpellerResult(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateViewSize(AdbViewSize adbViewSize, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$6(this, adbViewSize, n));
+    public void updateViewSize(final AdbViewSize adbViewSize, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).updateViewSize(adbViewSize, n);
+            }
+        });
     }
+
+    public void validateSpellerCharsResult(final int n, final int n2, final String string, final String string2) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void validateSpellerCharsResult(int n, int n2, String string, String string2) {
-        CommandResponse.execute(this, new ADBDSIListener$7(this, n, n2, string, string2));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).validateSpellerCharsResult(n, n2, string, string2);
+            }
+        });
     }
 
-    @Override
-    public void getSpellerViewWindowResult(int n, int n2, DataSet[] dataSetArray, int n3) {
-        CommandResponse.execute(this, new ADBDSIListener$8(this, n, n2, dataSetArray, n3));
+    public void getSpellerViewWindowResult(final int n, final int n2, final DataSet[] dataSetArray, final int n3) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).getSpellerViewWindowResult(n, n2, dataSetArray, n3);
+            }
+        });
     }
 
-    @Override
-    public void setListStyleResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$9(this, n));
+    public void setListStyleResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).setListStyleResult(n);
+            }
+        });
     }
+
+    public void getValidHanziCharsWindowResult(final int n, final int n2, final int n3, final String string, final int n4) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void getValidHanziCharsWindowResult(int n, int n2, int n3, String string, int n4) {
-        CommandResponse.execute(this, new ADBDSIListener$10(this, n, n2, n3, string, n4));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).getValidHanziCharsWindowResult(n, n2, n3, string, n4);
+            }
+        });
     }
 
-    @Override
-    public void updateAlphabeticalIndex(IndexInformation[] indexInformationArray, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$11(this, indexInformationArray, n));
+    public void updateAlphabeticalIndex(final IndexInformation[] indexInformationArray, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbListListener)dSIListener).updateAlphabeticalIndex(indexInformationArray, n);
+            }
+        });
     }
+
+    public void changeEntryResult(final int n, final AdbEntry adbEntry) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void changeEntryResult(int n, AdbEntry adbEntry) {
-        CommandResponse.execute(this, new ADBDSIListener$12(this, n, adbEntry));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).changeEntryResult(n, adbEntry);
+            }
+        });
     }
 
-    @Override
-    public void copyEntryResult(int n, AdbEntry adbEntry) {
-        CommandResponse.execute(this, new ADBDSIListener$13(this, n, adbEntry));
+    public void copyEntryResult(final int n, final AdbEntry adbEntry) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).copyEntryResult(n, adbEntry);
+            }
+        });
     }
 
-    @Override
-    public void deleteEntriesResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$14(this, n));
+    public void deleteEntriesResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).deleteEntriesResult(n);
+            }
+        });
     }
+
+    public void getEntriesResult(final int n, final AdbEntry[] adbEntryArray) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        CommandResponse.execute(this, new ADBDSIListener$15(this, n, adbEntryArray));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).getEntriesResult(n, adbEntryArray);
+            }
+        });
     }
 
-    @Override
-    public void insertEntryResult(int n, AdbEntry adbEntry) {
-        CommandResponse.execute(this, new ADBDSIListener$16(this, n, adbEntry));
+    public void insertEntryResult(final int n, final AdbEntry adbEntry) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).insertEntryResult(n, adbEntry);
+            }
+        });
     }
 
-    @Override
-    public void updateNewEntryAvailable(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$17(this, bl, n));
+    public void updateNewEntryAvailable(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).updateNewEntryAvailable(bl, n);
+            }
+        });
     }
+
+    public void updateNewPublicProfileEntryAvailable(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateNewPublicProfileEntryAvailable(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$18(this, bl, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).updateNewPublicProfileEntryAvailable(bl, n);
+            }
+        });
     }
 
-    @Override
-    public void updateNewPublicProfileTopDestEntryAvailable(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$19(this, bl, n));
+    public void updateNewPublicProfileTopDestEntryAvailable(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).updateNewPublicProfileTopDestEntryAvailable(bl, n);
+            }
+        });
     }
 
-    @Override
-    public void updateNewTopDestinationEntryAvailable(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$20(this, bl, n));
+    public void updateNewTopDestinationEntryAvailable(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).updateNewTopDestinationEntryAvailable(bl, n);
+            }
+        });
     }
+
+    public void getEntryDataSetsResult(final int n, final DataSet[] dataSetArray) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void getEntryDataSetsResult(int n, DataSet[] dataSetArray) {
-        CommandResponse.execute(this, new ADBDSIListener$21(this, n, dataSetArray));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).getEntryDataSetsResult(n, dataSetArray);
+            }
+        });
     }
 
-    @Override
-    public void setSpeedDialResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$22(this, n));
+    public void setSpeedDialResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).setSpeedDialResult(n);
+            }
+        });
     }
+
+    public void deleteSpeedDialResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void deleteSpeedDialResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$23(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).deleteSpeedDialResult(n);
+            }
+        });
     }
 
-    @Override
-    public void getEntryByReferenceIdResult(int n, AdbEntry adbEntry) {
-        CommandResponse.execute(this, new ADBDSIListener$24(this, n, adbEntry));
+    public void getEntryByReferenceIdResult(final int n, final AdbEntry adbEntry) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).getEntryByReferenceIdResult(n, adbEntry);
+            }
+        });
     }
 
-    @Override
-    public void updateNewOnlineDestinationEntryAvailable(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$25(this, bl, n));
+    public void updateNewOnlineDestinationEntryAvailable(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbEditListener)dSIListener).updateNewOnlineDestinationEntryAvailable(bl, n);
+            }
+        });
     }
+
+    public void commonEntryCountResult(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void commonEntryCountResult(int n, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$26(this, n, n2));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).commonEntryCountResult(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void deleteProfilesResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$27(this, n));
+    public void deleteProfilesResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).deleteProfilesResult(n);
+            }
+        });
     }
+
+    public void downloadToProfileResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void downloadToProfileResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$28(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).downloadToProfileResult(n);
+            }
+        });
     }
 
-    @Override
-    public void entryMeterResult(int n, EntryMeter[] entryMeterArray) {
-        CommandResponse.execute(this, new ADBDSIListener$29(this, n, entryMeterArray));
+    public void entryMeterResult(final int n, final EntryMeter[] entryMeterArray) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).entryMeterResult(n, entryMeterArray);
+            }
+        });
     }
 
-    @Override
-    public void newDeviceConnected(String string) {
-        CommandResponse.execute(this, new ADBDSIListener$30(this, string));
+    public void newDeviceConnected(final String string) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).newDeviceConnected(string);
+            }
+        });
     }
+
+    public void restartDownloadResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void restartDownloadResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$31(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).restartDownloadResult(n);
+            }
+        });
     }
 
-    @Override
-    public void setHomeIdResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$32(this, n));
+    public void setHomeIdResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).setHomeIdResult(n);
+            }
+        });
     }
+
+    public void setPairingCodeResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void setPairingCodeResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$33(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).setPairingCodeResult(n);
+            }
+        });
     }
 
-    @Override
-    public void setProfileNameResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$34(this, n));
+    public void setProfileNameResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).setProfileNameResult(n);
+            }
+        });
     }
 
-    @Override
-    public void updateDeviceConnected(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$35(this, bl, n));
+    public void updateDeviceConnected(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).updateDeviceConnected(bl, n);
+            }
+        });
     }
+
+    public void updateDownloadCountMe(final DownloadInfo downloadInfo, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateDownloadCountMe(DownloadInfo downloadInfo, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$36(this, downloadInfo, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).updateDownloadCountMe(downloadInfo, n);
+            }
+        });
     }
 
-    @Override
-    public void updateDownloadCountOpp(DownloadInfo downloadInfo, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$37(this, downloadInfo, n));
+    public void updateDownloadCountOpp(final DownloadInfo downloadInfo, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).updateDownloadCountOpp(downloadInfo, n);
+            }
+        });
     }
 
-    @Override
-    public void updateDownloadCountSim(DownloadInfo downloadInfo, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$38(this, downloadInfo, n));
+    public void updateDownloadCountSim(final DownloadInfo downloadInfo, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).updateDownloadCountSim(downloadInfo, n);
+            }
+        });
     }
+
+    public void updateProfileInfo(final ProfileInfo[] profileInfoArray, final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$39(this, profileInfoArray, n, n2));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).updateProfileInfo(profileInfoArray, n, n2);
+            }
+        });
     }
 
-    @Override
-    public void profileDeleted(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$40(this, n));
+    public void profileDeleted(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).profileDeleted(n);
+            }
+        });
     }
 
-    @Override
-    public void updateDownloadState(int n, int n2, int n3) {
-        CommandResponse.execute(this, new ADBDSIListener$41(this, n, n2, n3));
+    public void updateDownloadState(final int n, final int n2, final int n3) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).updateDownloadState(n, n2, n3);
+            }
+        });
     }
+
+    public void updateDownloadState2ndPhone(final int n, final int n2, final int n3) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateDownloadState2ndPhone(int n, int n2, int n3) {
-        CommandResponse.execute(this, new ADBDSIListener$42(this, n, n2, n3));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).updateDownloadState2ndPhone(n, n2, n3);
+            }
+        });
     }
 
-    @Override
-    public void setSOSButtonResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$43(this, n));
+    public void setSOSButtonResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).setSOSButtonResult(n);
+            }
+        });
     }
+
+    public void updateSOSButton(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateSOSButton(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$44(this, bl, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbUserProfileListener)dSIListener).updateSOSButton(bl, n);
+            }
+        });
     }
 
-    @Override
-    public void createBackupFileResult(int n, String string) {
-        CommandResponse.execute(this, new ADBDSIListener$45(this, n, string));
+    public void createBackupFileResult(final int n, final String string) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).createBackupFileResult(n, string);
+            }
+        });
     }
 
-    @Override
-    public void importBackupFileResult(int n, String string) {
-        CommandResponse.execute(this, new ADBDSIListener$46(this, n, string));
+    public void importBackupFileResult(final int n, final String string) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).importBackupFileResult(n, string);
+            }
+        });
     }
+
+    public void resetToFactorySettingsResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void resetToFactorySettingsResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$47(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).resetToFactorySettingsResult(n);
+            }
+        });
     }
 
-    @Override
-    public void resetTopDestinationResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$48(this, n));
+    public void resetTopDestinationResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).resetTopDestinationResult(n);
+            }
+        });
     }
+
+    public void setLanguageResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void setLanguageResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$49(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).setLanguageResult(n);
+            }
+        });
     }
 
-    @Override
-    public void setPublicProfileVisibilityResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$50(this, n));
+    public void setPublicProfileVisibilityResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).setPublicProfileVisibilityResult(n);
+            }
+        });
     }
 
-    @Override
-    public void setSortOrderResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$51(this, n));
+    public void setSortOrderResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).setSortOrderResult(n);
+            }
+        });
     }
+
+    public void updateAdbState(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateAdbState(int n, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$52(this, n, n2));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).updateAdbState(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateSortOrder(int n, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$53(this, n, n2));
+    public void updateSortOrder(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).updateSortOrder(n, n2);
+            }
+        });
     }
+
+    public void setPictureVisibilityResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void setPictureVisibilityResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$54(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).setPictureVisibilityResult(n);
+            }
+        });
     }
 
-    @Override
-    public void updatePictureVisibility(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$55(this, bl, n));
+    public void updatePictureVisibility(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).updatePictureVisibility(bl, n);
+            }
+        });
     }
 
-    @Override
-    public void setContextSpecificVisibilityResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$56(this, n));
+    public void setContextSpecificVisibilityResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).setContextSpecificVisibilityResult(n);
+            }
+        });
     }
+
+    public void updateContextSpecificVisibility(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateContextSpecificVisibility(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$57(this, bl, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbSetupListener)dSIListener).updateContextSpecificVisibility(bl, n);
+            }
+        });
     }
 
-    @Override
-    public void setProfileHandlingType(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$58(this, n));
+    public void setProfileHandlingType(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setProfileHandlingType(n);
+            }
+        });
     }
 
-    @Override
-    public void setAutoProfileAllocationResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$59(this, n));
+    public void setAutoProfileAllocationResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setAutoProfileAllocationResult(n);
+            }
+        });
     }
+
+    public void setDefaultPublicProfileVisibilityResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void setDefaultPublicProfileVisibilityResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$60(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setDefaultPublicProfileVisibilityResult(n);
+            }
+        });
     }
 
-    @Override
-    public void setMaxLocalEntriesResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$61(this, n));
+    public void setMaxLocalEntriesResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setMaxLocalEntriesResult(n);
+            }
+        });
     }
 
-    @Override
-    public void setMaxPhoneEntriesResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$62(this, n));
+    public void setMaxPhoneEntriesResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setMaxPhoneEntriesResult(n);
+            }
+        });
     }
+
+    public void setMaxTopDestEntriesResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void setMaxTopDestEntriesResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$63(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setMaxTopDestEntriesResult(n);
+            }
+        });
     }
 
-    @Override
-    public void updateAutoProfileAllocation(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$64(this, bl, n));
+    public void updateAutoProfileAllocation(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).updateAutoProfileAllocation(bl, n);
+            }
+        });
     }
+
+    public void updateDefaultPublicProfileVisibility(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateDefaultPublicProfileVisibility(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$65(this, bl, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).updateDefaultPublicProfileVisibility(bl, n);
+            }
+        });
     }
 
-    @Override
-    public void updateMaxLocalEntries(int n, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$66(this, n, n2));
+    public void updateMaxLocalEntries(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).updateMaxLocalEntries(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateMaxPhoneEntries(int n, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$67(this, n, n2));
+    public void updateMaxPhoneEntries(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).updateMaxPhoneEntries(n, n2);
+            }
+        });
     }
+
+    public void updateMaxTopDestEntries(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateMaxTopDestEntries(int n, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$68(this, n, n2));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).updateMaxTopDestEntries(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void setMaxSpeedDialEntriesResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$69(this, n));
+    public void setMaxSpeedDialEntriesResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setMaxSpeedDialEntriesResult(n);
+            }
+        });
     }
+
+    public void updateMaxSpeedDialEntries(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateMaxSpeedDialEntries(int n, int n2) {
-        CommandResponse.execute(this, new ADBDSIListener$70(this, n, n2));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).updateMaxSpeedDialEntries(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void setSpeedDialTypeResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$71(this, n));
+    public void setSpeedDialTypeResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setSpeedDialTypeResult(n);
+            }
+        });
     }
 
-    @Override
-    public void setNumericalSpellerEnabledResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$72(this, n));
+    public void setNumericalSpellerEnabledResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setNumericalSpellerEnabledResult(n);
+            }
+        });
     }
+
+    public void setDefaultSortOrderResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void setDefaultSortOrderResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$73(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setDefaultSortOrderResult(n);
+            }
+        });
     }
 
-    @Override
-    public void setOnlineDestinationEnabledResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$74(this, n));
+    public void setOnlineDestinationEnabledResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setOnlineDestinationEnabledResult(n);
+            }
+        });
     }
+
+    public void setDefaultSOSButtonResult(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void setDefaultSOSButtonResult(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$75(this, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).setDefaultSOSButtonResult(n);
+            }
+        });
     }
 
-    @Override
-    public void updateDefaultSOSButton(boolean bl, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$76(this, bl, n));
+    public void updateDefaultSOSButton(final boolean bl, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbInitListener)dSIListener).updateDefaultSOSButton(bl, n);
+            }
+        });
     }
 
-    @Override
-    public void importVCardResult(int n, int n2, int n3, int n4) {
-        CommandResponse.execute(this, new ADBDSIListener$77(this, n, n2, n3, n4));
+    public void importVCardResult(final int n, final int n2, final int n3, final int n4) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbVCardExchangeListener)dSIListener).importVCardResult(n, n2, n3, n4);
+            }
+        });
     }
+
+    public void exportVCardResult(final int n, final int n2, final int n3, final int n4) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void exportVCardResult(int n, int n2, int n3, int n4) {
-        CommandResponse.execute(this, new ADBDSIListener$78(this, n, n2, n3, n4));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbVCardExchangeListener)dSIListener).exportVCardResult(n, n2, n3, n4);
+            }
+        });
     }
 
-    @Override
-    public void exportSpellerVCardResult(int n, int n2, int n3, int n4, int n5) {
-        CommandResponse.execute(this, new ADBDSIListener$79(this, n, n2, n3, n4, n5));
+    public void exportSpellerVCardResult(final int n, final int n2, final int n3, final int n4, final int n5) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbVCardExchangeListener)dSIListener).exportSpellerVCardResult(n, n2, n3, n4, n5);
+            }
+        });
     }
 
-    @Override
-    public void createVCardResult(int n, long[] lArray, int n2, String string) {
-        CommandResponse.execute(this, new ADBDSIListener$80(this, n, lArray, n2, string));
+    public void createVCardResult(final int n, final long[] lArray, final int n2, final String string) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbVCardExchangeListener)dSIListener).createVCardResult(n, lArray, n2, string);
+            }
+        });
     }
+
+    public void parseVCardResult(final int n, final AdbEntry[] adbEntryArray) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void parseVCardResult(int n, AdbEntry[] adbEntryArray) {
-        CommandResponse.execute(this, new ADBDSIListener$81(this, n, adbEntryArray));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbVCardExchangeListener)dSIListener).parseVCardResult(n, adbEntryArray);
+            }
+        });
     }
 
-    @Override
-    public void responseAbort(int n) {
-        CommandResponse.execute(this, new ADBDSIListener$82(this, n));
+    public void responseAbort(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbVCardExchangeListener)dSIListener).responseAbort(n);
+            }
+        });
     }
 
-    @Override
-    public void updateImportCount(DownloadInfo downloadInfo, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$83(this, downloadInfo, n));
+    public void updateImportCount(final DownloadInfo downloadInfo, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbVCardExchangeListener)dSIListener).updateImportCount(downloadInfo, n);
+            }
+        });
     }
+
+    public void updateExportCount(final DownloadInfo downloadInfo, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
 
-    @Override
-    public void updateExportCount(DownloadInfo downloadInfo, int n) {
-        CommandResponse.execute(this, new ADBDSIListener$84(this, downloadInfo, n));
+            public void call(DSIListener dSIListener) {
+                ((DSIAdbVCardExchangeListener)dSIListener).updateExportCount(downloadInfo, n);
+            }
+        });
     }
 }
 

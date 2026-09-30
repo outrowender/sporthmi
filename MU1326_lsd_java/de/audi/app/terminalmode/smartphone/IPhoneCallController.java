@@ -4,13 +4,10 @@
 package de.audi.app.terminalmode.smartphone;
 
 public interface IPhoneCallController {
-    default public void hook(boolean bl) {
-    }
+    public void hook(boolean var1);
 
-    default public void hangup(boolean bl) {
-    }
+    public void hangup(boolean var1);
 
-    default public void flash(boolean bl) {
-    }
+    public void flash(boolean var1);
 }
 

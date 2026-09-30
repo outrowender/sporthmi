@@ -4,7 +4,6 @@
 package de.audi.app.phone.core.model;
 
 public interface ITelOptionModelListener {
-    default public void keyTyped(int n, int n2, int n3) {
-    }
+    public void keyTyped(int var1, int var2, int var3);
 }
 

@@ -15,12 +15,10 @@ import de.audi.tghu.online.app.remotehmi.util.OnlineApplicationOtherContextImpl;
 
 public class DistributedServiceComponentEvo
 extends AbstractDistributedServiceComponent {
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
     }
 
-    @Override
     protected void initiateHMIJump(String string) {
         Object object;
         if (string == null) {
@@ -28,9 +26,9 @@ extends AbstractDistributedServiceComponent {
         }
         this.appContext = "";
         int n = 111;
-        int n2 = -1273289984;
-        int n3 = -1256512768;
-        this.logChannel.log(1078071040, "DistributedServiceComponentEvo#initiateHMIJump: trigger jump to %1", (Object)string);
+        int n2 = 2300852;
+        int n3 = 2300853;
+        this.logChannel.log(1000000, "DistributedServiceComponentEvo#initiateHMIJump: trigger jump to %1", (Object)string);
         this.disableLineNumbers(this.hmiService);
         if (string.endsWith("service")) {
             object = this.remoteHmiService.getNaviComponent().getMapService();
@@ -52,57 +50,57 @@ extends AbstractDistributedServiceComponent {
                     break;
                 }
                 case 21: {
-                    this.hmiService.getChoiceModel(270344960).setValue(1);
+                    this.hmiService.getChoiceModel(2301200).setValue(1);
                     break;
                 }
                 case 22: {
-                    this.hmiService.getChoiceModel(-1021500672).setValue(0);
+                    this.hmiService.getChoiceModel(2301379).setValue(0);
                     break;
                 }
             }
         } else if (string.equals("userSettings_service_opt")) {
-            this.hmiService.getChoiceModel(-1021500672).setValue(1);
+            this.hmiService.getChoiceModel(2301379).setValue(1);
             n = 22;
         } else if (string.equals("rhmiMainWizard")) {
             n = 11;
-            n3 = -300145920;
+            n3 = 2301166;
         } else if (string.equals("connectivitySettings")) {
             n = 1;
-            n2 = -853859584;
-            n3 = -853859584;
+            n2 = 2300877;
+            n3 = 2300877;
         } else if (string.equals("licensingScreen")) {
             n = 1;
-            n2 = 538714880;
-            n3 = 538714880;
+            n2 = 2300960;
+            n3 = 2300960;
             if (this.remoteHmiService.getLicenseCollectionService() != null) {
                 this.remoteHmiService.getLicenseCollectionService().refreshLicensesDependingOnServiceList();
             }
         } else if (string.startsWith("license")) {
             n = this.mapServiceToModelValue(string);
             this.setLicenseDetailScreen(n);
-            n2 = -1608768768;
-            n3 = -1608768768;
+            n2 = 2301088;
+            n3 = 2301088;
         } else if (string.equals("stepUp")) {
-            this.hmiService.getChoiceModel(270344960).setValue(0);
+            this.hmiService.getChoiceModel(2301200).setValue(0);
             n = 1;
-            n2 = -1357110528;
-            n3 = -1357110528;
+            n2 = 2301103;
+            n3 = 2301103;
         } else if (string.equals("service_trafficlight")) {
             n = 24;
         } else if (string.equals("DataPrivacy")) {
-            this.logChannel.log(1078071040, "DistributedServiceComponentEvo#initiateHMIJump: call Data Privacy Setting Screen!");
+            this.logChannel.log(1000000, "DistributedServiceComponentEvo#initiateHMIJump: call Data Privacy Setting Screen!");
             n = 1;
-            n2 = 1243554560;
-            n3 = 1243554560;
+            n2 = 2301770;
+            n3 = 2301770;
         }
         if (this.remoteHmiService.isSDSRunning()) {
-            this.logChannel.log(1078071040, "DistributedServiceComponentEvo#initiateHMIJump: SDS is running, jump to service itself");
+            this.logChannel.log(1000000, "DistributedServiceComponentEvo#initiateHMIJump: SDS is running, jump to service itself");
             if (this.handleSDSJump(n, string)) {
-                this.logChannel.log(1078071040, "DistributedServiceComponentEvo#initiateHMIJump: jump handled by SDS");
+                this.logChannel.log(1000000, "DistributedServiceComponentEvo#initiateHMIJump: jump handled by SDS");
                 return;
             }
         }
-        this.logChannel.log(1078071040, "DistributedServiceComponentEvo#initiateHMIJump model: %1, value: %2", (Object)new Integer(n2), (Object)new Integer(n));
+        this.logChannel.log(1000000, "DistributedServiceComponentEvo#initiateHMIJump model: %1, value: %2", (Object)new Integer(n2), (Object)new Integer(n));
         this.setMediaContext(n);
         this.hmiService.getChoiceModel(n2).setValue(n);
         object = this.hmiService.getChoiceModel(n3);
@@ -110,8 +108,8 @@ extends AbstractDistributedServiceComponent {
     }
 
     private void setMediaContext(int n) {
-        LabelModelApp labelModelApp = this.hmiService.getLabelModel(1780294400);
-        LabelModelApp labelModelApp2 = this.hmiService.getLabelModel(1797071616);
+        LabelModelApp labelModelApp = this.hmiService.getLabelModel(2301290);
+        LabelModelApp labelModelApp2 = this.hmiService.getLabelModel(2301291);
         if (n == 3) {
             OnlineApplicationOtherContextImpl onlineApplicationOtherContextImpl;
             AbstractExternalServiceProvider abstractExternalServiceProvider = this.remoteHmiService.getOnlineServiceProvider();
@@ -120,7 +118,7 @@ extends AbstractDistributedServiceComponent {
                 String string2 = onlineApplicationOtherContextImpl.getAppDescription();
                 labelModelApp.setText(string);
                 labelModelApp2.setText(string2);
-                this.logChannel.log(1078071040, "DistributedServiceComponentEvo#initiateHMIJump Name: '%1', Desc: %2", (Object)string, (Object)string2);
+                this.logChannel.log(1000000, "DistributedServiceComponentEvo#initiateHMIJump Name: '%1', Desc: %2", (Object)string, (Object)string2);
             }
         } else {
             labelModelApp.setText("");
@@ -128,15 +126,14 @@ extends AbstractDistributedServiceComponent {
         }
     }
 
-    @Override
     protected boolean handleSDSJump(int n, String string) {
-        this.logChannel.log(1078071040, "DistributedServiceComponentEvo#handleSDSJump: called with hmiState %1 and dest %2", (Object)new Integer(n), (Object)string);
+        this.logChannel.log(1000000, "DistributedServiceComponentEvo#handleSDSJump: called with hmiState %1 and dest %2", (Object)new Integer(n), (Object)string);
         int n2 = -1;
         if (string.startsWith("license")) {
             n = this.mapServiceToModelValue(string);
             this.setLicenseDetailScreen(n);
-            int n3 = -1608768768;
-            int n4 = -1608768768;
+            int n3 = 2301088;
+            int n4 = 2301088;
             n2 = 2432;
             this.hmiService.getChoiceModel(n3).setValue(n);
             ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(n4);
@@ -146,11 +143,11 @@ extends AbstractDistributedServiceComponent {
             return true;
         }
         if (!string.endsWith("service")) {
-            this.logChannel.log(1078071040, "DistributedServiceComponentEvo#handleSDSJump: no handling of service %1", (Object)string);
+            this.logChannel.log(1000000, "DistributedServiceComponentEvo#handleSDSJump: no handling of service %1", (Object)string);
             return false;
         }
         HMIService hMIService = this.getFrameworkAccess().getHMIService();
-        int n5 = -1273289984;
+        int n5 = 2300852;
         hMIService.getChoiceModel(n5).setValue(n);
         switch (n) {
             case 0: {
@@ -193,7 +190,7 @@ extends AbstractDistributedServiceComponent {
                 n2 = 2294;
             }
         }
-        ChoiceModelApp choiceModelApp = hMIService.getChoiceModel(857547520);
+        ChoiceModelApp choiceModelApp = hMIService.getChoiceModel(2301235);
         choiceModelApp.setValue(~choiceModelApp.getValue());
         if (n2 != -1) {
             this.remoteHmiService.getASR().setDistributedServiceMoveType(n2);
@@ -205,28 +202,25 @@ extends AbstractDistributedServiceComponent {
 
     private void triggerSMSpeechEvent(int n, int n2) {
         if (n2 != -1) {
-            this.logChannel.log(1078071040, "DistributedServiceComponentEvo#triggerSMSpeechEvent: hmiState is %1, firing event %2", (long)n, (long)n2);
+            this.logChannel.log(1000000, "DistributedServiceComponentEvo#triggerSMSpeechEvent: hmiState is %1, firing event %2", (long)n, (long)n2);
             this.getFrameworkAccess().getHMIService().fireSMEvent(6, n2);
         } else {
             this.logChannel.log(10000, "DistributedServiceComponentEvo#triggerSMSpeechEvent: invalid parameter");
         }
     }
 
-    @Override
     protected void disableLineNumbers(HMIService hMIService) {
-        ChoiceModelApp choiceModelApp = hMIService.getChoiceModel(1478238976);
+        ChoiceModelApp choiceModelApp = hMIService.getChoiceModel(2301016);
         choiceModelApp.setValue(0);
     }
 
-    @Override
     protected void setLicenseDetailScreen(int n) {
-        int n2 = 1595679488;
+        int n2 = 2301023;
         this.hmiService.getChoiceModel(n2).setValue(n);
     }
 
-    @Override
     public int getCurrentSelectedDistributedService() {
-        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(-1273289984);
+        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(2300852);
         return choiceModelApp.getValue();
     }
 }

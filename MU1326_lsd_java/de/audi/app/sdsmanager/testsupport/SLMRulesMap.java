@@ -18,7 +18,6 @@ public abstract class SLMRulesMap {
         return map;
     }
 
-    protected abstract Map createFilledMap() {
-    }
+    protected abstract Map createFilledMap();
 }
 

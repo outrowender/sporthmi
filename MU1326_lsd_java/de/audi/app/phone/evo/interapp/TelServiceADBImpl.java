@@ -20,7 +20,6 @@ implements ITelServiceADB {
         super(iTelEvoApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppPhone");
@@ -28,16 +27,14 @@ implements ITelServiceADB {
         this.telServiceADB.startService();
     }
 
-    @Override
     public void deinit() {
         if (this.telServiceADB != null) {
             this.telServiceADB.stopService();
         }
     }
 
-    @Override
     public void addToFavorites(TelFavoriteStruct telFavoriteStruct) {
-        this.log.log(1078071040, "[TelServiceADBImpl#addToFavorites] favorite=%1", (Object)telFavoriteStruct);
+        this.log.log(1000000, "[TelServiceADBImpl#addToFavorites] favorite=%1", (Object)telFavoriteStruct);
         this.getEvoApplication().getFavoriteHandler().addToFavorites(telFavoriteStruct);
     }
 

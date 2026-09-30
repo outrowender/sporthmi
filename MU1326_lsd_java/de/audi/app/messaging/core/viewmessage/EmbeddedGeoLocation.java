@@ -6,15 +6,15 @@ package de.audi.app.messaging.core.viewmessage;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class EmbeddedGeoLocation {
-    public static final int LONGITUDE;
-    public static final int LATITUDE;
-    public static final int DESCRIPTION;
-    private static final char CLOSE_TAG;
-    private static final char DELIMITER;
-    private static final char QUOTE;
-    private static final String FIRST_TOKEN;
-    private static final String SECOND_TOKEN;
-    private static final String GEO_TAG;
+    public static final int LONGITUDE = 0;
+    public static final int LATITUDE = 1;
+    public static final int DESCRIPTION = 2;
+    private static final char CLOSE_TAG = '>';
+    private static final char DELIMITER = ',';
+    private static final char QUOTE = '\"';
+    private static final String FIRST_TOKEN = "%1";
+    private static final String SECOND_TOKEN = "%2";
+    private static final String GEO_TAG = "<geo pos=\"%1\">%2</geo>";
 
     public static String[] extract(String string) {
         String string2 = EmbeddedGeoLocation.getStartTag();
@@ -74,13 +74,13 @@ public class EmbeddedGeoLocation {
     }
 
     private static String getStartTag() {
-        int n = "<geo pos=\"%1\">%2</geo>".indexOf("%1");
-        return n == -1 ? "" : "<geo pos=\"%1\">%2</geo>".substring(0, n);
+        int n = GEO_TAG.indexOf(FIRST_TOKEN);
+        return n == -1 ? "" : GEO_TAG.substring(0, n);
     }
 
     private static String getEndTag() {
-        int n = "<geo pos=\"%1\">%2</geo>".indexOf("%2") + "%2".length();
-        return n == -1 ? "" : "<geo pos=\"%1\">%2</geo>".substring(n, "<geo pos=\"%1\">%2</geo>".length());
+        int n = GEO_TAG.indexOf(SECOND_TOKEN) + SECOND_TOKEN.length();
+        return n == -1 ? "" : GEO_TAG.substring(n, GEO_TAG.length());
     }
 }
 

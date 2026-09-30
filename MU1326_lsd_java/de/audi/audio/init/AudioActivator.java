@@ -14,7 +14,7 @@ import de.audi.audio.init.pcsim.DSIAudioSpeechPCSim;
 import de.audi.audio.init.pcsim.DSISoundSpeechPCSim;
 import de.audi.audio.services.VolumeLockService;
 import de.audi.audio.services.VolumeMapService;
-import de.audi.audio.volume.OnOffVolumeRange$RangeListenerImpl;
+import de.audi.audio.volume.OnOffVolumeRange;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import org.dsi.ifc.audio.DSIAudioManagement;
@@ -71,11 +71,10 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$audio$HMIAudioServiceListener;
     static /* synthetic */ Class class$de$audi$atip$audio$HMIAudioService;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.env = new AudioEnv(this.framework);
-        this.env.lcMain.log(-2137614336, "[AudioActivator.start]");
+        this.env.lcMain.log(10000000, "[AudioActivator.start]");
         this.audioManager = new ATIPAudioManager(this.env);
         this.lastModeHandler = this.framework.getLastmodeHandler();
         this.lastModeHandler.initAudioFocusManagement();
@@ -87,11 +86,11 @@ implements ServiceTrackerCustomizer {
                     bundleActivator.start(bundleContext);
                 }
                 catch (Exception exception) {
-                    this.env.lcMain.log(1078071040, "de.audi.audio.sim.AudioSimActivator not found!");
+                    this.env.lcMain.log(1000000, "de.audi.audio.sim.AudioSimActivator not found!");
                     this.initBaseServices();
                 }
             } else if (Boolean.getBoolean("hmi.speech.audio.simulation")) {
-                this.env.lcMain.log(1078071040, "de.audi.audio.sim.AudioSimActivator not found!");
+                this.env.lcMain.log(1000000, "de.audi.audio.sim.AudioSimActivator not found!");
                 this.dsiAudio = new DSIAudioSpeechPCSim(this.env.lcDSI);
                 this.dsiSound = new DSISoundSpeechPCSim();
                 this.initBaseServices();
@@ -99,11 +98,10 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         Object object2 = serviceReference.getProperty("objectClass");
-        this.env.lcMain.log(-2137614336, "[AudioActivator.addingService] %1 -> %2", object2, object);
+        this.env.lcMain.log(10000000, "[AudioActivator.addingService] %1 -> %2", object2, object);
         if (object instanceof IAudioFocusClient) {
             this.lastModeHandler.registerAudioClient((IAudioFocusClient)object);
             return object;
@@ -140,10 +138,9 @@ implements ServiceTrackerCustomizer {
         return object3;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         Object object2 = serviceReference.getProperty("objectClass");
-        this.env.lcMain.log(1078071040, "[AudioActivator.removedService] %1 -> %2", object2, object);
+        this.env.lcMain.log(1000000, "[AudioActivator.removedService] %1 -> %2", object2, object);
         if (object instanceof IAudioFocusClient) {
             this.lastModeHandler.deregisterAudioClient((IAudioFocusClient)object);
         } else if (object instanceof DSIAudioManagement) {
@@ -164,7 +161,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private void registerAndTrackBaseServices() {
-        this.env.lcMain.log(-2137614336, "[AudioActivator.trackAndRegisterBaseServices]");
+        this.env.lcMain.log(10000000, "[AudioActivator.trackAndRegisterBaseServices]");
         this.registerService((class$de$audi$atip$audio$IAudioFocusManager == null ? (class$de$audi$atip$audio$IAudioFocusManager = AudioActivator.class$("de.audi.atip.audio.IAudioFocusManager")) : class$de$audi$atip$audio$IAudioFocusManager).getName(), (Object)this.lastModeHandler, null);
         this.registerDSIListener((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = AudioActivator.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), this.audioManager.getAudioHandler(), (class$org$dsi$ifc$audio$DSIAudioManagementListener == null ? (class$org$dsi$ifc$audio$DSIAudioManagementListener = AudioActivator.class$("org.dsi.ifc.audio.DSIAudioManagementListener")) : class$org$dsi$ifc$audio$DSIAudioManagementListener).getName(), 0);
         this.registerDSIListener((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = AudioActivator.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), this.audioManager.getDSISoundListener(), (class$org$dsi$ifc$audio$DSISoundListener == null ? (class$org$dsi$ifc$audio$DSISoundListener = AudioActivator.class$("org.dsi.ifc.audio.DSISoundListener")) : class$org$dsi$ifc$audio$DSISoundListener).getName(), 0);
@@ -182,7 +179,7 @@ implements ServiceTrackerCustomizer {
 
     private void initBaseServices() {
         if (this.dsiAudio != null && this.dsiSound != null) {
-            this.env.lcMain.log(-2137614336, "[AudioActivator.initBaseServices] DSIAudiomanagement & DSISound registered.");
+            this.env.lcMain.log(10000000, "[AudioActivator.initBaseServices] DSIAudiomanagement & DSISound registered.");
             this.audioManager.dsiAudioDisposer.addDSI(this.dsiAudio);
             this.audioManager.dsiSoundDisposer.addDSI(this.dsiSound);
             this.audioManager.dsiAudioDisposer.setNotifications(this.dsiAudio);
@@ -195,13 +192,13 @@ implements ServiceTrackerCustomizer {
     }
 
     private void registerAndTrackOtherServices() {
-        this.env.lcMain.log(-2137614336, "[AudioActivator.registerAndTrackOtherServices]");
+        this.env.lcMain.log(10000000, "[AudioActivator.registerAndTrackOtherServices]");
         this.registerService((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = AudioActivator.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), (Object)this.audioManager.getReadinessSound().powerEventListener, null);
         this.registerService(class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceToneListener == null ? (class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceToneListener = AudioActivator.class$("de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceToneListener")) : class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceToneListener, this.audioManager.getCombiHandler());
         this.registerService(class$de$audi$atip$interapp$audio$ATIPAudioService == null ? (class$de$audi$atip$interapp$audio$ATIPAudioService = AudioActivator.class$("de.audi.atip.interapp.audio.ATIPAudioService")) : class$de$audi$atip$interapp$audio$ATIPAudioService, this.audioManager.getAtipAudioService());
         this.registerService(class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext = AudioActivator.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContext")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext, this.audioManager.getAudioDrawerContext());
         this.registerService(class$de$audi$atip$interapp$audio$ATIPMediaRouterService == null ? (class$de$audi$atip$interapp$audio$ATIPMediaRouterService = AudioActivator.class$("de.audi.atip.interapp.audio.ATIPMediaRouterService")) : class$de$audi$atip$interapp$audio$ATIPMediaRouterService, this.audioManager.getMediaRouterService());
-        this.registerService(class$de$audi$atip$interapp$audio$SDISRangeListener == null ? (class$de$audi$atip$interapp$audio$SDISRangeListener = AudioActivator.class$("de.audi.atip.interapp.audio.SDISRangeListener")) : class$de$audi$atip$interapp$audio$SDISRangeListener, new OnOffVolumeRange$RangeListenerImpl(this.audioManager.getController().getRange(0)));
+        this.registerService(class$de$audi$atip$interapp$audio$SDISRangeListener == null ? (class$de$audi$atip$interapp$audio$SDISRangeListener = AudioActivator.class$("de.audi.atip.interapp.audio.SDISRangeListener")) : class$de$audi$atip$interapp$audio$SDISRangeListener, new OnOffVolumeRange.RangeListenerImpl(this.audioManager.getController().getRange(0)));
         this.registerService(class$de$audi$atip$interapp$audio$IVolumeLockService == null ? (class$de$audi$atip$interapp$audio$IVolumeLockService = AudioActivator.class$("de.audi.atip.interapp.audio.IVolumeLockService")) : class$de$audi$atip$interapp$audio$IVolumeLockService, new VolumeLockService());
         this.registerService(class$de$audi$atip$interapp$audio$IVolumeMapService == null ? (class$de$audi$atip$interapp$audio$IVolumeMapService = AudioActivator.class$("de.audi.atip.interapp.audio.IVolumeMapService")) : class$de$audi$atip$interapp$audio$IVolumeMapService, new VolumeMapService());
         String[] stringArray = new String[]{(class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceTone == null ? (class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceTone = AudioActivator.class$("de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceTone")) : class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceTone).getName(), (class$de$audi$atip$interapp$TunerService == null ? (class$de$audi$atip$interapp$TunerService = AudioActivator.class$("de.audi.atip.interapp.TunerService")) : class$de$audi$atip$interapp$TunerService).getName(), (class$de$audi$tghu$waveplayer$WavePlayer == null ? (class$de$audi$tghu$waveplayer$WavePlayer = AudioActivator.class$("de.audi.tghu.waveplayer.WavePlayer")) : class$de$audi$tghu$waveplayer$WavePlayer).getName(), (class$de$audi$atip$interapp$audio$ATIPAudioServiceListener == null ? (class$de$audi$atip$interapp$audio$ATIPAudioServiceListener = AudioActivator.class$("de.audi.atip.interapp.audio.ATIPAudioServiceListener")) : class$de$audi$atip$interapp$audio$ATIPAudioServiceListener).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = AudioActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), (class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = AudioActivator.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName(), (class$de$audi$atip$interapp$NaviService == null ? (class$de$audi$atip$interapp$NaviService = AudioActivator.class$("de.audi.atip.interapp.NaviService")) : class$de$audi$atip$interapp$NaviService).getName(), (class$de$audi$atip$interapp$phone$ITelServiceAudio == null ? (class$de$audi$atip$interapp$phone$ITelServiceAudio = AudioActivator.class$("de.audi.atip.interapp.phone.ITelServiceAudio")) : class$de$audi$atip$interapp$phone$ITelServiceAudio).getName(), (class$de$audi$atip$interapp$terminalmode$ITerminalModeAudioService == null ? (class$de$audi$atip$interapp$terminalmode$ITerminalModeAudioService = AudioActivator.class$("de.audi.atip.interapp.terminalmode.ITerminalModeAudioService")) : class$de$audi$atip$interapp$terminalmode$ITerminalModeAudioService).getName(), (class$de$audi$atip$interapp$audio$ATIPMediaRouterServiceListener == null ? (class$de$audi$atip$interapp$audio$ATIPMediaRouterServiceListener = AudioActivator.class$("de.audi.atip.interapp.audio.ATIPMediaRouterServiceListener")) : class$de$audi$atip$interapp$audio$ATIPMediaRouterServiceListener).getName(), (class$de$audi$atip$interapp$audio$TIJPVolumeServiceListener == null ? (class$de$audi$atip$interapp$audio$TIJPVolumeServiceListener = AudioActivator.class$("de.audi.atip.interapp.audio.TIJPVolumeServiceListener")) : class$de$audi$atip$interapp$audio$TIJPVolumeServiceListener).getName(), (class$de$audi$atip$interapp$phone$ITelMuteMicService == null ? (class$de$audi$atip$interapp$phone$ITelMuteMicService = AudioActivator.class$("de.audi.atip.interapp.phone.ITelMuteMicService")) : class$de$audi$atip$interapp$phone$ITelMuteMicService).getName(), (class$de$audi$atip$interapp$audio$VolumeOnOffPressListener == null ? (class$de$audi$atip$interapp$audio$VolumeOnOffPressListener = AudioActivator.class$("de.audi.atip.interapp.audio.VolumeOnOffPressListener")) : class$de$audi$atip$interapp$audio$VolumeOnOffPressListener).getName()};
@@ -209,7 +206,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private void registerAndTrackHMIAudioServices() {
-        this.env.lcMain.log(-2137614336, "[AudioActivator.registerAndTrackHMIAudioServices]");
+        this.env.lcMain.log(10000000, "[AudioActivator.registerAndTrackHMIAudioServices]");
         this.registerHMIAudioService(HMIAudioService.CLIENT_STARTUP);
         this.registerHMIAudioService(HMIAudioService.CLIENT_RADIO);
         this.registerHMIAudioService(HMIAudioService.CLIENT_TV);
@@ -245,14 +242,13 @@ implements ServiceTrackerCustomizer {
     }
 
     private void registerHMIAudioService(Integer n) {
-        this.env.lcMain.log(-2137614336, "[AudioActivator.registerHMIAudioService] client:%1", (Object)n);
+        this.env.lcMain.log(10000000, "[AudioActivator.registerHMIAudioService] client:%1", (Object)n);
         Hashtable hashtable = new Hashtable();
         hashtable.put("AUDIO_CLIENT_ID", n);
         HMIAudioService hMIAudioService = this.audioManager.getAudioService(n);
         this.registerService((class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = AudioActivator.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService).getName(), (Object)hMIAudioService, (Dictionary)hashtable);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 

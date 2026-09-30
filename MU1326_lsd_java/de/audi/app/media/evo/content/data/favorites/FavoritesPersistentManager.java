@@ -20,7 +20,7 @@ public class FavoritesPersistentManager
 implements IMediaFavoriteListListener,
 IResetSettingsListener,
 IDiagnosisDataProvider {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "FavoritesPersistentManager";
     private final IMediaTerminal terminal;
     private final LogChannel logger;
     private final IFavoritesController favoritesController;
@@ -36,29 +36,28 @@ IDiagnosisDataProvider {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"FavoritesPersistentManager");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.favoriteHeader.loadFavoriteHeader();
         this.terminal.addResetSettingsListener(this);
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"FavoritesPersistentManager");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
     }
 
     public void activate(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"FavoritesPersistentManager");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.favoritesController.addFavoriteListListener(this);
         this.favoritesController.listChanged(this.loadFromPersistents((MediaSourceSlot)iSourceSlot));
     }
 
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"FavoritesPersistentManager");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.favoritesController.removeFavoriteListListener(this);
     }
 
-    @Override
     public void listChanged(FavoritesList favoritesList) {
-        this.logger.log(1078071040, "[%1.listChanged]", (Object)"FavoritesPersistentManager");
+        this.logger.log(1000000, "[%1.listChanged]", (Object)LOGCLASS);
         this.favoriteListStorage.setFavoriteList(favoritesList);
         if (favoritesList.getListSize() > 0) {
             this.favoriteHeader.updateLastUsed(this.favoriteListStorage.getPersistentKey());
@@ -66,7 +65,7 @@ IDiagnosisDataProvider {
     }
 
     private FavoritesList loadFromPersistents(MediaSourceSlot mediaSourceSlot) {
-        this.logger.log(1078071040, "[%1.loadFromPersistents]", (Object)"FavoritesPersistentManager");
+        this.logger.log(1000000, "[%1.loadFromPersistents]", (Object)LOGCLASS);
         int n = this.favoriteHeader.getPersistentKey(mediaSourceSlot.getSource().getType(), mediaSourceSlot.getUniqueMediaId());
         if (-1 == n) {
             n = this.favoriteHeader.getNewPersistentKey(mediaSourceSlot.getSource().getType(), mediaSourceSlot.getUniqueMediaId());
@@ -78,18 +77,17 @@ IDiagnosisDataProvider {
         }
         FavoritesList favoritesList = this.favoriteListStorage.getFavoriteList();
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "[%1.loadFromPersistents] listsize='%2'", (Object)"FavoritesPersistentManager", (long)favoritesList.getListSize());
+            this.logger.log(10000000, "[%1.loadFromPersistents] listsize='%2'", (Object)LOGCLASS, (long)favoritesList.getListSize());
             Iterator iterator = favoritesList.getFavoritesList().iterator();
             while (iterator.hasNext()) {
-                this.logger.log(-2137614336, "[%1.loadFromPersistents] %2", (Object)"FavoritesPersistentManager", iterator.next());
+                this.logger.log(10000000, "[%1.loadFromPersistents] %2", (Object)LOGCLASS, iterator.next());
             }
         }
         return favoritesList;
     }
 
-    @Override
     public void onResetSettings(int n) {
-        this.logger.log(1078071040, "[%1.onResetSettings]", (Object)"FavoritesPersistentManager");
+        this.logger.log(1000000, "[%1.onResetSettings]", (Object)LOGCLASS);
         this.resetAllLists();
         this.favoriteHeader.resetFavoriteHeader();
         ISourceSlot iSourceSlot = this.terminal.getSourceController().getSelectedSlot();
@@ -99,7 +97,7 @@ IDiagnosisDataProvider {
     }
 
     public void removeFavoritesForSlot(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.removeFavoritesForSlot] %2", (Object)"FavoritesPersistentManager", (Object)iSourceSlot);
+        this.logger.log(1000000, "[%1.removeFavoritesForSlot] %2", (Object)LOGCLASS, (Object)iSourceSlot);
         int n = this.favoriteHeader.getPersistentKey(iSourceSlot.getSource().getType(), iSourceSlot.getUniqueMediaId());
         if (-1 == n) {
             return;
@@ -112,18 +110,16 @@ IDiagnosisDataProvider {
     }
 
     private void resetAllLists() {
-        this.logger.log(1078071040, "[%1.resetAllLists]", (Object)"FavoritesPersistentManager");
+        this.logger.log(1000000, "[%1.resetAllLists]", (Object)LOGCLASS);
         for (int i2 = 0; i2 < 10; ++i2) {
             new FavoriteListStorage(this.terminal, FavoriteHeaderStorage.getPersistentKeyByIndex(i2)).clearList();
         }
     }
 
-    @Override
     public String getDiagKey() {
         return "FavoriteHeader";
     }
 
-    @Override
     public String getDiagValue() {
         FavoriteHeaderStorage favoriteHeaderStorage = this.favoriteHeader;
         return favoriteHeaderStorage.toString();

@@ -9,28 +9,20 @@ import java.util.List;
 import java.util.Map;
 
 public interface LogServAdmin {
-    default public long getTimeStamp(boolean bl) {
-    }
+    public long getTimeStamp(boolean var1);
 
-    default public LogSink addLogSink(LogSink logSink) {
-    }
+    public LogSink addLogSink(LogSink var1);
 
-    default public void removeLogSink(LogSink logSink) {
-    }
+    public void removeLogSink(LogSink var1);
 
-    default public List getAllLogSinks() {
-    }
+    public List getAllLogSinks();
 
-    default public void updateChannelConfiguration() {
-    }
+    public void updateChannelConfiguration();
 
-    default public void updateChannelConfiguration(String string) {
-    }
+    public void updateChannelConfiguration(String var1);
 
-    default public Map getAvailableChannels() {
-    }
+    public Map getAvailableChannels();
 
-    default public void log(LogEntry logEntry) {
-    }
+    public void log(LogEntry var1);
 }
 

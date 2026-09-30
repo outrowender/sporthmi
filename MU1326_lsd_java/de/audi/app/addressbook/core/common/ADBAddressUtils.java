@@ -15,7 +15,7 @@ import org.dsi.ifc.organizer.AddressData;
 
 public class ADBAddressUtils {
     static DecimalFormat geoPosFormatter = new DecimalFormat("########0.000000");
-    private static final String SPACE;
+    private static final String SPACE = " ";
 
     public static boolean hasValidPostalAddress(AddressData addressData) {
         return addressData.locality != null && addressData.locality.length() != 0 || addressData.postalCode != null && addressData.postalCode.length() != 0 || addressData.street != null && addressData.street.length() != 0;
@@ -34,16 +34,16 @@ public class ADBAddressUtils {
                 return string;
             }
             case 2: {
-                return ADBModelUtils.concatenate(string2, string3, " ");
+                return ADBModelUtils.concatenate(string2, string3, SPACE);
             }
             case 3: {
-                return ADBModelUtils.concatenate(ADBModelUtils.concatenate(string4, string2, " "), string3, " ");
+                return ADBModelUtils.concatenate(ADBModelUtils.concatenate(string4, string2, SPACE), string3, SPACE);
             }
             case 4: {
-                return ADBModelUtils.concatenate(ADBModelUtils.concatenate(string4, string2, " "), string3, " ");
+                return ADBModelUtils.concatenate(ADBModelUtils.concatenate(string4, string2, SPACE), string3, SPACE);
             }
             case 5: {
-                return ADBModelUtils.concatenate(string4, string3, " ");
+                return ADBModelUtils.concatenate(string4, string3, SPACE);
             }
         }
         return string;
@@ -56,13 +56,13 @@ public class ADBAddressUtils {
         String string4 = ADBUtils.isEmpty(addressData.postalCode) ? "" : addressData.postalCode;
         switch (n) {
             case 0: {
-                return ADBModelUtils.concatenate(string4, string3, " ");
+                return ADBModelUtils.concatenate(string4, string3, SPACE);
             }
             case 1: {
-                return ADBModelUtils.concatenate(ADBModelUtils.concatenate(string3, string2, " "), string4, " ");
+                return ADBModelUtils.concatenate(ADBModelUtils.concatenate(string3, string2, SPACE), string4, SPACE);
             }
             case 2: {
-                return ADBModelUtils.concatenate(string, string4, " ");
+                return ADBModelUtils.concatenate(string, string4, SPACE);
             }
             case 3: {
                 return string;
@@ -74,7 +74,7 @@ public class ADBAddressUtils {
                 return string;
             }
         }
-        return ADBModelUtils.concatenate(string4, string3, " ");
+        return ADBModelUtils.concatenate(string4, string3, SPACE);
     }
 
     public static void checkAndFixAddressData(AdbEntry adbEntry, IFrameworkAccess iFrameworkAccess) {

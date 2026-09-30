@@ -26,12 +26,10 @@ TooltipModelGUI {
         super(n, n2);
     }
 
-    @Override
     public int getModelType() {
         return 13;
     }
 
-    @Override
     public void setListener(TooltipListener tooltipListener) {
         this.listener = tooltipListener != null ? tooltipListener : DUMMY_LISTENER;
     }
@@ -39,7 +37,6 @@ TooltipModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setData(ListRow[] listRowArray) {
         if (listRowArray == null || listRowArray.length == 0) {
             return;
@@ -54,13 +51,11 @@ TooltipModelGUI {
         super.fireModelUpdateEvent(12, 0, 0);
     }
 
-    @Override
     public void updateData(int n, int n2, ListCell listCell) {
         this.setCell(n, n2, listCell);
         super.fireModelUpdateEvent(10, n, n2);
     }
 
-    @Override
     public void requestTooltipData(HMIModelGUI hMIModelGUI, int n, boolean bl, int n2) {
         switch (hMIModelGUI.getModelType()) {
             case 4: {
@@ -93,7 +88,6 @@ TooltipModelGUI {
         }
     }
 
-    @Override
     public void tooltipVisible(HMIModelGUI hMIModelGUI, int n) {
         try {
             this.listener.tooltipVisible(this.id, hMIModelGUI.getID(), n);
@@ -103,7 +97,6 @@ TooltipModelGUI {
         }
     }
 
-    @Override
     public void tooltipHidden(HMIModelGUI hMIModelGUI, boolean bl, int n) {
         if (bl) {
             this.clear();
@@ -116,15 +109,12 @@ TooltipModelGUI {
         }
     }
 
-    @Override
     public void fireModelUpdateEvent(int n) {
     }
 
-    @Override
     public void fireModelUpdateEvent(int n, int n2, int n3) {
     }
 
-    @Override
     public void fireModelUpdateEvent(int n, int n2) {
     }
 }

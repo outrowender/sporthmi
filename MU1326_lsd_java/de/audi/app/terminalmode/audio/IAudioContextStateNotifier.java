@@ -6,7 +6,6 @@ package de.audi.app.terminalmode.audio;
 import de.audi.app.terminalmode.audio.AudioConnectionState;
 
 public interface IAudioContextStateNotifier {
-    default public void notifyAudioStateChanged(AudioConnectionState audioConnectionState) {
-    }
+    public void notifyAudioStateChanged(AudioConnectionState var1);
 }
 

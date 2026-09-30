@@ -21,11 +21,10 @@ extends RangeModelEventBusinessAdapter {
         this.profileMode = bl;
     }
 
-    @Override
     public boolean processAdjustment(int n, RangeModelHandler rangeModelHandler) {
         if (this.illuminationSetNumber > 0) {
             int n2 = rangeModelHandler.getRangeModel().getValue() + n;
-            this.getLogChannel().log(1078071040, "[IntLightIndividualBrightnessRangeBusiness] dsi.setIntLightIlluminationSet: %1 value = %2", (long)this.illuminationSetNumber, (long)n2);
+            this.getLogChannel().log(1000000, "[IntLightIndividualBrightnessRangeBusiness] dsi.setIntLightIlluminationSet: %1 value = %2", (long)this.illuminationSetNumber, (long)n2);
             this.getDSICarLight().setIntLightIlluminationSet(this.illuminationSetNumber, n2);
             ((IntLightIndividualRangeModelHandler)rangeModelHandler).getModelWatcherTimer().setTempValue(n2);
             return true;
@@ -33,10 +32,9 @@ extends RangeModelEventBusinessAdapter {
         return false;
     }
 
-    @Override
     public boolean processKeyPressed(int n, ButtonModelHandler buttonModelHandler) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[IntLightIndividualBrightnessRangeBusiness#processKeyPressed] Key has been pressd for modelID = %1", (long)buttonModelHandler.getHandledModelID());
+            this.getLogChannel().log(1000000, "[IntLightIndividualBrightnessRangeBusiness#processKeyPressed] Key has been pressd for modelID = %1", (long)buttonModelHandler.getHandledModelID());
         }
         if (this.profileMode) {
             this.getDSICarLight().setIntLightActiveProfile(1);

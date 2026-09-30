@@ -3,17 +3,7 @@
  */
 package com.ibm.oti.util;
 
-import com.ibm.oti.util.ASN1Decoder$BMPString;
-import com.ibm.oti.util.ASN1Decoder$BitString;
-import com.ibm.oti.util.ASN1Decoder$CertificateSet;
-import com.ibm.oti.util.ASN1Decoder$Data;
-import com.ibm.oti.util.ASN1Decoder$Explicit;
-import com.ibm.oti.util.ASN1Decoder$GeneralizedTime;
-import com.ibm.oti.util.ASN1Decoder$ImplicitSet;
-import com.ibm.oti.util.ASN1Decoder$Node;
-import com.ibm.oti.util.ASN1Decoder$Set;
-import com.ibm.oti.util.ASN1Decoder$Set2;
-import com.ibm.oti.util.ASN1Decoder$UTCTime;
+import com.ibm.oti.util.ASN1Decoder;
 import com.ibm.oti.util.ASN1Exception;
 import com.ibm.oti.util.Msg;
 import java.io.ByteArrayOutputStream;
@@ -44,7 +34,7 @@ public class ASN1Encoder {
         return byteArrayOutputStream.toByteArray();
     }
 
-    private static void writeByte(int n, OutputStream outputStream) {
+    private static void writeByte(int n, OutputStream outputStream) throws ASN1Exception {
         try {
             outputStream.write(n);
         }
@@ -53,7 +43,7 @@ public class ASN1Encoder {
         }
     }
 
-    private static void writeBytes(byte[] byArray, OutputStream outputStream) {
+    private static void writeBytes(byte[] byArray, OutputStream outputStream) throws ASN1Exception {
         try {
             outputStream.write(byArray);
         }
@@ -62,46 +52,46 @@ public class ASN1Encoder {
         }
     }
 
-    private static void writeTagNumber(int n, OutputStream outputStream) {
+    private static void writeTagNumber(int n, OutputStream outputStream) throws ASN1Exception {
         if (n == 16 || n == 17) {
             n |= 0x20;
         }
         ASN1Encoder.writeByte(n, outputStream);
     }
 
-    protected void writeTagNumber(int n) {
+    protected void writeTagNumber(int n) throws ASN1Exception {
         ASN1Encoder.writeTagNumber(n, this.output);
     }
 
-    private static void writeInteger(BigInteger bigInteger, OutputStream outputStream) {
+    private static void writeInteger(BigInteger bigInteger, OutputStream outputStream) throws ASN1Exception {
         byte[] byArray = bigInteger.toByteArray();
         ASN1Encoder.writeTagNumber(2, outputStream);
         ASN1Encoder.writeLength(byArray.length, outputStream);
         ASN1Encoder.writeBytes(byArray, outputStream);
     }
 
-    private static void writeOctetString(byte[] byArray, OutputStream outputStream) {
+    private static void writeOctetString(byte[] byArray, OutputStream outputStream) throws ASN1Exception {
         ASN1Encoder.writeTagNumber(4, outputStream);
         ASN1Encoder.writeLength(byArray.length, outputStream);
         ASN1Encoder.writeBytes(byArray, outputStream);
     }
 
-    protected void writeOctetString(byte[] byArray) {
+    protected void writeOctetString(byte[] byArray) throws ASN1Exception {
         ASN1Encoder.writeOctetString(byArray, this.output);
     }
 
-    private static void writeBitString(ASN1Decoder$BitString aSN1Decoder$BitString, OutputStream outputStream) {
+    private static void writeBitString(ASN1Decoder.BitString bitString, OutputStream outputStream) throws ASN1Exception {
         ASN1Encoder.writeTagNumber(3, outputStream);
-        ASN1Encoder.writeLength(aSN1Decoder$BitString.data.length + 1, outputStream);
-        ASN1Encoder.writeByte(aSN1Decoder$BitString.unusedBits, outputStream);
-        ASN1Encoder.writeBytes(aSN1Decoder$BitString.data, outputStream);
+        ASN1Encoder.writeLength(bitString.data.length + 1, outputStream);
+        ASN1Encoder.writeByte(bitString.unusedBits, outputStream);
+        ASN1Encoder.writeBytes(bitString.data, outputStream);
     }
 
-    protected void writeBitString(ASN1Decoder$BitString aSN1Decoder$BitString) {
-        ASN1Encoder.writeBitString(aSN1Decoder$BitString, this.output);
+    protected void writeBitString(ASN1Decoder.BitString bitString) throws ASN1Exception {
+        ASN1Encoder.writeBitString(bitString, this.output);
     }
 
-    private static void writeObjectIdentifier(int[] nArray, OutputStream outputStream) {
+    private static void writeObjectIdentifier(int[] nArray, OutputStream outputStream) throws ASN1Exception {
         int n = 0;
         while (n < nArray.length) {
             if (nArray[n] < 0) {
@@ -140,11 +130,11 @@ public class ASN1Encoder {
         }
     }
 
-    protected void writeObjectIdentifier(int[] nArray) {
+    protected void writeObjectIdentifier(int[] nArray) throws ASN1Exception {
         ASN1Encoder.writeObjectIdentifier(nArray, this.output);
     }
 
-    private static void writeLength(int n, OutputStream outputStream) {
+    private static void writeLength(int n, OutputStream outputStream) throws ASN1Exception {
         if (n < 128) {
             ASN1Encoder.writeByte(n, outputStream);
             return;
@@ -161,15 +151,15 @@ public class ASN1Encoder {
         }
     }
 
-    protected void writeLength(int n) {
+    protected void writeLength(int n) throws ASN1Exception {
         ASN1Encoder.writeLength(n, this.output);
     }
 
-    protected void writeInteger(BigInteger bigInteger) {
+    protected void writeInteger(BigInteger bigInteger) throws ASN1Exception {
         ASN1Encoder.writeInteger(bigInteger, this.output);
     }
 
-    public void writeIntegers(BigInteger[] bigIntegerArray) {
+    public void writeIntegers(BigInteger[] bigIntegerArray) throws ASN1Exception {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(128);
         int n = 0;
         while (n < bigIntegerArray.length) {
@@ -186,11 +176,11 @@ public class ASN1Encoder {
         }
     }
 
-    protected void writeSequence(Object[] objectArray) {
+    protected void writeSequence(Object[] objectArray) throws ASN1Exception {
         ASN1Encoder.writeSequence(objectArray, this.output);
     }
 
-    private static void writeSequence(Object[] objectArray, OutputStream outputStream) {
+    private static void writeSequence(Object[] objectArray, OutputStream outputStream) throws ASN1Exception {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         int n = 0;
         while (n < objectArray.length) {
@@ -207,11 +197,11 @@ public class ASN1Encoder {
         }
     }
 
-    public void writeObject(Object object) {
+    public void writeObject(Object object) throws ASN1Exception {
         ASN1Encoder.writeObject(object, this.output);
     }
 
-    private static void writeObject(Object object, OutputStream outputStream) {
+    private static void writeObject(Object object, OutputStream outputStream) throws ASN1Exception {
         if (object == null) {
             ASN1Encoder.writeTagNumber(5, outputStream);
             ASN1Encoder.writeLength(0, outputStream);
@@ -233,48 +223,48 @@ public class ASN1Encoder {
             ASN1Encoder.writeSequence((Object[])object, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$BitString) {
-            ASN1Encoder.writeBitString((ASN1Decoder$BitString)object, outputStream);
+        if (object instanceof ASN1Decoder.BitString) {
+            ASN1Encoder.writeBitString((ASN1Decoder.BitString)object, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$UTCTime) {
-            ASN1Encoder.writeUTCTime(((ASN1Decoder$UTCTime)object).utcTime, outputStream);
+        if (object instanceof ASN1Decoder.UTCTime) {
+            ASN1Encoder.writeUTCTime(((ASN1Decoder.UTCTime)object).utcTime, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$GeneralizedTime) {
-            ASN1Encoder.writeGeneralizedTime(((ASN1Decoder$GeneralizedTime)object).generalizedTime, outputStream);
+        if (object instanceof ASN1Decoder.GeneralizedTime) {
+            ASN1Encoder.writeGeneralizedTime(((ASN1Decoder.GeneralizedTime)object).generalizedTime, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$Set) {
-            ASN1Encoder.writeSet(((ASN1Decoder$Set)object).sequence, outputStream);
+        if (object instanceof ASN1Decoder.Set) {
+            ASN1Encoder.writeSet(((ASN1Decoder.Set)object).sequence, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$Set2) {
-            ASN1Encoder.writeSet2(((ASN1Decoder$Set2)object).sequence, outputStream);
+        if (object instanceof ASN1Decoder.Set2) {
+            ASN1Encoder.writeSet2(((ASN1Decoder.Set2)object).sequence, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$CertificateSet) {
-            ASN1Encoder.writeCertificateSet(((ASN1Decoder$CertificateSet)object).sequence, outputStream);
+        if (object instanceof ASN1Decoder.CertificateSet) {
+            ASN1Encoder.writeCertificateSet(((ASN1Decoder.CertificateSet)object).sequence, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$Explicit) {
-            ASN1Encoder.writeExplicit(((ASN1Decoder$Explicit)object).type, outputStream);
+        if (object instanceof ASN1Decoder.Explicit) {
+            ASN1Encoder.writeExplicit(((ASN1Decoder.Explicit)object).type, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$BMPString) {
-            ASN1Encoder.writeBMPString(((ASN1Decoder$BMPString)object).bmpString, outputStream);
+        if (object instanceof ASN1Decoder.BMPString) {
+            ASN1Encoder.writeBMPString(((ASN1Decoder.BMPString)object).bmpString, outputStream);
             return;
         }
         if (object instanceof String) {
             ASN1Encoder.writeUTF8String((String)object, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$Data) {
-            ASN1Encoder.writeBytes(((ASN1Decoder$Data)object).data, outputStream);
+        if (object instanceof ASN1Decoder.Data) {
+            ASN1Encoder.writeBytes(((ASN1Decoder.Data)object).data, outputStream);
             return;
         }
-        if (object instanceof ASN1Decoder$ImplicitSet) {
-            ASN1Encoder.writeImplicitSet(((ASN1Decoder$ImplicitSet)object).set, outputStream, ((ASN1Decoder$ImplicitSet)object).tag);
+        if (object instanceof ASN1Decoder.ImplicitSet) {
+            ASN1Encoder.writeImplicitSet(((ASN1Decoder.ImplicitSet)object).set, outputStream, ((ASN1Decoder.ImplicitSet)object).tag);
             return;
         }
         ASN1Encoder.writeObjectTypeExtensions(object, outputStream);
@@ -302,7 +292,7 @@ public class ASN1Encoder {
         return stringBuffer;
     }
 
-    private static void writeGeneralizedTime(Date date, OutputStream outputStream) {
+    private static void writeGeneralizedTime(Date date, OutputStream outputStream) throws ASN1Exception {
         int[] nArray = new int[6];
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         calendar.setTime(date);
@@ -326,11 +316,11 @@ public class ASN1Encoder {
         }
     }
 
-    protected void writeGeneralizedTime(Date date) {
+    protected void writeGeneralizedTime(Date date) throws ASN1Exception {
         ASN1Encoder.writeGeneralizedTime(date, this.output);
     }
 
-    private static void writePrintableString(String string, OutputStream outputStream) {
+    private static void writePrintableString(String string, OutputStream outputStream) throws ASN1Exception {
         ASN1Encoder.writeTagNumber(19, outputStream);
         try {
             byte[] byArray = string.getBytes("ISO8859_1");
@@ -342,11 +332,11 @@ public class ASN1Encoder {
         }
     }
 
-    protected void writePrintableString(String string) {
+    protected void writePrintableString(String string) throws ASN1Exception {
         ASN1Encoder.writePrintableString(string, this.output);
     }
 
-    private static void writeUTF8String(String string, OutputStream outputStream) {
+    private static void writeUTF8String(String string, OutputStream outputStream) throws ASN1Exception {
         ASN1Encoder.writeTagNumber(12, outputStream);
         try {
             byte[] byArray = string.getBytes("UTF8");
@@ -358,11 +348,11 @@ public class ASN1Encoder {
         }
     }
 
-    protected void writeUTF8String(String string) {
+    protected void writeUTF8String(String string) throws ASN1Exception {
         ASN1Encoder.writeUTF8String(string, this.output);
     }
 
-    private static void writeSet(Object[] objectArray, OutputStream outputStream) {
+    private static void writeSet(Object[] objectArray, OutputStream outputStream) throws ASN1Exception {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ASN1Encoder.writeSequence(objectArray, byteArrayOutputStream);
         ASN1Encoder.writeTagNumber(17, outputStream);
@@ -375,7 +365,7 @@ public class ASN1Encoder {
         }
     }
 
-    private static void writeCertificateSet(Object[] objectArray, OutputStream outputStream) {
+    private static void writeCertificateSet(Object[] objectArray, OutputStream outputStream) throws ASN1Exception {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         int n = 0;
         while (n < objectArray.length) {
@@ -392,7 +382,7 @@ public class ASN1Encoder {
         }
     }
 
-    private static void writeSet2Save(Object[] objectArray, OutputStream outputStream) {
+    private static void writeSet2Save(Object[] objectArray, OutputStream outputStream) throws ASN1Exception {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         int n = 0;
         while (n < objectArray.length) {
@@ -409,7 +399,7 @@ public class ASN1Encoder {
         }
     }
 
-    private static void writeSet2(Object[] objectArray, OutputStream outputStream) {
+    private static void writeSet2(Object[] objectArray, OutputStream outputStream) throws ASN1Exception {
         new ByteArrayOutputStream();
         Object[] objectArray2 = new Object[objectArray.length];
         int n = 0;
@@ -451,8 +441,8 @@ public class ASN1Encoder {
         }
     }
 
-    private static void writeImplicitSet(ASN1Decoder$Set2 aSN1Decoder$Set2, OutputStream outputStream, int n) {
-        Object[] objectArray = aSN1Decoder$Set2.sequence;
+    private static void writeImplicitSet(ASN1Decoder.Set2 set2, OutputStream outputStream, int n) throws ASN1Exception {
+        Object[] objectArray = set2.sequence;
         new ByteArrayOutputStream();
         Object[] objectArray2 = new Object[objectArray.length];
         int n2 = 0;
@@ -494,7 +484,7 @@ public class ASN1Encoder {
         }
     }
 
-    private static void writeBMPString(String string, OutputStream outputStream) {
+    private static void writeBMPString(String string, OutputStream outputStream) throws ASN1Exception {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] byArray = null;
         try {
@@ -514,23 +504,23 @@ public class ASN1Encoder {
         }
     }
 
-    protected void writeSet(Object[] objectArray) {
+    protected void writeSet(Object[] objectArray) throws ASN1Exception {
         ASN1Encoder.writeSet(objectArray, this.output);
     }
 
-    protected void writeSet2(Object[] objectArray) {
+    protected void writeSet2(Object[] objectArray) throws ASN1Exception {
         ASN1Encoder.writeSet2(objectArray, this.output);
     }
 
-    protected void writeImplicitSet(ASN1Decoder$Set2 aSN1Decoder$Set2, int n) {
-        ASN1Encoder.writeImplicitSet(aSN1Decoder$Set2, this.output, n);
+    protected void writeImplicitSet(ASN1Decoder.Set2 set2, int n) throws ASN1Exception {
+        ASN1Encoder.writeImplicitSet(set2, this.output, n);
     }
 
-    protected void writeCertificateSet(Object[] objectArray) {
+    protected void writeCertificateSet(Object[] objectArray) throws ASN1Exception {
         ASN1Encoder.writeCertificateSet(objectArray, this.output);
     }
 
-    private static void writeUTCTime(Date date, OutputStream outputStream) {
+    private static void writeUTCTime(Date date, OutputStream outputStream) throws ASN1Exception {
         int[] nArray = new int[6];
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         calendar.setTime(date);
@@ -554,11 +544,11 @@ public class ASN1Encoder {
         }
     }
 
-    protected void writeUTCTime(Date date) {
+    protected void writeUTCTime(Date date) throws ASN1Exception {
         ASN1Encoder.writeUTCTime(date, this.output);
     }
 
-    private static void writeExplicit(Object object, OutputStream outputStream) {
+    private static void writeExplicit(Object object, OutputStream outputStream) throws ASN1Exception {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ASN1Encoder.writeObject(object, byteArrayOutputStream);
         try {
@@ -571,10 +561,10 @@ public class ASN1Encoder {
         }
     }
 
-    public static byte[] encodeNode(ASN1Decoder$Node aSN1Decoder$Node) {
+    public static byte[] encodeNode(ASN1Decoder.Node node) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            ASN1Encoder.encodeNode(aSN1Decoder$Node, byteArrayOutputStream);
+            ASN1Encoder.encodeNode(node, byteArrayOutputStream);
         }
         catch (ASN1Exception aSN1Exception) {
             return null;
@@ -582,21 +572,21 @@ public class ASN1Encoder {
         return byteArrayOutputStream.toByteArray();
     }
 
-    private static void encodeNode(ASN1Decoder$Node aSN1Decoder$Node, OutputStream outputStream) {
-        if (aSN1Decoder$Node.originalType == -1) {
-            aSN1Decoder$Node.originalType = aSN1Decoder$Node.type;
+    private static void encodeNode(ASN1Decoder.Node node, OutputStream outputStream) throws ASN1Exception {
+        if (node.originalType == -1) {
+            node.originalType = node.type;
         }
-        if (aSN1Decoder$Node.tagtype == 2) {
-            ASN1Encoder.writeTagNumber(aSN1Decoder$Node.originalType | 0xA0, outputStream);
-            if (aSN1Decoder$Node.type != -1) {
-                ASN1Decoder$Node aSN1Decoder$Node2 = new ASN1Decoder$Node();
-                aSN1Decoder$Node2.data = aSN1Decoder$Node.data;
-                aSN1Decoder$Node2.isPrimitive = aSN1Decoder$Node.isPrimitive;
-                aSN1Decoder$Node2.type = aSN1Decoder$Node.type;
-                aSN1Decoder$Node2.originalType = aSN1Decoder$Node.type;
-                aSN1Decoder$Node2.tagtype = 1;
+        if (node.tagtype == 2) {
+            ASN1Encoder.writeTagNumber(node.originalType | 0xA0, outputStream);
+            if (node.type != -1) {
+                ASN1Decoder.Node node2 = new ASN1Decoder.Node();
+                node2.data = node.data;
+                node2.isPrimitive = node.isPrimitive;
+                node2.type = node.type;
+                node2.originalType = node.type;
+                node2.tagtype = 1;
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                ASN1Encoder.encodeNode(aSN1Decoder$Node2, byteArrayOutputStream);
+                ASN1Encoder.encodeNode(node2, byteArrayOutputStream);
                 ASN1Encoder.writeLength(byteArrayOutputStream.size(), outputStream);
                 try {
                     outputStream.write(byteArrayOutputStream.toByteArray());
@@ -606,14 +596,14 @@ public class ASN1Encoder {
                 ASN1Encoder.writeLength(0, outputStream);
             }
         } else {
-            if (aSN1Decoder$Node.type == 17) {
-                ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node.data;
-                Object[] objectArray = new Object[aSN1Decoder$NodeArray.length];
+            if (node.type == 17) {
+                ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])node.data;
+                Object[] objectArray = new Object[nodeArray.length];
                 int n = 0;
                 int n2 = 0;
-                while (n2 < aSN1Decoder$NodeArray.length) {
+                while (n2 < nodeArray.length) {
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    ASN1Encoder.encodeNode(aSN1Decoder$NodeArray[n2], byteArrayOutputStream);
+                    ASN1Encoder.encodeNode(nodeArray[n2], byteArrayOutputStream);
                     objectArray[n2] = byteArrayOutputStream.toByteArray();
                     n += byteArrayOutputStream.size();
                     ++n2;
@@ -648,14 +638,14 @@ public class ASN1Encoder {
                 }
                 return;
             }
-            if (aSN1Decoder$Node.type == 16) {
-                ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node.data;
-                Object[] objectArray = new Object[aSN1Decoder$NodeArray.length];
+            if (node.type == 16) {
+                ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])node.data;
+                Object[] objectArray = new Object[nodeArray.length];
                 int n = 0;
                 int n6 = 0;
-                while (n6 < aSN1Decoder$NodeArray.length) {
+                while (n6 < nodeArray.length) {
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    ASN1Encoder.encodeNode(aSN1Decoder$NodeArray[n6], byteArrayOutputStream);
+                    ASN1Encoder.encodeNode(nodeArray[n6], byteArrayOutputStream);
                     objectArray[n6] = byteArrayOutputStream.toByteArray();
                     n += byteArrayOutputStream.size();
                     ++n6;
@@ -672,37 +662,37 @@ public class ASN1Encoder {
                 }
                 return;
             }
-            if (aSN1Decoder$Node.type == 6) {
-                ASN1Encoder.writeObjectIdentifier((int[])aSN1Decoder$Node.data, outputStream);
+            if (node.type == 6) {
+                ASN1Encoder.writeObjectIdentifier((int[])node.data, outputStream);
                 return;
             }
-            if (aSN1Decoder$Node.type == 23) {
-                ASN1Encoder.writeUTCTime((Date)aSN1Decoder$Node.data, outputStream);
+            if (node.type == 23) {
+                ASN1Encoder.writeUTCTime((Date)node.data, outputStream);
                 return;
             }
-            if (aSN1Decoder$Node.type == 4) {
-                ASN1Encoder.writeOctetString((byte[])aSN1Decoder$Node.data, outputStream);
+            if (node.type == 4) {
+                ASN1Encoder.writeOctetString((byte[])node.data, outputStream);
                 return;
             }
-            if (aSN1Decoder$Node.type == 5) {
+            if (node.type == 5) {
                 ASN1Encoder.writeTagNumber(5, outputStream);
                 ASN1Encoder.writeLength(0, outputStream);
                 return;
             }
-            if (aSN1Decoder$Node.type == 2) {
-                ASN1Encoder.writeInteger((BigInteger)aSN1Decoder$Node.data, outputStream);
+            if (node.type == 2) {
+                ASN1Encoder.writeInteger((BigInteger)node.data, outputStream);
                 return;
             }
-            if (aSN1Decoder$Node.type == 3) {
-                ASN1Encoder.writeBitString((ASN1Decoder$BitString)aSN1Decoder$Node.data, outputStream);
+            if (node.type == 3) {
+                ASN1Encoder.writeBitString((ASN1Decoder.BitString)node.data, outputStream);
                 return;
             }
-            if (aSN1Decoder$Node.type == 19) {
-                ASN1Encoder.writePrintableString((String)aSN1Decoder$Node.data, outputStream);
+            if (node.type == 19) {
+                ASN1Encoder.writePrintableString((String)node.data, outputStream);
                 return;
             }
-            if (aSN1Decoder$Node.type == 12) {
-                ASN1Encoder.writeUTF8String((String)aSN1Decoder$Node.data, outputStream);
+            if (node.type == 12) {
+                ASN1Encoder.writeUTF8String((String)node.data, outputStream);
                 return;
             }
             throw new ASN1Exception();
@@ -732,7 +722,7 @@ public class ASN1Encoder {
         return byArray2;
     }
 
-    protected static void writeObjectTypeExtensions(Object object, OutputStream outputStream) {
+    protected static void writeObjectTypeExtensions(Object object, OutputStream outputStream) throws ASN1Exception {
     }
 }
 

@@ -4,25 +4,21 @@
 package de.audi.atip.interapp.navcar;
 
 public interface CarNavListener {
-    public static final int HEADING_NORTH;
-    public static final int HEADING_SOUTH;
-    public static final int HEADING_EAST;
-    public static final int HEADING_WEST;
-    public static final int HEADING_NORTH_EAST;
-    public static final int HEADING_NORTH_WEST;
-    public static final int HEADING_SOUTH_EAST;
-    public static final int HEADING_SOUTH_WEST;
+    public static final int HEADING_NORTH = 0;
+    public static final int HEADING_SOUTH = 1;
+    public static final int HEADING_EAST = 2;
+    public static final int HEADING_WEST = 3;
+    public static final int HEADING_NORTH_EAST = 4;
+    public static final int HEADING_NORTH_WEST = 5;
+    public static final int HEADING_SOUTH_EAST = 6;
+    public static final int HEADING_SOUTH_WEST = 7;
 
-    default public void updateVehicleHeading(int n, int n2, boolean bl) {
-    }
+    public void updateVehicleHeading(int var1, int var2, boolean var3);
 
-    default public void updateVehicleHeight(int n, boolean bl) {
-    }
+    public void updateVehicleHeight(int var1, boolean var2);
 
-    default public void updateVehiclePosition(int n, int n2, boolean bl) {
-    }
+    public void updateVehiclePosition(int var1, int var2, boolean var3);
 
-    default public void updateVehiclePositionDescription(String string, String string2, String string3, String string4, String string5, boolean bl) {
-    }
+    public void updateVehiclePositionDescription(String var1, String var2, String var3, String var4, String var5, boolean var6);
 }
 

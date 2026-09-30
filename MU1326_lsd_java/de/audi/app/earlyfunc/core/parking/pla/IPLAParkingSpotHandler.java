@@ -6,19 +6,14 @@ package de.audi.app.earlyfunc.core.parking.pla;
 import org.dsi.ifc.carparkingsystem.PDCPLAStatus;
 
 public interface IPLAParkingSpotHandler {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void updateParkingSpots(PDCPLAStatus pDCPLAStatus) {
-    }
+    public void updateParkingSpots(PDCPLAStatus var1);
 
-    default public void updateSelectedParkingSpot(int n) {
-    }
+    public void updateSelectedParkingSpot(int var1);
 
-    default public boolean isActiveParkInSpotLeft() {
-    }
+    public boolean isActiveParkInSpotLeft();
 }
 

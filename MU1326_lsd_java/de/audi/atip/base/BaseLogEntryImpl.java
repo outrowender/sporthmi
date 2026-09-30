@@ -3,7 +3,6 @@
  */
 package de.audi.atip.base;
 
-import de.audi.atip.base.BaseLogEntryImpl$1;
 import de.audi.atip.error.FatalSystemError;
 import de.audi.atip.log.LogEntry;
 import de.audi.atip.util.StringUtilities;
@@ -18,10 +17,10 @@ import org.osgi.framework.BundleException;
 
 public class BaseLogEntryImpl
 implements LogEntry {
-    private static final int MAX_LOG_CHANNEL_NAME_LENGTH;
-    private static final int MAX_NESTED;
-    private static final int MAX_ARGS;
-    private static final int FLAG_MASK;
+    private static final int MAX_LOG_CHANNEL_NAME_LENGTH = 18;
+    private static final int MAX_NESTED = 5;
+    private static final int MAX_ARGS = 4;
+    private static final int FLAG_MASK = 7;
     private final String logChannelName;
     protected String template;
     private String message;
@@ -57,27 +56,22 @@ implements LogEntry {
         this.exception = throwable;
     }
 
-    @Override
     public String getChannelName() {
         return this.logChannelName;
     }
 
-    @Override
     public Throwable getException() {
         return this.exception;
     }
 
-    @Override
     public String getFormatedTimestamp() {
         return Converter.timestampToString(this.timeStamp);
     }
 
-    @Override
     public int getLevel() {
         return this.logLevel;
     }
 
-    @Override
     public String getLevelName() {
         switch (this.logLevel) {
             case 100000000: {
@@ -102,7 +96,6 @@ implements LogEntry {
         return new StringBuffer().append("<").append(Integer.toString(this.logLevel)).append(">").toString();
     }
 
-    @Override
     public String getMsg() {
         if (this.message == null) {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -114,12 +107,10 @@ implements LogEntry {
         return this.message;
     }
 
-    @Override
     public String getLogMessage() {
         return this.getLogMessage(null);
     }
 
-    @Override
     public String getLogMessage(String string) {
         Buffer buffer = new Buffer(200);
         if (string != null) {
@@ -134,29 +125,24 @@ implements LogEntry {
         return buffer.toString();
     }
 
-    @Override
     public String getTemplate() {
         return this.template;
     }
 
-    @Override
     public long getTimeStamp() {
         return this.timeStamp;
     }
 
-    @Override
     public String toString() {
         return this.getMsg();
     }
 
-    @Override
     public void print(PrintStream printStream) {
         Buffer buffer = new Buffer();
         this.print(buffer);
         printStream.print(buffer.toCharArray());
     }
 
-    @Override
     public void print(Buffer buffer) {
         Formatter.formatTimestamp(buffer, this.timeStamp);
         buffer.append(' ');
@@ -172,7 +158,6 @@ implements LogEntry {
         }
     }
 
-    @Override
     public void freezeArgs() {
         if (this.obj1 != null && !(this.obj1 instanceof String)) {
             this.obj1 = Converter.objectToString(this.obj1);
@@ -271,7 +256,46 @@ implements LogEntry {
     }
 
     private void printMessage(Buffer buffer) {
-        StringUtilities.formatMessage(buffer, this.getTemplate(), new BaseLogEntryImpl$1(this));
+        StringUtilities.formatMessage(buffer, this.getTemplate(), new StringUtilities.Accessor(){
+
+            public int getLength() {
+                return 4;
+            }
+
+            public void appendArg(Buffer buffer, int n, int n2) {
+                int n3 = BaseLogEntryImpl.this.flags >> n * 3 & 7;
+                switch (n3) {
+                    case 1: {
+                        BaseLogEntryImpl.this.appendLong(buffer, BaseLogEntryImpl.this.getLong(n), n2);
+                        break;
+                    }
+                    case 6: {
+                        buffer.append((char)BaseLogEntryImpl.this.getLong(n));
+                        break;
+                    }
+                    case 5: {
+                        buffer.append(Double.toString(Double.longBitsToDouble(BaseLogEntryImpl.this.getLong(n))));
+                        break;
+                    }
+                    case 2: {
+                        Object object = BaseLogEntryImpl.this.getObj(n);
+                        Formatter.formatObject(buffer, object);
+                        break;
+                    }
+                    case 3: {
+                        buffer.append(true);
+                        break;
+                    }
+                    case 4: {
+                        buffer.append(false);
+                        break;
+                    }
+                    default: {
+                        buffer.append((Object)null);
+                    }
+                }
+            }
+        });
     }
 
     private void printException(Buffer buffer) {
@@ -315,22 +339,6 @@ implements LogEntry {
         } else {
             buffer.append('>');
         }
-    }
-
-    static /* synthetic */ int access$000(BaseLogEntryImpl baseLogEntryImpl) {
-        return baseLogEntryImpl.flags;
-    }
-
-    static /* synthetic */ long access$100(BaseLogEntryImpl baseLogEntryImpl, int n) {
-        return baseLogEntryImpl.getLong(n);
-    }
-
-    static /* synthetic */ void access$200(BaseLogEntryImpl baseLogEntryImpl, Buffer buffer, long l, int n) {
-        baseLogEntryImpl.appendLong(buffer, l, n);
-    }
-
-    static /* synthetic */ Object access$300(BaseLogEntryImpl baseLogEntryImpl, int n) {
-        return baseLogEntryImpl.getObj(n);
     }
 }
 

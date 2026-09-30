@@ -26,16 +26,16 @@ public final class Jxe {
     private String uuid;
     private long jxePointer;
     private Hashtable resTable;
-    static final int DEFLATED;
-    static final int STORED;
+    static final int DEFLATED = 8;
+    static final int STORED = 0;
 
-    public static Jxe fromInputStream(InputStream inputStream, int n) {
+    public static Jxe fromInputStream(InputStream inputStream, int n) throws JxeException, IOException {
         Jxe jxe;
         long l = Jxe.nativeMalloc(n + 7);
         if (0L == l) {
             throw new OutOfMemoryError(Msg.getString("K019a", n + 7));
         }
-        int n2 = (int)(l & 0);
+        int n2 = (int)(l & 7L);
         long l2 = n2 == 0 ? l : l + (long)(8 - n2);
         try {
             Jxe.copyStreamToMemory(inputStream, n, l2);
@@ -58,7 +58,7 @@ public final class Jxe {
         return jxe;
     }
 
-    static void copyStreamToMemory(InputStream inputStream, int n, long l) {
+    static void copyStreamToMemory(InputStream inputStream, int n, long l) throws IOException {
         byte[] byArray = new byte[n < 4096 ? n : 4096];
         int n2 = 0;
         while (n2 < n) {
@@ -72,7 +72,7 @@ public final class Jxe {
         }
     }
 
-    public static Jxe fromFile(File file) {
+    public static Jxe fromFile(File file) throws JxeException, IOException {
         if (!file.exists()) {
             throw new FileNotFoundException(file.getPath());
         }
@@ -87,7 +87,7 @@ public final class Jxe {
         return jxe;
     }
 
-    public static Jxe fromSharedLibrary(String string) {
+    public static Jxe fromSharedLibrary(String string) throws JxeException {
         long l = Jxe.nativeLoadJxeFromSharedLibrary(Util.getBytes(string));
         if (l == 0L) {
             throw new JxeException(Msg.getString("K01c5", string));
@@ -103,14 +103,14 @@ public final class Jxe {
         this.allocated = bl;
     }
 
-    public static Jxe fromPointer(long l) {
+    public static Jxe fromPointer(long l) throws JxeException {
         JxeUtil.relocateJxeInPlace(l);
         return new Jxe(l, false);
     }
 
     long getJxePointer() {
         int n;
-        if (this.allocated && (n = (int)(this.jxePointer & 0)) != 0) {
+        if (this.allocated && (n = (int)(this.jxePointer & 7L)) != 0) {
             return this.jxePointer + (long)(8 - n);
         }
         return this.jxePointer;
@@ -183,7 +183,7 @@ public final class Jxe {
             return;
         }
         try {
-            jxeResourceTable = new JxeResourceTable(new MemInputStream(this.getJxePointer(), -129, null));
+            jxeResourceTable = new JxeResourceTable(new MemInputStream(this.getJxePointer(), Integer.MAX_VALUE, null));
         }
         catch (IOException iOException) {
             this.resTable = new Hashtable(0);
@@ -192,22 +192,16 @@ public final class Jxe {
         this.resTable = jxeResourceTable.getTable();
     }
 
-    private static native String[] nativeGetClassList(long l) {
-    }
+    private static native String[] nativeGetClassList(long var0);
 
-    private static native long nativeLoadJxeFromFileByteArray(byte[] byArray) {
-    }
+    private static native long nativeLoadJxeFromFileByteArray(byte[] var0);
 
-    private static native void nativeMemcpy(long l, byte[] byArray, int n, int n2) {
-    }
+    private static native void nativeMemcpy(long var0, byte[] var2, int var3, int var4);
 
-    private static native long nativeMalloc(int n) {
-    }
+    private static native long nativeMalloc(int var0);
 
-    private static native void nativeFree(long l) {
-    }
+    private static native void nativeFree(long var0);
 
-    private static native long nativeLoadJxeFromSharedLibrary(byte[] byArray) {
-    }
+    private static native long nativeLoadJxeFromSharedLibrary(byte[] var0);
 }
 

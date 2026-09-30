@@ -16,7 +16,6 @@ implements IForcedNavigationFinishedCallback {
         super(logChannel, class$de$audi$atip$interapp$radio$IForcedNavigationFinishedCallback == null ? (class$de$audi$atip$interapp$radio$IForcedNavigationFinishedCallback = NullForcedNavigationFinishedCallback.class$("de.audi.atip.interapp.radio.IForcedNavigationFinishedCallback")) : class$de$audi$atip$interapp$radio$IForcedNavigationFinishedCallback);
     }
 
-    @Override
     public void tvFullscreenEntered() {
         this.log("tvFullscreenEntered");
     }

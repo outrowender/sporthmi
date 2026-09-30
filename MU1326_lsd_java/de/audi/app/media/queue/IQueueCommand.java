@@ -7,7 +7,6 @@ import de.audi.app.media.queue.IQueueJob;
 import java.util.List;
 
 public interface IQueueCommand {
-    default public void execute(IQueueJob iQueueJob, List list) {
-    }
+    public void execute(IQueueJob var1, List var2);
 }
 

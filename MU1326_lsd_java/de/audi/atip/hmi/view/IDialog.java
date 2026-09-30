@@ -7,66 +7,54 @@ import de.audi.atip.hmi.view.IScreenOverlay;
 
 public interface IDialog
 extends IScreenOverlay {
-    public static final int DIALOG_IMG_UPPER_LEFT;
-    public static final int DIALOG_IMG_UPPER_CENTER;
-    public static final int DIALOG_IMG_UPPER_RIGHT;
-    public static final int DIALOG_IMG_MIDDLE_LEFT;
-    public static final int DIALOG_IMG_MIDDLE_CENTER;
-    public static final int DIALOG_IMG_MIDDLE_RIGHT;
-    public static final int DIALOG_IMG_DOWN_LEFT;
-    public static final int DIALOG_IMG_DOWN_CENTER;
-    public static final int DIALOG_IMG_DOWN_RIGHT;
-    public static final int DIALOG_IMG_MENU_LEFT;
-    public static final int DIALOG_IMG_MENU_CENTER;
-    public static final int DIALOG_IMG_MENU_RIGHT;
-    public static final int DIALOG_ALIGNMENT_LEFT;
-    public static final int DIALOG_ALIGNMENT_CENTER;
-    public static final int DIALOG_ALIGNMENT_RIGHT;
-    public static final int DIALOG_ALIGNMENT_FREE;
-    public static final int DIALOG_ANIMATION_STATE_HORIZONTAL;
-    public static final int DIALOG_ANIMATION_STATE_VERTICAL;
-    public static final int DIALOG_ANIMATION_STATE_BOTH;
-    public static final int DIALOG_ANIMATION_DIRECTION_HORIZONTAL_FIRST;
-    public static final int DIALOG_ANIMATION_DIRECTION_HORIZONTAL_ONLY;
-    public static final int DIALOG_ANIMATION_DIRECTION_VERTICAL_FIRST;
-    public static final int DIALOG_ANIMATION_DIRECTION_VERTICAL_ONLY;
-    public static final int DIALOG_ANIMATION_DIRECTION_BOTH;
-    public static final int DIALOG_ANIMATION_MODE_BOTH;
-    public static final int DIALOG_ANIMATION_MODE_CLOSE_ONLY;
-    public static final int DIALOG_ANIMATION_MODE_OPEN_ONLY;
-    public static final int DIALOG_CONTENT_FADING_BOTH;
-    public static final int DIALOG_CONTENT_FADING_CLOSE_ONLY;
-    public static final int DIALOG_CONTENT_FADING_OPEN_ONLY;
-    public static final int DIALOG_CONTENT_FADING_DISABLE;
+    public static final int DIALOG_IMG_UPPER_LEFT = 0;
+    public static final int DIALOG_IMG_UPPER_CENTER = 1;
+    public static final int DIALOG_IMG_UPPER_RIGHT = 2;
+    public static final int DIALOG_IMG_MIDDLE_LEFT = 3;
+    public static final int DIALOG_IMG_MIDDLE_CENTER = 4;
+    public static final int DIALOG_IMG_MIDDLE_RIGHT = 5;
+    public static final int DIALOG_IMG_DOWN_LEFT = 6;
+    public static final int DIALOG_IMG_DOWN_CENTER = 7;
+    public static final int DIALOG_IMG_DOWN_RIGHT = 8;
+    public static final int DIALOG_IMG_MENU_LEFT = 9;
+    public static final int DIALOG_IMG_MENU_CENTER = 10;
+    public static final int DIALOG_IMG_MENU_RIGHT = 11;
+    public static final int DIALOG_ALIGNMENT_LEFT = 10;
+    public static final int DIALOG_ALIGNMENT_CENTER = 11;
+    public static final int DIALOG_ALIGNMENT_RIGHT = 12;
+    public static final int DIALOG_ALIGNMENT_FREE = 13;
+    public static final int DIALOG_ANIMATION_STATE_HORIZONTAL = 0;
+    public static final int DIALOG_ANIMATION_STATE_VERTICAL = 1;
+    public static final int DIALOG_ANIMATION_STATE_BOTH = 2;
+    public static final int DIALOG_ANIMATION_DIRECTION_HORIZONTAL_FIRST = 0;
+    public static final int DIALOG_ANIMATION_DIRECTION_HORIZONTAL_ONLY = 1;
+    public static final int DIALOG_ANIMATION_DIRECTION_VERTICAL_FIRST = 2;
+    public static final int DIALOG_ANIMATION_DIRECTION_VERTICAL_ONLY = 3;
+    public static final int DIALOG_ANIMATION_DIRECTION_BOTH = 4;
+    public static final int DIALOG_ANIMATION_MODE_BOTH = 0;
+    public static final int DIALOG_ANIMATION_MODE_CLOSE_ONLY = 1;
+    public static final int DIALOG_ANIMATION_MODE_OPEN_ONLY = 2;
+    public static final int DIALOG_CONTENT_FADING_BOTH = 0;
+    public static final int DIALOG_CONTENT_FADING_CLOSE_ONLY = 1;
+    public static final int DIALOG_CONTENT_FADING_OPEN_ONLY = 2;
+    public static final int DIALOG_CONTENT_FADING_DISABLE = 3;
 
-    @Override
-    default public void show() {
-    }
+    public void show();
 
-    @Override
-    default public void hide() {
-    }
+    public void hide();
 
-    @Override
-    default public boolean isShown() {
-    }
+    public boolean isShown();
 
-    default public void setDialogMargins(int n, int n2) {
-    }
+    public void setDialogMargins(int var1, int var2);
 
-    default public void setStartBounds(int n, int n2, int n3, int n4) {
-    }
+    public void setStartBounds(int var1, int var2, int var3, int var4);
 
-    default public void setAlignment(int n) {
-    }
+    public void setAlignment(int var1);
 
-    default public void setAnimationDirection(int n) {
-    }
+    public void setAnimationDirection(int var1);
 
-    default public void setAnimationMode(int n) {
-    }
+    public void setAnimationMode(int var1);
 
-    default public void setContentFading(int n) {
-    }
+    public void setContentFading(int var1);
 }
 

@@ -26,26 +26,24 @@ extends AbstractADBCommand {
         this.combiService = combiBAPServiceAddressBook;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "CombiAddSpellerCharsCommand#execute()");
+        this.logger.log(10000000, "CombiAddSpellerCharsCommand#execute()");
         boolean bl = this.appAdr.getADBDSIAccess().addSpellerChars(this.spellerHandle, this.spellerChars);
         if (!bl) {
-            this.logger.log(-2137614336, "CombiAddSpellerCharsCommand#execute(): dsi call was not successful, finishing command.");
+            this.logger.log(10000000, "CombiAddSpellerCharsCommand#execute(): dsi call was not successful, finishing command.");
             this.combiService.pbSpellerResult(1, 0, 0);
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void spellerResult(int n, int n2, DataSet[] dataSetArray, int n3, String string, String string2) {
-        this.logger.log(-2137614336, "CombiAddSpellerCharsCommand#spellerResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "CombiAddSpellerCharsCommand#spellerResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0 && dataSetArray != null) {
             if (dataSetArray.length == 0) {
-                this.logger.log(-2137614336, "CombiAddSpellerCharsCommand#spellerResult(): dataSetList.length == 0");
+                this.logger.log(10000000, "CombiAddSpellerCharsCommand#spellerResult(): dataSetList.length == 0");
                 this.combiService.pbSpellerResult(0, n3, 0);
             } else {
-                this.logger.log(-2137614336, "CombiAddSpellerCharsCommand#spellerResult(): totalHits: %2, dataSetList[1]: %2", (Object)dataSetArray[0], (long)n3);
+                this.logger.log(10000000, "CombiAddSpellerCharsCommand#spellerResult(): totalHits: %2, dataSetList[1]: %2", (Object)dataSetArray[0], (long)n3);
                 this.combiService.pbSpellerResult(0, n3, dataSetArray[0].entryPosition);
             }
         } else {
@@ -58,9 +56,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void stopSpellerResult(int n, int n2) {
-        this.logger.log(-2137614336, "CombiAddSpellerCharsCommand#stopSpellerResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "CombiAddSpellerCharsCommand#stopSpellerResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

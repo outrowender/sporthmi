@@ -6,22 +6,16 @@ package de.audi.atip.displaymanager;
 import de.audi.atip.interapp.displaymanager.IDisplayManagerListener;
 
 public interface IDSIDisplayManagerController {
-    default public void startDSI() {
-    }
+    public void startDSI();
 
-    default public void stopDSI() {
-    }
+    public void stopDSI();
 
-    default public void startComponent(int n, int n2, int n3) {
-    }
+    public void startComponent(int var1, int var2, int var3);
 
-    default public void stopComponent(int n, int n2, int n3) {
-    }
+    public void stopComponent(int var1, int var2, int var3);
 
-    default public void setCropping(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void setCropping(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10);
 
-    default public void addListener(IDisplayManagerListener iDisplayManagerListener) {
-    }
+    public void addListener(IDisplayManagerListener var1);
 }
 

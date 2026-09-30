@@ -7,11 +7,9 @@ import de.audi.app.ecall.core.AbstractEcallComponent;
 import de.audi.app.ecall.core.IEcallApplication;
 import de.audi.app.ecall.core.osgi.EcallServiceTracker;
 import de.audi.app.ecall.core.tel.ITelServiceEcallHandler;
-import de.audi.app.ecall.core.tel.TelServiceEcallHandlerImpl$1;
 import de.audi.atip.interapp.phone.ITelServiceEcall;
 import de.audi.atip.interapp.phone.ITelServiceEcallListener;
 import de.audi.atip.interapp.phone.NullTelServiceEcall;
-import de.audi.atip.log.LogChannel;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -28,28 +26,28 @@ ITelServiceEcallHandler {
         this.bapServiceEcallTracker = new EcallServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$phone$ITelServiceEcall == null ? (class$de$audi$atip$interapp$phone$ITelServiceEcall = TelServiceEcallHandlerImpl.class$("de.audi.atip.interapp.phone.ITelServiceEcall")) : class$de$audi$atip$interapp$phone$ITelServiceEcall).getName(), (ServiceTrackerCustomizer)this, this.log);
     }
 
-    @Override
     public void init() {
         this.bapServiceEcallTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         this.bapServiceEcallTracker.closeTracker();
     }
 
-    @Override
     public void hangupAllCalls(ITelServiceEcallListener iTelServiceEcallListener) {
-        this.log.log(1078071040, "TelServiceEcallHandlerImpl#hangupAllCalls(): called");
+        this.log.log(1000000, "TelServiceEcallHandlerImpl#hangupAllCalls(): called");
         this.telServiceEcall.hangupAllCalls(iTelServiceEcallListener);
     }
 
-    @Override
     public void hangupAllCalls() {
-        this.hangupAllCalls(new TelServiceEcallHandlerImpl$1(this));
+        this.hangupAllCalls(new ITelServiceEcallListener(){
+
+            public void responseHangupAllCalls(int n) {
+                TelServiceEcallHandlerImpl.this.log.log(1000000, "TelServiceEcallHandlerImpl.hangupAllCalls().new ITelServiceEcallListener() {...}#responseHangupAllCalls(): result: %1", (long)n);
+            }
+        });
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof ITelServiceEcall) {
@@ -60,11 +58,9 @@ ITelServiceEcallHandler {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof ITelServiceEcall) {
             this.telServiceEcall = new NullTelServiceEcall(this.log);
@@ -79,10 +75,6 @@ ITelServiceEcallHandler {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(TelServiceEcallHandlerImpl telServiceEcallHandlerImpl) {
-        return telServiceEcallHandlerImpl.log;
     }
 }
 

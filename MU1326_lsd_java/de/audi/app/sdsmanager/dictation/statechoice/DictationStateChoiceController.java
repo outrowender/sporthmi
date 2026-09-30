@@ -21,32 +21,27 @@ IDictationStateObserver {
         this.choiceModel = this.framework.getHmiServiceApp().getChoiceModel(3880);
     }
 
-    @Override
     public void init(DictationComponentManager dictationComponentManager) {
         super.init(dictationComponentManager);
         dictationComponentManager.getDictationStateManager().addObserver(this);
     }
 
     private void setDictationState(int n) {
-        this.log.log(-2137614336, "[DictationStateChoiceController#setDictationState] dictationState = %1", (long)n);
+        this.log.log(10000000, "[DictationStateChoiceController#setDictationState] dictationState = %1", (long)n);
         this.choiceModel.setValue(n);
     }
 
-    @Override
     public void updateDictationState(int n) {
-        this.log.log(-2137614336, "[DictationStateChoiceController#updateDictationState] dictationState = %1");
+        this.log.log(10000000, "[DictationStateChoiceController#updateDictationState] dictationState = %1");
         this.setDictationState(n);
     }
 
-    @Override
     public void updateDictationMaxDuration(long l) {
     }
 
-    @Override
     public void indicateRecordingStarted() {
     }
 
-    @Override
     public void indicateRecordingStopped() {
     }
 }

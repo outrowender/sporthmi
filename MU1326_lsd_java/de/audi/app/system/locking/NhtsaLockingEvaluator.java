@@ -21,7 +21,7 @@ final class NhtsaLockingEvaluator {
     }
 
     private boolean evaluateNhtsaDefinitionForManualShiftCars(NhtsaEvaluationRequirements nhtsaEvaluationRequirements) {
-        this.logChannel.log(-2137614336, "NhtsaLockingEvaluator#evaluateNhtsaDefinitionForManualShiftCars() --> Entered.");
+        this.logChannel.log(10000000, "NhtsaLockingEvaluator#evaluateNhtsaDefinitionForManualShiftCars() --> Entered.");
         if (nhtsaEvaluationRequirements.isVehicleSpeedExceeded()) {
             return true;
         }
@@ -35,7 +35,7 @@ final class NhtsaLockingEvaluator {
     }
 
     private boolean evaluateNhtsaDefinitionForAutomaticCars(NhtsaEvaluationRequirements nhtsaEvaluationRequirements) {
-        this.logChannel.log(-2137614336, "NhtsaLockingEvaluator#evaluateNhtsaDefinitionForAutomaticCars() --> Entered.");
+        this.logChannel.log(10000000, "NhtsaLockingEvaluator#evaluateNhtsaDefinitionForAutomaticCars() --> Entered.");
         return nhtsaEvaluationRequirements.getTransmission() != 1;
     }
 }

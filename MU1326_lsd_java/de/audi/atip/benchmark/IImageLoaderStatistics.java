@@ -7,18 +7,14 @@ import de.audi.atip.benchmark.IStatisticsInfoProvider;
 
 public interface IImageLoaderStatistics
 extends IStatisticsInfoProvider {
-    public static final String FILE_NAME;
+    public static final String FILE_NAME = "ImageLoaderStatistics.csv";
 
-    default public void imageLoadStart() {
-    }
+    public void imageLoadStart();
 
-    default public void imageLoadEnd(String string, boolean bl) {
-    }
+    public void imageLoadEnd(String var1, boolean var2);
 
-    default public void textureCreateStart() {
-    }
+    public void textureCreateStart();
 
-    default public void textureCreateEnd(String string, boolean bl, boolean bl2) {
-    }
+    public void textureCreateEnd(String var1, boolean var2, boolean var3);
 }
 

@@ -5,8 +5,6 @@ package de.audi.app.messaging.core.compose;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.commands.ICommandCallback;
-import de.audi.app.messaging.core.compose.SendMessageCommand$Result;
-import de.audi.app.messaging.core.compose.SendMessageCommand$SendMessageCommandStoppedBeforeDSIResponseException;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
 import de.audi.app.messaging.core.util.Arrays;
 import de.audi.tghu.command.Command;
@@ -53,31 +51,27 @@ extends AbstractDsiMessagingCommand {
         return this.recipients;
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 65000L;
     }
 
-    @Override
     protected Command canceled() {
-        this.logger.log(1078071040, "[SendMessageCommand#canceled]");
+        this.logger.log(1000000, "[SendMessageCommand#canceled]");
         if (this.hasResponse) {
             this.setResultIfDone(true);
         } else {
-            this.setExceptionCause(new SendMessageCommand$SendMessageCommandStoppedBeforeDSIResponseException(this, "Command list canceled before a response was received."));
+            this.setExceptionCause(new SendMessageCommandStoppedBeforeDSIResponseException("Command list canceled before a response was received."));
         }
         return null;
     }
 
-    @Override
     public Command getErrorCommand() {
         return null;
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[SendMessageCommand#execute]");
+            this.logger.log(10000000, "[SendMessageCommand#execute]");
             this.dsiMessagingAccess.sendMessageRequest(this.requestId, this.type, this.recipients, this.subject, this.message, this.attachments, this.messagingAccountID);
         }
         catch (Exception exception) {
@@ -86,15 +80,13 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void sendMessageResponse(int n, int n2) {
-        this.logger.log(-2137614336, "[SendMessageCommand#sendMessageResponse] result = %1, requestId = %2", (long)n, (long)n2);
+        this.logger.log(10000000, "[SendMessageCommand#sendMessageResponse] result = %1, requestId = %2", (long)n, (long)n2);
         this.resultCode = n;
         this.hasResponse = true;
         this.setResultIfDone(false);
     }
 
-    @Override
     public void indicateSendMessage(int[] nArray, int n, int n2, RecipientList recipientList, String string, String string2, AttachmentInformation[] attachmentInformationArray, int n3) {
         if (n == this.requestId) {
             this.indicationResultCodes = nArray;
@@ -119,10 +111,37 @@ extends AbstractDsiMessagingCommand {
             buffer.append("indicationResultCodes = ").append(Arrays.toString(this.indicationResultCodes)).append(", ");
             buffer.append("isDone = ").append(bl5).append(", ");
             buffer.append("terminate = ").append(bl2);
-            this.logger.log(-2137614336, buffer.toString());
+            this.logger.log(10000000, buffer.toString());
         }
         if (bl2) {
-            this.setResult(new SendMessageCommand$Result(this, this.resultCode, this.indicationResultCodes, null));
+            this.setResult(new Result(this.resultCode, this.indicationResultCodes));
+        }
+    }
+
+    public final class Result {
+        private final int resultCode;
+        private final int[] indicationResultCodes;
+
+        private Result(int n, int[] nArray) {
+            this.resultCode = n;
+            this.indicationResultCodes = nArray;
+        }
+
+        public int getResultCode() {
+            return this.resultCode;
+        }
+
+        public int[] getIndicationResultCodes() {
+            return this.indicationResultCodes;
+        }
+    }
+
+    private class SendMessageCommandStoppedBeforeDSIResponseException
+    extends RuntimeException {
+        private static final long serialVersionUID = -3557478780797436403L;
+
+        public SendMessageCommandStoppedBeforeDSIResponseException(String string) {
+            super(string);
         }
     }
 }

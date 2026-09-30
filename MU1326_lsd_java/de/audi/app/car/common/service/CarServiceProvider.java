@@ -26,12 +26,12 @@ public class CarServiceProvider {
     }
 
     public void startService() {
-        this.logChannel.log(1078071040, "[CarServiceProvider#startService] starting service '%1'", (Object)this.serviceClass);
+        this.logChannel.log(1000000, "[CarServiceProvider#startService] starting service '%1'", (Object)this.serviceClass);
         this.serviceRegistration = this.bundleContext.registerService(this.serviceClass, this.service, (Dictionary)this.properties);
     }
 
     public void stopService() {
-        this.logChannel.log(1078071040, "[CarServiceProvider#stopService] stopping service '%1'", (Object)this.serviceClass);
+        this.logChannel.log(1000000, "[CarServiceProvider#stopService] stopping service '%1'", (Object)this.serviceClass);
         if (this.serviceRegistration != null) {
             this.serviceRegistration.unregister();
         }

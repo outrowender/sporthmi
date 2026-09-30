@@ -32,7 +32,6 @@ implements IListManager {
         this.fastListAdapters = new ArrayList(2);
     }
 
-    @Override
     public void init(BundleContext bundleContext) {
         if (this.mostListSupported) {
             this.initListAdapters(bundleContext);
@@ -50,11 +49,10 @@ implements IListManager {
                 iListAdapterFastList.init(bundleContext);
             }
         } else {
-            this.logChannel.log(-2137614336, "[AbstractListManager#initListAdapters] No list adapters for FastList registered");
+            this.logChannel.log(10000000, "[AbstractListManager#initListAdapters] No list adapters for FastList registered");
         }
     }
 
-    @Override
     public void deinit() {
         Iterator iterator = this.fastListAdapters.iterator();
         while (iterator.hasNext()) {
@@ -66,17 +64,15 @@ implements IListManager {
         }
     }
 
-    @Override
     public void setOperationState(int n) {
-        this.logChannel.log(-2137614336, "[AbstractListManager#setOperationState] %1", (long)n);
+        this.logChannel.log(10000000, "[AbstractListManager#setOperationState] %1", (long)n);
         if (this.dsiFastListScrollingController != null) {
             this.dsiFastListScrollingController.pushMOSTOperationState(this.convertMostOperationState(n));
         } else {
-            this.logChannel.log(-1601830656, "[AbstractListManager#setOperationState] DSI not available");
+            this.logChannel.log(100000, "[AbstractListManager#setOperationState] DSI not available");
         }
     }
 
-    protected abstract int convertMostOperationState(int n) {
-    }
+    protected abstract int convertMostOperationState(int var1);
 }
 

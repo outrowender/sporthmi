@@ -31,14 +31,14 @@ import org.osgi.framework.BundleContext;
 
 public class EarlyFuncEvoApplication
 extends AbstractCarApplication {
-    private static final String LOG_CHANNEL_NAME;
-    private static final String LOG_CHANNEL_MER_NAME;
+    private static final String LOG_CHANNEL_NAME = "App.EarlyFunc.Main";
+    private static final String LOG_CHANNEL_MER_NAME = "App.EarlyFunc.MER";
     private final IMenuEntryStructure menuStructure;
     private final EarlyFuncEvoActionProxyImpl actionProxyImplementation;
 
     public EarlyFuncEvoApplication(IFrameworkAccess iFrameworkAccess, BundleContext bundleContext) {
-        super(iFrameworkAccess, bundleContext, "App.EarlyFunc.Main");
-        this.menuStructure = new EarlyFuncEvoMenuEntryStructure(iFrameworkAccess, iFrameworkAccess.getLogChannel("App.EarlyFunc.MER"));
+        super(iFrameworkAccess, bundleContext, LOG_CHANNEL_NAME);
+        this.menuStructure = new EarlyFuncEvoMenuEntryStructure(iFrameworkAccess, iFrameworkAccess.getLogChannel(LOG_CHANNEL_MER_NAME));
         this.actionProxyImplementation = new EarlyFuncEvoActionProxyImpl(iFrameworkAccess, bundleContext, this.actionProxyDispatcher);
         CarFuncAdap carFuncAdap = this.getCarMenuCoding();
         ParkingSystemControllerComponentEvo parkingSystemControllerComponentEvo = new ParkingSystemControllerComponentEvo(this);
@@ -86,46 +86,39 @@ extends AbstractCarApplication {
         }
     }
 
-    @Override
     public void init() {
         super.init();
         this.actionProxyImplementation.init();
         this.initAuxClimateHeatingCodingModel();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.actionProxyImplementation.deinit();
     }
 
-    @Override
     public IMenuEntryStructure getMenuEntryStructure() {
         return this.menuStructure;
     }
 
-    @Override
     public String getApplicationName() {
         return "AppEarlyFunc";
     }
 
-    @Override
     public int getId() {
         return 21;
     }
 
-    @Override
     public LogChannel getMerLogChannel() {
-        return this.getFrameworkAccess().getLogChannel("App.EarlyFunc.MER");
+        return this.getFrameworkAccess().getLogChannel(LOG_CHANNEL_MER_NAME);
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         return null;
     }
 
     private void initAuxClimateHeatingCodingModel() {
-        this.getFrameworkAccess().getHmiServiceApp().getChoiceModel(168632320).setValue(this.getClimateSystemVariant());
+        this.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100490).setValue(this.getClimateSystemVariant());
     }
 }
 

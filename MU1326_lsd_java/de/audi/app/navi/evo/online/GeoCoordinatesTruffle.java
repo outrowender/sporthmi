@@ -13,7 +13,7 @@ public class GeoCoordinatesTruffle
 implements GeoCoordinates {
     private int[] latitudeLongitude;
     private LogChannel logChannel;
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "GeoCoordinatesTruffle";
     private final NavLocationExctractor locationExtractor;
 
     public GeoCoordinatesTruffle(LogChannel logChannel, NavLocationExctractor navLocationExctractor) {
@@ -21,10 +21,9 @@ implements GeoCoordinates {
         this.locationExtractor = navLocationExctractor;
     }
 
-    @Override
     public NavLocation extractGeoCoordinates(int n, int n2, NavigationEnv navigationEnv) {
         NavLocation navLocation = this.locationExtractor.extractNavLocationFromRow(navigationEnv.getBaseListModel(n).getRow(n2));
-        this.logChannel.log(1078071040, "GeoCoordinatesTruffle#extractGeoCoordinates: position is %1", (Object)navLocation);
+        this.logChannel.log(1000000, "GeoCoordinatesTruffle#extractGeoCoordinates: position is %1", (Object)navLocation);
         if (navLocation != null) {
             return navLocation;
         }

@@ -6,7 +6,7 @@ package com.ibm.oti.connection.socket;
 import com.ibm.oti.util.Msg;
 
 public class SocketHelper {
-    public static final int FLAG_BROKEN_SO_LINGER_SHUTDOWN;
+    public static final int FLAG_BROKEN_SO_LINGER_SHUTDOWN = 8;
 
     public static String parseURL(String string, int[] nArray, boolean bl, boolean bl2) {
         int n;
@@ -35,7 +35,7 @@ public class SocketHelper {
                 throw new IllegalArgumentException(Msg.getString("K00a7", string2));
             }
         }
-        if (n < 0 || n > -65536) {
+        if (n < 0 || n > 65535) {
             throw new IllegalArgumentException(Msg.getString("K0325", n));
         }
         nArray[0] = n;

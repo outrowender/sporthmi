@@ -14,10 +14,10 @@ import java.util.NoSuchElementException;
 public class DataUpdateMediator
 extends AbstractEventMediator
 implements TimerListener {
-    private static final int PROCESSING_DATA;
-    private static final int DATA_UNAVAILABLE;
-    private static final int DATA_AVAILABLE;
-    private static final int DATA_CORRUPTED;
+    private static final int PROCESSING_DATA = 0;
+    private static final int DATA_UNAVAILABLE = 1;
+    private static final int DATA_AVAILABLE = 2;
+    private static final int DATA_CORRUPTED = 3;
     protected int dataStatus;
     private Timer waitTimer;
     private final long waitTime;
@@ -53,7 +53,7 @@ implements TimerListener {
     }
 
     public DataUpdateMediator(long l, MediatorManager mediatorManager, int n, int n2, int n3, int n4, int n5) {
-        this(l, mediatorManager, n, n2, n3, n4, n5, 0);
+        this(l, mediatorManager, n, n2, n3, n4, n5, 3000L);
     }
 
     public DataUpdateMediator(long l, MediatorManager mediatorManager, int n, int n2, int n3, int n4) {
@@ -64,10 +64,9 @@ implements TimerListener {
         this(l, mediatorManager, n, n2, -1, -1, n3);
     }
 
-    @Override
     public void start() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[DataUpdateMediator#start] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[DataUpdateMediator#start] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         long l = this.getDelay();
         if (this.waitTimer == null) {
@@ -94,34 +93,31 @@ implements TimerListener {
         this.started = true;
     }
 
-    @Override
     public void stop() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[DataUpdateMediator#stop] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[DataUpdateMediator#stop] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         this.waitTimer.cancel();
         this.stopListening();
         this.started = false;
     }
 
-    @Override
     public int activate(boolean bl) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[DataUpdateMediator#activate] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[DataUpdateMediator#activate] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         this.active = false;
         this.start();
         super.activate(false);
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[DataUpdateMediator#activate] (MEDID#%1), postponedAction=(EVENTID#%2)", (Object)Long.toString(this.getID()), (long)this.getPostponedActionWithoutReset());
+            this.manager.getLogChannel().log(100000000, "[DataUpdateMediator#activate] (MEDID#%1), postponedAction=(EVENTID#%2)", (Object)Long.toString(this.getID()), (long)this.getPostponedActionWithoutReset());
         }
         return this.getPostponedAction();
     }
 
-    @Override
     public int reactivate(boolean bl) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[DataUpdateMediator#reactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[DataUpdateMediator#reactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         if (!this.started || bl) {
             this.start();
@@ -130,10 +126,9 @@ implements TimerListener {
         return super.reactivate(false);
     }
 
-    @Override
     public void deactivate() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[DataUpdateMediator#deactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[DataUpdateMediator#deactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         super.deactivate();
         if (this.waitTimer.isRunning()) {
@@ -144,13 +139,12 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void processUpdate(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getModelId();
         int n2 = modelUpdateEvent.getUpdateType();
-        this.manager.getEventLogChannel().log(1078071040, "[DataUpdateMediator#processUpdate] (MEDID#%3) mediator received model-update event (MODELID#%1), Type %2) ", (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Long.toString(this.getID()));
+        this.manager.getEventLogChannel().log(1000000, "[DataUpdateMediator#processUpdate] (MEDID#%3) mediator received model-update event (MODELID#%1), Type %2) ", (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Long.toString(this.getID()));
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[DataUpdateMediator#processUpdate] (MEDID#%1) modelUpdate for (MODELID#%2) received", (Object)Long.toString(this.getID()), (Object)Integer.toString(n));
+            this.manager.getLogChannel().log(100000000, "[DataUpdateMediator#processUpdate] (MEDID#%1) modelUpdate for (MODELID#%2) received", (Object)Long.toString(this.getID()), (Object)Integer.toString(n));
         }
         if (this.triggerModelIDList[0] == n) {
             if (n2 == 2 || n2 == 6 || n2 == 12 || n2 == 16) {
@@ -167,7 +161,7 @@ implements TimerListener {
                             this.waitTimer.restart();
                         }
                     }
-                    this.manager.getEventLogChannel().log(1078071040, "[DataUpdateMediator#processUpdate] (MEDID#%2) mediator processed model-update event (MODELID#%1) ", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+                    this.manager.getEventLogChannel().log(1000000, "[DataUpdateMediator#processUpdate] (MEDID#%2) mediator processed model-update event (MODELID#%1) ", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
                     return;
                 }
                 if (this.isStatusError()) {
@@ -175,7 +169,7 @@ implements TimerListener {
                         this.mediatorState = 3;
                         this.triggerAction(this.errorAction);
                     }
-                    this.manager.getEventLogChannel().log(1078071040, "[DataUpdateMediator#processUpdate] (MEDID#%2) mediator processed model-update event (MODELID#%1) ", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+                    this.manager.getEventLogChannel().log(1000000, "[DataUpdateMediator#processUpdate] (MEDID#%2) mediator processed model-update event (MODELID#%1) ", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
                     return;
                 }
             }
@@ -190,14 +184,13 @@ implements TimerListener {
                     this.triggerAction(this.unavailableAction);
                 }
             }
-            this.manager.getEventLogChannel().log(1078071040, "[DataUpdateMediator#processUpdate] (MEDID#%2) mediator processed model-update event (MODELID#%1) ", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+            this.manager.getEventLogChannel().log(1000000, "[DataUpdateMediator#processUpdate] (MEDID#%2) mediator processed model-update event (MODELID#%1) ", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[DataUpdateMediator#fireTimer] (MEDID#%1), medState='%2', dataState='%3'", (Object)Long.toString(this.getID()), (Object)Integer.toString(this.mediatorState), (Object)Integer.toString(this.dataStatus));
+            this.manager.getLogChannel().log(100000000, "[DataUpdateMediator#fireTimer] (MEDID#%1), medState='%2', dataState='%3'", (Object)Long.toString(this.getID()), (Object)Integer.toString(this.mediatorState), (Object)Integer.toString(this.dataStatus));
         }
         if (!this.isStatusProcessing()) {
             if (this.isStatusError()) {
@@ -213,7 +206,6 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
@@ -258,12 +250,10 @@ implements TimerListener {
         return this.waitTime;
     }
 
-    @Override
     public int getType() {
         return 2;
     }
 
-    @Override
     public void kill() {
         if (this.waitTimer != null) {
             this.waitTimer.cancel();

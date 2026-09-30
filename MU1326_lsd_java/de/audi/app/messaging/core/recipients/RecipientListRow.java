@@ -10,9 +10,9 @@ import org.dsi.ifc.messaging.MatchedAddress;
 
 public final class RecipientListRow
 extends EvoListRow {
-    private static final int COLUMN_COUNT;
-    private static final int CELL_IDX_RECIPIENT_TYPE;
-    private static final int CELL_IDX_RECIPIENT_DESC;
+    private static final int COLUMN_COUNT = 2;
+    private static final int CELL_IDX_RECIPIENT_TYPE = 0;
+    private static final int CELL_IDX_RECIPIENT_DESC = 1;
     private final MatchedAddress matchedAddress;
     private final int recipientType;
 
@@ -60,12 +60,10 @@ extends EvoListRow {
         return string;
     }
 
-    @Override
     public EvoListRow copy() {
         return new RecipientListRow(this.matchedAddress, this.recipientType, this.getUniqueID());
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("RecipientListRow {");

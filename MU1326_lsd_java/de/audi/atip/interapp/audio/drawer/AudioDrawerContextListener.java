@@ -3,22 +3,19 @@
  */
 package de.audi.atip.interapp.audio.drawer;
 
-import de.audi.atip.interapp.audio.drawer.AudioDrawerContext$Source;
+import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
 
 public interface AudioDrawerContextListener {
-    public static final int DRAWER_STATE_OPENED;
-    public static final int DRAWER_STATE_CLOSED;
-    public static final int DRAWER_STATE_HIDDEN;
-    public static final int DRAWER_STATE_CLOSED_DISABLED;
-    public static final int DRAWER_STATE_IGNORE;
+    public static final int DRAWER_STATE_OPENED = 0;
+    public static final int DRAWER_STATE_CLOSED = 1;
+    public static final int DRAWER_STATE_HIDDEN = 2;
+    public static final int DRAWER_STATE_CLOSED_DISABLED = 6;
+    public static final int DRAWER_STATE_IGNORE = 7;
 
-    default public void updateActiveContext(AudioDrawerContext$Source audioDrawerContext$Source, int n) {
-    }
+    public void updateActiveContext(AudioDrawerContext.Source var1, int var2);
 
-    default public void entertainmentDrawerOpened() {
-    }
+    public void entertainmentDrawerOpened();
 
-    default public void entertainmentDrawerClosed() {
-    }
+    public void entertainmentDrawerClosed();
 }
 

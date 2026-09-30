@@ -21,7 +21,7 @@ implements IAppPresetDefinitionHandler {
     private LogChannel log;
     private Object getPresetTelNumberLock = new Object();
     private PhoneData getPresetTelNumberData = null;
-    private static final int[] SUPPORTED_MODEL_IDS = new int[]{-1280308736, -1297085952, 1840253440, 1873807872};
+    private static final int[] SUPPORTED_MODEL_IDS = new int[]{700595, 700594, 700525, 700527};
 
     public AddressBookEvoPresetHandler(AddressBookEvoApplication addressBookEvoApplication, LogChannel logChannel) {
         this.appAdr = addressBookEvoApplication;
@@ -32,12 +32,10 @@ implements IAppPresetDefinitionHandler {
         return this.appAdr;
     }
 
-    @Override
     public int getType() {
         return 1;
     }
 
-    @Override
     public int[] getModelIds() {
         return SUPPORTED_MODEL_IDS;
     }
@@ -45,7 +43,6 @@ implements IAppPresetDefinitionHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void requestDefinition(DefinitionRequest definitionRequest) {
         if (definitionRequest == null) {
             this.log.log(10000, "AddressBookEvoPresetHandler#requestDefinition(): request is null.");
@@ -103,7 +100,7 @@ implements IAppPresetDefinitionHandler {
                     }
                 }
             } else {
-                this.log.log(1078071040, "AddressBookEvoPresetHandler#requestDefinition(): unsupported data type: %1", (long)aDBEntryDetailsListRow.getDataType());
+                this.log.log(1000000, "AddressBookEvoPresetHandler#requestDefinition(): unsupported data type: %1", (long)aDBEntryDetailsListRow.getDataType());
                 definitionRequest.responseDefine(2, null, null, 99);
             }
         } else if (evoListRow instanceof ADBSearchListRow && this.appAdr.getAdbMode() == 0 && ((ADBSearchListRow)((Object)evoListRow)).getPhoneCount() == 1) {
@@ -113,7 +110,7 @@ implements IAppPresetDefinitionHandler {
                 this.getPresetTelNumberData = null;
                 GetPresetTelNumberCommand.createGetPresetTelNumberCommand(this, ((ADBSearchListRow)((Object)evoListRow)).getEntryId());
                 try {
-                    this.getPresetTelNumberLock.wait(0);
+                    this.getPresetTelNumberLock.wait(500L);
                 }
                 catch (InterruptedException interruptedException) {
                     this.log.log(10000, "AddressBookEvoPresetHandler#requestDefinition(): InterruptedException e: %1", (Throwable)interruptedException);
@@ -121,14 +118,14 @@ implements IAppPresetDefinitionHandler {
                 phoneData = this.getPresetTelNumberData;
             }
             if (phoneData != null) {
-                this.log.log(1078071040, "AddressBookEvoPresetHandler#requestDefinition(): storing single phone number \"%1\" of entry \"%2\" as preset.", (Object)phoneData.number, (Object)((ADBSearchListRow)((Object)evoListRow)).getCombinedName());
+                this.log.log(1000000, "AddressBookEvoPresetHandler#requestDefinition(): storing single phone number \"%1\" of entry \"%2\" as preset.", (Object)phoneData.number, (Object)((ADBSearchListRow)((Object)evoListRow)).getCombinedName());
                 this.appAdr.getPhoneGateway().definePreset(definitionRequest, phoneData.number, ((ADBSearchListRow)((Object)evoListRow)).getCombinedName(), phoneData.numberType);
             } else {
                 this.log.log(10000, "AddressBookEvoPresetHandler#requestDefinition(): failed to retreive single phone number of entry \"%1\"!", (Object)((ADBSearchListRow)((Object)evoListRow)).getCombinedName());
                 definitionRequest.responseDefine(2, null, null, 99);
             }
         } else {
-            this.log.log(1078071040, "AddressBookEvoPresetHandler#requestDefinition(): unsupported row type of row: %1", (Object)evoListRow);
+            this.log.log(1000000, "AddressBookEvoPresetHandler#requestDefinition(): unsupported row type of row: %1", (Object)evoListRow);
             definitionRequest.responseDefine(3, null, null, 99);
         }
     }

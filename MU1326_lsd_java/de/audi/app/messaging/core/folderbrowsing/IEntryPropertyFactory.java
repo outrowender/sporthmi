@@ -7,7 +7,13 @@ import de.audi.atip.hmi.model.PropertyListCell;
 import org.dsi.ifc.messaging.ListEntry;
 
 public interface IEntryPropertyFactory {
-    default public PropertyListCell create(ListEntry listEntry) {
+    public PropertyListCell create(ListEntry var1);
+
+    public static final class NullFactory
+    implements IEntryPropertyFactory {
+        public PropertyListCell create(ListEntry listEntry) {
+            return PropertyListCell.EMPTY_CELL;
+        }
     }
 }
 

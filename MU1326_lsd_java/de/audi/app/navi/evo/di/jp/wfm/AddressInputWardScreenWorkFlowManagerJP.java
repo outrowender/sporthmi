@@ -17,9 +17,8 @@ extends AbstractAddressInputScreenWorkFlowManagerJP {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow with screenEventId = %2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow with screenEventId = %2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 20702: {
                 this.createJPWardScreenListElementSelectedWorkFlow(commandList);
@@ -37,7 +36,7 @@ extends AbstractAddressInputScreenWorkFlowManagerJP {
     }
 
     private void createJPWardScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createJPWardScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createJPWardScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
         this.spellerStack.pop();
         if (AddressInputUtilEvo.isRemoteHMIPOIContext(this.env)) {
@@ -46,7 +45,7 @@ extends AbstractAddressInputScreenWorkFlowManagerJP {
     }
 
     private void createJPWardScreenEnteredWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createJPWardScreenEnteredWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createJPWardScreenEnteredWorkFlow", (Object)this.CLASS_NAME);
         commandList.add(this.inputManager.getWardScreenListener().getStartCommandList());
     }
 }

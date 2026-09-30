@@ -17,16 +17,15 @@ extends NaviTrufflesSearchDestinationCommand {
         super(logChannel, string, sDSHandlerService, naviService, nBestStorageAccess, naviServiceListenerImpl, naviSDSTrufflesHistoryHelper);
     }
 
-    @Override
     public void execute() {
         String string = this.naviTrufflesHist.getLastTruffleSearchText();
         String[] stringArray = this.naviTrufflesHist.getLastTruffleAlternativeSearchTexts();
-        this.logger.log(-2137614336, "%1#execute: searchText=%2!", (Object)this.getName(), (Object)string);
-        this.logger.log(-2137614336, "%1#execute: alternativeSearchTexts=%2!", (Object)this.getName(), (Object)stringArray);
+        this.logger.log(10000000, "%1#execute: searchText=%2!", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "%1#execute: alternativeSearchTexts=%2!", (Object)this.getName(), (Object)stringArray);
         this.updateSearchPromptPopupText(string);
         int n = this.naviService.startTrufflesSearch(string, stringArray);
         this.naviServiceListener.setTrufflesSearchQueryID(n);
-        this.logger.log(-2137614336, "%1#execute: startTrufflesSearch started with queryID=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: startTrufflesSearch started with queryID=%2!", (Object)this.getName(), (long)n);
     }
 }
 

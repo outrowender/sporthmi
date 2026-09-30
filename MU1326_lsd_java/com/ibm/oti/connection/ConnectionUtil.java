@@ -6,13 +6,9 @@ package com.ibm.oti.connection;
 import com.ibm.oti.util.Msg;
 
 public abstract class ConnectionUtil {
-    public static final int NEGATIVE;
-    public static final int NEGATIVE_OR_ZERO;
-    public static final String[][] NO_PARAMETERS;
-
-    static {
-        NO_PARAMETERS = new String[0][0];
-    }
+    public static final int NEGATIVE = 1;
+    public static final int NEGATIVE_OR_ZERO = 2;
+    public static final String[][] NO_PARAMETERS = new String[0][0];
 
     public static String[][] getParameters(String string) {
         int n;

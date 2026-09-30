@@ -30,21 +30,18 @@ implements IMatchspellerModelAccess {
         this.env = navigationEnv;
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         Util.setModelStatus(this.matchSpellerModelApp, 0);
         this.matchSpellerModelApp.clear();
         this.matchSpellerModelApp.setMatchCount(-1);
     }
 
-    @Override
     public void onInputChanged() {
         this.previewListModelApp.removeAll();
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
-        this.logChannel.log(-2137614336, "PhonenumberMatchSpellerModelAccess#onUpdateSpeller(%1, %2, %3, %4)", (Object)string, (Object)string2, (Object)new StringBuffer().append(bl).append("").toString(), (Object)new StringBuffer().append(bl2).append("").toString());
+        this.logChannel.log(10000000, "PhonenumberMatchSpellerModelAccess#onUpdateSpeller(%1, %2, %3, %4)", (Object)string, (Object)string2, (Object)(bl + ""), (Object)(bl2 + ""));
         int n = bl2 ? 1 : 0;
         this.matchSpellerModelApp.setText(string2);
         this.matchSpellerModelApp.setValidChars(string, n);
@@ -52,17 +49,16 @@ implements IMatchspellerModelAccess {
         Util.setModelStatus(this.matchSpellerModelApp, 1);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         int n3;
-        this.logChannel.log(-2137614336, "PhonenumberMatchSpellerModelAccess#onUpdateResultList with matchCount = %1, currentInput = %2, valueList = %3", (Object)Long.toString(l), (Object)string, (Object)lIValueList);
+        this.logChannel.log(10000000, "PhonenumberMatchSpellerModelAccess#onUpdateResultList with matchCount = %1, currentInput = %2, valueList = %3", (Object)Long.toString(l), (Object)string, (Object)lIValueList);
         if (Util.isEmpty(string)) {
             this.matchSpellerModelApp.setCompletionText("");
         }
         LIValueListElement[] lIValueListElementArray = Util.isListValid(lIValueList) ? lIValueList.getList() : new LIValueListElement[]{};
         EvoListRow[] evoListRowArray = new AddressInputLIValueListElementListRow[lIValueListElementArray.length];
         for (n3 = 0; n3 < lIValueListElementArray.length; ++n3) {
-            evoListRowArray[n3] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 819717694, new int[0]);
+            evoListRowArray[n3] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 1055316784, new int[0]);
         }
         if (lIValueListElementArray.length > 0) {
             this.previewListModelApp.setLength((int)l);
@@ -75,39 +71,32 @@ implements IMatchspellerModelAccess {
         } else {
             this.matchSpellerModelApp.setCommandAvailable(7, false);
         }
-        if (l > 0L && l <= 0) {
-            this.logChannel.log(-2137614336, "PhonenumberMatchSpellerModelAccess#onUpdateResultList automatically select first item when the amount of result list is less than 4");
+        if (l > 0L && l <= 4L) {
+            this.logChannel.log(10000000, "PhonenumberMatchSpellerModelAccess#onUpdateResultList automatically select first item when the amount of result list is less than 4");
             n3 = Util.isEmpty(string) ? 0 : 1;
             this.matchSpellerModelApp.setMatchCount((int)l, n3);
         }
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
         this.previewListModelApp.clearRows(n, n2);
     }
 
-    @Override
     public void onRestore() {
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
-    @Override
     public void onSpellerStatusChanged(int n) {
     }
 }

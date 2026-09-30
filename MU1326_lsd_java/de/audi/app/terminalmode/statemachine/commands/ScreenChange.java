@@ -12,17 +12,16 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 
 public class ScreenChange
 extends AbstractStateHandlerCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "ScreenChange";
 
     public ScreenChange(IContext iContext, IStateHandler iStateHandler) {
-        super(iContext.getLogger().main(), "ScreenChange", iContext, iStateHandler);
+        super(iContext.getLogger().main(), LOGCLASS, iContext, iStateHandler);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"ScreenChange");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
         int n = this.context.getFramework().getHMIService().getScreenManager(0).getCurrentScreenId();
-        int n2 = n / -1601830656;
+        int n2 = n / 100000;
         this.stateHandler.setLastScreenWasEntertainment(n2 == 2 || n2 == 1 || n2 == 26);
         ChoiceModelApp choiceModelApp = this.context.getFramework().getHmiServiceApp().getChoiceModel(4095);
         choiceModelApp.setValue(choiceModelApp.getValue() == 0 ? 1 : 0);

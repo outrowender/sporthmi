@@ -31,9 +31,8 @@ implements ISeatPopupController {
         this.factory = abstractSeatPopupFactory;
     }
 
-    @Override
     public synchronized void createPopups() {
-        this.getLogChannel().log(1078071040, "[AbstractSeatPopupController#createPopups()] areSeatPopinsCreated: %1, arePneumaticSeatPopinsCreated: %2", this.areSeatPopinsCreated(), this.arePneumaticSeatPopinsCreated());
+        this.getLogChannel().log(1000000, "[AbstractSeatPopupController#createPopups()] areSeatPopinsCreated: %1, arePneumaticSeatPopinsCreated: %2", this.areSeatPopinsCreated(), this.arePneumaticSeatPopinsCreated());
         if (!this.areSeatPopinsCreated()) {
             this.factory.addSeatPopups(this.getSeatPopups());
             this.setSeatPopinsCreated();
@@ -41,9 +40,8 @@ implements ISeatPopupController {
         }
     }
 
-    @Override
     public synchronized void createPneumaticPopups() {
-        this.getLogChannel().log(1078071040, "[AbstractSeatPopupController#createPneumaticPopups()] areSeatPopinsCreated: %1, arePneumaticSeatPopinsCreated: %2", this.areSeatPopinsCreated(), this.arePneumaticSeatPopinsCreated());
+        this.getLogChannel().log(1000000, "[AbstractSeatPopupController#createPneumaticPopups()] areSeatPopinsCreated: %1, arePneumaticSeatPopinsCreated: %2", this.areSeatPopinsCreated(), this.arePneumaticSeatPopinsCreated());
         if (!this.arePneumaticSeatPopinsCreated()) {
             this.factory.addPneumaticSeatPopups(this.getSeatPopups());
             this.setPneumaticSeatPopinsCreated();
@@ -51,10 +49,9 @@ implements ISeatPopupController {
         }
     }
 
-    @Override
     public synchronized void performActionOnPopins(SeatPopinContent seatPopinContent, PopinAction popinAction, int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[AbstractSeatPopupController#performActionOnPopins] %1: seatPopinContent='%2' , partialPopinID='%3'", (Object)popinAction, (Object)seatPopinContent, (Object)new Integer(n));
+            this.logChannel.log(1000000, "[AbstractSeatPopupController#performActionOnPopins] %1: seatPopinContent='%2' , partialPopinID='%3'", (Object)popinAction, (Object)seatPopinContent, (Object)new Integer(n));
         }
         Iterator iterator = this.getSeatPopups().iterator();
         while (iterator.hasNext() && !this.performActionOnPopin((AbstractSeatPopin)iterator.next(), seatPopinContent, popinAction, n)) {
@@ -77,20 +74,19 @@ implements ISeatPopupController {
 
     private void logPerformingAction(PopinAction popinAction, AbstractSeatPopin abstractSeatPopin, SeatPopinContent seatPopinContent) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[AbstractSeatPopupController#performActionOnPopin] %1 on %2 with HMI ID '%3': content='%4'", (Object)popinAction, (Object)abstractSeatPopin.getClassName(), (Object)new Integer(abstractSeatPopin.getHmiPopinID()), (Object)seatPopinContent);
+            this.logChannel.log(1000000, "[AbstractSeatPopupController#performActionOnPopin] %1 on %2 with HMI ID '%3': content='%4'", (Object)popinAction, (Object)abstractSeatPopin.getClassName(), (Object)new Integer(abstractSeatPopin.getHmiPopinID()), (Object)seatPopinContent);
         }
     }
 
     private void logPerformingAction(PopinAction popinAction, AbstractSeatPopin abstractSeatPopin, int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[AbstractSeatPopupController#performActionOnPopin] %1 on %2 with HMI ID '%3': partialPopinID='%4'", (Object)popinAction, (Object)abstractSeatPopin.getClassName(), (Object)new Integer(abstractSeatPopin.getHmiPopinID()), (Object)new Integer(n));
+            this.logChannel.log(1000000, "[AbstractSeatPopupController#performActionOnPopin] %1 on %2 with HMI ID '%3': partialPopinID='%4'", (Object)popinAction, (Object)abstractSeatPopin.getClassName(), (Object)new Integer(abstractSeatPopin.getHmiPopinID()), (Object)new Integer(n));
         }
     }
 
-    @Override
     public void cancelPopup(SeatPopinContent seatPopinContent, AbstractSeatPopin abstractSeatPopin) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractSeatPopupController#cancelPopup] cancelContent='%1', canceledPopup='%2'", (Object)seatPopinContent, (Object)abstractSeatPopin);
+            this.getLogChannel().log(1000000, "[AbstractSeatPopupController#cancelPopup] cancelContent='%1', canceledPopup='%2'", (Object)seatPopinContent, (Object)abstractSeatPopin);
         }
         if (seatPopinContent.isPneumaticSeatContent()) {
             this.getMainController().callDSIcancelPopup(seatPopinContent.getDSISeatPneumaticContent(), seatPopinContent.getCancelReason());
@@ -99,10 +95,9 @@ implements ISeatPopupController {
         }
     }
 
-    @Override
     public void sendShowPopupResponse(SeatPopinContent seatPopinContent, SeatPopinContent seatPopinContent2, AbstractSeatPopin abstractSeatPopin) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractSeatPopupController#showPopup] shownContent='%1', requestedContent='%2' , shownPopup='%3'", (Object)seatPopinContent, (Object)seatPopinContent2, (Object)abstractSeatPopin);
+            this.getLogChannel().log(1000000, "[AbstractSeatPopupController#showPopup] shownContent='%1', requestedContent='%2' , shownPopup='%3'", (Object)seatPopinContent, (Object)seatPopinContent2, (Object)abstractSeatPopin);
         }
         if (seatPopinContent.isPneumaticSeatContent()) {
             this.getMainController().callDSIshowPopup(seatPopinContent.getDSISeatPneumaticContent());
@@ -111,32 +106,26 @@ implements ISeatPopupController {
         }
     }
 
-    @Override
     public void hideSeatPopup(AbstractSeatPopin abstractSeatPopin) {
         this.getPopupHandlerController().hideSeatPopup(abstractSeatPopin);
     }
 
-    @Override
     public void displaySeatPopup(AbstractSeatPopin abstractSeatPopin) {
         this.getPopupHandlerController().showSeatPopup(abstractSeatPopin);
     }
 
-    @Override
     public boolean isSeatContentShown(boolean bl) {
         return this.getPopupHandlerController().isSeatContentShown(bl);
     }
 
-    @Override
     public boolean arePneumaticSeatPopinsCreated() {
         return this.pneumaticSeatPopinsCreated;
     }
 
-    @Override
     public boolean areSeatPopinsCreated() {
         return this.seatPopinsCreated;
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logChannel;
     }

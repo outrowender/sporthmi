@@ -26,17 +26,14 @@ implements IARAMessageHandler {
         this.splitscreenCenteredMessagePartialPopupID = n2;
     }
 
-    @Override
     public void init() {
     }
 
-    @Override
     public void deinit() {
     }
 
-    @Override
     public void showMessage(int n) {
-        this.logChannel.log(1078071040, "[ARAMessageHandler#showMessage] id='%1'", (long)n);
+        this.logChannel.log(1000000, "[ARAMessageHandler#showMessage] id='%1'", (long)n);
         this.currentMessageID = n;
         int n2 = this.getPartialPopupID(n);
         if (-1 != this.visiblePartialPopupId && (n == 0 || this.visiblePartialPopupId != n2)) {
@@ -44,7 +41,7 @@ implements IARAMessageHandler {
             this.visiblePartialPopupId = -1;
         }
         if (n != 0) {
-            this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(-854908928).setValue(n);
+            this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100173).setValue(n);
         }
         if (n > 0) {
             this.visiblePartialPopupId = n2;
@@ -52,9 +49,8 @@ implements IARAMessageHandler {
         }
     }
 
-    @Override
     public void updateMessage() {
-        this.logChannel.log(1078071040, "[ARAMessageHandler#updateMessage] called.");
+        this.logChannel.log(1000000, "[ARAMessageHandler#updateMessage] called.");
         if (0 != this.currentMessageID) {
             this.showMessage(this.currentMessageID);
         }

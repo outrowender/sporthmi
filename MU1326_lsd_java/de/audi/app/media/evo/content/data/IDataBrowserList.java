@@ -9,44 +9,37 @@ import de.audi.app.media.evo.content.data.DataBrowserListLocator;
 import de.audi.app.media.evo.content.data.IDataBrowserListChangeListener;
 
 public interface IDataBrowserList {
-    public static final int LISTTYPE_UNDEFINED;
-    public static final int LISTTYPE_PHYSICAL;
-    public static final int LISTTYPE_TITELS;
-    public static final int LISTTYPE_ALBUMS;
-    public static final int LISTTYPE_ARTISTS;
-    public static final int LISTTYPE_GENRES;
-    public static final int LISTTYPE_PLAYLISTS;
-    public static final int LISTTYPE_VIDEOS;
-    public static final int LISTTYPE_COMPOSERS;
-    public static final int LISTTYPE_AUDIOBOOKS;
-    public static final int LISTTYPE_PODCASTS;
-    public static final int LAYOUT_1L_TITLE;
-    public static final int LAYOUT_1L_FILENAME;
-    public static final int LAYOUT_2L_TITLE_ARTIST;
-    public static final int LAYOUT_2L_TITLE_ALBUM_ARTIST;
-    public static final int PATHTYPE_LIST;
-    public static final int PATHTYPE_SEARCH;
-    public static final int PATHTYPE_BROWSER_SEARCH;
+    public static final int LISTTYPE_UNDEFINED = 0;
+    public static final int LISTTYPE_PHYSICAL = 1;
+    public static final int LISTTYPE_TITELS = 2;
+    public static final int LISTTYPE_ALBUMS = 3;
+    public static final int LISTTYPE_ARTISTS = 4;
+    public static final int LISTTYPE_GENRES = 5;
+    public static final int LISTTYPE_PLAYLISTS = 6;
+    public static final int LISTTYPE_VIDEOS = 7;
+    public static final int LISTTYPE_COMPOSERS = 8;
+    public static final int LISTTYPE_AUDIOBOOKS = 9;
+    public static final int LISTTYPE_PODCASTS = 10;
+    public static final int LAYOUT_1L_TITLE = 0;
+    public static final int LAYOUT_1L_FILENAME = 1;
+    public static final int LAYOUT_2L_TITLE_ARTIST = 2;
+    public static final int LAYOUT_2L_TITLE_ALBUM_ARTIST = 3;
+    public static final int PATHTYPE_LIST = 0;
+    public static final int PATHTYPE_SEARCH = 1;
+    public static final int PATHTYPE_BROWSER_SEARCH = 2;
 
-    default public void addBrowseListChangeListener(IDataBrowserListChangeListener iDataBrowserListChangeListener) {
-    }
+    public void addBrowseListChangeListener(IDataBrowserListChangeListener var1);
 
-    default public void removeBrowseListChangeListener(IDataBrowserListChangeListener iDataBrowserListChangeListener) {
-    }
+    public void removeBrowseListChangeListener(IDataBrowserListChangeListener var1);
 
-    default public boolean selectBrowseListPath(DataBrowserListLocator dataBrowserListLocator) {
-    }
+    public boolean selectBrowseListPath(DataBrowserListLocator var1);
 
-    default public void selectEntry(MediaListEntry mediaListEntry) {
-    }
+    public void selectEntry(MediaListEntry var1);
 
-    default public boolean changeToParentFolder() {
-    }
+    public boolean changeToParentFolder();
 
-    default public boolean isReady() {
-    }
+    public boolean isReady();
 
-    default public IPlayer getPlayer() {
-    }
+    public IPlayer getPlayer();
 }
 

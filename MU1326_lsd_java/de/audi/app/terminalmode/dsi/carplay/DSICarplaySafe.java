@@ -12,43 +12,30 @@ import org.dsi.ifc.carplay.ServiceConfiguration;
 import org.dsi.ifc.carplay.TouchEvent;
 
 public interface DSICarplaySafe {
-    default public void startService(ServiceConfiguration serviceConfiguration) {
-    }
+    public void startService(ServiceConfiguration var1);
 
-    default public void postButtonEvent(int n, int n2) {
-    }
+    public void postButtonEvent(int var1, int var2);
 
-    default public void postTouchEvent(int n, int n2, TouchEvent[] touchEventArray) {
-    }
+    public void postTouchEvent(int var1, int var2, TouchEvent[] var3);
 
-    default public void postRotaryEvent(int n) {
-    }
+    public void postRotaryEvent(int var1);
 
-    default public void postCharacterEvent(int n, String[] stringArray) {
-    }
+    public void postCharacterEvent(int var1, String[] var2);
 
-    default public void requestModeChange(ResourceRequest[] resourceRequestArray, AppStateRequest[] appStateRequestArray, String string) {
-    }
+    public void requestModeChange(ResourceRequest[] var1, AppStateRequest[] var2, String var3);
 
-    default public void responseUpdateMode(Resource[] resourceArray, AppState[] appStateArray) {
-    }
+    public void responseUpdateMode(Resource[] var1, AppState[] var2);
 
-    default public void responseBTDeactivation() {
-    }
+    public void responseBTDeactivation();
 
-    default public void requestUI(int n) {
-    }
+    public void requestUI(int var1);
 
-    default public void requestUI2(String string) {
-    }
+    public void requestUI2(String var1);
 
-    default public void requestNightMode(boolean bl) {
-    }
+    public void requestNightMode(boolean var1);
 
-    default public void requestSIRIAction(SiriAction siriAction) {
-    }
+    public void requestSIRIAction(SiriAction var1);
 
-    default public void responseUpdateMainAudioType(int n) {
-    }
+    public void responseUpdateMainAudioType(int var1);
 }
 

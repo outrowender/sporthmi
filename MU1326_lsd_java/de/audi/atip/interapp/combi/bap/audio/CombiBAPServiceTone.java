@@ -7,13 +7,10 @@ import de.audi.atip.interapp.combi.bap.CombiBAPService;
 
 public interface CombiBAPServiceTone
 extends CombiBAPService {
-    default public void updateMuteState(boolean bl, boolean bl2) {
-    }
+    public void updateMuteState(boolean var1, boolean var2);
 
-    default public void updateVolumeProperties(byte by, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6, boolean bl7, boolean bl8) {
-    }
+    public void updateVolumeProperties(byte var1, boolean var2, boolean var3, boolean var4, boolean var5, boolean var6, boolean var7, boolean var8, boolean var9);
 
-    default public void updateVolume(int n, int n2, int n3, boolean bl, boolean bl2) {
-    }
+    public void updateVolume(int var1, int var2, int var3, boolean var4, boolean var5);
 }
 

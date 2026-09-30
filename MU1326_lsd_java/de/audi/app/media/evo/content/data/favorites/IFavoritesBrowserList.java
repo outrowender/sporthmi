@@ -4,7 +4,6 @@
 package de.audi.app.media.evo.content.data.favorites;
 
 public interface IFavoritesBrowserList {
-    default public void selectFavoriteEntry(int n) {
-    }
+    public void selectFavoriteEntry(int var1);
 }
 

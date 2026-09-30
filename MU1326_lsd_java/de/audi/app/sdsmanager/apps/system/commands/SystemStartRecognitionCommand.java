@@ -28,9 +28,9 @@ import java.util.List;
 
 public class SystemStartRecognitionCommand
 extends AbstractSystemCallCommand {
-    private static final int BEEP_TYPE_LONG;
-    private static final int BEEP_TYPE_SHORT;
-    private static final int BEEP_TYPE_NONE;
+    private static final int BEEP_TYPE_LONG = 0;
+    private static final int BEEP_TYPE_SHORT = 1;
+    private static final int BEEP_TYPE_NONE = 2;
     private final SpeechRecognitionHandler srHandler;
     private final CommandListManager cmdListManager;
     private final NBestStorageAccess nBestStorage;
@@ -56,9 +56,8 @@ extends AbstractSystemCallCommand {
         this.beepValue = this.getBeepValue(SDSUtils.retrieveInteger(iSystemCallParameterArray, 0));
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: beepValue=%2, recogModeValue=%3", (Object)this.getName(), (long)this.beepValue, (long)this.recogModeValue);
+        this.logger.log(10000000, "%1#execute: beepValue=%2, recogModeValue=%3", (Object)this.getName(), (long)this.beepValue, (long)this.recogModeValue);
         if (!this.sdsHandlerService.isCommandScreen() || SDSModelAccess.getDialogJumpingModel() != 0) {
             SDSUtils.updateSDSNumbers(true);
         }
@@ -68,10 +67,10 @@ extends AbstractSystemCallCommand {
     }
 
     private int getBeepValue(int n) {
-        this.logger.log(-2137614336, "%1#getBeepValue: beepType=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#getBeepValue: beepType=%2", (Object)this.getName(), (long)n);
         switch (n) {
             case 0: {
-                this.logger.log(-2137614336, "%1#getBeepValue: Long beep requested!", (Object)this.getName());
+                this.logger.log(10000000, "%1#getBeepValue: Long beep requested!", (Object)this.getName());
                 return 3;
             }
             case 1: {
@@ -84,30 +83,30 @@ extends AbstractSystemCallCommand {
                     return 1;
                 }
                 int n2 = this.systemVBIHandler.isVBIActiveDuringActivePrompt() ? 1 : 2;
-                this.logger.log(-2137614336, "%1#getBeepValue: Short beep requested -> actual value: %2!", (Object)this.getName(), (long)n2);
+                this.logger.log(10000000, "%1#getBeepValue: Short beep requested -> actual value: %2!", (Object)this.getName(), (long)n2);
                 return n2;
             }
             case 2: {
-                this.logger.log(-2137614336, "%1#getBeepValue: No beep requested!", (Object)this.getName());
+                this.logger.log(10000000, "%1#getBeepValue: No beep requested!", (Object)this.getName());
                 return 1;
             }
         }
-        this.logger.log(-1601830656, "%1#getBeepValue: Unhandled beepType %2, returning %3!", (Object)this.getName(), (long)n, 1L);
+        this.logger.log(100000, "%1#getBeepValue: Unhandled beepType %2, returning %3!", (Object)this.getName(), (long)n, 1L);
         return 1;
     }
 
     public boolean stopCurrentRecognition() {
-        this.logger.log(-2137614336, "%1#stopCurrentRecognition: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#stopCurrentRecognition: called", (Object)this.getName());
         boolean bl = false;
         Command command = this.removeGrammarJobsBeforeRecognition();
         if (command == null) {
-            this.logger.log(-2137614336, "%1#stopCurrentRecognition: No active recognition command, calling recognitionAborted()!", (Object)this.getName());
+            this.logger.log(10000000, "%1#stopCurrentRecognition: No active recognition command, calling recognitionAborted()!", (Object)this.getName());
             this.recognitionAborted();
         } else {
-            this.logger.log(-2137614336, "%1#stopCurrentRecognition: activeCommand=%2, stopping recognition!", (Object)this.getName(), (Object)command.getName());
+            this.logger.log(10000000, "%1#stopCurrentRecognition: activeCommand=%2, stopping recognition!", (Object)this.getName(), (Object)command.getName());
             bl = ((CommandRecognition)command).stopRecognition();
             if (!bl) {
-                this.logger.log(-2137614336, "%1#stopCurrentRecognition(): Recognition already finished, calling recognitionAborted!", (Object)this.getName());
+                this.logger.log(10000000, "%1#stopCurrentRecognition(): Recognition already finished, calling recognitionAborted!", (Object)this.getName());
                 this.recognitionAborted();
             }
         }
@@ -125,18 +124,18 @@ extends AbstractSystemCallCommand {
         synchronized (commandListJobQueue) {
             CommandList commandList = this.cmdListManager.getActiveCommandList();
             if (commandList == null) {
-                this.logger.log(-2137614336, "%1#removeGrammarJobsBeforeRecognition: No active command list.", (Object)this.getName());
+                this.logger.log(10000000, "%1#removeGrammarJobsBeforeRecognition: No active command list.", (Object)this.getName());
                 return null;
             }
             Command command = commandList.getActiveCommand();
             if (command == null) {
-                this.logger.log(-2137614336, "%1#removeGrammarJobsBeforeRecognition: No active command.", (Object)this.getName());
+                this.logger.log(10000000, "%1#removeGrammarJobsBeforeRecognition: No active command.", (Object)this.getName());
                 return null;
             }
             if (command instanceof CommandRecognition) {
                 return command;
             }
-            this.logger.log(-2137614336, "%1#removeGrammarJobsBeforeRecognition: No active recognition.", (Object)this.getName());
+            this.logger.log(10000000, "%1#removeGrammarJobsBeforeRecognition: No active recognition.", (Object)this.getName());
             List list = this.cmdListManager.getQueue().getCommandLists();
             Iterator iterator = list.iterator();
             while (iterator.hasNext()) {
@@ -144,7 +143,7 @@ extends AbstractSystemCallCommand {
                 CommandList commandList2 = (CommandList)((Job)iterator.next()).getPayload();
                 Iterator iterator2 = commandList2.getCommands().iterator();
                 if (!iterator2.hasNext() || !((command2 = (Command)iterator2.next()) instanceof CommandRecognition)) continue;
-                this.logger.log(1078071040, "%1#removeGrammarJobsBeforeRecognition: Remove %2!", (Object)this.getName(), (Object)commandList2.getName());
+                this.logger.log(1000000, "%1#removeGrammarJobsBeforeRecognition: Remove %2!", (Object)this.getName(), (Object)commandList2.getName());
                 iterator.remove();
             }
             return null;
@@ -152,11 +151,10 @@ extends AbstractSystemCallCommand {
     }
 
     public void recognitionAborted() {
-        this.logger.log(-2137614336, "%1#recognitionAborted: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#recognitionAborted: called", (Object)this.getName());
         this.sendResult(3000);
     }
 
-    @Override
     public byte getActionOnNewSystemCall(ISystemCall iSystemCall) {
         int n = iSystemCall.getId();
         if (n == 1000 || n == 1043) {
@@ -176,12 +174,12 @@ extends AbstractSystemCallCommand {
         synchronized (commandListJobQueue) {
             CommandList commandList = this.cmdListManager.getActiveCommandList();
             if (commandList == null) {
-                this.logger.log(-2137614336, "%1#isCurrentRecognitionStopping: No active command list.", (Object)this.getName());
+                this.logger.log(10000000, "%1#isCurrentRecognitionStopping: No active command list.", (Object)this.getName());
                 return false;
             }
             Command command = commandList.getActiveCommand();
             if (command == null) {
-                this.logger.log(-2137614336, "%1#isCurrentRecognitionStopping: No active command.", (Object)this.getName());
+                this.logger.log(10000000, "%1#isCurrentRecognitionStopping: No active command.", (Object)this.getName());
                 return false;
             }
             if (command instanceof CommandRecognition) {

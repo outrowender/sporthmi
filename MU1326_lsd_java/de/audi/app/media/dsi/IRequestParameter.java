@@ -4,19 +4,14 @@
 package de.audi.app.media.dsi;
 
 public interface IRequestParameter {
-    default public int getClientID() {
-    }
+    public int getClientID();
 
-    default public boolean isOutdated() {
-    }
+    public boolean isOutdated();
 
-    default public void setOutDated(boolean bl) {
-    }
+    public void setOutDated(boolean var1);
 
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 
-    default public boolean isRetry() {
-    }
+    public boolean isRetry();
 }
 

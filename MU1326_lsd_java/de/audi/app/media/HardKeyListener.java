@@ -15,7 +15,7 @@ public class HardKeyListener
 extends AbstractMediaTerminalComponent
 implements ButtonListener,
 TimerListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "HardKeyListener";
     volatile Timer syncTimer;
 
     public HardKeyListener(IMediaTerminal iMediaTerminal) {
@@ -23,24 +23,23 @@ TimerListener {
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"HardKeyListener");
-        this.getButtonModel(2131690240).setButtonListener(this);
-        this.getButtonModel(-2146499840).setButtonListener(this);
-        this.getButtonModel(974193408).setButtonListener(this);
-        this.getButtonModel(990970624).setButtonListener(this);
-        this.getButtonModel(2081358592).setButtonListener(this);
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
+        this.getButtonModel(200575).setButtonListener(this);
+        this.getButtonModel(200576).setButtonListener(this);
+        this.getButtonModel(201018).setButtonListener(this);
+        this.getButtonModel(201019).setButtonListener(this);
+        this.getButtonModel(200572).setButtonListener(this);
     }
 
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"HardKeyListener");
-        this.getButtonModel(2131690240).setButtonListener(null);
-        this.getButtonModel(-2146499840).setButtonListener(null);
-        this.getButtonModel(974193408).setButtonListener(null);
-        this.getButtonModel(990970624).setButtonListener(null);
-        this.getButtonModel(2081358592).setButtonListener(null);
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
+        this.getButtonModel(200575).setButtonListener(null);
+        this.getButtonModel(200576).setButtonListener(null);
+        this.getButtonModel(201018).setButtonListener(null);
+        this.getButtonModel(201019).setButtonListener(null);
+        this.getButtonModel(200572).setButtonListener(null);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         switch (n) {
             case 200575: 
@@ -49,7 +48,7 @@ TimerListener {
             case 201019: {
                 ButtonListener buttonListener = this.getHKListener();
                 if (buttonListener == null) {
-                    this.logger.hmi().log(1078071040, "[%1.keyPressed] No available HK listener. Ignore.", (Object)"HardKeyListener");
+                    this.logger.hmi().log(1000000, "[%1.keyPressed] No available HK listener. Ignore.", (Object)LOGCLASS);
                     return;
                 }
                 buttonListener.keyPressed(n, n2, n3);
@@ -59,29 +58,28 @@ TimerListener {
                 break;
             }
             default: {
-                this.logger.hmi().log(1078071040, "[%1.keyPressed] Received unexpected key event for hard-key model '%2'.", (Object)"HardKeyListener", (long)n);
+                this.logger.hmi().log(1000000, "[%1.keyPressed] Received unexpected key event for hard-key model '%2'.", (Object)LOGCLASS, (long)n);
             }
         }
     }
 
     private ButtonListener getHKListener() {
         if (this.getTerminal().getFramework().getHmiServiceApp().getChoiceModel(409).getValue() != 0) {
-            this.logger.hmi().log(1078071040, "[%1.getHKListener] Blocked for TMC. Ignore.", (Object)"HardKeyListener");
+            this.logger.hmi().log(1000000, "[%1.getHKListener] Blocked for TMC. Ignore.", (Object)LOGCLASS);
             return null;
         }
         if (this.getTerminal().getAudioManager().isStandbyMuted()) {
-            this.logger.hmi().log(1078071040, "[%1.getHKListener] StandBy muted. Ignore.", (Object)"HardKeyListener");
+            this.logger.hmi().log(1000000, "[%1.getHKListener] StandBy muted. Ignore.", (Object)LOGCLASS);
             return null;
         }
         IContent iContent = this.getTerminal().getContentManager().getActiveContent();
         if (iContent == null) {
-            this.logger.hmi().log(1078071040, "[%1.getHKListener] No content active. Ignore.", (Object)"HardKeyListener");
+            this.logger.hmi().log(1000000, "[%1.getHKListener] No content active. Ignore.", (Object)LOGCLASS);
             return null;
         }
         return iContent.getHardKeyListener();
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         switch (n) {
             case 200575: 
@@ -99,16 +97,14 @@ TimerListener {
                 break;
             }
             default: {
-                this.logger.hmi().log(1078071040, "[%1.keyTyped] Received unexpected key event for hard-key model '%2'.", (Object)"HardKeyListener", (long)n);
+                this.logger.hmi().log(1000000, "[%1.keyTyped] Received unexpected key event for hard-key model '%2'.", (Object)LOGCLASS, (long)n);
             }
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         block0 : switch (n) {
             case 200575: 
@@ -124,15 +120,15 @@ TimerListener {
             }
             case 200572: {
                 int n4 = this.getTerminal().getFramework().getHmiServiceApp().getChoiceModel(395).getValue();
-                this.logger.hmi().log(-2137614336, "[%1.keyTyped] HK_JOKER_BUTTON (jokerKeyAction='%2').", (Object)"HardKeyListener", (long)n4);
+                this.logger.hmi().log(10000000, "[%1.keyTyped] HK_JOKER_BUTTON (jokerKeyAction='%2').", (Object)LOGCLASS, (long)n4);
                 switch (n4) {
                     case 9: {
                         ButtonListener buttonListener = this.getHKListener();
                         if (buttonListener == null) {
                             return;
                         }
-                        buttonListener.keyPressed(2131690240, n2, n3);
-                        buttonListener.keyReleased(2131690240, n2, n3);
+                        buttonListener.keyPressed(200575, n2, n3);
+                        buttonListener.keyReleased(200575, n2, n3);
                         break block0;
                     }
                     case 14: {
@@ -140,30 +136,30 @@ TimerListener {
                         if (buttonListener == null) {
                             return;
                         }
-                        buttonListener.keyPressed(-2146499840, n2, n3);
-                        buttonListener.keyReleased(-2146499840, n2, n3);
+                        buttonListener.keyPressed(200576, n2, n3);
+                        buttonListener.keyReleased(200576, n2, n3);
                         break block0;
                     }
                     case 8: {
                         boolean bl;
                         if (this.getTerminal().getAudioManager().hasFrontAudioFocus()) {
-                            this.logger.hmi().log(1078071040, "[%1.keyTyped] Media already active.", (Object)"HardKeyListener");
+                            this.logger.hmi().log(1000000, "[%1.keyTyped] Media already active.", (Object)LOGCLASS);
                             return;
                         }
                         if (this.isTerminalModeActive()) {
-                            this.logger.hmi().log(-1601830656, "[%1.keyTyped] TerminalMode is active. IGNORE. Tuner should be activated.", (Object)"HardKeyListener");
+                            this.logger.hmi().log(100000, "[%1.keyTyped] TerminalMode is active. IGNORE. Tuner should be activated.", (Object)LOGCLASS);
                             return;
                         }
-                        int n5 = this.getChoiceModel(1376715520).getValue();
+                        int n5 = this.getChoiceModel(200530).getValue();
                         boolean bl2 = bl = this.getChoiceModel(11).getValue() == 2 && (8 == n5 || 7 == n5);
                         if (bl) {
-                            this.logger.hmi().log(1078071040, "[%1.keyReleased] TV is active", (Object)"HardKeyListener");
+                            this.logger.hmi().log(1000000, "[%1.keyReleased] TV is active", (Object)LOGCLASS);
                             return;
                         }
                         if (this.syncTimer == null) {
                             this.syncTimer = new Timer("MediaJokerKeySyncTimer", 5, null, new TimerSyncer(this), 1L, true);
                         }
-                        this.logger.hmi().log(1078071040, "[%1.keyTyped] Start timer for media switch.", (Object)"HardKeyListener");
+                        this.logger.hmi().log(1000000, "[%1.keyTyped] Start timer for media switch.", (Object)LOGCLASS);
                         this.syncTimer.start();
                         break block0;
                     }
@@ -171,7 +167,7 @@ TimerListener {
                 break;
             }
             default: {
-                this.logger.hmi().log(1078071040, "[%1.keyReleased] Received unexpected key event for hard-key model '%2'.", (Object)"HardKeyListener", (long)n);
+                this.logger.hmi().log(1000000, "[%1.keyReleased] Received unexpected key event for hard-key model '%2'.", (Object)LOGCLASS, (long)n);
             }
         }
     }
@@ -181,14 +177,12 @@ TimerListener {
         return n == 43 || n == 48;
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logger.hmi().log(1078071040, "[%1.fireTimer] Fire Media-Switch Sync timer. Switch to media.", (Object)"HardKeyListener");
-        int n = this.getChoiceModel(1376715520).getValue();
+        this.logger.hmi().log(1000000, "[%1.fireTimer] Fire Media-Switch Sync timer. Switch to media.", (Object)LOGCLASS);
+        int n = this.getChoiceModel(200530).getValue();
         if (8 == n || 7 == n) {
             this.getTerminal().getAudioManager().switchAudioFocusToTV();
         } else {

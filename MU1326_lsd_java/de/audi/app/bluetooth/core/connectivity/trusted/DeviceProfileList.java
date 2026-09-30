@@ -22,29 +22,29 @@ implements IDeviceProfileList,
 BaseListModelListener,
 IConnectivityPhoneStateListener {
     private static final int[] ATTRIBUTE_NOTIFICATIONS = new int[0];
-    private static final int PROFILE_NOT_OFFERED;
-    private static final int PROFILE_DISCONNECTED;
-    private static final int PROFILE_CONNECTED;
-    private static final int DISCONNECTED;
-    protected static final int CONNECTED;
-    private static final int DISABLED;
-    private static final int ENABLED;
-    private static final int ENABLED_AND_CONNECTED;
-    protected static final int COL_DEVICE_SSID;
-    protected static final int COL_PROFILE;
-    private static final int COL_ENABLED;
-    protected static final int COL_CONNECTED;
-    private static final int COL_LAST_CONNECTED;
-    private static final int COL_ENABLE_AND_CONNECT;
-    private static final int NUM_COLUMNS;
-    protected static final int INDEX_SIMAP;
-    protected static final int INDEX_HFP;
-    protected static final int INDEX_MAP;
-    protected static final int INDEX_ADRDL;
-    private static final int[] PROFILE_CATEGORIES;
+    private static final int PROFILE_NOT_OFFERED = 0;
+    private static final int PROFILE_DISCONNECTED = 1;
+    private static final int PROFILE_CONNECTED = 2;
+    private static final int DISCONNECTED = 0;
+    protected static final int CONNECTED = 1;
+    private static final int DISABLED = 0;
+    private static final int ENABLED = 1;
+    private static final int ENABLED_AND_CONNECTED = 2;
+    protected static final int COL_DEVICE_SSID = 0;
+    protected static final int COL_PROFILE = 1;
+    private static final int COL_ENABLED = 2;
+    protected static final int COL_CONNECTED = 3;
+    private static final int COL_LAST_CONNECTED = 4;
+    private static final int COL_ENABLE_AND_CONNECT = 5;
+    private static final int NUM_COLUMNS = 6;
+    protected static final int INDEX_SIMAP = 0;
+    protected static final int INDEX_HFP = 1;
+    protected static final int INDEX_MAP = 2;
+    protected static final int INDEX_ADRDL = 3;
+    private static final int[] PROFILE_CATEGORIES = new int[]{4, 2, 0x600000, 32, 65536};
     private final ChoiceModelApp[] profileStatus;
-    private BaseListModelApp deviceProfilesList = this.getBaseListModel(1764107776);
-    private ChoiceModelApp connectActionChoice = this.getChoiceModel(1478895104);
+    private BaseListModelApp deviceProfilesList = this.getBaseListModel(0x262669);
+    private ChoiceModelApp connectActionChoice = this.getChoiceModel(2500184);
     private ServiceRegistration serviceRegistration;
     private String currentDevice = "";
     private String currentBondingDevice = "";
@@ -58,55 +58,46 @@ IConnectivityPhoneStateListener {
 
     public DeviceProfileList(IBluetoothApplication iBluetoothApplication) {
         super(iBluetoothApplication);
-        ChoiceModelApp choiceModelApp = this.getChoiceModel(1596335616);
-        ChoiceModelApp choiceModelApp2 = this.getChoiceModel(1562781184);
-        ChoiceModelApp choiceModelApp3 = this.getChoiceModel(1579558400);
-        ChoiceModelApp choiceModelApp4 = this.getChoiceModel(1546003968);
-        ChoiceModelApp choiceModelApp5 = this.getChoiceModel(1529226752);
+        ChoiceModelApp choiceModelApp = this.getChoiceModel(2500191);
+        ChoiceModelApp choiceModelApp2 = this.getChoiceModel(2500189);
+        ChoiceModelApp choiceModelApp3 = this.getChoiceModel(2500190);
+        ChoiceModelApp choiceModelApp4 = this.getChoiceModel(2500188);
+        ChoiceModelApp choiceModelApp5 = this.getChoiceModel(2500187);
         this.profileStatus = new ChoiceModelApp[]{choiceModelApp, choiceModelApp2, choiceModelApp3, choiceModelApp4, choiceModelApp5};
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void updateMESlotInfo(ITelMESlotState iTelMESlotState, ITelMESlotState iTelMESlotState2, ITelMESlotState iTelMESlotState3) {
-        this.log.log(-2137614336, "DeviceProfileList#updateMESlotInfo(): %1 %2 %3", (Object)iTelMESlotState, (Object)iTelMESlotState2, (Object)iTelMESlotState3);
+        this.log.log(10000000, "DeviceProfileList#updateMESlotInfo(): %1 %2 %3", (Object)iTelMESlotState, (Object)iTelMESlotState2, (Object)iTelMESlotState3);
         this.isSimInserted = iTelMESlotState3 != null && iTelMESlotState3.isInternalSim() && iTelMESlotState3.isDevicePossiblyAvailable();
         this.isCallActive = iTelMESlotState != null && iTelMESlotState.isCallActive() || iTelMESlotState2 != null && iTelMESlotState2.isCallActive();
         this.isPrimaryPhoneConnected = iTelMESlotState != null && iTelMESlotState.getActivationState() == 5 && iTelMESlotState.getLockState() == 2;
         this.updateProfiles();
     }
 
-    @Override
     public void updatePhoneState(int n, int n2) {
         this.isNadModeVoiceAndData = n == 1;
         this.updateProfiles();
     }
 
-    @Override
     public void updateESIMInfo(String string, String string2, boolean bl, boolean bl2) {
     }
 
-    @Override
     public void telAppEntered() {
     }
 
-    @Override
     public void telAppLeft() {
     }
 
-    @Override
     public void telUnlockEntered() {
     }
 
-    @Override
     public void telUnlockLeft() {
     }
 
-    @Override
     public void updateConnectedGatewayState(boolean bl) {
         if (this.isAnyEorBCallActive != bl) {
             this.isAnyEorBCallActive = bl;
@@ -114,13 +105,12 @@ IConnectivityPhoneStateListener {
         }
     }
 
-    @Override
     public void updateConnectedProfiles(String string, boolean bl) {
         if (bl) {
             this.currentBondingDevice = string;
         }
         TrustedDevice trustedDevice = this.bluetoothApplication.getTrustedDeviceList().get(string);
-        this.log.log(1078071040, "DeviceProfileList#updateConnectedProfiles(): current bonding device=%1, %2", (Object)this.currentBondingDevice, (Object)trustedDevice);
+        this.log.log(1000000, "DeviceProfileList#updateConnectedProfiles(): current bonding device=%1, %2", (Object)this.currentBondingDevice, (Object)trustedDevice);
         if (trustedDevice != null && trustedDevice.getDeviceAddress().equals(this.currentBondingDevice)) {
             this.updateModels(trustedDevice.getOfferedServiceTypes(), trustedDevice.getActiveServiceTypes());
         }
@@ -147,11 +137,10 @@ IConnectivityPhoneStateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void showProfiles(String string) {
         this.currentDevice = string;
         TrustedDevice trustedDevice = this.bluetoothApplication.getTrustedDeviceList().get(string);
-        this.log.log(1078071040, "DeviceProfileList#showProfiles(): %1", (Object)trustedDevice);
+        this.log.log(1000000, "DeviceProfileList#showProfiles(): %1", (Object)trustedDevice);
         if (trustedDevice == null) {
             this.log.log(10000, "DeviceProfileList#showProfiles(): device not found %1", (Object)string);
             return;
@@ -172,15 +161,15 @@ IConnectivityPhoneStateListener {
                 if (n4 == 0) continue;
                 boolean bl4 = true;
                 if (this.isCallActive && (i2 == 1 || i2 == 0) || this.isAnyEorBCallActive) {
-                    this.log.log(-2137614336, "DeviceProfileList#showProfiles(): (isCallActive AND category is HFP or SIMAP) OR (Bcall or Ecall active)");
+                    this.log.log(10000000, "DeviceProfileList#showProfiles(): (isCallActive AND category is HFP or SIMAP) OR (Bcall or Ecall active)");
                     bl4 = false;
                 }
                 if (this.isOfficeRowDisabled(n, i2)) {
-                    this.log.log(-2137614336, "DeviceProfileList#showProfiles(): isOfficeRowDisabled");
+                    this.log.log(10000000, "DeviceProfileList#showProfiles(): isOfficeRowDisabled");
                     bl4 = false;
                 }
                 if ((n4 & n3) == 0) {
-                    this.log.log(-2137614336, "DeviceProfileList#showProfiles(): supportedProfiles");
+                    this.log.log(10000000, "DeviceProfileList#showProfiles(): supportedProfiles");
                     bl4 = false;
                 }
                 bl4 = this.checkPrimaryAssociatedProfileActivationRules(i2, n, bl4);
@@ -191,7 +180,6 @@ IConnectivityPhoneStateListener {
         }
     }
 
-    @Override
     public void setPhoneRole(boolean bl) {
         this.isPhoneRolePrimary = bl;
     }
@@ -211,10 +199,10 @@ IConnectivityPhoneStateListener {
         boolean bl4 = bl2 = this.bluetoothApplication.getFramework().getSysConstManager().getSysConst(4168) == 7 || this.bluetoothApplication.getFramework().getSysConstManager().getSysConst(4168) == 5;
         if (!(this.isPhoneRolePrimary || this.isPrimaryPhoneConnected || bl2)) {
             if (n == 1 && (n2 & PROFILE_CATEGORIES[n]) == 0) {
-                this.log.log(-2137614336, "DeviceProfileList#showProfiles(): associated device and ...");
+                this.log.log(10000000, "DeviceProfileList#showProfiles(): associated device and ...");
                 bl3 = false;
             } else if (n == 0 && (n2 & PROFILE_CATEGORIES[n]) == 0) {
-                this.log.log(-2137614336, "DeviceProfileList#showProfiles(): associated device and ...");
+                this.log.log(10000000, "DeviceProfileList#showProfiles(): associated device and ...");
                 bl3 = false;
             }
         }
@@ -238,23 +226,20 @@ IConnectivityPhoneStateListener {
         return evoListRow;
     }
 
-    @Override
     public void updateProfiles(String string) {
         if (this.currentDevice != null && this.currentDevice.equals(string)) {
             this.showProfiles(string);
         }
     }
 
-    @Override
     public void updateProfiles() {
         this.showProfiles(this.currentDevice);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         String string = evoListRow.getText(0);
         TrustedDevice trustedDevice = this.bluetoothApplication.getTrustedDeviceList().get(string);
-        this.log.log(1078071040, "DeviceProfileList#itemSelected(): deviceAddress=%1 trusted device=%2", (Object)string, (Object)trustedDevice);
+        this.log.log(1000000, "DeviceProfileList#itemSelected(): deviceAddress=%1 trusted device=%2", (Object)string, (Object)trustedDevice);
         if (trustedDevice != null) {
             int n5 = trustedDevice.getActiveServiceTypes();
             int n6 = evoListRow.getInteger(1);
@@ -280,7 +265,7 @@ IConnectivityPhoneStateListener {
                         }
                         this.deviceProfilesList.fireEvent(n4);
                     } else {
-                        this.log.log(-1601830656, "DeviceProfileList#itemSelected(): The row is disabled!");
+                        this.log.log(100000, "DeviceProfileList#itemSelected(): The row is disabled!");
                     }
                 }
             }
@@ -289,26 +274,21 @@ IConnectivityPhoneStateListener {
         }
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void init() {
         super.init();
         this.deviceProfilesList.setListener(this);
         this.serviceRegistration = this.bluetoothApplication.getBundleContext().registerService((class$de$audi$atip$interapp$IConnectivityPhoneStateListener == null ? (class$de$audi$atip$interapp$IConnectivityPhoneStateListener = DeviceProfileList.class$("de.audi.atip.interapp.IConnectivityPhoneStateListener")) : class$de$audi$atip$interapp$IConnectivityPhoneStateListener).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         this.serviceRegistration.unregister();
         this.serviceRegistration = null;
@@ -324,10 +304,6 @@ IConnectivityPhoneStateListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        PROFILE_CATEGORIES = new int[]{4, 2, 24576, 32, 256};
     }
 }
 

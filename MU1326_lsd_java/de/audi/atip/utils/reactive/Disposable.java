@@ -4,7 +4,6 @@
 package de.audi.atip.utils.reactive;
 
 public interface Disposable {
-    default public void dispose() {
-    }
+    public void dispose();
 }
 

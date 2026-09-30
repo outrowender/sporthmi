@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelJoinCallsCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -18,23 +18,30 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelJoinCallsCmd.schedule(commandListManager, this, "TelJoinCallsCmd", new TelJoinCallsCmd$1(this, this.logger, "TelJoinCallsCmdError"), monitor);
+        TelJoinCallsCmd.schedule(commandListManager, this, "TelJoinCallsCmd", new Command(this.logger, "TelJoinCallsCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelJoinCallsCmd.schedule().new Command() {...}#execute] Error.");
+                if (TelJoinCallsCmd.this.listener != null) {
+                    TelJoinCallsCmd.this.listener.responseJoinCalls(65537, TelJoinCallsCmd.this.terminalID);
+                }
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelJoinCallsCmd#execute]");
+        this.logger.log(1000000, "[TelJoinCallsCmd#execute]");
         if (this.isDSIAvailable()) {
             this.dsi.joinCalls();
         } else {
-            this.logger.log(-1601830656, "[TelJoinCallsCmd#execute] dsi is null!");
+            this.logger.log(100000, "[TelJoinCallsCmd#execute] dsi is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseJoinCalls(int n) {
-        this.logger.log(1078071040, "[TelJoinCallsCmd#responseJoinCalls] result=%1", (long)n);
+        this.logger.log(1000000, "[TelJoinCallsCmd#responseJoinCalls] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseJoinCalls(n, this.terminalID);
         }

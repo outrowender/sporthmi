@@ -9,15 +9,14 @@ import de.audi.app.terminalmode.statemachine.commands.AbstractDSICommand;
 
 public class UpdateResources
 extends AbstractDSICommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "UpdateResources";
 
     public UpdateResources(IContext iContext, IDSISmartphoneManager iDSISmartphoneManager) {
-        super(iContext.getLogger().main(), "UpdateResources", iContext, iDSISmartphoneManager);
+        super(iContext.getLogger().main(), LOGCLASS, iContext, iDSISmartphoneManager);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"UpdateResources");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
     }
 }
 

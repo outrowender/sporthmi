@@ -15,7 +15,7 @@ public final class DESProvider
 extends CL3BasedProvider {
     private final int DES_EFFECT_KEY_LENGTH_BITS;
 
-    public DESProvider(int n) {
+    public DESProvider(int n) throws IOException {
         super(1, n);
         this.DES_EFFECT_KEY_LENGTH_BITS = 56;
         if (n != 56) {
@@ -23,12 +23,10 @@ extends CL3BasedProvider {
         }
     }
 
-    @Override
-    public Key createKey(byte[] byArray) {
+    public Key createKey(byte[] byArray) throws IOException {
         return new DESKey(this, byArray);
     }
 
-    @Override
     void cl3Call(CL3Key cL3Key, int n, byte[] byArray, int n2, byte[] byArray2, int n3, byte[] byArray3, int n4, int n5) {
         DES.des(cL3Key, n, byArray, n2, byArray2, n3, byArray3, n4, n5);
     }

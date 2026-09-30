@@ -4,25 +4,18 @@
 package de.audi.atip.audio;
 
 public interface HMIAudioServiceListener {
-    default public void updateAMAvailable(boolean bl) {
-    }
+    public void updateAMAvailable(boolean var1);
 
-    default public void stopConnection(int n, int n2) {
-    }
+    public void stopConnection(int var1, int var2);
 
-    default public void pauseConnection(int n, int n2) {
-    }
+    public void pauseConnection(int var1, int var2);
 
-    default public void startConnection(int n, int n2) {
-    }
+    public void startConnection(int var1, int var2);
 
-    default public void errorConnection(int n, int n2, int n3) {
-    }
+    public void errorConnection(int var1, int var2, int var3);
 
-    default public void fadedIn(int n, int n2) {
-    }
+    public void fadedIn(int var1, int var2);
 
-    default public void updateVolumeLock(int n, int n2, boolean bl) {
-    }
+    public void updateVolumeLock(int var1, int var2, boolean var3);
 }
 

@@ -15,7 +15,7 @@ import de.esolutions.fw.util.commons.Buffer;
 public class CombiJobSelectTrack
 extends AbstractCombiBrowserJob
 implements IPlayerSelectionRequest {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CombiJobSelectTrack";
     private final long entryID;
     private final int browserID;
 
@@ -25,17 +25,14 @@ implements IPlayerSelectionRequest {
         this.browserID = n;
     }
 
-    @Override
     public int getType() {
         return 11;
     }
 
-    @Override
     public String getName() {
         return "SELECTTRACK";
     }
 
-    @Override
     public void start() {
         MediaListEntry[] mediaListEntryArray = this.getCombiAdapter().getState().getCurrentBrowsingFolder();
         if (mediaListEntryArray.length < 1) {
@@ -45,18 +42,16 @@ implements IPlayerSelectionRequest {
         this.getCombiAdapter().addSelection(mediaListEntryArray[0]);
     }
 
-    @Override
     public void abort(boolean bl) {
         if (!bl) {
             return;
         }
-        this.logger.log(1078071040, "[%1.abort]", (Object)"CombiJobSelectTrack");
+        this.logger.log(1000000, "[%1.abort]", (Object)LOGCLASS);
         this.getCombiAdapter().getCombiAccessor().selectListEntryResult(false);
     }
 
-    @Override
     public void addSelectionResult(boolean bl) {
-        this.logger.log(1078071040, "[%2.addSelectionResult] '%1'", bl, (Object)"CombiJobSelectTrack");
+        this.logger.log(1000000, "[%2.addSelectionResult] '%1'", bl, (Object)LOGCLASS);
         if (!bl) {
             this.getCombiAdapter().getCombiAccessor().selectListEntryResult(false);
             this.getExecutionContext().jobFinished();
@@ -65,29 +60,24 @@ implements IPlayerSelectionRequest {
         this.getCombiAdapter().setPlaySelection(this);
     }
 
-    @Override
     public int getBrowserID() {
         return this.browserID;
     }
 
-    @Override
     public long getEntryID() {
         return this.entryID;
     }
 
-    @Override
     public boolean isSeamless() {
         return false;
     }
 
-    @Override
     public boolean waitForPlayposition() {
         return false;
     }
 
-    @Override
     public void responseSetSelection(boolean bl) {
-        this.logger.log(1078071040, "[%2.playerSelectionResult] '%1'", bl, (Object)"CombiJobSelectTrack");
+        this.logger.log(1000000, "[%2.playerSelectionResult] '%1'", bl, (Object)LOGCLASS);
         if (!bl) {
             this.getCombiAdapter().getCombiAccessor().selectListEntryResult(false);
             this.getExecutionContext().jobFinished();
@@ -98,7 +88,7 @@ implements IPlayerSelectionRequest {
     public void detailInfoChanged(MediaDetailInfo mediaDetailInfo) {
         this.getCombiAdapter().getState().setCurrentDetailInfo(mediaDetailInfo);
         if (!this.getCombiAdapter().getState().isBrowsingPlaybackFolder()) {
-            this.logger.log(14808325, "[%1.detailInfoChanged] Not browsing playback folder.", (Object)"CombiJobSelectTrack");
+            this.logger.log(100000000, "[%1.detailInfoChanged] Not browsing playback folder.", (Object)LOGCLASS);
             if (this.getCombiAdapter().getState().getAbsolutePositionCurrentTrack() != 0) {
                 this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
                 this.getCombiAdapter().getCombiAccessor().updatePlaybackFolder(false);
@@ -108,34 +98,30 @@ implements IPlayerSelectionRequest {
             this.getExecutionContext().jobFinished();
             return;
         }
-        this.logger.log(14808325, "[%1.detailInfoChanged] Browsing playback folder.", (Object)"CombiJobSelectTrack");
+        this.logger.log(100000000, "[%1.detailInfoChanged] Browsing playback folder.", (Object)LOGCLASS);
         this.getCombiAdapter().getCombiAccessor().updatePlaybackFolder(true);
         this.getCombiAdapter().requestBrowseListByEntryId(mediaDetailInfo.getEntryID(), mediaDetailInfo.getContentType(), 1);
     }
 
-    @Override
     public void responseList(int n, MediaListEntry[] mediaListEntryArray) {
-        this.logger.log(14808325, "[%1.responseList]", (Object)"CombiJobSelectTrack");
+        this.logger.log(100000000, "[%1.responseList]", (Object)LOGCLASS);
         this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(CombiBAPUtils.getAbsolutePosition(this.getCombiAdapter().getState().getCurrentDetailInfo().getEntryID(), this.getCombiAdapter().getState().getCurrentDetailInfo().getContentType(), mediaListEntryArray, n));
         this.sendDetailInfo();
         this.getCombiAdapter().getCombiAccessor().selectListEntryResult(true);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted]", (Object)"CombiJobSelectTrack");
+        this.logger.log(1000000, "[%1.errorListRequestAborted]", (Object)LOGCLASS);
         this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
         this.sendDetailInfo();
         this.getCombiAdapter().getCombiAccessor().selectListEntryResult(true);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void browseFolderChanged(MediaListEntry[] mediaListEntryArray, int n) {
     }
 
-    @Override
     public void errorFolderChangeAborted() {
     }
 

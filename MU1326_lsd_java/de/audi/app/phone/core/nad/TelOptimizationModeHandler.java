@@ -11,44 +11,41 @@ import de.audi.atip.hmi.model.ButtonListener;
 public class TelOptimizationModeHandler
 extends AbstractPhoneComponent
 implements ButtonListener {
-    private static final int OPTIMIZATIONMODE_INVALID;
-    private static final int OPTIMIZATIONMODE_AUTO;
-    private static final int OPTIMIZATIONMODE_TELEPHONE;
-    private static final int OPTIMIZATIONMODE_DATA;
+    private static final int OPTIMIZATIONMODE_INVALID = 0;
+    private static final int OPTIMIZATIONMODE_AUTO = 1;
+    private static final int OPTIMIZATIONMODE_TELEPHONE = 2;
+    private static final int OPTIMIZATIONMODE_DATA = 3;
     private int optimizationMode;
 
     public TelOptimizationModeHandler(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         super.init();
-        this.getButtonModel(1603601408).setButtonListener(this);
-        this.getButtonModel(1620378624).setButtonListener(this);
-        this.getButtonModel(1637155840).setButtonListener(this);
+        this.getButtonModel(300383).setButtonListener(this);
+        this.getButtonModel(300384).setButtonListener(this);
+        this.getButtonModel(300385).setButtonListener(this);
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.getButtonModel(1603601408).resetListener();
-        this.getButtonModel(1620378624).resetListener();
-        this.getButtonModel(1637155840).resetListener();
+        this.getButtonModel(300383).resetListener();
+        this.getButtonModel(300384).resetListener();
+        this.getButtonModel(300385).resetListener();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         super.updateGlobalTelephoneStateProperty(n, iGlobalTelephoneStateStruct);
-        if (n == 0x1E000100) {
+        if (n == 65566) {
             this.updateTelephoneOptimizationMode(iGlobalTelephoneStateStruct.getOptimizationMode());
         }
     }
 
     public void updateTelephoneOptimizationMode(int n) {
-        this.log.log(-1601830656, "TelOptimizationModeHandler#updateTelephoneOptimizationMode: optimizationMode=%1", (long)n);
+        this.log.log(100000, "TelOptimizationModeHandler#updateTelephoneOptimizationMode: optimizationMode=%1", (long)n);
         this.optimizationMode = n;
         int n2 = 0;
         switch (n) {
@@ -69,24 +66,21 @@ implements ButtonListener {
                 break;
             }
             default: {
-                this.log.log(-1601830656, "TelOptimizationModeHandler#updateTelephoneOptimizationMode: No handling for optimization mode %1", (long)n);
+                this.log.log(100000, "TelOptimizationModeHandler#updateTelephoneOptimizationMode: No handling for optimization mode %1", (long)n);
             }
         }
-        this.getChoiceModel(1586824192).setValue(n2);
-        this.getChoiceModel(1402274816).setStatus(1);
+        this.getChoiceModel(300382).setValue(n2);
+        this.getChoiceModel(300371).setStatus(1);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "[TelOptimizationModeHandler#keyTyped] model=%1, key=%2, terminal=%3", (long)n, (long)n2, (long)n3);
+        this.log.log(1000000, "[TelOptimizationModeHandler#keyTyped] model=%1, key=%2, terminal=%3", (long)n, (long)n2, (long)n3);
         int n4 = 0;
         switch (n) {
             case 300383: {
@@ -108,21 +102,20 @@ implements ButtonListener {
                 this.log.log(10000, "TelOptimizationModeHandler#keyTyped: unhandled model ID %1 ", (long)n);
             }
         }
-        this.getChoiceModel(1586824192).setValue(n4);
+        this.getChoiceModel(300382).setValue(n4);
         this.getButtonModel(n).fireEvent(n3);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
     private void setTelephoneOptimizationMode(int n, int n2) {
-        this.log.log(-2137614336, "[TelOptimizationModeHandler#setTelephoneOptimizationMode] Called, optimizationmode: %1", (long)n);
+        this.log.log(10000000, "[TelOptimizationModeHandler#setTelephoneOptimizationMode] Called, optimizationmode: %1", (long)n);
         if (this.optimizationMode != n) {
-            this.getChoiceModel(1402274816).setStatus(0);
+            this.getChoiceModel(300371).setStatus(0);
             this.getApplication().getTelephoneDSIAccess().requestSetOptimizationMode(n, n2);
         } else {
-            this.log.log(-2137614336, "[TelOptimizationModeHandler#setTelephoneOptimizationMode] %1 is already active. Not requesting to set it via DSI.", (long)n);
+            this.log.log(10000000, "[TelOptimizationModeHandler#setTelephoneOptimizationMode] %1 is already active. Not requesting to set it via DSI.", (long)n);
         }
     }
 }

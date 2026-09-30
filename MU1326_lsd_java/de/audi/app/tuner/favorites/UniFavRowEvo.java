@@ -12,15 +12,15 @@ import de.audi.tuner.app.uni.UnifiedStationExt;
 
 public class UniFavRowEvo
 extends UniMemoryRow {
-    private static final int INDEX_PROPERTIES;
-    private static final int INDEX_DEFAULT_IMAGE_ID;
-    public static final int NUM_COLS;
+    private static final int INDEX_PROPERTIES = 14;
+    private static final int INDEX_DEFAULT_IMAGE_ID = 15;
+    public static final int NUM_COLS = 16;
     private final RadioRowProperties props;
 
     public UniFavRowEvo(UnifiedStationExt unifiedStationExt, int n) {
         super(16, unifiedStationExt, n);
         this.props = new RadioRowProperties();
-        this.props.setCategory(unifiedStationExt.isAnalog() ? 1082681431 : 532791343);
+        this.props.setCategory(unifiedStationExt.isAnalog() ? 1466468416 : 801161503);
         this.props.setScrollingPS(unifiedStationExt.scrollingPS == 2);
         this.props.setNameFreezed(unifiedStationExt.isPsFreezed());
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
@@ -32,12 +32,10 @@ extends UniMemoryRow {
         this.props = uniFavRowEvo.props;
     }
 
-    @Override
     public EvoListRow copy() {
         return new UniFavRowEvo(this);
     }
 
-    @Override
     public void setStationActive(boolean bl) {
         this.props.setActive(bl);
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
@@ -46,14 +44,12 @@ extends UniMemoryRow {
         }
     }
 
-    @Override
     public void setPSFreeze(boolean bl, String string) {
         super.setPSFreeze(bl, string);
         this.props.setNameFreezed(bl);
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
     }
 
-    @Override
     public void setSLSAvailability(HMIResourceLocator hMIResourceLocator) {
         if (hMIResourceLocator.containsResourceURI()) {
             this.setInteger(12, 2);

@@ -78,7 +78,7 @@ public class TimerObject {
     }
 
     public String toString() {
-        return new StringBuffer().append("TimerObject [year=").append(this.year).append(", month=").append(this.month).append(", day=").append(this.day).append(", hour=").append(this.hour).append(", minute=").append(this.minute).append(", second=").append(this.second).append("]").toString();
+        return "TimerObject [year=" + this.year + ", month=" + this.month + ", day=" + this.day + ", hour=" + this.hour + ", minute=" + this.minute + ", second=" + this.second + "]";
     }
 }
 

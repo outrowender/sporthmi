@@ -23,12 +23,11 @@ extends AbstractSystemCallCommand {
         this.listMode = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
         SDSModelAccess.setVDEOneshotPLType(this.listMode);
         if (!NaviSDSUtils.isOneshotPickListMode(this.listMode)) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled listMode %2, sending ERROR!", (Object)this.getName(), (long)this.listMode);
+            this.logger.log(100000, "%1#execute: Unhandled listMode %2, sending ERROR!", (Object)this.getName(), (long)this.listMode);
             this.sendResult(3001);
             return;
         }
@@ -38,9 +37,9 @@ extends AbstractSystemCallCommand {
             return;
         }
         byte by = SDSUtils.translate(this.listMode, NaviSDSUtils.oneshotListModeToDataLevel);
-        this.logger.log(-2137614336, "%1#execute: slotNumber=%2!", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#execute: slotNumber=%2!", (Object)this.getName(), (long)by);
         if (by == -128) {
-            this.logger.log(-1601830656, "%1#execute: Unexpected slotNumber %2, sending ERROR!", (Object)this.getName(), (long)by);
+            this.logger.log(100000, "%1#execute: Unexpected slotNumber %2, sending ERROR!", (Object)this.getName(), (long)by);
             this.sendResult(3001);
             return;
         }
@@ -49,9 +48,9 @@ extends AbstractSystemCallCommand {
     }
 
     private void filterSlotData(byte by) {
-        this.logger.log(-2137614336, "%1#filterSlotData: slotNumber=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#filterSlotData: slotNumber=%2", (Object)this.getName(), (long)by);
         byte by2 = this.sdsHandler.getNextPicklistSizeType(by, true);
-        this.logger.log(-2137614336, "%1#filterSlotData: nextPicklistSizeType=%2", (Object)this.getName(), (long)by2);
+        this.logger.log(10000000, "%1#filterSlotData: nextPicklistSizeType=%2", (Object)this.getName(), (long)by2);
         SDSModelAccess.setNBestListSlotXModel(by2, by + 1);
         this.sdsHandler.storeUniqueOneshotData(by2, by, this.listMode, 1, 3);
     }

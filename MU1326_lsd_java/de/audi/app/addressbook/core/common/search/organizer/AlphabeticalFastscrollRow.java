@@ -8,9 +8,9 @@ import org.dsi.ifc.global.CharacterInfo;
 
 public final class AlphabeticalFastscrollRow
 extends EvoListRow {
-    private static final int MAX_COLUMNS;
-    private static final int COL_CHARACTER;
-    private static final int COL_INDEX;
+    private static final int MAX_COLUMNS = 2;
+    private static final int COL_CHARACTER = 0;
+    private static final int COL_INDEX = 1;
 
     public static EvoListRow createFastscrollRow(long l, CharacterInfo characterInfo) {
         return new AlphabeticalFastscrollRow(l, characterInfo);

@@ -4,13 +4,10 @@
 package de.audi.remotehmi.ui.mib2.grid;
 
 public interface IRangeCounter {
-    default public int getRangeBoundaryStart() {
-    }
+    public int getRangeBoundaryStart();
 
-    default public int getNext(int n) {
-    }
+    public int getNext(int var1);
 
-    default public boolean isInsideRangeBoundary(int n) {
-    }
+    public boolean isInsideRangeBoundary(int var1);
 }
 

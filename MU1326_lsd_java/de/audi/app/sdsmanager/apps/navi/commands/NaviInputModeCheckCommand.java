@@ -15,12 +15,12 @@ import org.dsi.ifc.speechrec.VDECapabilities;
 
 public class NaviInputModeCheckCommand
 extends AbstractSystemCallCommand {
-    private static final byte VDE_CAPABILITIES_FULLWORD_AND_SPELLING;
-    private static final byte VDE_CAPABILITIES_FULLWORD;
-    private static final byte VDE_CAPABILITIES_SPELLING;
-    private static final byte VDE_CAPABILITIES_NONE;
-    private static final byte VDE_CAPABILITIES_FULLWORD_AND_SPELLING_NO_ONESHOT;
-    private static final byte VDE_CAPABILITIES_FULLWORD_NO_ONESHOT;
+    private static final byte VDE_CAPABILITIES_FULLWORD_AND_SPELLING = 0;
+    private static final byte VDE_CAPABILITIES_FULLWORD = 1;
+    private static final byte VDE_CAPABILITIES_SPELLING = 2;
+    private static final byte VDE_CAPABILITIES_NONE = 3;
+    private static final byte VDE_CAPABILITIES_FULLWORD_AND_SPELLING_NO_ONESHOT = 4;
+    private static final byte VDE_CAPABILITIES_FULLWORD_NO_ONESHOT = 5;
     protected NaviService service;
     private final SpeechRecognitionHandler srHandler;
     protected NaviSDSHandler naviHandler;
@@ -32,15 +32,14 @@ extends AbstractSystemCallCommand {
         this.naviHandler = naviSDSHandler;
     }
 
-    @Override
     public void execute() {
         String string = this.getCountryCode();
         if (SDSUtils.isEmpty(string)) {
-            this.logger.log(-1601830656, "[%1#execute] countryCode=%2 -> sending NAVI_BUSY!", (Object)this.getName(), (Object)string);
-            this.sendResult(1385955328);
+            this.logger.log(100000, "[%1#execute] countryCode=%2 -> sending NAVI_BUSY!", (Object)this.getName(), (Object)string);
+            this.sendResult(40018);
             return;
         }
-        this.logger.log(-2137614336, "[%1#execute] countryCode=%2, requesting VDE capabilities!", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "[%1#execute] countryCode=%2, requesting VDE capabilities!", (Object)this.getName(), (Object)string);
         this.srHandler.requestVDECapabilities(string);
     }
 
@@ -52,28 +51,28 @@ extends AbstractSystemCallCommand {
     }
 
     public void sdsInputModeCheckResult(byte by, VDECapabilities vDECapabilities, String string) {
-        this.logger.log(-2137614336, "[%1#sdsInputModeCheckResult] result=%3, capabilities=%2", (Object)this.getName(), (Object)vDECapabilities, (long)by);
+        this.logger.log(10000000, "[%1#sdsInputModeCheckResult] result=%3, capabilities=%2", (Object)this.getName(), (Object)vDECapabilities, (long)by);
         if (vDECapabilities == null) {
-            this.logger.log(-1601830656, "[%1#sdsInputModeCheckResult] Empty capabilities, sending ERROR!", (Object)this.getName());
+            this.logger.log(100000, "[%1#sdsInputModeCheckResult] Empty capabilities, sending ERROR!", (Object)this.getName());
             this.sendResult(3001);
             return;
         }
         byte by2 = vDECapabilities.isFullWord() ? (vDECapabilities.isSpelling() ? (byte)0 : 1) : (vDECapabilities.isSpelling() ? (byte)2 : 3);
         byte by3 = this.adjustVDECapablities(vDECapabilities.getGrammarLanguage(), string, by2);
-        this.logger.log(-2137614336, "[%1#sdsInputModeCheckResult] vdeCaps=%2, vdeCapsSDSLangAdjusted=%3!", (Object)this.getName(), (long)by2, (long)by3);
+        this.logger.log(10000000, "[%1#sdsInputModeCheckResult] vdeCaps=%2, vdeCapsSDSLangAdjusted=%3!", (Object)this.getName(), (long)by2, (long)by3);
         SDSModelAccess.setNavVDECapabilities(by3);
         int n = by == 0 ? 3000 : 3001;
-        this.logger.log(-2137614336, "[%1#sdsInputModeCheckResult] sdsRes=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#sdsInputModeCheckResult] sdsRes=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 
     private byte adjustVDECapablities(String[] stringArray, String string, byte n) {
         if (stringArray == null) {
-            this.logger.log(-1601830656, "[%1#adjustVDECapablities] Empty vdeCountryLanguages!", (Object)this.getName());
+            this.logger.log(100000, "[%1#adjustVDECapablities] Empty vdeCountryLanguages!", (Object)this.getName());
             return (byte)n;
         }
         if (string == null) {
-            this.logger.log(-1601830656, "[%1#adjustVDECapablities] Empty sdsLanguage!", (Object)this.getName());
+            this.logger.log(100000, "[%1#adjustVDECapablities] Empty sdsLanguage!", (Object)this.getName());
             return (byte)n;
         }
         boolean bl = false;

@@ -11,14 +11,14 @@ implements CombiBAPArrayElement {
     private int entryID;
     private int fileType;
     private int fileState;
-    public static final int FILE_STATE_OK;
-    public static final int FILE_STATE_EMPTY_FOLDER;
-    public static final int FILE_STATE_DRM_PROTECTED;
-    public static final int FILE_STATE_CORRUPTED_FILE_FOLDER;
-    public static final int FILE_STATE_DEAD_LINK;
-    public static final int FILE_STATE_IMPORT_RUNNING;
-    public static final int FILE_STATE_IMPORT_PENDING;
-    public static final int FILE_STATE_IMPORT_NOT_PLAYABLE;
+    public static final int FILE_STATE_OK = 0;
+    public static final int FILE_STATE_EMPTY_FOLDER = 1;
+    public static final int FILE_STATE_DRM_PROTECTED = 2;
+    public static final int FILE_STATE_CORRUPTED_FILE_FOLDER = 4;
+    public static final int FILE_STATE_DEAD_LINK = 8;
+    public static final int FILE_STATE_IMPORT_RUNNING = 16;
+    public static final int FILE_STATE_IMPORT_PENDING = 32;
+    public static final int FILE_STATE_IMPORT_NOT_PLAYABLE = 64;
     private String fileName;
 
     public CombiBAPMediaBrowserListEntry(int n, String string) {
@@ -40,7 +40,6 @@ implements CombiBAPArrayElement {
         return this.entryID;
     }
 
-    @Override
     public int getPosID() {
         return this.entryID;
     }
@@ -85,7 +84,6 @@ implements CombiBAPArrayElement {
         return buffer.toString();
     }
 
-    @Override
     public boolean hasSameContent(CombiBAPArrayElement combiBAPArrayElement) {
         if (combiBAPArrayElement == this) {
             return true;
@@ -97,7 +95,6 @@ implements CombiBAPArrayElement {
         return false;
     }
 
-    @Override
     public int getDiffRecordAddress(CombiBAPArrayElement combiBAPArrayElement) {
         int n = 0;
         if (combiBAPArrayElement == this) {

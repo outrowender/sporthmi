@@ -3,10 +3,11 @@
  */
 package com.ibm.oti.security.provider;
 
-import com.ibm.oti.security.provider.CertificateVerifierSecurity$1;
 import com.ibm.oti.security.provider.Util;
 import com.ibm.oti.security.provider.X500Principal;
 import com.ibm.oti.util.PriviAction;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.PrivilegedAction;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
@@ -25,12 +27,12 @@ import java.util.Date;
 import java.util.Enumeration;
 
 public class CertificateVerifierSecurity {
-    public static void verifyCertificateChain(X509Certificate[] x509CertificateArray, Date date) {
+    public static void verifyCertificateChain(X509Certificate[] x509CertificateArray, Date date) throws CertificateException, IOException {
         KeyStore keyStore = CertificateVerifierSecurity.getSystemKeyStore();
         CertificateVerifierSecurity.verifyCertificateChain(keyStore, x509CertificateArray, date);
     }
 
-    private static KeyStore getSystemKeyStore() {
+    private static KeyStore getSystemKeyStore() throws IOException, CertificateException {
         KeyStore keyStore = null;
         String string = CertificateVerifierSecurity.getCACertsPath();
         InputStream inputStream = null;
@@ -41,13 +43,13 @@ public class CertificateVerifierSecurity {
                 keyStore.load(inputStream, null);
             }
             catch (FileNotFoundException fileNotFoundException) {
-                throw new IOException(new StringBuffer("File not found: ").append(string).toString());
+                throw new IOException("File not found: " + string);
             }
             catch (NoSuchAlgorithmException noSuchAlgorithmException) {
-                throw new IOException(new StringBuffer("Necessary cryptographic algorithm not available: ").append(noSuchAlgorithmException.getMessage()).toString());
+                throw new IOException("Necessary cryptographic algorithm not available: " + noSuchAlgorithmException.getMessage());
             }
             catch (CertificateException certificateException) {
-                throw new IOException(new StringBuffer("Certificate problem: ").append(certificateException.getMessage()).toString());
+                throw new IOException("Certificate problem: " + certificateException.getMessage());
             }
             catch (KeyStoreException keyStoreException) {
                 throw new CertificateException("Cannot get KeyStore implementation");
@@ -71,18 +73,28 @@ public class CertificateVerifierSecurity {
         return keyStore;
     }
 
-    private static InputStream getInputStreamForFile(String string) {
+    private static InputStream getInputStreamForFile(final String string) throws FileNotFoundException {
         if (string == null) {
             return null;
         }
-        InputStream inputStream = (InputStream)AccessController.doPrivileged(new CertificateVerifierSecurity$1(string));
+        InputStream inputStream = (InputStream)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                try {
+                    return new BufferedInputStream(new FileInputStream(string));
+                }
+                catch (FileNotFoundException fileNotFoundException) {
+                    return null;
+                }
+            }
+        });
         if (inputStream == null) {
             throw new FileNotFoundException();
         }
         return inputStream;
     }
 
-    public static void verifyCertificateChain(KeyStore keyStore, X509Certificate[] x509CertificateArray, Date date) {
+    public static void verifyCertificateChain(KeyStore keyStore, X509Certificate[] x509CertificateArray, Date date) throws CertificateException {
         Object object;
         Certificate certificate;
         int n;
@@ -97,7 +109,7 @@ public class CertificateVerifierSecurity {
             publicKey = certificate.getPublicKey();
             byte[] byArray = publicKey.getEncoded();
             if (!Util.equals(byArray, (byte[])(object = x509CertificateArray[x509CertificateArray.length - 1].getPublicKey().getEncoded()))) {
-                throw new CertificateException(new StringBuffer("root certificate public key does not match certificate public key on device for \"").append(x500Principal).append("\"").toString());
+                throw new CertificateException("root certificate public key does not match certificate public key on device for \"" + x500Principal + "\"");
             }
         } else {
             n = x509CertificateArray.length;
@@ -123,7 +135,7 @@ public class CertificateVerifierSecurity {
                 object = x500Principal;
             }
             if (!((X500Principal)object).equals(CertificateVerifierSecurity.getIssuer(x509CertificateArray[n2]))) {
-                throw new CertificateException(new StringBuffer("issuer of certificate not in chain: ").append(((X500Principal)object).toString()).toString());
+                throw new CertificateException("issuer of certificate not in chain: " + ((X500Principal)object).toString());
             }
             CertificateVerifierSecurity.verifyCertificateSignature(publicKey2, x509CertificateArray[n2]);
             x509CertificateArray[n2].checkValidity(date);
@@ -131,7 +143,7 @@ public class CertificateVerifierSecurity {
         }
     }
 
-    private static Certificate getCertFromKeyStore(KeyStore keyStore, Certificate certificate) {
+    private static Certificate getCertFromKeyStore(KeyStore keyStore, Certificate certificate) throws CertificateException {
         try {
             if (keyStore == null || certificate == null) {
                 return null;
@@ -192,21 +204,21 @@ public class CertificateVerifierSecurity {
         return x500Principal;
     }
 
-    private static void verifyCertificateSignature(PublicKey publicKey, X509Certificate x509Certificate) {
+    private static void verifyCertificateSignature(PublicKey publicKey, X509Certificate x509Certificate) throws CertificateException {
         try {
             x509Certificate.verify(publicKey);
         }
         catch (InvalidKeyException invalidKeyException) {
-            throw new CertificateException(new StringBuffer("error in signature for certificate \"").append(x509Certificate.getSubjectDN().getName()).append("\": ").append(invalidKeyException.getMessage()).toString());
+            throw new CertificateException("error in signature for certificate \"" + x509Certificate.getSubjectDN().getName() + "\": " + invalidKeyException.getMessage());
         }
         catch (NoSuchAlgorithmException noSuchAlgorithmException) {
-            throw new CertificateException(new StringBuffer("algorithm not supported for certificate \"").append(x509Certificate.getSubjectDN().getName()).append("\": ").append(noSuchAlgorithmException.getMessage()).toString());
+            throw new CertificateException("algorithm not supported for certificate \"" + x509Certificate.getSubjectDN().getName() + "\": " + noSuchAlgorithmException.getMessage());
         }
         catch (NoSuchProviderException noSuchProviderException) {
-            throw new CertificateException(new StringBuffer("algorithm not supported for certificate \"").append(x509Certificate.getSubjectDN().getName()).append("\": ").append(noSuchProviderException.getMessage()).toString());
+            throw new CertificateException("algorithm not supported for certificate \"" + x509Certificate.getSubjectDN().getName() + "\": " + noSuchProviderException.getMessage());
         }
         catch (SignatureException signatureException) {
-            throw new CertificateException(new StringBuffer("error in signature for certificate \"").append(x509Certificate.getSubjectDN().getName()).append("\": ").append(signatureException.getMessage()).toString());
+            throw new CertificateException("error in signature for certificate \"" + x509Certificate.getSubjectDN().getName() + "\": " + signatureException.getMessage());
         }
     }
 }

@@ -8,39 +8,28 @@ import org.dsi.ifc.messaging.MessagingAccount;
 
 public abstract class AbstractAccountListRow
 extends EvoListRow {
-    public static final int ACCOUNT_NO_NONE;
+    public static final int ACCOUNT_NO_NONE = -1;
 
     public AbstractAccountListRow(long l, int n) {
         super(l, n);
     }
 
-    public abstract int getIconId() {
-    }
+    public abstract int getIconId();
 
-    public abstract int getAccountDescId() {
-    }
+    public abstract int getAccountDescId();
 
-    public abstract String getAccountNo() {
-    }
+    public abstract String getAccountNo();
 
-    public abstract MessagingAccount getMessagingAccount() {
-    }
+    public abstract MessagingAccount getMessagingAccount();
 
-    public abstract int getUnreadCount() {
-    }
+    public abstract int getUnreadCount();
 
-    public abstract int getNewMessageCount() {
-    }
+    public abstract int getNewMessageCount();
 
-    public abstract boolean supportsSend() {
-    }
+    public abstract boolean supportsSend();
 
-    @Override
-    public abstract boolean equals(Object object) {
-    }
+    public abstract boolean equals(Object var1);
 
-    @Override
-    public abstract int hashCode() {
-    }
+    public abstract int hashCode();
 }
 

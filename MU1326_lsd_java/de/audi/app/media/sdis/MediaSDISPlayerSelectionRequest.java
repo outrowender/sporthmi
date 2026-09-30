@@ -10,7 +10,7 @@ import de.esolutions.fw.comm.core.method.MethodException;
 
 public class MediaSDISPlayerSelectionRequest
 extends AbstractPlayerSelectionRequest {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaSDISPlayerSelectionRequest";
     private final ASIHMISyncMediaReply reply;
     private final LogChannel logger;
 
@@ -20,14 +20,13 @@ extends AbstractPlayerSelectionRequest {
         this.reply = aSIHMISyncMediaReply;
     }
 
-    @Override
     public void responseSetSelection(boolean bl) {
-        this.logger.log(1078071040, "[%2.responseSetSelection] '%1'", bl, (Object)"MediaSDISPlayerSelectionRequest");
+        this.logger.log(1000000, "[%2.responseSetSelection] '%1'", bl, (Object)LOGCLASS);
         try {
             this.reply.responseSetPlaySelection(bl);
         }
         catch (MethodException methodException) {
-            this.logger.log(-1601830656, "[%1.responseSetSelection] '%2'", (Object)"MediaSDISPlayerSelectionRequest", (Throwable)methodException);
+            this.logger.log(100000, "[%1.responseSetSelection] '%2'", (Object)LOGCLASS, (Throwable)methodException);
         }
     }
 }

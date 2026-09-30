@@ -6,11 +6,11 @@ package de.audi.app.earlyfunc.core.hybrid;
 import de.audi.atip.base.IFrameworkAccess;
 
 public class CarNetworkPlatformInfo {
-    public static final int CAR_TYPE_DEFAULT;
-    public static final int CAR_TYPE_AU736;
-    public static final int CAR_TYPE_AU49X;
-    public static final int CAR_TYPE_AU426;
-    public static final int CAR_TYPE_AU37x;
+    public static final int CAR_TYPE_DEFAULT = -1;
+    public static final int CAR_TYPE_AU736 = 0;
+    public static final int CAR_TYPE_AU49X = 1;
+    public static final int CAR_TYPE_AU426 = 2;
+    public static final int CAR_TYPE_AU37x = 3;
     private final int carClass;
     private final int carGeneration;
     private final int carDerivate;

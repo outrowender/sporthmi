@@ -8,13 +8,10 @@ import de.vw.mib.bap.requests.AckProperty;
 import de.vw.mib.bap.requests.SetGetProperty;
 
 public interface IBAPIndicationHandlerPropertyFSG {
-    default public void processIndicationAck(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, AckProperty ackProperty) {
-    }
+    public void processIndicationAck(BAPFunctionPropertyFSG var1, AckProperty var2);
 
-    default public void processIndicationSet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
-    }
+    public void processIndicationSet(BAPFunctionPropertyFSG var1, SetGetProperty var2);
 
-    default public void processIndicationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
-    }
+    public void processIndicationSetGet(BAPFunctionPropertyFSG var1, SetGetProperty var2);
 }
 

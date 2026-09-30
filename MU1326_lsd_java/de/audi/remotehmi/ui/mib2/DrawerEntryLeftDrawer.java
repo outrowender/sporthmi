@@ -8,13 +8,10 @@ import de.audi.remotehmi.ui.mib2.DrawerEntryIcon;
 
 public interface DrawerEntryLeftDrawer
 extends DrawerEntry {
-    default public DrawerEntryIcon getClosedIcon() {
-    }
+    public DrawerEntryIcon getClosedIcon();
 
-    default public DrawerEntryIcon getClosedInactiveIcon() {
-    }
+    public DrawerEntryIcon getClosedInactiveIcon();
 
-    default public void updateIconPath(int n, String string) {
-    }
+    public void updateIconPath(int var1, String var2);
 }
 

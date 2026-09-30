@@ -4,7 +4,6 @@
 package de.audi.atip.mmicombi;
 
 public interface IViewSizeChangeAnimationStatus {
-    default public float getProgress() {
-    }
+    public float getProgress();
 }
 

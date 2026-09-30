@@ -4,9 +4,9 @@
 package de.audi.app.media.selection;
 
 import de.audi.app.media.content.media.IPlayer;
+import de.audi.app.media.content.media.IPlayerSelectionRequest;
 import de.audi.app.media.dsi.media.MediaListEntry;
 import de.audi.app.media.selection.AbstractDataSelectionJob;
-import de.audi.app.media.selection.DataSelectionSeamlessJob$PlayerSelection;
 import de.audi.app.media.selection.IDataSelectionContext;
 import de.audi.app.media.selection.SelectionBrowser;
 import de.audi.atip.log.LogChannel;
@@ -20,12 +20,10 @@ extends AbstractDataSelectionJob {
         this.player = iPlayer;
     }
 
-    @Override
     public String getName() {
         return "DataSelectionSeamlessJob";
     }
 
-    @Override
     public void performSelection() {
         this.selectionBrowser.resetSelection();
         MediaListEntry mediaListEntry = this.selectionContainer.getFolderToSelect();
@@ -36,23 +34,46 @@ extends AbstractDataSelectionJob {
         }
     }
 
-    @Override
     public void playSelection() {
-        this.player.setBrowserPlayerSelection(new DataSelectionSeamlessJob$PlayerSelection(this, null));
+        this.player.setBrowserPlayerSelection(new PlayerSelection());
     }
 
-    @Override
     public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
     }
 
-    @Override
     protected void browseModeError() {
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     protected void browseFolderError() {
         this.getExecutionContext().jobFinished();
+    }
+
+    private class PlayerSelection
+    implements IPlayerSelectionRequest {
+        private PlayerSelection() {
+        }
+
+        public int getBrowserID() {
+            return DataSelectionSeamlessJob.this.selectionBrowser.getBrowserID();
+        }
+
+        public long getEntryID() {
+            return -1L;
+        }
+
+        public boolean isSeamless() {
+            return true;
+        }
+
+        public boolean waitForPlayposition() {
+            return false;
+        }
+
+        public void responseSetSelection(boolean bl) {
+            DataSelectionSeamlessJob.this.selectionBrowser.responseSetSelection(bl, DataSelectionSeamlessJob.this.selectionContainer);
+            DataSelectionSeamlessJob.this.finishJob();
+        }
     }
 }
 

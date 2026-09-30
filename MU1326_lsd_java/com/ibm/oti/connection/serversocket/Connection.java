@@ -18,14 +18,13 @@ import javax.microedition.io.StreamConnection;
 public class Connection
 implements CreateConnection,
 ServerSocketConnection {
-    static final int DEFAULT_TIMEOUT;
+    static final int DEFAULT_TIMEOUT = 8000;
     private boolean closed = false;
     private int timeout = 0;
     private int backlog = -1;
     private ServerSocket socket;
 
-    @Override
-    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) {
+    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) throws IOException {
         String[][] stringArray = ConnectionUtil.NO_PARAMETERS;
         int n2 = string.indexOf(59);
         if (n2 != -1) {
@@ -36,7 +35,7 @@ ServerSocketConnection {
         return this;
     }
 
-    private void setParameters(String string, String[][] stringArray, int n, boolean bl) {
+    private void setParameters(String string, String[][] stringArray, int n, boolean bl) throws IOException {
         int[] nArray = new int[1];
         int n2 = 0;
         while (n2 < stringArray.length) {
@@ -67,14 +66,12 @@ ServerSocketConnection {
         }
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.closed = true;
         this.socket.close();
     }
 
-    @Override
-    public StreamConnection acceptAndOpen() {
+    public StreamConnection acceptAndOpen() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -88,8 +85,7 @@ ServerSocketConnection {
         }
     }
 
-    @Override
-    public String getLocalAddress() {
+    public String getLocalAddress() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -101,8 +97,7 @@ ServerSocketConnection {
         return string;
     }
 
-    @Override
-    public int getLocalPort() {
+    public int getLocalPort() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }

@@ -9,8 +9,8 @@ import de.audi.atip.log.LogChannel;
 public class CharismaPopupHKTimerController {
     LogChannel logChan = null;
     ChoiceModelApp model = null;
-    private static final int MODEL_VALUE_TIMER_ACTIVE;
-    private static final int MODEL_VALUE_TIMER_INACTIVE;
+    private static final int MODEL_VALUE_TIMER_ACTIVE = 0;
+    private static final int MODEL_VALUE_TIMER_INACTIVE = -1;
 
     public CharismaPopupHKTimerController(ChoiceModelApp choiceModelApp, LogChannel logChannel) {
         this.logChan = logChannel;
@@ -19,7 +19,7 @@ public class CharismaPopupHKTimerController {
 
     public synchronized void activate() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "CharismaPopupHKTimerController: Timer is activated");
+            this.logChan.log(1000000, "CharismaPopupHKTimerController: Timer is activated");
         }
         this.setChoiceModelValue(0);
         this.setChoiceModelStatus(1);
@@ -27,7 +27,7 @@ public class CharismaPopupHKTimerController {
 
     public synchronized void deactivate() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "CharismaPopupHKTimerController: Timer is deactivated");
+            this.logChan.log(1000000, "CharismaPopupHKTimerController: Timer is deactivated");
         }
         this.setChoiceModelValue(-1);
         this.setChoiceModelStatus(0);
@@ -35,7 +35,7 @@ public class CharismaPopupHKTimerController {
 
     public synchronized void resetActivated() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "CharismaPopupHKTimerController: Timer is resetted and activated");
+            this.logChan.log(1000000, "CharismaPopupHKTimerController: Timer is resetted and activated");
         }
         this.setChoiceModelStatus(0);
         this.setChoiceModelValue(0);

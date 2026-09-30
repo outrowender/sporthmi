@@ -16,7 +16,7 @@ import java.util.List;
 public class USBSource
 extends AbstractMediaSource {
     private final int AUDIO_CONNECTION_GENERIC;
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "USBSource";
 
     public USBSource(IMediaTerminal iMediaTerminal, IMediaDSIPlayerController iMediaDSIPlayerController, int n, String string) {
         super(iMediaTerminal, iMediaDSIPlayerController, n, string);
@@ -33,12 +33,10 @@ extends AbstractMediaSource {
         }
     }
 
-    @Override
     public int getAudioConnection(ISourceSlot iSourceSlot) {
         return this.AUDIO_CONNECTION_GENERIC;
     }
 
-    @Override
     public int getSlotNumberByPartition(int n, int n2) {
         List list = this.getSlots();
         Iterator iterator = list.iterator();
@@ -51,7 +49,6 @@ extends AbstractMediaSource {
         return -1;
     }
 
-    @Override
     public ISourceSlot getActivatableSlot(ISourceSlot iSourceSlot) {
         if (0 != iSourceSlot.getState()) {
             return iSourceSlot;
@@ -66,10 +63,9 @@ extends AbstractMediaSource {
         return iSourceSlot;
     }
 
-    @Override
     public void activate(ISourceSlot iSourceSlot) {
         if (this.getActiveState() == 2) {
-            this.logger.main().log(1078071040, "[%1.activate] [%2] Already active.", (Object)"USBSource", (Object)this);
+            this.logger.main().log(1000000, "[%1.activate] [%2] Already active.", (Object)LOGCLASS, (Object)this);
             return;
         }
         if (iSourceSlot.getMediaType() == 24) {
@@ -77,16 +73,16 @@ extends AbstractMediaSource {
                 MediaSourceSlot mediaSourceSlot = (MediaSourceSlot)iSourceSlot;
                 String string = this.getTerminal().getMediaPersistence().getGlobalStringProperty("GLOBAL_KEY_IOS_AUTOSTART");
                 if (!StringUtilities.isNullOrEmpty(string)) {
-                    this.logger.main().log(-2137614336, "[%1.activate] execute launchMediaApp: %2", (Object)"USBSource", (Object)string);
+                    this.logger.main().log(10000000, "[%1.activate] execute launchMediaApp: %2", (Object)LOGCLASS, (Object)string);
                     if (!this.getTerminal().getDSIBaseController().launchMediaApp(mediaSourceSlot.getDeviceID(), mediaSourceSlot.getMediaID(), string)) {
-                        this.logger.main().log(-1601830656, "[%1.activate] launchMediaApp cannot be executed", (Object)"USBSource");
+                        this.logger.main().log(100000, "[%1.activate] launchMediaApp cannot be executed", (Object)LOGCLASS);
                     }
                 } else {
-                    this.logger.main().log(1078071040, "[%1.activate] no App stored for launching", (Object)"USBSource");
+                    this.logger.main().log(1000000, "[%1.activate] no App stored for launching", (Object)LOGCLASS);
                 }
             }
             catch (Exception exception) {
-                this.logger.main().log(10000, "[%1.activate] iPod slot is not a MediaSourceSlot: %2", (Object)"USBSource", (Throwable)exception);
+                this.logger.main().log(10000, "[%1.activate] iPod slot is not a MediaSourceSlot: %2", (Object)LOGCLASS, (Throwable)exception);
             }
         }
         super.activate(iSourceSlot);

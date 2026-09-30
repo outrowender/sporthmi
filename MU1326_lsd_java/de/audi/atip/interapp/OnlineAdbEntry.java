@@ -3,10 +3,11 @@
  */
 package de.audi.atip.interapp;
 
-import de.audi.atip.interapp.OnlineAdbEntry$FullAdressData;
 import java.util.ArrayList;
 import java.util.List;
+import org.dsi.ifc.global.NavLocationWgs84;
 import org.dsi.ifc.organizer.AdbEntry;
+import org.dsi.ifc.organizer.AddressData;
 
 public class OnlineAdbEntry {
     private String additionalDescription;
@@ -16,7 +17,7 @@ public class OnlineAdbEntry {
     private int row;
 
     public String toString() {
-        return new StringBuffer().append("OnlineAdbEntry [additionalDescription=").append(this.additionalDescription).append(", adbEntry=").append(this.adbEntry).append(", adressDataList=").append(this.adressDataList).append(", isImport=").append(this.isImport).append(", row=").append(this.row).append("]").toString();
+        return "OnlineAdbEntry [additionalDescription=" + this.additionalDescription + ", adbEntry=" + this.adbEntry + ", adressDataList=" + this.adressDataList + ", isImport=" + this.isImport + ", row=" + this.row + "]";
     }
 
     public OnlineAdbEntry(AdbEntry adbEntry, String string) {
@@ -52,11 +53,20 @@ public class OnlineAdbEntry {
         return this.row;
     }
 
-    public void addAdressData(OnlineAdbEntry$FullAdressData onlineAdbEntry$FullAdressData) {
+    public void addAdressData(FullAdressData fullAdressData) {
         if (this.adressDataList == null) {
             this.adressDataList = new ArrayList(1);
         }
-        this.adressDataList.add(onlineAdbEntry$FullAdressData);
+        this.adressDataList.add(fullAdressData);
+    }
+
+    public static class FullAdressData {
+        public NavLocationWgs84 navLocation;
+        public AddressData adress;
+
+        public String toString() {
+            return "FullAdressData [navLocation=" + this.navLocation + ", adress=" + this.adress + "]";
+        }
     }
 }
 

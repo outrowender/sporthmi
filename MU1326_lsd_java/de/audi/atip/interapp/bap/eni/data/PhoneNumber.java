@@ -31,7 +31,7 @@ public final class PhoneNumber {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         PhoneNumber phoneNumber = (PhoneNumber)object;
@@ -39,7 +39,7 @@ public final class PhoneNumber {
     }
 
     public String toString() {
-        return new StringBuffer().append("PhoneNumber [number=").append(this.phoneNumber).append("]").toString();
+        return "PhoneNumber [number=" + this.phoneNumber + "]";
     }
 }
 

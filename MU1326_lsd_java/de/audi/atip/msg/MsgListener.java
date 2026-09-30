@@ -4,7 +4,6 @@
 package de.audi.atip.msg;
 
 public interface MsgListener {
-    default public void processMsg(int n) {
-    }
+    public void processMsg(int var1);
 }
 

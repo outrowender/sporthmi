@@ -14,14 +14,12 @@ implements WlanServiceListener {
         super(logChannel, "WlanServiceListener");
     }
 
-    @Override
     public void updateWlanState(boolean bl) {
-        this.lc.log(1078071040, "NullWlanServiceListener#updateWlanState(): enabled=%1", bl);
+        this.lc.log(1000000, "NullWlanServiceListener#updateWlanState(): enabled=%1", bl);
     }
 
-    @Override
     public void updateNumberOfClients(int n) {
-        this.lc.log(1078071040, "NullWlanServiceListener#updateNumberOfClients(): numberOfClients=%1", (long)n);
+        this.lc.log(1000000, "NullWlanServiceListener#updateNumberOfClients(): numberOfClients=%1", (long)n);
     }
 }
 

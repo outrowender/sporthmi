@@ -34,12 +34,12 @@ extends ConfigProvider {
                 component = new Component(new ConfigPathQuery(configValue.getArrayValue(i2)), n, logChannel);
                 object = component.getName();
                 if (component.isPcSimOnly() && !Component.checkMode(n, 2)) {
-                    logChannel.log(1078071040, "StartupConfigProvider(deviceMode:%1): skip PCSIM component '%2'", (Object)AppStateManager.deviceModeToString(n), object);
+                    logChannel.log(1000000, "StartupConfigProvider(deviceMode:%1): skip PCSIM component '%2'", (Object)AppStateManager.deviceModeToString(n), object);
                     hashMap.put(object, component);
                     continue;
                 }
                 if (component.isDevelopmentOnly() && !Component.checkMode(n, 1)) {
-                    logChannel.log(1078071040, "StartupConfigProvider(deviceMode:%1): skip DEVELOPMENT component '%2'", (Object)AppStateManager.deviceModeToString(n), object);
+                    logChannel.log(1000000, "StartupConfigProvider(deviceMode:%1): skip DEVELOPMENT component '%2'", (Object)AppStateManager.deviceModeToString(n), object);
                     hashMap.put(object, component);
                     continue;
                 }
@@ -65,9 +65,9 @@ extends ConfigProvider {
                                 continue;
                             }
                             if (hashMap.get(((Dependency)object2).getDependentComponentName()) != null) {
-                                logChannel.log(1078071040, "StartupConfigProvider: skip dependent component '%1' of '%2'", (Object)((Dependency)object2).getDependentComponentName(), (Object)component.getName());
+                                logChannel.log(1000000, "StartupConfigProvider: skip dependent component '%1' of '%2'", (Object)((Dependency)object2).getDependentComponentName(), (Object)component.getName());
                             } else {
-                                logChannel.log(1078071040, "StartupConfigProvider: unknown name of dependent component '%1'", (Object)((Dependency)object2).getDependentComponentName());
+                                logChannel.log(1000000, "StartupConfigProvider: unknown name of dependent component '%1'", (Object)((Dependency)object2).getDependentComponentName());
                             }
                             arrayList.add(object2);
                             continue;
@@ -88,9 +88,9 @@ extends ConfigProvider {
                             continue;
                         }
                         if (hashMap.get(((Component)object2).getName()) != null) {
-                            logChannel.log(1078071040, "StartupConfigProvider: skip subcomponent '%1' of '%2'", (Object)((Component)object2).getName(), (Object)component.getName());
+                            logChannel.log(1000000, "StartupConfigProvider: skip subcomponent '%1' of '%2'", (Object)((Component)object2).getName(), (Object)component.getName());
                         } else {
-                            logChannel.log(1078071040, "StartupConfigProvider: unknown name of subcomponent '%1'", (Object)((Component)object2).getName());
+                            logChannel.log(1000000, "StartupConfigProvider: unknown name of subcomponent '%1'", (Object)((Component)object2).getName());
                         }
                         arrayList.add(object2);
                         continue;

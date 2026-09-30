@@ -32,38 +32,35 @@ extends AbstractInputSequenceMatchspellerListener {
         super(navigationEnv, n, n2);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "AbstractEvoInputSequenceMatchspellerListener#itemSelected - item selected was called with model = %1, index = %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "AbstractEvoInputSequenceMatchspellerListener#itemSelected - item selected was called with model = %1, index = %2", (long)n, (long)n2);
         if (evoListRow instanceof AddressInputLIValueListElementListRow) {
-            this.logChannel.log(-2137614336, "AbstractEvoInputSequenceMatchspellerListener#itemSelected row is instanceOf AILIVLELR");
+            this.logChannel.log(10000000, "AbstractEvoInputSequenceMatchspellerListener#itemSelected row is instanceOf AILIVLELR");
             AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = (AddressInputLIValueListElementListRow)evoListRow;
             this.getInputSequence().selectListElement(addressInputLIValueListElementListRow.getElement(), true);
             this.env.fireModelEvent(n, n4);
         }
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "AbstractEvoInputSequenceMatchspellerListener#itemFocused - item focused was called with model = %1, index = %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "AbstractEvoInputSequenceMatchspellerListener#itemFocused - item focused was called with model = %1, index = %2", (long)n, (long)n2);
         if (evoListRow instanceof AddressInputLIValueListElementListRow && this.previewMap != null) {
             AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = (AddressInputLIValueListElementListRow)evoListRow;
             this.getInputSequence().showLocationInPreviewMap(this.previewMap, addressInputLIValueListElementListRow.getElement());
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "AbstractEvoInputSequenceMatchspellerListener#keyTyped - keyTyped was called with model = %1, index = %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "AbstractEvoInputSequenceMatchspellerListener#keyTyped - keyTyped was called with model = %1, index = %2", (long)n, (long)n2);
         long l = this.env.getContainer().getLispValueListCount();
-        this.logChannel.log(-2137614336, "AbstractEvoInputSequenceMatchspellerListener#keyTyped - valueListCount = %1 ", l);
+        this.logChannel.log(10000000, "AbstractEvoInputSequenceMatchspellerListener#keyTyped - valueListCount = %1 ", l);
         if (l == 1L && null != this.menuModel) {
             if (this.tiledListModel == null) {
-                this.logChannel.log(-2137614336, "AbstractEvoInputSequenceMatchspellerListener#keyTyped - tiledListModel is null");
+                this.logChannel.log(10000000, "AbstractEvoInputSequenceMatchspellerListener#keyTyped - tiledListModel is null");
                 return;
             }
             if (this.tiledListModel.getRow(0) == null) {
-                this.logChannel.log(-2137614336, "AbstractEvoInputSequenceMatchspellerListener#keyTyped - tiledListModel.getRow(0) is null");
+                this.logChannel.log(10000000, "AbstractEvoInputSequenceMatchspellerListener#keyTyped - tiledListModel.getRow(0) is null");
                 return;
             }
             EvoListRow evoListRow = this.tiledListModel.getRow(0);

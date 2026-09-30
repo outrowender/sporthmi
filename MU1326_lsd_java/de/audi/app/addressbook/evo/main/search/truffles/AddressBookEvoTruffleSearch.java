@@ -17,7 +17,6 @@ implements ADBSearch {
         super(bundleContext, addressBookEvoApplication, logChannel, n);
     }
 
-    @Override
     public void init() {
         AddressBookEvoTruffleSearchGuiHandler addressBookEvoTruffleSearchGuiHandler = new AddressBookEvoTruffleSearchGuiHandler(this.appAdr.getLog(), this.logChannel, (AddressBookEvoApplication)this.appAdr, this);
         this.setActiveGuiSearchHandler(addressBookEvoTruffleSearchGuiHandler);

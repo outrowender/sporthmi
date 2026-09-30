@@ -3,29 +3,22 @@
  */
 package de.audi.remotehmi.ui.mib2.grid;
 
-import de.audi.remotehmi.ui.mib2.grid.IGrid$ExpandMode;
+import de.audi.remotehmi.ui.mib2.grid.IGrid;
 
 public interface IGridRow
 extends Cloneable {
-    default public int getGapBefore() {
-    }
+    public int getGapBefore();
 
-    default public void setGapBefore(int n) {
-    }
+    public void setGapBefore(int var1);
 
-    default public int getGapAfter() {
-    }
+    public int getGapAfter();
 
-    default public void setGapAfter(int n) {
-    }
+    public void setGapAfter(int var1);
 
-    default public IGrid.ExpandMode getHeightMode() {
-    }
+    public IGrid.ExpandMode getHeightMode();
 
-    default public void setHeightMode(IGrid.ExpandMode expandMode) {
-    }
+    public void setHeightMode(IGrid.ExpandMode var1);
 
-    default public Object clone() {
-    }
+    public Object clone() throws CloneNotSupportedException;
 }
 

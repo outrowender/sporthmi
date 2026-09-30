@@ -56,37 +56,30 @@ implements IPicklistElement {
         this.slots = iPicklistSlotArray;
     }
 
-    @Override
     public IPicklistSlot[] getSlots() {
         return this.slots;
     }
 
-    @Override
     public void setSlots(IPicklistSlot[] iPicklistSlotArray) {
         this.slots = iPicklistSlotArray;
     }
 
-    @Override
     public int getGraphGroupSize() {
         return this.graphGroupSize;
     }
 
-    @Override
     public int getGraphGroupIndex() {
         return this.graphGroupIndex;
     }
 
-    @Override
     public int getGraphGroupId() {
         return this.graphGroupId;
     }
 
-    @Override
     public int getRuleID() {
         return this.ruleID;
     }
 
-    @Override
     public int getConfidence() {
         return this.confidence;
     }
@@ -107,7 +100,7 @@ implements IPicklistElement {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         PicklistElement picklistElement = (PicklistElement)object;
@@ -127,7 +120,6 @@ implements IPicklistElement {
         return new Buffer("ruleID: ").append(this.ruleID).append("; confidence: ").append(this.confidence).append("; ggSize: ").append(this.graphGroupSize).append("; ggIndex: ").append(this.graphGroupIndex).append("; ggId: ").append(this.graphGroupId).append("; slots: ").append(SDSUtils.toString((Object[])this.slots, false)).toString();
     }
 
-    @Override
     public long getObjectID() {
         IPicklistSlot[] iPicklistSlotArray = this.getSlots();
         if (iPicklistSlotArray == null || iPicklistSlotArray.length == 0) {

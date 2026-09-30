@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 class SimUsageUserDecision
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private final String simCardID;
     private final int nadMode;
 

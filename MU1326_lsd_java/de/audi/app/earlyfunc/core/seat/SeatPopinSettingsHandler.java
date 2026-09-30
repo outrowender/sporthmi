@@ -4,7 +4,6 @@
 package de.audi.app.earlyfunc.core.seat;
 
 import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent;
-import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent$MassageProgram;
 import de.audi.app.earlyfunc.core.seat.SeatPopinConfigurationHandler;
 import de.audi.atip.log.LogChannel;
 import java.lang.reflect.Field;
@@ -60,13 +59,13 @@ public class SeatPopinSettingsHandler {
     }
 
     private void updateSeatMassageData(boolean bl, int n, int n2) {
-        MasterSeatPopinContent$MassageProgram masterSeatPopinContent$MassageProgram = MasterSeatPopinContent$MassageProgram.getMassageProgramForID(n);
+        MasterSeatPopinContent.MassageProgram massageProgram = MasterSeatPopinContent.MassageProgram.getMassageProgramForID(n);
         if (!this.config.isMassageProgramSelectable(bl, n)) {
-            this.logChannel.log(-1601830656, "[SeatPopinSettingsHandler#updateSeatMassageData] %1('%2') on %3-side not supported: MASSAGE_PROGRAM_NONE will be selected", (Object)masterSeatPopinContent$MassageProgram, (Object)new Integer(n), (Object)(bl ? "left" : "right"), (long)n);
-            masterSeatPopinContent$MassageProgram = MasterSeatPopinContent$MassageProgram.MASSAGE_PROGRAM_NONE;
+            this.logChannel.log(100000, "[SeatPopinSettingsHandler#updateSeatMassageData] %1('%2') on %3-side not supported: MASSAGE_PROGRAM_NONE will be selected", (Object)massageProgram, (Object)new Integer(n), (Object)(bl ? "left" : "right"), (long)n);
+            massageProgram = MasterSeatPopinContent.MassageProgram.MASSAGE_PROGRAM_NONE;
             n2 = 0;
         }
-        this.config.getSeatPopinModel(bl).selectMassageProgram(masterSeatPopinContent$MassageProgram, n2);
+        this.config.getSeatPopinModel(bl).selectMassageProgram(massageProgram, n2);
     }
 
     public void updateSeatSwitcherDataUp1RL(SwitcherDataUpDown switcherDataUpDown) {

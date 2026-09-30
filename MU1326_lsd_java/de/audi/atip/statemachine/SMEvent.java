@@ -61,19 +61,19 @@ SMEventTerminalMode,
 SMEventWirelessCharging,
 SMEventTpegKR,
 SMEventTrafficInfoJP {
-    public static final int SK_NW;
-    public static final int SK_NE;
-    public static final int SK_SW;
-    public static final int SK_SE;
-    public static final int MFL_MENU;
-    public static final int TUNER;
-    public static final int MEDIA;
-    public static final int HK_NAV;
-    public static final int HK_MENU;
-    public static final int SYS_INIT_COMPLETE;
-    public static final int SDS_INFO_TPMEMO_LIST;
-    public static final int _SWDL_ENTER_EVENT;
-    public static final int _SWDL_EXIT_EVENT;
-    public static final int _CUST_DOWNLOAD_DIRECT_JUMP;
+    public static final int SK_NW = -1;
+    public static final int SK_NE = -2;
+    public static final int SK_SW = -3;
+    public static final int SK_SE = -4;
+    public static final int MFL_MENU = -5;
+    public static final int TUNER = -9;
+    public static final int MEDIA = -10;
+    public static final int HK_NAV = -8;
+    public static final int HK_MENU = -13;
+    public static final int SYS_INIT_COMPLETE = -7;
+    public static final int SDS_INFO_TPMEMO_LIST = -11;
+    public static final int _SWDL_ENTER_EVENT = -12;
+    public static final int _SWDL_EXIT_EVENT = -14;
+    public static final int _CUST_DOWNLOAD_DIRECT_JUMP = -6;
 }
 

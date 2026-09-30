@@ -13,40 +13,28 @@ public interface AudioContextController {
     public static final Integer AUDIO_CONTEXT_RADIO = new Integer(2);
     public static final Integer AUDIO_CONTEXT_A2LS = new Integer(1);
 
-    default public void addAudioContextListener(AudioContextListener audioContextListener) {
-    }
+    public void addAudioContextListener(AudioContextListener var1);
 
-    default public void setAudioContext(int n, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void setAudioContext(int var1, ASIHMISyncAudioReply var2);
 
-    default public void enableA2LS(String string, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void enableA2LS(String var1, ASIHMISyncAudioReply var2);
 
-    default public void enableA2LSPending(String string, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void enableA2LSPending(String var1, ASIHMISyncAudioReply var2);
 
-    default public void enableA2LSAccept() {
-    }
+    public void enableA2LSAccept();
 
-    default public void enableA2LSDecline() {
-    }
+    public void enableA2LSDecline();
 
-    default public void disableA2LS(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void disableA2LS(ASIHMISyncAudioReply var1);
 
-    default public void disableA2LS() {
-    }
+    public void disableA2LS();
 
-    default public void joinActiveAudioContext(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void joinActiveAudioContext(ASIHMISyncAudioReply var1);
 
-    default public void unjoinActiveAudioContext(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void unjoinActiveAudioContext(ASIHMISyncAudioReply var1);
 
-    default public int getAudioContext() {
-    }
+    public int getAudioContext();
 
-    default public void removeReplyProxy(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void removeReplyProxy(ASIHMISyncAudioReply var1);
 }
 

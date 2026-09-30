@@ -7,10 +7,8 @@ import de.audi.app.car.common.mer.IMenuEntryStructure;
 import java.util.List;
 
 public interface IMERVisibilityChangeListener {
-    default public void notifyVisibilityChange(List list) {
-    }
+    public void notifyVisibilityChange(List var1);
 
-    default public void initUseOfMenuStructure(IMenuEntryStructure iMenuEntryStructure) {
-    }
+    public void initUseOfMenuStructure(IMenuEntryStructure var1);
 }
 

@@ -4,10 +4,8 @@
 package de.audi.atip.interapp;
 
 public interface FactResetService {
-    default public void setPhoneStateBlockReset(boolean bl, boolean bl2) {
-    }
+    public void setPhoneStateBlockReset(boolean var1, boolean var2);
 
-    default public void setAudiConnectResetBlocked(boolean bl) {
-    }
+    public void setAudiConnectResetBlocked(boolean var1);
 }
 

@@ -5,9 +5,9 @@ package de.audi.app.media.queue;
 
 import de.audi.app.media.diagnosis.IDiagnosisDataProvider;
 import de.audi.app.media.queue.IQueueCommand;
+import de.audi.app.media.queue.IQueueExecutionContext;
 import de.audi.app.media.queue.IQueueInterceptor;
 import de.audi.app.media.queue.IQueueJob;
-import de.audi.app.media.queue.Queue$QueueExecutionContextImpl;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Arrays;
@@ -17,8 +17,8 @@ import java.util.List;
 
 public class Queue
 implements IDiagnosisDataProvider {
-    private static final String LOGCLASS;
-    private static final int NO_FIXED_SIZE;
+    private static final String LOGCLASS = "Queue";
+    private static final int NO_FIXED_SIZE = -1;
     private final String queueName;
     private final LogChannel logChannel;
     final LinkedList queue = new LinkedList();
@@ -41,7 +41,7 @@ implements IDiagnosisDataProvider {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void reset() {
-        this.logChannel.log(1078071040, "[%1.reset] [%2]", (Object)"Queue", (Object)this.queueName);
+        this.logChannel.log(1000000, "[%1.reset] [%2]", (Object)LOGCLASS, (Object)this.queueName);
         Object object = this.mutex;
         synchronized (object) {
             this.queue.clear();
@@ -53,7 +53,7 @@ implements IDiagnosisDataProvider {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void removeQueuedJobs() {
-        this.logChannel.log(1078071040, "[%1.removeQueuedJobs] [%2]", (Object)"Queue", (Object)this.queueName);
+        this.logChannel.log(1000000, "[%1.removeQueuedJobs] [%2]", (Object)LOGCLASS, (Object)this.queueName);
         Object object = this.mutex;
         synchronized (object) {
             this.queue.clear();
@@ -64,7 +64,7 @@ implements IDiagnosisDataProvider {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void addInterceptor(IQueueInterceptor iQueueInterceptor) {
-        this.logChannel.log(1078071040, "[%1.addInterceptor] [%2] '%3'.", (Object)"Queue", (Object)this.queueName, (Object)iQueueInterceptor);
+        this.logChannel.log(1000000, "[%1.addInterceptor] [%2] '%3'.", (Object)LOGCLASS, (Object)this.queueName, (Object)iQueueInterceptor);
         if (iQueueInterceptor == null) {
             throw new IllegalArgumentException();
         }
@@ -79,13 +79,13 @@ implements IDiagnosisDataProvider {
      */
     public void enqueueExclusive(IQueueJob iQueueJob) {
         if (iQueueJob == null) {
-            this.logChannel.log(-1601830656, "[Queue.enqueueExclusive] [%1] called with NULL", (Object)this.queueName);
+            this.logChannel.log(100000, "[Queue.enqueueExclusive] [%1] called with NULL", (Object)this.queueName);
             return;
         }
-        this.logChannel.log(1078071040, "[Queue.enqueueExclusive] [%1] called with %2", (Object)this.queueName, (Object)iQueueJob);
+        this.logChannel.log(1000000, "[Queue.enqueueExclusive] [%1] called with %2", (Object)this.queueName, (Object)iQueueJob);
         Object object = this.mutex;
         synchronized (object) {
-            this.abort(new Class[]{super.getClass()});
+            this.abort(new Class[]{iQueueJob.getClass()});
             this.enqueue(iQueueJob);
         }
     }
@@ -99,10 +99,10 @@ implements IDiagnosisDataProvider {
         synchronized (object) {
             if (this.currentRunningJob == null) {
                 this.currentRunningJob = iQueueJob;
-                this.logChannel.log(1078071040, "[%1.enqueue] [%2] Start '%3' ('%4').", (Object)"Queue", (Object)this.queueName, (Object)iQueueJob.getName(), (Object)iQueueJob);
+                this.logChannel.log(1000000, "[%1.enqueue] [%2] Start '%3' ('%4').", (Object)LOGCLASS, (Object)this.queueName, (Object)iQueueJob.getName(), (Object)iQueueJob);
                 bl = true;
             } else {
-                this.logChannel.log(1078071040, "[%1.enqueue] [%2] Queue '%3' ('%4').", (Object)"Queue", (Object)this.queueName, (Object)iQueueJob.getName(), (Object)iQueueJob);
+                this.logChannel.log(1000000, "[%1.enqueue] [%2] Queue '%3' ('%4').", (Object)LOGCLASS, (Object)this.queueName, (Object)iQueueJob.getName(), (Object)iQueueJob);
                 Iterator iterator = this.interceptorList.iterator();
                 while (iterator.hasNext()) {
                     IQueueInterceptor iQueueInterceptor = (IQueueInterceptor)iterator.next();
@@ -112,7 +112,7 @@ implements IDiagnosisDataProvider {
                     this.queue.add(iQueueJob);
                 } else {
                     if (this.queue.size() == this.fixedSize) {
-                        this.logChannel.log(1078071040, "[%1.enqueue] [%2] Replace last job '%3'.", (Object)"Queue", (Object)this.queueName, (Object)((IQueueJob)this.queue.getLast()).getName());
+                        this.logChannel.log(1000000, "[%1.enqueue] [%2] Replace last job '%3'.", (Object)LOGCLASS, (Object)this.queueName, (Object)((IQueueJob)this.queue.getLast()).getName());
                         this.queue.removeLast();
                     }
                     this.queue.add(iQueueJob);
@@ -120,7 +120,7 @@ implements IDiagnosisDataProvider {
             }
         }
         if (bl) {
-            this.currentRunningJob.start(new Queue$QueueExecutionContextImpl(this, this));
+            this.currentRunningJob.start(new QueueExecutionContextImpl(this));
         }
     }
 
@@ -131,15 +131,15 @@ implements IDiagnosisDataProvider {
         Object object = this.mutex;
         synchronized (object) {
             IQueueJob iQueueJob;
-            this.logChannel.log(1078071040, "[%1.jobFinished] [%2] '%3'.", (Object)"Queue", (Object)this.queueName, (Object)(null == this.currentRunningJob ? "No running job." : this.currentRunningJob.getName()));
+            this.logChannel.log(1000000, "[%1.jobFinished] [%2] '%3'.", (Object)LOGCLASS, (Object)this.queueName, (Object)(null == this.currentRunningJob ? "No running job." : this.currentRunningJob.getName()));
             if (this.queue.isEmpty()) {
                 this.currentRunningJob = null;
                 return;
             }
             this.currentRunningJob = iQueueJob = (IQueueJob)this.queue.removeFirst();
-            this.logChannel.log(1078071040, "[%1.jobFinished] [%2] Start '%3' ('%4').", (Object)"Queue", (Object)this.queueName, (Object)this.currentRunningJob.getName(), (Object)this.currentRunningJob);
+            this.logChannel.log(1000000, "[%1.jobFinished] [%2] Start '%3' ('%4').", (Object)LOGCLASS, (Object)this.queueName, (Object)this.currentRunningJob.getName(), (Object)this.currentRunningJob);
         }
-        this.currentRunningJob.start(new Queue$QueueExecutionContextImpl(this, this));
+        this.currentRunningJob.start(new QueueExecutionContextImpl(this));
     }
 
     /*
@@ -179,16 +179,16 @@ implements IDiagnosisDataProvider {
         Object object = this.mutex;
         synchronized (object) {
             if (this.currentRunningJob == null) {
-                this.logChannel.log(1078071040, "[%1.abort] [%2] No running job.", (Object)"Queue", (Object)this.queueName);
+                this.logChannel.log(1000000, "[%1.abort] [%2] No running job.", (Object)LOGCLASS, (Object)this.queueName);
                 return;
             }
-            this.logChannel.log(1078071040, "[%1.abort] [%2] Abort running job", (Object)"Queue", (Object)this.queueName);
+            this.logChannel.log(1000000, "[%1.abort] [%2] Abort running job", (Object)LOGCLASS, (Object)this.queueName);
             this.currentRunningJob.abort(true);
             this.currentRunningJob = null;
             if (this.queue.isEmpty()) {
                 return;
             }
-            this.logChannel.log(1078071040, "[%1.abort] [%2] Abort all queued jobs", (Object)"Queue", (Object)this.queueName);
+            this.logChannel.log(1000000, "[%1.abort] [%2] Abort all queued jobs", (Object)LOGCLASS, (Object)this.queueName);
             Iterator iterator = this.queue.iterator();
             while (iterator.hasNext()) {
                 ((IQueueJob)iterator.next()).abort(false);
@@ -205,32 +205,32 @@ implements IDiagnosisDataProvider {
         synchronized (object) {
             IQueueJob iQueueJob;
             if (classArray == null || classArray.length == 0) {
-                this.logChannel.log(1078071040, "[%1.abort] [%2] empty or NULL filter", (Object)"Queue", (Object)this.queueName);
+                this.logChannel.log(1000000, "[%1.abort] [%2] empty or NULL filter", (Object)LOGCLASS, (Object)this.queueName);
                 return;
             }
             if (this.currentRunningJob == null) {
-                this.logChannel.log(1078071040, "[%1.abort] [%2] No running job.", (Object)"Queue", (Object)this.queueName);
+                this.logChannel.log(1000000, "[%1.abort] [%2] No running job.", (Object)LOGCLASS, (Object)this.queueName);
                 return;
             }
             List list = Arrays.asList(classArray);
-            if (list.contains(super.getClass())) {
-                this.logChannel.log(1078071040, "[%1.abort] [%2] Abort running job with class %2", (Object)"Queue", (Object)this.queueName, (Object)super.getClass());
+            if (list.contains(this.currentRunningJob.getClass())) {
+                this.logChannel.log(1000000, "[%1.abort] [%2] Abort running job with class %2", (Object)LOGCLASS, (Object)this.queueName, (Object)this.currentRunningJob.getClass());
                 this.currentRunningJob.abort(true);
                 this.currentRunningJob = null;
             }
             if (this.queue.isEmpty()) {
                 return;
             }
-            this.logChannel.log(1078071040, "[%1.abort] [%2] Abort all queued jobs for filter %3", (Object)"Queue", (Object)this.queueName, (Object)String.valueOf(classArray));
+            this.logChannel.log(1000000, "[%1.abort] [%2] Abort all queued jobs for filter %3", (Object)LOGCLASS, (Object)this.queueName, (Object)String.valueOf(classArray));
             Iterator iterator = this.queue.iterator();
             while (iterator.hasNext()) {
                 iQueueJob = (IQueueJob)iterator.next();
-                if (!list.contains(super.getClass())) continue;
+                if (!list.contains(iQueueJob.getClass())) continue;
                 iQueueJob.abort(false);
             }
             for (int i2 = this.queue.size() - 1; i2 >= 0; --i2) {
                 iQueueJob = (IQueueJob)this.queue.get(i2);
-                if (!list.contains(super.getClass())) continue;
+                if (!list.contains(iQueueJob.getClass())) continue;
                 this.queue.remove(iQueueJob);
             }
             if (this.currentRunningJob == null && !this.queue.isEmpty()) {
@@ -239,7 +239,6 @@ implements IDiagnosisDataProvider {
         }
     }
 
-    @Override
     public String getDiagKey() {
         return this.queueName;
     }
@@ -247,7 +246,6 @@ implements IDiagnosisDataProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getDiagValue() {
         LinkedList linkedList;
         IQueueJob iQueueJob;
@@ -283,8 +281,17 @@ implements IDiagnosisDataProvider {
         return false;
     }
 
-    static /* synthetic */ void access$000(Queue queue) {
-        queue.jobFinished();
+    private class QueueExecutionContextImpl
+    implements IQueueExecutionContext {
+        private final Queue queue;
+
+        public QueueExecutionContextImpl(Queue queue2) {
+            this.queue = queue2;
+        }
+
+        public void jobFinished() {
+            this.queue.jobFinished();
+        }
     }
 }
 

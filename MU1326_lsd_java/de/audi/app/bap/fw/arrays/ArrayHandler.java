@@ -8,49 +8,35 @@ import de.audi.app.bap.fw.arrays.IListAdapter;
 import de.audi.atip.interapp.combi.bap.data.CombiBAPArrayElement;
 
 public interface ArrayHandler {
-    public static final int INDEX_SIZE_8BIT;
-    public static final int INDEX_SIZE_16BIT;
+    public static final int INDEX_SIZE_8BIT = 0;
+    public static final int INDEX_SIZE_16BIT = 1;
 
-    default public void addListAdapter(IListAdapter iListAdapter) {
-    }
+    public void addListAdapter(IListAdapter var1);
 
-    default public CombiBAPArrayElement getArrayElement(int n) {
-    }
+    public CombiBAPArrayElement getArrayElement(int var1);
 
-    default public void getNextListPos(int n, int n2) {
-    }
+    public void getNextListPos(int var1, int var2);
 
-    default public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
-    }
+    public void getNextListPosResult(boolean var1, int var2, int var3, int var4);
 
-    default public int getCurrentListSize() {
-    }
+    public int getCurrentListSize();
 
-    default public int getNumberOfElements() {
-    }
+    public int getNumberOfElements();
 
-    default public int getPredecessorID(int n) {
-    }
+    public int getPredecessorID(int var1);
 
-    default public int getSuccessorID(int n) {
-    }
+    public int getSuccessorID(int var1);
 
-    default public int getIndexSize() {
-    }
+    public int getIndexSize();
 
-    default public boolean is16BitIndexSize() {
-    }
+    public boolean is16BitIndexSize();
 
-    default public boolean dataMustBeReversed() {
-    }
+    public boolean dataMustBeReversed();
 
-    default public boolean sendFullRangeUpdate() {
-    }
+    public boolean sendFullRangeUpdate();
 
-    default public void requestListElements(GetArrayIndication getArrayIndication) {
-    }
+    public void requestListElements(GetArrayIndication var1);
 
-    default public void responseListElements(int n, CombiBAPArrayElement[] combiBAPArrayElementArray) {
-    }
+    public void responseListElements(int var1, CombiBAPArrayElement[] var2);
 }
 

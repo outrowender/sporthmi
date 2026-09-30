@@ -18,7 +18,6 @@ extends AbstractFunctionSyncEpilogueAction {
         this.mediaBrowserArray = abstractBAPModuleFSG.getBAPFunctionArrayFSG(36);
     }
 
-    @Override
     protected void execute() {
         MediaBrowserListHandler mediaBrowserListHandler = (MediaBrowserListHandler)this.mediaBrowserArray.getArrayHandler();
         if (mediaBrowserListHandler != null && mediaBrowserListHandler.isListSizeUpdateDeferred()) {

@@ -15,37 +15,30 @@ implements DSICarVehicleStates {
         this.logChan = logChannel;
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarVehicleStates");
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarVehicleStates");
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarVehicleStates");
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarVehicleStates");
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarVehicleStates");
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarVehicleStates");
     }
 
-    @Override
     public void setCarMenuState(boolean bl) {
         this.logChan.log(1000, "null-call at NullDSICarVehicleStates");
     }

@@ -87,37 +87,33 @@ TimerListener {
 
     public MediaSDSHandlerImpl(HMIService hMIService, SDSHandlerService sDSHandlerService, IDynamicLists iDynamicLists, NBestStorageAccess nBestStorageAccess, SystemSDSHandler systemSDSHandler, Long[] longArray, ISDSPopupHelper iSDSPopupHelper, OneshotHandlerFactory oneshotHandlerFactory) {
         super(sDSHandlerService, nBestStorageAccess);
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl: loadedIDs=%1", (Object)longArray);
+        this.lc.log(10000000, "MediaSDSHandlerImpl: loadedIDs=%1", (Object)longArray);
         this.hmi = hMIService;
         this.deviceIDs = longArray;
         this.systemHandler = systemSDSHandler;
         this.dynamicLists = iDynamicLists;
         this.sdsPopupHelper = iSDSPopupHelper;
-        this.ignoreDeviceChangesTimer = new Timer("IgnoreDeviceChangeTimer", 5, this.lc, this, 0, true);
+        this.ignoreDeviceChangesTimer = new Timer("IgnoreDeviceChangeTimer", 5, this.lc, this, 10000L, true);
         this.oneshotHandlerFactory = oneshotHandlerFactory;
         this.picklistHandler = new MediaSDSPicklistHandler(hMIService, this);
     }
 
-    @Override
     public void setMediaSDSService(IMediaSDSService iMediaSDSService) {
         if (iMediaSDSService != null) {
             this.mediaSDSService = iMediaSDSService;
         }
     }
 
-    @Override
     public IMediaSDSService getMediaSDSService() {
         return this.mediaSDSService;
     }
 
-    @Override
     public void unsetMediaSDSService() {
         this.mediaSDSService = new NullMediaSDSService(this.lc);
     }
 
-    @Override
     public void processCommand(int n, ISystemCallParameter[] iSystemCallParameterArray) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
+        this.lc.log(10000000, "MediaSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
         CommandList commandList = new CommandList(SDSManagerBaseActivator.getSysCallCmdListManager());
         switch (n) {
             case 20000: {
@@ -210,7 +206,6 @@ TimerListener {
         }
     }
 
-    @Override
     public int[] getCommands() {
         return commands;
     }
@@ -219,44 +214,37 @@ TimerListener {
         return this.picklistHandler;
     }
 
-    @Override
     public OneshotHandler initializeOneshotHandler(int n) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#initializeOneshotHandler: usecase=%1", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#initializeOneshotHandler: usecase=%1", (long)n);
         IPicklist iPicklist = n == 3 ? this.nBestStorage.getMatchingPicklist((byte)0) : this.nBestStorage.getMatchingPicklist((byte)2);
         this.oneshotHandler = this.oneshotHandlerFactory.initializeUsecase(n, iPicklist);
         return this.oneshotHandler;
     }
 
-    @Override
     public OneshotHandler getOneshotHandler() {
         return this.oneshotHandler;
     }
 
-    @Override
     public boolean freezeLists() {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#freezeLists: called");
+        this.lc.log(10000000, "MediaSDSHandlerImpl#freezeLists: called");
         return this.mediaSDSService.freezeDynamicLists() == 0;
     }
 
-    @Override
     public boolean unfreezeLists() {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#unfreezeLists: called");
+        this.lc.log(10000000, "MediaSDSHandlerImpl#unfreezeLists: called");
         return this.mediaSDSService.unfreezeDynamicLists() == 0;
     }
 
-    @Override
     public int getTerminalID() {
         return 0;
     }
 
-    @Override
     public void ignoreMediaDeviceChanges() {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#ignoreMediaDeviceChanges: called");
+        this.lc.log(10000000, "MediaSDSHandlerImpl#ignoreMediaDeviceChanges: called");
         SDSModelAccess.ignoreMediaDeviceUpdates(1);
         this.ignoreDeviceChangesTimer.restart();
     }
 
-    @Override
     public void sourceAvailable(int n, boolean bl) {
         Integer n2 = new Integer(n);
         if (!this.availableDevices.contains(n2) && bl) {
@@ -265,21 +253,21 @@ TimerListener {
             this.availableDevices.remove(n2);
         }
         int n3 = SDSUtils.translate(n, this.source2model);
-        if (n3 == 128) {
-            this.lc.log(-1601830656, "[MediaSDSHandlerImpl#sourceAvailable] Unhandled source ID %1!", (long)n);
+        if (n3 == Integer.MIN_VALUE) {
+            this.lc.log(100000, "[MediaSDSHandlerImpl#sourceAvailable] Unhandled source ID %1!", (long)n);
             return;
         }
         SDSModelAccess.setMediaXYZAvailableChoice(n3, bl ? 1 : 0);
     }
 
-    private List extractDeviceInformation(Iterator iterator, Iterator iterator2) {
+    private List extractDeviceInformation(Iterator iterator, Iterator iterator2) throws ClassCastException {
         int n = (Integer)iterator.next();
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#extractDeviceInformation: sourceID=%1!", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#extractDeviceInformation: sourceID=%1!", (long)n);
         List list = (List)iterator2.next();
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#extractDeviceInformation: slotInfoList=", (Object)SDSUtils.toString(list, true));
+        this.lc.log(10000000, "MediaSDSHandlerImpl#extractDeviceInformation: slotInfoList=", (Object)SDSUtils.toString(list, true));
         ArrayList arrayList = new ArrayList();
         if (SDSUtils.isEmpty(list)) {
-            this.lc.log(-1601830656, "MediaSDSHandlerImpl#extractDeviceInformation: Empty slotInfoList!");
+            this.lc.log(100000, "MediaSDSHandlerImpl#extractDeviceInformation: Empty slotInfoList!");
             this.dynamicLists.removeFromLookup(54);
             return arrayList;
         }
@@ -287,10 +275,10 @@ TimerListener {
         int n3 = list.size();
         Iterator iterator3 = list.iterator();
         while (iterator3.hasNext()) {
-            this.lc.log(-2137614336, "MediaSDSHandlerImpl#extractDeviceInformation: Checking mediaSlotInfoList #%1 of %2!", (long)(++n2), (long)n3);
+            this.lc.log(10000000, "MediaSDSHandlerImpl#extractDeviceInformation: Checking mediaSlotInfoList #%1 of %2!", (long)(++n2), (long)n3);
             MediaSlotInfo mediaSlotInfo = (MediaSlotInfo)iterator3.next();
             if (mediaSlotInfo == null) {
-                this.lc.log(-2137614336, "MediaSDSHandlerImpl#extractDeviceInformation: Empty curSlotInfo!");
+                this.lc.log(10000000, "MediaSDSHandlerImpl#extractDeviceInformation: Empty curSlotInfo!");
                 continue;
             }
             String string = mediaSlotInfo.getName();
@@ -298,53 +286,52 @@ TimerListener {
                 this.storeUSBDeviceInformation(mediaSlotInfo);
             }
             if (SDSUtils.isEmpty(string)) {
-                this.lc.log(-2137614336, "MediaSDSHandlerImpl#extractDeviceInformation: Empty curMediaName!");
+                this.lc.log(10000000, "MediaSDSHandlerImpl#extractDeviceInformation: Empty curMediaName!");
                 continue;
             }
-            this.lc.log(-2137614336, "MediaSDSHandlerImpl#extractDeviceInformation: Found dynamic device, curMediaName=%1!", (Object)string);
+            this.lc.log(10000000, "MediaSDSHandlerImpl#extractDeviceInformation: Found dynamic device, curMediaName=%1!", (Object)string);
             int n4 = mediaSlotInfo.getSlotIdx();
             long l = SDSUtils.compressValues(n, n4);
-            this.lc.log(-2137614336, "MediaSDSHandlerImpl#extractDeviceInformation: sourceID=%1, curMediaSlotIdx=%2, curMediaID=%3!", (long)n, (long)n4, l);
+            this.lc.log(10000000, "MediaSDSHandlerImpl#extractDeviceInformation: sourceID=%1, curMediaSlotIdx=%2, curMediaID=%3!", (long)n, (long)n4, l);
             arrayList.add(new SDSListEntry(string, l));
         }
         return arrayList;
     }
 
     private void storeUSBDeviceInformation(MediaSlotInfo mediaSlotInfo) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#storeUSBDeviceInformation: USB-Device available!");
+        this.lc.log(10000000, "MediaSDSHandlerImpl#storeUSBDeviceInformation: USB-Device available!");
         if (mediaSlotInfo == null) {
             return;
         }
         if (mediaSlotInfo.getType() == 10) {
             int n;
             this.iPodSlot = n = mediaSlotInfo.getSlotIdx();
-            this.lc.log(-2137614336, "MediaSDSHandlerImpl#storeUSBDeviceInformation: iPod found at idx %1!", (long)n);
+            this.lc.log(10000000, "MediaSDSHandlerImpl#storeUSBDeviceInformation: iPod found at idx %1!", (long)n);
         } else {
             int n = mediaSlotInfo.getSlotIdx();
             this.usbSlots.add(new Integer(n));
-            this.lc.log(-2137614336, "MediaSDSHandlerImpl#storeUSBDeviceInformation: USB-Device found at idx %1!", (long)n);
+            this.lc.log(10000000, "MediaSDSHandlerImpl#storeUSBDeviceInformation: USB-Device found at idx %1!", (long)n);
         }
     }
 
-    @Override
     public void sourceListChanged(Map map) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#sourceListChanged: called");
+        this.lc.log(10000000, "MediaSDSHandlerImpl#sourceListChanged: called");
         this.iPodSlot = -1;
         this.usbSlots.clear();
         this.updateCdAndDvdAvailableModels(map);
         if (SDSUtils.isEmpty(map)) {
-            this.lc.log(-1601830656, "MediaSDSHandlerImpl#sourceListChanged: Empty sourceList!");
+            this.lc.log(100000, "MediaSDSHandlerImpl#sourceListChanged: Empty sourceList!");
             this.dynamicLists.removeFromLookup(54);
             return;
         }
         int n = map.size();
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#sourceListChanged: sourceListSize=%1!", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#sourceListChanged: sourceListSize=%1!", (long)n);
         ArrayList arrayList = new ArrayList();
         int n2 = 0;
         boolean bl = false;
         Collection collection = map.values();
         if (SDSUtils.isEmpty(collection)) {
-            this.lc.log(-1601830656, "MediaSDSHandlerImpl#sourceListChanged: Empty sourceListValues!");
+            this.lc.log(100000, "MediaSDSHandlerImpl#sourceListChanged: Empty sourceListValues!");
             this.dynamicLists.removeFromLookup(54);
             return;
         }
@@ -352,23 +339,23 @@ TimerListener {
         Object[] objectArray = collection.iterator();
         while (objectArray.hasNext()) {
             try {
-                this.lc.log(-2137614336, "MediaSDSHandlerImpl#sourceListChanged: Checking sourceListValues #%1 of %2!", (long)(++n2), (long)n);
+                this.lc.log(10000000, "MediaSDSHandlerImpl#sourceListChanged: Checking sourceListValues #%1 of %2!", (long)(++n2), (long)n);
                 List list = this.extractDeviceInformation(iterator, (Iterator)objectArray);
                 if (list.isEmpty()) continue;
                 bl = true;
                 arrayList.addAll(list);
             }
             catch (ClassCastException classCastException) {
-                this.lc.log(-1601830656, "MediaSDSHandlerImpl#sourceListChanged: Unexpected device list: %1", (Throwable)classCastException);
+                this.lc.log(100000, "MediaSDSHandlerImpl#sourceListChanged: Unexpected device list: %1", (Throwable)classCastException);
                 return;
             }
         }
         if (!bl) {
-            this.lc.log(-1601830656, "MediaSDSHandlerImpl#sourceListChanged: No dynamic devices found!");
+            this.lc.log(100000, "MediaSDSHandlerImpl#sourceListChanged: No dynamic devices found!");
             return;
         }
         objectArray = (SDSListEntry[])arrayList.toArray(new SDSListEntry[arrayList.size()]);
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#sourceListChanged: Adding entries %1!", (Object)SDSUtils.toString(objectArray, false));
+        this.lc.log(10000000, "MediaSDSHandlerImpl#sourceListChanged: Adding entries %1!", (Object)SDSUtils.toString(objectArray, false));
         this.dynamicLists.addToLookup(54, new DynamicSlotContent("media sources", (SDSListEntry[])objectArray, 0));
         this.dynamicDevices = objectArray;
     }
@@ -378,17 +365,15 @@ TimerListener {
 
     public void setDeviceIDs(Long[] longArray) {
         this.deviceIDs = longArray;
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#setDeviceIDs: deviceIDs=%1!", (Object)this.deviceIDs);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#setDeviceIDs: deviceIDs=%1!", (Object)this.deviceIDs);
     }
 
-    @Override
     public boolean isListLineDataGetActive() {
         return SDSUtils.getActiveSystemCall() instanceof MediaListLineDataGetCommand;
     }
 
-    @Override
     public void sdsListLineDataGet(int n, int n2) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#sdsListLineDataGet: modelID=%1, absLine=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#sdsListLineDataGet: modelID=%1, absLine=%2", (long)n, (long)n2);
         try {
             ((MediaListLineDataGetCommand)SDSUtils.getActiveSystemCall()).sdsListLineDataGet(n2);
         }
@@ -400,14 +385,12 @@ TimerListener {
         }
     }
 
-    @Override
     public void g2pStateChanged(int n, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#g2pStateChanged: doing nothing");
+        this.lc.log(10000000, "MediaSDSHandlerImpl#g2pStateChanged: doing nothing");
     }
 
-    @Override
     public void playAllTracksResult(byte by) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#playAllTracksResult: successful=%1", (long)by);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#playAllTracksResult: successful=%1", (long)by);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof MediaPlayAllTracksCommand) {
             ((MediaPlayAllTracksCommand)abstractSystemCallCommand).playAllTracksResult(by);
@@ -416,26 +399,23 @@ TimerListener {
         }
     }
 
-    @Override
     public void g2pPlayTitleResult(byte by) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#g2pPlayTitleResult: successful=%1", (long)by);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#g2pPlayTitleResult: successful=%1", (long)by);
         this.g2pPlayItemResult(by);
     }
 
-    @Override
     public void g2pPlayAlbumResult(byte by) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#g2pPlayAlbumResult: successful=%1", (long)by);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#g2pPlayAlbumResult: successful=%1", (long)by);
         this.g2pPlayItemResult(by);
     }
 
-    @Override
     public void g2pPlayArtistResult(byte by) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#g2pPlayArtistResult: successful=%1", (long)by);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#g2pPlayArtistResult: successful=%1", (long)by);
         this.g2pPlayItemResult(by);
     }
 
     private void g2pPlayItemResult(byte by) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#g2pPlayItemResult: successful=%1", (long)by);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#g2pPlayItemResult: successful=%1", (long)by);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand == null) {
             this.lc.log(10000, "MediaSDSHandlerImpl#g2pPlayItemResult: No active command!");
@@ -448,9 +428,8 @@ TimerListener {
         }
     }
 
-    @Override
     public void g2pPlayAlbumOfArtistResult(byte by) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#g2pPlayAlbumOfArtistResult: successful=%1", (long)by);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#g2pPlayAlbumOfArtistResult: successful=%1", (long)by);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand == null) {
             this.lc.log(10000, "MediaSDSHandlerImpl#g2pPlayAlbumOfArtistResult: No active command!");
@@ -459,9 +438,8 @@ TimerListener {
         }
     }
 
-    @Override
     public void g2pPlayTitleOfArtistResult(byte by) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#g2pPlayTitleOfArtistResult: successful=%1", (long)by);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#g2pPlayTitleOfArtistResult: successful=%1", (long)by);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand == null) {
             this.lc.log(10000, "MediaSDSHandlerImpl#g2pPlayTitleOfArtistResult: No active command!");
@@ -470,9 +448,8 @@ TimerListener {
         }
     }
 
-    @Override
     public void g2pPlayTitleOfAlbumResult(byte by) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#g2pPlayTitleOfAlbumResult: successful=%1", (long)by);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#g2pPlayTitleOfAlbumResult: successful=%1", (long)by);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand == null) {
             this.lc.log(10000, "MediaSDSHandlerImpl#g2pPlayTitleOfAlbumResult: No active command!");
@@ -481,37 +458,32 @@ TimerListener {
         }
     }
 
-    @Override
     public void g2pPlayGenreResult(byte by) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#g2pPlayGenreResult: successful=%1", (long)by);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#g2pPlayGenreResult: successful=%1", (long)by);
         this.g2pPlayItemResult(by);
     }
 
-    @Override
     public void responseG2PArtistsOfGenre(byte by, long l, MediaSDSEntry[] mediaSDSEntryArray) {
-        this.lc.log(-1601830656, "MediaSDSHandlerImpl#responseG2PArtistsOfGenre: successful=%1, genreID=%2 => NOP!", (long)by, l);
+        this.lc.log(100000, "MediaSDSHandlerImpl#responseG2PArtistsOfGenre: successful=%1, genreID=%2 => NOP!", (long)by, l);
     }
 
-    @Override
     public void responseG2pAlbumsOfArtist(byte by, long l, long l2, MediaSDSEntry[] mediaSDSEntryArray) {
-        this.lc.log(-1601830656, "MediaSDSHandlerImpl#responseG2pAlbumsOfArtist: successful=%1, genreID=%2, artistID=%3 => NOP!", (long)by, l, l2);
+        this.lc.log(100000, "MediaSDSHandlerImpl#responseG2pAlbumsOfArtist: successful=%1, genreID=%2, artistID=%3 => NOP!", (long)by, l, l2);
     }
 
-    @Override
     public void responseG2PAlbumsOfArtist(byte by, long l, MediaSDSEntry[] mediaSDSEntryArray) {
-        this.lc.log(-1601830656, "MediaSDSHandlerImpl#responseG2PAlbumsOfArtist: successful=%1, artistID=%2 => NOP!", (long)by, l);
+        this.lc.log(100000, "MediaSDSHandlerImpl#responseG2PAlbumsOfArtist: successful=%1, artistID=%2 => NOP!", (long)by, l);
     }
 
     public String toString() {
         return "MediaSDSHandlerImpl";
     }
 
-    @Override
     public void processedActivateSource(int n) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#processedActivateSource: state=%1", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#processedActivateSource: state=%1", (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand == null) {
-            this.lc.log(-1601830656, "MediaSDSHandlerImpl#processedActivateSource: No active command!");
+            this.lc.log(100000, "MediaSDSHandlerImpl#processedActivateSource: No active command!");
         } else if (abstractSystemCallCommand instanceof MediaDeviceSetCommand) {
             ((MediaDeviceSetCommand)abstractSystemCallCommand).sendActivationReply(n);
         } else if (abstractSystemCallCommand instanceof MediaMediumSelectCommand) {
@@ -525,14 +497,12 @@ TimerListener {
         }
     }
 
-    @Override
     public void processedSetTrackNumber(int n) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#processedSetTrackNumber: state=%1 -> NOP", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#processedSetTrackNumber: state=%1 -> NOP", (long)n);
     }
 
-    @Override
     public void processedFolderUp(int n) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#processedFolderUp: state=%1", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#processedFolderUp: state=%1", (long)n);
         try {
             ((MediaFolderUpCommand)SDSUtils.getActiveSystemCall()).sendFolderUpReply(n);
         }
@@ -544,9 +514,8 @@ TimerListener {
         }
     }
 
-    @Override
     public void processedStartBrowsing(int n) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#processedStartBrowsing: state=%1", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#processedStartBrowsing: state=%1", (long)n);
         try {
             ((MediaFolderSelectCommand)SDSUtils.getActiveSystemCall()).sendStartBrowsingReply(n);
         }
@@ -558,9 +527,8 @@ TimerListener {
         }
     }
 
-    @Override
     public void processedMix(int n) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#processedMix: state=%1", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#processedMix: state=%1", (long)n);
         try {
             ((MediaPlaymodeSetCommand)SDSUtils.getActiveSystemCall()).sendPlaymodeReply(n);
         }
@@ -572,9 +540,8 @@ TimerListener {
         }
     }
 
-    @Override
     public void processedRepeatTrack(int n) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#processedRepeatTrack: state=%1", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#processedRepeatTrack: state=%1", (long)n);
         try {
             ((MediaPlaymodeSetCommand)SDSUtils.getActiveSystemCall()).sendPlaymodeReply(n);
         }
@@ -586,9 +553,8 @@ TimerListener {
         }
     }
 
-    @Override
     public void processedPlayMoreLikeThis(int n) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#processedPlayMoreLikeThis: state=%1", (long)n);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#processedPlayMoreLikeThis: state=%1", (long)n);
         try {
             ((MediaFolderSelectCommand)SDSUtils.getActiveSystemCall()).sendPlayMoreLikeThisReply(n);
         }
@@ -608,32 +574,27 @@ TimerListener {
         this.pickListMode = n;
     }
 
-    @Override
     public int getIPodSlotIndex() {
         return this.iPodSlot;
     }
 
-    @Override
     public List getUSBSlotIndexes() {
         return this.usbSlots;
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer == this.ignoreDeviceChangesTimer) {
-            this.lc.log(-2137614336, "MediaSDSHandlerImpl#fireTimer: timer=%1", (Object)timer);
+            this.lc.log(10000000, "MediaSDSHandlerImpl#fireTimer: timer=%1", (Object)timer);
             SDSModelAccess.ignoreMediaDeviceUpdates(0);
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#ignoreDeviceChangesTimer: timer=%1", (Object)timer);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#ignoreDeviceChangesTimer: timer=%1", (Object)timer);
     }
 
-    @Override
     public void updateActiveSource(MediaSlotInfo mediaSlotInfo, boolean bl) {
-        this.lc.log(-2137614336, "MediaSDSHandlerImpl#updateActiveSource: slotInfo=%1", (Object)mediaSlotInfo);
+        this.lc.log(10000000, "MediaSDSHandlerImpl#updateActiveSource: slotInfo=%1", (Object)mediaSlotInfo);
         if (mediaSlotInfo == null || mediaSlotInfo.isEmpty()) {
             SDSModelAccess.setAllMediaGrammarsAvailable(0);
         } else {
@@ -642,14 +603,12 @@ TimerListener {
         }
     }
 
-    @Override
     public void sourceDeactivated() {
     }
 
     protected void updateActiveSourceIfSdOrUsb(MediaSlotInfo mediaSlotInfo) {
     }
 
-    @Override
     public void g2pRequestCoverartsResult(byte by, MediaCoverartEntry[] mediaCoverartEntryArray) {
         try {
             ((IMediaCoverartReceiver)((Object)SDSUtils.getActiveSystemCall())).receiveCoverarts(by, mediaCoverartEntryArray);
@@ -662,7 +621,6 @@ TimerListener {
         }
     }
 
-    @Override
     public void updatePlaybackState(int n) {
     }
 }

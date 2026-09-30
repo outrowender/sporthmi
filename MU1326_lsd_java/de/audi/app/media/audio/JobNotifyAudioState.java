@@ -12,7 +12,7 @@ import java.util.List;
 
 public class JobNotifyAudioState
 implements Runnable {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobNotifyAudioState";
     private final List listeners;
     private final IMediaLogger logger;
     private final AudioState state;
@@ -23,7 +23,6 @@ implements Runnable {
         this.state = audioState;
     }
 
-    @Override
     public void run() {
         Iterator iterator = this.listeners.iterator();
         while (iterator.hasNext()) {
@@ -31,7 +30,7 @@ implements Runnable {
                 ((IAudioStateListener)iterator.next()).audioStateChanged(this.state);
             }
             catch (Exception exception) {
-                this.logger.audio().log(10000, "[%1.run]", (Object)"JobNotifyAudioState", (Throwable)exception);
+                this.logger.audio().log(10000, "[%1.run]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }

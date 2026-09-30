@@ -12,34 +12,28 @@ extends AbstractTelNetworkSetupHandler {
         super(iTelApplication);
     }
 
-    @Override
     protected int modelIDNetworkSelectionButton() {
-        return -1416363008;
+        return 300203;
     }
 
-    @Override
     protected int modelIDNetworkRegistrationType() {
-        return 1670906880;
+        return 301155;
     }
 
-    @Override
     protected int modelIDNetworkSelectionList() {
-        return 1738015744;
+        return 301159;
     }
 
-    @Override
     protected int modelIDNWSearchStatusChoice() {
-        return -1449917440;
+        return 300201;
     }
 
-    @Override
     protected int modelIDNWSelectedLabel() {
-        return -1433140224;
+        return 300202;
     }
 
-    @Override
     protected int modelIDNWRegisterStatusChoice() {
-        return -1483471872;
+        return 300199;
     }
 }
 

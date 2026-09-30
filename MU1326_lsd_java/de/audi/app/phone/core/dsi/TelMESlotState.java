@@ -36,102 +36,82 @@ implements ITelMESlotState {
         this.registerState = registerStateStruct != null ? registerStateStruct.getTelRegisterState() : 0;
     }
 
-    @Override
     public int getActivationState() {
         return this.activationState;
     }
 
-    @Override
     public int getTelMode() {
         return this.telMode;
     }
 
-    @Override
     public int getLockState() {
         return this.lockState;
     }
 
-    @Override
     public String getSimCardID() {
         return this.simCardID;
     }
 
-    @Override
     public String getBTMacAddress() {
         return this.macAddress;
     }
 
-    @Override
     public int getRegisterState() {
         return this.registerState;
     }
 
-    @Override
     public boolean isCallActive() {
         return this.callState != null && !this.callState.isIdle() && this.callState.getMpCallState() != 15;
     }
 
-    @Override
     public boolean isCallActiveOrPhoneRinging() {
         return this.callState != null && !this.callState.isIdle();
     }
 
-    @Override
     public boolean isNetworkGSM() {
         return this.networkType == 1;
     }
 
-    @Override
     public int getMpCallState() {
         return this.mpCallState;
     }
 
-    @Override
     public int getNetworkType() {
         return this.networkType;
     }
 
-    @Override
     public boolean isBluetoothCallActive() {
         return this.isBluetoothPhone() && this.isCallActive();
     }
 
-    @Override
     public boolean isGsmCallActive() {
         return this.isCallActive() && this.isNetworkGSM();
     }
 
-    @Override
     public boolean isSim() {
         return this.isInternalSim() || this.telMode == 2 || this.telMode == 1;
     }
 
-    @Override
     public boolean isBluetoothPhone() {
         return this.telMode == 3 || this.telMode == 2 || this.telMode == 1;
     }
 
-    @Override
     public boolean isInternalSim() {
         return this.telMode == 0;
     }
 
-    @Override
     public boolean isPhoneOn() {
         return this.activationState == 5 || this.activationState == 2;
     }
 
-    @Override
     public boolean isDevicePossiblyAvailable() {
         return this.activationState != 1 && this.activationState != 12 && this.activationState != 4;
     }
 
-    @Override
     public boolean isUnlocked() {
         return this.isPhoneOn() && this.lockState == 2;
     }
 
-    @Override
     public boolean isEqual(ITelMESlotState iTelMESlotState) {
         if (iTelMESlotState != null) {
             boolean bl = iTelMESlotState.getActivationState() == this.activationState;

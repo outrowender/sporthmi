@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.smartphone.androidauto2.audio;
 
@@ -11,7 +8,6 @@ import de.audi.app.terminalmode.audio.IAudioConnectionHandle;
 import de.audi.app.terminalmode.audio.TMAudioConnection;
 import de.audi.app.terminalmode.events.IEventBus;
 import de.audi.app.terminalmode.events.PlaybackInfoChangedEvent;
-import de.audi.app.terminalmode.events.PlaybackInfoChangedEvent$PlaybackState;
 import de.audi.app.terminalmode.smartphone.androidauto2.AbstractAndroidAuto2Handler;
 import de.audi.app.terminalmode.smartphone.androidauto2.audio.AudioDuckResponse;
 import de.audi.app.terminalmode.smartphone.androidauto2.audio.IAndroidAuto2AudioHandler;
@@ -26,7 +22,7 @@ import org.dsi.ifc.androidauto2.DSIAndroidAuto2;
 public class AndroidAuto2AudioHandler
 extends AbstractAndroidAuto2Handler
 implements IAndroidAuto2AudioHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AndroidAuto2AudioHandler";
     private volatile int audioRequest;
     private volatile int currentAudioState;
     private volatile boolean currentEntertainmentFocus;
@@ -41,15 +37,13 @@ implements IAndroidAuto2AudioHandler {
         this.currentEntertainmentFocus = false;
     }
 
-    @Override
     protected String getLogClass() {
-        return "AndroidAuto2AudioHandler";
+        return LOGCLASS;
     }
 
-    @Override
     public void audioAvailable(int n, boolean bl, int n2) {
         if (this.isValid(n2)) {
-            this.logger.log(1078071040, "[%1.audioAvailable] %2 %3", (Object)"AndroidAuto2AudioHandler", (Object)new Integer(n), (Object)new Boolean(bl));
+            this.logger.log(1000000, "[%1.audioAvailable] %2 %3", (Object)LOGCLASS, (Object)new Integer(n), (Object)new Boolean(bl));
             if (7 == this.currentAudioState) {
                 return;
             }
@@ -66,10 +60,9 @@ implements IAndroidAuto2AudioHandler {
         }
     }
 
-    @Override
     public void updateEntertainmentAudioState(boolean bl) {
         if (this.currentEntertainmentFocus == bl) {
-            this.logger.log(1078071040, "[%1.updateEntertainmentAudioState] entertainment focus not changed.", (Object)"AndroidAuto2AudioHandler");
+            this.logger.log(1000000, "[%1.updateEntertainmentAudioState] entertainment focus not changed.", (Object)LOGCLASS);
             return;
         }
         if (bl) {
@@ -79,44 +72,41 @@ implements IAndroidAuto2AudioHandler {
             this.currentAudioState = 3;
             this.dsi.audioFocusNotification(3, true);
         }
-        this.logger.log(1078071040, "[%1.updateEntertainmentAudioState] audioFocusState=%2", (Object)"AndroidAuto2AudioHandler", (Object)this.getAudioStateString(this.currentAudioState));
+        this.logger.log(1000000, "[%1.updateEntertainmentAudioState] audioFocusState=%2", (Object)LOGCLASS, (Object)this.getAudioStateString(this.currentAudioState));
         this.currentEntertainmentFocus = bl;
     }
 
-    @Override
     public void responseUpdateMode(TMState tMState) {
         this.responseUpdateMode();
     }
 
-    @Override
     public void responseUpdateMode() {
         int n = this.currentAudioState;
         if (1 == this.audioRequest) {
             n = 1;
-            this.eventBus.updatePlaybackInfo(new PlaybackInfoChangedEvent(PlaybackInfoChangedEvent$PlaybackState.PLAYING));
+            this.eventBus.updatePlaybackInfo(new PlaybackInfoChangedEvent(PlaybackInfoChangedEvent.PlaybackState.PLAYING));
         } else if (2 == this.audioRequest) {
             n = 7;
         } else if (3 == this.audioRequest) {
             n = 7;
         } else if (4 == this.audioRequest) {
             n = 3;
-            this.eventBus.updatePlaybackInfo(new PlaybackInfoChangedEvent(PlaybackInfoChangedEvent$PlaybackState.PAUSED));
+            this.eventBus.updatePlaybackInfo(new PlaybackInfoChangedEvent(PlaybackInfoChangedEvent.PlaybackState.PAUSED));
         }
         if (this.currentAudioState == n && 0 == this.audioRequest) {
-            this.logger.log(1078071040, "[%1.responseUpdateMode] No audio update", (Object)"AndroidAuto2AudioHandler");
+            this.logger.log(1000000, "[%1.responseUpdateMode] No audio update", (Object)LOGCLASS);
             return;
         }
         this.currentEntertainmentFocus = 1 == n;
         this.currentAudioState = n;
         this.audioRequest = 0;
-        this.logger.log(1078071040, "[%1.responseUpdateMode] audioFocusState=%2", (Object)"AndroidAuto2AudioHandler", (Object)this.getAudioStateString(n));
+        this.logger.log(1000000, "[%1.responseUpdateMode] audioFocusState=%2", (Object)LOGCLASS, (Object)this.getAudioStateString(n));
         this.dsi.audioFocusNotification(n, false);
     }
 
-    @Override
     public void audioFocusRequestNotification(int n, int n2) {
         if (this.isValid(n2)) {
-            this.logger.log(1078071040, "<- [%1.audioFocusRequestNotification] %2", (Object)"AndroidAuto2AudioHandler", (Object)this.getAudioFocusString(n));
+            this.logger.log(1000000, "<- [%1.audioFocusRequestNotification] %2", (Object)LOGCLASS, (Object)this.getAudioFocusString(n));
             this.audioRequest = n;
             switch (n) {
                 case 1: {
@@ -143,22 +133,22 @@ implements IAndroidAuto2AudioHandler {
     }
 
     private void duckAudio(int n, double d2) {
-        this.logger.log(1078071040, "[%1.duckAudio]", (Object)"AndroidAuto2AudioHandler");
+        this.logger.log(1000000, "[%1.duckAudio]", (Object)LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(new AudioLowering(this.context, true, n)).addSingle(new AudioDuckResponse(this.logger, this.context, this)).execute("AndroidAuto2AudioHandler.duckAudio");
     }
 
     private void unduckAudio(int n) {
-        this.logger.log(1078071040, "[%1.unduckAudio]", (Object)"AndroidAuto2AudioHandler");
+        this.logger.log(1000000, "[%1.unduckAudio]", (Object)LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(new AudioLowering(this.context, false, n)).addSingle(new AudioDuckResponse(this.logger, this.context, this)).execute("AndroidAuto2AudioHandler.unduckAudio");
     }
 
     private void duckAudioCompletely() {
-        this.logger.log(1078071040, "[%1.duckAudioCompletely]", (Object)"AndroidAuto2AudioHandler");
+        this.logger.log(1000000, "[%1.duckAudioCompletely]", (Object)LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(this.duckAudioCompletelyAudioConnectionHandle.createRequestCommand(false)).addSingle(new AudioDuckResponse(this.logger, this.context, this)).execute("AndroidAuto2AudioHandler.duckAudioCompletely");
     }
 
     private void releaseDuckAudioCompletely() {
-        this.logger.log(1078071040, "[%1.releaseDuckAudioCompletely]", (Object)"AndroidAuto2AudioHandler");
+        this.logger.log(1000000, "[%1.releaseDuckAudioCompletely]", (Object)LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(this.duckAudioCompletelyAudioConnectionHandle.createReleaseCommand()).addSingle(new AudioDuckResponse(this.logger, this.context, this)).execute("AndroidAuto2AudioHandler.releaseDuckAudioCompletely");
     }
 

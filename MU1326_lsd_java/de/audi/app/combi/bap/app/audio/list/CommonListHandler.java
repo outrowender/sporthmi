@@ -13,12 +13,10 @@ extends AbstractManagedListHandler {
         super(abstractCombiModule, "CommonListHandler");
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
         super.getNextListPosForArbitraryIds(n, n2);
     }
 
-    @Override
     public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
         ((CombiModuleAudio)this.moduleFsg).getTunerService().getNextListPosResult(bl ? 0 : 1, n, n2, n3);
     }

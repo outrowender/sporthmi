@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class SLMRulesMapTest
 extends SLMRulesMap {
-    @Override
     protected Map createFilledMap() {
         return new HashMap();
     }

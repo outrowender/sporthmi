@@ -9,65 +9,55 @@ import org.dsi.ifc.smartphoneintegration.DSISmartphoneIntegration;
 
 public class NullDSISmartphoneIntegration
 implements DSISmartphoneIntegration {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NullDSISmartphoneIntegration";
     private final LogChannel logger;
 
     public NullDSISmartphoneIntegration(LogChannel logChannel) {
         this.logger = logChannel;
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.setNotification]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.setNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.setNotification]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.setNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.setNotification]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.setNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.clearNotification]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.clearNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.clearNotification]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.clearNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.clearNotification]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.clearNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void connectDevice(int n, int n2) {
-        this.logger.log(1078071040, "[%1.connectDevice]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.connectDevice]", (Object)LOGCLASS);
     }
 
-    @Override
     public void disconnectDevice(int n) {
-        this.logger.log(1078071040, "[%1.disconnectDevice]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.disconnectDevice]", (Object)LOGCLASS);
     }
 
     public void requestFactorySettings() {
-        this.logger.log(1078071040, "[%1.requestFactorySettings]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.requestFactorySettings]", (Object)LOGCLASS);
     }
 
-    @Override
     public void requestFactorySettings(int n) {
-        this.logger.log(1078071040, "[%1.requestFactorySettings]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.requestFactorySettings]", (Object)LOGCLASS);
     }
 
-    @Override
     public void requestAppConnectContextActive(boolean bl) {
-        this.logger.log(1078071040, "[%1.requestAppConnectContextActive]", (Object)"NullDSISmartphoneIntegration");
+        this.logger.log(1000000, "[%1.requestAppConnectContextActive]", (Object)LOGCLASS);
     }
 }
 

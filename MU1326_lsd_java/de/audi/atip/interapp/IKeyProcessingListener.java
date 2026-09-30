@@ -4,10 +4,8 @@
 package de.audi.atip.interapp;
 
 public interface IKeyProcessingListener {
-    default public void processingKeyEvent() {
-    }
+    public void processingKeyEvent();
 
-    default public void finishedProcessingOfKeyEvent() {
-    }
+    public void finishedProcessingOfKeyEvent();
 }
 

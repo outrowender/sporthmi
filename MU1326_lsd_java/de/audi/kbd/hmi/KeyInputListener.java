@@ -25,15 +25,14 @@ implements ATIPEventListener {
     public KeyInputListener(int n, IFrameworkAccess iFrameworkAccess, IVirtualGUIManager iVirtualGUIManager) {
         this.keyEventDistributor = iFrameworkAccess.getHMITerminalRegistry().getKeyEventDistributor(n);
         if (this.keyEventDistributor == null) {
-            throw new IllegalArgumentException(new StringBuffer().append("terminalId ").append(n).append(" out of Range!").toString());
+            throw new IllegalArgumentException("terminalId " + n + " out of Range!");
         }
         this.keyEventDistributor.setHardkeyListeners(iVirtualGUIManager);
         this.log = iFrameworkAccess.getLogChannel("Fw.Kbd.KeyInputListener");
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
-        this.log.log(1078071040, "KeyInputListener.processEvent(%1)", (Object)aTIPEvent);
+        this.log.log(1000000, "KeyInputListener.processEvent(%1)", (Object)aTIPEvent);
         if (aTIPEvent instanceof KeyEvent) {
             switch (((KeyEvent)aTIPEvent).getID()) {
                 case 10401: {

@@ -6,27 +6,20 @@ package de.audi.app.media.logger;
 import de.audi.atip.log.LogChannel;
 
 public interface IMediaLogger {
-    public static final String MEDIA_LOG_CHANNEL_ROOT;
+    public static final String MEDIA_LOG_CHANNEL_ROOT = "App.Media";
 
-    default public String getLogPrefix() {
-    }
+    public String getLogPrefix();
 
-    default public LogChannel dsi() {
-    }
+    public LogChannel dsi();
 
-    default public LogChannel hmi() {
-    }
+    public LogChannel hmi();
 
-    default public LogChannel main() {
-    }
+    public LogChannel main();
 
-    default public LogChannel audio() {
-    }
+    public LogChannel audio();
 
-    default public LogChannel sds() {
-    }
+    public LogChannel sds();
 
-    default public LogChannel exlap() {
-    }
+    public LogChannel exlap();
 }
 

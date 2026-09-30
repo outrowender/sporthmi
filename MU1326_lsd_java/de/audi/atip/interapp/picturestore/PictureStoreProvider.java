@@ -7,97 +7,66 @@ import de.audi.atip.interapp.picturestore.PictureStoreProviderListener;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface PictureStoreProvider {
-    default public void setConfig(int n, int n2, int n3, int n4) {
-    }
+    public void setConfig(int var1, int var2, int var3, int var4);
 
-    default public void importPicture(int n, ResourceLocator resourceLocator, boolean bl, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void importPicture(int var1, ResourceLocator var2, boolean var3, PictureStoreProviderListener var4);
 
-    default public void pictureExists(ResourceLocator resourceLocator, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void pictureExists(ResourceLocator var1, PictureStoreProviderListener var2);
 
-    default public void increaseRefCounter(ResourceLocator resourceLocator, int n) {
-    }
+    public void increaseRefCounter(ResourceLocator var1, int var2);
 
-    default public void decreaseRefCounter(ResourceLocator resourceLocator, int n) {
-    }
+    public void decreaseRefCounter(ResourceLocator var1, int var2);
 
-    default public void getFreeSlots(int n, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void getFreeSlots(int var1, PictureStoreProviderListener var2);
 
-    default public void getReferences(ResourceLocator resourceLocator, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void getReferences(ResourceLocator var1, PictureStoreProviderListener var2);
 
-    default public void deleteAllPictures(int n, boolean bl, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void deleteAllPictures(int var1, boolean var2, PictureStoreProviderListener var3);
 
-    default public void deletePicturesFromContext(int n, ResourceLocator[] resourceLocatorArray, boolean bl, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void deletePicturesFromContext(int var1, ResourceLocator[] var2, boolean var3, PictureStoreProviderListener var4);
 
-    default public void deletePictures(ResourceLocator[] resourceLocatorArray, boolean bl, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void deletePictures(ResourceLocator[] var1, boolean var2, PictureStoreProviderListener var3);
 
-    default public void getLRUPictures(int n, boolean bl, int n2, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void getLRUPictures(int var1, boolean var2, int var3, PictureStoreProviderListener var4);
 
-    default public void listInAllContexts(int n, int n2, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void listInAllContexts(int var1, int var2, PictureStoreProviderListener var3);
 
-    default public void listInContext(int n, int n2, int n3, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void listInContext(int var1, int var2, int var3, PictureStoreProviderListener var4);
 
-    default public void getPictureAttributes(ResourceLocator resourceLocator, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void getPictureAttributes(ResourceLocator var1, PictureStoreProviderListener var2);
 
-    default public void setConfigWithFileType(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void setConfigWithFileType(int var1, int var2, int var3, int var4, int var5);
 
-    default public void importPictureFromSource(int n, ResourceLocator resourceLocator, boolean bl, int n2, String string, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void importPictureFromSource(int var1, ResourceLocator var2, boolean var3, int var4, String var5, PictureStoreProviderListener var6);
 
-    default public void deletePicturesWithFilterSet(int n, int n2, boolean bl, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void deletePicturesWithFilterSet(int var1, int var2, boolean var3, PictureStoreProviderListener var4);
 
-    default public void listInContextWithFilter(int n, int n2, int n3, int n4, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void listInContextWithFilter(int var1, int var2, int var3, int var4, PictureStoreProviderListener var5);
 
-    default public void getRectanglePicturesGrid(int n, int n2, float f2, float f3, float f4, float f5, int n3, int n4, int n5, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void getRectanglePicturesGrid(int var1, int var2, float var3, float var4, float var5, float var6, int var7, int var8, int var9, PictureStoreProviderListener var10);
 
-    default public void getAvailableYears(int n, int n2, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void getAvailableYears(int var1, int var2, PictureStoreProviderListener var3);
 
-    default public void getAvailableMonths(int n, int n2, int n3, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void getAvailableMonths(int var1, int var2, int var3, PictureStoreProviderListener var4);
 
-    default public void createFilterSet(PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void createFilterSet(PictureStoreProviderListener var1);
 
-    default public void cloneFilterSet(int n, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void cloneFilterSet(int var1, PictureStoreProviderListener var2);
 
-    default public void deleteFilterSet(int n) {
-    }
+    public void deleteFilterSet(int var1);
 
-    default public void setFilterImportSource(int n, int n2) {
-    }
+    public void setFilterImportSource(int var1, int var2);
 
-    default public void setFilterTimeInterval(int n, int n2, long l, long l2) {
-    }
+    public void setFilterTimeInterval(int var1, int var2, long var3, long var5);
 
-    default public void setFilterGeoArea(int n, float f2, float f3, float f4, float f5) {
-    }
+    public void setFilterGeoArea(int var1, float var2, float var3, float var4, float var5);
 
-    default public void resetToFactorySettings(PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void resetToFactorySettings(PictureStoreProviderListener var1);
 
-    default public void getAvailableFolders(int n, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void getAvailableFolders(int var1, PictureStoreProviderListener var2);
 
-    default public void setFilterFolderName(int n, String string) {
-    }
+    public void setFilterFolderName(int var1, String var2);
 
-    default public void countPicturesInContext(int n, int n2, PictureStoreProviderListener pictureStoreProviderListener) {
-    }
+    public void countPicturesInContext(int var1, int var2, PictureStoreProviderListener var3);
 }
 

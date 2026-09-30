@@ -45,7 +45,7 @@ implements TimerListener {
     private LockingBitLogger(IFrameworkAccess iFrameworkAccess) {
         this.fw = iFrameworkAccess;
         this.log = iFrameworkAccess.getLogChannel("App.System.Locking");
-        this.reoccuringLogTimer = new Timer("WriteLockingBitsToLogTimer", 0, false, this);
+        this.reoccuringLogTimer = new Timer("WriteLockingBitsToLogTimer", 60000L, false, this);
         this.reoccuringLogTimer.start();
     }
 
@@ -53,21 +53,19 @@ implements TimerListener {
         this.reoccuringLogTimer.cancel();
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer.equals(this.reoccuringLogTimer)) {
             this.writeToLog();
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
     private void writeToLog() {
-        byte[] byArray = this.fw.getStorageMgr().getByteArray(-536825343, 105, new byte[0]);
+        byte[] byArray = this.fw.getStorageMgr().getByteArray(28442848, 105, new byte[0]);
         if (byArray == null || byArray.length == 0) {
-            this.log.log(-2137614336, "LockingBitLogger#writeToLog() - No locking bits defined in persistence (Persistence response was null or empty).");
+            this.log.log(10000000, "LockingBitLogger#writeToLog() - No locking bits defined in persistence (Persistence response was null or empty).");
             return;
         }
         int[] nArray = this.convertByteArrayToBitStream(byArray);
@@ -82,7 +80,7 @@ implements TimerListener {
                 stringBuffer.append(", ");
             }
             stringBuffer.append("]");
-            this.log.log(-2137614336, "LockingBitLogger#writeToLog() - %1: %2", (Object)string, (Object)stringBuffer.toString());
+            this.log.log(10000000, "LockingBitLogger#writeToLog() - %1: %2", (Object)string, (Object)stringBuffer.toString());
         }
     }
 

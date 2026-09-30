@@ -9,36 +9,27 @@ import java.util.LinkedList;
 
 public interface TextEditorModelApp
 extends HMIModelApp {
-    public static final int MODE_HAPTIC;
-    public static final int MODE_LINGUISTIC;
-    public static final int COMMAND_NEW;
-    public static final int COMMAND_DELETE;
+    public static final int MODE_HAPTIC = 0;
+    public static final int MODE_LINGUISTIC = 1;
+    public static final int COMMAND_NEW = 1;
+    public static final int COMMAND_DELETE = 2;
 
-    default public void setTextArray(String[][] stringArray) {
-    }
+    public void setTextArray(String[][] var1);
 
-    default public String[][] getTextArray() {
-    }
+    public String[][] getTextArray();
 
-    default public void setText(LinkedList linkedList) {
-    }
+    public void setText(LinkedList var1);
 
-    default public LinkedList getText() {
-    }
+    public LinkedList getText();
 
-    default public void setListener(TextEditorListener textEditorListener) {
-    }
+    public void setListener(TextEditorListener var1);
 
-    default public void setDictationMode(int n) {
-    }
+    public void setDictationMode(int var1);
 
-    default public int getDictationMode() {
-    }
+    public int getDictationMode();
 
-    default public void setMaxLength(int n) {
-    }
+    public void setMaxLength(int var1);
 
-    default public int getMaxLength() {
-    }
+    public int getMaxLength();
 }
 

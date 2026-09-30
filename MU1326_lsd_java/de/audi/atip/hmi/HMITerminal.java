@@ -15,71 +15,56 @@ import de.audi.atip.hmi.view.ScreenCache;
 import de.audi.atip.interapp.tts.TTSSessionBasedService;
 
 public interface HMITerminal {
-    public static final int UNDEFINED;
-    public static final int ALL;
-    public static final int MAIN;
-    public static final int CLUSTER;
-    public static final int FRONT_PASSENGER;
-    public static final int REAR_SEAT_LEFT;
-    public static final int REAR_SEAT_RIGHT;
-    public static final int REAR_SEAT_JOINT;
-    public static final int SPEECH;
-    public static final int MAIN_SIDECONTEXT;
-    public static final int MAX_TERMINALS;
-    public static final int SUBTERMINAL_NONE;
-    public static final int SUBTERMINAL_ENTERTAINMENT;
-    public static final int SUBTERMINAL_PHONE;
-    public static final int SUBTERMINAL_NAVI;
-    public static final int MAX_SUBTERMINALS;
-    public static final long STATE_ACTIVE;
-    public static final long STATE_NOT_ACTIVE;
-    public static final long STATE_ACTIVE_NO_SWAPPING;
-    public static final long STATE_REAR_SEAT_LEFT_JOINT;
-    public static final long STATE_REAR_SEAT_RIGHT_JOINT;
+    public static final int UNDEFINED = -2;
+    public static final int ALL = -1;
+    public static final int MAIN = 0;
+    public static final int CLUSTER = 1;
+    public static final int FRONT_PASSENGER = 2;
+    public static final int REAR_SEAT_LEFT = 3;
+    public static final int REAR_SEAT_RIGHT = 4;
+    public static final int REAR_SEAT_JOINT = 5;
+    public static final int SPEECH = 6;
+    public static final int MAIN_SIDECONTEXT = 7;
+    public static final int MAX_TERMINALS = 8;
+    public static final int SUBTERMINAL_NONE = 0;
+    public static final int SUBTERMINAL_ENTERTAINMENT = 1;
+    public static final int SUBTERMINAL_PHONE = 2;
+    public static final int SUBTERMINAL_NAVI = 3;
+    public static final int MAX_SUBTERMINALS = 4;
+    public static final long STATE_ACTIVE = 1L;
+    public static final long STATE_NOT_ACTIVE = 2L;
+    public static final long STATE_ACTIVE_NO_SWAPPING = 4L;
+    public static final long STATE_REAR_SEAT_LEFT_JOINT = 8L;
+    public static final long STATE_REAR_SEAT_RIGHT_JOINT = 16L;
 
-    default public IAnimationController getIAnimationController() {
-    }
+    public IAnimationController getIAnimationController();
 
-    default public void start() {
-    }
+    public void start();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public int getTerminalID() {
-    }
+    public int getTerminalID();
 
-    default public boolean isStarted() {
-    }
+    public boolean isStarted();
 
-    default public IGUIManager getGUIManager() {
-    }
+    public IGUIManager getGUIManager();
 
-    default public IImageLoader getImageLoader() {
-    }
+    public IImageLoader getImageLoader();
 
-    default public ScreenCache getScreenCache() {
-    }
+    public ScreenCache getScreenCache();
 
-    default public IPartialPopupManager getPartialPopupManager() {
-    }
+    public IPartialPopupManager getPartialPopupManager();
 
-    default public IStatistics getStatistics() {
-    }
+    public IStatistics getStatistics();
 
-    default public void setFocus(boolean bl) {
-    }
+    public void setFocus(boolean var1);
 
-    default public void setTTSService(TTSSessionBasedService tTSSessionBasedService) {
-    }
+    public void setTTSService(TTSSessionBasedService var1);
 
-    default public ITTSHandler getTTSHandler() {
-    }
+    public ITTSHandler getTTSHandler();
 
-    default public ITouchInputManager getTouchInputManager() {
-    }
+    public ITouchInputManager getTouchInputManager();
 
-    default public KbdService getKbdService() {
-    }
+    public KbdService getKbdService();
 }
 

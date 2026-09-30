@@ -7,16 +7,12 @@ import org.dsi.ifc.networking.DSIWLANListener;
 import org.dsi.ifc.networking.DiscoveredNetwork;
 
 public interface IConnection {
-    default public void connectNetwork(DiscoveredNetwork discoveredNetwork) {
-    }
+    public void connectNetwork(DiscoveredNetwork var1);
 
-    default public void connectNetwork(DiscoveredNetwork discoveredNetwork, DSIWLANListener dSIWLANListener) {
-    }
+    public void connectNetwork(DiscoveredNetwork var1, DSIWLANListener var2);
 
-    default public void disconnectNetwork(String string, String string2) {
-    }
+    public void disconnectNetwork(String var1, String var2);
 
-    default public void disconnectNetwork(String string, String string2, DSIWLANListener dSIWLANListener) {
-    }
+    public void disconnectNetwork(String var1, String var2, DSIWLANListener var3);
 }
 

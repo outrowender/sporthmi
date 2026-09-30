@@ -3,8 +3,6 @@
  */
 package de.audi.atip.interapp.bap.ecall.data;
 
-import de.audi.atip.interapp.bap.ecall.data.MdsTransmissionResult$Builder;
-
 public final class MdsTransmissionResult {
     private final boolean mininumDataSetSentViaSmsSuceeded;
     private final boolean mininumDataSetSentViaSmsFailed;
@@ -15,8 +13,8 @@ public final class MdsTransmissionResult {
     private final boolean dataSentViaInbandModemSuceeded;
     private final boolean dataSentViaInbandModemFailed;
 
-    public static MdsTransmissionResult$Builder builder() {
-        return new MdsTransmissionResult$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private MdsTransmissionResult(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6, boolean bl7, boolean bl8) {
@@ -90,7 +88,7 @@ public final class MdsTransmissionResult {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         MdsTransmissionResult mdsTransmissionResult = (MdsTransmissionResult)object;
@@ -120,6 +118,71 @@ public final class MdsTransmissionResult {
 
     public String toString() {
         return new StringBuffer().append("MdsTransmissionResult [mininumDataSetSentViaSmsSuceeded=").append(this.mininumDataSetSentViaSmsSuceeded).append(", mininumDataSetSentViaSmsFailed=").append(this.mininumDataSetSentViaSmsFailed).append(", mininumDataSetReceptionAcknowledgedSuceeded=").append(this.mininumDataSetReceptionAcknowledgedSuceeded).append(", mininumDataSetReceptionAcknowledgedFailed=").append(this.mininumDataSetReceptionAcknowledgedFailed).append(", dataSentViaInternetProtocolSuceeded=").append(this.dataSentViaInternetProtocolSuceeded).append(", dataSentViaInternetProtocolFailed=").append(this.dataSentViaInternetProtocolFailed).append(", dataSentViaInbandModemSuceeded=").append(this.dataSentViaInbandModemSuceeded).append(", dataSentViaInbandModemFailed=").append(this.dataSentViaInbandModemFailed).append("]").toString();
+    }
+
+    public static final class Result {
+        public static final int UNKNOWN = 0;
+        public static final int OK = 1;
+        public static final int FAILED = 2;
+
+        private Result() {
+            throw new AssertionError((Object)"MdsTransmissionResult.Result is not intended to be instantiated.");
+        }
+    }
+
+    public static final class Builder {
+        private boolean mininumDataSetSentViaSmsSuceeded;
+        private boolean mininumDataSetSentViaSmsFailed;
+        private boolean mininumDataSetReceptionAcknowledgedSuceeded;
+        private boolean mininumDataSetReceptionAcknowledgedFailed;
+        private boolean dataSentViaInternetProtocolSuceeded;
+        private boolean dataSentViaInternetProtocolFailed;
+        private boolean dataSentViaInbandModemSuceeded;
+        private boolean dataSentViaInbandModemFailed;
+
+        public Builder setMininumDataSetSentViaSmsSuceeded(boolean bl) {
+            this.mininumDataSetSentViaSmsSuceeded = bl;
+            return this;
+        }
+
+        public Builder setMininumDataSetSentViaSmsFailed(boolean bl) {
+            this.mininumDataSetSentViaSmsFailed = bl;
+            return this;
+        }
+
+        public Builder setMininumDataSetReceptionAcknowledgedSuceeded(boolean bl) {
+            this.mininumDataSetReceptionAcknowledgedSuceeded = bl;
+            return this;
+        }
+
+        public Builder setMininumDataSetReceptionAcknowledgedFailed(boolean bl) {
+            this.mininumDataSetReceptionAcknowledgedFailed = bl;
+            return this;
+        }
+
+        public Builder setMininumDataSetSentViaInternetProtocolSuceeded(boolean bl) {
+            this.dataSentViaInternetProtocolSuceeded = bl;
+            return this;
+        }
+
+        public Builder setMininumDataSetSentViaInternetProtocolFailed(boolean bl) {
+            this.dataSentViaInternetProtocolFailed = bl;
+            return this;
+        }
+
+        public Builder setMininumDataSetSentViaInbandModemSuceeded(boolean bl) {
+            this.dataSentViaInbandModemSuceeded = bl;
+            return this;
+        }
+
+        public Builder setMininumDataSetSentViaInbandModemFailed(boolean bl) {
+            this.dataSentViaInbandModemFailed = bl;
+            return this;
+        }
+
+        public MdsTransmissionResult build() {
+            return new MdsTransmissionResult(this.mininumDataSetSentViaSmsSuceeded, this.mininumDataSetSentViaSmsFailed, this.mininumDataSetReceptionAcknowledgedSuceeded, this.mininumDataSetReceptionAcknowledgedFailed, this.dataSentViaInternetProtocolSuceeded, this.dataSentViaInternetProtocolFailed, this.dataSentViaInbandModemSuceeded, this.dataSentViaInbandModemFailed);
+        }
     }
 }
 

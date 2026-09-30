@@ -73,15 +73,15 @@ extends AbstractTpegPOIManager {
     }
 
     private void initCategoryScreenListener() {
-        int n = -1860041216;
-        int n2 = -1826486784;
+        int n = 402065;
+        int n2 = 402067;
         TpegPOICategoryScreenModelAccess tpegPOICategoryScreenModelAccess = new TpegPOICategoryScreenModelAccess(this.env, n, n2);
         TpegPOICategoryListSequence tpegPOICategoryListSequence = new TpegPOICategoryListSequence(this.env, this.commandListFactory, tpegPOICategoryScreenModelAccess, this.spellerStack, this.vehicle);
         this.categoryScreenListener = new TpegPOICategoryScreenListener(this.env, this.previewMap, tpegPOICategoryListSequence, this, n);
     }
 
     private void initResultListScreenListener() {
-        int n = -1809709568;
+        int n = 402068;
         TpegPOIResultListScreenModelAccess tpegPOIResultListScreenModelAccess = new TpegPOIResultListScreenModelAccess(this.env, n, this.iconHandler, this.vehicle, this.routeManager);
         TpegPOIResultListSequence tpegPOIResultListSequence = new TpegPOIResultListSequence(this.env, this.commandListFactory, tpegPOIResultListScreenModelAccess, this.spellerStack, this.startGuidanceSequence, this.previewMap);
         this.resultListScreenListener = new TpegPOIResultListScreenListener(this.env, tpegPOIResultListSequence, n, this.homeAddressHandler);
@@ -89,13 +89,13 @@ extends AbstractTpegPOIManager {
 
     private void initRightDrawerListener() {
         TpegPOIRightDrawerSequence tpegPOIRightDrawerSequence = new TpegPOIRightDrawerSequence(this.env, this.commandListFactory, this.spellerStack, this.poiService, this.detailsHMIListener);
-        this.rightDrawerListener = new TpegPOIRightDrawerListener(this.env, this.commandListFactory, this.naviFavoriteHandler, this.mapInterface, this.navAdbHandler, this.telService, tpegPOIRightDrawerSequence, -1809709568);
+        this.rightDrawerListener = new TpegPOIRightDrawerListener(this.env, this.commandListFactory, this.naviFavoriteHandler, this.mapInterface, this.navAdbHandler, this.telService, tpegPOIRightDrawerSequence, 402068);
     }
 
     private void initAdditionalInfoScreenListener() {
         TpegPoiAdditionInfoScreenModelAccess tpegPoiAdditionInfoScreenModelAccess = new TpegPoiAdditionInfoScreenModelAccess(this.env);
         TpegPOIDetailSequence tpegPOIDetailSequence = new TpegPOIDetailSequence(this.env, this.commandListFactory, this.spellerStack, this.previewMap, tpegPoiAdditionInfoScreenModelAccess);
-        this.additionalInfoScreenListener = new TpegPOIAdditionalInfoScreenListener(this.env, tpegPOIDetailSequence, -1876752896);
+        this.additionalInfoScreenListener = new TpegPOIAdditionalInfoScreenListener(this.env, tpegPOIDetailSequence, 402320);
     }
 
     public TpegPOICategoryScreenListener getCategoryScreenListener() {

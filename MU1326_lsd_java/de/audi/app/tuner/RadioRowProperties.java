@@ -6,9 +6,9 @@ package de.audi.app.tuner;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 
 public class RadioRowProperties {
-    public static final int SEEK_POSSIBILITY_NO;
-    public static final int SEEK_POSSIBILITY_YES;
-    public static final int SEEK_POSSIBILITY_ALREADY;
+    public static final int SEEK_POSSIBILITY_NO = 0;
+    public static final int SEEK_POSSIBILITY_YES = 1;
+    public static final int SEEK_POSSIBILITY_ALREADY = 2;
     private final SimpleIntIntMap props = new SimpleIntIntMap(20);
     private int category;
 
@@ -22,99 +22,99 @@ public class RadioRowProperties {
 
     public void setActive(boolean bl) {
         if (bl) {
-            this.props.add(1283849002, 42);
+            this.props.add(721126732, 42);
         } else {
-            this.props.remove(1283849002);
+            this.props.remove(721126732);
         }
     }
 
     public boolean isActive() {
-        return this.props.get(1283849002) != -1;
+        return this.props.get(721126732) != -1;
     }
 
     public void setNoRadioText(boolean bl) {
         if (bl) {
-            this.props.add(588765362, 42);
+            this.props.add(-1294461149, 42);
         } else {
-            this.props.remove(588765362);
+            this.props.remove(-1294461149);
         }
     }
 
     public void setScrollingPS(boolean bl) {
         if (bl) {
-            this.props.add(750231414, 42);
+            this.props.add(1990178604, 42);
         } else {
-            this.props.remove(750231414);
+            this.props.remove(1990178604);
         }
     }
 
     public void setTaggingInfosAvailable(boolean bl) {
         if (bl) {
-            this.props.add(-506411064, 42);
+            this.props.add(-926428959, 42);
         } else {
-            this.props.remove(-506411064);
+            this.props.remove(-926428959);
         }
     }
 
     public void setSongSeekPossible(int n) {
-        this.props.remove(-572310455);
-        this.props.remove(2072125149);
+        this.props.remove(1228727261);
+        this.props.remove(-585203077);
         switch (n) {
             case 2: {
-                this.props.add(2072125149, 42);
-                this.props.add(-572310455, 42);
+                this.props.add(-585203077, 42);
+                this.props.add(1228727261, 42);
                 break;
             }
             case 1: {
-                this.props.add(-572310455, 42);
+                this.props.add(1228727261, 42);
                 break;
             }
         }
     }
 
     public void setArtistSeekPossible(int n) {
-        this.props.remove(-227001526);
-        this.props.remove(1105542723);
+        this.props.remove(1245411570);
+        this.props.remove(1128195393);
         switch (n) {
             case 2: {
-                this.props.add(1105542723, 42);
-                this.props.add(-227001526, 42);
+                this.props.add(1128195393, 42);
+                this.props.add(1245411570, 42);
                 break;
             }
             case 1: {
-                this.props.add(-227001526, 42);
+                this.props.add(1245411570, 42);
                 break;
             }
         }
     }
 
     public void setTeam1SeekPossible(int n) {
-        this.props.remove(-742342830);
-        this.props.remove(-1147141149);
+        this.props.remove(1388298451);
+        this.props.remove(-486301509);
         switch (n) {
             case 2: {
-                this.props.add(-1147141149, 42);
-                this.props.add(-742342830, 42);
+                this.props.add(-486301509, 42);
+                this.props.add(1388298451, 42);
                 break;
             }
             case 1: {
-                this.props.add(-742342830, 42);
+                this.props.add(1388298451, 42);
                 break;
             }
         }
     }
 
     public void setTeam2SeekPossible(int n) {
-        this.props.remove(-314225761);
-        this.props.remove(96563711);
+        this.props.remove(-1622456851);
+        this.props.remove(-9322235);
         switch (n) {
             case 2: {
-                this.props.add(96563711, 42);
-                this.props.add(-314225761, 42);
+                this.props.add(-9322235, 42);
+                this.props.add(-1622456851, 42);
                 break;
             }
             case 1: {
-                this.props.add(-314225761, 42);
+                this.props.add(-1622456851, 42);
                 break;
             }
         }
@@ -122,17 +122,17 @@ public class RadioRowProperties {
 
     public void setNoSlideShow(boolean bl) {
         if (bl) {
-            this.props.add(-1224426877, 42);
+            this.props.add(-2084961097, 42);
         } else {
-            this.props.remove(-1224426877);
+            this.props.remove(-2084961097);
         }
     }
 
     public void setNameFreezed(boolean bl) {
         if (bl) {
-            this.props.add(-1055934063, 42);
+            this.props.add(-1850142783, 42);
         } else {
-            this.props.remove(-1055934063);
+            this.props.remove(-1850142783);
         }
     }
 

@@ -38,9 +38,8 @@ import de.audi.atip.hmi.HMIService;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.hmi.modelaccess.TextEditorModelDDApp;
-import de.audi.atip.interapp.ADBSDSService$EmailAddressDetails;
+import de.audi.atip.interapp.ADBSDSService;
 import de.audi.atip.interapp.IMessagingDictationService;
-import de.audi.atip.interapp.IMessagingDictationService$CompositionState;
 import de.audi.atip.interapp.IMessagingDictationServiceListener;
 import de.audi.atip.interapp.def.NullMessagingDictationService;
 import de.audi.atip.log.LogChannel;
@@ -54,7 +53,7 @@ extends AbstractSDSApplication
 implements MessageDictationHandler,
 IMessagingDictationServiceListener,
 IDsiDictationAdapterListener {
-    private static final int[] commands = new int[]{-919863040, -936640256, -903085824, -752090880, -869531392, -802422528, -785645312, -768868096, -115080960, -47972096, -886308608};
+    private static final int[] commands = new int[]{77001, 77000, 77002, 77011, 77004, 77008, 77009, 77010, 75001, 75005, 77003};
     private LogChannel lc = Logger.getAppDictationLog();
     private IMessagingDictationService messagingService = new NullMessagingDictationService(this.lc);
     private ITelServiceSDS phoneService = new NullITelServiceSDS(this.lc);
@@ -70,11 +69,11 @@ IDsiDictationAdapterListener {
     private EditorModelListener subjectListener;
     private ChoiceModelApp messageTypeModel = null;
     private int currentDictationStep;
-    private IMessagingDictationService$CompositionState currentCompositionState;
+    private IMessagingDictationService.CompositionState currentCompositionState;
     private boolean dictationRunning;
     private DictationService dictationService;
     private IDynamicLists dynamicLists;
-    private ADBSDSService$EmailAddressDetails emailAddressDetails;
+    private ADBSDSService.EmailAddressDetails emailAddressDetails;
 
     public MessageDictationHandlerImpl(SDSHandlerService sDSHandlerService, SDSAppFactory sDSAppFactory, NBestStorageAccess nBestStorageAccess, ISDSPopupHelper iSDSPopupHelper, DictationService dictationService, HMIService hMIService, IDynamicLists iDynamicLists) {
         super(sDSHandlerService, nBestStorageAccess);
@@ -89,73 +88,71 @@ IDsiDictationAdapterListener {
             this.dictationAdapter = dictationService.getDsiDictationAdapter();
             this.dictationAdapter.addListener(this);
         }
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl initialized.");
+        this.lc.log(10000000, "MessageDictationHandlerImpl initialized.");
     }
 
-    @Override
     public int[] getCommands() {
         return commands;
     }
 
-    @Override
     public void processCommand(int n, ISystemCallParameter[] iSystemCallParameterArray) {
         String string = SDSManagerBaseActivator.getSystemCallNames().getName(n);
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)string);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)string);
         CommandList commandList = new CommandList(SDSManagerBaseActivator.getSysCallCmdListManager());
         switch (n) {
             case 77001: {
                 commandList.add(new MsgClearRecipientCommand(this.lc, string, this.sdsHandlerService, this.messagingService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 77000: {
                 commandList.add(new MsgDictateActivateCommand(this.lc, string, this.sdsHandlerService, this.dictationAdapter, this));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 77002: {
                 commandList.add(new MsgDictateDeleteCommand(this.lc, string, this.sdsHandlerService, this, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 77011: {
                 commandList.add(new MsgDictateDialogStepSetCommand(this.lc, string, this.sdsHandlerService, this, this.messagingService, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 77004: {
                 commandList.add(new MsgDictateFinishCommmand(this.lc, string, this.sdsHandlerService, this.messagingService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 77003: {
                 commandList.add(new MsgDictatePrepareCommand(this.lc, string, this.sdsHandlerService, this, this.messagingService, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 77008: {
                 commandList.add(new MsgDictateStartCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this, this.dictationAdapter, this.sdsPopupHelper));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 77009: {
                 commandList.add(new MsgDictateStopCommand(this.lc, string, this.sdsHandlerService, this, this.dictationAdapter, this.sdsPopupHelper));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 77010: {
                 commandList.add(new MsgDictateVoiceDataAvailableCommand(this.lc, string, this.sdsHandlerService, this, this.dictationAdapter, this.sdsPopupHelper));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 75001: {
                 commandList.add(new MsgAddRecipientCommand(this.lc, string, this.sdsHandlerService, this.messagingService, this, this.phoneService, this.factory, this.nBestStorage, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 75005: {
                 commandList.add(new MsgSendCommand(this.lc, string, this.sdsHandlerService, this.messagingService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             default: {
@@ -164,35 +161,31 @@ IDsiDictationAdapterListener {
         }
     }
 
-    @Override
     public boolean freezeLists() {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#freezeLists: called");
+        this.lc.log(10000000, "MessageDictationHandlerImpl#freezeLists: called");
         return this.messagingService.freezeDynamicLists() == 0;
     }
 
-    @Override
     public boolean unfreezeLists() {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#unfreezeLists: called");
+        this.lc.log(10000000, "MessageDictationHandlerImpl#unfreezeLists: called");
         return this.messagingService.unfreezeDynamicLists() == 0;
     }
 
-    @Override
     public boolean ignoreJoystick() {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#ignoreJoystick: bodyEditor=%1, subjectEditor=%2.", (Object)(this.bodyEditor == null ? "null" : "not null"), (Object)(this.subjectEditor == null ? "null" : "not null"));
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#ignoreJoystick: bodyEditor.areAlternativesOpen=%1, subjectEditor.areAlternativesOpen=%2.", (Object)(this.bodyEditor == null ? "null" : Boolean.toString(this.bodyEditor.areAlternativesOpen())), (Object)(this.subjectEditor == null ? "null" : Boolean.toString(this.subjectEditor.areAlternativesOpen())));
+        this.lc.log(10000000, "MessageDictationHandlerImpl#ignoreJoystick: bodyEditor=%1, subjectEditor=%2.", (Object)(this.bodyEditor == null ? "null" : "not null"), (Object)(this.subjectEditor == null ? "null" : "not null"));
+        this.lc.log(10000000, "MessageDictationHandlerImpl#ignoreJoystick: bodyEditor.areAlternativesOpen=%1, subjectEditor.areAlternativesOpen=%2.", (Object)(this.bodyEditor == null ? "null" : Boolean.toString(this.bodyEditor.areAlternativesOpen())), (Object)(this.subjectEditor == null ? "null" : Boolean.toString(this.subjectEditor.areAlternativesOpen())));
         if (this.bodyEditor == null || this.subjectEditor == null) {
             return false;
         }
         return this.bodyEditor.areAlternativesOpen() || this.subjectEditor.areAlternativesOpen();
     }
 
-    @Override
     public void setMessagingDictationService(IMessagingDictationService iMessagingDictationService) {
         if (iMessagingDictationService == null) {
             return;
         }
         this.messagingService = iMessagingDictationService;
-        this.messageTypeModel = this.hmi.getChoiceModel(-1181540096);
+        this.messageTypeModel = this.hmi.getChoiceModel(2200505);
         if (this.bodyEditor == null) {
             TextEditorModelDDApp textEditorModelDDApp = this.messagingService.getBodyEditorModel();
             TextEditorModelDDApp textEditorModelDDApp2 = this.messagingService.getSubjectEditorModel();
@@ -205,17 +198,14 @@ IDsiDictationAdapterListener {
         }
     }
 
-    @Override
     public IMessagingDictationService getMessagingDictationService() {
         return this.messagingService;
     }
 
-    @Override
     public void unsetMessagingDictationService() {
         this.messagingService = new NullMessagingDictationService(this.lc);
     }
 
-    @Override
     public void setPhoneService(ITelServiceSDS iTelServiceSDS) {
         if (iTelServiceSDS == null) {
             return;
@@ -223,14 +213,12 @@ IDsiDictationAdapterListener {
         this.phoneService = iTelServiceSDS;
     }
 
-    @Override
     public void unsetPhoneService() {
         this.phoneService = new NullITelServiceSDS(this.lc);
     }
 
-    @Override
     public void clearBody() {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#clearBody() called");
+        this.lc.log(10000000, "MessageDictationHandlerImpl#clearBody() called");
         if (this.bodyEditor != null) {
             this.bodyEditor.clearText();
             this.messagingService.indicateBodyEditorModelWrite();
@@ -238,9 +226,8 @@ IDsiDictationAdapterListener {
         }
     }
 
-    @Override
     public void clearSubject() {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#clearSubject() called");
+        this.lc.log(10000000, "MessageDictationHandlerImpl#clearSubject() called");
         if (this.subjectEditor != null) {
             this.subjectEditor.clearText();
             this.messagingService.indicateSubjectEditorModelWrite();
@@ -248,9 +235,8 @@ IDsiDictationAdapterListener {
         }
     }
 
-    @Override
     public void handleDictationResult(LinkedList linkedList) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#handleDictationResult, currentDictationStep=%1", (long)this.currentDictationStep);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#handleDictationResult, currentDictationStep=%1", (long)this.currentDictationStep);
         String string = "";
         try {
             string = SDSUtils.convertToString(linkedList);
@@ -305,18 +291,17 @@ IDsiDictationAdapterListener {
                 break;
             }
             default: {
-                this.lc.log(-1601830656, "MessageDictationHandlerImpl#handleDictationResult, dictation step not handled -> NOP");
+                this.lc.log(100000, "MessageDictationHandlerImpl#handleDictationResult, dictation step not handled -> NOP");
             }
         }
     }
 
-    @Override
     public void undoLastInsertion() {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#undoLastInsertion, lastDictationStep=%1", (long)this.currentDictationStep);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#undoLastInsertion, lastDictationStep=%1", (long)this.currentDictationStep);
         switch (this.currentDictationStep) {
             case 0: 
             case 4: {
-                this.lc.log(-2137614336, "MessageDictationHandlerImpl#undoLastInsertion for body");
+                this.lc.log(10000000, "MessageDictationHandlerImpl#undoLastInsertion for body");
                 if (this.bodyEditor.undoLastInsertion()) {
                     SDSModelAccess.setMsgTextChangedChoiceModel(1);
                     this.messagingService.indicateBodyEditorModelWrite();
@@ -328,7 +313,7 @@ IDsiDictationAdapterListener {
             }
             case 1: 
             case 3: {
-                this.lc.log(-2137614336, "MessageDictationHandlerImpl#undoLastInsertion for subject");
+                this.lc.log(10000000, "MessageDictationHandlerImpl#undoLastInsertion for subject");
                 if (this.subjectEditor.undoLastInsertion()) {
                     SDSModelAccess.setMsgTextChangedChoiceModel(1);
                     this.messagingService.indicateSubjectEditorModelWrite();
@@ -340,71 +325,61 @@ IDsiDictationAdapterListener {
             }
             case 2: 
             case 5: {
-                this.lc.log(-2137614336, "MessageDictationHandlerImpl#undoLastInsertion, last dictation step replacement -> NOP");
+                this.lc.log(10000000, "MessageDictationHandlerImpl#undoLastInsertion, last dictation step replacement -> NOP");
                 break;
             }
             default: {
-                this.lc.log(-1601830656, "MessageDictationHandlerImpl#undoLastInsertion, dictation step not handled -> NOP");
+                this.lc.log(100000, "MessageDictationHandlerImpl#undoLastInsertion, dictation step not handled -> NOP");
             }
         }
     }
 
-    @Override
     public void positionBodyCursor(int n) {
         this.bodyEditor.positionCursor(n);
     }
 
-    @Override
     public void positionSubjectCursor(int n) {
         this.subjectEditor.positionCursor(n);
     }
 
-    @Override
     public void responseSetLanguage(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseSetLanguage: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseSetLanguage: result=%1", (long)n);
     }
 
-    @Override
     public void responseSetFallbackLanguage(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseSetFallbackLanguage: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseSetFallbackLanguage: result=%1", (long)n);
     }
 
-    @Override
     public void responseSetUserId(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseSetFallbackLanguage: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseSetFallbackLanguage: result=%1", (long)n);
     }
 
-    @Override
     public void responseProcessVoiceData(int n, LinkedList linkedList) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseProcessVoiceData: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseProcessVoiceData: result=%1", (long)n);
         if (this.isStopRequested()) {
-            this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseProcessVoiceData: Dictation stop requested => NOP!");
+            this.lc.log(100000, "MessageDictationHandlerImpl#responseProcessVoiceData: Dictation stop requested => NOP!");
             return;
         }
         if (SDSUtils.getActiveSystemCall() instanceof MsgDictateVoiceDataAvailableCommand) {
             ((MsgDictateVoiceDataAvailableCommand)SDSUtils.getActiveSystemCall()).responseProcessVoiceData(n, linkedList);
             return;
         }
-        this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseProcessVoiceData: Active systemcall is not MsgDictateVoiceDataAvailableCommand => NOP!");
+        this.lc.log(100000, "MessageDictationHandlerImpl#responseProcessVoiceData: Active systemcall is not MsgDictateVoiceDataAvailableCommand => NOP!");
     }
 
-    @Override
     public void updateLanguage(String string, String string2) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#updateLanguage: language=%1, fallbackLanguage=%2", (Object)string, (Object)string2);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#updateLanguage: language=%1, fallbackLanguage=%2", (Object)string, (Object)string2);
     }
 
-    @Override
     public void updateUserId(String string) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#updateUserId: userId=%1", (Object)string);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#updateUserId: userId=%1", (Object)string);
     }
 
-    @Override
     public void updateActivationState(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#updateActivationState: activationState=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#updateActivationState: activationState=%1", (long)n);
         this.setActivationState(n);
     }
 
-    @Override
     public int getActivationState() {
         return this.activationState;
     }
@@ -413,19 +388,16 @@ IDsiDictationAdapterListener {
         this.activationState = n;
     }
 
-    @Override
     public void updateServiceProviderInfo(ServiceProviderInfo serviceProviderInfo) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#updateActivationState: serviceProviderInfo=%1", (Object)serviceProviderInfo);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#updateActivationState: serviceProviderInfo=%1", (Object)serviceProviderInfo);
     }
 
-    @Override
     public void updateDsiAvailability(boolean bl) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#updateDsiAvailability: dsiAvailable=%1", bl);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#updateDsiAvailability: dsiAvailable=%1", bl);
     }
 
-    @Override
     public void responseActivateDictation(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseActivateDictation: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseActivateDictation: result=%1", (long)n);
         try {
             ((MsgDictateActivateCommand)SDSUtils.getActiveSystemCall()).responseActivateDictation(n);
         }
@@ -433,15 +405,14 @@ IDsiDictationAdapterListener {
             this.lc.log(10000, "MessageDictationHandlerImpl#responseActivateDictation: Active command is no MsgDictateActivateCommand!");
         }
         catch (NullPointerException nullPointerException) {
-            this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseActivateDictation: NullpointerException. No active command!");
+            this.lc.log(100000, "MessageDictationHandlerImpl#responseActivateDictation: NullpointerException. No active command!");
         }
     }
 
-    @Override
     public void responseStartDictation(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseStartDictation: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseStartDictation: result=%1", (long)n);
         if (this.isStopRequested()) {
-            this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseStartDictation: Dictation stop requested => NOP!");
+            this.lc.log(100000, "MessageDictationHandlerImpl#responseStartDictation: Dictation stop requested => NOP!");
             return;
         }
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
@@ -458,9 +429,8 @@ IDsiDictationAdapterListener {
         }
     }
 
-    @Override
     public void responseStopDictation(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseStopDictation: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseStopDictation: result=%1", (long)n);
         try {
             ((MsgDictateStopCommand)SDSUtils.getActiveSystemCall()).responseStopDictation(n);
         }
@@ -468,13 +438,12 @@ IDsiDictationAdapterListener {
             this.lc.log(10000, "MessageDictationHandlerImpl#responseStopDictation: Active command is no MsgDictateDeleteCommand!");
         }
         catch (NullPointerException nullPointerException) {
-            this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseStopDictation: NullpointerException. No active command!");
+            this.lc.log(100000, "MessageDictationHandlerImpl#responseStopDictation: NullpointerException. No active command!");
         }
     }
 
-    @Override
     public void responseSendMessage(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseSendMessage: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseSendMessage: result=%1", (long)n);
         try {
             ((MsgSendCommand)SDSUtils.getActiveSystemCall()).responseSendMessage(n);
         }
@@ -482,18 +451,17 @@ IDsiDictationAdapterListener {
             this.lc.log(10000, "MessageDictationHandlerImpl#responseSendMessage: Active command is no MsgSendCommand!");
         }
         catch (NullPointerException nullPointerException) {
-            this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseClearBody: NullpointerException. No active command!");
+            this.lc.log(100000, "MessageDictationHandlerImpl#responseClearBody: NullpointerException. No active command!");
         }
     }
 
     private boolean isStopRequested() {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#isStopRequested: stopRequested=%1", this.stopRequested);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#isStopRequested: stopRequested=%1", this.stopRequested);
         return this.stopRequested;
     }
 
-    @Override
     public void setStopRequested(boolean bl) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#setStopRequested: value=%1", bl);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#setStopRequested: value=%1", bl);
         this.stopRequested = bl;
     }
 
@@ -501,9 +469,8 @@ IDsiDictationAdapterListener {
         return "MessageDictationHandlerImpl";
     }
 
-    @Override
     public void responseBeginDialog(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseBeginDialog: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseBeginDialog: result=%1", (long)n);
         try {
             ((MsgDictatePrepareCommand)SDSUtils.getActiveSystemCall()).responseBeginDialog(n);
         }
@@ -511,13 +478,12 @@ IDsiDictationAdapterListener {
             this.lc.log(10000, "MessageDictationHandlerImpl#responseBeginDialog: Active command is no MsgPrepareDictationCommand!");
         }
         catch (NullPointerException nullPointerException) {
-            this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseBeginDialog: NullpointerException. No active command!");
+            this.lc.log(100000, "MessageDictationHandlerImpl#responseBeginDialog: NullpointerException. No active command!");
         }
     }
 
-    @Override
     public void responseEndDialog(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseEndDialog: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseEndDialog: result=%1", (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof MsgSendCommand) {
             ((MsgSendCommand)abstractSystemCallCommand).responseEndDialog(n);
@@ -528,9 +494,8 @@ IDsiDictationAdapterListener {
         }
     }
 
-    @Override
     public void responseNextDialogStep(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseNextDialogStep: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseNextDialogStep: result=%1", (long)n);
         try {
             ((MsgDictateDialogStepSetCommand)SDSUtils.getActiveSystemCall()).responseNextDialogStep(n);
         }
@@ -538,13 +503,12 @@ IDsiDictationAdapterListener {
             this.lc.log(10000, "MessageDictationHandlerImpl#responseAddRecipient: Active command is no MsgDictateDialogStepSetCommand!");
         }
         catch (NullPointerException nullPointerException) {
-            this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseAddRecipient: NullpointerException. No active command!");
+            this.lc.log(100000, "MessageDictationHandlerImpl#responseAddRecipient: NullpointerException. No active command!");
         }
     }
 
-    @Override
     public void responseAddRecipient(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseAddRecipient: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseAddRecipient: result=%1", (long)n);
         try {
             ((MsgAddRecipientCommand)SDSUtils.getActiveSystemCall()).responseAddRecipient(n);
         }
@@ -552,13 +516,12 @@ IDsiDictationAdapterListener {
             this.lc.log(10000, "MessageDictationHandlerImpl#responseAddRecipient: Active command is no MsgNumberAddCommand!");
         }
         catch (NullPointerException nullPointerException) {
-            this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseAddRecipient: NullpointerException. No active command!");
+            this.lc.log(100000, "MessageDictationHandlerImpl#responseAddRecipient: NullpointerException. No active command!");
         }
     }
 
-    @Override
     public void responseClearRecipients(int n) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#responseClearRecipients: result=%1", (long)n);
+        this.lc.log(10000000, "MessageDictationHandlerImpl#responseClearRecipients: result=%1", (long)n);
         try {
             ((MsgClearRecipientCommand)SDSUtils.getActiveSystemCall()).responseClearRecipients(n);
         }
@@ -566,17 +529,15 @@ IDsiDictationAdapterListener {
             this.lc.log(10000, "MessageDictationHandlerImpl#responseClearRecipients: Active command is no MsgClearRecipientCommand!");
         }
         catch (NullPointerException nullPointerException) {
-            this.lc.log(-1601830656, "MessageDictationHandlerImpl#responseClearRecipients: NullpointerException. No active command!");
+            this.lc.log(100000, "MessageDictationHandlerImpl#responseClearRecipients: NullpointerException. No active command!");
         }
     }
 
-    @Override
-    public void updateCompositionState(IMessagingDictationService$CompositionState iMessagingDictationService$CompositionState) {
-        this.lc.log(-2137614336, "MessageDictationHandlerImpl#updateCompositionState: compositionState=%1", (Object)iMessagingDictationService$CompositionState);
-        this.currentCompositionState = iMessagingDictationService$CompositionState;
+    public void updateCompositionState(IMessagingDictationService.CompositionState compositionState) {
+        this.lc.log(10000000, "MessageDictationHandlerImpl#updateCompositionState: compositionState=%1", (Object)compositionState);
+        this.currentCompositionState = compositionState;
     }
 
-    @Override
     public void evaluateCompositionState() {
         if (this.currentCompositionState == null) {
             return;
@@ -587,21 +548,19 @@ IDsiDictationAdapterListener {
         SDSModelAccess.setMsgTemplatesAvailableModel(this.currentCompositionState.getTemplateCount() > 0 ? 1 : 0);
     }
 
-    @Override
     public void signalStartOfSpeech() {
         if (this.dictationRunning) {
             this.sdsPopupHelper.triggerHapticalPopup(76, true);
             this.sdsPopupHelper.removeFurtherCommandDisplay();
             this.dictationService.getRecognizerStateObserver().indicateStartOfSpeech();
-            this.lc.log(-2137614336, "MessageDictationHandlerImpl#signalStartOfSpeech: send event SDS_ONLINE_RECOG_STARTED");
+            this.lc.log(10000000, "MessageDictationHandlerImpl#signalStartOfSpeech: send event SDS_ONLINE_RECOG_STARTED");
             this.sdsHandlerService.sendEvent(2005);
         }
     }
 
-    @Override
     public void signalEndOfSpeech() {
         if (this.dictationRunning) {
-            this.lc.log(-2137614336, "MessageDictationHandlerImpl#signalEndOfSpeech: show processing popup");
+            this.lc.log(10000000, "MessageDictationHandlerImpl#signalEndOfSpeech: show processing popup");
             this.sdsPopupHelper.triggerHapticalPopup(77, true);
             this.sdsPopupHelper.removeFurtherCommandDisplay();
             this.sdsPopupHelper.triggerHapticalPopup(76, false);
@@ -610,12 +569,10 @@ IDsiDictationAdapterListener {
         }
     }
 
-    @Override
     public void updateEmailList(String[] stringArray) {
         this.dynamicLists.addToLookup(33, new DynamicSlotContent("adb email addresses", stringArray, 0));
     }
 
-    @Override
     public String getCurrentRecipient() {
         if (this.currentCompositionState == null || SDSUtils.isEmpty(this.currentCompositionState.getPrimaryRecipientName())) {
             return SDSModelAccess.getADBEntryNameModel();
@@ -623,32 +580,26 @@ IDsiDictationAdapterListener {
         return this.currentCompositionState.getPrimaryRecipientName();
     }
 
-    @Override
     public void setDictationStep(int n) {
         this.currentDictationStep = n;
     }
 
-    @Override
     public void dictationStarted() {
         this.dictationRunning = true;
     }
 
-    @Override
     public void dictationStopped() {
         this.dictationRunning = false;
     }
 
-    @Override
-    public void setEmailAddressDetails(ADBSDSService$EmailAddressDetails aDBSDSService$EmailAddressDetails) {
-        this.emailAddressDetails = aDBSDSService$EmailAddressDetails;
+    public void setEmailAddressDetails(ADBSDSService.EmailAddressDetails emailAddressDetails) {
+        this.emailAddressDetails = emailAddressDetails;
     }
 
-    @Override
-    public ADBSDSService$EmailAddressDetails getEmailAddressDetails() {
+    public ADBSDSService.EmailAddressDetails getEmailAddressDetails() {
         return this.emailAddressDetails;
     }
 
-    @Override
     public int getMessageType() {
         if (this.messageTypeModel == null) {
             return 0;
@@ -664,7 +615,6 @@ IDsiDictationAdapterListener {
         return 0;
     }
 
-    @Override
     public boolean isDictationRunning() {
         return this.dictationRunning;
     }

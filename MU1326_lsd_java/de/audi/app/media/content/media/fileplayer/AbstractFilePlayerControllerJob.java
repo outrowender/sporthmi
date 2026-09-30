@@ -16,7 +16,6 @@ extends AbstractQueueJob {
         this.name = string;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
@@ -25,12 +24,10 @@ extends AbstractQueueJob {
         return "";
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 

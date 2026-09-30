@@ -28,7 +28,7 @@ TimerListener {
         this.testSupportSession = iTestSupportService.registerDataProvider(this);
         this.testSupportSession.activateMenuEntry(true);
         iOSDDataProvider.setTestSupport(this.testSupportSession);
-        this.updateTimer = bl ? new Timer("TemplateOnscreenStatistics", 0, false, this) : null;
+        this.updateTimer = bl ? new Timer("TemplateOnscreenStatistics", 1000L, false, this) : null;
     }
 
     public void cleanup() {
@@ -46,7 +46,6 @@ TimerListener {
         }
     }
 
-    @Override
     public synchronized void updateStatus(int n) {
         this.visible = n == 2 || n == 3;
         this.updateData();
@@ -59,17 +58,14 @@ TimerListener {
         }
     }
 
-    @Override
     public String getDataProviderName() {
         return this.data.getName();
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         this.updateData();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

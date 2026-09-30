@@ -4,13 +4,10 @@
 package de.audi.app.system.locking;
 
 public interface ILockingEvaluator {
-    default public boolean evaluateSpeedDefinition() {
-    }
+    public boolean evaluateSpeedDefinition();
 
-    default public boolean evaluateNhtsaDefinition() {
-    }
+    public boolean evaluateNhtsaDefinition();
 
-    default public boolean evaluateEngineOffDefinition() {
-    }
+    public boolean evaluateEngineOffDefinition();
 }
 

@@ -23,7 +23,6 @@ implements IAcknowledgeListener {
         this.forceFullRangeUpdate = bl;
     }
 
-    @Override
     public void execute() {
         ArrayHandler arrayHandler = this.receptionListArray.getArrayHandler();
         if (arrayHandler != null) {
@@ -37,10 +36,9 @@ implements IAcknowledgeListener {
         }
     }
 
-    @Override
     public void processAcknowledge(int n, int n2) {
         if (n2 == 4) {
-            this.logger.log(-2137614336, "[CommandReceptionListChangedArray#processAcknowledge] ReceptionList acknowledged");
+            this.logger.log(10000000, "[CommandReceptionListChangedArray#processAcknowledge] ReceptionList acknowledged");
             this.receptionListArray.removeAcknowledgeListener(this);
             this.commandList.commandFinished();
         }

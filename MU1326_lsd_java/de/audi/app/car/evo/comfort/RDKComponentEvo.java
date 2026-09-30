@@ -17,48 +17,43 @@ extends AbstractRDKComponent {
         super(iCarApplication);
     }
 
-    @Override
     public int getID() {
         return 20;
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1109920000, (short)11);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1109920000, 1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1026033920, (short)11);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1042811136, (short)11);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1093142784, (short)11);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600130, (short)11);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600130, 1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600125, (short)11);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600126, (short)11);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600129, (short)11);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1109920000);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1026033920);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1042811136);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1093142784);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600130);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600125);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600126);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600129);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(RDKViewOptions rDKViewOptions) {
         boolean bl;
         boolean bl2 = bl = rDKViewOptions.getConfiguration().getSystem() != 0;
         if (bl) {
-            this.getLogChannel().log(1078071040, "[RDKComponentEvo#updateMenuEntryVisibility] HIGH variant of RDK detected");
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1026033920, this.getMenuEntryVisibilityState(rDKViewOptions.getTireDisplay()));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1042811136, this.getMenuEntryVisibilityState(rDKViewOptions.getPressureChanged()));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1093142784, this.getMenuEntryVisibilityState(rDKViewOptions.getTireChanged()));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1109920000, 1);
+            this.getLogChannel().log(1000000, "[RDKComponentEvo#updateMenuEntryVisibility] HIGH variant of RDK detected");
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600125, this.getMenuEntryVisibilityState(rDKViewOptions.getTireDisplay()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600126, this.getMenuEntryVisibilityState(rDKViewOptions.getPressureChanged()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600129, this.getMenuEntryVisibilityState(rDKViewOptions.getTireChanged()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600130, 1);
         } else {
-            this.getLogChannel().log(1078071040, "[RDKComponentEvo#updateMenuEntryVisibility] LOW variant of RDK detected");
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1026033920, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1042811136, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1093142784, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1109920000, this.getMenuEntryVisibilityState(rDKViewOptions.getPressureChanged()));
+            this.getLogChannel().log(1000000, "[RDKComponentEvo#updateMenuEntryVisibility] LOW variant of RDK detected");
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600125, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600126, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600129, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600130, this.getMenuEntryVisibilityState(rDKViewOptions.getPressureChanged()));
         }
     }
 
-    @Override
     protected synchronized IRDKTireDisplay getRDKTireDisplayInstance() {
         if (this.rdkTireDisplay == null) {
             return new RDKTireDisplay(this.getLogChannel(), this.getApplication().getFrameworkAccess());
@@ -66,13 +61,11 @@ extends AbstractRDKComponent {
         return this.rdkTireDisplay;
     }
 
-    @Override
-    protected IValueConverterStrategy getRdkSpeedLimitConverterStrategy() {
+    protected IValueConverterStrategy getRdkSpeedLimitConverterStrategy() throws ValueConverterStrategyException {
         throw new ValueConverterStrategyException(2);
     }
 
-    @Override
-    protected IValueConverterStrategy getRdkPressureLevelConverterStrategy() {
+    protected IValueConverterStrategy getRdkPressureLevelConverterStrategy() throws ValueConverterStrategyException {
         throw new ValueConverterStrategyException(2);
     }
 }

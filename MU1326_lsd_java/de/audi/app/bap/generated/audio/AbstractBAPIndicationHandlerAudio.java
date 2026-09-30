@@ -34,7 +34,6 @@ extends AbstractBAPIndicationHandlerFSG {
         super(abstractBAPModuleFSG, logChannel);
     }
 
-    @Override
     public void processIndicationStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, StartResultMethod startResultMethod) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             case 24: {
@@ -71,7 +70,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             case 24: {
@@ -108,7 +106,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationSet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             default: 
@@ -116,7 +113,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerAudio#processIndicationSet not implemented for fctID=%1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             case 19: {
@@ -153,7 +149,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAck(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, AckProperty ackProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             default: 
@@ -161,7 +156,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerAudio#processIndicationAck not implemented for fctID=%1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationAckArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, BAPArray bAPArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -169,7 +163,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerAudio#processIndicationAck not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -177,7 +170,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerAudio#processIndicationSetArray not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -185,67 +177,46 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerAudio#processIndicationSetGetArray not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    protected abstract void processMuteSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, Mute_SetGet mute_SetGet) {
-    }
+    protected abstract void processMuteSetGet(BAPFunctionPropertyFSG var1, Mute_SetGet var2);
 
-    protected abstract void processSourceStateSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SourceState_SetGet sourceState_SetGet) {
-    }
+    protected abstract void processSourceStateSetGet(BAPFunctionPropertyFSG var1, SourceState_SetGet var2);
 
-    protected abstract void processDedicatedAudioControlAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processDedicatedAudioControlAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processDedicatedAudioControlStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, DedicatedAudioControl_StartResult dedicatedAudioControl_StartResult) {
-    }
+    protected abstract void processDedicatedAudioControlStartResult(BAPFunctionMethodFSG var1, DedicatedAudioControl_StartResult var2);
 
-    protected abstract void processGeneralInfoSwitchesSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, GeneralInfoSwitches_SetGet generalInfoSwitches_SetGet) {
-    }
+    protected abstract void processGeneralInfoSwitchesSetGet(BAPFunctionPropertyFSG var1, GeneralInfoSwitches_SetGet var2);
 
-    protected abstract void processAnnouncementEscapeAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processAnnouncementEscapeAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processAnnouncementEscapeStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processAnnouncementEscapeStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processSwitchSourceAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processSwitchSourceAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processSwitchSourceStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, SwitchSource_StartResult switchSource_StartResult) {
-    }
+    protected abstract void processSwitchSourceStartResult(BAPFunctionMethodFSG var1, SwitchSource_StartResult var2);
 
-    protected abstract void processMediaBrowserControlAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMediaBrowserControlAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMediaBrowserControlStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, MediaBrowserControl_StartResult mediaBrowserControl_StartResult) {
-    }
+    protected abstract void processMediaBrowserControlStartResult(BAPFunctionMethodFSG var1, MediaBrowserControl_StartResult var2);
 
-    protected abstract void processMediaFileInfoAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMediaFileInfoAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMediaFileInfoStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, MediaFileInfo_StartResult mediaFileInfo_StartResult) {
-    }
+    protected abstract void processMediaFileInfoStartResult(BAPFunctionMethodFSG var1, MediaFileInfo_StartResult var2);
 
-    protected abstract void processPreferredListSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, PreferredList_SetGet preferredList_SetGet) {
-    }
+    protected abstract void processPreferredListSetGet(BAPFunctionPropertyFSG var1, PreferredList_SetGet var2);
 
-    protected abstract void processSdsStateSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SDS_State_SetGet sDS_State_SetGet) {
-    }
+    protected abstract void processSdsStateSetGet(BAPFunctionPropertyFSG var1, SDS_State_SetGet var2);
 
-    protected abstract void processAsgCapabilitiesSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, ASG_Capabilities_SetGet aSG_Capabilities_SetGet) {
-    }
+    protected abstract void processAsgCapabilitiesSetGet(BAPFunctionPropertyFSG var1, ASG_Capabilities_SetGet var2);
 
-    protected abstract void processGetNextListPosAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processGetNextListPosAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processGetNextListPosStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, GetNextListPos_StartResult getNextListPos_StartResult) {
-    }
+    protected abstract void processGetNextListPosStartResult(BAPFunctionMethodFSG var1, GetNextListPos_StartResult var2);
 
-    protected abstract void processSwitchRadioMediaAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processSwitchRadioMediaAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processSwitchRadioMediaStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, SwitchRadioMedia_StartResult switchRadioMedia_StartResult) {
-    }
+    protected abstract void processSwitchRadioMediaStartResult(BAPFunctionMethodFSG var1, SwitchRadioMedia_StartResult var2);
 
-    protected abstract void processCurrentVolumeExtendedSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, CurrentVolumeExtended_SetGet currentVolumeExtended_SetGet) {
-    }
+    protected abstract void processCurrentVolumeExtendedSetGet(BAPFunctionPropertyFSG var1, CurrentVolumeExtended_SetGet var2);
 }
 

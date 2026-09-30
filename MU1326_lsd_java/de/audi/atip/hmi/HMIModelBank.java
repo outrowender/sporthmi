@@ -7,32 +7,24 @@ import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.model.HMIModel;
 
 public interface HMIModelBank {
-    public static final String PROP_KEY_APP_NAME;
-    public static final String PROP_KEY_MODULE_ID;
-    public static final int ID_MULTIPLIER;
+    public static final String PROP_KEY_APP_NAME = "ApplicationName";
+    public static final String PROP_KEY_MODULE_ID = "moduleID";
+    public static final int ID_MULTIPLIER = 100000;
 
-    default public int getId() {
-    }
+    public int getId();
 
-    default public int[] getAllModelIds() {
-    }
+    public int[] getAllModelIds();
 
-    default public HMIModel getModel(int n) {
-    }
+    public HMIModel getModel(int var1);
 
-    default public HMIModel getModel(int n, int n2) {
-    }
+    public HMIModel getModel(int var1, int var2);
 
-    default public HMIModel[] getModels() {
-    }
+    public HMIModel[] getModels();
 
-    default public void resetAllModelListeners() {
-    }
+    public void resetAllModelListeners();
 
-    default public void isRegistered(boolean bl) {
-    }
+    public void isRegistered(boolean var1);
 
-    default public void waitForRegistration(IFrameworkAccess iFrameworkAccess) {
-    }
+    public void waitForRegistration(IFrameworkAccess var1);
 }
 

@@ -6,31 +6,22 @@ package de.audi.app.earlyfunc.core.parking.pla;
 import de.audi.atip.interapp.earlyfunc.core.parking.pla.IPLAStatus;
 
 public interface IPLAInterappServiceHandler {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void updatePLAStatusIdleMode() {
-    }
+    public void updatePLAStatusIdleMode();
 
-    default public void updatePLAStatusStandbyMode(IPLAStatus iPLAStatus) {
-    }
+    public void updatePLAStatusStandbyMode(IPLAStatus var1);
 
-    default public void updatePLAStatusSearchMode(IPLAStatus iPLAStatus) {
-    }
+    public void updatePLAStatusSearchMode(IPLAStatus var1);
 
-    default public void updatePLAStatusInSelectionMode(IPLAStatus iPLAStatus) {
-    }
+    public void updatePLAStatusInSelectionMode(IPLAStatus var1);
 
-    default public void updatePLAStatusOutSelectionMode(IPLAStatus iPLAStatus) {
-    }
+    public void updatePLAStatusOutSelectionMode(IPLAStatus var1);
 
-    default public void updatePLAStatusParkInActive(IPLAStatus iPLAStatus) {
-    }
+    public void updatePLAStatusParkInActive(IPLAStatus var1);
 
-    default public void updatePLAStatusParkOutActive(IPLAStatus iPLAStatus) {
-    }
+    public void updatePLAStatusParkOutActive(IPLAStatus var1);
 }
 

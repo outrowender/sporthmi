@@ -33,7 +33,7 @@ public class RowMap {
 
     public void set(Integer n, EvoListRow evoListRow) {
         if (n == null || n < 0) {
-            throw new IllegalArgumentException(new StringBuffer().append("Invalid index: ").append(n).toString());
+            throw new IllegalArgumentException("Invalid index: " + n);
         }
         if (evoListRow == null) {
             throw new IllegalArgumentException("Row is NULL!");

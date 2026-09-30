@@ -15,7 +15,6 @@ extends OnlineSearchHistory {
         super(navigationEnv, listModelApp, listModelApp2, spellerModelApp);
     }
 
-    @Override
     protected void refreshHistoryAccess() {
         if (!this.SDSSearch) {
             int n = this.historyList.getLength();

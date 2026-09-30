@@ -11,7 +11,7 @@ public class EvoTMConfiguration
 extends AbstractTerminalModeConfiguration {
     private final boolean isAudiQ1;
     private final boolean isAudiR8;
-    private static final int CAR_GENERATION_2;
+    private static final int CAR_GENERATION_2 = 2;
 
     public EvoTMConfiguration(IFrameworkAccess iFrameworkAccess) {
         super(iFrameworkAccess);
@@ -24,37 +24,30 @@ extends AbstractTerminalModeConfiguration {
         this.isAudiR8 = by == 1 && by2 == 7 && by3 == 2 && (by4 == 4 || by4 == 5);
     }
 
-    @Override
     public boolean hasKnob() {
         return true;
     }
 
-    @Override
     public boolean hasTouchpad() {
         return true;
     }
 
-    @Override
     public String getScreenName() {
         return "Audi MMI";
     }
 
-    @Override
     public boolean isAutoConnect() {
         return false;
     }
 
-    @Override
     public boolean shouldShowDisclaimerAtLeastOnce() {
         return true;
     }
 
-    @Override
     public boolean getStoreUserAcceptState() {
         return true;
     }
 
-    @Override
     public boolean isKnobDirectionInverted() {
         return true;
     }
@@ -63,22 +56,18 @@ extends AbstractTerminalModeConfiguration {
         return true;
     }
 
-    @Override
     public boolean hasTouchscreenHigh() {
         return this.isAudiQ1;
     }
 
-    @Override
     public boolean isTouchScreenInputWidget() {
         return true;
     }
 
-    @Override
     public boolean hasTwoVirtualButtonModels() {
         return false;
     }
 
-    @Override
     public int getCarPlayPhysicalDisplayHeight() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -88,7 +77,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getCarPlayPhysicalDisplayHeight();
     }
 
-    @Override
     public int getCarPlayPhysicalDisplayWidth() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -98,7 +86,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getCarPlayPhysicalDisplayWidth();
     }
 
-    @Override
     public int getScreenOffsetX() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -108,7 +95,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getScreenOffsetX();
     }
 
-    @Override
     public int getScreenOffsetY() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -121,7 +107,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getScreenOffsetY();
     }
 
-    @Override
     public int getWindowResolutionX() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -131,7 +116,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getWindowResolutionX();
     }
 
-    @Override
     public int getWindowResolutionY() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -141,7 +125,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getWindowResolutionY();
     }
 
-    @Override
     public int getScreenResolutionX() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -151,7 +134,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getScreenResolutionX();
     }
 
-    @Override
     public int getScreenResolutionY() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -161,7 +143,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getScreenResolutionY();
     }
 
-    @Override
     public int getPhysicalDisplayHeight() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -171,7 +152,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getPhysicalDisplayHeight();
     }
 
-    @Override
     public int getPhysicalDisplayWidth() {
         switch (this.fw.getScreenRes()) {
             case 4: {
@@ -181,7 +161,6 @@ extends AbstractTerminalModeConfiguration {
         return super.getPhysicalDisplayWidth();
     }
 
-    @Override
     public boolean isOnHoldWhenPhoneCallActive() {
         return false;
     }

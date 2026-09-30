@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class MediaFavoriteData
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -932483248742134853L;
     private final int broweMode;
     private final String path;
     private final String favorite;

@@ -14,7 +14,7 @@ import org.osgi.framework.ServiceRegistration;
 
 public abstract class AbstractMediaHMIApplication
 implements HMIApplication {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractMediaHMIApplication";
     protected final IFrameworkAccess framework;
     protected final MediaCore mediaCore;
     private ServiceRegistration registration;
@@ -28,9 +28,9 @@ implements HMIApplication {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init] ++++++++++++++++++ Init core ++++++++++++++++++", (Object)"AbstractMediaHMIApplication");
+        this.logger.log(1000000, "[%1.init] ++++++++++++++++++ Init core ++++++++++++++++++", (Object)LOGCLASS);
         this.mediaCore.init();
-        this.logger.log(1078071040, "[%1.init] ++++++++++++++ Init core finished +++++++++++++", (Object)"AbstractMediaHMIApplication");
+        this.logger.log(1000000, "[%1.init] ++++++++++++++ Init core finished +++++++++++++", (Object)LOGCLASS);
         Hashtable hashtable = new Hashtable(3);
         hashtable.put("moduleID", new Integer(2));
         hashtable.put("ApplicationName", "Media");
@@ -38,65 +38,56 @@ implements HMIApplication {
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"AbstractMediaHMIApplication");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         if (this.registration != null) {
             this.mediaCore.getServiceManager().unregisterService(this.registration);
         }
         this.mediaCore.deinit();
     }
 
-    @Override
     public int getId() {
         return 2;
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         switch (n) {
             case 53: {
-                return this.framework.getHmiServiceApp().getButtonModel(974193408);
+                return this.framework.getHmiServiceApp().getButtonModel(201018);
             }
             case 1: {
-                return this.framework.getHmiServiceApp().getButtonModel(2131690240);
+                return this.framework.getHmiServiceApp().getButtonModel(200575);
             }
             case 52: {
-                return this.framework.getHmiServiceApp().getButtonModel(990970624);
+                return this.framework.getHmiServiceApp().getButtonModel(201019);
             }
             case 0: {
-                return this.framework.getHmiServiceApp().getButtonModel(-2146499840);
+                return this.framework.getHmiServiceApp().getButtonModel(200576);
             }
             case 13: {
-                return this.framework.getHmiServiceApp().getButtonModel(2081358592);
+                return this.framework.getHmiServiceApp().getButtonModel(200572);
             }
         }
         return null;
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
     }
 

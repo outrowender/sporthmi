@@ -91,7 +91,7 @@ PorscheGenericEntry {
 
     public String toString() {
         Buffer buffer = new Buffer();
-        buffer.append("PorscheTabbarEntry[").append(new StringBuffer().append("<count").append(this.idC).append(">").toString());
+        buffer.append("PorscheTabbarEntry[").append("<count" + this.idC + ">");
         buffer.append(" id: ").append(this.id);
         buffer.append(" url: ").append(this.url);
         buffer.append(" secondUrl: ").append(this.secondUrl);
@@ -126,7 +126,6 @@ PorscheGenericEntry {
         return !(this.context == null ? porscheTabbarEntry.context != null : !this.context.equals(porscheTabbarEntry.context));
     }
 
-    @Override
     public Object clone(boolean bl) {
         if (bl) {
             return new PorscheTabbarEntry(this);
@@ -134,37 +133,30 @@ PorscheGenericEntry {
         return this;
     }
 
-    @Override
     public String getFirstImagePath() {
         return this.url;
     }
 
-    @Override
     public void setFirstImagePath(String string) {
         this.url = string;
     }
 
-    @Override
     public String getSecondImagePath() {
         return this.secondUrl;
     }
 
-    @Override
     public void setSecondImagePath(String string) {
         this.secondUrl = string;
     }
 
-    @Override
     public boolean isSecondImageAvailable() {
         return true;
     }
 
-    @Override
     public void setContextName(String string) {
         this.context = string;
     }
 
-    @Override
     public String getContextName() {
         return this.context;
     }

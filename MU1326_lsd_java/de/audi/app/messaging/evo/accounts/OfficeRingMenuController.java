@@ -3,12 +3,11 @@
  */
 package de.audi.app.messaging.evo.accounts;
 
+import de.audi.app.messaging.core.accounts.IAccountListObserver;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
-import de.audi.app.messaging.evo.accounts.OfficeRingMenuController$AccountListObserver;
-import de.audi.atip.base.IFrameworkAccess;
-import de.audi.atip.log.LogChannel;
+import org.dsi.ifc.messaging.MessagingAccount;
 
 public final class OfficeRingMenuController
 extends AbstractMessagingComponent {
@@ -16,18 +15,20 @@ extends AbstractMessagingComponent {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        abstractMsgApplication.getAccountManager().getEmailAccountList().addObserver(new OfficeRingMenuController$AccountListObserver(this, null));
+        abstractMsgApplication.getAccountManager().getEmailAccountList().addObserver(new AccountListObserver());
     }
 
-    static /* synthetic */ LogChannel access$100(OfficeRingMenuController officeRingMenuController) {
-        return officeRingMenuController.log;
-    }
+    private final class AccountListObserver
+    extends IAccountListObserver.EmptyImplementation {
+        private AccountListObserver() {
+        }
 
-    static /* synthetic */ IFrameworkAccess access$200(OfficeRingMenuController officeRingMenuController) {
-        return officeRingMenuController.framework;
+        public void indicateItemSelected(MessagingAccount messagingAccount) {
+            OfficeRingMenuController.this.log.log(10000000, "[OfficeRingMenuController#indicateItemSelected]");
+            OfficeRingMenuController.this.framework.getHMIService().getChoiceModel(3995).setValue(1);
+        }
     }
 }
 

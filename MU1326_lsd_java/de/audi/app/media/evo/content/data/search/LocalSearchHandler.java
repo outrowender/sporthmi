@@ -27,7 +27,7 @@ public class LocalSearchHandler
 extends AbstractSearchHandlerEvo
 implements IDataBrowserListChangeListener,
 ISourceSlotListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "LocalSearchHandler";
     private final MediaSearchResultFormatter searchResultFormatter = new MediaSearchResultFormatter(this.lc, 0, 1);
     private final IDataBrowserList dataBrowserList;
     private final ChoiceModelApp searchResultSelectedModel;
@@ -40,19 +40,17 @@ ISourceSlotListener {
         this.searchResultSelectedModel = choiceModelApp4;
     }
 
-    @Override
     public void init() {
         super.init();
-        this.lc.log(1078071040, "[%1.init]", (Object)"LocalSearchHandler");
+        this.lc.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.registryFormatter.put(new Integer(19), this.searchResultFormatter);
         this.dataBrowserList.addBrowseListChangeListener(this);
         this.setSearchResultSelected(0);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"LocalSearchHandler");
+        this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
         this.dataBrowserList.removeBrowseListChangeListener(this);
         this.setSearchResultSelected(0);
         this.activeSlot = null;
@@ -63,9 +61,8 @@ ISourceSlotListener {
         this.activeSlot = iSourceSlot;
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
-        this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"LocalSearchHandler");
+        this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
         this.setSearchResultSelected(1);
         this.appSearch.addToHistory(searchResultListRow.getSearchResult());
         MediaListEntry mediaListEntry = new MediaListEntry(MediaUtils.removeEntryIdFlags(searchResultListRow.getSearchResult().getDataId()), MediaSearchUtils.getContentType(searchResultListRow.getSearchResult().getEntryType()), "");
@@ -73,22 +70,19 @@ ISourceSlotListener {
         this.mdlListSearchResults.fireEvent(n);
     }
 
-    @Override
     public void refreshQuery() {
-        this.lc.log(1078071040, "[%1.refreshQuery]", (Object)"LocalSearchHandler");
+        this.lc.log(1000000, "[%1.refreshQuery]", (Object)LOGCLASS);
         if (0 == this.searchResultSelectedModel.getValue()) {
             super.refreshQuery();
         }
     }
 
-    @Override
     protected void setSourceDataAvailability(boolean bl) {
         super.setSourceDataAvailability(this.syncComplete);
     }
 
-    @Override
     public void browseListTypeChanged(int n) {
-        this.lc.log(1078071040, "[%1.browseListTypeChanged]", (Object)"LocalSearchHandler");
+        this.lc.log(1000000, "[%1.browseListTypeChanged]", (Object)LOGCLASS);
         switch (n) {
             case 2: {
                 this.searchResultFormatter.setFormatterType(0);
@@ -147,9 +141,8 @@ ISourceSlotListener {
         }
     }
 
-    @Override
     public void browseListLayoutChanged(int n) {
-        this.lc.log(1078071040, "[%1.browseListLayoutChanged] %2", (Object)"LocalSearchHandler", (long)n);
+        this.lc.log(1000000, "[%1.browseListLayoutChanged] %2", (Object)LOGCLASS, (long)n);
         switch (n) {
             case 0: 
             case 1: {
@@ -170,36 +163,31 @@ ISourceSlotListener {
         }
     }
 
-    @Override
     protected void searchEntered() {
-        this.lc.log(1078071040, "[%1.searchEntered] reset model", (Object)"LocalSearchHandler");
+        this.lc.log(1000000, "[%1.searchEntered] reset model", (Object)LOGCLASS);
         this.setSearchResultSelected(0);
     }
 
-    @Override
     public void browseListCategorySelected(int n) {
     }
 
     private void setSearchResultSelected(int n) {
-        this.lc.log(1078071040, "[%1.setSearchResultSelected] value=%2", (Object)"LocalSearchHandler", (long)n);
+        this.lc.log(1000000, "[%1.setSearchResultSelected] value=%2", (Object)LOGCLASS, (long)n);
         this.searchResultSelectedModel.setValue(n);
     }
 
-    @Override
     protected String getLogClass() {
-        return "LocalSearchHandler";
+        return LOGCLASS;
     }
 
-    @Override
     public void lastBrowseListCategoryChanged(int n) {
     }
 
-    @Override
     public void slotsChanged(ISource iSource) {
         ISourceSlot iSourceSlot = iSource.getSlot(this.activeSlot.getIndex());
         if (iSourceSlot.isLoaded()) {
             this.syncComplete = iSourceSlot.getFlags().isMetaDataSyncComplete();
-            this.lc.log(1078071040, "[%1.slotsChanged] activeSlot refreshed value=%2", (Object)"LocalSearchHandler", (Object)this.syncComplete);
+            this.lc.log(1000000, "[%1.slotsChanged] activeSlot refreshed value=%2", (Object)LOGCLASS, (Object)this.syncComplete);
             super.setSourceDataAvailability(this.syncComplete);
         } else {
             this.syncComplete = false;

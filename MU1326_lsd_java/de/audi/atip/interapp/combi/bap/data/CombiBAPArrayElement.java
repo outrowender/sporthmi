@@ -4,13 +4,10 @@
 package de.audi.atip.interapp.combi.bap.data;
 
 public interface CombiBAPArrayElement {
-    default public int getPosID() {
-    }
+    public int getPosID();
 
-    default public boolean hasSameContent(CombiBAPArrayElement combiBAPArrayElement) {
-    }
+    public boolean hasSameContent(CombiBAPArrayElement var1);
 
-    default public int getDiffRecordAddress(CombiBAPArrayElement combiBAPArrayElement) {
-    }
+    public int getDiffRecordAddress(CombiBAPArrayElement var1);
 }
 

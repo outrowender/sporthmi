@@ -10,7 +10,7 @@ public class ReentrantMutex {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public boolean acquire() {
+    public boolean acquire() throws InterruptedException {
         if (Thread.interrupted()) {
             throw new InterruptedException();
         }
@@ -22,20 +22,20 @@ public class ReentrantMutex {
             }
             try {
                 while (this.owner != null) {
-                    super.wait();
+                    this.wait();
                 }
                 this.owner = Thread.currentThread();
                 this.noEntries = 1;
             }
             catch (InterruptedException interruptedException) {
-                super.notifyAll();
+                this.notifyAll();
                 throw interruptedException;
             }
             return true;
         }
     }
 
-    public boolean attempt(long l) {
+    public boolean attempt(long l) throws InterruptedException {
         if (Thread.interrupted()) {
             throw new InterruptedException();
         }
@@ -55,7 +55,7 @@ public class ReentrantMutex {
             long l3 = System.currentTimeMillis();
             try {
                 do {
-                    super.wait(l2);
+                    this.wait(l2);
                     if (this.owner != null) continue;
                     this.owner = Thread.currentThread();
                     return true;
@@ -63,7 +63,7 @@ public class ReentrantMutex {
                 return false;
             }
             catch (InterruptedException interruptedException) {
-                super.notifyAll();
+                this.notifyAll();
                 throw interruptedException;
             }
         }
@@ -72,7 +72,7 @@ public class ReentrantMutex {
     public synchronized void release() {
         Thread thread = Thread.currentThread();
         if (this.owner == null) {
-            System.out.println(new StringBuffer().append("!!! WARNING !!! trying to release unowned mutex th ").append(thread).toString());
+            System.out.println("!!! WARNING !!! trying to release unowned mutex th " + thread);
             return;
         }
         if (thread.equals(this.owner)) {
@@ -80,9 +80,9 @@ public class ReentrantMutex {
             if (this.noEntries <= 0) {
                 if (this.noEntries == 0) {
                     this.owner = null;
-                    super.notify();
+                    this.notify();
                 } else {
-                    System.out.println(new StringBuffer().append("!!! WARNING !!! Unmatched aq/rl pairs for th ").append(thread).toString());
+                    System.out.println("!!! WARNING !!! Unmatched aq/rl pairs for th " + thread);
                 }
                 return;
             }

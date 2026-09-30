@@ -18,23 +18,19 @@ MenuModelListener {
         super(menuModelApp, logChannel);
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
         if (this.getHandledModelID() == n2) {
             this.updateOnItemFocused(n);
         }
     }
 
-    @Override
     public void updateOnItemFocused(int n) {
     }
 
-    @Override
     public MenuModelApp returnMenuModel() {
         return (MenuModelApp)this.getHandledModel();
     }
 
-    @Override
     public MenuModelEventBusiness getMenuModelBusiness() {
         return (MenuModelEventBusiness)this.getBusiness();
     }

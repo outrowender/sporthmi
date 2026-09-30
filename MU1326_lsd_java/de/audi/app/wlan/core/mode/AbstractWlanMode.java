@@ -8,7 +8,6 @@ package de.audi.app.wlan.core.mode;
 
 import de.audi.app.wlan.core.AbstractWlanComponent;
 import de.audi.app.wlan.core.IWlanApplication;
-import de.audi.app.wlan.core.mode.AbstractWlanMode$1;
 import de.audi.app.wlan.core.mode.CommandSetRFActive;
 import de.audi.app.wlan.core.mode.CommandSetRole;
 import de.audi.atip.hmi.model.ButtonListener;
@@ -28,12 +27,12 @@ implements ButtonListener,
 WlanService,
 IConnectivityPhoneStateListener,
 SDISConnectionStateListener {
-    private static final int DISABLE;
-    private static final int ENABLE;
+    private static final int DISABLE = 0;
+    private static final int ENABLE = 1;
     private final int[] attributeNotifications = new int[]{12, 1};
-    private final ChoiceModelApp clientModeChoice = this.getChoiceModel(2082874880);
-    private final ButtonModelApp activateHotspot = this.getButtonModel(1814439424);
-    private final ButtonModelApp activateTethering = this.getButtonModel(1831216640);
+    private final ChoiceModelApp clientModeChoice = this.getChoiceModel(2500220);
+    private final ButtonModelApp activateHotspot = this.getButtonModel(0x26266C);
+    private final ButtonModelApp activateTethering = this.getButtonModel(0x26266D);
     private boolean rfActive;
     private int role;
     private boolean simInserted;
@@ -47,10 +46,18 @@ SDISConnectionStateListener {
 
     public AbstractWlanMode(IWlanApplication iWlanApplication) {
         super(iWlanApplication);
-        iWlanApplication.getDiag().addDiagnosisComponent((IDiagComponent)new AbstractWlanMode$1(this));
+        iWlanApplication.getDiag().addDiagnosisComponent(new IDiagComponent(){
+
+            public void cmdEnableSDISConnection() {
+                AbstractWlanMode.this.updateSdisConnected(true);
+            }
+
+            public void cmdDisableSDISConnection() {
+                AbstractWlanMode.this.updateSdisConnected(false);
+            }
+        });
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return this.attributeNotifications;
     }
@@ -59,12 +66,11 @@ SDISConnectionStateListener {
         return this.sdisConnected || this.simInserted;
     }
 
-    @Override
     public void updateMESlotInfo(ITelMESlotState iTelMESlotState, ITelMESlotState iTelMESlotState2, ITelMESlotState iTelMESlotState3) {
         boolean bl;
         boolean bl2 = bl = iTelMESlotState3 != null && iTelMESlotState3.isSim();
         if (bl != this.simInserted) {
-            this.log.log(-2137614336, "AbstractWlanMode#updateMESlotInfo(): simPresent=%1", bl);
+            this.log.log(10000000, "AbstractWlanMode#updateMESlotInfo(): simPresent=%1", bl);
             this.simInserted = bl;
         }
         this.setClientModeActivation();
@@ -74,37 +80,29 @@ SDISConnectionStateListener {
         this.clientModeChoice.setValue(this.isClientModeForbidden() || !this.rfActive ? 0 : 1);
     }
 
-    @Override
     public void updatePhoneState(int n, int n2) {
     }
 
-    @Override
     public void updateESIMInfo(String string, String string2, boolean bl, boolean bl2) {
     }
 
-    @Override
     public void telAppEntered() {
     }
 
-    @Override
     public void telAppLeft() {
     }
 
-    @Override
     public void telUnlockEntered() {
     }
 
-    @Override
     public void telUnlockLeft() {
     }
 
-    @Override
     public void updateConnectedGatewayState(boolean bl) {
     }
 
-    @Override
     public void switchWlanState(boolean bl) {
-        this.log.log(1078071040, "AbstractWlanMode#switchWlanState(): Switch on: %1", bl);
+        this.log.log(1000000, "AbstractWlanMode#switchWlanState(): Switch on: %1", bl);
         this.turnWlanOn(bl, null);
     }
 
@@ -114,9 +112,8 @@ SDISConnectionStateListener {
         }
     }
 
-    @Override
     public void setRole(int n) {
-        this.log.log(1078071040, "AbstractWlanMode#setRole(): %1", (long)n);
+        this.log.log(1000000, "AbstractWlanMode#setRole(): %1", (long)n);
         this.setRoleWithTethering(n);
     }
 
@@ -138,9 +135,8 @@ SDISConnectionStateListener {
         }
     }
 
-    @Override
     public void updateSdisConnected(boolean bl) {
-        this.log.log(1078071040, "AbstractWlanMode#updateSdisConnected(): isSdis connected %1", bl);
+        this.log.log(1000000, "AbstractWlanMode#updateSdisConnected(): isSdis connected %1", bl);
         if (bl) {
             this.setRoleOnly(1, null);
         }
@@ -148,56 +144,48 @@ SDISConnectionStateListener {
         this.setClientModeActivation();
     }
 
-    @Override
     public void updateRFActive(int n, int n2) {
         if (n2 != 1) {
             return;
         }
-        this.log.log(1078071040, "AbstractWlanMode#updateRFActive(): %1", (long)n);
+        this.log.log(1000000, "AbstractWlanMode#updateRFActive(): %1", (long)n);
         this.rfActive = n == 1;
         this.setWlanMode(this.rfActive, this.role);
         this.setClientModeActivation();
     }
 
-    @Override
     public void updateRole(int n, int n2) {
         if (n2 != 1) {
             return;
         }
-        this.log.log(1078071040, "AbstractWlanMode#updateRole(): %1", (long)n);
+        this.log.log(1000000, "AbstractWlanMode#updateRole(): %1", (long)n);
         this.role = n;
         this.setWlanMode(this.rfActive, this.role);
     }
 
-    protected abstract void setWlanMode(boolean bl, int n) {
-    }
+    protected abstract void setWlanMode(boolean var1, int var2);
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (n == this.activateHotspot.getID()) {
-            this.log.log(1078071040, "AbstractWlanMode#keyTyped(): Activating Hotspot");
+            this.log.log(1000000, "AbstractWlanMode#keyTyped(): Activating Hotspot");
             this.setRoleWithTethering(1);
             this.activateHotspot.fireEvent(n3);
         } else if (n == this.activateTethering.getID()) {
-            this.log.log(1078071040, "AbstractWlanMode#keyTyped(): Activating Tethering");
+            this.log.log(1000000, "AbstractWlanMode#keyTyped(): Activating Tethering");
             this.setRoleWithTethering(4);
             this.activateTethering.fireEvent(n3);
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void init() {
         super.init();
         this.clientModeChoice.setValue(1);
@@ -208,7 +196,6 @@ SDISConnectionStateListener {
         this.sdisConStateListenerRegistration = this.wlanApplication.getBundleContext().registerService((class$de$audi$atip$interapp$SDISConnectionStateListener == null ? (class$de$audi$atip$interapp$SDISConnectionStateListener = AbstractWlanMode.class$("de.audi.atip.interapp.SDISConnectionStateListener")) : class$de$audi$atip$interapp$SDISConnectionStateListener).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         this.activateTethering.resetListener();
         this.activateHotspot.resetListener();

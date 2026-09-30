@@ -4,8 +4,8 @@
 package de.audi.app.sdsmanager.dictation.dsiadapter;
 
 import de.audi.app.sdsmanager.dictation.DictationComponentManager;
+import de.audi.app.sdsmanager.dictation.command.AbstractCommand;
 import de.audi.app.sdsmanager.dictation.dsi.AbstractDsiOnlineDictationCommand;
-import de.audi.app.sdsmanager.dictation.dsiadapter.StopDictationCommand$1;
 import de.audi.tghu.command.Command;
 import de.audi.tghu.command.Monitor;
 
@@ -20,10 +20,9 @@ extends AbstractDsiOnlineDictationCommand {
         stopDictationCommand.schedule(monitor);
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[StopDictationCommand#execute]");
+            this.logger.log(10000000, "[StopDictationCommand#execute]");
             this.dsiOnlineDictationAccess.stopDictation();
         }
         catch (Exception exception) {
@@ -32,16 +31,14 @@ extends AbstractDsiOnlineDictationCommand {
         }
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 300000L;
     }
 
-    @Override
     public void dictationResult(int n) {
-        this.logger.log(-2137614336, "[StopDictationCommand#dictationResult] returnCode = %1", (long)n);
+        this.logger.log(10000000, "[StopDictationCommand#dictationResult] returnCode = %1", (long)n);
         if (n != 12) {
-            this.logger.log(-2137614336, "[StopDictationCommand#dictationResult] Ignoring obsolete dictation response.");
+            this.logger.log(10000000, "[StopDictationCommand#dictationResult] Ignoring obsolete dictation response.");
         } else {
             this.signalResult(0);
         }
@@ -52,7 +49,7 @@ extends AbstractDsiOnlineDictationCommand {
      */
     private void signalResult(int n) {
         try {
-            this.logger.log(-2137614336, "[StopDictationCommand#signalResult] result = %1", (long)n);
+            this.logger.log(10000000, "[StopDictationCommand#signalResult] result = %1", (long)n);
             this.dictationComponentManager.getDsiDictationAdapter().handleStopDictationResult(n);
         }
         catch (Exception exception) {
@@ -63,13 +60,14 @@ extends AbstractDsiOnlineDictationCommand {
         }
     }
 
-    @Override
     protected Command getErrorCommand() {
-        return new StopDictationCommand$1(this, this.dictationComponentManager);
-    }
+        return new AbstractCommand(this.dictationComponentManager){
 
-    static /* synthetic */ void access$000(StopDictationCommand stopDictationCommand, int n) {
-        stopDictationCommand.signalResult(n);
+            public void execute() {
+                this.logger.log(10000000, "[StopDictationErrorCommand#execute]");
+                StopDictationCommand.this.signalResult(1);
+            }
+        };
     }
 }
 

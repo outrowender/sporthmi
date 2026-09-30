@@ -13,28 +13,22 @@ extends AbstractAirconInterappComponent {
         super(iCarApplication);
     }
 
-    @Override
     public int getID() {
         return 54;
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 
-    @Override
     protected void updateMenuEntryVisibility(AirconMasterViewOptions airconMasterViewOptions) {
     }
 }

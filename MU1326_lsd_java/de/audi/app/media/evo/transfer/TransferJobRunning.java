@@ -17,7 +17,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class TransferJobRunning
 extends AbstractTransferJobEvo {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TransferJobRunning";
     private final ITransferItem transferItem;
 
     public TransferJobRunning(LogChannel logChannel, ITransferItem iTransferItem, ITransferController iTransferController, EvoTransferController evoTransferController, EvoTransferState evoTransferState) {
@@ -25,19 +25,16 @@ extends AbstractTransferJobEvo {
         this.transferItem = iTransferItem;
     }
 
-    @Override
     public int getType() {
         return 3;
     }
 
-    @Override
     public String getName() {
-        return "TransferJobRunning";
+        return LOGCLASS;
     }
 
-    @Override
     public void start() {
-        this.logger.log(1078071040, "[%1.start]", (Object)"TransferJobRunning");
+        this.logger.log(1000000, "[%1.start]", (Object)LOGCLASS);
         this.evoTransferController.disableTransfer();
         if (this.transferItem.isContentTypeCDDA() || this.transferItem.isPhysicalFolder() && this.transferItem.isDynamicTransferFolder()) {
             this.evoTransferController.getBrowserListContext().addSelection(true, this.transferItem.isFolder() ? 1 : 0, this.transferItem.getEntryId(), this.transferItem.getContentType(), true);
@@ -48,7 +45,6 @@ extends AbstractTransferJobEvo {
         }
     }
 
-    @Override
     public void addSelectionResult(boolean bl, int n, int n2, boolean bl2, long l, long l2, long l3, long l4) {
         if (bl || 3 == n) {
             this.handleTransferError();
@@ -56,39 +52,36 @@ extends AbstractTransferJobEvo {
         }
         this.transferState.setJukeboxFull(2 == n || 1 == n);
         if (0L == l4) {
-            this.logger.log(1078071040, "[%1.addSelectionResult] No entry selected.", (Object)"TransferJobRunning");
+            this.logger.log(1000000, "[%1.addSelectionResult] No entry selected.", (Object)LOGCLASS);
             this.transferState.setAllItemsSuccessfullyImported(bl2);
             if (bl2) {
                 this.evoTransferController.updateImportProgressModels(100);
                 this.transferState.setRecopy(bl2);
                 this.transferController.abort();
             }
-            this.evoTransferController.updateModelsAndShowTransferPopup(1074594560);
+            this.evoTransferController.updateModelsAndShowTransferPopup(200000);
             this.finishJob();
             return;
         }
         this.transferController.start();
     }
 
-    @Override
     public void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
         if (bl) {
-            this.logger.log(1078071040, "[%1.browseFolderChanged] ChangeFolder failed.", (Object)"TransferJobRunning");
+            this.logger.log(1000000, "[%1.browseFolderChanged] ChangeFolder failed.", (Object)LOGCLASS);
             this.handleTransferError();
             return;
         }
-        this.logger.log(1078071040, "[%1.browseFolderChanged] folder='%2' listSize='%3'", (Object)"TransferJobRunning", (Object)LogUtil.listEntryToStr(mediaListEntryArray), (long)n);
+        this.logger.log(1000000, "[%1.browseFolderChanged] folder='%2' listSize='%3'", (Object)LOGCLASS, (Object)LogUtil.listEntryToStr(mediaListEntryArray), (long)n);
         this.evoTransferController.getBrowserListContext().addSelection(true, this.transferItem.isFolder() ? 1 : 0, this.transferItem.getEntryId(), this.transferItem.getContentType(), true);
     }
 
-    @Override
     public void readyForTransfer() {
-        this.logger.log(1078071040, "[%1.readyForTransfer]", (Object)"TransferJobRunning");
-        this.evoTransferController.updateModelsAndShowTransferPopup(1074594560);
+        this.logger.log(1000000, "[%1.readyForTransfer]", (Object)LOGCLASS);
+        this.evoTransferController.updateModelsAndShowTransferPopup(200000);
         this.finishJob();
     }
 
-    @Override
     public void importAborted(long l, long l2, long l3, boolean bl) {
         if (this.logger.isInfo()) {
             Buffer buffer = new Buffer();
@@ -101,7 +94,7 @@ extends AbstractTransferJobEvo {
             buffer.append("' successful='");
             buffer.append(bl);
             buffer.append("'");
-            this.logger.log(1078071040, "[%1.importAborted] %2", (Object)"TransferJobRunning", (Object)buffer.toString());
+            this.logger.log(1000000, "[%1.importAborted] %2", (Object)LOGCLASS, (Object)buffer.toString());
         }
         this.transferState.setNumberOfImportedFiles(l);
         this.transferState.setNumberOfFilesTotalToImport(l2);
@@ -110,7 +103,6 @@ extends AbstractTransferJobEvo {
         this.transferState.setAbortedByUser(true);
     }
 
-    @Override
     public void importFinished(long l, long l2, long l3, boolean bl) {
         if (this.logger.isInfo()) {
             Buffer buffer = new Buffer();
@@ -123,7 +115,7 @@ extends AbstractTransferJobEvo {
             buffer.append("' successful='");
             buffer.append(bl);
             buffer.append("'");
-            this.logger.log(1078071040, "[%1.importFinished] %2", (Object)"TransferJobRunning", (Object)buffer.toString());
+            this.logger.log(1000000, "[%1.importFinished] %2", (Object)LOGCLASS, (Object)buffer.toString());
         }
         this.transferState.setNumberOfImportedFiles(l);
         this.transferState.setNumberOfFilesTotalToImport(l2);
@@ -132,44 +124,39 @@ extends AbstractTransferJobEvo {
         this.transferState.setAbortedByUser(false);
     }
 
-    @Override
     public void deletionFinished() {
-        this.logger.log(1078071040, "[%1.deletionFinished]", (Object)"TransferJobRunning");
+        this.logger.log(1000000, "[%1.deletionFinished]", (Object)LOGCLASS);
         this.transferState.setDelete(true);
         this.transferState.setAbortedByUser(false);
     }
 
-    @Override
     public void deletionAborted() {
-        this.logger.log(1078071040, "[%1.deletionAborted]", (Object)"TransferJobRunning");
+        this.logger.log(1000000, "[%1.deletionAborted]", (Object)LOGCLASS);
         this.transferState.setDelete(true);
         this.transferState.setAbortedByUser(true);
     }
 
-    @Override
     public void startFailed() {
-        this.logger.log(1078071040, "[%1.startFailed]", (Object)"TransferJobRunning");
+        this.logger.log(1000000, "[%1.startFailed]", (Object)LOGCLASS);
         this.handleTransferError();
     }
 
-    @Override
     public boolean isWaiting() {
         return false;
     }
 
     private void handleTransferError() {
-        this.logger.log(1078071040, "[%1.handleTransferError]", (Object)"TransferJobRunning");
-        this.evoTransferController.updateModelsAndShowTransferPopup(1074594560);
+        this.logger.log(1000000, "[%1.handleTransferError]", (Object)LOGCLASS);
+        this.evoTransferController.updateModelsAndShowTransferPopup(200000);
         this.finishJob();
     }
 
     private void finishJob() {
-        this.logger.log(1078071040, "[%1.finishJob]", (Object)"TransferJobRunning");
+        this.logger.log(1000000, "[%1.finishJob]", (Object)LOGCLASS);
         this.evoTransferController.enableTransfer();
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("[name=");
@@ -182,31 +169,24 @@ extends AbstractTransferJobEvo {
         return buffer.toString();
     }
 
-    @Override
     public void activationSuccessful(ISourceSlot iSourceSlot, IBrowseListContext iBrowseListContext) {
     }
 
-    @Override
     public void activationFailed(ISourceSlot iSourceSlot) {
     }
 
-    @Override
     public void importWillBeResumed() {
     }
 
-    @Override
     public void importIsSuspended() {
     }
 
-    @Override
     public void encodingQualityChanged(boolean bl, int n) {
     }
 
-    @Override
     public void browseModeChanged(boolean bl, int n) {
     }
 
-    @Override
     public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
     }
 

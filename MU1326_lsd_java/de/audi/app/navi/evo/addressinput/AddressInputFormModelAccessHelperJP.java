@@ -29,7 +29,6 @@ extends AbstractAddressInputFormModelAccessHelper {
         super(navigationEnv);
     }
 
-    @Override
     public void onUpdateLocation(NavigationEnv navigationEnv, LogChannel logChannel, NavLocation navLocation, Map map) {
         this.onUpdateLocation(navigationEnv, logChannel, null, navLocation, map);
         this.updateValueOfIsCityCenterSelected();
@@ -39,51 +38,50 @@ extends AbstractAddressInputFormModelAccessHelper {
         this.updateValueOfIsHouseNumberCenterSelected();
     }
 
-    @Override
     public void onUpdateLocation(NavigationEnv navigationEnv, LogChannel logChannel, GuiModelAccessDetailsNavi guiModelAccessDetailsNavi, NavLocation navLocation, Map map) {
-        logChannel.log(-2137614336, "%1#onUpdateLocation, with navLocation = %2 ", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+        logChannel.log(10000000, "%1#onUpdateLocation, with navLocation = %2 ", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
         IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessor(navLocation);
         String string = iMyLocationAccessor.getState();
         String string2 = this.getCityWard(iMyLocationAccessor);
         String string3 = this.getPlaceName(iMyLocationAccessor);
         String string4 = this.getChomeNumber(iMyLocationAccessor);
-        logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateLocation, with prefecture = %1, city = %2, placeName = %3, chomeName = %4").toString(), (Object)string, (Object)string2, (Object)string3, (Object)string4);
+        logChannel.log(10000000, this.CLASS_NAME + "#onUpdateLocation, with prefecture = %1, city = %2, placeName = %3, chomeName = %4", (Object)string, (Object)string2, (Object)string3, (Object)string4);
         boolean bl = this.getValueFromMap(map, "prefectureEnabled");
         boolean bl2 = this.getValueFromMap(map, "cityEnabled");
         boolean bl3 = this.getValueFromMap(map, "poiNameEnabled");
         boolean bl4 = this.getValueFromMap(map, "placenameEnbaled");
         boolean bl5 = this.getValueFromMap(map, "chomeEnabled") || this.getValueFromMap(map, "housenumberEnabled");
-        logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateLocation, with prefectureEnabled = %1, cityEnabled = %2, placenameEnabled = %3, chomeNumberEnabled = %4").toString(), (Object)Boolean.toString(bl), (Object)Boolean.toString(bl2), (Object)Boolean.toString(bl4), (Object)Boolean.toString(bl5));
-        logChannel.log(-2137614336, "%1#onUpdateLocation with facilityEnabled = %2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl3));
-        navigationEnv.getChoiceModel(488703488).setValue(bl ? 1 : 0);
-        navigationEnv.getChoiceModel(823854592).setValue(bl2 ? 1 : 0);
-        navigationEnv.getChoiceModel(522257920).setValue(bl3 ? 1 : 0);
-        navigationEnv.getChoiceModel(505480704).setValue(bl4 ? 1 : 0);
-        navigationEnv.getChoiceModel(807470592).setValue(bl5 ? 1 : 0);
+        logChannel.log(10000000, this.CLASS_NAME + "#onUpdateLocation, with prefectureEnabled = %1, cityEnabled = %2, placenameEnabled = %3, chomeNumberEnabled = %4", (Object)Boolean.toString(bl), (Object)Boolean.toString(bl2), (Object)Boolean.toString(bl4), (Object)Boolean.toString(bl5));
+        logChannel.log(10000000, "%1#onUpdateLocation with facilityEnabled = %2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl3));
+        navigationEnv.getChoiceModel(401693).setValue(bl ? 1 : 0);
+        navigationEnv.getChoiceModel(400177).setValue(bl2 ? 1 : 0);
+        navigationEnv.getChoiceModel(401695).setValue(bl3 ? 1 : 0);
+        navigationEnv.getChoiceModel(401694).setValue(bl4 ? 1 : 0);
+        navigationEnv.getChoiceModel(401712).setValue(bl5 ? 1 : 0);
         boolean bl6 = this.getValueFromMap(map, "routeGuidancePossible") && !Util.isEmpty(string);
-        navigationEnv.getChoiceModel(874186240).setValue(bl6 ? 1 : 0);
+        navigationEnv.getChoiceModel(400180).setValue(bl6 ? 1 : 0);
         if (Util.isEmpty(string) && !AddressInputUtilEvo.isInPOIRelatedContext(navigationEnv) && !navigationEnv.getInputModeManager().isSdsActive()) {
-            String string5 = navigationEnv.getTranslatedText(-651819520);
-            navigationEnv.getTextfieldModel(455149056).setText1(string5);
+            String string5 = navigationEnv.getTranslatedText(403161);
+            navigationEnv.getTextfieldModel(401691).setText1(string5);
         } else {
-            navigationEnv.getTextfieldModel(455149056).setText1(string);
+            navigationEnv.getTextfieldModel(401691).setText1(string);
         }
-        navigationEnv.getTextfieldModel(236914176).setText1(string2);
-        navigationEnv.getTextfieldModel(-1893464576).setText1(string3);
-        navigationEnv.getTextfieldModel(539035136).setText1(string4);
+        navigationEnv.getTextfieldModel(401166).setText1(string2);
+        navigationEnv.getTextfieldModel(402575).setText1(string3);
+        navigationEnv.getTextfieldModel(401696).setText1(string4);
         int n = this.findCursorPositionForNavLocation(navigationEnv, logChannel, navLocation, map);
         if (Util.isEmpty(string) && !AddressInputUtilEvo.isInPOIRelatedContext(navigationEnv) && !navigationEnv.getInputModeManager().isSdsActive()) {
             n = 3;
         }
-        logChannel.log(-2137614336, "%1#onUpdateLocation - nextCursorPosition will be = %2", (Object)this.CLASS_NAME, (long)n);
-        navigationEnv.getMenuModel(-518126080).setFocusedItem(n, FocusAdvice.KEEP_POSITION, -1L);
+        logChannel.log(10000000, "%1#onUpdateLocation - nextCursorPosition will be = %2", (Object)this.CLASS_NAME, (long)n);
+        navigationEnv.getMenuModel(401121).setFocusedItem(n, FocusAdvice.KEEP_POSITION, -1L);
         if (null != guiModelAccessDetailsNavi && bl6) {
             guiModelAccessDetailsNavi.onUpdateLocation(navLocation);
         }
         if (navLocation.isPositionValid()) {
-            navigationEnv.getPropertyModel(1847592448).setProperties(160082217, new int[0]);
+            navigationEnv.getPropertyModel(401518).setProperties(698976777, new int[0]);
         } else {
-            navigationEnv.getPropertyModel(1847592448).setProperties(-1, new int[0]);
+            navigationEnv.getPropertyModel(401518).setProperties(-1, new int[0]);
         }
     }
 
@@ -92,7 +90,7 @@ extends AbstractAddressInputFormModelAccessHelper {
         String string = iMyLocationAccessor.getTown();
         String string2 = iMyLocationAccessor.getWard();
         if (AddressInputCityZipSequenceAsia.isCityCenterSelected()) {
-            stringBuffer.append(this.env.getTranslatedText(237438464));
+            stringBuffer.append(this.env.getTranslatedText(403214));
         } else if (!Util.isEmpty(string) && !Util.isEmpty(string2)) {
             stringBuffer.append(string);
             stringBuffer.append(" ");
@@ -107,7 +105,7 @@ extends AbstractAddressInputFormModelAccessHelper {
 
     private String getPlaceName(IMyLocationAccessor iMyLocationAccessor) {
         if (AddressInputPlacenameSequence.isPlaceNameCenterSelected()) {
-            return this.env.getTranslatedText(237438464);
+            return this.env.getTranslatedText(403214);
         }
         return iMyLocationAccessor.getPlaceName();
     }
@@ -117,7 +115,7 @@ extends AbstractAddressInputFormModelAccessHelper {
         String string = iMyLocationAccessor.getChome();
         String string2 = iMyLocationAccessor.getHousenumber();
         if (AddressInputChomeSequence.isChomeCenterSelected() || AddressInputHouseNumberSequenceAsia.isHouseNumberCenterSelected() && (this.env.getChoiceModel(DIScreensEvo.getDiJpNeedsChome()).getValue() == 0 || Util.isEmpty(string))) {
-            stringBuffer.append(this.env.getTranslatedText(237438464));
+            stringBuffer.append(this.env.getTranslatedText(403214));
         } else if (!Util.isEmpty(string) && !Util.isEmpty(string2)) {
             stringBuffer.append(string);
             stringBuffer.append(" ");
@@ -171,7 +169,7 @@ extends AbstractAddressInputFormModelAccessHelper {
     }
 
     private int findCursorPositionInRemoteHMIContext(LogChannel logChannel, NavLocation navLocation) {
-        logChannel.log(-2137614336, "%1#findCursorPositionInRemoteHMIContext()", (Object)this.CLASS_NAME);
+        logChannel.log(10000000, "%1#findCursorPositionInRemoteHMIContext()", (Object)this.CLASS_NAME);
         if (navLocation == null) {
             return 1;
         }
@@ -189,7 +187,7 @@ extends AbstractAddressInputFormModelAccessHelper {
 
     private int findCursorPositionWithoutFacilityName(LogChannel logChannel, NavLocation navLocation, Map map) {
         boolean bl;
-        logChannel.log(-2137614336, "%1#findCursorPositionWithoutFacilityName()", (Object)this.CLASS_NAME);
+        logChannel.log(10000000, "%1#findCursorPositionWithoutFacilityName()", (Object)this.CLASS_NAME);
         boolean bl2 = this.getValueFromMap(map, "placenameEnbaled");
         boolean bl3 = bl = this.getValueFromMap(map, "chomeEnabled") || this.getValueFromMap(map, "housenumberEnabled");
         if (navLocation == null) {
@@ -216,7 +214,7 @@ extends AbstractAddressInputFormModelAccessHelper {
     }
 
     private int findCursorPositionWithFacilityName(LogChannel logChannel, NavLocation navLocation, Map map) {
-        logChannel.log(-2137614336, "%1#findCursorPositionWithFacilityName()", (Object)this.CLASS_NAME);
+        logChannel.log(10000000, "%1#findCursorPositionWithFacilityName()", (Object)this.CLASS_NAME);
         boolean bl = this.getValueFromMap(map, "cityEnabled");
         boolean bl2 = this.getValueFromMap(map, "placenameEnbaled");
         boolean bl3 = this.getValueFromMap(map, "chomeEnabled") || this.getValueFromMap(map, "housenumberEnabled");

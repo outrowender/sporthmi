@@ -14,19 +14,16 @@ extends AbstractRRDInitialPositionHandler {
         super(iRouteManager, navigationEnv, iVehicle);
     }
 
-    @Override
     protected boolean isStopOverVicinity() {
-        return this.env.getChoiceModel(-1859910144).getValue() == 3;
+        return this.env.getChoiceModel(402577).getValue() == 3;
     }
 
-    @Override
     protected boolean isDestinationVicinity() {
-        return this.env.getChoiceModel(-1859910144).getValue() == 2;
+        return this.env.getChoiceModel(402577).getValue() == 2;
     }
 
-    @Override
     protected boolean isInNewCity() {
-        return this.env.getChoiceModel(-1859910144).getValue() == 4;
+        return this.env.getChoiceModel(402577).getValue() == 4;
     }
 }
 

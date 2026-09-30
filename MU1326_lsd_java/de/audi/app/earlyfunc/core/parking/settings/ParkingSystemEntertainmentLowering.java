@@ -17,7 +17,7 @@ public class ParkingSystemEntertainmentLowering
 implements TimerListener,
 ToneServiceListener {
     private final Timer pdcSoundReproductionTimer;
-    private static final long PDC_SOUND_REPRODUCTION_TIME;
+    private static final long PDC_SOUND_REPRODUCTION_TIME = 400L;
     private final PDCSoundReproduction soundReproduction = new PDCSoundReproduction();
     private final LogChannel logChannel;
     private DSICarParkingSystem parkingDSI;
@@ -27,7 +27,7 @@ ToneServiceListener {
 
     public ParkingSystemEntertainmentLowering(LogChannel logChannel) {
         this.logChannel = logChannel;
-        this.pdcSoundReproductionTimer = new Timer("PDCSoundReproductionTimer", 0, false, this);
+        this.pdcSoundReproductionTimer = new Timer("PDCSoundReproductionTimer", 400L, false, this);
     }
 
     public void init(DSICarParkingSystem dSICarParkingSystem, ICarApplication iCarApplication) {
@@ -81,10 +81,9 @@ ToneServiceListener {
         return this.logChannel;
     }
 
-    @Override
     public void updateApsEntertainmentLoweringComboboxState(int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[ParkingSystemEntertainmentLowering#updateApsEntertainmentLoweringComboboxState] comboboxState='%1'", (long)n);
+            this.getLogChannel().log(1000000, "[ParkingSystemEntertainmentLowering#updateApsEntertainmentLoweringComboboxState] comboboxState='%1'", (long)n);
         }
         if (n == 1) {
             this.openComboBox();
@@ -101,7 +100,7 @@ ToneServiceListener {
         synchronized (object) {
             if (this.getParkingDSI() != null && !this.getPdcSoundReproductionTimer().isRunning()) {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "[ParkingSystemEntertainmentLowering#openComboBox] dsi.setPDCSoundReproduction(%1); restart timer: timer='%2'", (Object)this.getSoundReproduction(), (Object)this.getPdcSoundReproductionTimer());
+                    this.getLogChannel().log(1000000, "[ParkingSystemEntertainmentLowering#openComboBox] dsi.setPDCSoundReproduction(%1); restart timer: timer='%2'", (Object)this.getSoundReproduction(), (Object)this.getPdcSoundReproductionTimer());
                 }
                 this.getParkingDSI().setPDCSoundReproduction(this.getSoundReproduction());
                 this.getPdcSoundReproductionTimer().restart();
@@ -111,7 +110,7 @@ ToneServiceListener {
 
     private void closeComboBox() {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[ParkingSystemEntertainmentLowering#closeComboBox] cancel timer: timer='%1'", (Object)this.getPdcSoundReproductionTimer());
+            this.getLogChannel().log(1000000, "[ParkingSystemEntertainmentLowering#closeComboBox] cancel timer: timer='%1'", (Object)this.getPdcSoundReproductionTimer());
         }
         this.pdcSoundReproductionTimer.cancel();
     }
@@ -119,12 +118,11 @@ ToneServiceListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fireTimer(Timer timer) {
         Object object = this.mutex;
         synchronized (object) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[ParkingSystemEntertainmentLowering#fireTimer] dsi.setPDCSoundReproduction(%1): timer=%2", (Object)this.getSoundReproduction(), (Object)timer);
+                this.getLogChannel().log(1000000, "[ParkingSystemEntertainmentLowering#fireTimer] dsi.setPDCSoundReproduction(%1): timer=%2", (Object)this.getSoundReproduction(), (Object)timer);
             }
             if (this.getParkingDSI() != null) {
                 this.getParkingDSI().setPDCSoundReproduction(this.getSoundReproduction());
@@ -135,11 +133,10 @@ ToneServiceListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void cancelTimer(Timer timer) {
         if (this.getParkingDSI() != null) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[ParkingSystemEntertainmentLowering#cancelTimer] dsi.setPDCSoundReproduction() to false: timer=%1", (Object)timer);
+                this.getLogChannel().log(1000000, "[ParkingSystemEntertainmentLowering#cancelTimer] dsi.setPDCSoundReproduction() to false: timer=%1", (Object)timer);
             }
             Object object = this.mutex;
             synchronized (object) {

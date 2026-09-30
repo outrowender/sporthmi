@@ -7,10 +7,8 @@ import de.audi.app.bap.fw.functiontypes.BAPFunctionMethodFSG;
 import de.vw.mib.bap.requests.StartResultMethod;
 
 public interface IBAPIndicationHandlerMethodFSG {
-    default public void processIndicationAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    public void processIndicationAbort(BAPFunctionMethodFSG var1);
 
-    default public void processIndicationStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, StartResultMethod startResultMethod) {
-    }
+    public void processIndicationStartResult(BAPFunctionMethodFSG var1, StartResultMethod var2);
 }
 

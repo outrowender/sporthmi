@@ -9,34 +9,24 @@ import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 
 public interface TiledListModelGUI
 extends HMIModelGUI {
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public int getMaxColumns() {
-    }
+    public int getMaxColumns();
 
-    default public GuiListRow getGuiRow(int n) {
-    }
+    public GuiListRow getGuiRow(int var1);
 
-    default public SelectedItem getSelected() {
-    }
+    public SelectedItem getSelected();
 
-    default public int getIndexForUniqueID(long l) {
-    }
+    public int getIndexForUniqueID(long var1);
 
-    default public void requestItems(int n, int n2, int n3, int n4) {
-    }
+    public void requestItems(int var1, int var2, int var3, int var4);
 
-    default public void unrequestItems(int n, int n2, int n3) {
-    }
+    public void unrequestItems(int var1, int var2, int var3);
 
-    default public void itemSelected(long l, int n, int n2) {
-    }
+    public void itemSelected(long var1, int var3, int var4);
 
-    default public void itemLongSelected(long l, int n, int n2) {
-    }
+    public void itemLongSelected(long var1, int var3, int var4);
 
-    default public void itemReleased(long l, int n, int n2) {
-    }
+    public void itemReleased(long var1, int var3, int var4);
 }
 

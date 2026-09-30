@@ -32,9 +32,9 @@ BaseListModelListener,
 IFavoritePlayerSelectionListener,
 IActionProxyListener,
 OptionModelListener {
-    private static final String LOGCLASS;
-    private static final int MOVE_NOT_ACTIVE;
-    private static final int MOVE_ACTIVE;
+    private static final String LOGCLASS = "FavoritesBrowserList";
+    private static final int MOVE_NOT_ACTIVE = 0;
+    private static final int MOVE_ACTIVE = 1;
     private final LogChannel logger;
     private final IFavoritesController favoritesController;
     private volatile IFavoriteSelectionListener favoriteSelectionListener;
@@ -50,133 +50,123 @@ OptionModelListener {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"FavoritesBrowserList");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"FavoritesBrowserList");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
     }
 
     public void reset() {
-        this.getChoiceModel(-1257307392).setValue(0);
+        this.getChoiceModel(200629).setValue(0);
     }
 
     public void activate(IFavoriteSelectionListener iFavoriteSelectionListener) {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"FavoritesBrowserList");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.favoriteSelectionListener = iFavoriteSelectionListener;
         this.favoritesController.addFavoriteListListener(this);
-        this.getBaseListModel(-1777401088).setListener(this);
-        this.getOptionModel(789578496).setListener(this, -1777401088);
+        this.getBaseListModel(200598).setListener(this);
+        this.getOptionModel(200751).setListener(this, 200598);
         this.getTerminal().addActionProxyListener(35, (IActionProxyListener)this);
     }
 
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"FavoritesBrowserList");
-        this.getBaseListModel(-1777401088).setListener(null);
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
+        this.getBaseListModel(200598).setListener(null);
         this.favoritesController.removeFavoriteListListener(this);
-        this.getOptionModel(789578496).removeListener(-1777401088);
+        this.getOptionModel(200751).removeListener(200598);
         this.getTerminal().removeActionProxyListener(this);
     }
 
     private void blockList() {
-        this.logger.log(1078071040, "[%1.blockList]", (Object)"FavoritesBrowserList");
-        this.getBaseListModel(-1777401088).setStatus(0);
+        this.logger.log(1000000, "[%1.blockList]", (Object)LOGCLASS);
+        this.getBaseListModel(200598).setStatus(0);
     }
 
     private void unblockList() {
-        this.logger.log(1078071040, "[%1.unblockList]", (Object)"FavoritesBrowserList");
-        this.getBaseListModel(-1777401088).setStatus(1);
+        this.logger.log(1000000, "[%1.unblockList]", (Object)LOGCLASS);
+        this.getBaseListModel(200598).setStatus(1);
     }
 
     private boolean isListBlocked() {
-        return this.getBaseListModel(-1777401088).getStatus() == 0;
+        return this.getBaseListModel(200598).getStatus() == 0;
     }
 
     private void selectEntry(FavoritesListRow favoritesListRow) {
-        this.logger.log(1078071040, "[%1.selectEntry]", (Object)"FavoritesBrowserList");
+        this.logger.log(1000000, "[%1.selectEntry]", (Object)LOGCLASS);
         if (this.isListBlocked()) {
-            this.logger.log(1078071040, "[%1.itemSelected] List is blocked, ignore select.", (Object)"FavoritesBrowserList");
+            this.logger.log(1000000, "[%1.itemSelected] List is blocked, ignore select.", (Object)LOGCLASS);
             return;
         }
         this.blockList();
-        this.getChoiceModel(-1475411200).setValue(11);
+        this.getChoiceModel(200616).setValue(11);
         this.selectedFavorite = favoritesListRow.getMediaFavorite();
         this.favoriteSelectionListener.playFavoriteSelection(this.selectedFavorite, this);
     }
 
-    @Override
     public void selectFavoriteEntry(int n) {
-        this.logger.log(1078071040, "[%1.selectFavoriteEntry] idx='%2'", (Object)"FavoritesBrowserList", (long)n);
-        this.selectEntry((FavoritesListRow)this.getBaseListModel(-1777401088).getRow(n));
+        this.logger.log(1000000, "[%1.selectFavoriteEntry] idx='%2'", (Object)LOGCLASS, (long)n);
+        this.selectEntry((FavoritesListRow)this.getBaseListModel(200598).getRow(n));
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (this.moveModus) {
-            this.logger.log(1078071040, "[%1.itemSelected] Move finished", (Object)"FavoritesBrowserList");
+            this.logger.log(1000000, "[%1.itemSelected] Move finished", (Object)LOGCLASS);
             this.moveFavorite(n2);
             this.moveModus = false;
         } else {
-            this.logger.log(1078071040, "[%1.itemSelected] entry selected", (Object)"FavoritesBrowserList");
+            this.logger.log(1000000, "[%1.itemSelected] entry selected", (Object)LOGCLASS);
             this.selectEntry((FavoritesListRow)evoListRow);
         }
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
-        if (n == 789578496) {
-            this.logger.log(1078071040, "[%1.keyTyped] Move favorite.", (Object)"FavoritesBrowserList");
-            this.getChoiceModel(2098201344).setValue(1);
+        if (n == 200751) {
+            this.logger.log(1000000, "[%1.keyTyped] Move favorite.", (Object)LOGCLASS);
+            this.getChoiceModel(200829).setValue(1);
             this.moveModus = true;
             this.moveSourceIndex = n3;
-            this.getBaseListModel(-1777401088).trigger(ModelTrigger.ACTIVATE_MOVE_MODE);
+            this.getBaseListModel(200598).trigger(ModelTrigger.ACTIVATE_MOVE_MODE);
         }
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (n == 35) {
-            this.logger.log(1078071040, "[%1.actionProxyCallPerformed]", (Object)"FavoritesBrowserList");
+            this.logger.log(1000000, "[%1.actionProxyCallPerformed]", (Object)LOGCLASS);
             this.reset();
-            this.getChoiceModel(-1274084608).setValue(11);
+            this.getChoiceModel(200628).setValue(11);
         }
     }
 
     private void moveFavorite(int n) {
-        this.logger.log(1078071040, "[%1.moveFavorite]", (Object)"FavoritesBrowserList");
+        this.logger.log(1000000, "[%1.moveFavorite]", (Object)LOGCLASS);
         FavoritesList favoritesList = this.favoritesList;
         favoritesList.moveFavorite(this.moveSourceIndex, n);
-        this.getChoiceModel(2098201344).setValue(0);
+        this.getChoiceModel(200829).setValue(0);
         favoritesList.addTrigger(ModelTrigger.DEACTIVATE_MOVE_MODE);
         this.favoritesController.listChanged(favoritesList);
     }
 
-    @Override
     public void listChanged(FavoritesList favoritesList) {
-        this.logger.log(1078071040, "[%1.listChanged]", (Object)"FavoritesBrowserList");
+        this.logger.log(1000000, "[%1.listChanged]", (Object)LOGCLASS);
         this.blockList();
         this.favoritesList = favoritesList;
-        BaseListModelApp baseListModelApp = this.getBaseListModel(-1777401088);
+        BaseListModelApp baseListModelApp = this.getBaseListModel(200598);
         BaseListModelApp baseListModelApp2 = baseListModelApp.getCopy();
         List list = favoritesList.getFavoritesList();
         baseListModelApp2.clearAll();
@@ -190,22 +180,21 @@ OptionModelListener {
         this.unblockList();
     }
 
-    @Override
     public void playFavoriteSelectionDone(boolean bl) {
         if (this.selectedFavorite != null) {
             this.selectedFavorite.setPlayable(bl);
             this.favoritesController.updateFavorite(this.selectedFavorite);
             this.selectedFavorite = null;
             if (bl) {
-                this.logger.log(1078071040, "[%1.playFavoriteSelectionDone]", (Object)"FavoritesBrowserList");
-                this.getChoiceModel(-1257307392).setValue(1);
+                this.logger.log(1000000, "[%1.playFavoriteSelectionDone]", (Object)LOGCLASS);
+                this.getChoiceModel(200629).setValue(1);
             }
         }
         this.unblockList();
     }
 
     private EvoListRow[] fillList(List list) {
-        this.logger.log(1078071040, "[%1.fillList]", (Object)"FavoritesBrowserList");
+        this.logger.log(1000000, "[%1.fillList]", (Object)LOGCLASS);
         EvoListRow[] evoListRowArray = new FavoritesListRow[list.size()];
         int n = 0;
         Iterator iterator = list.iterator();
@@ -217,7 +206,6 @@ OptionModelListener {
         return evoListRowArray;
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
     }
 }

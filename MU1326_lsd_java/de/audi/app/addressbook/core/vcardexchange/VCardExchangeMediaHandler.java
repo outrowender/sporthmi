@@ -5,7 +5,6 @@ package de.audi.app.addressbook.core.vcardexchange;
 
 import de.audi.app.addressbook.core.common.ADBUtils;
 import de.audi.app.addressbook.core.vcardexchange.VCardExchangeADBHandler;
-import de.audi.app.addressbook.core.vcardexchange.VCardExchangeMediaHandler$SourceInfo;
 import de.audi.atip.hmi.IHMIServiceApp;
 import de.audi.atip.interapp.media.IMediaServiceListener;
 import de.audi.atip.interapp.media.MediaSlotInfo;
@@ -15,15 +14,15 @@ import java.util.Map;
 
 public class VCardExchangeMediaHandler
 implements IMediaServiceListener {
-    private static final int SOURCE_STATE_UNAVAILABLE;
-    private static final int SOURCE_STATE_READ_ONLY;
-    private static final int SOURCE_STATE_READ_WRITE;
-    private static final Integer SOURCE_MEDIA_USB;
-    private static final Integer SOURCE_MEDIA_SD;
-    private static final int SD_DEVICE_1_SLOT;
-    private static final int SD_DEVICE_2_SLOT;
-    private static final int USB_DEVICE_1_SLOT;
-    private static final int USB_DEVICE_2_SLOT;
+    private static final int SOURCE_STATE_UNAVAILABLE = 0;
+    private static final int SOURCE_STATE_READ_ONLY = 1;
+    private static final int SOURCE_STATE_READ_WRITE = 2;
+    private static final Integer SOURCE_MEDIA_USB = new Integer(10);
+    private static final Integer SOURCE_MEDIA_SD = new Integer(5);
+    private static final int SD_DEVICE_1_SLOT = 0;
+    private static final int SD_DEVICE_2_SLOT = 1;
+    private static final int USB_DEVICE_1_SLOT = 0;
+    private static final int USB_DEVICE_2_SLOT = 2;
     private VCardExchangeADBHandler vCardAdbHandler;
     private IHMIServiceApp hmiService;
     private LogChannel log;
@@ -58,38 +57,38 @@ implements IMediaServiceListener {
     }
 
     private int updateLeftSDCardDeviceState(Map map) {
-        VCardExchangeMediaHandler$SourceInfo vCardExchangeMediaHandler$SourceInfo = this.getMediaState(map, SOURCE_MEDIA_SD, 0);
-        int n = vCardExchangeMediaHandler$SourceInfo.getSourceState();
-        this.mountPointSd1 = vCardExchangeMediaHandler$SourceInfo.getMountPoint();
-        this.hmiService.getButtonModel(984615424).setStatus(n >= 1 ? 1 : 0);
-        this.hmiService.getButtonModel(632293888).setStatus(n == 2 ? 1 : 0);
+        SourceInfo sourceInfo = this.getMediaState(map, SOURCE_MEDIA_SD, 0);
+        int n = sourceInfo.getSourceState();
+        this.mountPointSd1 = sourceInfo.getMountPoint();
+        this.hmiService.getButtonModel(700474).setStatus(n >= 1 ? 1 : 0);
+        this.hmiService.getButtonModel(700453).setStatus(n == 2 ? 1 : 0);
         return n;
     }
 
     private int updateRightSDCardDeviceState(Map map) {
-        VCardExchangeMediaHandler$SourceInfo vCardExchangeMediaHandler$SourceInfo = this.getMediaState(map, SOURCE_MEDIA_SD, 1);
-        int n = vCardExchangeMediaHandler$SourceInfo.getSourceState();
-        this.mountPointSd2 = vCardExchangeMediaHandler$SourceInfo.getMountPoint();
-        this.hmiService.getButtonModel(1001392640).setStatus(n >= 1 ? 1 : 0);
-        this.hmiService.getButtonModel(649071104).setStatus(n == 2 ? 1 : 0);
+        SourceInfo sourceInfo = this.getMediaState(map, SOURCE_MEDIA_SD, 1);
+        int n = sourceInfo.getSourceState();
+        this.mountPointSd2 = sourceInfo.getMountPoint();
+        this.hmiService.getButtonModel(700475).setStatus(n >= 1 ? 1 : 0);
+        this.hmiService.getButtonModel(700454).setStatus(n == 2 ? 1 : 0);
         return n;
     }
 
     private int updateUSB1DeviceState(Map map) {
-        VCardExchangeMediaHandler$SourceInfo vCardExchangeMediaHandler$SourceInfo = this.getMediaState(map, SOURCE_MEDIA_USB, 0);
-        int n = vCardExchangeMediaHandler$SourceInfo.getSourceState();
-        this.mountPointUsb1 = vCardExchangeMediaHandler$SourceInfo.getMountPoint();
-        this.hmiService.getButtonModel(1018169856).setStatus(n >= 1 ? 1 : 0);
-        this.hmiService.getButtonModel(665848320).setStatus(n == 2 ? 1 : 0);
+        SourceInfo sourceInfo = this.getMediaState(map, SOURCE_MEDIA_USB, 0);
+        int n = sourceInfo.getSourceState();
+        this.mountPointUsb1 = sourceInfo.getMountPoint();
+        this.hmiService.getButtonModel(700476).setStatus(n >= 1 ? 1 : 0);
+        this.hmiService.getButtonModel(700455).setStatus(n == 2 ? 1 : 0);
         return n;
     }
 
     private int updateUSB2DeviceState(Map map) {
-        VCardExchangeMediaHandler$SourceInfo vCardExchangeMediaHandler$SourceInfo = this.getMediaState(map, SOURCE_MEDIA_USB, 2);
-        int n = vCardExchangeMediaHandler$SourceInfo.getSourceState();
-        this.mountPointUsb2 = vCardExchangeMediaHandler$SourceInfo.getMountPoint();
-        this.hmiService.getButtonModel(1789921792).setStatus(n >= 1 ? 1 : 0);
-        this.hmiService.getButtonModel(1773144576).setStatus(n == 2 ? 1 : 0);
+        SourceInfo sourceInfo = this.getMediaState(map, SOURCE_MEDIA_USB, 2);
+        int n = sourceInfo.getSourceState();
+        this.mountPointUsb2 = sourceInfo.getMountPoint();
+        this.hmiService.getButtonModel(700522).setStatus(n >= 1 ? 1 : 0);
+        this.hmiService.getButtonModel(700521).setStatus(n == 2 ? 1 : 0);
         return n;
     }
 
@@ -99,7 +98,7 @@ implements IMediaServiceListener {
         int n3 = this.updateUSB1DeviceState(map);
         int n4 = this.updateUSB2DeviceState(map);
         if (this.log.isInfo()) {
-            this.log.log(1078071040, new StringBuffer().append("VCardExchangeMediaHandler#processSourceListChange(): device states have been updated: sd1State: %1, sd2State: %2, usb1State: %3, usb2State: ").append(n4).toString(), (long)n, (long)n2, (long)n3);
+            this.log.log(1000000, "VCardExchangeMediaHandler#processSourceListChange(): device states have been updated: sd1State: %1, sd2State: %2, usb1State: %3, usb2State: " + n4, (long)n, (long)n2, (long)n3);
         }
         if (this.shouldCancelImport(n, n2, n3, n4)) {
             this.vCardAdbHandler.cancelImport();
@@ -116,58 +115,65 @@ implements IMediaServiceListener {
         return this.vCardAdbHandler.getImportExportMode() == 2 && (this.vCardAdbHandler.getExchangeLocation() == 1 && n < 2 || this.vCardAdbHandler.getExchangeLocation() == 2 && n2 < 2 || this.vCardAdbHandler.getExchangeLocation() == 3 && n3 < 2 || this.vCardAdbHandler.getExchangeLocation() == 4 && n4 < 2);
     }
 
-    private VCardExchangeMediaHandler$SourceInfo getMediaState(Map map, Integer n, int n2) {
+    private SourceInfo getMediaState(Map map, Integer n, int n2) {
         if (map == null || map.get(n) == null || !(map.get(n) instanceof List)) {
-            return new VCardExchangeMediaHandler$SourceInfo(0, "");
+            return new SourceInfo(0, "");
         }
         List list = (List)map.get(n);
         for (int i2 = 0; i2 < list.size(); ++i2) {
             MediaSlotInfo mediaSlotInfo = (MediaSlotInfo)list.get(i2);
             if (mediaSlotInfo.getSlotIdx() != n2) continue;
             if (mediaSlotInfo.isEmpty()) {
-                return new VCardExchangeMediaHandler$SourceInfo(0, "");
+                return new SourceInfo(0, "");
             }
             if (mediaSlotInfo.getType() == 9 || mediaSlotInfo.getType() == 8 || mediaSlotInfo.getType() == 10 || ADBUtils.isEmpty(mediaSlotInfo.getMountPoint())) {
-                return new VCardExchangeMediaHandler$SourceInfo(0, "");
+                return new SourceInfo(0, "");
             }
             if (mediaSlotInfo.isReadOnly()) {
-                return new VCardExchangeMediaHandler$SourceInfo(1, mediaSlotInfo.getMountPoint());
+                return new SourceInfo(1, mediaSlotInfo.getMountPoint());
             }
-            return new VCardExchangeMediaHandler$SourceInfo(2, mediaSlotInfo.getMountPoint());
+            return new SourceInfo(2, mediaSlotInfo.getMountPoint());
         }
-        return new VCardExchangeMediaHandler$SourceInfo(0, "");
+        return new SourceInfo(0, "");
     }
 
-    @Override
     public void sourceListChanged(Map map) {
-        this.log.log(-2137614336, "VCardExchangeMediaHandler#sourceListChanged(): sourceList: %1", (Object)map);
+        this.log.log(10000000, "VCardExchangeMediaHandler#sourceListChanged(): sourceList: %1", (Object)map);
         this.processSourceListChange(map);
     }
 
-    @Override
     public int getTerminalID() {
         return 0;
     }
 
-    @Override
     public void sourceAvailable(int n, boolean bl) {
     }
 
-    @Override
     public void updateActiveSource(MediaSlotInfo mediaSlotInfo, boolean bl) {
     }
 
-    @Override
     public void sourceDeactivated() {
     }
 
-    @Override
     public void updatePlaybackState(int n) {
     }
 
-    static {
-        SOURCE_MEDIA_USB = new Integer(10);
-        SOURCE_MEDIA_SD = new Integer(5);
+    private static class SourceInfo {
+        private int sourceState;
+        private String mountPoint;
+
+        public SourceInfo(int n, String string) {
+            this.sourceState = n;
+            this.mountPoint = string;
+        }
+
+        public int getSourceState() {
+            return this.sourceState;
+        }
+
+        public String getMountPoint() {
+            return this.mountPoint;
+        }
     }
 }
 

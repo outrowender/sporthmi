@@ -25,19 +25,17 @@ extends AbstractDataCommand {
         this.statusRequest = n2;
     }
 
-    @Override
     public void execute() {
         if (this.dsi != null) {
             this.dsi.setRequestSetting(this.dataApplicationID, this.statusRequest);
         } else {
-            this.logger.log(-1601830656, "CommandSetRequestSetting#execute(): dsi is NULL");
+            this.logger.log(100000, "CommandSetRequestSetting#execute(): dsi is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void setRequestSettingResponse(int n) {
-        this.logger.log(1078071040, "CommandSetRequestSetting#setRequestSettingResponse(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandSetRequestSetting#setRequestSettingResponse(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

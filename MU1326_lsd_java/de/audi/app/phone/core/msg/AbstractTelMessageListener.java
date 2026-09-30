@@ -17,24 +17,20 @@ implements MsgListener {
         this.message = n;
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getMessageDispatcher().addMessageListener(this.message, this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getMessageDispatcher().removeMessageListener(this.message, this);
     }
 
-    @Override
     public void processMsg(int n) {
         this.messageReceived();
     }
 
-    protected abstract void messageReceived() {
-    }
+    protected abstract void messageReceived();
 }
 

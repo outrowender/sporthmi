@@ -4,13 +4,10 @@
 package de.audi.app.ecall.core.screen;
 
 public interface IPopupStateListener {
-    default public void notifyPopupVisible(int n) {
-    }
+    public void notifyPopupVisible(int var1);
 
-    default public void notifyPopupHidden(int n) {
-    }
+    public void notifyPopupHidden(int var1);
 
-    default public void notifyPopupRemoved(int n) {
-    }
+    public void notifyPopupRemoved(int var1);
 }
 

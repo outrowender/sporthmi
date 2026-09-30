@@ -6,11 +6,11 @@ package de.audi.atip.hmi.model;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map$Entry;
+import java.util.Map;
 
 public class AdditionalScreenData {
-    public static final int CURSOR_POSITION;
-    public static final int STAY_ON_FOCUSED_ELEMENT;
+    public static final int CURSOR_POSITION = 1;
+    public static final int STAY_ON_FOCUSED_ELEMENT = 2;
     private HashMap data = new HashMap();
 
     public void addData(int n, Object object) {
@@ -30,8 +30,8 @@ public class AdditionalScreenData {
         try {
             Iterator iterator = this.data.entrySet().iterator();
             while (iterator.hasNext()) {
-                Map$Entry map$Entry = (Map$Entry)iterator.next();
-                buffer.append("(key: ").append(map$Entry.getKey()).append(", value:").append(map$Entry.getValue()).append(")");
+                Map.Entry entry = (Map.Entry)iterator.next();
+                buffer.append("(key: ").append(entry.getKey()).append(", value:").append(entry.getValue()).append(")");
             }
         }
         catch (Exception exception) {

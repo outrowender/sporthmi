@@ -20,7 +20,7 @@ import de.esolutions.fw.util.commons.job.DispatcherBase;
 public abstract class AbstractMediaBrowser
 implements IMediaBrowserListener,
 IDSIControllerStateListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractMediaBrowser";
     private final IMediaDSIBrowserController dsiMediaBrowser;
     protected final LogChannel logger;
     private final Object activateDeactivateMutex = new Object();
@@ -35,19 +35,17 @@ IDSIControllerStateListener {
         this.sourceController = iSourceController;
     }
 
-    protected abstract void browserActivated(IBrowseListContext iBrowseListContext) {
-    }
+    protected abstract void browserActivated(IBrowseListContext var1);
 
-    protected abstract void browserDeactivated(ISourceSlot iSourceSlot, boolean bl) {
-    }
+    protected abstract void browserDeactivated(ISourceSlot var1, boolean var2);
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"AbstractMediaBrowser");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.dsiMediaBrowser.init();
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"AbstractMediaBrowser");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.dsiMediaBrowser.deinit();
     }
 
@@ -55,13 +53,13 @@ IDSIControllerStateListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void activate(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"AbstractMediaBrowser");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         Object object = this.activateDeactivateMutex;
         synchronized (object) {
             this.activeSourceSlot = iSourceSlot;
         }
         if (!this.dsiMediaBrowser.isStarted()) {
-            this.logger.log(1078071040, "[%1.activate (%2)] Start DSI.", (Object)"AbstractMediaBrowser", (long)this.dsiMediaBrowser.getInstanceID());
+            this.logger.log(1000000, "[%1.activate (%2)] Start DSI.", (Object)LOGCLASS, (long)this.dsiMediaBrowser.getInstanceID());
             this.dsiMediaBrowser.startDSI();
         }
         this.dsiMediaBrowser.setStateListener(this);
@@ -73,11 +71,11 @@ IDSIControllerStateListener {
     private void deactivate(boolean bl) {
         Object object = this.activateDeactivateMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.deactivate(%3)] '%2'", (Object)"AbstractMediaBrowser", (Object)String.valueOf(bl), (long)this.dsiMediaBrowser.getInstanceID());
+            this.logger.log(1000000, "[%1.deactivate(%3)] '%2'", (Object)LOGCLASS, (Object)String.valueOf(bl), (long)this.dsiMediaBrowser.getInstanceID());
             this.browserInvalidation = bl;
             this.dsiMediaBrowser.setStateListener(null);
             if (this.activeSourceSlot == null) {
-                this.logger.log(1078071040, "[%1.deactivate] Browser not activated.", (Object)"AbstractMediaBrowser");
+                this.logger.log(1000000, "[%1.deactivate] Browser not activated.", (Object)LOGCLASS);
                 return;
             }
             ISourceSlot iSourceSlot = this.activeSourceSlot;
@@ -101,13 +99,12 @@ IDSIControllerStateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void browseSourceActivated() {
         Object object = this.activateDeactivateMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.browseSourceActivated]", (Object)"AbstractMediaBrowser");
+            this.logger.log(1000000, "[%1.browseSourceActivated]", (Object)LOGCLASS);
             if (this.activeSourceSlot == null) {
-                this.logger.log(1078071040, "[%1.browseSourceActivated] Not active any more.", (Object)"AbstractMediaBrowser");
+                this.logger.log(1000000, "[%1.browseSourceActivated] Not active any more.", (Object)LOGCLASS);
                 return;
             }
             if (this.browseListContext == null) {
@@ -121,9 +118,8 @@ IDSIControllerStateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void browseSourceDeactivated() {
-        this.logger.log(1078071040, "[%1.browseSourceDeactivated]", (Object)"AbstractMediaBrowser");
+        this.logger.log(1000000, "[%1.browseSourceDeactivated]", (Object)LOGCLASS);
         Object object = this.activateDeactivateMutex;
         synchronized (object) {
             if (this.browserInvalidation) {
@@ -133,28 +129,25 @@ IDSIControllerStateListener {
         }
     }
 
-    @Override
     public final void browseSourceInvalidated() {
-        this.logger.log(1078071040, "[%1.browseSourceDeactivated]", (Object)"AbstractMediaBrowser");
+        this.logger.log(1000000, "[%1.browseSourceDeactivated]", (Object)LOGCLASS);
         this.deactivate(true);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logger.log(1078071040, "[%1.asyncException] Receive async exception. Deactivated the browser.", (Object)"AbstractMediaBrowser");
+        this.logger.log(1000000, "[%1.asyncException] Receive async exception. Deactivated the browser.", (Object)LOGCLASS);
         this.deactivate(false);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void dsiAvailable() {
         Object object = this.activateDeactivateMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.dsiAvailable] Browser DSI available.", (Object)"AbstractMediaBrowser");
+            this.logger.log(1000000, "[%1.dsiAvailable] Browser DSI available.", (Object)LOGCLASS);
             if (this.activeSourceSlot == null) {
-                this.logger.log(1078071040, "[%1.dsiAvailable] Not active. Ignore.", (Object)"AbstractMediaBrowser");
+                this.logger.log(1000000, "[%1.dsiAvailable] Not active. Ignore.", (Object)LOGCLASS);
                 return;
             }
             this.dsiMediaBrowser.setBrowserListener(this);
@@ -162,7 +155,6 @@ IDSIControllerStateListener {
         }
     }
 
-    @Override
     public void dsiUnavailable() {
     }
 

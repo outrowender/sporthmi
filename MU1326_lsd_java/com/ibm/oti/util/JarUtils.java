@@ -4,13 +4,14 @@
 package com.ibm.oti.util;
 
 import com.ibm.oti.security.provider.PKCS7;
-import com.ibm.oti.security.provider.PKCS7$SignerInfo;
 import com.ibm.oti.security.provider.X509CertificateChain;
-import com.ibm.oti.util.ASN1Decoder$Node;
+import com.ibm.oti.util.ASN1Decoder;
 import com.ibm.oti.util.ASN1Encoder;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,7 +31,7 @@ public class JarUtils {
     private JarUtils() {
     }
 
-    public static Certificate[] verifySignature(InputStream inputStream, InputStream inputStream2) {
+    public static Certificate[] verifySignature(InputStream inputStream, InputStream inputStream2) throws IOException, GeneralSecurityException {
         Object object;
         Object object2;
         Object object3;
@@ -50,10 +51,10 @@ public class JarUtils {
         catch (IllegalArgumentException illegalArgumentException) {
             return certificateArray;
         }
-        PKCS7$SignerInfo[] pKCS7$SignerInfoArray = pKCS7.signedData().signerInfos();
-        PKCS7$SignerInfo pKCS7$SignerInfo = pKCS7$SignerInfoArray[0];
-        Principal principal = pKCS7$SignerInfo.getIssuer();
-        BigInteger bigInteger = pKCS7$SignerInfo.getSerialNumber();
+        PKCS7.SignerInfo[] signerInfoArray = pKCS7.signedData().signerInfos();
+        PKCS7.SignerInfo signerInfo = signerInfoArray[0];
+        Principal principal = signerInfo.getIssuer();
+        BigInteger bigInteger = signerInfo.getSerialNumber();
         Certificate certificate = null;
         X509Certificate x509Certificate = null;
         Collection collection = null;
@@ -75,7 +76,7 @@ public class JarUtils {
             return certificateArray;
         }
         object5 = null;
-        object4 = pKCS7$SignerInfo.signatureName();
+        object4 = signerInfo.signatureName();
         try {
             if (object4 != null) {
                 object5 = Signature.getInstance((String)object4);
@@ -84,7 +85,7 @@ public class JarUtils {
         catch (NoSuchAlgorithmException noSuchAlgorithmException) {}
         if (object5 == null) {
             try {
-                object4 = pKCS7$SignerInfo.digestEncryptionAlgorithm();
+                object4 = signerInfo.digestEncryptionAlgorithm();
                 if (object4 == null) {
                     return certificateArray;
                 }
@@ -100,13 +101,13 @@ public class JarUtils {
         catch (InvalidKeyException invalidKeyException) {
             return certificateArray;
         }
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray = pKCS7$SignerInfo.authenticatedAttributes();
-        if (aSN1Decoder$NodeArray.length > 0) {
-            object3 = new ASN1Decoder$Node();
-            ((ASN1Decoder$Node)object3).type = 17;
-            ((ASN1Decoder$Node)object3).data = aSN1Decoder$NodeArray;
+        ASN1Decoder.Node[] nodeArray = signerInfo.authenticatedAttributes();
+        if (nodeArray.length > 0) {
+            object3 = new ASN1Decoder.Node();
+            ((ASN1Decoder.Node)object3).type = 17;
+            ((ASN1Decoder.Node)object3).data = nodeArray;
             try {
-                ((Signature)object5).update(ASN1Encoder.encodeNode((ASN1Decoder$Node)object3));
+                ((Signature)object5).update(ASN1Encoder.encodeNode((ASN1Decoder.Node)object3));
             }
             catch (SignatureException signatureException) {
                 return certificateArray;
@@ -118,10 +119,10 @@ public class JarUtils {
         catch (SignatureException signatureException) {
             return certificateArray;
         }
-        object3 = pKCS7$SignerInfo.contentMessageDigest();
+        object3 = signerInfo.contentMessageDigest();
         if (object3 != null) {
             try {
-                object2 = MessageDigest.getInstance(pKCS7$SignerInfo.digestAlgorithm());
+                object2 = MessageDigest.getInstance(signerInfo.digestAlgorithm());
                 object = ((MessageDigest)object2).digest(byArray);
                 if (!Arrays.equals((byte[])object3, (byte[])object)) {
                     throw new SignatureException();
@@ -131,7 +132,7 @@ public class JarUtils {
                 return certificateArray;
             }
         }
-        if (!((Signature)object5).verify(pKCS7$SignerInfo.encryptedDigest())) {
+        if (!((Signature)object5).verify(signerInfo.encryptedDigest())) {
             throw new SignatureException();
         }
         if (certificate.hasUnsupportedCriticalExtension()) {
@@ -147,7 +148,7 @@ public class JarUtils {
         return certificateArray;
     }
 
-    public static byte[] getSignatureBlockBytes(byte[] byArray, Certificate[] certificateArray, String string, String string2) {
+    public static byte[] getSignatureBlockBytes(byte[] byArray, Certificate[] certificateArray, String string, String string2) throws IOException {
         return PKCS7.getASN1DEREncoded(certificateArray, string, string2, byArray);
     }
 }

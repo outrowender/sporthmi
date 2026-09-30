@@ -25,9 +25,8 @@ extends AbstractSystemCallCommand {
         this.nBest = nBestStorageAccess;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: mode=%2", (Object)this.getName(), (long)this.mode);
+        this.logger.log(10000000, "%1#execute: mode=%2", (Object)this.getName(), (long)this.mode);
         boolean bl = false;
         switch (this.mode) {
             case 7: {
@@ -65,9 +64,9 @@ extends AbstractSystemCallCommand {
     }
 
     private boolean setSelectedEntryFromPicklist() {
-        this.logger.log(-2137614336, "%1#setSelectedEntryFromPicklist: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#setSelectedEntryFromPicklist: called", (Object)this.getName());
         long l = SDSUtils.getSelectedObjectId(this.nBest, this.logger, 0);
-        this.logger.log(-2137614336, "%1#setSelectedEntryFromPicklist: id=%2!", (Object)this.getName(), l);
+        this.logger.log(10000000, "%1#setSelectedEntryFromPicklist: id=%2!", (Object)this.getName(), l);
         int n = -1;
         String string = "";
         switch (this.mode) {
@@ -82,13 +81,13 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#setSelectedEntryFromPicklist: Unhandled mode=%2", (Object)this.getName(), (long)this.mode);
+                this.logger.log(100000, "%1#setSelectedEntryFromPicklist: Unhandled mode=%2", (Object)this.getName(), (long)this.mode);
                 return false;
             }
         }
-        this.logger.log(-2137614336, "%1#setSelectedEntryFromPicklist: index=%3, entryName=%2!", (Object)this.getName(), (Object)string, (long)n);
+        this.logger.log(10000000, "%1#setSelectedEntryFromPicklist: index=%3, entryName=%2!", (Object)this.getName(), (Object)string, (long)n);
         if (n == -1) {
-            this.logger.log(-1601830656, "%1#setSelectedEntryFromPicklist: No valid index found!", (Object)this.getName());
+            this.logger.log(100000, "%1#setSelectedEntryFromPicklist: No valid index found!", (Object)this.getName());
             return false;
         }
         SDSModelAccess.setADBEntryNameModel(string);

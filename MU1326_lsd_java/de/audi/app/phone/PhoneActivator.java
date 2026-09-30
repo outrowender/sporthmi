@@ -12,14 +12,12 @@ public class PhoneActivator
 extends AbstractActivator {
     private ITelApplication phoneApplicationEvo;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.phoneApplicationEvo = new PhoneApplicationEvo(this.framework, bundleContext);
         this.phoneApplicationEvo.init();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.phoneApplicationEvo.deinit();
         this.phoneApplicationEvo = null;

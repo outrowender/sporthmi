@@ -4,10 +4,8 @@
 package de.audi.atip.wordprediction;
 
 public interface IInputTextInfoProviderAsia {
-    default public String getUnconvertedCharacters() {
-    }
+    public String getUnconvertedCharacters();
 
-    default public String getCurrentText() {
-    }
+    public String getCurrentText();
 }
 

@@ -21,12 +21,10 @@ extends AbstractWlanCommand {
         super(logChannel, dSIWLAN, (class$de$audi$app$wlan$core$reset$CommandFactoryReset == null ? (class$de$audi$app$wlan$core$reset$CommandFactoryReset = CommandFactoryReset.class$("de.audi.app.wlan.core.reset.CommandFactoryReset")) : class$de$audi$app$wlan$core$reset$CommandFactoryReset).getName());
     }
 
-    @Override
     public void execute() {
         this.dsiWlan.factoryReset();
     }
 
-    @Override
     public void responseFactoryReset(int n) {
         this.commandList.commandFinished();
         if (n != 0) {

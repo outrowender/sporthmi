@@ -51,7 +51,7 @@ public class TextConstantUtil {
     }
 
     public static String replaceSingleI18NConstant(String string, ITextConstantsConverter iTextConstantsConverter) {
-        return TextConstantUtil.replaceConstants(new StringBuffer().append(I18NCONSTANT).append(string).append("}").toString(), I18NCONSTANT, iTextConstantsConverter);
+        return TextConstantUtil.replaceConstants(I18NCONSTANT + string + "}", I18NCONSTANT, iTextConstantsConverter);
     }
 
     public static boolean containsTextConstant(String string) {

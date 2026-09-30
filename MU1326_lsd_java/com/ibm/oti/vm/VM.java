@@ -19,36 +19,30 @@ public final class VM {
     private static boolean closeJars = false;
     private static boolean deleteOnExit = false;
     private static Vector shutdownClasses = new Vector(4);
-    static final int CPE_TYPE_UNKNOWN;
-    static final int CPE_TYPE_DIRECTORY;
-    static final int CPE_TYPE_JAR;
-    static final int CPE_TYPE_TCP;
-    static final int CPE_TYPE_JXE;
-    static final int CPE_TYPE_UNUSABLE;
-    static final int CPE_TYPE_PALMDB;
-    static final int CPE_TYPE_ODC;
-    static final int CPE_TYPE_JXESL;
+    static final int CPE_TYPE_UNKNOWN = 0;
+    static final int CPE_TYPE_DIRECTORY = 1;
+    static final int CPE_TYPE_JAR = 2;
+    static final int CPE_TYPE_TCP = 3;
+    static final int CPE_TYPE_JXE = 4;
+    static final int CPE_TYPE_UNUSABLE = 5;
+    static final int CPE_TYPE_PALMDB = 6;
+    static final int CPE_TYPE_ODC = 7;
+    static final int CPE_TYPE_JXESL = 8;
 
     private VM() {
     }
 
-    static final native Class getStackClass(int n) {
-    }
+    static final native Class getStackClass(int var0);
 
-    static final native ClassLoader getStackClassLoader(int n) {
-    }
+    static final native ClassLoader getStackClassLoader(int var0);
 
-    public static final native ClassLoader getNonBootstrapClassLoader() {
-    }
+    public static final native ClassLoader getNonBootstrapClassLoader();
 
-    public static final native void initializeClassLoader(ClassLoader classLoader, boolean bl) {
-    }
+    public static final native void initializeClassLoader(ClassLoader var0, boolean var1);
 
-    private static final native boolean isBootstrapClassLoader(ClassLoader classLoader) {
-    }
+    private static final native boolean isBootstrapClassLoader(ClassLoader var0);
 
-    static native Class findClassOrNull(String string, ClassLoader classLoader) {
-    }
+    static native Class findClassOrNull(String var0, ClassLoader var1);
 
     public static ClassLoader callerClassLoader() {
         ClassLoader classLoader = VM.getStackClassLoader(2);
@@ -70,24 +64,20 @@ public final class VM {
         return classLoader;
     }
 
-    public static native void dumpString(String string) {
-    }
+    public static native void dumpString(String var0);
 
     public static void setClassPathImpl(ClassLoader classLoader, String string) {
         VM.setClassPathImpl(classLoader, Util.getBytes(string));
     }
 
-    private static native void setClassPathImpl(ClassLoader classLoader, byte[] byArray) {
-    }
+    private static native void setClassPathImpl(ClassLoader var0, byte[] var1);
 
     public static void enableClassHotSwap(Class clazz) {
     }
 
-    static native void setPDImpl(Class clazz, Object object) {
-    }
+    static native void setPDImpl(Class var0, Object var1);
 
-    static native int getCPIndexImpl(Class clazz) {
-    }
+    static native int getCPIndexImpl(Class var0);
 
     static void initializeVM() {
         Tools.init();
@@ -188,11 +178,9 @@ public final class VM {
         }
     }
 
-    static final native int getClassPathEntryType(Object object, int n) {
-    }
+    static final native int getClassPathEntryType(Object var0, int var1);
 
-    static final native long getJxePointerFromClassPath(Object object, int n) {
-    }
+    static final native long getJxePointerFromClassPath(Object var0, int var1);
 
     static Jxe getJxeFromClassPath(Object object, int n) {
         long l = VM.getJxePointerFromClassPath(object, n);
@@ -203,16 +191,13 @@ public final class VM {
         return jxe;
     }
 
-    public static native String[] getVMArgs() {
-    }
+    public static native String[] getVMArgs();
 
-    static native int getClassPathCount() {
-    }
+    static native int getClassPathCount();
 
-    static native byte[] getPathFromClassPath(int n) {
-    }
+    static native byte[] getPathFromClassPath(int var0);
 
-    public static synchronized void loadLibrary(String string) {
+    public static synchronized void loadLibrary(String string) throws IOException {
         try {
             Runtime.getRuntime().loadLibrary(string);
         }
@@ -221,14 +206,11 @@ public final class VM {
         }
     }
 
-    public static native void localGC() {
-    }
+    public static native void localGC();
 
-    public static native void globalGC() {
-    }
+    public static native void globalGC();
 
-    public static native void runFinalization() {
-    }
+    public static native void runFinalization();
 
     public static void disableFinalization(Class clazz) {
         if (VM.callerClassLoader() != null) {
@@ -237,25 +219,21 @@ public final class VM {
         VM.disableFinalizationImpl(clazz);
     }
 
-    private static final native void disableFinalizationImpl(Class clazz) {
-    }
+    private static final native void disableFinalizationImpl(Class var0);
 
     public static final boolean useNatives() {
         return VM.useNativesImpl();
     }
 
-    private static final native boolean useNativesImpl() {
-    }
+    private static final native boolean useNativesImpl();
 
     public static int availableProcessors() {
         return VM.processorsImpl();
     }
 
-    private static native int processorsImpl() {
-    }
+    private static native int processorsImpl();
 
-    public static native boolean enableJIT() {
-    }
+    public static native boolean enableJIT();
 
     public static void enableFinalization(Class clazz) {
     }
@@ -264,7 +242,6 @@ public final class VM {
         return VM.getHttpProxyImpl();
     }
 
-    private static native String[] getHttpProxyImpl() {
-    }
+    private static native String[] getHttpProxyImpl();
 }
 

@@ -6,7 +6,6 @@ package de.audi.app.terminalmode.bt.dsi;
 import de.audi.app.terminalmode.bt.dsi.IBTDSIControllerListener;
 
 public interface IBTDSIControllerListenerUpdateProvider {
-    default public void addListener(IBTDSIControllerListener iBTDSIControllerListener) {
-    }
+    public void addListener(IBTDSIControllerListener var1);
 }
 

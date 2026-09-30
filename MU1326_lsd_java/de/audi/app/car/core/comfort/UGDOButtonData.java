@@ -7,7 +7,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class UGDOButtonData {
     private static final String[] LEARNED_STATE_TEXT = new String[]{"UGDOLEARNEDSTATE_IDLE", "UGDOLEARNEDSTATE_LEARNEDWITHPOS", "UGDOLEARNEDSTATE_LEARNEDWITHOUTPOS", "UGDOLEARNEDSTATE_LEARNEDWITHLATERSAVEDPOS", "UGDOLEARNEDSTATE_LEARNEDWITHOUTSYNCDOOR", "UGDOLEARNEDSTATE_FIXKITMODE", "UGDOLEARNEDSTATE_DEFAULTMODE"};
-    private static final int NOT_INITIALIZED;
+    private static final int NOT_INITIALIZED = -1;
     private int pos;
     private String name;
     private int learnedState;

@@ -8,19 +8,14 @@ import de.audi.atip.hmi.view.HMIView;
 import de.audi.atip.hmi.view.Screen;
 
 public interface IModelConnectService {
-    default public void modifiyModelReference(Screen screen, boolean bl, boolean bl2) {
-    }
+    public void modifiyModelReference(Screen var1, boolean var2, boolean var3);
 
-    default public void modifiyModelReference(HMIView[] hMIViewArray, int[] nArray, int[] nArray2, boolean bl, boolean bl2) {
-    }
+    public void modifiyModelReference(HMIView[] var1, int[] var2, int[] var3, boolean var4, boolean var5);
 
-    default public void modifyModelReference(HMIView hMIView, boolean bl, boolean bl2) {
-    }
+    public void modifyModelReference(HMIView var1, boolean var2, boolean var3);
 
-    default public void checkForPostConnecting(HMIApplication hMIApplication) {
-    }
+    public void checkForPostConnecting(HMIApplication var1);
 
-    default public void clearUnconnectedItems(boolean bl) {
-    }
+    public void clearUnconnectedItems(boolean var1);
 }
 

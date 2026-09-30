@@ -15,7 +15,6 @@ extends AbstractBundledConnectivityHandler {
         super(string, logChannel, remoteHMIService, bundledConnectivityPopupConfigEvo);
     }
 
-    @Override
     protected void indicateCommandInternal() {
         int n = this.getInternalPopupType(this.payload.getPopupServiceType());
         if (n != -1) {
@@ -37,7 +36,7 @@ extends AbstractBundledConnectivityHandler {
                 break;
             }
             default: {
-                this.logChannel.log(-1601830656, "BundledConnectivityHandlerEvo#indicatePopupType ignoring the popup due unknown popup type: %1", (long)n);
+                this.logChannel.log(100000, "BundledConnectivityHandlerEvo#indicatePopupType ignoring the popup due unknown popup type: %1", (long)n);
             }
         }
         return n2;
@@ -47,7 +46,7 @@ extends AbstractBundledConnectivityHandler {
         int n2 = ((BundledConnectivityPopupConfigEvo)this.popupConfig).getPopupTypeChoiceModelId();
         ChoiceModelApp choiceModelApp = this.getModel(n2);
         choiceModelApp.setValue(n);
-        this.logChannel.log(1078071040, "BundledConnectivityHandlerEvo#indicatePopupType type of popup to be shown is %1", (long)n);
+        this.logChannel.log(1000000, "BundledConnectivityHandlerEvo#indicatePopupType type of popup to be shown is %1", (long)n);
     }
 
     private void indicateAppAvailability() {
@@ -58,7 +57,7 @@ extends AbstractBundledConnectivityHandler {
             n2 = 0;
         }
         choiceModelApp.setValue(n2);
-        this.logChannel.log(1078071040, "BundledConnectivityHandlerEvo#indicatePopupType app availability is %1", (long)n2);
+        this.logChannel.log(1000000, "BundledConnectivityHandlerEvo#indicatePopupType app availability is %1", (long)n2);
     }
 }
 

@@ -13,8 +13,8 @@ import de.audi.atip.log.LogChannel;
 
 public class NaviMapZoomCommand
 extends AbstractSystemCallCommand {
-    private static final int NAVI_MAP_ZOOM_IN;
-    private static final int NAVI_MAP_ZOOM_OUT;
+    private static final int NAVI_MAP_ZOOM_IN = 0;
+    private static final int NAVI_MAP_ZOOM_OUT = 1;
     private MapService mapService;
     private final int zoomDirection;
 
@@ -25,23 +25,22 @@ extends AbstractSystemCallCommand {
         this.zoomDirection = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] zoomDirection=%2", (Object)this.getName(), (long)this.zoomDirection);
+        this.logger.log(10000000, "[%1#execute] zoomDirection=%2", (Object)this.getName(), (long)this.zoomDirection);
         int n = 3000;
         switch (this.zoomDirection) {
             case 0: {
-                this.logger.log(-2137614336, "[%1#execute] Zooming into map!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#execute] Zooming into map!", (Object)this.getName());
                 this.mapService.setIncrementalZoom(-1);
                 break;
             }
             case 1: {
-                this.logger.log(-2137614336, "[%1#execute] Zooming out from map!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#execute] Zooming out from map!", (Object)this.getName());
                 this.mapService.setIncrementalZoom(1);
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "[%1#execute] Unknown zoomDirection %2!", (Object)this.getName(), (long)this.zoomDirection);
+                this.logger.log(100000, "[%1#execute] Unknown zoomDirection %2!", (Object)this.getName(), (long)this.zoomDirection);
                 n = 3001;
             }
         }

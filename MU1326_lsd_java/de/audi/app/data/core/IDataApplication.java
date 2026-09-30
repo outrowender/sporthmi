@@ -12,23 +12,18 @@ import de.audi.app.data.core.setup.IDataSetup;
 
 public interface IDataApplication
 extends IApplication {
-    public static final String MODULE_NAME;
-    public static final String LOGCHANNEL;
-    public static final String LOGCHANNEL_CMD;
+    public static final String MODULE_NAME = "AppData";
+    public static final String LOGCHANNEL = "App.Data.Main";
+    public static final String LOGCHANNEL_CMD = "App.Data.Commands";
 
-    default public IConnectivity getConnectivity() {
-    }
+    public IConnectivity getConnectivity();
 
-    default public IOnline getOnline() {
-    }
+    public IOnline getOnline();
 
-    default public IDataSetup getDataSetup() {
-    }
+    public IDataSetup getDataSetup();
 
-    default public IDataProfile getDataProfile() {
-    }
+    public IDataProfile getDataProfile();
 
-    default public AbstractSimStateListener getSimStateListener() {
-    }
+    public AbstractSimStateListener getSimStateListener();
 }
 

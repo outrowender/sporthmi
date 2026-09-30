@@ -25,7 +25,6 @@ extends GetArrayIndication {
         return this.otherListReference;
     }
 
-    @Override
     public int hashCode() {
         int n = super.hashCode();
         n = 31 * n + this.otherListReference;
@@ -33,7 +32,6 @@ extends GetArrayIndication {
         return n;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -41,7 +39,7 @@ extends GetArrayIndication {
         if (!super.equals(object)) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         GetArrayIndicationAddressList getArrayIndicationAddressList = (GetArrayIndicationAddressList)object;

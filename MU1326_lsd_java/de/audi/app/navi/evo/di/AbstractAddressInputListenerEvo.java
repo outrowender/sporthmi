@@ -17,9 +17,7 @@ extends AbstractAddressInputListener {
         super(navigationEnv, iPreviewMap, iCommandListFactory, iAddressInputManager);
     }
 
-    @Override
-    protected abstract void initListeners() {
-    }
+    protected abstract void initListeners();
 
     protected void removeFocusedItemIsInvalidProperty(EvoListRow evoListRow) {
         PropertyListCell propertyListCell = (PropertyListCell)evoListRow.getCell(4);
@@ -28,9 +26,9 @@ extends AbstractAddressInputListener {
         int[] nArray2 = new int[nArray.length];
         int n = 0;
         for (int i2 = 0; i2 < nArray.length; ++i2) {
-            if (nArray[i2] == 511357349) {
+            if (nArray[i2] == -1515095522) {
                 bl = true;
-                nArray2[n] = 1738979261;
+                nArray2[n] = -1112037785;
                 ++n;
                 continue;
             }

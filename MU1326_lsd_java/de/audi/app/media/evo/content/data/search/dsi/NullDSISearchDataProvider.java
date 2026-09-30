@@ -10,51 +10,39 @@ import org.dsi.ifc.search.RawDataSet;
 
 public class NullDSISearchDataProvider
 implements DSISearchDataProvider {
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
     }
 
-    @Override
     public void registerProviderSource(int n) {
     }
 
-    @Override
     public void sourceDataAvailabilityChanged(int n, boolean bl) {
     }
 
-    @Override
     public void invalidateAllData(int n) {
     }
 
-    @Override
     public void storeDataSets(int n, DataSet[] dataSetArray, int n2) {
     }
 
-    @Override
     public void deleteDataSet(int n, long l) {
     }
 
-    @Override
     public void storeRawDataSets(int n, RawDataSet[] rawDataSetArray, int n2) {
     }
 }

@@ -12,14 +12,12 @@ public class EcallActivator
 extends AbstractActivator {
     private IEcallApplication eCallApplication;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.eCallApplication = new EcallApplicationEvo(this.framework, bundleContext);
         this.eCallApplication.init();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.eCallApplication.deinit();
         this.eCallApplication = null;

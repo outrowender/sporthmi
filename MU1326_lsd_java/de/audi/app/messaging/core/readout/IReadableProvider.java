@@ -6,7 +6,6 @@ package de.audi.app.messaging.core.readout;
 import de.audi.app.messaging.core.readout.IReadable;
 
 public interface IReadableProvider {
-    default public IReadable getReadable() {
-    }
+    public IReadable getReadable();
 }
 

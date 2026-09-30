@@ -17,10 +17,9 @@ implements IAccountFilter {
     public PrimaryPhoneAccountFilter(DeviceRoleInfo deviceRoleInfo, LogChannel logChannel) {
         this.primaryDevice = deviceRoleInfo;
         this.log = logChannel;
-        this.log.log(1078071040, "[PrimaryPhoneAccountFilter#Constructor] primaryDevice = %1", (Object)deviceRoleInfo);
+        this.log.log(1000000, "[PrimaryPhoneAccountFilter#Constructor] primaryDevice = %1", (Object)deviceRoleInfo);
     }
 
-    @Override
     public boolean accept(MessagingAccount messagingAccount) {
         boolean bl = false;
         if (this.primaryDevice != null) {
@@ -32,12 +31,11 @@ implements IAccountFilter {
                 bl = true;
             }
         } else {
-            this.log.log(-1601830656, "[PrimaryPhoneAccountFilter#accept] primaryDevice is NULL");
+            this.log.log(100000, "[PrimaryPhoneAccountFilter#accept] primaryDevice is NULL");
         }
         return bl;
     }
 
-    @Override
     public String getDescription() {
         return "AccountFilter for PrimaryDevice Accounts";
     }

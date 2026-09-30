@@ -28,23 +28,19 @@ implements SystemSMM {
         }
     }
 
-    @Override
-    protected abstract void init() {
-    }
+    protected abstract void init();
 
-    @Override
     public void registerSMM(ApplicationSMM applicationSMM) {
         for (int i2 = 0; i2 < this.smmSlotList.length; ++i2) {
             if (applicationSMM.getModuleID() != this.smmSlotModuleIDList[i2]) continue;
-            this.logChannel.log(1078071040, "[AbstractSysSMM#registerSMM] [%1] register AppSMM-%3, module '%2'.", (Object)this.terminalName, (Object)applicationSMM.getSMMName(), (long)applicationSMM.getModuleID());
+            this.logChannel.log(1000000, "[AbstractSysSMM#registerSMM] [%1] register AppSMM-%3, module '%2'.", (Object)this.terminalName, (Object)applicationSMM.getSMMName(), (long)applicationSMM.getModuleID());
             applicationSMM.setTopLevelSuperstate(this.smmSlotList[i2]);
             break;
         }
     }
 
-    @Override
     public void deregisterSMM(ApplicationSMM applicationSMM) {
-        this.logChannel.log(1078071040, "[AbstractSysSMM#deregisterSMM] [%1] deregister AppSMM-%3, module '%2'.", (Object)this.terminalName, (Object)applicationSMM.getSMMName(), (long)applicationSMM.getModuleID());
+        this.logChannel.log(1000000, "[AbstractSysSMM#deregisterSMM] [%1] deregister AppSMM-%3, module '%2'.", (Object)this.terminalName, (Object)applicationSMM.getSMMName(), (long)applicationSMM.getModuleID());
         applicationSMM.setTopLevelSuperstate(-10);
     }
 }

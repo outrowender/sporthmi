@@ -39,7 +39,7 @@ IDSIClient {
     }
 
     public void updateSourceData(List list) {
-        this.log.log(1078071040, "OnlineSearchDataProvider#updateSourceData");
+        this.log.log(1000000, "OnlineSearchDataProvider#updateSourceData");
         ArrayList arrayList = new ArrayList(list.size());
         int n = list.size();
         for (int i2 = 0; i2 < n; ++i2) {
@@ -110,47 +110,39 @@ IDSIClient {
         this.dsi.deleteDataSet(n, l);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.log.log(-2137614336, "OnlineSearchDataProvider#asyncException: [error %1] [msg %2] [requestType %3]", (Object)Integer.toString(n), (Object)string, (Object)Integer.toString(n2));
+        this.log.log(10000000, "OnlineSearchDataProvider#asyncException: [error %1] [msg %2] [requestType %3]", (Object)Integer.toString(n), (Object)string, (Object)Integer.toString(n2));
     }
 
-    @Override
     public void registerProviderSourceResult(int n, int n2) {
-        this.log.log(-2137614336, "OnlineSearchDataProvider#invalidateAllDataResult: [success %1] [source %2]", (long)n, (long)n2);
+        this.log.log(10000000, "OnlineSearchDataProvider#invalidateAllDataResult: [success %1] [source %2]", (long)n, (long)n2);
     }
 
-    @Override
     public void activateProviderSource(int n) {
-        this.log.log(-2137614336, "OnlineSearchDataProvider#activateProviderSource: [source %1]", (long)n);
+        this.log.log(10000000, "OnlineSearchDataProvider#activateProviderSource: [source %1]", (long)n);
     }
 
-    @Override
     public void invalidateAllDataResult(int n, int n2) {
-        this.log.log(-2137614336, "OnlineSearchDataProvider#invalidateAllDataResul:t [success %1] [source %2]", (long)n, (long)n2);
+        this.log.log(10000000, "OnlineSearchDataProvider#invalidateAllDataResul:t [success %1] [source %2]", (long)n, (long)n2);
     }
 
-    @Override
     public void provideData(int n, int n2, int n3) {
-        this.log.log(-2137614336, "OnlineSearchDataProvider#provideData: [offset %1] [source %2] [count %3]", (long)n2, (long)n, (long)n3);
+        this.log.log(10000000, "OnlineSearchDataProvider#provideData: [offset %1] [source %2] [count %3]", (long)n2, (long)n, (long)n3);
         if (this.dataSet != null) {
             this.storeDataSets(9, this.dataSet, this.dataSet.length);
         }
     }
 
-    @Override
     public void storeDataSetsResult(int n, int n2) {
-        this.log.log(-2137614336, "OnlineSearchDataProvider#storeDataSetsResult: [success %1] [source %2]", (long)n, (long)n2);
+        this.log.log(10000000, "OnlineSearchDataProvider#storeDataSetsResult: [success %1] [source %2]", (long)n, (long)n2);
     }
 
-    @Override
     public void deleteDataSetResult(int n, int n2, long l) {
-        this.log.log(-2137614336, "OnlineSearchDataProvider#deleteDataSetResult: [success %1] [source %2] [dataID %3]", (long)n, (long)n2, l);
+        this.log.log(10000000, "OnlineSearchDataProvider#deleteDataSetResult: [success %1] [source %2] [dataID %3]", (long)n, (long)n2, l);
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
-        this.log.log(-2137614336, "OnlineSearchDataProvider#setDSI()");
+        this.log.log(10000000, "OnlineSearchDataProvider#setDSI()");
         this.dsi = (DSISearchDataProvider)dSIBase;
         if (dSIBase == null) {
             return;
@@ -160,7 +152,6 @@ IDSIClient {
         }
     }
 
-    @Override
     public int[] getAutoNotifications() {
         return null;
     }

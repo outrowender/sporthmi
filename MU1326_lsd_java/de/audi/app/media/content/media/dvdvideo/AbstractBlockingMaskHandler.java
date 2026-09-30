@@ -10,21 +10,21 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public abstract class AbstractBlockingMaskHandler
 extends AbstractMediaTerminalComponent {
-    private static final String LOGCLASS;
-    protected static final int CMD_MENU;
-    protected static final int CMD_NEXT;
-    protected static final int CMD_PREV;
-    protected static final int CMD_FFW;
-    protected static final int CMD_FBW;
-    protected static final int CMD_PAUSE;
-    protected static final int CMD_CHAPTER;
-    protected static final int CMD_SETUP_VIDEO;
-    protected static final int CMD_SETUP_AUDIO;
-    protected static final int CMD_SETUP_SUBTITLE;
-    protected static final int MODEL_STATUS_DISABLED;
-    protected static final int MODEL_STATUS_ENABLED;
-    protected static final int CHOICE_VALUE_ENABLED;
-    protected static final int CHOICE_VALUE_DISABLED;
+    private static final String LOGCLASS = "AbstractBlockingMaskHandler";
+    protected static final int CMD_MENU = 2048;
+    protected static final int CMD_NEXT = 128;
+    protected static final int CMD_PREV = 64;
+    protected static final int CMD_FFW = 256;
+    protected static final int CMD_FBW = 512;
+    protected static final int CMD_PAUSE = 524288;
+    protected static final int CMD_CHAPTER = 2;
+    protected static final int CMD_SETUP_VIDEO = 0x1000000;
+    protected static final int CMD_SETUP_AUDIO = 0x100000;
+    protected static final int CMD_SETUP_SUBTITLE = 0x200000;
+    protected static final int MODEL_STATUS_DISABLED = 0;
+    protected static final int MODEL_STATUS_ENABLED = 1;
+    protected static final int CHOICE_VALUE_ENABLED = 0;
+    protected static final int CHOICE_VALUE_DISABLED = 1;
     private volatile int currentBlockingMask;
 
     public AbstractBlockingMaskHandler(IMediaTerminal iMediaTerminal) {
@@ -32,8 +32,8 @@ extends AbstractMediaTerminalComponent {
     }
 
     public void setBlockingMask(int n) {
-        if (this.logger.main().getCurrentLogThreshold() == -2137614336) {
-            this.logger.main().log(-2137614336, "[%1.setBlockingMask] mask='%2'", (Object)"AbstractBlockingMaskHandler", (Object)Integer.toBinaryString(n));
+        if (this.logger.main().getCurrentLogThreshold() == 10000000) {
+            this.logger.main().log(10000000, "[%1.setBlockingMask] mask='%2'", (Object)LOGCLASS, (Object)Integer.toBinaryString(n));
         }
         this.currentBlockingMask = n;
         this.updateFunctionModels();
@@ -44,7 +44,7 @@ extends AbstractMediaTerminalComponent {
     }
 
     public boolean isPauseBlocked() {
-        return this.isBlocked(2048, "BLOCK_PAUSE_ON");
+        return this.isBlocked(524288, "BLOCK_PAUSE_ON");
     }
 
     public boolean isNextBlocked() {
@@ -68,26 +68,25 @@ extends AbstractMediaTerminalComponent {
     }
 
     public boolean isChangeVideoFormatBlocked() {
-        return this.isBlocked(1, "BLOCK_VIDEO_CHANGE");
+        return this.isBlocked(0x1000000, "BLOCK_VIDEO_CHANGE");
     }
 
     public boolean isChangeAudioStreamBlocked() {
-        return this.isBlocked(4096, "BLOCK_AUDIO_CHANGE");
+        return this.isBlocked(0x100000, "BLOCK_AUDIO_CHANGE");
     }
 
     public boolean isSelectSubtitleBlocked() {
-        return this.isBlocked(8192, "BLOCK_SUB_PICTURE_CHANGE");
+        return this.isBlocked(0x200000, "BLOCK_SUB_PICTURE_CHANGE");
     }
 
-    protected abstract void updateFunctionModels() {
-    }
+    protected abstract void updateFunctionModels();
 
     protected void updateModelStatus(int n, String string, int n2) {
         HMIModelApp hMIModelApp;
         boolean bl = n == (this.currentBlockingMask & n);
         int n3 = bl ? 0 : 1;
         if (n3 != (hMIModelApp = this.getModel(n2)).getStatus()) {
-            this.logger.hmi().log(-2137614336, "[%2.updateModelStatus] '%3'='%1'", (Object)(bl ? "blocked" : "unblocked"), (Object)"AbstractBlockingMaskHandler", (Object)string);
+            this.logger.hmi().log(10000000, "[%2.updateModelStatus] '%3'='%1'", (Object)(bl ? "blocked" : "unblocked"), (Object)LOGCLASS, (Object)string);
             hMIModelApp.setStatus(n3);
         }
     }
@@ -98,7 +97,7 @@ extends AbstractMediaTerminalComponent {
         ChoiceModelApp choiceModelApp = this.getChoiceModel(n2);
         if (choiceModelApp.getValue() != n3) {
             this.getChoiceModel(n2).setValue(n3);
-            this.logger.hmi().log(-2137614336, "[%2.updateChoiceModelValue] '%3'='%1'", (Object)(bl ? "blocked" : "unblocked"), (Object)"AbstractBlockingMaskHandler", (Object)string);
+            this.logger.hmi().log(10000000, "[%2.updateChoiceModelValue] '%3'='%1'", (Object)(bl ? "blocked" : "unblocked"), (Object)LOGCLASS, (Object)string);
         }
     }
 
@@ -106,7 +105,7 @@ extends AbstractMediaTerminalComponent {
         boolean bl;
         boolean bl2 = bl = n == (this.currentBlockingMask & n);
         if (bl && this.logger.hmi().isDebug()) {
-            this.logger.hmi().log(-2137614336, "[%1.isBlocked] Command '%2' is blocked", (Object)"AbstractBlockingMaskHandler", (Object)string);
+            this.logger.hmi().log(10000000, "[%1.isBlocked] Command '%2' is blocked", (Object)LOGCLASS, (Object)string);
         }
         return bl;
     }

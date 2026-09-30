@@ -17,22 +17,18 @@ implements ChoiceModelEventBusiness {
         super(dSIBase, logChannel);
     }
 
-    @Override
     public boolean processItemSelected(int n, ChoiceModelHandler choiceModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processItemFocused(int n, ChoiceModelHandler choiceModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processItemSelected(HandlerTransactionData handlerTransactionData, ChoiceModelHandler choiceModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processItemFocused(HandlerTransactionData handlerTransactionData, ChoiceModelHandler choiceModelHandler) {
         return false;
     }

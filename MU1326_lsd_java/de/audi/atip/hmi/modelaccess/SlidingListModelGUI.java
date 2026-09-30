@@ -8,65 +8,46 @@ import de.audi.atip.hmi.modelaccess.ListModelGUI;
 
 public interface SlidingListModelGUI
 extends ListModelGUI {
-    public static final byte CONTEXT_PREVIOUS;
-    public static final byte CONTEXT_CURRENT;
-    public static final byte CONTEXT_NEXT;
+    public static final byte CONTEXT_PREVIOUS = -1;
+    public static final byte CONTEXT_CURRENT = 0;
+    public static final byte CONTEXT_NEXT = 1;
 
-    default public boolean isEndOfList(int n) {
-    }
+    public boolean isEndOfList(int var1) throws IllegalArgumentException;
 
-    default public int getRowsAvailable(int n) {
-    }
+    public int getRowsAvailable(int var1) throws IllegalArgumentException;
 
-    default public void setVisibleRows(int n) {
-    }
+    public void setVisibleRows(int var1);
 
-    default public void moveContext(int n) {
-    }
+    public void moveContext(int var1) throws IllegalArgumentException;
 
-    default public boolean isCursorPositionReset() {
-    }
+    public boolean isCursorPositionReset();
 
-    default public boolean isJumpingToStartOfListSupported() {
-    }
+    public boolean isJumpingToStartOfListSupported();
 
-    default public void jumpToStartOfList(int n) {
-    }
+    public void jumpToStartOfList(int var1);
 
-    default public void jumpToEndOfList(int n) {
-    }
+    public void jumpToEndOfList(int var1);
 
-    default public boolean isJumpingToEndOfListSupported() {
-    }
+    public boolean isJumpingToEndOfListSupported();
 
-    default public int getFocusedCursorPosition() {
-    }
+    public int getFocusedCursorPosition();
 
-    default public int getFocusedCursorPositionOffset() {
-    }
+    public int getFocusedCursorPositionOffset();
 
-    default public void setFocusOffset(int n) {
-    }
+    public void setFocusOffset(int var1);
 
-    default public void setFirstScreenOffset(int n) {
-    }
+    public void setFirstScreenOffset(int var1);
 
-    default public boolean isFastScrollingEnabled() {
-    }
+    public boolean isFastScrollingEnabled();
 
-    default public void scrollingActive(boolean bl, int n) {
-    }
+    public void scrollingActive(boolean var1, int var2);
 
-    default public boolean getRowFromPreviousContext(int n, ListCell[] listCellArray) {
-    }
+    public boolean getRowFromPreviousContext(int var1, ListCell[] var2);
 
-    default public boolean getRowFromNextContext(int n, ListCell[] listCellArray) {
-    }
+    public boolean getRowFromNextContext(int var1, ListCell[] var2);
 
-    default public int getListLength() {
-    }
+    public int getListLength();
 
-    default public int getLineNumber() {
-    }
+    public int getLineNumber();
 }
 

@@ -38,31 +38,28 @@ extends AbstractDataCommand {
         this.applyButtonModelID = n;
     }
 
-    @Override
     public void execute() {
         if (this.dsi != null) {
             this.dsi.setDataProfile(this.profile);
         } else {
-            this.logger.log(-1601830656, "CommandSetDataProfile#execute(): dsi is NULL");
+            this.logger.log(100000, "CommandSetDataProfile#execute(): dsi is NULL");
             this.finishWithError();
             this.finishCommand();
         }
     }
 
-    @Override
     public void abort() {
         super.abort();
         this.finishWithError();
         this.finishCommand();
     }
 
-    @Override
     public void setDataProfileResponse(CDataProfile cDataProfile, int n) {
-        this.logger.log(1078071040, new StringBuffer().append("CommandSetDataProfile#setDataProfileResponse(): result=%1, dataProfile=").append(cDataProfile).toString(), (long)n);
+        this.logger.log(1000000, new StringBuffer().append("CommandSetDataProfile#setDataProfileResponse(): result=%1, dataProfile=").append(cDataProfile).toString(), (long)n);
         if (this.monitor != null) {
             this.monitor.setValue(n == 0 ? 0 : 1);
         } else {
-            this.logger.log(-1601830656, "CommandSetDataProfile#setDataProfileResponse(): monitor is NULL");
+            this.logger.log(100000, "CommandSetDataProfile#setDataProfileResponse(): monitor is NULL");
         }
         this.apnAvailabilityChoice.setValue(ApnAvailability.valueOf((CDataProfile)cDataProfile).value);
         this.finishCommand();
@@ -72,7 +69,7 @@ extends AbstractDataCommand {
         if (this.monitor != null) {
             this.monitor.setValue(1);
         } else {
-            this.logger.log(-1601830656, "CommandSetDataProfile#finishWithError(): monitor is NULL");
+            this.logger.log(100000, "CommandSetDataProfile#finishWithError(): monitor is NULL");
         }
     }
 

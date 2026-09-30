@@ -22,11 +22,10 @@ extends AbstractSystemCallCommand {
         this.listType = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] listType=%2", (Object)this.getName(), (long)this.listType);
+        this.logger.log(10000000, "[%1#execute] listType=%2", (Object)this.getName(), (long)this.listType);
         if (this.listType < 0 || this.listType > listmodeIndex2ServiceListmode.length - 1) {
-            this.logger.log(-1601830656, "%1#execute: listTypeIndex is out of bounds!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: listTypeIndex is out of bounds!", (Object)this.getName());
             this.processingFinished();
             return;
         }

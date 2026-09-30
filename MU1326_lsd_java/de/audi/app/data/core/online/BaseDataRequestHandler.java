@@ -42,87 +42,81 @@ ButtonListener {
     public BaseDataRequestHandler(IDataApplication iDataApplication, BaseOnlineComponent baseOnlineComponent) {
         super(iDataApplication);
         this.online = baseOnlineComponent;
-        this.disclaimerConfirmButton = this.getButtonModel(723920384);
-        this.connectionActivateButton = this.getButtonModel(673588736);
-        this.connectionRequestAcceptButton = this.getButtonModel(1076241920);
-        this.connectionRequestDeclineButton = this.getButtonModel(1093019136);
-        this.connectionRequestOnceButton = this.getButtonModel(1109796352);
-        this.connectionRequestDeclineForeverButton = this.getButtonModel(-1490672128);
-        this.wlanConnectionRequestAcceptButton = this.getButtonModel(1227236864);
-        this.wlanConnectionRequestDeclineButton = this.getButtonModel(1244014080);
-        this.wlanConnectionRequestOnceButton = this.getButtonModel(1260791296);
-        this.roamingActivateButton = this.getButtonModel(807806464);
-        this.roamingConfirmButton = this.getButtonModel(824583680);
-        this.roamingDeclineButton = this.getButtonModel(-1658444288);
-        this.nadActivateButton = this.getButtonModel(-1792662016);
-        this.permissionChoice = this.getChoiceModel(740697600);
+        this.disclaimerConfirmButton = this.getButtonModel(0x26262B);
+        this.connectionActivateButton = this.getButtonModel(0x262628);
+        this.connectionRequestAcceptButton = this.getButtonModel(2500160);
+        this.connectionRequestDeclineButton = this.getButtonModel(2500161);
+        this.connectionRequestOnceButton = this.getButtonModel(0x262642);
+        this.connectionRequestDeclineForeverButton = this.getButtonModel(2500263);
+        this.wlanConnectionRequestAcceptButton = this.getButtonModel(2500169);
+        this.wlanConnectionRequestDeclineButton = this.getButtonModel(2500170);
+        this.wlanConnectionRequestOnceButton = this.getButtonModel(2500171);
+        this.roamingActivateButton = this.getButtonModel(2500144);
+        this.roamingConfirmButton = this.getButtonModel(2500145);
+        this.roamingDeclineButton = this.getButtonModel(2500253);
+        this.nadActivateButton = this.getButtonModel(2500245);
+        this.permissionChoice = this.getChoiceModel(0x26262C);
     }
 
-    @Override
     protected final int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void disclaimerAccept() {
         this.disclaimerAccept(0);
     }
 
     private void disclaimerAccept(int n) {
-        this.log.log(1078071040, "BaseDataRequestHandler#disclaimerAccept(): disclaimer confirmed");
+        this.log.log(1000000, "BaseDataRequestHandler#disclaimerAccept(): disclaimer confirmed");
         this.errorState.updateConfirmationDisclaimer();
         this.disclaimerConfirmButton.fireEvent(n);
     }
 
-    @Override
     public void activateNadModule() {
-        this.log.log(1078071040, "BaseDataRequestHandler#activateNadModule(): User wants to activate the NAD module");
+        this.log.log(1000000, "BaseDataRequestHandler#activateNadModule(): User wants to activate the NAD module");
         CommandActivateNadModule.schedule(this.dataApplication, this.log, this.dataApplication.getConnectivity().getPhone());
     }
 
-    @Override
     public void acceptOnce() {
         this.acceptOnce(0);
     }
 
     private void acceptOnce(int n) {
-        this.log.log(1078071040, "BaseDataRequestHandler#acceptOnce(): Allowing connection");
+        this.log.log(1000000, "BaseDataRequestHandler#acceptOnce(): Allowing connection");
         this.errorState.updateConfirmationAudiConnect();
         this.acceptDataRequestMmi(true);
         this.connectionRequestOnceButton.fireEvent(n);
     }
 
     protected void acceptOnceWlan() {
-        this.log.log(1078071040, "BaseDataRequestHandler#acceptOnceWlan(): Allowing connection");
+        this.log.log(1000000, "BaseDataRequestHandler#acceptOnceWlan(): Allowing connection");
         this.errorState.updateConfirmationWlan();
         this.acceptDataRequestWlan(true);
     }
 
-    @Override
     public void acceptAlways() {
         this.acceptAlways(0);
     }
 
     private void acceptAlways(int n) {
-        this.log.log(1078071040, "BaseDataRequestHandler#acceptAlways(): Allowing connection, saving decision");
+        this.log.log(1000000, "BaseDataRequestHandler#acceptAlways(): Allowing connection, saving decision");
         this.errorState.updatePermissionGeneral(1);
         this.dataApplication.getDataSetup().setOnlinePermissionToAlways();
         this.connectionRequestAcceptButton.fireEvent(n);
     }
 
     protected void acceptAlwaysWlan() {
-        this.log.log(1078071040, "BaseDataRequestHandler#acceptAlwaysWlan(): Allowing connection, saving decision");
+        this.log.log(1000000, "BaseDataRequestHandler#acceptAlwaysWlan(): Allowing connection, saving decision");
         this.errorState.updatePermissionGeneral(1);
         this.dataApplication.getDataSetup().setOnlinePermissionToAlways();
     }
 
-    @Override
     public void reject() {
         this.reject(0);
     }
 
     private void reject(int n) {
-        this.log.log(1078071040, "BaseDataRequestHandler#reject(): Denying connection");
+        this.log.log(1000000, "BaseDataRequestHandler#reject(): Denying connection");
         this.acceptDataRequestMmi(false);
         this.connectionRequestDeclineButton.fireEvent(n);
     }
@@ -131,9 +125,8 @@ ButtonListener {
         this.acceptDataRequestWlan(false);
     }
 
-    @Override
     public void activateOnlineConnection() {
-        this.log.log(1078071040, "BaseDataRequestHandler#activateOnlineConnection(): Activating data connection");
+        this.log.log(1000000, "BaseDataRequestHandler#activateOnlineConnection(): Activating data connection");
         this.dataApplication.getDataSetup().activateDataConnection();
         if (this.permissionChoice.getValue() == 1) {
             this.connectionActivateButton.fireEvent(0);
@@ -141,47 +134,42 @@ ButtonListener {
         this.dataApplication.getDataSetup().activateDataConnection();
     }
 
-    @Override
     public void deactivateOnlineConnection() {
         this.deactivateOnlineConnection(0);
     }
 
     private void deactivateOnlineConnection(int n) {
-        this.log.log(1078071040, "BaseDataRequestHandler#deactivateOnlineConnection(): Deactivating data connection");
+        this.log.log(1000000, "BaseDataRequestHandler#deactivateOnlineConnection(): Deactivating data connection");
         this.dataApplication.getDataSetup().deactivateDataConnection();
         this.connectionRequestDeclineForeverButton.fireEvent(n);
     }
 
-    @Override
     public void activateRoaming() {
-        this.log.log(1078071040, "BaseDataRequestHandler#activateRoaming(): Activating data roaming");
+        this.log.log(1000000, "BaseDataRequestHandler#activateRoaming(): Activating data roaming");
         this.confirmRoaming();
         this.dataApplication.getDataSetup().activateRoamingPermission();
     }
 
-    @Override
     public void confirmRoaming() {
         this.confirmRoaming(0);
     }
 
     private void confirmRoaming(int n) {
-        this.log.log(1078071040, "BaseDataRequestHandler#confirmRoaming(): Roaming confirmed");
+        this.log.log(1000000, "BaseDataRequestHandler#confirmRoaming(): Roaming confirmed");
         this.errorState.updateConfirmationRoaming();
         this.roamingConfirmButton.fireEvent(n);
     }
 
-    @Override
     public void declineRoaming() {
         this.declineRoaming(0);
     }
 
     private void declineRoaming(int n) {
-        this.log.log(1078071040, "BaseDataRequestHandler#declineRoaming(): Roaming declined, deactivating setting");
+        this.log.log(1000000, "BaseDataRequestHandler#declineRoaming(): Roaming declined, deactivating setting");
         this.dataApplication.getDataSetup().deactivateRoamingPermission();
         this.roamingDeclineButton.fireEvent(n);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (n == this.disclaimerConfirmButton.getID()) {
             this.disclaimerAccept(n3);
@@ -222,23 +210,19 @@ ButtonListener {
     }
 
     private void acceptDataRequestWlan(boolean bl) {
-        this.log.log(1078071040, "BaseDataRequestHandler#acceptDataRequestWlan(): allow=%1", bl);
+        this.log.log(1000000, "BaseDataRequestHandler#acceptDataRequestWlan(): allow=%1", bl);
         CommandAcceptDataRequest.schedule(this.dataApplication, this.dsiDataConfiguration, 6, bl);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void init() {
         super.init();
         this.errorState = this.online.getErrorState();
@@ -258,7 +242,6 @@ ButtonListener {
         this.serviceRegistrtation = this.dataApplication.getBundleContext().registerService((class$de$audi$atip$interapp$ISdsConnectivityService == null ? (class$de$audi$atip$interapp$ISdsConnectivityService = BaseDataRequestHandler.class$("de.audi.atip.interapp.ISdsConnectivityService")) : class$de$audi$atip$interapp$ISdsConnectivityService).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         this.serviceRegistrtation.unregister();
         this.disclaimerConfirmButton.resetListener();

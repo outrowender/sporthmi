@@ -4,14 +4,12 @@
 package de.audi.app.wlan.core.client;
 
 public interface IInquiry {
-    public static final int STATE_IDLE;
-    public static final int STATE_ACTIVE;
-    public static final int STATE_ABORTING;
+    public static final int STATE_IDLE = 0;
+    public static final int STATE_ACTIVE = 1;
+    public static final int STATE_ABORTING = 2;
 
-    default public void startInquiry(int n) {
-    }
+    public void startInquiry(int var1);
 
-    default public void abortInquiry() {
-    }
+    public void abortInquiry();
 }
 

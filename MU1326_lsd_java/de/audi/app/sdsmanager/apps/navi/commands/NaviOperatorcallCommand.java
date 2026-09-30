@@ -25,33 +25,32 @@ extends AbstractSystemCallCommand {
         this.operatorCallServiceSDSListener = iOperatorCallSDSServiceListener;
     }
 
-    @Override
     public void execute() {
         boolean bl;
-        this.logger.log(-2137614336, "%1#execute: service type %2", (Object)this.getName(), (long)this.serviceType);
+        this.logger.log(10000000, "%1#execute: service type %2", (Object)this.getName(), (long)this.serviceType);
         int n = SDSUtils.translate(this.serviceType, NaviSDSUtils.operatorCallServiceType2dsiServiceType);
         boolean bl2 = bl = this.serviceType != 2;
-        if (n == 128) {
+        if (n == Integer.MIN_VALUE) {
             this.logger.log(10000, "%1#execute: no mapping for %2", (Object)this.getName(), (long)this.serviceType);
-            this.sendResult(1100742656);
+            this.sendResult(40001);
             return;
         }
         this.operatorCallService.startCallcenterCallBySDS(n, this.operatorCallServiceSDSListener, bl);
     }
 
     public void startCallcenterCallBySDSResult(int n) {
-        this.logger.log(-2137614336, "%1#startCallcenterCallBySDSResult: result %2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#startCallcenterCallBySDSResult: result %2", (Object)this.getName(), (long)n);
         switch (n) {
             case 0: {
-                this.sendResult(1083965440);
+                this.sendResult(40000);
                 break;
             }
             case 3: {
-                this.sendResult(1453064192);
+                this.sendResult(40022);
                 break;
             }
             default: {
-                this.sendResult(1100742656);
+                this.sendResult(40001);
             }
         }
     }

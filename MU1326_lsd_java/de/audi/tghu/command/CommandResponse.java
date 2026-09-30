@@ -9,8 +9,7 @@ import de.audi.tghu.command.ICommandResponseSupplier;
 import org.dsi.ifc.base.DSIListener;
 
 public abstract class CommandResponse {
-    public abstract void call(DSIListener dSIListener) {
-    }
+    public abstract void call(DSIListener var1);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -24,7 +23,7 @@ public abstract class CommandResponse {
                 Command command = commandList.getActiveCommand();
                 DSIListener dSIListener2 = command != null ? command : dSIListener;
                 commandResponse.call(dSIListener2);
-                super.notifyAll();
+                commandList.notifyAll();
             }
         } else {
             commandResponse.call(dSIListener);
@@ -51,7 +50,7 @@ public abstract class CommandResponse {
                     commandList.commandAborted(exception);
                 }
                 finally {
-                    super.notifyAll();
+                    commandList.notifyAll();
                 }
             }
         }

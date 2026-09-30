@@ -20,38 +20,31 @@ PropertyModelGui {
         super(n);
     }
 
-    @Override
     public int getCategory() {
         return this.category;
     }
 
-    @Override
     public void setProperties(int n, int[] nArray) {
         this.category = n;
         this.properties = nArray != null ? nArray : EMPTY_ARRAY;
         this.fireModelUpdateEvent(1, n);
     }
 
-    @Override
     public int[] getProperties() {
         return this.properties;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.properties.length == 0;
     }
 
-    @Override
     public int getModelType() {
         return 30;
     }
 
-    @Override
     public void resetListener() {
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(100);
         buffer.append(super.dumpContent());

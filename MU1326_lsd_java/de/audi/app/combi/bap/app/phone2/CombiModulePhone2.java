@@ -43,45 +43,37 @@ extends AbstractCombiModule {
         this.addAppConnector("Phone", this.appConnectorPhone);
     }
 
-    @Override
     protected void initModuleComponents() {
-        this.logChannel.log(-2137614336, "[CombiModulePhone2#initModuleComponents]");
+        this.logChannel.log(10000000, "[CombiModulePhone2#initModuleComponents]");
         this.indicationHandler = new BAPIndicationHandlerPhone2(this);
         this.functionRegistration = new FunctionRegistrationPhone2(this);
         this.initializationManager = new InitializationManagerPhone2(this, this.getBAPFunctionPropertyFSG(15), this.bapApplication.getDSIBAPController(), this.bapApplication.getPowerState());
     }
 
-    @Override
     protected void initServiceManager(BundleContext bundleContext) {
         this.serviceManager = new ServiceManagerPhone2(this, bundleContext);
     }
 
-    @Override
     protected void initDiagnosisConnector() {
         this.diagnosisConnectorFsg = new CombiDiagnosisConnectorPhone2((AbstractCombiBAPApplication)this.bapApplication, this);
     }
 
-    @Override
     public String getLSGDescription() {
         return "0x29 (PHONE2)";
     }
 
-    @Override
     public IFunctionIDs getFunctionIDs() {
         return new FunctionIDsPhone2();
     }
 
-    @Override
     public IErrorCodes getErrorIDs() {
         return new ErrorCodesPhone2();
     }
 
-    @Override
     public int[] getErrorMapping() {
         return ERROR_MAPPING;
     }
 
-    @Override
     public IDataTypeMapping getDataTypeMapping() {
         return new DataTypeMappingPhone2();
     }

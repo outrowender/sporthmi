@@ -6,7 +6,6 @@ package de.audi.app.car.common.power;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.power.IPowerEventDispatcher;
 import de.audi.app.car.common.power.IPowerEventListener;
-import de.audi.app.car.common.power.PowerEventDispatcher$1;
 import de.audi.app.car.common.service.CarServiceProvider;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.power.PowerEventListener;
@@ -37,18 +36,16 @@ PowerEventListener {
         this.powerEventServiceProvider = new CarServiceProvider((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = PowerEventDispatcher.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), this, new Hashtable(0), bundleContext, logChannel);
     }
 
-    @Override
     public void init() {
-        this.logChannel.log(1078071040, "[PowerEventDispatcher#init] called");
+        this.logChannel.log(1000000, "[PowerEventDispatcher#init] called");
         this.powerEventServiceProvider.startService();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.logChannel.log(1078071040, "[PowerEventDispatcher#deinit] called");
+        this.logChannel.log(1000000, "[PowerEventDispatcher#deinit] called");
         this.powerEventServiceProvider.stopService();
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
@@ -59,21 +56,26 @@ PowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void addPowerEventListener(IPowerEventListener iPowerEventListener) {
-        this.logChannel.log(1078071040, "[PowerEventDispatcher#addPowerEventListener] listener='%1'", (Object)iPowerEventListener);
+    public void addPowerEventListener(final IPowerEventListener iPowerEventListener) {
+        this.logChannel.log(1000000, "[PowerEventDispatcher#addPowerEventListener] listener='%1'", (Object)iPowerEventListener);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             if (this.listeners.contains(iPowerEventListener)) {
-                this.logChannel.log(-1601830656, "[PowerEventDispatcher#addPowerEventListener] listener already registered");
+                this.logChannel.log(100000, "[PowerEventDispatcher#addPowerEventListener] listener already registered");
                 return;
             }
             this.listeners.add(iPowerEventListener);
             DispatcherBase dispatcherBase = this.application.getJobDispatcher();
             if (dispatcherBase != null) {
-                dispatcherBase.execute(new PowerEventDispatcher$1(this, iPowerEventListener));
+                dispatcherBase.execute(new Runnable(){
+
+                    public void run() {
+                        PowerEventDispatcher.this.logChannel.log(1000000, "[PowerEventDispatcher#addPowerEventListener] starting asynchroneous job to send current data");
+                        PowerEventDispatcher.this.updateClampState(iPowerEventListener);
+                    }
+                });
             } else {
-                this.logChannel.log(-1601830656, "[PowerEventDispatcher#addPowerEventListener] job dispatcher is not available, cannot send current data");
+                this.logChannel.log(100000, "[PowerEventDispatcher#addPowerEventListener] job dispatcher is not available, cannot send current data");
             }
         }
     }
@@ -81,15 +83,14 @@ PowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removePowerEventListener(IPowerEventListener iPowerEventListener) {
-        this.logChannel.log(1078071040, "[PowerEventDispatcher#removePowerEventListener] listener='%1'", (Object)iPowerEventListener);
+        this.logChannel.log(1000000, "[PowerEventDispatcher#removePowerEventListener] listener='%1'", (Object)iPowerEventListener);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             if (this.listeners.contains(iPowerEventListener)) {
                 this.listeners.remove(iPowerEventListener);
             } else {
-                this.logChannel.log(-1601830656, "[PowerEventDispatcher#removePowerEventListener] listener not registered, cannot be removed");
+                this.logChannel.log(100000, "[PowerEventDispatcher#removePowerEventListener] listener not registered, cannot be removed");
             }
         }
     }
@@ -97,9 +98,8 @@ PowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
-        this.logChannel.log(1078071040, "[PowerEventDispatcher#notifyPowerListenerOnEnterState] pwrevt='%1', terminalID='%2'", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[PowerEventDispatcher#notifyPowerListenerOnEnterState] pwrevt='%1', terminalID='%2'", (long)n, (long)n2);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             Iterator iterator = this.listeners.iterator();
@@ -112,9 +112,8 @@ PowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
-        this.logChannel.log(1078071040, "[PowerEventDispatcher#notifyPowerListenerOnExitState] pwrevt='%1', terminalID='%2'", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[PowerEventDispatcher#notifyPowerListenerOnExitState] pwrevt='%1', terminalID='%2'", (long)n, (long)n2);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             Iterator iterator = this.listeners.iterator();
@@ -127,9 +126,8 @@ PowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
-        this.logChannel.log(1078071040, "[PowerEventDispatcher#notifyPowerTriggerAction] trigger='%1', terminalID='%2'", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[PowerEventDispatcher#notifyPowerTriggerAction] trigger='%1', terminalID='%2'", (long)n, (long)n2);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             Iterator iterator = this.listeners.iterator();
@@ -142,13 +140,12 @@ PowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         Object object;
         if (this.logChannel.isInfo()) {
             object = new Buffer(30);
             ((Buffer)object).append("clampS=").append(bl).append(", clamp15=").append(bl2).append(", clampX=").append(bl3).append(", clamp50=").append(bl4);
-            this.logChannel.log(1078071040, "[PowerEventDispatcher#updateClampState] %1", (Object)((Buffer)object).toString());
+            this.logChannel.log(1000000, "[PowerEventDispatcher#updateClampState] %1", (Object)((Buffer)object).toString());
         }
         object = this.listeners;
         synchronized (object) {
@@ -180,14 +177,6 @@ PowerEventListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(PowerEventDispatcher powerEventDispatcher) {
-        return powerEventDispatcher.logChannel;
-    }
-
-    static /* synthetic */ void access$100(PowerEventDispatcher powerEventDispatcher, IPowerEventListener iPowerEventListener) {
-        powerEventDispatcher.updateClampState(iPowerEventListener);
     }
 }
 

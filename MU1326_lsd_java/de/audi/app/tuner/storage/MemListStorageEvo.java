@@ -17,19 +17,16 @@ extends AbstractMemListStorage {
         super(iStorageAccess, logChannel, abstractListRowFactory);
     }
 
-    @Override
     protected AbstractMemoryRow[] getDefaultList() {
         return new AbstractMemoryRow[0];
     }
 
-    @Override
     public AbstractMemoryRow[] readList(int n, ILogoDatabase iLogoDatabase) {
         int n2 = this.getKey(n);
         this.setLogoDb(iLogoDatabase);
         return this.doRead(n2);
     }
 
-    @Override
     public void writeList(int n, AbstractMemoryRow[] abstractMemoryRowArray) {
         int n2 = this.getKey(n);
         this.doWrite(abstractMemoryRowArray, n2);

@@ -22,7 +22,6 @@ extends PoiFuelWarningService {
         super(navigationEnv, iCarKombiService, iFuelWarningModelAccess, iRouteManager, poiFuelWarningSetup, iCommandListFactory, iVehicle, operationManager, iDetailsScreen);
     }
 
-    @Override
     public void preparePetrolStationSearch(IPoiSpellerModelAccess iPoiSpellerModelAccess, IPoiSpellerModelAccess iPoiSpellerModelAccess2, int n, int n2, IPoiSpellerModelAccess iPoiSpellerModelAccess3) {
         this.fuelWarningWrapperSequence = new FuelWarningWrapperSequenceEvo(iPoiSpellerModelAccess, iPoiSpellerModelAccess2, this.commandListFactory, this.env, this.pendingWarningCategory, this.vehicle, n, n2, iPoiSpellerModelAccess3, this.detailsScreen);
         this.fuelWarningWrapperSequence.start();

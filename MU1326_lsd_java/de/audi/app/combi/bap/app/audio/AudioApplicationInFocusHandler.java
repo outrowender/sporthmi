@@ -105,24 +105,23 @@ implements IAudioFocusClient {
         }
     }
 
-    @Override
     public void updateAudioFocus(int n, int n2) {
         if (n == 0) {
             int n3;
             if (n2 == 2) {
-                this.logChannel.log(1078071040, "[AudioApplicationInFocusHandler#updateAudioFocus] MEDIA has audio focus now");
+                this.logChannel.log(1000000, "[AudioApplicationInFocusHandler#updateAudioFocus] MEDIA has audio focus now");
                 n3 = 1;
             } else if (n2 == 1) {
-                this.logChannel.log(1078071040, "[AudioApplicationInFocusHandler#updateAudioFocus] TUNER has audio focus now");
+                this.logChannel.log(1000000, "[AudioApplicationInFocusHandler#updateAudioFocus] TUNER has audio focus now");
                 n3 = 0;
             } else if (n2 == 38) {
-                this.logChannel.log(1078071040, "[AudioApplicationInFocusHandler#updateAudioFocus] TV has audio focus now");
+                this.logChannel.log(1000000, "[AudioApplicationInFocusHandler#updateAudioFocus] TV has audio focus now");
                 n3 = 2;
             } else if (n2 == 48) {
-                this.logChannel.log(1078071040, "[AudioApplicationInFocusHandler#updateAudioFocus] TerminalMode has audio focus now");
+                this.logChannel.log(1000000, "[AudioApplicationInFocusHandler#updateAudioFocus] TerminalMode has audio focus now");
                 n3 = 3;
             } else {
-                this.logChannel.log(1078071040, "[AudioApplicationInFocusHandler#updateAudioFocus] UNKNOWN audio focus set: %1", (long)n2);
+                this.logChannel.log(1000000, "[AudioApplicationInFocusHandler#updateAudioFocus] UNKNOWN audio focus set: %1", (long)n2);
                 n3 = -1;
             }
             if (this.audioApplicationInFocus != n3) {

@@ -37,18 +37,18 @@ public class IntegrityChecker {
             }
         }
         catch (Exception exception) {
-            System.out.println(new StringBuffer().append("HMI-IntegrityChecker[ERROR]: ").append(exception.getMessage()).toString());
+            System.out.println("HMI-IntegrityChecker[ERROR]: " + exception.getMessage());
         }
         return (String[])arrayList.toArray(new String[arrayList.size()]);
     }
 
     private void print(String string) {
         System.out.println("[ERROR] ######## HMI integrity check fails ###########");
-        System.out.println(new StringBuffer().append("HMI-IntegrityChecker[ERROR]: ").append(string).toString());
+        System.out.println("HMI-IntegrityChecker[ERROR]: " + string);
     }
 
     private ClassLoader getResourceClassLoader() {
-        return super.getClass().getClassLoader() != null ? super.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
+        return this.getClass().getClassLoader() != null ? this.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
     }
 
     /*
@@ -68,7 +68,7 @@ public class IntegrityChecker {
             }
         }
         catch (Exception exception) {
-            System.out.println(new StringBuffer().append("HMI-IntegrityChecker[ERROR]: ").append(string).append(" is not in the class path or does not contain md5 file!").toString());
+            System.out.println("HMI-IntegrityChecker[ERROR]: " + string + " is not in the class path or does not contain md5 file!");
         }
         finally {
             try {

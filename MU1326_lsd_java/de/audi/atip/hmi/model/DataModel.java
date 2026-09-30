@@ -21,33 +21,27 @@ DataModelGUI {
         super(n, n2);
     }
 
-    @Override
     public int getModelType() {
         return 11;
     }
 
-    @Override
     protected void copy(AbstractModel abstractModel) {
         throw new UnsupportedOperationException("Not implemented!");
     }
 
-    @Override
     public void set(Object object) {
         this.data = object;
         this.fireModelUpdateEvent(1);
     }
 
-    @Override
     public Object get() {
         return this.data;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.data == null;
     }
 
-    @Override
     public void resetListener() {
     }
 }

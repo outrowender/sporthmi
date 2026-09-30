@@ -26,12 +26,10 @@ extends AbstractBAPIndicationHandlerMFL {
         return ((CombiModuleMFL)this.module).getMFLServiceListener();
     }
 
-    @Override
     public GetArrayIndication evaluateGetArrayIndication(int n, GetArray getArray) {
         return null;
     }
 
-    @Override
     protected void processInstrumentClusterFunctionsSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, InstrumentClusterFunctions_SetGet instrumentClusterFunctions_SetGet) {
         InstrumentClusterFunctions_Status instrumentClusterFunctions_Status = (InstrumentClusterFunctions_Status)bAPFunctionPropertyFSG.getLastStatus();
         if (instrumentClusterFunctions_Status.configurationOptions.equalTo(instrumentClusterFunctions_SetGet.configurationOptions)) {
@@ -58,35 +56,32 @@ extends AbstractBAPIndicationHandlerMFL {
             n |= 0x20;
         }
         if (this.getMFLServiceListener() != null) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerMFL#processInstrumentClusterFunctionsSetGet] call mflService 'setAvailableJokerKeyFunctions'");
+            this.logChannel.log(10000000, "[BAPIndicationHandlerMFL#processInstrumentClusterFunctionsSetGet] call mflService 'setAvailableJokerKeyFunctions'");
             this.getMFLServiceListener().setAvailableJokerKeyClusterFunctions(n);
         } else {
-            this.logChannel.log(-1601830656, "[BAPIndicationHandlerMFL#processInstrumentClusterFunctionsSetGet] mflService not available");
+            this.logChannel.log(100000, "[BAPIndicationHandlerMFL#processInstrumentClusterFunctionsSetGet] mflService not available");
             ((CombiModuleMFL)this.module).getMFLService().updateAvailableJokerKeyClusterFunctions(n);
         }
     }
 
-    @Override
     protected void processKeyConfigurationAck(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, KeyConfiguration_Ack keyConfiguration_Ack) {
         if (this.getMFLServiceListener() != null) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerMFL#processKeyConfigurationAck] call mflService 'confirmCurrentJokerKeyFunctions'");
+            this.logChannel.log(10000000, "[BAPIndicationHandlerMFL#processKeyConfigurationAck] call mflService 'confirmCurrentJokerKeyFunctions'");
             this.getMFLServiceListener().confirmCurrentJokerKeyFunctions(keyConfiguration_Ack.configKey1, keyConfiguration_Ack.configKey2, keyConfiguration_Ack.configKey3, keyConfiguration_Ack.configKey4, keyConfiguration_Ack.configKey5);
         } else {
-            this.logChannel.log(-1601830656, "[BAPIndicationHandlerMFL#processKeyConfigurationAck] mflService not available");
+            this.logChannel.log(100000, "[BAPIndicationHandlerMFL#processKeyConfigurationAck] mflService not available");
         }
     }
 
-    @Override
     protected void processPuActionAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerMFL#processPuActionAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+        this.logChannel.log(10000000, "[BAPIndicationHandlerMFL#processPuActionAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
         PU_Action_Result pU_Action_Result = (PU_Action_Result)((CombiModuleMFL)this.module).createResultSerializer(20);
         pU_Action_Result.pu_ActionResult = 3;
         bAPFunctionMethodFSG.resultAbortNotSuccessfulREQ(pU_Action_Result);
     }
 
-    @Override
     protected void processPuActionStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, PU_Action_StartResult pU_Action_StartResult) {
-        this.logChannel.log(1078071040, "[BAPIndicationHandlerMFL#processPuActionStartResult] taid=%1, option=%2", (long)pU_Action_StartResult.taid, (long)pU_Action_StartResult.option);
+        this.logChannel.log(1000000, "[BAPIndicationHandlerMFL#processPuActionStartResult] taid=%1, option=%2", (long)pU_Action_StartResult.taid, (long)pU_Action_StartResult.option);
         if (BAPIndicationHandlerMFL.reservedValueUsed(pU_Action_StartResult)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerMFL#processPuActionStartResult] Reserved Value Used. serializer: %1", (Object)pU_Action_StartResult);
             this.sendAppErrorOutOfRange(bAPFunctionMethodFSG.getFctID());

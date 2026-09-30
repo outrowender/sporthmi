@@ -26,23 +26,23 @@ import org.dsi.ifc.navigation.PosPosition;
 public class PoiIconedResultsListRow
 extends LiValueListRow
 implements DistanceDifferentiationRow {
-    public static final int COLUMN_ICON;
-    public static final int COLUMN_CATEGORY_NAME;
-    public static final int COLUMN_PROPERTY;
-    public static final int COLUMN_DIRECTION_ARROW;
-    public static final int COLUMN_DISTANCE;
-    public static final int COLUMN_ADDRESS_INFO;
-    public static final int COLUMN_LAYOUT_RECORD_SET;
-    public static final int COLUMN_24_HOUR;
-    public static final int COLUMN_ADDITIONAL_TRAVELGUIDE_INFO_AVAILABLE;
-    public static final int COLUMN_PAYMENT_BY_CREDIT_CARD;
-    public static final int COLUMN_DIESEL_OFFERED;
-    public static final int COLUMN_COUNT;
-    private static final int NORMAL_POI_ELEMENT;
-    private static final int ASIA_PARENT_ELEMENT_WITHOUT_GEOCOORDINATES;
-    private static final int ASIA_PARENT_CHILD_ELEMENT;
-    private static final int AVAILABLE;
-    private static final int NOT_AVAILABLE;
+    public static final int COLUMN_ICON = 0;
+    public static final int COLUMN_CATEGORY_NAME = 1;
+    public static final int COLUMN_PROPERTY = 3;
+    public static final int COLUMN_DIRECTION_ARROW = 4;
+    public static final int COLUMN_DISTANCE = 5;
+    public static final int COLUMN_ADDRESS_INFO = 6;
+    public static final int COLUMN_LAYOUT_RECORD_SET = 7;
+    public static final int COLUMN_24_HOUR = 8;
+    public static final int COLUMN_ADDITIONAL_TRAVELGUIDE_INFO_AVAILABLE = 9;
+    public static final int COLUMN_PAYMENT_BY_CREDIT_CARD = 10;
+    public static final int COLUMN_DIESEL_OFFERED = 11;
+    public static final int COLUMN_COUNT = 12;
+    private static final int NORMAL_POI_ELEMENT = 0;
+    private static final int ASIA_PARENT_ELEMENT_WITHOUT_GEOCOORDINATES = 1;
+    private static final int ASIA_PARENT_CHILD_ELEMENT = 1;
+    private static final int AVAILABLE = 1;
+    private static final int NOT_AVAILABLE = 0;
     private int distance;
     private boolean flagRRD;
     private final NavigationEnv env;
@@ -99,17 +99,14 @@ implements DistanceDifferentiationRow {
         this.flagRRD = poiIconedResultsListRow.isMarkedAsRRD();
     }
 
-    @Override
     public EvoListRow copy() {
         return new PoiIconedResultsListRow(this);
     }
 
-    @Override
     public int getDistance() {
         return this.distance;
     }
 
-    @Override
     public synchronized void setRRDDistance(int n) {
         this.distance = n;
         this.reformatDistance();
@@ -120,7 +117,6 @@ implements DistanceDifferentiationRow {
         }
     }
 
-    @Override
     public synchronized void setAirDistance(int n) {
         this.doSetAirDistance(n);
     }
@@ -135,12 +131,10 @@ implements DistanceDifferentiationRow {
         }
     }
 
-    @Override
     public void reformatDistance() {
         this.setMetrics(5, new Distance(this.distance, 5));
     }
 
-    @Override
     public int getDirection() {
         int n = this.getInteger(4);
         if (this.flagRRD) {
@@ -149,7 +143,6 @@ implements DistanceDifferentiationRow {
         return n;
     }
 
-    @Override
     public void setDirection(int n) {
         this.doSetDirection(n);
     }
@@ -158,12 +151,10 @@ implements DistanceDifferentiationRow {
         this.setInteger(4, this.flagRRD ? n + 8 : n);
     }
 
-    @Override
     public final boolean isMarkedAsRRD() {
         return this.flagRRD;
     }
 
-    @Override
     public int getLatitude() {
         return this.doGetLatitude();
     }
@@ -176,12 +167,10 @@ implements DistanceDifferentiationRow {
         return this.getElement().getLongitude();
     }
 
-    @Override
     public int getLongitude() {
         return this.doGetLongitude();
     }
 
-    @Override
     public synchronized void updateDirection(PosPosition posPosition) {
         this.doUpdateDirection(posPosition);
     }
@@ -192,7 +181,6 @@ implements DistanceDifferentiationRow {
         this.doSetDirection(n2);
     }
 
-    @Override
     public synchronized void updateAirDistance(PosPosition posPosition) {
         this.doUpdateAirDistance(posPosition);
     }

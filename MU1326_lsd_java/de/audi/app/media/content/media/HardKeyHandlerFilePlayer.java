@@ -9,21 +9,19 @@ import de.audi.app.media.content.media.IPlayer;
 
 public class HardKeyHandlerFilePlayer
 extends HardKeyHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "HardKeyHandlerFilePlayer";
 
     public HardKeyHandlerFilePlayer(IMediaTerminal iMediaTerminal, IPlayer iPlayer) {
         super(iMediaTerminal, iPlayer);
     }
 
-    @Override
     protected void mediaSkipPrevPressed() {
-        this.logger.hmi().log(1078071040, "[%1.mediaSkipPrevPressed] HK_PREV", (Object)"HardKeyHandlerFilePlayer");
+        this.logger.hmi().log(1000000, "[%1.mediaSkipPrevPressed] HK_PREV", (Object)LOGCLASS);
         this.seekingBwdTimer.restart();
     }
 
-    @Override
     protected void mediaSkipNextPressed() {
-        this.logger.hmi().log(1078071040, "[%1.mediaSkipNextPressed] HK_NEXT", (Object)"HardKeyHandlerFilePlayer");
+        this.logger.hmi().log(1000000, "[%1.mediaSkipNextPressed] HK_NEXT", (Object)LOGCLASS);
         this.seekingFwdTimer.restart();
     }
 }

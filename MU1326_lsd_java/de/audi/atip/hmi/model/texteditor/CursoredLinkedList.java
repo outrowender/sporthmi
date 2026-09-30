@@ -11,11 +11,11 @@ import de.audi.atip.log.LogChannel;
 public class CursoredLinkedList
 implements ICopyTo {
     private static LogChannel lc;
-    public static final int INS_LIST_CURSOR_ENUM_FIRST;
-    public static final int INS_LIST_CURSOR_STAYS;
-    public static final int INS_LIST_CURSOR_FIRST_NEW;
-    public static final int INS_LIST_CURSOR_LAST_NEW;
-    public static final int INS_LIST_CURSOR_ENUM_LAST;
+    public static final int INS_LIST_CURSOR_ENUM_FIRST = 0;
+    public static final int INS_LIST_CURSOR_STAYS = 0;
+    public static final int INS_LIST_CURSOR_FIRST_NEW = 1;
+    public static final int INS_LIST_CURSOR_LAST_NEW = 2;
+    public static final int INS_LIST_CURSOR_ENUM_LAST = 2;
     public LinkedList list;
     public ListNode current;
     public ListNode head;
@@ -234,20 +234,19 @@ implements ICopyTo {
             String string;
             String string2 = listNode.data != null && listNode.data.length > 0 ? listNode.data[0].toString() : (string = listNode.equals(this.head) || listNode.equals(this.tail) ? " #" : " <null>");
             if (listNode.equals(this.current)) {
-                System.out.print(new StringBuffer().append(" [").append(string).append("]").toString());
+                System.out.print(" [" + string + "]");
             } else {
-                System.out.print(new StringBuffer().append(" ").append(string).toString());
+                System.out.print(" " + string);
             }
             listNode = listNode.right;
         }
-        System.out.println(new StringBuffer().append(" <").append(this.getSize()).append(">").toString());
+        System.out.println(" <" + this.getSize() + ">");
     }
 
     public int getSize() {
         return this.list.getSize();
     }
 
-    @Override
     public boolean copyTo(ICopyTo iCopyTo) {
         if (!(iCopyTo instanceof CursoredLinkedList)) {
             return false;

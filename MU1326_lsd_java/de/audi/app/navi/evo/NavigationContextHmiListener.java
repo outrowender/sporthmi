@@ -22,26 +22,26 @@ import de.audi.tghu.navi.app.search.IntelliDestAccess;
 
 public class NavigationContextHmiListener
 implements ChoiceListener {
-    private static final int MAP_CONTEXT_IDX_MAP;
-    private static final int MAP_CONTEXT_IDX_TRAFFIC;
-    private static final int MAP_CONTEXT_IDX_RML;
-    private static final int MAP_CONTEXT_IDX_POI_ALONG_ROUTE;
-    private static final int MAP_CONTEXT_IDX_TRAFFIC_VICS_JP;
-    private static final int MAP_CONTEXT_IDX_TPEG_MINI_MAPS_KR;
-    private static final int DEST_CONTEXT_IDX_INTELLIDEST;
-    private static final int DEST_CONTEXT_IDX_ADDRESSINPUT;
-    private static final int DEST_CONTEXT_IDX_FAVORITES;
-    private static final int DEST_CONTEXT_IDX_ADDRESSBOOK;
-    private static final int DEST_CONTEXT_IDX_POI;
-    private static final int DEST_CONTEXT_IDX_ONLINESEARCH;
-    private static final int DEST_CONTEXT_IDX_MYAUDI;
-    private static final int DEST_CONTEXT_IDX_PICNAV;
-    private static final int DEST_CONTEXT_IDX_GEOCOORDINATES;
-    private static final int DEST_CONTEXT_IDX_GAS_STATIONS;
-    private static final int DEST_CONTEXT_IDX_OPERATOR_CALL_CN;
-    private static final int DEST_CONTEXT_IDX_TPEG_POI_KR;
-    private static final int DEST_CONTEXT_IDX_TELEPHONE_JP_KR;
-    private static final int DEST_CONTEXT_IDX_MAPCODE_JP;
+    private static final int MAP_CONTEXT_IDX_MAP = 0;
+    private static final int MAP_CONTEXT_IDX_TRAFFIC = 1;
+    private static final int MAP_CONTEXT_IDX_RML = 2;
+    private static final int MAP_CONTEXT_IDX_POI_ALONG_ROUTE = 3;
+    private static final int MAP_CONTEXT_IDX_TRAFFIC_VICS_JP = 4;
+    private static final int MAP_CONTEXT_IDX_TPEG_MINI_MAPS_KR = 5;
+    private static final int DEST_CONTEXT_IDX_INTELLIDEST = 0;
+    private static final int DEST_CONTEXT_IDX_ADDRESSINPUT = 1;
+    private static final int DEST_CONTEXT_IDX_FAVORITES = 2;
+    private static final int DEST_CONTEXT_IDX_ADDRESSBOOK = 3;
+    private static final int DEST_CONTEXT_IDX_POI = 4;
+    private static final int DEST_CONTEXT_IDX_ONLINESEARCH = 5;
+    private static final int DEST_CONTEXT_IDX_MYAUDI = 6;
+    private static final int DEST_CONTEXT_IDX_PICNAV = 7;
+    private static final int DEST_CONTEXT_IDX_GEOCOORDINATES = 8;
+    private static final int DEST_CONTEXT_IDX_GAS_STATIONS = 9;
+    private static final int DEST_CONTEXT_IDX_OPERATOR_CALL_CN = 10;
+    private static final int DEST_CONTEXT_IDX_TPEG_POI_KR = 11;
+    private static final int DEST_CONTEXT_IDX_TELEPHONE_JP_KR = 12;
+    private static final int DEST_CONTEXT_IDX_MAPCODE_JP = 13;
     private final NavigationEnv env;
     private final INavigationInputModeManager navigationInputModeManager;
     private final IAddressInputForm addressInputService;
@@ -78,19 +78,18 @@ implements ChoiceListener {
     }
 
     private final void listen() {
-        this.env.getChoiceModel(119539200).setChoiceListener(this);
-        this.env.getChoiceModel(136316416).setChoiceListener(this);
+        this.env.getChoiceModel(401415).setChoiceListener(this);
+        this.env.getChoiceModel(401416).setChoiceListener(this);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "NavigationContextHmiListener#itemSelected(modelID=%1, itemID=%2)", (long)n, (long)n2);
-        if (n == 119539200) {
+        this.logChannel.log(10000000, "NavigationContextHmiListener#itemSelected(modelID=%1, itemID=%2)", (long)n, (long)n2);
+        if (n == 401415) {
             this.handleMapContextChange(n2);
-        } else if (n == 136316416) {
+        } else if (n == 401416) {
             this.handleDestContextChange(n2);
         } else {
-            this.logChannel.log(-1601830656, "NavigationContextHmiListener#itemSelected - unsupported modelID: %1", (long)n);
+            this.logChannel.log(100000, "NavigationContextHmiListener#itemSelected - unsupported modelID: %1", (long)n);
         }
         this.env.getChoiceModel(n).setValue(n2);
         this.env.getChoiceModel(n).fireEvent(n4);
@@ -106,7 +105,7 @@ implements ChoiceListener {
                 this.setInputModeChoiceToNavigationValue();
                 this.poiService.startPoiWithSearchContextAlongRoute();
             } else {
-                this.logChannel.log(-1601830656, "NavigationContextHmiListener#handleMapContextChange - unsupported itemID: %1", (long)n);
+                this.logChannel.log(100000, "NavigationContextHmiListener#handleMapContextChange - unsupported itemID: %1", (long)n);
             }
         }
     }
@@ -118,14 +117,14 @@ implements ChoiceListener {
             this.setInputModeManagerToStartRouteGuidanceStatus();
         } else if (n == 1) {
             this.setInputModeChoiceToNavigationValue();
-            this.env.getChoiceModel(-1608448512).setValue(0);
+            this.env.getChoiceModel(401824).setValue(0);
             this.setInputModeManagerToStartRouteGuidanceStatus();
             this.addressInputService.start();
         } else if (n == 2) {
             this.intelliDestController.enterDestinationContext(2);
             this.setInputModeManagerToStartRouteGuidanceStatus();
         } else if (n == 3) {
-            this.env.getChoiceModel(136316416).setValue(n);
+            this.env.getChoiceModel(401416).setValue(n);
         } else if (n == 4) {
             this.setInputModeManagerToStartRouteGuidanceStatus();
             this.setInputModeChoiceToNavigationValue();
@@ -155,7 +154,7 @@ implements ChoiceListener {
                     if (this.tpegPOIService != null) {
                         this.tpegPOIService.startTpegPOI();
                     } else {
-                        this.logChannel.log(-1601830656, "NavigationContextHmiListener#handleDestContextChange - no TPEG POI service is available.");
+                        this.logChannel.log(100000, "NavigationContextHmiListener#handleDestContextChange - no TPEG POI service is available.");
                     }
                 } else if (n == 12) {
                     this.setInputModeManagerToStartRouteGuidanceStatus();
@@ -163,7 +162,7 @@ implements ChoiceListener {
                     if (this.phonenumberService != null) {
                         this.phonenumberService.enterPhonenumberScreen();
                     } else {
-                        this.logChannel.log(-1601830656, "NavigationContextHmiListener#handleDestContextChange - no phone number service is available.");
+                        this.logChannel.log(100000, "NavigationContextHmiListener#handleDestContextChange - no phone number service is available.");
                     }
                 } else if (n == 13) {
                     this.setInputModeManagerToStartRouteGuidanceStatus();
@@ -171,10 +170,10 @@ implements ChoiceListener {
                     if (this.mapcodeService != null) {
                         this.mapcodeService.enterMapcodeScreen();
                     } else {
-                        this.logChannel.log(-1601830656, "NavigationContextHmiListener#handleDestContextChange - no map code service is available.");
+                        this.logChannel.log(100000, "NavigationContextHmiListener#handleDestContextChange - no map code service is available.");
                     }
                 } else {
-                    this.logChannel.log(-1601830656, "NavigationContextHmiListener#handleDestContextChange - unsupported itemID: %1", (long)n);
+                    this.logChannel.log(100000, "NavigationContextHmiListener#handleDestContextChange - unsupported itemID: %1", (long)n);
                 }
             }
         }
@@ -188,25 +187,20 @@ implements ChoiceListener {
         this.navigationInputModeManager.setInputMode(0, this.env);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "NavigationContextHmiListener#itemFocused(modelID=%1, itemID=%2)", (long)n, (long)n2);
+        this.logChannel.log(10000000, "NavigationContextHmiListener#itemFocused(modelID=%1, itemID=%2)", (long)n, (long)n2);
     }
 
     public void setOnlineDestinationService(IOnlineDestinationService iOnlineDestinationService) {

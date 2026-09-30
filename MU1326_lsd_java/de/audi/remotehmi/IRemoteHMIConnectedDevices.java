@@ -4,13 +4,10 @@
 package de.audi.remotehmi;
 
 public interface IRemoteHMIConnectedDevices {
-    default public String[] getConnectedDevices() {
-    }
+    public String[] getConnectedDevices();
 
-    default public String[] getMACAddresses() {
-    }
+    public String[] getMACAddresses();
 
-    default public boolean[] getActivationStates() {
-    }
+    public boolean[] getActivationStates();
 }
 

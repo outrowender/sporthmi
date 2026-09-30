@@ -12,33 +12,30 @@ import de.audi.app.media.transfer.TransferLogger;
 
 public class MediaTransferTerminalExtension
 implements IMediaTerminalExtension {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaTransferTerminalExtension";
     private volatile TransferLogger logger;
     private volatile TransferController transferController;
 
-    @Override
     public void initExtension(IMediaTerminal iMediaTerminal) {
         this.logger = new TransferLogger(iMediaTerminal.getFramework());
-        this.logger.main().log(1078071040, "[%1.initExtension]", (Object)"MediaTransferTerminalExtension");
+        this.logger.main().log(1000000, "[%1.initExtension]", (Object)LOGCLASS);
         IMediaConfiguration iMediaConfiguration = iMediaTerminal.getConfiguration();
         if (iMediaConfiguration.isImportEnabled() || iMediaConfiguration.isRippingEnabled()) {
             this.transferController = new TransferController(iMediaTerminal);
             this.transferController.init();
         } else {
-            this.logger.main().log(1078071040, "[%1.initExtension] Import disabled.", (Object)"MediaTransferTerminalExtension");
+            this.logger.main().log(1000000, "[%1.initExtension] Import disabled.", (Object)LOGCLASS);
             this.transferController = null;
         }
     }
 
-    @Override
     public void deinitExtension() {
-        this.logger.main().log(1078071040, "[%1.deinitExtension]", (Object)"MediaTransferTerminalExtension");
+        this.logger.main().log(1000000, "[%1.deinitExtension]", (Object)LOGCLASS);
         if (this.transferController != null) {
             this.transferController.deinit();
         }
     }
 
-    @Override
     public IContentProvider getContentProvider() {
         return null;
     }

@@ -13,7 +13,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class JobPlayViewListRequest
 extends AbstractPlayerJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobPlayViewListRequest";
     private final IPlayViewListRequest clientRequest;
 
     public JobPlayViewListRequest(LogChannel logChannel, IPlayViewListRequest iPlayViewListRequest, IPlayer iPlayer) {
@@ -21,30 +21,28 @@ extends AbstractPlayerJob {
         this.clientRequest = iPlayViewListRequest;
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort]", (Object)"JobPlayViewListRequest");
+        this.logger.log(1000000, "[%1.abort]", (Object)LOGCLASS);
         this.clientRequest.responsePlayList(false, 0, new MediaListEntry[0]);
         IQueueExecutionContext iQueueExecutionContext = this.getExecutionContext();
         if (iQueueExecutionContext != null) {
             iQueueExecutionContext.jobFinished();
         } else {
-            this.logger.log(-1601830656, "[%1.abort] The context is null.", (Object)"JobPlayViewListRequest");
+            this.logger.log(100000, "[%1.abort] The context is null.", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void start() {
         if (this.clientRequest.getId() == -1L) {
-            this.logger.log(1078071040, "[%1.start] Index based list request.", (Object)"JobPlayViewListRequest");
+            this.logger.log(1000000, "[%1.start] Index based list request.", (Object)LOGCLASS);
             if (!this.player.requestPlayViewListIndexBased(this.clientRequest.getClientID(), this.clientRequest.getIndex(), this.clientRequest.getSize())) {
-                this.logger.log(-1601830656, "[%1.start] Request failed.", (Object)"JobPlayViewListRequest");
+                this.logger.log(100000, "[%1.start] Request failed.", (Object)LOGCLASS);
                 this.abort(false);
             }
         } else {
-            this.logger.log(1078071040, "[%1.start] Entry based list request.", (Object)"JobPlayViewListRequest");
+            this.logger.log(1000000, "[%1.start] Entry based list request.", (Object)LOGCLASS);
             if (!this.player.requestPlayViewListEntryBased(this.clientRequest.getClientID(), this.clientRequest.getId(), this.clientRequest.getSize())) {
-                this.logger.log(-1601830656, "[%1.start] Request failed.", (Object)"JobPlayViewListRequest");
+                this.logger.log(100000, "[%1.start] Request failed.", (Object)LOGCLASS);
                 this.abort(false);
             }
         }
@@ -54,7 +52,7 @@ extends AbstractPlayerJob {
         if (this.logger.isInfo()) {
             Buffer buffer = new Buffer();
             buffer.append(bl ? "OK" : "NOK").append(",idx='").append(n).append("',size='").append(mediaListEntryArray != null ? mediaListEntryArray.length : -1).append("'");
-            this.logger.log(1078071040, "[%1.responsePlayView] %2", (Object)"JobPlayViewListRequest", (Object)buffer);
+            this.logger.log(1000000, "[%1.responsePlayView] %2", (Object)LOGCLASS, (Object)buffer);
         }
         this.clientRequest.responsePlayList(bl, n, null == mediaListEntryArray ? new MediaListEntry[]{} : mediaListEntryArray);
         this.getExecutionContext().jobFinished();

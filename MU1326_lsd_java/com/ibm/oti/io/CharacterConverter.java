@@ -308,8 +308,7 @@ public class CharacterConverter {
         return n;
     }
 
-    private native int convertImpl(byte[] byArray, int n, char[] cArray, int n2, int n3) {
-    }
+    private native int convertImpl(byte[] var1, int var2, char[] var3, int var4, int var5);
 
     public byte[] convert(char[] cArray, int n, int n2) {
         if (useNative) {
@@ -321,7 +320,7 @@ public class CharacterConverter {
         while (n < n3) {
             char c2;
             if ((c2 = cArray[n++]) > '\u00ff') {
-                if (c2 >= '\ud80000' && c2 < '\udc0000' && n < n3 && cArray[n] >= '\udc0000' && cArray[n] < '\ue00000') {
+                if (c2 >= '\ud800' && c2 < '\udc00' && n < n3 && cArray[n] >= '\udc00' && cArray[n] < '\ue000') {
                     ++n;
                 }
                 byArray[n4++] = 63;
@@ -337,8 +336,7 @@ public class CharacterConverter {
         return byArray;
     }
 
-    private native byte[] convertImpl(char[] cArray, int n, int n2) {
-    }
+    private native byte[] convertImpl(char[] var1, int var2, int var3);
 
     public static CharacterConverter getConverter(String string) {
         Class clazz = null;
@@ -365,7 +363,7 @@ public class CharacterConverter {
             string = string2;
         }
         try {
-            clazz = Class.forName(new StringBuffer("com.ibm.oti.io.CharacterConverter_").append(string).toString());
+            clazz = Class.forName("com.ibm.oti.io.CharacterConverter_" + string);
         }
         catch (ClassNotFoundException classNotFoundException) {
             return CharacterConverter.getNativeConverter(string);

@@ -4,7 +4,7 @@
 package de.audi.app.phone.core.bap;
 
 public final class BAPPropertyRegisterStateUtil {
-    public static final int PACKET_DATA_NETWORK_TYPE;
+    public static final int PACKET_DATA_NETWORK_TYPE = 0;
 
     public static int getCombiRegisterState(int n) {
         switch (n) {

@@ -3,7 +3,6 @@
  */
 package de.audi.app.combi.bap.app.audio.list;
 
-import de.audi.app.bap.fw.AbstractBAPModuleFSG;
 import de.audi.app.bap.fw.arrays.AbstractManagedListHandler;
 import de.audi.app.bap.fw.arrays.ArrayUtils;
 import de.audi.app.bap.fw.arrays.GetArrayIndication;
@@ -11,20 +10,21 @@ import de.audi.app.bap.fw.arrays.ListDelta;
 import de.audi.app.bap.fw.functiontypes.BAPFunctionPropertyFSG;
 import de.audi.app.combi.bap.app.audio.CombiModuleAudio;
 import de.audi.app.combi.bap.app.audio.list.DABReceptionList;
-import de.audi.app.combi.bap.app.audio.list.ReceptionListHandler$StationArtProvider;
+import de.audi.app.combi.bap.app.kombipictures.IPictureProvider;
+import de.audi.app.combi.bap.fw.AbstractCombiModule;
 import de.audi.app.combi.bap.fw.arrays.GetArrayIndicationReceptionList;
 import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPReceptionListEntry;
 import de.audi.atip.interapp.combi.bap.data.CombiBAPArrayElement;
-import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
 import de.vw.mib.bap.generated.audiosd.serializer.FSG_Setup_Status;
 import de.vw.mib.bap.generated.audiosd.serializer.ReceptionListType_Status;
 import de.vw.mib.bap.generated.audiosd.serializer.SourceState_Status;
 import java.util.List;
+import org.dsi.ifc.global.ResourceLocator;
 
 public class ReceptionListHandler
 extends AbstractManagedListHandler {
-    private static final int ERROR_CODE_PARAMETER_MISMATCH;
+    private static final int ERROR_CODE_PARAMETER_MISMATCH = 69;
     private final Object mutex = new Object();
     private int matchingDABListPartSize;
     private final DABReceptionList dabReceptionList = new DABReceptionList(this.logChannel, this.className);
@@ -34,10 +34,9 @@ extends AbstractManagedListHandler {
 
     protected ReceptionListHandler(CombiModuleAudio combiModuleAudio) {
         super(combiModuleAudio, "ReceptionListHandler");
-        combiModuleAudio.getPictureManager().registerPictureProvider(1, new ReceptionListHandler$StationArtProvider(this, null));
+        combiModuleAudio.getPictureManager().registerPictureProvider(1, new StationArtProvider());
     }
 
-    @Override
     public int getNumberOfElements() {
         return this.getListType() == 3 ? this.getMatchingDABListPartSize() : this.getCurrentListSize();
     }
@@ -47,7 +46,7 @@ extends AbstractManagedListHandler {
     }
 
     public void updateReceptionList(int n, CombiBAPReceptionListEntry[] combiBAPReceptionListEntryArray) {
-        this.logChannel.log(-2137614336, "[%1#updateReceptionList] listType=%2, listSize=%3", (Object)this.className, (long)n, (long)combiBAPReceptionListEntryArray.length);
+        this.logChannel.log(10000000, "[%1#updateReceptionList] listType=%2, listSize=%3", (Object)this.className, (long)n, (long)combiBAPReceptionListEntryArray.length);
         this.updateReceptionListType(n);
         this.dabReceptionList.clear();
         if (n == 3) {
@@ -65,20 +64,19 @@ extends AbstractManagedListHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateList(CombiBAPArrayElement[] combiBAPArrayElementArray) {
-        this.logChannel.log(-2137614336, "[%1#updateList] receptionListSize=%2", (Object)this.className, (long)combiBAPArrayElementArray.length);
+        this.logChannel.log(10000000, "[%1#updateList] receptionListSize=%2", (Object)this.className, (long)combiBAPArrayElementArray.length);
         boolean bl = this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType() == 0 || this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType() == 2 || this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType() == 5;
         SourceState_Status sourceState_Status = (SourceState_Status)this.moduleFsg.getBAPFunctionPropertyFSG(20).getLastStatus();
         boolean bl2 = sourceState_Status.stateInfo == 5;
         ListDelta listDelta = ListDelta.compare(this.getManagedList(), combiBAPArrayElementArray);
         if (bl) {
-            this.logChannel.log(-2137614336, "[%1#updateList] function sync %2 is opened", (Object)this.className, (long)this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType());
+            this.logChannel.log(10000000, "[%1#updateList] function sync %2 is opened", (Object)this.className, (long)this.moduleFsg.getFunctionSynchronizationHandler().getCurrentSyncType());
             Object object = this.mutex;
             synchronized (object) {
                 if (!listDelta.isUnchanged() || this.deferredNewList != null) {
                     this.deferredNewList = combiBAPArrayElementArray;
-                    this.logChannel.log(-2137614336, "[%1#updateList] source change in progress, request deferred. New list:\n%2", (Object)this.className, (Object)this.deferredListToString());
+                    this.logChannel.log(10000000, "[%1#updateList] source change in progress, request deferred. New list:\n%2", (Object)this.className, (Object)this.deferredListToString());
                 }
             }
         }
@@ -87,7 +85,7 @@ extends AbstractManagedListHandler {
             synchronized (object) {
                 if (!listDelta.isUnchanged() || this.deferredNewList != null) {
                     this.deferredNewList = combiBAPArrayElementArray;
-                    this.logChannel.log(-2137614336, "[%1#updateList] manual tuning active, request deferred. New list:\n%2", (Object)this.className, (Object)this.deferredListToString());
+                    this.logChannel.log(10000000, "[%1#updateList] manual tuning active, request deferred. New list:\n%2", (Object)this.className, (Object)this.deferredListToString());
                 }
             }
         }
@@ -108,12 +106,12 @@ extends AbstractManagedListHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public boolean updateDeferredList(boolean bl) {
-        this.logChannel.log(-2137614336, "[%1#updateDeferredList] forceFullRangeUpdate=%2", (Object)this.className, (Object)bl);
+        this.logChannel.log(10000000, "[%1#updateDeferredList] forceFullRangeUpdate=%2", (Object)this.className, (Object)bl);
         Object object = this.mutex;
         synchronized (object) {
             boolean bl2 = true;
             if (this.deferredNewList == null) {
-                this.logChannel.log(-2137614336, "[%1#updateDeferredList] no deferred updates", (Object)this.className);
+                this.logChannel.log(10000000, "[%1#updateDeferredList] no deferred updates", (Object)this.className);
                 if (bl) {
                     this.sendFullRangeUpdate();
                 } else {
@@ -142,11 +140,10 @@ extends AbstractManagedListHandler {
         return buffer.toString();
     }
 
-    @Override
     public void requestListElements(GetArrayIndication getArrayIndication) {
         if (getArrayIndication instanceof GetArrayIndicationReceptionList) {
             int n = ((GetArrayIndicationReceptionList)getArrayIndication).getElementType();
-            this.logChannel.log(-2137614336, "[%1#requestListElements] called (taID=%2)", (Object)this.className, (long)getArrayIndication.getTaID());
+            this.logChannel.log(10000000, "[%1#requestListElements] called (taID=%2)", (Object)this.className, (long)getArrayIndication.getTaID());
             if (this.getListType() == 3) {
                 this.handleDABListRequest((GetArrayIndicationReceptionList)getArrayIndication);
             } else if (this.getListType() == 6) {
@@ -154,7 +151,7 @@ extends AbstractManagedListHandler {
             } else if (n == 5) {
                 super.requestListElements(getArrayIndication);
             } else {
-                this.logChannel.log(10000, "[%1#requestListElements] invalid elementType (=%2). Must be %3", (Object)this.className, (long)n, (long)0);
+                this.logChannel.log(10000, "[%1#requestListElements] invalid elementType (=%2). Must be %3", (Object)this.className, (long)n, 5L);
                 this.setPendingRequest(getArrayIndication);
                 this.sendEmptyList();
             }
@@ -169,14 +166,14 @@ extends AbstractManagedListHandler {
         FSG_Setup_Status fSG_Setup_Status = (FSG_Setup_Status)bAPFunctionPropertyFSG.getLastStatus();
         if (fSG_Setup_Status.setup_Extensions.dabServiceSortedList != this.dabSortAlphabetically) {
             this.dabStationSortingChanged = true;
-            this.logChannel.log(-2137614336, "[%1#updateDABStationSorting] DAB station list is sorted %2", (Object)this.className, (Object)(this.dabSortAlphabetically ? "alphabetically" : "by ensemble"));
+            this.logChannel.log(10000000, "[%1#updateDABStationSorting] DAB station list is sorted %2", (Object)this.className, (Object)(this.dabSortAlphabetically ? "alphabetically" : "by ensemble"));
             fSG_Setup_Status.setup_Extensions.dabServiceSortedList = this.dabSortAlphabetically;
             bAPFunctionPropertyFSG.sendStatus(fSG_Setup_Status);
         }
     }
 
     private void updateReceptionListType(int n) {
-        this.logChannel.log(-2137614336, "[%1#updateReceptionListType] called", (Object)this.className);
+        this.logChannel.log(10000000, "[%1#updateReceptionListType] called", (Object)this.className);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(31);
         ReceptionListType_Status receptionListType_Status = new ReceptionListType_Status();
         receptionListType_Status.type = n;
@@ -246,14 +243,14 @@ extends AbstractManagedListHandler {
                 }
             }
         }
-        if (this.logChannel.getCurrentLogThreshold() >= -2137614336) {
+        if (this.logChannel.getCurrentLogThreshold() >= 10000000) {
             object = new Buffer();
             combiBAPArrayElementArray = list.iterator();
             while (combiBAPArrayElementArray.hasNext()) {
                 ((Buffer)object).append(combiBAPArrayElementArray.next());
                 ((Buffer)object).append('\n');
             }
-            this.logChannel.log(-2137614336, "[%1#handleDABListRequest] matching DAB list part:\n%2", (Object)this.className, object);
+            this.logChannel.log(10000000, "[%1#handleDABListRequest] matching DAB list part:\n%2", (Object)this.className, object);
         }
         this.matchingDABListPartSize = list.size();
         object = getArrayIndicationReceptionList.getArrayHeader();
@@ -262,7 +259,7 @@ extends AbstractManagedListHandler {
     }
 
     private void abortRequestWithBAPError(GetArrayIndicationReceptionList getArrayIndicationReceptionList, int n) {
-        this.logChannel.log(-2137614336, "[ReceptionListHandler#abortRequestWithBAPError]");
+        this.logChannel.log(10000000, "[ReceptionListHandler#abortRequestWithBAPError]");
         this.clearPendingRequest();
         getArrayIndicationReceptionList.abortWithBAPError(n);
     }
@@ -279,7 +276,6 @@ extends AbstractManagedListHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public CombiBAPArrayElement getArrayElement(int n) {
         Object object = this.mutex;
         synchronized (object) {
@@ -293,12 +289,10 @@ extends AbstractManagedListHandler {
         return super.getArrayElement(n);
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
         super.getNextListPosForArbitraryIds(n, n2);
     }
 
-    @Override
     public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
         ((CombiModuleAudio)this.moduleFsg).getTunerService().getNextListPosResult(bl ? 0 : 1, n, n2, n3);
     }
@@ -311,20 +305,26 @@ extends AbstractManagedListHandler {
         return this.dabReceptionList.getDABServiceList(n, bl);
     }
 
-    static /* synthetic */ AbstractBAPModuleFSG access$000(ReceptionListHandler receptionListHandler) {
-        return receptionListHandler.moduleFsg;
-    }
+    private class StationArtProvider
+    implements IPictureProvider {
+        private StationArtProvider() {
+        }
 
-    static /* synthetic */ String access$100(ReceptionListHandler receptionListHandler) {
-        return receptionListHandler.className;
-    }
+        public void requestPicture(long l) {
+            this.requestPicture(l, 255);
+        }
 
-    static /* synthetic */ LogChannel access$200(ReceptionListHandler receptionListHandler) {
-        return receptionListHandler.logChannel;
-    }
-
-    static /* synthetic */ AbstractBAPModuleFSG access$300(ReceptionListHandler receptionListHandler) {
-        return receptionListHandler.moduleFsg;
+        public void requestPicture(long l, int n) {
+            CombiBAPReceptionListEntry combiBAPReceptionListEntry = (CombiBAPReceptionListEntry)ReceptionListHandler.this.getArrayElement((int)l);
+            if (combiBAPReceptionListEntry != null) {
+                String string = combiBAPReceptionListEntry.getPictureURL();
+                ResourceLocator resourceLocator = string == null ? new ResourceLocator(-1) : new ResourceLocator(string);
+                ((AbstractCombiModule)ReceptionListHandler.this.moduleFsg).getPictureManager().responseStationArt(l, n, resourceLocator, false);
+            } else {
+                ReceptionListHandler.this.logChannel.log(100000, "[%1.StationArtProvider#requestPicture] no entry available for entryID: %2", (Object)ReceptionListHandler.this.className, l);
+                ((AbstractCombiModule)ReceptionListHandler.this.moduleFsg).getPictureManager().responseStationArt(l, n, null, false);
+            }
+        }
     }
 }
 

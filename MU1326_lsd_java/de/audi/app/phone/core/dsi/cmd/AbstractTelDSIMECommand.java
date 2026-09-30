@@ -19,12 +19,12 @@ extends AbstractTelDSICmd {
 
     protected boolean isDSIAvailable() {
         if (this.dsi == null) {
-            this.logger.log(-1601830656, "[AbstractTelDSIMECommand#isDSIAvailable] request wrapper is null!");
+            this.logger.log(100000, "[AbstractTelDSIMECommand#isDSIAvailable] request wrapper is null!");
             return false;
         }
         boolean bl = this.dsi.isDSIAvailable();
         if (!bl) {
-            this.logger.log(-1601830656, "[AbstractTelDSIMECommand#isDSIAvailable] dsi not available!");
+            this.logger.log(100000, "[AbstractTelDSIMECommand#isDSIAvailable] dsi not available!");
         }
         return bl;
     }

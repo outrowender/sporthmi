@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class TestSupportStartupSettingsReader {
-    private static final String PROPERTY_VMOPTION_BEM_STARTUP;
+    private static final String PROPERTY_VMOPTION_BEM_STARTUP = "SetBemActiveProviders";
     List startupList;
 
     public void init() {
         this.startupList = new ArrayList(20);
-        String string = System.getProperty("SetBemActiveProviders");
+        String string = System.getProperty(PROPERTY_VMOPTION_BEM_STARTUP);
         if (string != null) {
             this.startupList.addAll(this.parseArgs(string, ","));
         }

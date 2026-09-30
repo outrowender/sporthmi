@@ -49,7 +49,6 @@ IEcallAudioCmdManager {
         this.manager = commandListManager;
     }
 
-    @Override
     public void init() {
         this.manager.start();
         this.hmiAudioServiceTracker.openTracker();
@@ -57,7 +56,6 @@ IEcallAudioCmdManager {
         this.dsiSoundCmdListener.init();
     }
 
-    @Override
     public void deinit() {
         this.manager.destroy();
         this.hmiAudioServiceTracker.closeTracker();
@@ -72,71 +70,61 @@ IEcallAudioCmdManager {
         commandList.execute(string);
     }
 
-    @Override
     public void schedulePhoneEcallAudioScenario(int n, boolean bl) {
-        this.log.log(1078071040, "EcallAudioCmdManager#schedulePhoneEcallAudioScenario(): called. HasActiveCustomerCall: %1", bl);
+        this.log.log(1000000, "EcallAudioCmdManager#schedulePhoneEcallAudioScenario(): called. HasActiveCustomerCall: %1", bl);
         if (!bl) {
             this.createAndStartCommandList(226, 1, "SETUP_ECALL_MUTE_CONNECTION", n);
         }
     }
 
-    @Override
     public void schedulePhoneEcallHighAudioScenario(int n) {
-        this.log.log(1078071040, "EcallAudioCmdManager#schedulePhoneEcallHighAudioScenario(): called");
+        this.log.log(1000000, "EcallAudioCmdManager#schedulePhoneEcallHighAudioScenario(): called");
         this.createAndStartCommandList(227, 1, "SETUP_PHONE_ECALL_HIGH_CONNECTION", n);
     }
 
-    @Override
     public void schedulePhoneVoiceHighAudioScenario(int n) {
-        this.log.log(1078071040, "EcallAudioCmdManager#schedulePhoneVoiceHighAudioScenario(): called");
+        this.log.log(1000000, "EcallAudioCmdManager#schedulePhoneVoiceHighAudioScenario(): called");
         this.createAndStartCommandList(228, 1, "SETUP_PHONE_VOICE_HIGH_CONNECTION", n);
     }
 
-    @Override
     public void schedulePhoneVoiceLowAudioScenario(int n) {
-        this.log.log(1078071040, "EcallAudioCmdManager#schedulePhoneVoiceLowAudioScenario(): called");
+        this.log.log(1000000, "EcallAudioCmdManager#schedulePhoneVoiceLowAudioScenario(): called");
         this.createAndStartCommandList(225, 1, "SETUP_PHONE_VOICE_LOW_CONNECTION", n);
     }
 
-    @Override
     public void scheduleEcallMuteAudioScenario(int n) {
-        this.log.log(1078071040, "EcallAudioCmdManager#scheduleEcallMuteAudioScenario(): called");
+        this.log.log(1000000, "EcallAudioCmdManager#scheduleEcallMuteAudioScenario(): called");
         this.createAndStartCommandList(210, 0, "SETUP_ECALL_MUTE_CONNECTION", n);
     }
 
-    @Override
     public void scheduleMutePinAudioScenarioRequest() {
-        this.log.log(1078071040, "EcallAudioCmdManager#scheduleMutePinAudioScenarioRequest(): called");
+        this.log.log(1000000, "EcallAudioCmdManager#scheduleMutePinAudioScenarioRequest(): called");
         CommandList commandList = new CommandList(this.manager);
         commandList.add(new EcallRequestConnectionCmd(this.log, 213, this.hmiAudioService, 0));
         commandList.execute("SETUP_MUTEPIN_EC");
     }
 
-    @Override
     public void scheduleMutePinMuteRequest() {
-        this.log.log(1078071040, "EcallAudioCmdManager#scheduleMutePinMuteRequest(): called");
+        this.log.log(1000000, "EcallAudioCmdManager#scheduleMutePinMuteRequest(): called");
         CommandList commandList = new CommandList(this.manager);
         commandList.add(new EcallRequestConnectionCmd(this.log, 210, this.hmiAudioService, 0));
         commandList.execute("SETUP_MUTEPIN_MUTE_REQUEST");
     }
 
-    @Override
     public void scheduleMutePinMuteRelease() {
-        this.log.log(1078071040, "EcallAudioCmdManager#scheduleMutePinMuteRelease(): called");
+        this.log.log(1000000, "EcallAudioCmdManager#scheduleMutePinMuteRelease(): called");
         CommandList commandList = new CommandList(this.manager);
         commandList.add(new EcallReleaseConnectionCmd(this.log, 210, this.hmiAudioService));
         commandList.execute("SETUP_MUTEPIN_MUTE_RELEASE");
     }
 
-    @Override
     public void scheduleReleaseAllConnections(boolean bl) {
-        this.log.log(1078071040, "EcallAudioCmdManager#scheduleReleaseAllConnections(): called");
+        this.log.log(1000000, "EcallAudioCmdManager#scheduleReleaseAllConnections(): called");
         EcallReleaseAllConnectionsCmdList ecallReleaseAllConnectionsCmdList = new EcallReleaseAllConnectionsCmdList(this.manager, this.log, this.hmiAudioService);
         ecallReleaseAllConnectionsCmdList.addToFirst(new AudioStateSetGetCmd(this.log, this.getEcallBapServiceAdapter(), bl ? 6 : 5));
         ecallReleaseAllConnectionsCmdList.execute("SETUP_RELEASE_ALL_CONNECTIONS");
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof HMIAudioService && HMIAudioService.CLIENT_ECALL.equals(serviceReference.getProperty("AUDIO_CLIENT_ID"))) {
@@ -147,14 +135,12 @@ IEcallAudioCmdManager {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof HMIAudioService) {
-            this.log.log(-2137614336, "EcallAudioCmdManager#removedService(): HMIAudioService=%1", object);
+            this.log.log(10000000, "EcallAudioCmdManager#removedService(): HMIAudioService=%1", object);
             this.getApplication().getBundleContext().ungetService(serviceReference);
             this.hmiAudioService = new NullHMIAudioService(this.log);
         }

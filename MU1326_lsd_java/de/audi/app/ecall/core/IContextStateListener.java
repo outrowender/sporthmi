@@ -4,10 +4,8 @@
 package de.audi.app.ecall.core;
 
 public interface IContextStateListener {
-    default public void onContextLeft() {
-    }
+    public void onContextLeft();
 
-    default public void onContextEntered() {
-    }
+    public void onContextEntered();
 }
 

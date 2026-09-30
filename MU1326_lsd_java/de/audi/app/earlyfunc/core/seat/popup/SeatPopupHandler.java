@@ -24,19 +24,16 @@ IPopupStateListener {
         this.seatPopupHandlerController = iSeatPopupHandlerController;
     }
 
-    @Override
     public void hideSeatPopup(int n) {
         this.logPopupStateChange("hideSeatPopup]", n);
         this.application.getFrameworkAccess().getHmiServiceApp().removePopup(n);
     }
 
-    @Override
     public void showSeatPopup(int n) {
         this.logPopupStateChange("showSeatPopup]", n);
         this.application.getFrameworkAccess().getHmiServiceApp().showPopup(n);
     }
 
-    @Override
     public void init(int[] nArray) {
         if (nArray != null) {
             this.popupIDsForCallbacks = nArray;
@@ -47,7 +44,6 @@ IPopupStateListener {
         }
     }
 
-    @Override
     public void deinit() {
         if (this.popupIDsForCallbacks != null) {
             for (int i2 = 0; i2 < this.popupIDsForCallbacks.length; ++i2) {
@@ -57,19 +53,16 @@ IPopupStateListener {
         }
     }
 
-    @Override
     public void notifyPopupVisible(int n) {
         this.logPopupStateChange("notifyPopupVisible]", n);
         this.seatPopupHandlerController.notifySeatPopupVisible(n);
     }
 
-    @Override
     public void notifyPopupHidden(int n) {
         this.logPopupStateChange("notifyPopupHidden]", n);
         this.seatPopupHandlerController.notifySeatPopupHidden(n);
     }
 
-    @Override
     public void notifyPopupRemoved(int n) {
         this.logPopupStateChange("notifyPopupRemoved]", n);
         this.seatPopupHandlerController.notifySeatPopupRemoved(n);
@@ -77,7 +70,7 @@ IPopupStateListener {
 
     private void logPopupStateChange(String string, int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[SeatPopupHandler#%1 popupID=%2", (Object)string, (long)n);
+            this.logChannel.log(1000000, "[SeatPopupHandler#%1 popupID=%2", (Object)string, (long)n);
         }
     }
 }

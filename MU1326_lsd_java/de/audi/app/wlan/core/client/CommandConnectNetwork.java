@@ -13,9 +13,9 @@ import org.dsi.ifc.networking.DiscoveredNetwork;
 
 final class CommandConnectNetwork
 extends AbstractWlanCommand {
-    private static final int RESULT_OK;
-    private static final int RESULT_ERROR;
-    private static final int RESULT_ERROR_PASSWORD;
+    private static final int RESULT_OK = 0;
+    private static final int RESULT_ERROR = 1;
+    private static final int RESULT_ERROR_PASSWORD = 2;
     private final ChoiceModelApp bondingState;
     private final ChoiceModelApp bondingResult;
     private final String networkName;
@@ -41,26 +41,23 @@ extends AbstractWlanCommand {
         this.responseListener = dSIWLANListener;
     }
 
-    @Override
     public void execute() {
         this.dsiWlan.requestConnectNetwork(this.networkName, this.networkAddress, this.password, this.encryptionType);
     }
 
-    @Override
     public void abort() {
-        this.logger.log(-1601830656, "CommandConnectNetwork#abort()");
+        this.logger.log(100000, "CommandConnectNetwork#abort()");
         this.finishCommand(1);
         if (this.responseListener != null) {
             this.responseListener.responseConnectNetwork(this.networkName, this.networkAddress, 5);
         }
     }
 
-    @Override
     public void responseConnectNetwork(String string, String string2, int n) {
         int n2;
         switch (n) {
             case 0: {
-                this.logger.log(1078071040, "CommandConnectNetwork#responseConnectNetwork(): %1 %2, result=%3", (Object)string, (Object)string2, (long)n);
+                this.logger.log(1000000, "CommandConnectNetwork#responseConnectNetwork(): %1 %2, result=%3", (Object)string, (Object)string2, (long)n);
                 n2 = 0;
                 break;
             }

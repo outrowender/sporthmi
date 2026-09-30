@@ -9,22 +9,16 @@ import de.audi.app.car.common.handler.business.ModelEventBusiness;
 
 public interface ButtonModelEventBusiness
 extends ModelEventBusiness {
-    default public boolean processKeyPressed(int n, ButtonModelHandler buttonModelHandler) {
-    }
+    public boolean processKeyPressed(int var1, ButtonModelHandler var2);
 
-    default public boolean processKeyReleased(int n, ButtonModelHandler buttonModelHandler) {
-    }
+    public boolean processKeyReleased(int var1, ButtonModelHandler var2);
 
-    default public boolean processKeyTyped(int n, ButtonModelHandler buttonModelHandler) {
-    }
+    public boolean processKeyTyped(int var1, ButtonModelHandler var2);
 
-    default public boolean processKeyPressed(HandlerTransactionData handlerTransactionData, ButtonModelHandler buttonModelHandler) {
-    }
+    public boolean processKeyPressed(HandlerTransactionData var1, ButtonModelHandler var2);
 
-    default public boolean processKeyReleased(HandlerTransactionData handlerTransactionData, ButtonModelHandler buttonModelHandler) {
-    }
+    public boolean processKeyReleased(HandlerTransactionData var1, ButtonModelHandler var2);
 
-    default public boolean processKeyTyped(HandlerTransactionData handlerTransactionData, ButtonModelHandler buttonModelHandler) {
-    }
+    public boolean processKeyTyped(HandlerTransactionData var1, ButtonModelHandler var2);
 }
 

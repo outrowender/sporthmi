@@ -50,7 +50,7 @@ public final class BAPConfig {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         BAPConfig bAPConfig = (BAPConfig)object;

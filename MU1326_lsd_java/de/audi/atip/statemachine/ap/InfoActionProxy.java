@@ -7,25 +7,18 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface InfoActionProxy
 extends ActionProxy {
-    default public void tmcMapLeft(int n) {
-    }
+    public void tmcMapLeft(int var1);
 
-    default public void tmcExitMainScreen(int n) {
-    }
+    public void tmcExitMainScreen(int var1);
 
-    default public void tmcEnterMainScreen(int n) {
-    }
+    public void tmcEnterMainScreen(int var1);
 
-    default public void tmcEnterScreens(int n) {
-    }
+    public void tmcEnterScreens(int var1);
 
-    default public void tmcExitScreens(int n) {
-    }
+    public void tmcExitScreens(int var1);
 
-    default public void tmcEnterDetailsScreen(int n) {
-    }
+    public void tmcEnterDetailsScreen(int var1);
 
-    default public void tmcExitDetailsScreen(int n) {
-    }
+    public void tmcExitDetailsScreen(int var1);
 }
 

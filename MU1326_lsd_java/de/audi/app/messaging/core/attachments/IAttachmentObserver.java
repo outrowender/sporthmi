@@ -6,15 +6,22 @@ package de.audi.app.messaging.core.attachments;
 import org.dsi.ifc.messaging.AttachmentInformation;
 
 public interface IAttachmentObserver {
-    public static final int DOWNLOAD_SUCCESSFUL;
-    public static final int DOWNLOAD_SEMISUCCESSFUL;
-    public static final int DOWNLOAD_FAILED;
-    public static final int DOWNLOAD_STARTED;
+    public static final int DOWNLOAD_SUCCESSFUL = 0;
+    public static final int DOWNLOAD_SEMISUCCESSFUL = 1;
+    public static final int DOWNLOAD_FAILED = 2;
+    public static final int DOWNLOAD_STARTED = 3;
 
-    default public void downloadComplete(int n) {
-    }
+    public void downloadComplete(int var1);
 
-    default public void attachmentSelected(AttachmentInformation attachmentInformation) {
+    public void attachmentSelected(AttachmentInformation var1);
+
+    public static class DefaultAttachmentObserver
+    implements IAttachmentObserver {
+        public void downloadComplete(int n) {
+        }
+
+        public void attachmentSelected(AttachmentInformation attachmentInformation) {
+        }
     }
 }
 

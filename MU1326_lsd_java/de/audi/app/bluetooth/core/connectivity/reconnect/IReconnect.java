@@ -4,7 +4,6 @@
 package de.audi.app.bluetooth.core.connectivity.reconnect;
 
 public interface IReconnect {
-    default public void setAutomaticReconnect(boolean bl) {
-    }
+    public void setAutomaticReconnect(boolean var1);
 }
 

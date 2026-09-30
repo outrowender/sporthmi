@@ -3,11 +3,11 @@
  */
 package de.audi.app.car.sdis.comp;
 
+import de.audi.app.car.sdis.base.AbstractCarStateHandler;
 import de.audi.app.car.sdis.base.AbstractDSICarDrivingCharacteristics;
 import de.audi.app.car.sdis.base.IDSIObserver;
 import de.audi.app.car.sdis.base.ISDISFramework;
 import de.audi.app.car.sdis.base.IVisibility;
-import de.audi.app.car.sdis.comp.CarDrivingCharacteristicsComponent$CarStateHandler;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.comm.asi.hmisync.car.driving.TADConfiguration;
 import de.esolutions.fw.comm.asi.hmisync.car.driving.impl.ASIHMISyncCarDrivingAbstractBaseService;
@@ -24,25 +24,25 @@ import org.dsi.ifc.cardrivingcharacteristics.TADViewOptions;
 public class CarDrivingCharacteristicsComponent
 extends AbstractDSICarDrivingCharacteristics
 implements IDSIObserver {
-    private static final String LOG_CHANNEL_NAME;
-    public static final byte[] CODING;
-    private static final int[] attributes;
-    private static final float INVALID_TAD_ANGLE_VALUE;
-    private static final float DEFAULT_TAD_ANGLE_VALUE;
+    private static final String LOG_CHANNEL_NAME = "App.CarSDIS.CarDrivingCharacteristics";
+    public static final byte[] CODING = new byte[]{40, 21, 17};
+    private static final int[] attributes = new int[]{23, 22, 27, 25, 26, 24, 21, 19, 1, 30, 29, 13, 12};
+    private static final float INVALID_TAD_ANGLE_VALUE = 32767.0f;
+    private static final float DEFAULT_TAD_ANGLE_VALUE = 0.0f;
     private final LogChannel logger;
     private DSICarDrivingCharacteristics dsi;
     private ISDISFramework baseService;
-    private CarDrivingCharacteristicsComponent$CarStateHandler carStateHandler;
+    private CarStateHandler carStateHandler;
     private ASIHMISyncCarDrivingAbstractBaseService toSDIS;
     static /* synthetic */ Class class$org$dsi$ifc$cardrivingcharacteristics$DSICarDrivingCharacteristics;
     static /* synthetic */ Class class$org$dsi$ifc$cardrivingcharacteristics$DSICarDrivingCharacteristicsListener;
 
     public CarDrivingCharacteristicsComponent(ISDISFramework iSDISFramework) {
-        super(iSDISFramework.getLogChannel("App.CarSDIS.CarDrivingCharacteristics"));
-        this.logger = iSDISFramework.getLogChannel("App.CarSDIS.CarDrivingCharacteristics");
+        super(iSDISFramework.getLogChannel(LOG_CHANNEL_NAME));
+        this.logger = iSDISFramework.getLogChannel(LOG_CHANNEL_NAME);
         this.baseService = iSDISFramework;
         this.toSDIS = this.baseService.getASIDataUpdater().getDrivingASI();
-        this.carStateHandler = new CarDrivingCharacteristicsComponent$CarStateHandler(this, this.logger);
+        this.carStateHandler = new CarStateHandler(this.logger);
     }
 
     public void init() {
@@ -74,7 +74,7 @@ implements IDSIObserver {
                     break;
                 }
                 default: {
-                    this.logger.log(-2137614336, "[notCodedInfo]: %1 not supported.", (long)CODING[n]);
+                    this.logger.log(10000000, "[notCodedInfo]: %1 not supported.", (long)CODING[n]);
                 }
             }
         } while (++n < CODING.length);
@@ -92,14 +92,13 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateTADCurrentRollAngle(float f2, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateTADCurrentRollAngle]: %1", (double)f2);
+        this.logger.log(10000000, "[updateTADCurrentRollAngle]: %1", (double)f2);
         float f3 = f2;
-        if (f3 == 16711494) {
+        if (f3 == 32767.0f) {
             f3 = 0.0f;
         }
         try {
@@ -110,12 +109,11 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateTADPosMaxRollAngle(float f2, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateTADPosMaxRollAngle]: %1", (double)f2);
+        this.logger.log(10000000, "[updateTADPosMaxRollAngle]: %1", (double)f2);
         try {
             this.toSDIS.updateTADPosMaxRollAngle(f2);
         }
@@ -124,12 +122,11 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateTADNegMaxRollAngle(float f2, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateTADPosMaxRollAngle]: %1", (double)f2);
+        this.logger.log(10000000, "[updateTADPosMaxRollAngle]: %1", (double)f2);
         try {
             this.toSDIS.updateTADNegMaxRollAngle(f2);
         }
@@ -138,14 +135,13 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateTADCurrentPitchAngle(float f2, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateTADCurrentPitchAngle]: %1", (double)f2);
+        this.logger.log(10000000, "[updateTADCurrentPitchAngle]: %1", (double)f2);
         float f3 = f2;
-        if (f3 == 16711494) {
+        if (f3 == 32767.0f) {
             f3 = 0.0f;
         }
         try {
@@ -156,12 +152,11 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateTADPosMaxPitchAngle(float f2, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateTADPosMaxPitch]: %1", (double)f2);
+        this.logger.log(10000000, "[updateTADPosMaxPitch]: %1", (double)f2);
         try {
             this.toSDIS.updateTADPosMaxPitch(f2);
         }
@@ -170,12 +165,11 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateTADNegMaxPitchAngle(float f2, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateTADNegMaxPitch]: %1", (double)f2);
+        this.logger.log(10000000, "[updateTADNegMaxPitch]: %1", (double)f2);
         try {
             this.toSDIS.updateTADNegMaxPitch(f2);
         }
@@ -184,20 +178,19 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateTADViewOptions(TADViewOptions tADViewOptions, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateTADViewOptions]: %1", (Object)tADViewOptions);
+        this.logger.log(10000000, "[updateTADViewOptions]: %1", (Object)tADViewOptions);
         this.sendUpdateTADVConfiguration(tADViewOptions.getConfiguration());
-        int n2 = CarDrivingCharacteristicsComponent$CarStateHandler.access$002(this.carStateHandler, this.baseService.updateVisibility(tADViewOptions.getAngleDisplay(), (short)40));
+        int n2 = this.carStateHandler.tadVisibility = this.baseService.updateVisibility(tADViewOptions.getAngleDisplay(), (short)40);
         this.sendUpdateTADVisibilityState(n2);
     }
 
     private void sendUpdateTADVisibilityState(int n) {
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateTADVisibilityState: %1", (Object)IVisibility.TEXT_TO_STATE[n]);
+            this.logger.log(10000000, "Send update to devices -> updateTADVisibilityState: %1", (Object)IVisibility.TEXT_TO_STATE[n]);
             this.toSDIS.updateTADVisibilityState(n);
         }
         catch (MethodException methodException) {
@@ -217,7 +210,7 @@ implements IDSIObserver {
             tADConfiguration2.setRollAngleInstallation(tADConfiguration.isRollAngleInstallation());
             tADConfiguration2.setPitchAngleInstallation(tADConfiguration.isPitchAngleInstallation());
             try {
-                this.logger.log(-2137614336, "Send update to devices -> sendUpdateTADVConfiguration: %1", (Object)tADConfiguration);
+                this.logger.log(10000000, "Send update to devices -> sendUpdateTADVConfiguration: %1", (Object)tADConfiguration);
                 this.toSDIS.updateTADConfiguration(tADConfiguration2);
             }
             catch (MethodException methodException) {
@@ -226,12 +219,11 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateSuspensionControlCurrentLevel(int n, int n2) {
         if (n2 != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateSuspensionControlCurrentLevel]: %1", (long)n);
+        this.logger.log(10000000, "[updateSuspensionControlCurrentLevel]: %1", (long)n);
         try {
             this.toSDIS.updateSuspensionControlCurrentLevel(n);
         }
@@ -240,12 +232,11 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateSuspensionControlTargetLevel(int n, int n2) {
         if (n2 != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateSuspensionControlTargetLevel]: %1", (long)n);
+        this.logger.log(10000000, "[updateSuspensionControlTargetLevel]: %1", (long)n);
         try {
             this.toSDIS.updateSuspensionControlTargetLevel(n);
         }
@@ -254,7 +245,6 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateSuspensionControlViewOptions(SuspensionControlViewOptions suspensionControlViewOptions, int n) {
         int n2;
         if (n != 1) {
@@ -262,17 +252,17 @@ implements IDSIObserver {
         }
         boolean bl = this.baseService.getCarAdaption().isMenuDisplayActivated((short)21);
         if (!bl) {
-            this.logger.log(-2137614336, "[updateSuspensionControlViewOptions]: Airsuspension is not coded: %1", (long)this.baseService.getCarAdaption().getByteCoding((short)40));
+            this.logger.log(10000000, "[updateSuspensionControlViewOptions]: Airsuspension is not coded: %1", (long)this.baseService.getCarAdaption().getByteCoding((short)40));
             return;
         }
-        this.logger.log(-2137614336, "[updateSuspensionControlViewOptions]: %1", (Object)suspensionControlViewOptions);
+        this.logger.log(10000000, "[updateSuspensionControlViewOptions]: %1", (Object)suspensionControlViewOptions);
         boolean bl2 = this.isAirSuspensionLvlIconVisible(suspensionControlViewOptions);
         if (bl2) {
             n2 = 2;
-            CarDrivingCharacteristicsComponent$CarStateHandler.access$102(this.carStateHandler, 2);
+            this.carStateHandler.suspVisibility = 2;
         } else {
             n2 = 1;
-            CarDrivingCharacteristicsComponent$CarStateHandler.access$102(this.carStateHandler, 1);
+            this.carStateHandler.suspVisibility = 1;
         }
         this.sendUpdateSuspensionVisibilityState(new int[]{n2, n2});
     }
@@ -287,7 +277,7 @@ implements IDSIObserver {
 
     private void sendUpdateSuspensionVisibilityState(int[] nArray) {
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateSuspensionVisibilityState: %1", (Object)IVisibility.TEXT_TO_STATE[nArray[0]]);
+            this.logger.log(10000000, "Send update to devices -> updateSuspensionVisibilityState: %1", (Object)IVisibility.TEXT_TO_STATE[nArray[0]]);
             this.toSDIS.updateSuspensionVisibilityState(nArray);
         }
         catch (MethodException methodException) {
@@ -295,19 +285,18 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateCharismaViewOptions(CharismaViewOptions charismaViewOptions, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateCharismaViewOptions]: activeProfile: %1", (Object)charismaViewOptions.getActiveProfile());
-        int n2 = CarDrivingCharacteristicsComponent$CarStateHandler.access$202(this.carStateHandler, this.baseService.updateVisibility(charismaViewOptions.getActiveProfile(), (short)17));
+        this.logger.log(10000000, "[updateCharismaViewOptions]: activeProfile: %1", (Object)charismaViewOptions.getActiveProfile());
+        int n2 = this.carStateHandler.charismaVisibility = this.baseService.updateVisibility(charismaViewOptions.getActiveProfile(), (short)17);
         this.sendUpdateCharismaVisibilityState(n2);
     }
 
     private void sendUpdateCharismaVisibilityState(int n) {
         try {
-            this.logger.log(-2137614336, "Send update to devices -> sendUpdateCharismaVisibilityState: %1", (Object)IVisibility.TEXT_TO_STATE[n]);
+            this.logger.log(10000000, "Send update to devices -> sendUpdateCharismaVisibilityState: %1", (Object)IVisibility.TEXT_TO_STATE[n]);
             this.toSDIS.updateDriveSelectActiveProfileVisibilityState(n);
         }
         catch (MethodException methodException) {
@@ -315,13 +304,12 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateCharismaActiveProfile(int n, int n2) {
         if (n2 != 1) {
             return;
         }
         try {
-            this.logger.log(-2137614336, "[updateCharismaActiveProfile]: %1", (long)n);
+            this.logger.log(10000000, "[updateCharismaActiveProfile]: %1", (long)n);
             this.toSDIS.updateDriveSelectActiveProfile(n);
         }
         catch (MethodException methodException) {
@@ -329,7 +317,6 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
         this.dsi = (DSICarDrivingCharacteristics)dSIBase;
         this.dsi.setNotification(attributes, (DSIListener)this);
@@ -344,25 +331,68 @@ implements IDSIObserver {
         }
     }
 
-    static /* synthetic */ ISDISFramework access$300(CarDrivingCharacteristicsComponent carDrivingCharacteristicsComponent) {
-        return carDrivingCharacteristicsComponent.baseService;
-    }
+    public class CarStateHandler
+    extends AbstractCarStateHandler {
+        private volatile int tadVisibility;
+        private volatile int suspVisibility;
+        private volatile int charismaVisibility;
 
-    static /* synthetic */ void access$400(CarDrivingCharacteristicsComponent carDrivingCharacteristicsComponent, int n) {
-        carDrivingCharacteristicsComponent.sendUpdateTADVisibilityState(n);
-    }
+        public CarStateHandler(LogChannel logChannel) {
+            super(logChannel, CarDrivingCharacteristicsComponent.this.baseService);
+        }
 
-    static /* synthetic */ void access$500(CarDrivingCharacteristicsComponent carDrivingCharacteristicsComponent, int[] nArray) {
-        carDrivingCharacteristicsComponent.sendUpdateSuspensionVisibilityState(nArray);
-    }
+        public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
+            super.updateClampState(bl, bl2, bl3, bl4);
+            this.logger.log(1000000, "[updateClampState] clamp15=%1", bl2);
+            this.updateVisibilityAfterCarStateChange((short)40, this.tadVisibility);
+            this.updateVisibilityAfterCarStateChange((short)21, this.suspVisibility);
+            this.updateVisibilityAfterCarStateChange((short)17, this.charismaVisibility);
+        }
 
-    static /* synthetic */ void access$600(CarDrivingCharacteristicsComponent carDrivingCharacteristicsComponent, int n) {
-        carDrivingCharacteristicsComponent.sendUpdateCharismaVisibilityState(n);
-    }
+        public void exceedsUpperThreshold(int n) {
+            super.exceedsUpperThreshold(n);
+            this.logger.log(1000000, "[exceedsUpperThreshold] =%1", this.isUnderVThr);
+            this.updateVisibilityAfterCarStateChange((short)40, this.tadVisibility);
+            this.updateVisibilityAfterCarStateChange((short)21, this.suspVisibility);
+            this.updateVisibilityAfterCarStateChange((short)17, this.charismaVisibility);
+        }
 
-    static {
-        CODING = new byte[]{40, 21, 17};
-        attributes = new int[]{23, 22, 27, 25, 26, 24, 21, 19, 1, 30, 29, 13, 12};
+        public void belowLowerThreshold(int n) {
+            super.belowLowerThreshold(n);
+            this.logger.log(1000000, "[belowLowerThreshold] =%1", this.isUnderVThr);
+            this.updateVisibilityAfterCarStateChange((short)40, this.tadVisibility);
+            this.updateVisibilityAfterCarStateChange((short)21, this.suspVisibility);
+            this.updateVisibilityAfterCarStateChange((short)17, this.charismaVisibility);
+        }
+
+        public void updateStandStill(boolean bl) {
+            super.updateStandStill(bl);
+            this.logger.log(1000000, "[updateStandStill] =%1", bl);
+            this.updateVisibilityAfterCarStateChange((short)40, this.tadVisibility);
+            this.updateVisibilityAfterCarStateChange((short)21, this.suspVisibility);
+            this.updateVisibilityAfterCarStateChange((short)17, this.charismaVisibility);
+        }
+
+        private void updateVisibilityAfterCarStateChange(short s, int n) {
+            int n2 = this.updateMenuEntryVisibility(s, n);
+            switch (s) {
+                case 40: {
+                    CarDrivingCharacteristicsComponent.this.sendUpdateTADVisibilityState(n2);
+                    break;
+                }
+                case 21: {
+                    CarDrivingCharacteristicsComponent.this.sendUpdateSuspensionVisibilityState(new int[]{n2, n2});
+                    break;
+                }
+                case 17: {
+                    CarDrivingCharacteristicsComponent.this.sendUpdateCharismaVisibilityState(n2);
+                    break;
+                }
+                default: {
+                    this.logger.log(100000, "Coding %1 not supported", (long)s);
+                }
+            }
+        }
     }
 }
 

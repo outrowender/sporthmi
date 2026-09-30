@@ -22,12 +22,12 @@ implements PorscheGenericEntry {
     public String imageUrl;
     public String title;
     private String context = "";
-    public static final int TYPE_HELP_TEXT_TIMEOUT;
-    public static final int TYPE_HELP_TEXT_PERM;
-    public static final int TYPE_HELP_TEXT_PROCESS;
-    public static final int TYPE_PARTIAL;
-    public static final List types;
-    public static final int MAX_BUTTONS;
+    public static final int TYPE_HELP_TEXT_TIMEOUT = 0;
+    public static final int TYPE_HELP_TEXT_PERM = 1;
+    public static final int TYPE_HELP_TEXT_PROCESS = 2;
+    public static final int TYPE_PARTIAL = 3;
+    public static final List types = Collections.unmodifiableList(Arrays.asList(new String[]{"helpText", "helpTextPerm", "helpTextProcess", "partial"}));
+    public static final int MAX_BUTTONS = 3;
 
     public PorschePopup() {
     }
@@ -58,42 +58,31 @@ implements PorscheGenericEntry {
         return 0;
     }
 
-    @Override
     public String getFirstImagePath() {
         return this.imageUrl;
     }
 
-    @Override
     public void setFirstImagePath(String string) {
         this.imageUrl = string;
     }
 
-    @Override
     public String getSecondImagePath() {
         return null;
     }
 
-    @Override
     public void setSecondImagePath(String string) {
     }
 
-    @Override
     public boolean isSecondImageAvailable() {
         return false;
     }
 
-    @Override
     public void setContextName(String string) {
         this.context = string;
     }
 
-    @Override
     public String getContextName() {
         return this.context;
-    }
-
-    static {
-        types = Collections.unmodifiableList(Arrays.asList(new String[]{"helpText", "helpTextPerm", "helpTextProcess", "partial"}));
     }
 }
 

@@ -12,11 +12,9 @@ implements ChoiceListener {
     protected DefaultChoiceListener() {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 }

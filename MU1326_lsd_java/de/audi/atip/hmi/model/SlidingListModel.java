@@ -44,7 +44,6 @@ SlidingListModelGUI {
         this.init(n3);
     }
 
-    @Override
     public void setRowsPerScreen(int n) {
         super.setRowsPerScreen(n);
         this.init(n);
@@ -58,7 +57,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(1000);
         Object object = this.mutex;
@@ -94,30 +92,27 @@ SlidingListModelGUI {
         return buffer.toString();
     }
 
-    @Override
     public void setListListener(SlidingListModelListener slidingListModelListener) {
         this.listener = slidingListModelListener != null ? slidingListModelListener : DUMMY_LISTENER;
     }
 
-    @Override
-    protected void copy(AbstractModel abstractModel) {
+    protected void copy(AbstractModel abstractModel) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("SlidingListModel is not buffered!");
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void appendAtEnd(ListRow[] listRowArray, boolean bl) {
         if (listRowArray == null) {
             this.lc.log(10000, "(%1) SlidingListModel.appendAtEnd() Parameter rows is null! ", (long)this.id);
             return;
         }
-        this.lc.log(-2137614336, "(%3) SlidingListModel.appendAtEnd( %2, %1 ) ", (Object)bl, (long)listRowArray.length, (long)this.id);
+        this.lc.log(10000000, "(%3) SlidingListModel.appendAtEnd( %2, %1 ) ", (Object)bl, (long)listRowArray.length, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             if (this.missingAtEnd == 0) {
-                this.lc.log(-1601830656, "(%1) SlidingListModel.appendAtEnd() Not waiting for new list elements - rejecting new elements. ", (long)this.id);
+                this.lc.log(100000, "(%1) SlidingListModel.appendAtEnd() Not waiting for new list elements - rejecting new elements. ", (long)this.id);
                 return;
             }
             this.missingAtEnd -= listRowArray.length;
@@ -137,17 +132,16 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void appendAtStart(ListRow[] listRowArray, boolean bl) {
         if (listRowArray == null) {
             this.lc.log(10000, "(%1) SlidingListModel.appendAtStart() Parameter rows is null! ", (long)this.id);
             return;
         }
-        this.lc.log(-2137614336, "(%3) SlidingListModel.appendAtStart( %2, %1 ) ", (Object)bl, (long)listRowArray.length, (long)this.id);
+        this.lc.log(10000000, "(%3) SlidingListModel.appendAtStart( %2, %1 ) ", (Object)bl, (long)listRowArray.length, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             if (this.missingAtStart == 0) {
-                this.lc.log(-1601830656, "(%1) SlidingListModel.appendAtStart() Not waiting for new list elements - rejecting new elements. ", (long)this.id);
+                this.lc.log(100000, "(%1) SlidingListModel.appendAtStart() Not waiting for new list elements - rejecting new elements. ", (long)this.id);
                 return;
             }
             this.missingAtStart -= listRowArray.length;
@@ -168,9 +162,8 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
-        this.lc.log(-2137614336, "(%1) SlidingListModel.clear() ", (long)this.id);
+        this.lc.log(10000000, "(%1) SlidingListModel.clear() ", (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             this.visibleIndex = -1;
@@ -185,15 +178,14 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void remove(ListRow listRow) {
         boolean bl;
-        this.lc.log(-2137614336, "(%2) SlidingListModel.remove( %1 ) ", (Object)listRow, (long)this.id);
+        this.lc.log(10000000, "(%2) SlidingListModel.remove( %1 ) ", (Object)listRow, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             int n = this.list.indexOf(listRow);
             if (n < 0) {
-                this.lc.log(-2137614336, "(%2) SlidingListModel.remove( %1 ) Row to be removed not found. ", (Object)listRow, (long)this.id);
+                this.lc.log(10000000, "(%2) SlidingListModel.remove( %1 ) Row to be removed not found. ", (Object)listRow, (long)this.id);
                 return;
             }
             this.list.remove(n);
@@ -212,7 +204,6 @@ SlidingListModelGUI {
         }
     }
 
-    @Override
     public void set(ListRow[] listRowArray, boolean bl, boolean bl2, int n, byte by, int n2) {
         int n3;
         if (this.lc.isDebug()) {
@@ -223,7 +214,7 @@ SlidingListModelGUI {
             buffer.append(" bufferSize:").append(n);
             buffer.append(" visibleContext:").append(by);
             buffer.append(" line:").append(n2);
-            this.lc.log(-2137614336, "(%2) [SlidingListModel.set] %1", (Object)buffer, (long)this.id);
+            this.lc.log(10000000, "(%2) [SlidingListModel.set] %1", (Object)buffer, (long)this.id);
         }
         this.fill(listRowArray, bl, bl2, n);
         this.lineNumber = n2;
@@ -235,7 +226,6 @@ SlidingListModelGUI {
         this.requestRowsAtEnd();
     }
 
-    @Override
     public void set(ListRow[] listRowArray, boolean bl, boolean bl2, int n, byte by, int n2, ListRow listRow, int n3) {
         int n4;
         if (this.lc.isDebug()) {
@@ -248,7 +238,7 @@ SlidingListModelGUI {
             buffer.append(" line:").append(n2);
             buffer.append(" focusedRow:").append(listRow);
             buffer.append(" focusedIndex:").append(n3);
-            this.lc.log(-2137614336, "(%2) [SlidingListModel.set] %1", (Object)buffer, (long)this.id);
+            this.lc.log(10000000, "(%2) [SlidingListModel.set] %1", (Object)buffer, (long)this.id);
         }
         this.fill(listRowArray, bl, bl2, n);
         this.lineNumber = n2;
@@ -261,8 +251,7 @@ SlidingListModelGUI {
         this.requestRowsAtEnd();
     }
 
-    @Override
-    public void set(ListRow[] listRowArray, boolean bl, boolean bl2, int n, int n2) {
+    public void set(ListRow[] listRowArray, boolean bl, boolean bl2, int n, int n2) throws IllegalStateException {
         if (this.lc.isDebug()) {
             Buffer buffer = new Buffer(100);
             buffer.append("rows:").append(listRowArray.length);
@@ -270,7 +259,7 @@ SlidingListModelGUI {
             buffer.append(" endOfList:").append(bl2);
             buffer.append(" bufferSize:").append(n);
             buffer.append(" line:").append(n2);
-            this.lc.log(-2137614336, "(%2) [SlidingListModel.set] %1", (Object)buffer, (long)this.id);
+            this.lc.log(10000000, "(%2) [SlidingListModel.set] %1", (Object)buffer, (long)this.id);
         }
         this.fill(listRowArray, bl, bl2, n);
         this.lineNumber = n2;
@@ -279,8 +268,7 @@ SlidingListModelGUI {
         this.requestRowsAtEnd();
     }
 
-    @Override
-    public void setListEnd(boolean bl, boolean bl2) {
+    public void setListEnd(boolean bl, boolean bl2) throws IllegalStateException {
         this.containsStartOfList = bl;
         this.containsEndOfList = bl2;
         this.fillFinished();
@@ -289,8 +277,7 @@ SlidingListModelGUI {
         this.requestRowsAtEnd();
     }
 
-    @Override
-    public void setListEnd2(boolean bl, boolean bl2) {
+    public void setListEnd2(boolean bl, boolean bl2) throws IllegalStateException {
         if (bl) {
             this.containsStartOfList = bl2;
         } else {
@@ -305,7 +292,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateRows(ListRow[] listRowArray) {
         boolean bl = false;
         ArrayList arrayList = new ArrayList(Arrays.asList(listRowArray));
@@ -334,7 +320,6 @@ SlidingListModelGUI {
         }
     }
 
-    @Override
     public void resetCursorPosition(boolean bl) {
         this.resetCursorPos = bl;
     }
@@ -342,7 +327,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getSelected() {
         Object object = this.mutex;
         synchronized (object) {
@@ -353,7 +337,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemFocused(int n, int n2, int n3) {
         ListRow listRow;
         int n4;
@@ -363,7 +346,7 @@ SlidingListModelGUI {
             n4 = this.focusOffset + n;
             listRow = this.getFocusedRow();
         }
-        this.lc.log(-2137614336, "(%3) SlidingListModel.itemFocused( %2 ) = %1 ", (Object)listRow, (long)n, (long)this.id);
+        this.lc.log(10000000, "(%3) SlidingListModel.itemFocused( %2 ) = %1 ", (Object)listRow, (long)n, (long)this.id);
         try {
             this.listener.itemFocused(this.id, listRow, n4, n3);
         }
@@ -375,7 +358,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemSelected(int n, int n2, int n3) {
         ListRow listRow;
         Object object = this.mutex;
@@ -383,7 +365,7 @@ SlidingListModelGUI {
             this.visibleIndex = n;
             listRow = n == -1 ? null : this.get(this.listCursor + n);
         }
-        this.lc.log(-2137614336, "(%3) SlidingListModel.itemSelected( %2 ) = %1 ", (Object)listRow, (long)n, (long)this.id);
+        this.lc.log(10000000, "(%3) SlidingListModel.itemSelected( %2 ) = %1 ", (Object)listRow, (long)n, (long)this.id);
         if (listRow != null) {
             try {
                 this.listener.itemSelected(this.id, listRow, n3);
@@ -394,12 +376,11 @@ SlidingListModelGUI {
         }
     }
 
-    @Override
     public boolean isEndOfList(int n) {
         Object object = this.mutex;
         synchronized (object) {
             if (!this.containsStartOfList && !this.containsEndOfList) {
-                this.lc.log(-2137614336, "(%2) SlidingListModel.isEndOfList( %1 ) = false ", (long)n, (long)this.id);
+                this.lc.log(10000000, "(%2) SlidingListModel.isEndOfList( %1 ) = false ", (long)n, (long)this.id);
                 return false;
             }
             int n2 = this.getRowsAvailable(n);
@@ -414,22 +395,21 @@ SlidingListModelGUI {
                     return this.isNextContextEndOfList(n2);
                 }
             }
-            throw new IllegalArgumentException(new StringBuffer().append("(").append(this.id).append(") SlidingListModel.isEndOfList( ").append(n).append(" ) Unknown context!").toString());
+            throw new IllegalArgumentException("(" + this.id + ") SlidingListModel.isEndOfList( " + n + " ) Unknown context!");
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void moveContext(int n) {
+    public void moveContext(int n) throws IllegalArgumentException {
         Object object = this.mutex;
         synchronized (object) {
             if (this.listCursor + n < 0) {
-                throw new IllegalArgumentException(new StringBuffer().append("Moving context by ").append(n).append(" not allowed!").toString());
+                throw new IllegalArgumentException("Moving context by " + n + " not allowed!");
             }
             if (this.listCursor + n > this.list.size()) {
-                throw new IllegalArgumentException(new StringBuffer().append("Moving context by ").append(n).append(" not allowed!").toString());
+                throw new IllegalArgumentException("Moving context by " + n + " not allowed!");
             }
             super.moveContext(n);
             this.visibleIndex = 0;
@@ -446,7 +426,6 @@ SlidingListModelGUI {
         this.requestRowsAtEnd();
     }
 
-    @Override
     public boolean isCursorPositionReset() {
         if (this.resetCursorPos) {
             this.resetCursorPos = false;
@@ -486,7 +465,7 @@ SlidingListModelGUI {
                 bl = true;
             }
         }
-        this.lc.log(-2137614336, "(%2) SlidingListModel.isEndOfList( CONTEXT_NEXT ) = %1 ", bl, (long)this.id);
+        this.lc.log(10000000, "(%2) SlidingListModel.isEndOfList( CONTEXT_NEXT ) = %1 ", bl, (long)this.id);
         return bl;
     }
 
@@ -499,7 +478,7 @@ SlidingListModelGUI {
                 bl = true;
             }
         }
-        this.lc.log(-2137614336, "(%2) SlidingListModel.isEndOfList( CONTEXT_PREVIOUS ) = %1 ", bl, (long)this.id);
+        this.lc.log(10000000, "(%2) SlidingListModel.isEndOfList( CONTEXT_PREVIOUS ) = %1 ", bl, (long)this.id);
         return bl;
     }
 
@@ -512,7 +491,7 @@ SlidingListModelGUI {
         } else if (this.containsEndOfList && this.listCursor + this.getVisibleRowsCount() - 1 == this.list.size() - 1) {
             bl = true;
         }
-        this.lc.log(-2137614336, "(%2) SlidingListModel.isEndOfList( CONTEXT_CURRENT ) = %1 ", bl, (long)this.id);
+        this.lc.log(10000000, "(%2) SlidingListModel.isEndOfList( CONTEXT_CURRENT ) = %1 ", bl, (long)this.id);
         return bl;
     }
 
@@ -586,7 +565,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void setBufferSize(int n) {
         Object object = this.mutex;
         synchronized (object) {

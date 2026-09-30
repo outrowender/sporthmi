@@ -24,32 +24,23 @@ public abstract class AbstractSeatPopupFactory {
         this.component = abstractSeatPopinComponent;
     }
 
-    public abstract ISeatMainController createInstanceMainController() {
-    }
+    public abstract ISeatMainController createInstanceMainController();
 
-    public abstract ISeatPopupController createInstancePopupController() {
-    }
+    public abstract ISeatPopupController createInstancePopupController();
 
-    public abstract ISeatPopupHandler createInstancePopupHandler() {
-    }
+    public abstract ISeatPopupHandler createInstancePopupHandler();
 
-    public abstract ISeatPopupHandlerController createInstancePopupHandlerController() {
-    }
+    public abstract ISeatPopupHandlerController createInstancePopupHandlerController();
 
-    public abstract void addSeatPopups(List list) {
-    }
+    public abstract void addSeatPopups(List var1);
 
-    public abstract void addPneumaticSeatPopups(List list) {
-    }
+    public abstract void addPneumaticSeatPopups(List var1);
 
-    public abstract void init() {
-    }
+    public abstract void init();
 
-    public abstract void deinit() {
-    }
+    public abstract void deinit();
 
-    public abstract int[] getPopupIDs() {
-    }
+    public abstract int[] getPopupIDs();
 
     public ICarApplication getApplication() {
         return this.application;

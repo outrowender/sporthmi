@@ -42,32 +42,26 @@ implements IEcallState {
         this.emergencyNumbers = emergencyNumberArray;
     }
 
-    @Override
     public boolean hasActiveCall() {
         return this.hasActiveCall;
     }
 
-    @Override
     public boolean isServiceActive() {
         return this.isServiceActive;
     }
 
-    @Override
     public PhoneCall getCall() {
         return this.phoneCall;
     }
 
-    @Override
     public int getServiceKind() {
         return this.serviceKind;
     }
 
-    @Override
     public boolean isEmergencyCallType() {
         return this.isEmergencyCallType;
     }
 
-    @Override
     public boolean isCustomerCallNotAllowed() {
         return false;
     }
@@ -76,22 +70,18 @@ implements IEcallState {
         return new Buffer().append("NullEcallState [isServiceActive=").append(this.isServiceActive).append(", hasActiveCall=").append(this.hasActiveCall).append(", serviceKind=").append(this.serviceKind).append("]").toString();
     }
 
-    @Override
     public boolean isCustomerCallAllowed() {
         return !this.isCustomerCallNotAllowed();
     }
 
-    @Override
     public boolean isLowPrioritySOSEmergencyCallType() {
         return this.phoneCall != null && this.phoneCall.isLowPrioritySOSCall();
     }
 
-    @Override
     public EmergencyNumber[] getAllowedEmergencyNumbers() {
         return this.emergencyNumbers;
     }
 
-    @Override
     public String getEmergencyNumberToBeDialed() {
         return null;
     }

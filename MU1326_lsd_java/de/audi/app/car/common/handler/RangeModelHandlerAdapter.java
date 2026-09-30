@@ -19,40 +19,33 @@ RangeModelHandler {
         rangeModelApp.setRangeListener(this);
     }
 
-    @Override
     public void updateOnAdjustment(int n) {
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
         if (this.getHandledModelID() == n) {
             this.updateOnAdjustment(n2 * -1);
         }
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
         if (this.getHandledModelID() == n) {
             this.updateOnAdjustment(n2);
         }
     }
 
-    @Override
     public RangeModelApp getRangeModel() {
         return (RangeModelApp)this.getHandledModel();
     }
 
-    @Override
     public RangeModelEventBusiness getRangeEventBusiness() {
         return (RangeModelEventBusiness)this.getBusiness();
     }
 
-    @Override
     public void updateRangeModelLimits(int n, int n2, int n3) {
         this.getRangeModel().setLimits(n, n2, n3);
     }
 
-    @Override
     public void updateRangeModelValue(int n) {
         this.getRangeModel().setValue(n);
     }

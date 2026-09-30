@@ -7,13 +7,10 @@ import de.audi.atip.hmi.modelaccess.ButtonModelGUI;
 
 public interface TextfieldModelGUI
 extends ButtonModelGUI {
-    default public String getText1() {
-    }
+    public String getText1();
 
-    default public String getText2() {
-    }
+    public String getText2();
 
-    default public int getBitmapRessourceID() {
-    }
+    public int getBitmapRessourceID();
 }
 

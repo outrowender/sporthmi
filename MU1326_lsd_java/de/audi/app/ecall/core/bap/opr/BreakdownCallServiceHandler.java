@@ -1,17 +1,20 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.ecall.IEcallDiagnosisComponent
  */
 package de.audi.app.ecall.core.bap.opr;
 
 import de.audi.app.ecall.core.AbstractEcallComponent;
 import de.audi.app.ecall.core.EcallUtil;
 import de.audi.app.ecall.core.IEcallApplication;
-import de.audi.app.ecall.core.bap.opr.BreakdownCallServiceHandler$1;
 import de.audi.app.ecall.core.power.EcallPowerHandler;
 import de.audi.app.ecall.core.state.IEcallStateStruct;
 import de.audi.app.ecall.core.state.IGlobalEcallStateListener;
 import de.audi.atip.interapp.bap.ecall.data.PendingServiceRequests;
 import de.audi.atip.interapp.bap.ecall.data.PhoneCall;
+import de.mib.swdiagnosis.ecall.IEcallDiagnosisComponent;
 
 public class BreakdownCallServiceHandler
 extends AbstractEcallComponent
@@ -33,17 +36,28 @@ implements IGlobalEcallStateListener {
         this.IS_SERVICE_STATE_VALID_FOR_SREEN_SHOWING = blArray;
         this.IS_PHONE_CALL_STATE_VALID_FOR_SREEN_SHOWING = blArray2;
         this.breakDownCallPowerHandler = new EcallPowerHandler(iEcallApplication, 162, 163);
-        this.getApplication().addDiagnosisComponent(new BreakdownCallServiceHandler$1(this));
+        this.getApplication().addDiagnosisComponent(new IEcallDiagnosisComponent(){
+
+            public void cmdOPRActivatePopupSession(boolean bl) {
+                BreakdownCallServiceHandler.this.getApplication().getOPRPopupHandler().activateEcallSession();
+            }
+
+            public void cmdOPRDisactivatePopupSession() {
+                BreakdownCallServiceHandler.this.getApplication().getOPRPopupHandler().disactivateEcallSession();
+            }
+
+            public void cmdOPRShowScreen(int n) {
+                BreakdownCallServiceHandler.this.showScreen(n);
+            }
+        });
     }
 
-    @Override
     public void init() {
         super.init();
         this.breakDownCallPowerHandler.init();
         this.getApplication().getEcallStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.breakDownCallPowerHandler.deinit();
@@ -69,16 +83,15 @@ implements IGlobalEcallStateListener {
                 break;
             }
             case 0: {
-                this.log.log(-2137614336, "BreakdownCallServiceHandler#handleServiceCallStates(): unhandled serviceState IDLE");
+                this.log.log(10000000, "BreakdownCallServiceHandler#handleServiceCallStates(): unhandled serviceState IDLE");
                 break;
             }
             default: {
-                this.log.log(1078071040, "BreakdownCallServiceHandler#handleServiceCallStates(): unhandled state (%1) for ServiceCall", (long)n);
+                this.log.log(1000000, "BreakdownCallServiceHandler#handleServiceCallStates(): unhandled state (%1) for ServiceCall", (long)n);
             }
         }
     }
 
-    @Override
     public void updateGlobalEcallStateProperty(int n, IEcallStateStruct iEcallStateStruct) {
         if (n == 1 && iEcallStateStruct.getServiceCallKind() == 1) {
             this.handleForPhoneCall(iEcallStateStruct);
@@ -100,7 +113,7 @@ implements IGlobalEcallStateListener {
     }
 
     private void onOprAutomatic() {
-        this.log.log(1078071040, "BreakdownCallServiceHandler#onOprAutomatic(): called");
+        this.log.log(1000000, "BreakdownCallServiceHandler#onOprAutomatic(): called");
         this.activatedEcallOnOprAutomatic = true;
         this.getApplication().getOPRPopupHandler().activateEcallSession();
         this.showScreen(3);
@@ -110,12 +123,12 @@ implements IGlobalEcallStateListener {
     private void onCustomerCallStateChanged(IEcallStateStruct iEcallStateStruct) {
         if (1 == iEcallStateStruct.getServiceCallKind() && BreakdownCallServiceHandler.isActive(iEcallStateStruct.getServiceState())) {
             if (this.wasCustomerCallActive && iEcallStateStruct.getCustomerTelState().isCallStateDisconnecting()) {
-                this.log.log(-2137614336, "BreakdownCallServiceHandler#onCustomerCallStateChanged(): disconnecting");
+                this.log.log(10000000, "BreakdownCallServiceHandler#onCustomerCallStateChanged(): disconnecting");
                 this.getApplication().getAudioConnectionHandler().scheduleMutePinConnectionRequest();
                 this.getApplication().getAudioConnectionHandler().switchAudioSource();
             } else if (iEcallStateStruct.isActiveCustomerCallPresent()) {
                 PhoneCall phoneCall;
-                this.log.log(-2137614336, "BreakdownCallServiceHandler#onCustomerCallStateChanged(): terminating breakdown call");
+                this.log.log(10000000, "BreakdownCallServiceHandler#onCustomerCallStateChanged(): terminating breakdown call");
                 if (iEcallStateStruct.isCallActive(7) && (phoneCall = iEcallStateStruct.getCurrentPhoneCallByKind(7)) != null) {
                     this.getEcallBapServiceAdapter().endEmergencyCall(phoneCall);
                 }
@@ -131,30 +144,30 @@ implements IGlobalEcallStateListener {
     private void onServiceState(IEcallStateStruct iEcallStateStruct) {
         int n = iEcallStateStruct.getServiceCallKind();
         int n2 = iEcallStateStruct.getServiceState();
-        this.log.log(-2137614336, "BreakdownCallServiceHandler#onServiceState(): start to handle service state serviceCallKind (%1), serviceState (%2)", (long)n, (long)n2);
+        this.log.log(10000000, "BreakdownCallServiceHandler#onServiceState(): start to handle service state serviceCallKind (%1), serviceState (%2)", (long)n, (long)n2);
         if (n == 1) {
             this.handleBreakdownServiceCallKind(iEcallStateStruct);
         } else if (n == 0) {
             this.disactivateBreakdownSession(iEcallStateStruct);
         } else {
-            this.log.log(1078071040, "BreakdownCallServiceHandler#onServiceState(): unhandled serviceCallKind=%1 (%2)", (Object)String.valueOf(n), (Object)String.valueOf(iEcallStateStruct));
+            this.log.log(1000000, "BreakdownCallServiceHandler#onServiceState(): unhandled serviceCallKind=%1 (%2)", (Object)String.valueOf(n), (Object)String.valueOf(iEcallStateStruct));
         }
     }
 
     private void handleForPhoneCall(IEcallStateStruct iEcallStateStruct) {
         PhoneCall phoneCall = null;
-        this.log.log(-2137614336, "BreakdownCallServiceHandler#handleForPhoneCall(): start to handle PhoneCall %1", phoneCall);
+        this.log.log(10000000, "BreakdownCallServiceHandler#handleForPhoneCall(): start to handle PhoneCall %1", phoneCall);
         phoneCall = iEcallStateStruct.getCurrentPhoneCallByKind(7);
         if (phoneCall != null) {
             this.handleServiceCallStates(phoneCall);
         } else {
             phoneCall = iEcallStateStruct.getCurrentPhoneCallByKind(0);
             if (phoneCall != null) {
-                this.log.log(1078071040, "BreakdownCallServiceHandler#handleForPhoneCall(): phoneCallKind UNKNOWN. ending Ecall session ");
+                this.log.log(1000000, "BreakdownCallServiceHandler#handleForPhoneCall(): phoneCallKind UNKNOWN. ending Ecall session ");
                 this.disactivateBreakdownSession(iEcallStateStruct);
             } else if (iEcallStateStruct.getPhoneCalls() != null && iEcallStateStruct.getPhoneCalls().length > 0) {
                 phoneCall = iEcallStateStruct.getPhoneCalls()[0];
-                this.log.log(1078071040, "BreakdownCallServiceHandler#handleForPhoneCall(): unhandled kind %1", (long)phoneCall.getKind());
+                this.log.log(1000000, "BreakdownCallServiceHandler#handleForPhoneCall(): unhandled kind %1", (long)phoneCall.getKind());
             }
         }
     }
@@ -196,7 +209,7 @@ implements IGlobalEcallStateListener {
                 break;
             }
             default: {
-                this.log.log(-2137614336, "BreakdownCallServiceHandler#handleBreakdownServiceCallKind(): unhandled service call state for BREAKDOWN_SERVICE %1 ", (long)n);
+                this.log.log(10000000, "BreakdownCallServiceHandler#handleBreakdownServiceCallKind(): unhandled service call state for BREAKDOWN_SERVICE %1 ", (long)n);
                 EcallUtil.logStructFieldForDbg(this.log, class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestState == null ? (class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestState = BreakdownCallServiceHandler.class$("de.audi.atip.interapp.bap.ecall.data.ServiceRequestState")) : class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestState, n);
             }
         }
@@ -214,16 +227,16 @@ implements IGlobalEcallStateListener {
 
     private void disactivateBreakdownSession(IEcallStateStruct iEcallStateStruct) {
         if (iEcallStateStruct.isUSMRequestPresent()) {
-            this.log.log(1078071040, "BreakdownCallServiceHandler#disactivateBreakdownSession(): automatic Mode is Active NOP");
+            this.log.log(1000000, "BreakdownCallServiceHandler#disactivateBreakdownSession(): automatic Mode is Active NOP");
             return;
         }
         if (this.activatedEcallOnOprAutomatic) {
-            this.log.log(1078071040, "BreakdownCallServiceHandler#disactivateBreakdownSession(): breakdown is activated onOprAutomatic -> disactivate");
+            this.log.log(1000000, "BreakdownCallServiceHandler#disactivateBreakdownSession(): breakdown is activated onOprAutomatic -> disactivate");
         } else if (!this.wasBreakDownCallPendingRequest) {
-            this.log.log(1078071040, "BreakdownCallServiceHandler#disactivateBreakdownSession(): breakdown is INACTIVE NOP");
+            this.log.log(1000000, "BreakdownCallServiceHandler#disactivateBreakdownSession(): breakdown is INACTIVE NOP");
             return;
         }
-        this.log.log(-2137614336, "BreakdownCallServiceHandler#disactivateBreakdownSession(): called");
+        this.log.log(10000000, "BreakdownCallServiceHandler#disactivateBreakdownSession(): called");
         this.activatedEcallOnOprAutomatic = false;
         this.wasBreakDownCallPendingRequest = false;
         this.getApplication().getOPRPopupHandler().disactivateEcallSession();
@@ -232,7 +245,7 @@ implements IGlobalEcallStateListener {
     }
 
     private void activateBreakdownSession(boolean bl) {
-        this.log.log(-2137614336, "BreakdownCallServiceHandler#activateBreakdownSession(): acceptRoaService %1, ", bl);
+        this.log.log(10000000, "BreakdownCallServiceHandler#activateBreakdownSession(): acceptRoaService %1, ", bl);
         this.wasBreakDownCallPendingRequest = true;
         this.getApplication().getSDSHandler().disablePTT();
         if (bl) {
@@ -241,18 +254,6 @@ implements IGlobalEcallStateListener {
         this.activatedEcallOnOprAutomatic = false;
         this.getApplication().getOPRPopupHandler().activateEcallSession();
         this.breakDownCallPowerHandler.activatePowerState();
-    }
-
-    static /* synthetic */ IEcallApplication access$000(BreakdownCallServiceHandler breakdownCallServiceHandler) {
-        return breakdownCallServiceHandler.getApplication();
-    }
-
-    static /* synthetic */ IEcallApplication access$100(BreakdownCallServiceHandler breakdownCallServiceHandler) {
-        return breakdownCallServiceHandler.getApplication();
-    }
-
-    static /* synthetic */ void access$200(BreakdownCallServiceHandler breakdownCallServiceHandler, int n) {
-        breakdownCallServiceHandler.showScreen(n);
     }
 
     static /* synthetic */ Class class$(String string) {

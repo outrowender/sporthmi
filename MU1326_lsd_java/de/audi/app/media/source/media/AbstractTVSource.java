@@ -18,7 +18,7 @@ import java.util.List;
 
 public abstract class AbstractTVSource
 extends AbstractSource {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractTVSource";
     protected final LogChannel logger;
     private ITVService tvService;
     private List slotList;
@@ -35,37 +35,30 @@ extends AbstractSource {
         this.updater = iSourceStateUpdater;
     }
 
-    public abstract int getExternalSourceType() {
-    }
+    public abstract int getExternalSourceType();
 
-    @Override
     public boolean pausePlaybackOnDeactivation() {
         return false;
     }
 
-    @Override
     public int getAudioConnection(ISourceSlot iSourceSlot) {
         return 0;
     }
 
-    @Override
     public boolean isActivateable(ISourceSlot iSourceSlot) {
         return this.isAvailable();
     }
 
-    @Override
     public void activate(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"AbstractTVSource");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.setActiveState(1);
         this.sourceActivationCallbackHandler.sourceDeviceActivated(iSourceSlot, -1, true);
     }
 
-    @Override
     public void sourceActivated(ISourceSlot iSourceSlot) {
         this.setActiveState(2);
     }
 
-    @Override
     public void deactivateSourceDevice() {
         this.setActiveState(1);
         if (null != this.tvService) {
@@ -73,17 +66,14 @@ extends AbstractSource {
         }
     }
 
-    @Override
     public List getSlots() {
         return this.slotList;
     }
 
-    @Override
     protected ISourceSlot getDefaultEmptySlot(int n) {
         return this.createSlot(0, 19);
     }
 
-    @Override
     public boolean processSourceStateUpdate(SourceStateUpdate sourceStateUpdate) {
         if (10 == sourceStateUpdate.getType()) {
             this.tvService = (ITVService)sourceStateUpdate.getUpdate();
@@ -114,7 +104,6 @@ extends AbstractSource {
         return false;
     }
 
-    protected abstract MediaSourceSlot createSlot(int n, int n2) {
-    }
+    protected abstract MediaSourceSlot createSlot(int var1, int var2);
 }
 

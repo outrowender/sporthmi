@@ -10,12 +10,11 @@ import de.audi.app.sdsmanager.apps.navi.NaviSDSUtils;
 import de.audi.app.sdsmanager.common.SDSUtils;
 import de.audi.app.sdsmanager.syscall.ISystemCallParameter;
 import de.audi.atip.interapp.NaviService;
-import de.audi.atip.interapp.NaviService$NaviInfoDetails;
 import de.audi.atip.log.LogChannel;
 
 public class NaviDestinationGetCommand
 extends AbstractSystemCallCommand {
-    private static final String COUNTRY_ABBREVIATION_NAME_USA;
+    private static final String COUNTRY_ABBREVIATION_NAME_USA = "USA";
     private final NaviService naviService;
     private final byte destinationType;
 
@@ -25,13 +24,12 @@ extends AbstractSystemCallCommand {
         this.destinationType = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] destinationType=%2", (Object)this.getName(), (long)this.destinationType);
+        this.logger.log(10000000, "[%1#execute] destinationType=%2", (Object)this.getName(), (long)this.destinationType);
         int n = NaviSDSUtils.getNaviDestType(this.destinationType);
         switch (n) {
             case -1: {
-                this.logger.log(-1601830656, "[%1#execute] No matching destination type found!", (Object)this.getName());
+                this.logger.log(100000, "[%1#execute] No matching destination type found!", (Object)this.getName());
                 this.sendResult(3001);
                 return;
             }
@@ -42,26 +40,26 @@ extends AbstractSystemCallCommand {
             }
         }
         boolean bl = this.naviService.isDestTypeSet(n);
-        this.logger.log(-2137614336, "[%1#execute] navi dest type=%3, is set: %2!", (Object)this.getName(), (Object)bl, (long)n);
+        this.logger.log(10000000, "[%1#execute] navi dest type=%3, is set: %2!", (Object)this.getName(), (Object)bl, (long)n);
         this.sendResult(bl ? 3000 : 3001);
     }
 
     private int checkStateForCurrentCountry() {
-        NaviService$NaviInfoDetails naviService$NaviInfoDetails = this.naviService.getAddressDetails((byte)1);
-        if (naviService$NaviInfoDetails == null) {
-            this.logger.log(-1601830656, "[%1#checkStateForCurrentCountry] naviInfoDetails are null => send MAPPING_ERROR!", (Object)this.getName());
+        NaviService.NaviInfoDetails naviInfoDetails = this.naviService.getAddressDetails((byte)1);
+        if (naviInfoDetails == null) {
+            this.logger.log(100000, "[%1#checkStateForCurrentCountry] naviInfoDetails are null => send MAPPING_ERROR!", (Object)this.getName());
             return 3001;
         }
-        if (SDSUtils.isEmpty(naviService$NaviInfoDetails.country)) {
-            this.logger.log(-1601830656, "[%1#checkStateForCurrentCountry] Country is null or empty => send MAPPING_ERROR!", (Object)this.getName());
+        if (SDSUtils.isEmpty(naviInfoDetails.country)) {
+            this.logger.log(100000, "[%1#checkStateForCurrentCountry] Country is null or empty => send MAPPING_ERROR!", (Object)this.getName());
             return 3001;
         }
-        if (naviService$NaviInfoDetails.countryAbbreviation.equalsIgnoreCase("USA") && SDSUtils.isEmpty(naviService$NaviInfoDetails.state)) {
-            this.logger.log(-2137614336, "[%1#checkStateForCurrentCountry] Country is %2 and state not (yet) set => send MAPPING_ERROR!", (Object)this.getName(), (Object)"USA");
+        if (naviInfoDetails.countryAbbreviation.equalsIgnoreCase(COUNTRY_ABBREVIATION_NAME_USA) && SDSUtils.isEmpty(naviInfoDetails.state)) {
+            this.logger.log(10000000, "[%1#checkStateForCurrentCountry] Country is %2 and state not (yet) set => send MAPPING_ERROR!", (Object)this.getName(), (Object)COUNTRY_ABBREVIATION_NAME_USA);
             return 3001;
         }
-        SDSModelAccess.setOneShotStateLabel(naviService$NaviInfoDetails.state);
-        this.logger.log(-2137614336, "[%1#checkStateForCurrentCountry] State is set or currently in country which has no states => send MAPPING_OK!", (Object)this.getName());
+        SDSModelAccess.setOneShotStateLabel(naviInfoDetails.state);
+        this.logger.log(10000000, "[%1#checkStateForCurrentCountry] State is set or currently in country which has no states => send MAPPING_OK!", (Object)this.getName());
         return 3000;
     }
 }

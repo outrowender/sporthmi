@@ -21,94 +21,76 @@ implements IFileBrowserModelAccess {
         this.hmiService = iHMIServiceApp;
     }
 
-    @Override
     public TiledListModelApp getListModel() {
-        return this.hmiService.getTiledListModel(800066048);
+        return this.hmiService.getTiledListModel(700463);
     }
 
-    @Override
     public ChoiceModelApp getListModelSelected() {
-        return this.hmiService.getChoiceModel(967838208);
+        return this.hmiService.getChoiceModel(700473);
     }
 
-    @Override
     public LabelModelApp getPathLabel() {
-        return this.hmiService.getLabelModel(2024802816);
+        return this.hmiService.getLabelModel(700536);
     }
 
-    @Override
     public boolean showCwdFullPath() {
         return false;
     }
 
-    @Override
     public ButtonModelApp getSelectSingleButton() {
-        return this.hmiService.getButtonModel(1152387584);
+        return this.hmiService.getButtonModel(700484);
     }
 
-    @Override
     public ChoiceModelApp getSelectAllChoice() {
-        return this.hmiService.getChoiceModel(1991248384);
+        return this.hmiService.getChoiceModel(700534);
     }
 
-    @Override
     public ButtonModelApp getSearchButton() {
         return null;
     }
 
-    @Override
     public ChoiceModelApp getSearchButtonDisableChoice() {
         return null;
     }
 
-    @Override
     public MatchspellerModelApp getSearchSpeller() {
         return null;
     }
 
-    @Override
     public ListModelApp getSearchPreviewList() {
         return null;
     }
 
-    @Override
     public boolean fileSelected(int n, BrowsedFile browsedFile) {
         return true;
     }
 
-    @Override
     public boolean fileFocused(int n, BrowsedFile browsedFile) {
         return true;
     }
 
-    @Override
     public ChoiceModelApp getRootFolderReachedModel() {
-        return this.hmiService.getChoiceModel(917506560);
+        return this.hmiService.getChoiceModel(700470);
     }
 
-    @Override
     public TiledListModelApp getSearchFilteredList() {
         return null;
     }
 
-    @Override
     public ChoiceModelApp getSearchFilteredListSelected() {
         return null;
     }
 
-    @Override
     public ChoiceModelApp getFileFocused() {
-        return this.hmiService.getChoiceModel(883952128);
+        return this.hmiService.getChoiceModel(700468);
     }
 
-    @Override
     public ButtonModelApp getImportButton() {
-        return this.hmiService.getButtonModel(1169164800);
+        return this.hmiService.getButtonModel(700485);
     }
 
-    @Override
     public ChoiceModelApp getNoFilesAvailable() {
-        return this.hmiService.getChoiceModel(1034947072);
+        return this.hmiService.getChoiceModel(700477);
     }
 }
 

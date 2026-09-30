@@ -18,16 +18,15 @@ extends AbstractSystemCallCommand {
         this.service = naviService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         boolean bl = this.service.hasBetterRoute();
-        this.logger.log(-2137614336, "%1#execute: isBetterRoute=%2", (Object)this.getName(), (Object)bl);
+        this.logger.log(10000000, "%1#execute: isBetterRoute=%2", (Object)this.getName(), (Object)bl);
         if (bl) {
-            this.logger.log(-2137614336, "%1#execute: Better route available, determining saved time, focusing the route and entering selection screen!");
+            this.logger.log(10000000, "%1#execute: Better route available, determining saved time, focusing the route and entering selection screen!");
             int n = this.service.getSavingTime();
             if (n == 0) {
-                this.logger.log(-1601830656, "%1#execute: Better route is supposed to be available but savedMinutes=%2", (Object)this.getName(), (long)n);
+                this.logger.log(100000, "%1#execute: Better route is supposed to be available but savedMinutes=%2", (Object)this.getName(), (long)n);
                 bl = false;
             } else {
                 String string = "";
@@ -39,7 +38,7 @@ extends AbstractSystemCallCommand {
                 this.service.switchToSemidynamicRouteGuidance();
             }
         }
-        this.sendResult(bl ? 1083965440 : 1184628736);
+        this.sendResult(bl ? 40000 : 40006);
     }
 }
 

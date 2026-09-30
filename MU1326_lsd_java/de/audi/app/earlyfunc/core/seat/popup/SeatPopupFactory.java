@@ -30,7 +30,6 @@ extends AbstractSeatPopupFactory {
         super(iCarApplication, logChannel, abstractSeatPopinComponent);
     }
 
-    @Override
     public ISeatMainController createInstanceMainController() {
         if (this.mainController == null) {
             this.mainController = new SeatMainController(this);
@@ -38,7 +37,6 @@ extends AbstractSeatPopupFactory {
         return this.mainController;
     }
 
-    @Override
     public ISeatPopupController createInstancePopupController() {
         if (this.popupController == null) {
             this.popupController = new SeatPopupController(this.createInstanceMainController(), this);
@@ -46,7 +44,6 @@ extends AbstractSeatPopupFactory {
         return this.popupController;
     }
 
-    @Override
     public ISeatPopupHandler createInstancePopupHandler() {
         if (this.popupHandler == null) {
             this.popupHandler = new SeatPopupHandler(this.createInstancePopupHandlerController(), this);
@@ -54,7 +51,6 @@ extends AbstractSeatPopupFactory {
         return this.popupHandler;
     }
 
-    @Override
     public ISeatPopupHandlerController createInstancePopupHandlerController() {
         if (this.popupHandlerController == null) {
             this.popupHandlerController = new SeatPopupHandlerController(this.createInstanceMainController(), this);
@@ -62,31 +58,27 @@ extends AbstractSeatPopupFactory {
         return this.popupHandlerController;
     }
 
-    @Override
     public void addSeatPopups(List list) {
         SeatPopup seatPopup = new SeatPopup(this.hmiPopupID, this.createInstanceMainController().getConfigurationHandler(), this.createInstancePopupController(), false);
         list.add(seatPopup);
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatPopupFactory#addSeatPopups] SeatPopup created: popup='%1'", (Object)seatPopup);
+            this.getLogChannel().log(1000000, "[SeatPopupFactory#addSeatPopups] SeatPopup created: popup='%1'", (Object)seatPopup);
         }
     }
 
-    @Override
     public void addPneumaticSeatPopups(List list) {
         SeatPopup seatPopup = new SeatPopup(this.hmiPopupID, this.createInstanceMainController().getConfigurationHandler(), this.createInstancePopupController(), true);
         list.add(seatPopup);
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatPopupFactory#addPneumaticSeatPopups] SeatPopup created: popup='%1'", (Object)seatPopup);
+            this.getLogChannel().log(1000000, "[SeatPopupFactory#addPneumaticSeatPopups] SeatPopup created: popup='%1'", (Object)seatPopup);
         }
     }
 
-    @Override
     public void init() {
         this.hmiPopupID = this.getComponent().getHMISeatPopupID();
-        this.getLogChannel().log(1078071040, "[SeatPopupFactory#init] hmiPopupID='%1'", (long)this.hmiPopupID);
+        this.getLogChannel().log(1000000, "[SeatPopupFactory#init] hmiPopupID='%1'", (long)this.hmiPopupID);
     }
 
-    @Override
     public void deinit() {
         this.mainController.deinit();
         this.popupHandler.deinit();
@@ -97,7 +89,6 @@ extends AbstractSeatPopupFactory {
         this.popupController = null;
     }
 
-    @Override
     public int[] getPopupIDs() {
         return new int[]{this.hmiPopupID};
     }

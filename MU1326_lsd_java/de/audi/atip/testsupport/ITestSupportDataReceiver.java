@@ -6,13 +6,10 @@ package de.audi.atip.testsupport;
 import de.audi.atip.testsupport.TestSupportDataReceiverEntry;
 
 public interface ITestSupportDataReceiver {
-    default public String getName() {
-    }
+    public String getName();
 
-    default public void entrySelected(int n) {
-    }
+    public void entrySelected(int var1);
 
-    default public TestSupportDataReceiverEntry[] getEntries() {
-    }
+    public TestSupportDataReceiverEntry[] getEntries();
 }
 

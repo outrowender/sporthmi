@@ -16,7 +16,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 public abstract class AbstractMediaServiceListenerTracker
 extends AbstractMediaTerminalComponent
 implements ServiceTrackerCustomizer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractMediaServiceListenerTracker";
     private final Object mediaServiceListenerMutex = new Object();
     private final IServiceTracker serviceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$media$IMediaServiceListener == null ? (class$de$audi$atip$interapp$media$IMediaServiceListener = AbstractMediaServiceListenerTracker.class$("de.audi.atip.interapp.media.IMediaServiceListener")) : class$de$audi$atip$interapp$media$IMediaServiceListener, this);
     private List foundMediaServiceListener;
@@ -26,14 +26,13 @@ implements ServiceTrackerCustomizer {
         super(iMediaTerminal);
     }
 
-    protected abstract void mediaServiceListenerAdded(IMediaServiceListener iMediaServiceListener) {
-    }
+    protected abstract void mediaServiceListenerAdded(IMediaServiceListener var1);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public final void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"AbstractMediaServiceListenerTracker");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         Object object = this.mediaServiceListenerMutex;
         synchronized (object) {
             this.foundMediaServiceListener = new ArrayList(0);
@@ -45,7 +44,7 @@ implements ServiceTrackerCustomizer {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"AbstractMediaServiceListenerTracker");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.serviceTracker.close();
         Object object = this.mediaServiceListenerMutex;
         synchronized (object) {
@@ -66,16 +65,15 @@ implements ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         IMediaServiceListener iMediaServiceListener = (IMediaServiceListener)this.getTerminal().getServiceManager().getService(serviceReference);
-        this.logger.main().log(1078071040, "[%1.addingService] '%2'.", (Object)"AbstractMediaServiceListenerTracker", (Object)iMediaServiceListener);
+        this.logger.main().log(1000000, "[%1.addingService] '%2'.", (Object)LOGCLASS, (Object)iMediaServiceListener);
         if (iMediaServiceListener == null) {
             this.getTerminal().getServiceManager().releaseService(serviceReference);
             return null;
         }
         if (iMediaServiceListener.getTerminalID() != this.getTerminal().getTerminalID()) {
-            this.logger.main().log(1078071040, "[%1.addingService] Belongs to other terminal '%2'.", (Object)"AbstractMediaServiceListenerTracker", (long)iMediaServiceListener.getTerminalID());
+            this.logger.main().log(1000000, "[%1.addingService] Belongs to other terminal '%2'.", (Object)LOGCLASS, (long)iMediaServiceListener.getTerminalID());
             this.getTerminal().getServiceManager().releaseService(serviceReference);
             return null;
         }
@@ -93,15 +91,14 @@ implements ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         IMediaServiceListener iMediaServiceListener = (IMediaServiceListener)object;
-        this.logger.main().log(1078071040, "[%1.removedService] '%2'", (Object)"AbstractMediaServiceListenerTracker", (Object)iMediaServiceListener);
+        this.logger.main().log(1000000, "[%1.removedService] '%2'", (Object)LOGCLASS, (Object)iMediaServiceListener);
         if (iMediaServiceListener == null) {
             return;
         }
         if (iMediaServiceListener.getTerminalID() != this.getTerminal().getTerminalID()) {
-            this.logger.main().log(1078071040, "[%1.removedService] Belongs to other terminal '%2'", (Object)"AbstractMediaServiceListenerTracker", (long)iMediaServiceListener.getTerminalID());
+            this.logger.main().log(1000000, "[%1.removedService] Belongs to other terminal '%2'", (Object)LOGCLASS, (long)iMediaServiceListener.getTerminalID());
             return;
         }
         this.getTerminal().getServiceManager().releaseService(serviceReference);
@@ -113,7 +110,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 

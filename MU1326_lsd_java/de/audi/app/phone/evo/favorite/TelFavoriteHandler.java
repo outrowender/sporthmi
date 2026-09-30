@@ -14,14 +14,13 @@ import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceTracker;
 import de.audi.app.phone.core.adb.ITelADBHandlerListener;
 import de.audi.app.phone.core.interapp.TelMessagingServiceHandler;
+import de.audi.app.phone.core.msg.AbstractTelMessageListener;
 import de.audi.app.phone.core.search.cmd.ITelDSISearchAccess;
 import de.audi.app.phone.core.util.TelLoggingUtils;
 import de.audi.app.phone.evo.AbstractEvoPhoneComponent;
 import de.audi.app.phone.evo.ITelEvoApplication;
 import de.audi.app.phone.evo.favorite.ITelFavoriteHandler;
 import de.audi.app.phone.evo.favorite.TelEvoFavoriteListRow;
-import de.audi.app.phone.evo.favorite.TelFavoriteHandler$FactoryResetHandler;
-import de.audi.app.phone.evo.favorite.TelFavoriteHandler$TelFavoritesDiag;
 import de.audi.app.phone.evo.favorite.TelFavoriteListHandler;
 import de.audi.app.phone.evo.favorite.search.TelFavoriteSearchDataProvider;
 import de.audi.app.phone.evo.favorite.search.TelFavoriteSearchModelHandler;
@@ -37,7 +36,7 @@ import de.audi.atip.interapp.PhoneServiceListener;
 import de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone;
 import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPFavoriteNumberEntry;
 import de.audi.atip.interapp.phone.TelFavoriteStruct;
-import de.audi.atip.phone.ITelServiceSDSListener$TelFavoriteSDSListEntry;
+import de.audi.atip.phone.ITelServiceSDSListener;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.Converter;
 import de.mib.swdiagnosis.phone.IPhoneDiagComponent;
@@ -57,12 +56,12 @@ ButtonListener,
 ITelADBHandlerListener,
 SpellerListener,
 ServiceTrackerCustomizer {
-    private static final int PERSISTENCE_CONTAINER_VERSION;
-    private static final int SPELLER_STATUS_ENABLE;
-    private static final int SPELLER_STATUS_DISABLE;
-    private static long nextUniqueID;
-    private static final int PROFILE_ID_UNKNOWN;
-    private static final int MAX_PROFILES;
+    private static final int PERSISTENCE_CONTAINER_VERSION = 0;
+    private static final int SPELLER_STATUS_ENABLE = 0;
+    private static final int SPELLER_STATUS_DISABLE = 1;
+    private static long nextUniqueID = 0L;
+    private static final int PROFILE_ID_UNKNOWN = -1;
+    private static final int MAX_PROFILES = 5;
     private final TelFavoriteListHandler[] listHandlers = new TelFavoriteListHandler[5];
     private volatile TelFavoriteListHandler activeListHandler;
     private volatile TelFavoriteStruct favoriteToSave;
@@ -79,9 +78,7 @@ ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone;
 
     static synchronized long getNextUniqueID() {
-        long l = nextUniqueID;
-        long l2 = l;
-        nextUniqueID = l + 1L;
+        return nextUniqueID++;
     }
 
     public TelFavoriteHandler(ITelEvoApplication iTelEvoApplication, ITelDSISearchAccess iTelDSISearchAccess) {
@@ -90,18 +87,17 @@ ServiceTrackerCustomizer {
         this.addSubPhoneComponent(this.messagingServiceHandler);
         this.searchModelHandler = new TelFavoriteSearchModelHandler((ITelApplication)iTelEvoApplication, iTelDSISearchAccess);
         this.addSubPhoneComponent(this.searchModelHandler);
-        this.addSubPhoneComponent(new TelFavoriteHandler$FactoryResetHandler(this, iTelEvoApplication));
+        this.addSubPhoneComponent(new FactoryResetHandler(iTelEvoApplication));
     }
 
     private void initListHandlers(ITelEvoApplication iTelEvoApplication) {
-        this.listHandlers[0] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 2305, this.log), this.getBaseListModel(-1533672448), this.log, this);
-        this.listHandlers[1] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 257, this.log), this.getBaseListModel(-1516895232), this.log, this);
-        this.listHandlers[2] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 769, this.log), this.getBaseListModel(-1500118016), this.log, this);
-        this.listHandlers[3] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 1281, this.log), this.getBaseListModel(-1483340800), this.log, this);
-        this.listHandlers[4] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 1793, this.log), this.getBaseListModel(-1466563584), this.log, this);
+        this.listHandlers[0] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 0x1090000, this.log), this.getBaseListModel(300708), this.log, this);
+        this.listHandlers[1] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 0x1010000, this.log), this.getBaseListModel(300709), this.log, this);
+        this.listHandlers[2] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 0x1030000, this.log), this.getBaseListModel(300710), this.log, this);
+        this.listHandlers[3] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 0x1050000, this.log), this.getBaseListModel(300711), this.log, this);
+        this.listHandlers[4] = new TelFavoriteListHandler(iTelEvoApplication, new FavoritePersistenceHandlerBase(iTelEvoApplication.getFrameworkAccess().getStorageMgr(), 0, 1003, 0x1070000, this.log), this.getBaseListModel(300712), this.log, this);
     }
 
-    @Override
     public void init() {
         super.init();
         if (this.getApplication().getFrameworkAccess().getSysConst(523) == 1) {
@@ -109,43 +105,42 @@ ServiceTrackerCustomizer {
             this.searchProvider.init();
         }
         this.initListHandlers(this.getEvoApplication());
-        this.getApplication().addDiagnosisComponent(new TelFavoriteHandler$TelFavoritesDiag(this, null));
+        this.getApplication().addDiagnosisComponent(new TelFavoritesDiag());
         this.getApplication().getADBHandler().registerListener(this);
-        this.getOptionModel(-1734999040).setListener(this, -1533672448);
-        this.getOptionModel(-1734999040).setListener(this, -1516895232);
-        this.getOptionModel(-1734999040).setListener(this, -1500118016);
-        this.getOptionModel(-1734999040).setListener(this, -1483340800);
-        this.getOptionModel(-1734999040).setListener(this, -1466563584);
-        this.getOptionModel(-1734999040).setListener(this, -1349123072);
-        this.getButtonModel(-728366080).setButtonListener(this);
-        this.getOptionModel(-795474944).setListener(this, -1533672448);
-        this.getOptionModel(-795474944).setListener(this, -1516895232);
-        this.getOptionModel(-795474944).setListener(this, -1500118016);
-        this.getOptionModel(-795474944).setListener(this, -1483340800);
-        this.getOptionModel(-795474944).setListener(this, -1466563584);
-        this.getOptionModel(-795474944).setListener(this, -1349123072);
-        this.getOptionModel(680985600).setListener(this, -1533672448);
-        this.getOptionModel(680985600).setListener(this, -1516895232);
-        this.getOptionModel(680985600).setListener(this, -1500118016);
-        this.getOptionModel(680985600).setListener(this, -1483340800);
-        this.getOptionModel(680985600).setListener(this, -1466563584);
-        this.getOptionModel(680985600).setListener(this, -1349123072);
-        this.getOptionModel(-1936391168).setListener(this, -1533672448);
-        this.getOptionModel(-1936391168).setListener(this, -1516895232);
-        this.getOptionModel(-1936391168).setListener(this, -1500118016);
-        this.getOptionModel(-1936391168).setListener(this, -1483340800);
-        this.getOptionModel(-1936391168).setListener(this, -1466563584);
-        this.getOptionModel(-1936391168).setListener(this, -1349123072);
-        this.getSpellerModel(-1617558528).setSpellerListener(this);
-        this.getButtonModel(-1600781312).setButtonListener(this);
-        this.getButtonModel(-241826816).setButtonListener(this);
+        this.getOptionModel(300696).setListener(this, 300708);
+        this.getOptionModel(300696).setListener(this, 300709);
+        this.getOptionModel(300696).setListener(this, 300710);
+        this.getOptionModel(300696).setListener(this, 300711);
+        this.getOptionModel(300696).setListener(this, 300712);
+        this.getOptionModel(300696).setListener(this, 300719);
+        this.getButtonModel(300756).setButtonListener(this);
+        this.getOptionModel(300752).setListener(this, 300708);
+        this.getOptionModel(300752).setListener(this, 300709);
+        this.getOptionModel(300752).setListener(this, 300710);
+        this.getOptionModel(300752).setListener(this, 300711);
+        this.getOptionModel(300752).setListener(this, 300712);
+        this.getOptionModel(300752).setListener(this, 300719);
+        this.getOptionModel(300840).setListener(this, 300708);
+        this.getOptionModel(300840).setListener(this, 300709);
+        this.getOptionModel(300840).setListener(this, 300710);
+        this.getOptionModel(300840).setListener(this, 300711);
+        this.getOptionModel(300840).setListener(this, 300712);
+        this.getOptionModel(300840).setListener(this, 300719);
+        this.getOptionModel(300428).setListener(this, 300708);
+        this.getOptionModel(300428).setListener(this, 300709);
+        this.getOptionModel(300428).setListener(this, 300710);
+        this.getOptionModel(300428).setListener(this, 300711);
+        this.getOptionModel(300428).setListener(this, 300712);
+        this.getOptionModel(300428).setListener(this, 300719);
+        this.getSpellerModel(300703).setSpellerListener(this);
+        this.getButtonModel(300704).setButtonListener(this);
+        this.getButtonModel(300785).setButtonListener(this);
         this.sdsPhoneServiceListenerTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$PhoneServiceListener == null ? (class$de$audi$atip$interapp$PhoneServiceListener = TelFavoriteHandler.class$("de.audi.atip.interapp.PhoneServiceListener")) : class$de$audi$atip$interapp$PhoneServiceListener).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.sdsPhoneServiceListenerTracker.openTracker();
         this.combiServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone = TelFavoriteHandler.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.combiServiceTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         nextUniqueID = 0L;
@@ -155,35 +150,35 @@ ServiceTrackerCustomizer {
         if (telFavoriteListHandler != null) {
             telFavoriteListHandler.deinit();
         }
-        this.getButtonModel(-1600781312).resetListener();
-        this.getBaseListModel(-1634335744).resetListener();
-        this.getOptionModel(-1734999040).removeListener(-1533672448);
-        this.getOptionModel(-1734999040).removeListener(-1516895232);
-        this.getOptionModel(-1734999040).removeListener(-1500118016);
-        this.getOptionModel(-1734999040).removeListener(-1483340800);
-        this.getOptionModel(-1734999040).removeListener(-1466563584);
-        this.getOptionModel(-1734999040).removeListener(-1349123072);
-        this.getButtonModel(-728366080).resetListener();
-        this.getOptionModel(-795474944).removeListener(-1533672448);
-        this.getOptionModel(-795474944).removeListener(-1516895232);
-        this.getOptionModel(-795474944).removeListener(-1500118016);
-        this.getOptionModel(-795474944).removeListener(-1483340800);
-        this.getOptionModel(-795474944).removeListener(-1466563584);
-        this.getOptionModel(-795474944).removeListener(-1349123072);
-        this.getOptionModel(680985600).removeListener(-1533672448);
-        this.getOptionModel(680985600).removeListener(-1516895232);
-        this.getOptionModel(680985600).removeListener(-1500118016);
-        this.getOptionModel(680985600).removeListener(-1483340800);
-        this.getOptionModel(680985600).removeListener(-1466563584);
-        this.getOptionModel(680985600).removeListener(-1349123072);
-        this.getOptionModel(-1936391168).removeListener(-1533672448);
-        this.getOptionModel(-1936391168).removeListener(-1516895232);
-        this.getOptionModel(-1936391168).removeListener(-1500118016);
-        this.getOptionModel(-1936391168).removeListener(-1483340800);
-        this.getOptionModel(-1936391168).removeListener(-1466563584);
-        this.getOptionModel(-1936391168).removeListener(-1349123072);
-        this.getSpellerModel(-1617558528).resetListener();
-        this.getButtonModel(-241826816).resetListener();
+        this.getButtonModel(300704).resetListener();
+        this.getBaseListModel(300702).resetListener();
+        this.getOptionModel(300696).removeListener(300708);
+        this.getOptionModel(300696).removeListener(300709);
+        this.getOptionModel(300696).removeListener(300710);
+        this.getOptionModel(300696).removeListener(300711);
+        this.getOptionModel(300696).removeListener(300712);
+        this.getOptionModel(300696).removeListener(300719);
+        this.getButtonModel(300756).resetListener();
+        this.getOptionModel(300752).removeListener(300708);
+        this.getOptionModel(300752).removeListener(300709);
+        this.getOptionModel(300752).removeListener(300710);
+        this.getOptionModel(300752).removeListener(300711);
+        this.getOptionModel(300752).removeListener(300712);
+        this.getOptionModel(300752).removeListener(300719);
+        this.getOptionModel(300840).removeListener(300708);
+        this.getOptionModel(300840).removeListener(300709);
+        this.getOptionModel(300840).removeListener(300710);
+        this.getOptionModel(300840).removeListener(300711);
+        this.getOptionModel(300840).removeListener(300712);
+        this.getOptionModel(300840).removeListener(300719);
+        this.getOptionModel(300428).removeListener(300708);
+        this.getOptionModel(300428).removeListener(300709);
+        this.getOptionModel(300428).removeListener(300710);
+        this.getOptionModel(300428).removeListener(300711);
+        this.getOptionModel(300428).removeListener(300712);
+        this.getOptionModel(300428).removeListener(300719);
+        this.getSpellerModel(300703).resetListener();
+        this.getButtonModel(300785).resetListener();
         if (this.sdsPhoneServiceListenerTracker != null) {
             this.sdsPhoneServiceListenerTracker.closeTracker();
         }
@@ -192,7 +187,6 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof PhoneServiceListener) {
@@ -209,11 +203,9 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof PhoneServiceListener) {
             this.sdsPhoneServiceListener = null;
@@ -224,38 +216,34 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void addToFavorites(TelFavoriteStruct telFavoriteStruct) {
         if (telFavoriteStruct == null) {
-            this.log.log(-1601830656, "[TelFavoriteHandler#addToFavorites] favorite is null!! NOP!");
+            this.log.log(100000, "[TelFavoriteHandler#addToFavorites] favorite is null!! NOP!");
             return;
         }
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelFavoriteHandler#addToFavorites] favorite=%1", (Object)telFavoriteStruct);
+            this.log.log(1000000, "[TelFavoriteHandler#addToFavorites] favorite=%1", (Object)telFavoriteStruct);
         }
         this.favoriteToSave = telFavoriteStruct;
-        this.getSpellerModel(-1617558528).setText(telFavoriteStruct.getName());
+        this.getSpellerModel(300703).setText(telFavoriteStruct.getName());
         this.updateSpellerStatus();
-        this.getChoiceModel(-1651112960).setStatus(1);
+        this.getChoiceModel(300701).setStatus(1);
     }
 
     private void updateSpellerStatus() {
         SpellerModelApp spellerModelApp;
-        spellerModelApp.setStatus((spellerModelApp = this.getSpellerModel(-1617558528)).getText().length() > 0 ? 0 : 1);
+        spellerModelApp.setStatus((spellerModelApp = this.getSpellerModel(300703)).getText().length() > 0 ? 0 : 1);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelFavoriteHandler#keyTyped] %1", (Object)TelLoggingUtils.keyTypedOption(n, n2, n3, n4, n5));
+            this.log.log(1000000, "[TelFavoriteHandler#keyTyped] %1", (Object)TelLoggingUtils.keyTypedOption(n, n2, n3, n4, n5));
         }
         EvoListRow evoListRow = this.getBaseListModel(n2).getRow(n3);
         switch (n) {
@@ -277,7 +265,7 @@ ServiceTrackerCustomizer {
                 break;
             }
             default: {
-                this.log.log(-1601830656, "[TelFavoriteHandler#keyTyped] unhandled Model-ID %1", (long)n);
+                this.log.log(100000, "[TelFavoriteHandler#keyTyped] unhandled Model-ID %1", (long)n);
             }
         }
     }
@@ -291,7 +279,7 @@ ServiceTrackerCustomizer {
     }
 
     protected void deleteAllFavorites() {
-        this.log.log(1078071040, "[TelFavoriteHandler#deleteAllFavorites] deleting all favorites.");
+        this.log.log(1000000, "[TelFavoriteHandler#deleteAllFavorites] deleting all favorites.");
         TelFavoriteListHandler telFavoriteListHandler = this.activeListHandler;
         if (telFavoriteListHandler != null) {
             telFavoriteListHandler.deleteAll();
@@ -307,11 +295,11 @@ ServiceTrackerCustomizer {
             } else if (evoListRow instanceof TelFavoriteSearchResultRow) {
                 string = ((TelFavoriteSearchResultRow)evoListRow).getName();
             } else {
-                this.log.log(-1601830656, "[TelFavoriteHandler#editFavorite] row is unknown type %1", (Object)evoListRow);
+                this.log.log(100000, "[TelFavoriteHandler#editFavorite] row is unknown type %1", (Object)evoListRow);
             }
             if (string != null) {
-                this.log.log(-2137614336, "[TelFavoriteHandler#editFavorite] favorite=%1, currentName=%1", (Object)evoListRow, (Object)string);
-                this.getSpellerModel(-1617558528).setText(string);
+                this.log.log(10000000, "[TelFavoriteHandler#editFavorite] favorite=%1, currentName=%1", (Object)evoListRow, (Object)string);
+                this.getSpellerModel(300703).setText(string);
                 this.updateSpellerStatus();
                 this.getOptionModel(n).fireEvent(n2);
             }
@@ -326,7 +314,7 @@ ServiceTrackerCustomizer {
                 long l = telEvoFavoriteListRow.getUniqueID();
                 int n = telFavoriteListHandler.getIndexForUniqueID(l);
                 if (this.log.isDebug()) {
-                    this.log.log(-2137614336, "[TelFavoriteHandler#renameFavorite] rename favorite with id=%1: currentName=%2, newName=%3", (Object)String.valueOf(l), (Object)telEvoFavoriteListRow.getName(), (Object)string);
+                    this.log.log(10000000, "[TelFavoriteHandler#renameFavorite] rename favorite with id=%1: currentName=%2, newName=%3", (Object)String.valueOf(l), (Object)telEvoFavoriteListRow.getName(), (Object)string);
                 }
                 telFavoriteListHandler.renameFavorite(n, string);
             } else if (evoListRow instanceof TelFavoriteSearchResultRow) {
@@ -334,15 +322,15 @@ ServiceTrackerCustomizer {
                 long l = telFavoriteSearchResultRow.getDataID();
                 int n = telFavoriteListHandler.getIndexForUniqueID(l);
                 if (this.log.isDebug()) {
-                    this.log.log(-2137614336, "[TelFavoriteHandler#renameFavorite] rename favorite with id=%1: currentName=%2, newName=%3", (Object)String.valueOf(l), (Object)telFavoriteSearchResultRow.getName(), (Object)string);
+                    this.log.log(10000000, "[TelFavoriteHandler#renameFavorite] rename favorite with id=%1: currentName=%2, newName=%3", (Object)String.valueOf(l), (Object)telFavoriteSearchResultRow.getName(), (Object)string);
                 }
                 telFavoriteListHandler.renameFavorite(n, string);
                 this.searchModelHandler.updateRenamedEntry(telFavoriteSearchResultRow, string);
             } else {
-                this.log.log(-1601830656, "[TelFavoriteHandler#renameFavorite] row is not a favorite: %1", (Object)evoListRow);
+                this.log.log(100000, "[TelFavoriteHandler#renameFavorite] row is not a favorite: %1", (Object)evoListRow);
             }
         } else {
-            this.log.log(-1601830656, "[TelFavoriteHandler#renameFavorite] row is null! NOP!");
+            this.log.log(100000, "[TelFavoriteHandler#renameFavorite] row is null! NOP!");
         }
     }
 
@@ -351,17 +339,17 @@ ServiceTrackerCustomizer {
         if (telFavoriteListHandler != null && evoListRow != null) {
             if (evoListRow instanceof TelEvoFavoriteListRow) {
                 long l = ((TelEvoFavoriteListRow)evoListRow).getUniqueID();
-                this.log.log(-2137614336, "[TelFavoriteHandler#deleteFavorite] deleting favorite with id=%1", l);
+                this.log.log(10000000, "[TelFavoriteHandler#deleteFavorite] deleting favorite with id=%1", l);
                 telFavoriteListHandler.removeFavorite(l);
             } else if (evoListRow instanceof TelFavoriteSearchResultRow) {
                 long l = ((TelFavoriteSearchResultRow)evoListRow).getDataID();
-                this.log.log(-2137614336, "[TelFavoriteHandler#deleteFavorite] deleting favorite with id=%1", l);
+                this.log.log(10000000, "[TelFavoriteHandler#deleteFavorite] deleting favorite with id=%1", l);
                 telFavoriteListHandler.removeFavorite(l);
             } else {
-                this.log.log(-1601830656, "[TelFavoriteHandler#deleteFavorite] row is not a favorite: %1", (Object)evoListRow);
+                this.log.log(100000, "[TelFavoriteHandler#deleteFavorite] row is not a favorite: %1", (Object)evoListRow);
             }
         } else {
-            this.log.log(-1601830656, "[TelFavoriteHandler#deleteFavorite] row is null! NOP!");
+            this.log.log(100000, "[TelFavoriteHandler#deleteFavorite] row is null! NOP!");
         }
     }
 
@@ -379,62 +367,57 @@ ServiceTrackerCustomizer {
                 string2 = ((TelFavoriteSearchResultRow)evoListRow).getName();
                 n2 = ((TelFavoriteSearchResultRow)evoListRow).getPhoneNumberType();
             } else {
-                this.log.log(-1601830656, "[TelFavoriteHandler#dialFavorite] row is not a favorite: %1", (Object)evoListRow);
+                this.log.log(100000, "[TelFavoriteHandler#dialFavorite] row is not a favorite: %1", (Object)evoListRow);
             }
             if (string != null && string.length() > 0) {
                 if (string2 != null) {
-                    this.log.log(-2137614336, "[TelFavoriteHandler#dialFavorite] number=%1, name=%2", (Object)string, (Object)string2);
+                    this.log.log(10000000, "[TelFavoriteHandler#dialFavorite] number=%1, name=%2", (Object)string, (Object)string2);
                     this.getApplication().getTelephoneDSIAccess().dialNumberFromDBEntry(string, 0L, string2, (short)n2, (short)0, null, 0, 0, n);
                 } else {
-                    this.log.log(-2137614336, "[TelFavoriteHandler#dialFavorite] number=%1", (Object)string);
+                    this.log.log(10000000, "[TelFavoriteHandler#dialFavorite] number=%1", (Object)string);
                     this.getApplication().getTelephoneDSIAccess().dialNumber(string, n);
                 }
             } else {
-                this.log.log(-1601830656, "[TelFavoriteHandler#dialFavorite] no number available! NOP!");
+                this.log.log(100000, "[TelFavoriteHandler#dialFavorite] no number available! NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[TelFavoriteHandler#dialFavorite] row is null! NOP!");
+            this.log.log(100000, "[TelFavoriteHandler#dialFavorite] row is null! NOP!");
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "[TelFavoriteHandler#keyTyped] modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
-        if (n == -1600781312) {
-            String string = this.getSpellerModel(-1617558528).getText();
+        this.log.log(1000000, "[TelFavoriteHandler#keyTyped] modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
+        if (n == 300704) {
+            String string = this.getSpellerModel(300703).getText();
             TelFavoriteListHandler telFavoriteListHandler = this.activeListHandler;
             if (telFavoriteListHandler != null) {
                 telFavoriteListHandler.addToFavorites(string, this.favoriteToSave.getNumber(), this.favoriteToSave.getPhoneNumberType());
             }
-            this.getButtonModel(-1600781312).fireEvent(n3);
-            this.getChoiceModel(-1651112960).setStatus(0);
-        } else if (n == -728366080) {
-            String string = this.getSpellerModel(-1617558528).getText();
+            this.getButtonModel(300704).fireEvent(n3);
+            this.getChoiceModel(300701).setStatus(0);
+        } else if (n == 300756) {
+            String string = this.getSpellerModel(300703).getText();
             this.renameFavorite(this.favoriteToBeRenamed, string);
             this.getButtonModel(n).fireEvent(n3);
-        } else if (n == -241826816) {
+        } else if (n == 300785) {
             this.deleteAllFavorites();
             this.getButtonModel(n).fireEvent(n3);
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateActiveProfile(ProfileInfo profileInfo) {
-        this.log.log(1078071040, "[TelFavoriteHandler#updateActiveProfile] profileInfo=%1", (Object)profileInfo);
+        this.log.log(1000000, "[TelFavoriteHandler#updateActiveProfile] profileInfo=%1", (Object)profileInfo);
         int n = profileInfo.getNum();
-        this.getChoiceModel(-1550449664).setValue(n);
+        this.getChoiceModel(300707).setValue(n);
         if (n != this.activeProfileID) {
             if (this.activeProfileID != -1) {
                 this.listHandlers[this.activeProfileID].deinit();
@@ -448,16 +431,15 @@ ServiceTrackerCustomizer {
                 }
                 this.activeProfileID = n;
             } else {
-                this.log.log(-1601830656, "[TelFavoriteHandler#updateActiveProfile] profileId %1 not in valid range", (long)n);
+                this.log.log(100000, "[TelFavoriteHandler#updateActiveProfile] profileId %1 not in valid range", (long)n);
             }
         } else {
-            this.log.log(-2137614336, "[TelFavoriteHandler#updateActiveProfile] profile has not changed --> NOP!");
+            this.log.log(10000000, "[TelFavoriteHandler#updateActiveProfile] profile has not changed --> NOP!");
         }
     }
 
-    @Override
     public void profileDeleted(int n) {
-        this.log.log(-2137614336, "[TelFavoriteHandler#profileDeleted] profileId=%1", (long)n);
+        this.log.log(10000000, "[TelFavoriteHandler#profileDeleted] profileId=%1", (long)n);
         if (n >= 0 && n < this.listHandlers.length) {
             this.listHandlers[n].deleteAll();
         }
@@ -477,13 +459,13 @@ ServiceTrackerCustomizer {
         if (combiBAPServicePhone != null) {
             CombiBAPFavoriteNumberEntry[] combiBAPFavoriteNumberEntryArray = this.createClusterFavoritesArray();
             if (combiBAPFavoriteNumberEntryArray != null) {
-                this.log.log(1078071040, "[TelFavoriteHandler#updateCluster] favorites=%1", (Object)Converter.array2String(combiBAPFavoriteNumberEntryArray));
+                this.log.log(1000000, "[TelFavoriteHandler#updateCluster] favorites=%1", (Object)Converter.array2String(combiBAPFavoriteNumberEntryArray));
                 combiBAPServicePhone.updateFavoriteList(combiBAPFavoriteNumberEntryArray);
             } else {
-                this.log.log(1078071040, "[TelFavoriteHandler#updateCluster] favorites is null --> NOP!");
+                this.log.log(1000000, "[TelFavoriteHandler#updateCluster] favorites is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[TelFavoriteHandler#updateCluster] CombiBAPServicePhone not available --> NOP!");
+            this.log.log(100000, "[TelFavoriteHandler#updateCluster] CombiBAPServicePhone not available --> NOP!");
         }
     }
 
@@ -509,36 +491,35 @@ ServiceTrackerCustomizer {
     private void updateSDS() {
         PhoneServiceListener phoneServiceListener = this.sdsPhoneServiceListener;
         if (phoneServiceListener != null) {
-            ITelServiceSDSListener$TelFavoriteSDSListEntry[] iTelServiceSDSListener$TelFavoriteSDSListEntryArray = this.createSDSFavoritesArray();
-            if (iTelServiceSDSListener$TelFavoriteSDSListEntryArray != null) {
-                this.log.log(1078071040, "[TelFavoriteHandler#updateSDS] favorites=%1", (Object)Converter.array2String(iTelServiceSDSListener$TelFavoriteSDSListEntryArray));
-                phoneServiceListener.updateFavorites(iTelServiceSDSListener$TelFavoriteSDSListEntryArray);
+            ITelServiceSDSListener.TelFavoriteSDSListEntry[] telFavoriteSDSListEntryArray = this.createSDSFavoritesArray();
+            if (telFavoriteSDSListEntryArray != null) {
+                this.log.log(1000000, "[TelFavoriteHandler#updateSDS] favorites=%1", (Object)Converter.array2String(telFavoriteSDSListEntryArray));
+                phoneServiceListener.updateFavorites(telFavoriteSDSListEntryArray);
             } else {
-                this.log.log(1078071040, "[TelFavoriteHandler#updateSDS] favorites is null --> NOP!");
+                this.log.log(1000000, "[TelFavoriteHandler#updateSDS] favorites is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[TelFavoriteHandler#updateSDS] PhoneServiceListener not available --> NOP!");
+            this.log.log(100000, "[TelFavoriteHandler#updateSDS] PhoneServiceListener not available --> NOP!");
         }
     }
 
-    private ITelServiceSDSListener$TelFavoriteSDSListEntry[] createSDSFavoritesArray() {
+    private ITelServiceSDSListener.TelFavoriteSDSListEntry[] createSDSFavoritesArray() {
         TelFavoriteListHandler telFavoriteListHandler = this.activeListHandler;
         if (telFavoriteListHandler != null) {
             BaseListModelApp baseListModelApp = telFavoriteListHandler.getListModelCopy();
             List list = baseListModelApp.asList();
             Iterator iterator = list.iterator();
-            ITelServiceSDSListener$TelFavoriteSDSListEntry[] iTelServiceSDSListener$TelFavoriteSDSListEntryArray = new ITelServiceSDSListener$TelFavoriteSDSListEntry[list.size()];
+            ITelServiceSDSListener.TelFavoriteSDSListEntry[] telFavoriteSDSListEntryArray = new ITelServiceSDSListener.TelFavoriteSDSListEntry[list.size()];
             int n = 0;
             while (iterator.hasNext()) {
                 TelEvoFavoriteListRow telEvoFavoriteListRow = (TelEvoFavoriteListRow)iterator.next();
-                iTelServiceSDSListener$TelFavoriteSDSListEntryArray[n++] = new ITelServiceSDSListener$TelFavoriteSDSListEntry(telEvoFavoriteListRow.getName(), telEvoFavoriteListRow.getUniqueID(), telEvoFavoriteListRow.getNumber());
+                telFavoriteSDSListEntryArray[n++] = new ITelServiceSDSListener.TelFavoriteSDSListEntry(telEvoFavoriteListRow.getName(), telEvoFavoriteListRow.getUniqueID(), telEvoFavoriteListRow.getNumber());
             }
-            return iTelServiceSDSListener$TelFavoriteSDSListEntryArray;
+            return telFavoriteSDSListEntryArray;
         }
         return null;
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         this.updateSpellerStatus();
         if (this.log.isInfo()) {
@@ -551,42 +532,34 @@ ServiceTrackerCustomizer {
             buffer.append(c2);
             buffer.append(", terminal=");
             buffer.append(n2);
-            this.log.log(1078071040, "[TelFavoriteHandler#textChanged] %1", (Object)buffer);
+            this.log.log(1000000, "[TelFavoriteHandler#textChanged] %1", (Object)buffer);
         }
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateSortOrder(int n, int n2) {
     }
 
-    @Override
     public void setAdbReady(boolean bl) {
     }
 
-    @Override
     public void handleInvalidData(int n, boolean bl) {
     }
 
     public void onADBEntrySelected(AdbEntry adbEntry) {
     }
 
-    @Override
     public void onEntrySelected(ADBSearch aDBSearch, ADBSearchListRow aDBSearchListRow, int n, int n2) {
     }
 
-    @Override
     public void onDetailsSelected(ADBEntryDetailsListRow aDBEntryDetailsListRow, int n, int n2) {
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
     }
 
@@ -599,16 +572,72 @@ ServiceTrackerCustomizer {
         }
     }
 
-    static /* synthetic */ TelFavoriteListHandler access$100(TelFavoriteHandler telFavoriteHandler) {
-        return telFavoriteHandler.activeListHandler;
+    private class TelFavoritesDiag
+    implements IPhoneDiagComponent {
+        private TelFavoritesDiag() {
+        }
+
+        public void cmdAddFavorite(String string, String string2) {
+            TelFavoriteListHandler telFavoriteListHandler = TelFavoriteHandler.this.activeListHandler;
+            if (telFavoriteListHandler != null) {
+                telFavoriteListHandler.addToFavorites(string, string2, 0);
+            }
+        }
+
+        public void cmdAddMaximumFavorites() {
+            for (int i2 = 0; i2 < 50; ++i2) {
+                String string = new StringBuffer().append("Favorite ").append(i2).toString();
+                TelFavoriteListHandler telFavoriteListHandler = TelFavoriteHandler.this.activeListHandler;
+                if (telFavoriteListHandler == null) continue;
+                telFavoriteListHandler.addToFavorites(string, "084583332840", 0);
+            }
+        }
+
+        public void cmdRemoveFavorite(int n) {
+            TelFavoriteListHandler telFavoriteListHandler = TelFavoriteHandler.this.activeListHandler;
+            if (telFavoriteListHandler != null) {
+                telFavoriteListHandler.removeFavorite(n);
+            }
+        }
+
+        public void cmdRenameFavorite(int n, String string) {
+            TelFavoriteListHandler telFavoriteListHandler = TelFavoriteHandler.this.activeListHandler;
+            if (telFavoriteListHandler != null) {
+                telFavoriteListHandler.renameFavorite(n, string);
+            }
+        }
+
+        public void cmdLoadFavoriteListFromPersistence() {
+            TelFavoriteListHandler telFavoriteListHandler = TelFavoriteHandler.this.activeListHandler;
+            if (telFavoriteListHandler != null) {
+                telFavoriteListHandler.loadFavoriteListFromPersistence();
+            }
+        }
+
+        public void cmdFavoritesUpdateActiveProfile(int n) {
+            ProfileInfo profileInfo = new ProfileInfo();
+            profileInfo.num = n;
+            TelFavoriteHandler.this.updateActiveProfile(profileInfo);
+        }
+
+        public void cmdFavoritesProfileDeleted(int n) {
+            TelFavoriteHandler.this.profileDeleted(n);
+        }
     }
 
-    static /* synthetic */ TelFavoriteListHandler[] access$200(TelFavoriteHandler telFavoriteHandler) {
-        return telFavoriteHandler.listHandlers;
-    }
+    private class FactoryResetHandler
+    extends AbstractTelMessageListener {
+        public FactoryResetHandler(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 28);
+        }
 
-    static {
-        nextUniqueID = 0L;
+        protected void messageReceived() {
+            this.log.log(1000000, "[TelFavoriteHandler.FactoryResetHandler#messageRecieved] deleting all favorite information.");
+            for (int i2 = 0; i2 < TelFavoriteHandler.this.listHandlers.length; ++i2) {
+                if (TelFavoriteHandler.this.listHandlers[i2] == null) continue;
+                TelFavoriteHandler.this.listHandlers[i2].deleteAll();
+            }
+        }
     }
 }
 

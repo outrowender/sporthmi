@@ -7,13 +7,10 @@ import de.audi.atip.interapp.cartrip.TripModelHandler;
 import de.audi.atip.metrics.AbstractMetrics;
 
 public interface ITripDataProvider {
-    default public TripModelHandler getTripModelHandler() {
-    }
+    public TripModelHandler getTripModelHandler();
 
-    default public int[] getProvidedTripDataTypes() {
-    }
+    public int[] getProvidedTripDataTypes();
 
-    default public AbstractMetrics getTripDataValue(int n) {
-    }
+    public AbstractMetrics getTripDataValue(int var1);
 }
 

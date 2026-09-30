@@ -7,40 +7,28 @@ import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.atip.hmi.model.ModelGroup;
 
 public interface IEntertainmentDrawerControllerNew {
-    default public void onIncomingCallMute() {
-    }
+    public void onIncomingCallMute();
 
-    default public void showEntertainmentDrawer() {
-    }
+    public void showEntertainmentDrawer();
 
-    default public void closeEntertainmentDrawer() {
-    }
+    public void closeEntertainmentDrawer();
 
-    default public void onTelAppEntered(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    public void onTelAppEntered(IGlobalTelephoneStateStruct var1);
 
-    default public void onTelAppLeft(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    public void onTelAppLeft(IGlobalTelephoneStateStruct var1);
 
-    default public void callAcceptedOnCluster() {
-    }
+    public void callAcceptedOnCluster();
 
-    default public void callAcceptedOnMU() {
-    }
+    public void callAcceptedOnMU();
 
-    default public void computeNewDrawerState(ModelGroup[] modelGroupArray, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    public void computeNewDrawerState(ModelGroup[] var1, IGlobalTelephoneStateStruct var2);
 
-    default public void acceptOnNCLDOngoing(boolean bl) {
-    }
+    public void acceptOnNCLDOngoing(boolean var1);
 
-    default public void deactivateTerminalModeDrawer() {
-    }
+    public void deactivateTerminalModeDrawer();
 
-    default public void dialingNumberJumpToPhoneWillOccur() {
-    }
+    public void dialingNumberJumpToPhoneWillOccur();
 
-    default public void resetdialingNumberJumpToPhoneFlag() {
-    }
+    public void resetdialingNumberJumpToPhoneFlag();
 }
 

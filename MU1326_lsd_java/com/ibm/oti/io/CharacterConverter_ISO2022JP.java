@@ -14,38 +14,27 @@ extends CharacterConverter {
     private int countMode = 1;
     private int byteMode = 1;
     private int charMode = 1;
-    private static final int UNKOWN;
-    private static final int ASCII;
-    private static final int ROMAN;
-    private static final int JIS6226;
-    private static final int JIS208;
-    private static final int JIS201;
-    private static final byte[] EMPTY;
-    private static final byte[] ESC_ASCII;
-    private static final byte[] ESC_ROMAN;
-    private static final byte[] ESC_JIS6226;
-    private static final byte[] ESC_JIS208;
-    private static final byte[] ESC_JIS201;
-
-    static {
-        EMPTY = new byte[0];
-        ESC_ASCII = new byte[]{27, 40, 66};
-        ESC_ROMAN = new byte[]{27, 40, 74};
-        ESC_JIS6226 = new byte[]{27, 36, 64};
-        ESC_JIS208 = new byte[]{27, 36, 66};
-        ESC_JIS201 = new byte[]{27, 40, 73};
-    }
+    private static final int UNKOWN = 0;
+    private static final int ASCII = 1;
+    private static final int ROMAN = 2;
+    private static final int JIS6226 = 3;
+    private static final int JIS208 = 4;
+    private static final int JIS201 = 5;
+    private static final byte[] EMPTY = new byte[0];
+    private static final byte[] ESC_ASCII = new byte[]{27, 40, 66};
+    private static final byte[] ESC_ROMAN = new byte[]{27, 40, 74};
+    private static final byte[] ESC_JIS6226 = new byte[]{27, 36, 64};
+    private static final byte[] ESC_JIS208 = new byte[]{27, 36, 66};
+    private static final byte[] ESC_JIS201 = new byte[]{27, 40, 73};
 
     CharacterConverter_ISO2022JP() {
     }
 
-    @Override
     public CharacterConverter getModeless() {
         this.isModal = false;
         return this;
     }
 
-    @Override
     public int countChars(byte[] byArray, int n, int n2) {
         if (n2 < 0) {
             throw new StringIndexOutOfBoundsException();
@@ -101,7 +90,6 @@ extends CharacterConverter {
         return n5;
     }
 
-    @Override
     public int convert(byte[] byArray, int n, char[] cArray, int n2, int n3) {
         int n4 = 1;
         if (this.isModal) {
@@ -160,7 +148,7 @@ extends CharacterConverter {
             }
             if (n4 == 5) {
                 if (n5 < 33 || n5 > 95) continue;
-                cArray[n2++] = (char)(0x40FF0000 + n5);
+                cArray[n2++] = (char)(65344 + n5);
                 continue;
             }
             if (n5 >= 33 && n5 <= 126) {
@@ -169,13 +157,13 @@ extends CharacterConverter {
                     cArray[n2++] = CharacterConverter_EUC_JP.jis208.charAt((n5 - 33) * 94 + n6 - 33);
                     continue;
                 }
-                cArray[n2++] = -33619968;
+                cArray[n2++] = 65533;
                 continue;
             }
             if (n5 >= 32) {
                 ++n;
             }
-            cArray[n2++] = -33619968;
+            cArray[n2++] = 65533;
         }
         if (this.isModal) {
             this.byteMode = n4;
@@ -183,7 +171,6 @@ extends CharacterConverter {
         return n;
     }
 
-    @Override
     public byte[] convert(char[] cArray, int n, int n2) {
         int n3 = 1;
         if (this.isModal) {
@@ -252,7 +239,6 @@ extends CharacterConverter {
         return byteArrayOutputStream.toByteArray();
     }
 
-    @Override
     public byte[] getClosingBytes() {
         if (this.charMode != 1) {
             return ESC_ASCII;

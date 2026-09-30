@@ -6,7 +6,7 @@ package com.ibm.oti.util;
 import com.ibm.oti.util.Msg;
 
 public class BASE64Decoder {
-    private static final byte equalSign;
+    private static final byte equalSign = 61;
 
     private BASE64Decoder() {
     }

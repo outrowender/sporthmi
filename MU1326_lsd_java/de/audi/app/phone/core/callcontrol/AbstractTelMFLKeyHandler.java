@@ -20,30 +20,25 @@ implements ButtonListener {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
         this.getButtonModel(3859).setButtonListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
         this.getButtonModel(3859).resetListener();
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
@@ -51,14 +46,13 @@ implements ButtonListener {
         PhoneUtils.triggerJumpToPhone(this.getApplication().getFrameworkAccess().getHmiServiceApp());
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "[TelMFLKeyHandler#keyTyped] modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
+        this.log.log(1000000, "[TelMFLKeyHandler#keyTyped] modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.telephoneState;
         if (iGlobalTelephoneStateStruct != null) {
             boolean bl;
             if (iGlobalTelephoneStateStruct.getConnectedGatewayState().isLowPrioritySOSEmergencyCallType()) {
-                this.log.log(-2137614336, "[TelMFLKeyHandler#keyTyped] hanging up low priority SOS call.");
+                this.log.log(10000000, "[TelMFLKeyHandler#keyTyped] hanging up low priority SOS call.");
                 this.getApplication().getCallControl().hangupCall(0);
                 return;
             }
@@ -71,16 +65,16 @@ implements ButtonListener {
             boolean bl4 = callStateStruct != null ? callStateStruct.isIdle() : true;
             boolean bl5 = bl = callStateStruct2 != null ? callStateStruct2.isIdle() : true;
             if (bl3 && !bl2) {
-                this.log.log(-2137614336, "[TelMFLKeyHandler#keyTyped] incoming call on non call leading device");
+                this.log.log(10000000, "[TelMFLKeyHandler#keyTyped] incoming call on non call leading device");
                 this.getApplication().getTelephoneDSIAccess().acceptIncomingCallOnNonCallLeadingDevice(0);
             } else if (bl2) {
-                this.log.log(-2137614336, "[TelMFLKeyHandler#keyTyped] accepting incoming call.");
+                this.log.log(10000000, "[TelMFLKeyHandler#keyTyped] accepting incoming call.");
                 this.getApplication().getCallControl().acceptIncomingCall(0);
             } else if (callStateStruct != null && callStateStruct.isMultipartyActive() && bl2) {
-                this.log.log(-2137614336, "[TelMFLKeyHandler#keyTyped] rejecting incoming call since two calls are already present.");
+                this.log.log(10000000, "[TelMFLKeyHandler#keyTyped] rejecting incoming call since two calls are already present.");
                 this.getApplication().getCallControl().rejectIncomingCall(0);
             } else if (callStateStruct != null && !bl4) {
-                this.log.log(-2137614336, "[TelMFLKeyHandler#keyTyped] hanging up call.");
+                this.log.log(10000000, "[TelMFLKeyHandler#keyTyped] hanging up call.");
                 this.getApplication().getCallControl().hangupCall(0);
             } else if (bl4 && bl) {
                 IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct2 = this.telephoneState;
@@ -91,10 +85,8 @@ implements ButtonListener {
         }
     }
 
-    protected abstract void handleTelKeyTypedIdle(boolean bl) {
-    }
+    protected abstract void handleTelKeyTypedIdle(boolean var1);
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

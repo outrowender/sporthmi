@@ -4,23 +4,21 @@
 package de.audi.atip.sysapp;
 
 public interface SpeedThresholdListener {
-    public static final int CARVELOCITYTHRESHOLD;
-    public static final int TVVELOCITYTHRESHOLD;
-    public static final int HDDVELOCITYTHRESHOLD;
-    public static final int BROWSERSLIDESHOWVELOCITYTHRESHOLD;
-    public static final int BROWSERBORDBOOKVELOCITYTHRESHOLD;
-    public static final int BROWSERTRAVELAGENTVELOCITYTHRESHOLD;
-    public static final int BROWSERWEBVELOCITYTHRESHOLD;
-    public static final int BWSVELOCITYTHRESHOLD;
-    public static final int RADIOTEXTVELOCITYTHRESHOLD;
-    public static final int BTBONDINGVELOCITYTHRESHOLD;
-    public static final int MESSAGINGVELOCITYTHRESHOLD;
-    public static final int DESTINATIONINPUTVELOCITYTHRESHOLD;
+    public static final int CARVELOCITYTHRESHOLD = 1;
+    public static final int TVVELOCITYTHRESHOLD = 2;
+    public static final int HDDVELOCITYTHRESHOLD = 3;
+    public static final int BROWSERSLIDESHOWVELOCITYTHRESHOLD = 4;
+    public static final int BROWSERBORDBOOKVELOCITYTHRESHOLD = 5;
+    public static final int BROWSERTRAVELAGENTVELOCITYTHRESHOLD = 6;
+    public static final int BROWSERWEBVELOCITYTHRESHOLD = 7;
+    public static final int BWSVELOCITYTHRESHOLD = 8;
+    public static final int RADIOTEXTVELOCITYTHRESHOLD = 9;
+    public static final int BTBONDINGVELOCITYTHRESHOLD = 10;
+    public static final int MESSAGINGVELOCITYTHRESHOLD = 11;
+    public static final int DESTINATIONINPUTVELOCITYTHRESHOLD = 12;
 
-    default public void exceedsUpperThreshold(int n) {
-    }
+    public void exceedsUpperThreshold(int var1);
 
-    default public void belowLowerThreshold(int n) {
-    }
+    public void belowLowerThreshold(int var1);
 }
 

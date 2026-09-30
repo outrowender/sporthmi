@@ -4,7 +4,6 @@
 package de.audi.atip.mmicombi;
 
 public interface IViewSizeListener {
-    default public void viewSizeChanged(int n) {
-    }
+    public void viewSizeChanged(int var1);
 }
 

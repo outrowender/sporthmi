@@ -7,28 +7,20 @@ import de.audi.atip.i18n.ILanguageUIHandler;
 import de.audi.atip.i18n.Language;
 
 public interface ILanguageManager {
-    default public Language getCurrentLanguage(String string) {
-    }
+    public Language getCurrentLanguage(String var1);
 
-    default public Language[] getAvailableLanguages(String string) {
-    }
+    public Language[] getAvailableLanguages(String var1);
 
-    default public void updateAvailableLanguages(String string, String[] stringArray) {
-    }
+    public void updateAvailableLanguages(String var1, String[] var2);
 
-    default public void init(boolean bl) {
-    }
+    public void init(boolean var1);
 
-    default public void responseSetLanguage(String string, boolean bl) {
-    }
+    public void responseSetLanguage(String var1, boolean var2);
 
-    default public boolean isLeftToRightOrientation() {
-    }
+    public boolean isLeftToRightOrientation();
 
-    default public void setLanguageUIHandler(ILanguageUIHandler iLanguageUIHandler) {
-    }
+    public void setLanguageUIHandler(ILanguageUIHandler var1);
 
-    default public void checkAndSetNewLanguage(Language language) {
-    }
+    public void checkAndSetNewLanguage(Language var1);
 }
 

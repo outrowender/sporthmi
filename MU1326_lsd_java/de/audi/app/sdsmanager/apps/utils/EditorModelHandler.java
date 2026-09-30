@@ -12,8 +12,8 @@ import de.audi.atip.log.LogChannel;
 import java.util.LinkedList;
 
 public class EditorModelHandler {
-    public static final int CURSOR_POSITION_BEGINNING;
-    public static final int CURSOR_POSITION_END;
+    public static final int CURSOR_POSITION_BEGINNING = 0;
+    public static final int CURSOR_POSITION_END = 1;
     private final TextEditorModelDDApp editorModel;
     private final ChoiceModelApp editorInputMode;
     private LinkedList lastReceivedText;
@@ -28,14 +28,14 @@ public class EditorModelHandler {
     }
 
     public void clearText() {
-        this.lc.log(-2137614336, "EditorModelHandler#clearText() called");
+        this.lc.log(10000000, "EditorModelHandler#clearText() called");
         this.editorModel.clear();
     }
 
     public void setText(LinkedList linkedList) {
-        this.lc.log(-2137614336, "EditorModelHandler#setText() called");
+        this.lc.log(10000000, "EditorModelHandler#setText() called");
         if (SDSUtils.isEmpty(linkedList)) {
-            this.lc.log(-2137614336, "EditorModelHandler#setText(): empty text -> clearBody!");
+            this.lc.log(10000000, "EditorModelHandler#setText(): empty text -> clearBody!");
             this.editorModel.clear();
             return;
         }
@@ -44,7 +44,7 @@ public class EditorModelHandler {
             this.editorModel.setText(SDSUtils.convertToStringArray(linkedList), -1);
         }
         catch (ClassCastException classCastException) {
-            this.lc.log(-1601830656, "EditorModelHandler#setText() Exception %1 failed because of bad text format: %2", (Object)classCastException.toString(), (Object)classCastException.getMessage());
+            this.lc.log(100000, "EditorModelHandler#setText() Exception %1 failed because of bad text format: %2", (Object)classCastException.toString(), (Object)classCastException.getMessage());
         }
     }
 
@@ -58,7 +58,7 @@ public class EditorModelHandler {
             stringArray = SDSUtils.convertToStringArray(linkedList);
         }
         catch (ClassCastException classCastException) {
-            this.lc.log(-1601830656, "EditorModelHandler#appendText() Exception %1 failed because of bad text format: %2", (Object)classCastException.toString(), (Object)classCastException.getMessage());
+            this.lc.log(100000, "EditorModelHandler#appendText() Exception %1 failed because of bad text format: %2", (Object)classCastException.toString(), (Object)classCastException.getMessage());
         }
         DoubleCursor doubleCursor = this.editorModel.getCursor();
         int n = doubleCursor.getCursorPos();
@@ -90,29 +90,29 @@ public class EditorModelHandler {
         DoubleCursor doubleCursor = this.editorModel.getCursor();
         int n = doubleCursor.getCursorPos();
         String string2 = doubleCursor.current();
-        this.lc.log(-2137614336, "%1: cursor=%2, cursor.current()=%3, position=%4!", (Object)string, (Object)doubleCursor, (Object)string2, (long)n);
-        this.lc.log(-2137614336, "%1: %2!", (Object)string, (Object)this.editorModel.getText());
+        this.lc.log(10000000, "%1: cursor=%2, cursor.current()=%3, position=%4!", (Object)string, (Object)doubleCursor, (Object)string2, (long)n);
+        this.lc.log(10000000, "%1: %2!", (Object)string, (Object)this.editorModel.getText());
     }
 
     public void replaceSelectedWord(LinkedList linkedList) {
         this.printTextStatus("EditorModelHandler#replaceSelectedWord() before:");
         try {
             String[][] stringArray = SDSUtils.convertToStringArray(linkedList);
-            this.lc.log(-2137614336, "EditorModelHandler#replaceSelectedWord() replace with %1", (Object)SDSUtils.toString(stringArray));
+            this.lc.log(10000000, "EditorModelHandler#replaceSelectedWord() replace with %1", (Object)SDSUtils.toString(stringArray));
             this.editorModel.getCursor().replace(stringArray);
         }
         catch (ClassCastException classCastException) {
-            this.lc.log(-1601830656, "EditorModelHandler#replaceSelectedWord() Exception %1 failed because of bad text format: %2", (Object)classCastException.toString(), (Object)classCastException.getMessage());
+            this.lc.log(100000, "EditorModelHandler#replaceSelectedWord() Exception %1 failed because of bad text format: %2", (Object)classCastException.toString(), (Object)classCastException.getMessage());
         }
         this.printTextStatus("EditorModelHandler#replaceSelectedWord() after:");
     }
 
     public boolean undoLastInsertion() {
-        this.lc.log(-2137614336, "EditorModelHandler#undoLastInsertion() called");
+        this.lc.log(10000000, "EditorModelHandler#undoLastInsertion() called");
         int n = this.editorModel.getText().length();
         this.editorModel.undoLastInsertion();
         int n2 = this.editorModel.getText().length();
-        this.lc.log(-2137614336, "EditorModelHandler#undoLastInsertion(), lengthBefore=%1, lengthAfter=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "EditorModelHandler#undoLastInsertion(), lengthBefore=%1, lengthAfter=%2", (long)n, (long)n2);
         return n != n2;
     }
 
@@ -121,7 +121,7 @@ public class EditorModelHandler {
         if (doubleCursor == null) {
             return;
         }
-        this.lc.log(-2137614336, "EditorModelHandler#positionCursor() cursor=%1 to position %2", (Object)doubleCursor.currentIdx(), (long)n);
+        this.lc.log(10000000, "EditorModelHandler#positionCursor() cursor=%1 to position %2", (Object)doubleCursor.currentIdx(), (long)n);
         switch (n) {
             case 1: {
                 doubleCursor.setCursorPos(doubleCursor.length());

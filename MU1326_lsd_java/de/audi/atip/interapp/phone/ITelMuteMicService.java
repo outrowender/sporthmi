@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.phone;
 
 public interface ITelMuteMicService {
-    default public void toggleMuteMicrophone(boolean bl) {
-    }
+    public void toggleMuteMicrophone(boolean var1);
 }
 

@@ -8,9 +8,9 @@ import de.audi.atip.hmi.model.PropertyListCell;
 
 public final class CoMaDeviceSim
 extends AbstractCoMaDevice {
-    private static final PropertyListCell SIM = PropertyListCell.create(899035788, new int[]{87838446});
-    private static final PropertyListCell SIM_WITH_CALL = PropertyListCell.create(899035788, new int[]{87838446, -1376557054});
-    private static final PropertyListCell ESIM = PropertyListCell.create(899035788, new int[]{486525952});
+    private static final PropertyListCell SIM = PropertyListCell.create(-1942841803, new int[]{-296862715});
+    private static final PropertyListCell SIM_WITH_CALL = PropertyListCell.create(-1942841803, new int[]{-296862715, 40432557});
+    private static final PropertyListCell ESIM = PropertyListCell.create(-1942841803, new int[]{0xCCFF1C});
     private final boolean hasActiveCall;
     private final boolean isEsim;
 
@@ -20,7 +20,6 @@ extends AbstractCoMaDevice {
         this.isEsim = bl2;
     }
 
-    @Override
     PropertyListCell getProperties() {
         return this.isEsim ? ESIM : (this.hasActiveCall ? SIM_WITH_CALL : SIM);
     }

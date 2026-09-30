@@ -4,10 +4,8 @@
 package de.audi.atip.hmi.modelaccess;
 
 public interface LabelModelGUI {
-    default public String getText() {
-    }
+    public String getText();
 
-    default public int getLength() {
-    }
+    public int getLength();
 }
 

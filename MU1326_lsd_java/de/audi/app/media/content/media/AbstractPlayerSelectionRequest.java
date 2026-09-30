@@ -20,22 +20,18 @@ implements IPlayerSelectionRequest {
         this.waitingForPlayposition = bl2;
     }
 
-    @Override
     public int getBrowserID() {
         return this.browserID;
     }
 
-    @Override
     public long getEntryID() {
         return this.entryID;
     }
 
-    @Override
     public boolean isSeamless() {
         return this.seamless;
     }
 
-    @Override
     public boolean waitForPlayposition() {
         return this.waitingForPlayposition;
     }

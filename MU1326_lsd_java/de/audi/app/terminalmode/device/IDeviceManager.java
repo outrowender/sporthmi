@@ -5,34 +5,33 @@ package de.audi.app.terminalmode.device;
 
 import de.audi.app.terminalmode.device.IActiveDeviceStateListener;
 import de.audi.app.terminalmode.device.IDeviceListListener;
-import de.audi.app.terminalmode.device.IDeviceManager$IDeviceManagerProperties;
 import de.audi.app.terminalmode.device.TMDevice;
 import de.audi.app.terminalmode.device.TMDeviceControl;
 import de.audi.app.terminalmode.device.TMDeviceID;
+import de.audi.atip.utils.reactive.properties.ReadOnlyProperty;
 
 public interface IDeviceManager {
-    default public void addDeviceListListener(IDeviceListListener iDeviceListListener) {
-    }
+    public void addDeviceListListener(IDeviceListListener var1);
 
-    default public void removeDeviceListListener(IDeviceListListener iDeviceListListener) {
-    }
+    public void removeDeviceListListener(IDeviceListListener var1);
 
-    default public void addActiveDeviceListener(IActiveDeviceStateListener iActiveDeviceStateListener) {
-    }
+    public void addActiveDeviceListener(IActiveDeviceStateListener var1);
 
-    default public void removeActiveDeviceListener(IActiveDeviceStateListener iActiveDeviceStateListener) {
-    }
+    public void removeActiveDeviceListener(IActiveDeviceStateListener var1);
 
-    default public TMDeviceControl control(TMDeviceID tMDeviceID) {
-    }
+    public TMDeviceControl control(TMDeviceID var1);
 
-    default public TMDeviceControl control(TMDevice tMDevice) {
-    }
+    public TMDeviceControl control(TMDevice var1);
 
-    default public TMDevice getActiveDevice() {
-    }
+    public TMDevice getActiveDevice();
 
-    default public IDeviceManager$IDeviceManagerProperties getProperties() {
+    public IDeviceManagerProperties getProperties();
+
+    /*
+     * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+     */
+    public static interface IDeviceManagerProperties {
+        public ReadOnlyProperty<TMDevice> activeDevice();
     }
 }
 

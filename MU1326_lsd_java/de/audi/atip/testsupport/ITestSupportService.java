@@ -9,16 +9,12 @@ import de.audi.atip.testsupport.ITestSupportReceiverSession;
 import de.audi.atip.testsupport.ITestSupportSession;
 
 public interface ITestSupportService {
-    default public ITestSupportSession registerDataProvider(ITestSupportDataProvider iTestSupportDataProvider) {
-    }
+    public ITestSupportSession registerDataProvider(ITestSupportDataProvider var1);
 
-    default public void deRegisterDataProvider(ITestSupportDataProvider iTestSupportDataProvider) {
-    }
+    public void deRegisterDataProvider(ITestSupportDataProvider var1);
 
-    default public ITestSupportReceiverSession registerDataReceiver(ITestSupportDataReceiver iTestSupportDataReceiver) {
-    }
+    public ITestSupportReceiverSession registerDataReceiver(ITestSupportDataReceiver var1);
 
-    default public void deRegisterDataReceiver(ITestSupportDataReceiver iTestSupportDataReceiver) {
-    }
+    public void deRegisterDataReceiver(ITestSupportDataReceiver var1);
 }
 

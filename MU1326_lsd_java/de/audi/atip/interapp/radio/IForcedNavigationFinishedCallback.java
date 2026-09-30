@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.radio;
 
 public interface IForcedNavigationFinishedCallback {
-    default public void tvFullscreenEntered() {
-    }
+    public void tvFullscreenEntered();
 }
 

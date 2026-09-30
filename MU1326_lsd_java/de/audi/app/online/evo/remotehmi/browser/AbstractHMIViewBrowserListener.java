@@ -21,14 +21,14 @@ import de.audi.tghu.online.app.remotehmi.RemoteHMIContext;
 public abstract class AbstractHMIViewBrowserListener
 extends AbstractHMIViewListenerEvo
 implements IBrowserCallbackHandler {
-    private static final int LOADING_SPINNER_VISIBLE;
-    private static final int LOADING_SPINNER_HIDDEN;
+    private static final int LOADING_SPINNER_VISIBLE = 1;
+    private static final int LOADING_SPINNER_HIDDEN = 0;
     private ScrollMode scrollMode;
     private String lastUrl = "";
     private long lastUrlTimestamp = -1L;
     protected int pageHeight = this.getDefaultPageHeight();
-    protected static final int VISIBLE_LINES_ON_ONE_SCREEN;
-    protected static final String EMPTY_PAGE_URL;
+    protected static final int VISIBLE_LINES_ON_ONE_SCREEN = 6;
+    protected static final String EMPTY_PAGE_URL = "about:blank";
     protected final RangeModelApp scrollModel;
     protected final ChoiceModelApp browserSyncModel;
     private boolean browserSuspended = false;
@@ -38,16 +38,14 @@ implements IBrowserCallbackHandler {
     public AbstractHMIViewBrowserListener(LogChannel logChannel, ModelGroup modelGroup, OnlineModelBankAccess onlineModelBankAccess, HMIService hMIService, RemoteHMIServiceEvo remoteHMIServiceEvo, RangeModelApp rangeModelApp) {
         super(logChannel, modelGroup, onlineModelBankAccess, hMIService, remoteHMIServiceEvo);
         this.scrollModel = rangeModelApp;
-        this.browserSyncModel = onlineModelBankAccess.getChoiceModel(-1592253696);
+        this.browserSyncModel = onlineModelBankAccess.getChoiceModel(2300065);
     }
 
-    protected abstract int getDefaultPageHeight() {
-    }
+    protected abstract int getDefaultPageHeight();
 
-    @Override
     public void updateViewProperties(HMIProperties hMIProperties, boolean bl, RemoteHMIContext remoteHMIContext) {
         super.updateViewProperties(hMIProperties, bl, remoteHMIContext);
-        this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#updateViewProperties - loadURL :\n(%1)   \nold Url:\n(%2)", (Object)hMIProperties.getString("callUrl"), (Object)this.lastUrl);
+        this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#updateViewProperties - loadURL :\n(%1)   \nold Url:\n(%2)", (Object)hMIProperties.getString("callUrl"), (Object)this.lastUrl);
         boolean bl2 = true;
         if (this.lastUrl != null && this.lastUrl.equals(hMIProperties.getString("callUrl"))) {
             bl2 = false;
@@ -71,34 +69,33 @@ implements IBrowserCallbackHandler {
         this.scrollMode = (ScrollMode)hMIProperties.get("scrollMode");
     }
 
-    @Override
     public boolean scrollDown(int n) {
         IBrowserHandler iBrowserHandler = this.getBrowserHandler();
         if (iBrowserHandler == null) {
             this.logChannel.log(10000, "AbstractHMIViewBrowserListener#scrollDown: browser handler is null");
             return false;
         }
-        this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollDown: scroll mode is %1", (Object)this.scrollMode);
+        this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollDown: scroll mode is %1", (Object)this.scrollMode);
         if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_FREE)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollUp: Scrolling UP %1 Steps", (long)n);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollUp: Scrolling UP %1 Steps", (long)n);
             iBrowserHandler.nextFocus(n);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_PAGE_90_PERCENT)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_PAGE_90_PERCENT %1 (pageheight is %2)", (long)(this.pageHeight * 9 / 10), (long)this.pageHeight);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_PAGE_90_PERCENT %1 (pageheight is %2)", (long)(this.pageHeight * 9 / 10), (long)this.pageHeight);
             iBrowserHandler.scroll(3, this.pageHeight * 9 / 10);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_5_STEPS)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_5_STEPS %1", (long)(this.pageHeight * 5 / 6));
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_5_STEPS %1", (long)(this.pageHeight * 5 / 6));
             iBrowserHandler.scroll(3, this.pageHeight * 5 / 6);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_6_STEPS)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_6_STEPS %1", (long)this.pageHeight);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_6_STEPS %1", (long)this.pageHeight);
             iBrowserHandler.scroll(3, this.pageHeight);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_KEYS)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_KEYS %1", (long)n);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_KEYS %1", (long)n);
             iBrowserHandler.keyboardInput("6");
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_NEXT_LINK)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_NEXT_LINK %1", (long)n);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_NEXT_LINK %1", (long)n);
             iBrowserHandler.nextFocus(n);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_PAGE)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_PAGE %1", (long)n);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_PAGE %1", (long)n);
             iBrowserHandler.scroll(3, this.pageHeight);
         }
         return true;
@@ -115,83 +112,77 @@ implements IBrowserCallbackHandler {
         }
     }
 
-    @Override
     public boolean scrollUp(int n) {
         IBrowserHandler iBrowserHandler = this.getBrowserHandler();
         if (iBrowserHandler == null) {
             this.logChannel.log(10000, "AbstractHMIViewBrowserListener#scrollUp: browser handler is null");
             return false;
         }
-        this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollUp: scroll mode is %1", (Object)this.scrollMode);
+        this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollUp: scroll mode is %1", (Object)this.scrollMode);
         if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_FREE)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollUp: Scrolling UP %1 Steps", (long)n);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollUp: Scrolling UP %1 Steps", (long)n);
             iBrowserHandler.prevFocus(n);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_PAGE_90_PERCENT)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_PAGE_90_PERCENT %1", (long)(this.pageHeight * 9 / 10));
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_PAGE_90_PERCENT %1", (long)(this.pageHeight * 9 / 10));
             iBrowserHandler.scroll(2, this.pageHeight * 9 / 10);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_5_STEPS)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_5_STEPS %1", (long)(this.pageHeight * 5 / 6));
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_5_STEPS %1", (long)(this.pageHeight * 5 / 6));
             iBrowserHandler.scroll(2, this.pageHeight * 5 / 6);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_6_STEPS)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_6_STEPS %1", (long)this.pageHeight);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollDown: SCROLL_MODE_6_STEPS %1", (long)this.pageHeight);
             iBrowserHandler.scroll(3, this.pageHeight);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_KEYS)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_KEYS %1", (long)n);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_KEYS %1", (long)n);
             iBrowserHandler.keyboardInput("4");
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_NEXT_LINK)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_NEXT_LINK %1", (long)n);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_NEXT_LINK %1", (long)n);
             iBrowserHandler.prevFocus(n);
         } else if (this.scrollMode.equals(ScrollMode.SCROLL_MODE_PAGE)) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_PAGE %1", (long)n);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#scrollUp: SCROLL_MODE_PAGE %1", (long)n);
             iBrowserHandler.scroll(2, this.pageHeight);
         }
         return true;
     }
 
-    @Override
     public void indicateBrowserStateNotFound() {
         if (this.remoteHmiService.getCurrentView() == this) {
             RemoteHMIAction remoteHMIAction = this.getAction(402);
             this.invokeAction(remoteHMIAction);
         } else {
-            this.logChannel.log(1078071040, "AbstractHMIViewBrowserListener#indicateBrowserStateNotFound: view not active");
+            this.logChannel.log(1000000, "AbstractHMIViewBrowserListener#indicateBrowserStateNotFound: view not active");
         }
     }
 
-    @Override
     public void indicateBrowserStateComplete() {
         if (this.remoteHmiService.getCurrentView() == this) {
             RemoteHMIAction remoteHMIAction = this.getAction(403);
             this.invokeAction(remoteHMIAction);
         } else {
-            this.logChannel.log(1078071040, "AbstractHMIViewBrowserListener#indicateBrowserStateComplete: view not active");
+            this.logChannel.log(1000000, "AbstractHMIViewBrowserListener#indicateBrowserStateComplete: view not active");
         }
     }
 
-    @Override
     public void indicateBrowserStateTimeout() {
         if (this.remoteHmiService.getCurrentView() == this) {
             RemoteHMIAction remoteHMIAction = this.getAction(402);
             this.invokeAction(remoteHMIAction);
         } else {
-            this.logChannel.log(1078071040, "AbstractHMIViewBrowserListener#indicateBrowserStateTimeout: view not active");
+            this.logChannel.log(1000000, "AbstractHMIViewBrowserListener#indicateBrowserStateTimeout: view not active");
         }
     }
 
-    @Override
     public void javascriptAlert(String string) {
-        this.logChannel.log(1078071040, "AbstractHMIViewBrowserListener#javascriptAlert %1", (Object)string);
+        this.logChannel.log(1000000, "AbstractHMIViewBrowserListener#javascriptAlert %1", (Object)string);
         RemoteHMIAction remoteHMIAction = this.getAction(404);
         remoteHMIAction.getParameters().put("textInput", string);
         this.invokeAction(remoteHMIAction);
     }
 
-    @Override
     public boolean press() {
         if (this.scrollMode == ScrollMode.SCROLL_MODE_KEYS) {
             IBrowserHandler iBrowserHandler = this.getBrowserHandler();
             if (iBrowserHandler != null) {
-                this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#press: SCROLL_MODE_KEYS key press");
+                this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#press: SCROLL_MODE_KEYS key press");
                 iBrowserHandler.keyboardInput("5");
             }
             RemoteHMIAction remoteHMIAction = this.getAction(401);
@@ -204,23 +195,21 @@ implements IBrowserCallbackHandler {
     public void sendToBrowser(String string) {
         IBrowserHandler iBrowserHandler = this.getBrowserHandler();
         if (iBrowserHandler != null) {
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#sendToBrowser: sending text to browser %1", (Object)string);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#sendToBrowser: sending text to browser %1", (Object)string);
             iBrowserHandler.keyboardInput(string);
         }
     }
 
-    @Override
     public void updateScrollbarX(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void updateScrollbarY(int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#updateScrollbarY: pageContentHeight: %1, scrollPositionY: %2, visibleAreaHeight: %3", (long)n, (long)n3, (long)n2);
+        this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#updateScrollbarY: pageContentHeight: %1, scrollPositionY: %2, visibleAreaHeight: %3", (long)n, (long)n3, (long)n2);
         int n5 = n / 60;
         this.scrollModel.setLimits(0, n5, 1);
         if (this.pageHeight != n2) {
             this.pageHeight = n2;
-            this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#updateScrollbarY: setting pageHeight to %1", (long)this.pageHeight);
+            this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#updateScrollbarY: setting pageHeight to %1", (long)this.pageHeight);
         }
         int n6 = n3;
         if (n != 0) {
@@ -232,18 +221,16 @@ implements IBrowserCallbackHandler {
         } else {
             this.scrollModel.setStatus(1);
         }
-        this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#updateScrollbarY - value is: %1, visible status is: %2", (long)n6, (long)this.scrollModel.getStatus());
+        this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#updateScrollbarY - value is: %1, visible status is: %2", (long)n6, (long)this.scrollModel.getStatus());
         this.remoteHmiService.triggerFlushModelGroup("update-browser-scrollbar-y");
     }
 
-    @Override
     public void updateBrowserStateBusy(boolean bl) {
-        this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#updateBrowserState - busy: %1", bl);
+        this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#updateBrowserState - busy: %1", bl);
     }
 
-    @Override
     public void updateBrowserState(int n) {
-        this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#updateBrowserState");
+        this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#updateBrowserState");
         if (n == 0) {
             this.browserSyncModel.setValue(1);
             this.remoteHmiService.triggerFlushModelGroup("update-browser-state");
@@ -253,7 +240,6 @@ implements IBrowserCallbackHandler {
         }
     }
 
-    @Override
     public void onExit() {
         super.onExit();
     }
@@ -263,39 +249,36 @@ implements IBrowserCallbackHandler {
      */
     public void browserLeft() {
         IBrowserHandler iBrowserHandler = this.getBrowserHandler();
-        this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#browserLeft: Called");
+        this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#browserLeft: Called");
         if (iBrowserHandler == null) {
             this.logChannel.log(10000, "AbstractHMIViewBrowserListener#browserLeft: browser not ready [browserHandler[RemoteHMI] == null]!");
             return;
         }
-        iBrowserHandler.loadUrl("about:blank", false);
+        iBrowserHandler.loadUrl(EMPTY_PAGE_URL, false);
         AbstractHMIViewBrowserListener abstractHMIViewBrowserListener = this;
         synchronized (abstractHMIViewBrowserListener) {
-            this.lastUrl = "about:blank";
+            this.lastUrl = EMPTY_PAGE_URL;
         }
     }
 
     public void wakeUp() {
         if (this.browserHandler != null) {
-            this.logChannel.log(1078071040, "AbstractHMIViewBrowserListener#wakeUp: waking up browser");
+            this.logChannel.log(1000000, "AbstractHMIViewBrowserListener#wakeUp: waking up browser");
             this.browserHandler.wakeUp();
         } else {
-            this.logChannel.log(-1601830656, "AbstractHMIViewBrowserListener#wakeUp: no browser handler");
+            this.logChannel.log(100000, "AbstractHMIViewBrowserListener#wakeUp: no browser handler");
         }
     }
 
-    @Override
     public boolean indicateEfiUrl(String string) {
-        this.logChannel.log(-1601830656, "AbstractHMIViewBrowserListener#indicateEfiUrl(%1): forwarding EFI link to RemoteHMI handling", (Object)string);
+        this.logChannel.log(100000, "AbstractHMIViewBrowserListener#indicateEfiUrl(%1): forwarding EFI link to RemoteHMI handling", (Object)string);
         this.remoteHmiService.getEfiComponent().updateEfiLink(string);
         return true;
     }
 
-    @Override
     public void belowLowerThreshold(int n) {
     }
 
-    @Override
     public void exceedsUpperThreshold(int n) {
     }
 
@@ -303,9 +286,8 @@ implements IBrowserCallbackHandler {
         return true;
     }
 
-    @Override
     public void virtualButtonBack() {
-        this.logChannel.log(-2137614336, "AbstractHMIViewBrowserListener#goBack called");
+        this.logChannel.log(10000000, "AbstractHMIViewBrowserListener#goBack called");
     }
 }
 

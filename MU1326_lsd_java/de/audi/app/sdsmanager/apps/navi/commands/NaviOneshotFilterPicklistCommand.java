@@ -24,12 +24,11 @@ extends AbstractSystemCallCommand {
         this.listMode = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
         SDSModelAccess.setVDEOneshotPLType(this.listMode);
         if (!NaviSDSUtils.isOneshotPickListMode(this.listMode)) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled listMode %2, sending ERROR!", (Object)this.getName(), (long)this.listMode);
+            this.logger.log(100000, "%1#execute: Unhandled listMode %2, sending ERROR!", (Object)this.getName(), (long)this.listMode);
             this.sendResult(3001);
             return;
         }
@@ -37,7 +36,7 @@ extends AbstractSystemCallCommand {
         NaviOneshotHandler naviOneshotHandler = this.sdsHandler.getOneshotHandler();
         byte by = naviOneshotHandler.filterPicklist(this.listMode);
         if (by == -1) {
-            this.logger.log(-1601830656, "%1#execute: Filtered picklist length error %2, sending ERROR!", (Object)this.getName(), (long)by);
+            this.logger.log(100000, "%1#execute: Filtered picklist length error %2, sending ERROR!", (Object)this.getName(), (long)by);
             this.sendResult(3001);
         } else {
             this.sendResult(3000);

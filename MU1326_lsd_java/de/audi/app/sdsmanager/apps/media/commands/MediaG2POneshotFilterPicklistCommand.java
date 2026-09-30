@@ -14,9 +14,9 @@ import de.audi.atip.log.LogChannel;
 public class MediaG2POneshotFilterPicklistCommand
 extends AbstractSystemCallCommand {
     private final int slot;
-    private static final int MEDIA_G2P_ARTIST_SLOT;
-    private static final int MEDIA_G2P_ALBUM_SLOT;
-    private static final int MEDIA_G2P_TITLE_SLOT;
+    private static final int MEDIA_G2P_ARTIST_SLOT = 0;
+    private static final int MEDIA_G2P_ALBUM_SLOT = 1;
+    private static final int MEDIA_G2P_TITLE_SLOT = 2;
     private final int[][] mediaG2PSlotToListMode = new int[][]{{0, 5}, {1, 7}, {2, 6}};
     private OneshotHandler oneshotHandler;
 
@@ -26,16 +26,15 @@ extends AbstractSystemCallCommand {
         this.oneshotHandler = mediaSDSHandler.getOneshotHandler();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: slot=%2", (Object)this.getName(), (long)this.slot);
+        this.logger.log(10000000, "%1#execute: slot=%2", (Object)this.getName(), (long)this.slot);
         if (this.slot < 0 || this.slot > 2) {
-            this.logger.log(-2137614336, "%1#execute", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute", (Object)this.getName());
             this.sendResult(20001);
             return;
         }
         if (this.oneshotHandler == null) {
-            this.logger.log(-2137614336, "%1#execute oneshot handler is null!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute oneshot handler is null!", (Object)this.getName());
             this.sendResult(20001);
             return;
         }
@@ -45,7 +44,7 @@ extends AbstractSystemCallCommand {
 
     protected void handleAnswer(int n) {
         if (n == -1) {
-            this.logger.log(-1601830656, "%1#execute: Filtered picklist length error %2, sending ERROR!", (Object)this.getName(), (long)n);
+            this.logger.log(100000, "%1#execute: Filtered picklist length error %2, sending ERROR!", (Object)this.getName(), (long)n);
             this.sendResult(20001);
         } else {
             this.sendResult(20000);

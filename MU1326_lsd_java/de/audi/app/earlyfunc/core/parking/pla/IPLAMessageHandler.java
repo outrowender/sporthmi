@@ -4,24 +4,19 @@
 package de.audi.app.earlyfunc.core.parking.pla;
 
 public interface IPLAMessageHandler {
-    public static final int INVALID_POPUP_ID;
-    public static final int PLA_OPS_STANDALONE_INACTIVE;
-    public static final int PLA_OPS_STANDALONE_LEFT_SEARCH;
-    public static final int PLA_OPS_STANDALONE_RIGHT_SEARCH;
+    public static final int INVALID_POPUP_ID = -1;
+    public static final int PLA_OPS_STANDALONE_INACTIVE = 0;
+    public static final int PLA_OPS_STANDALONE_LEFT_SEARCH = 1;
+    public static final int PLA_OPS_STANDALONE_RIGHT_SEARCH = 2;
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void showMessage(int n) {
-    }
+    public void showMessage(int var1);
 
-    default public void updateMessage() {
-    }
+    public void updateMessage();
 
-    default public void setPlaOpsStandaloneState(int n) {
-    }
+    public void setPlaOpsStandaloneState(int var1);
 }
 

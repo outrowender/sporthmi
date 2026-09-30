@@ -9,25 +9,18 @@ import de.audi.atip.interapp.OnlineService;
 
 public interface RemoteHMIHandler
 extends ISDSApplication {
-    default public void setOnlineService(OnlineService onlineService) {
-    }
+    public void setOnlineService(OnlineService var1);
 
-    default public void unsetOnlineService() {
-    }
+    public void unsetOnlineService();
 
-    default public void setSelectedHelpLine(int n) {
-    }
+    public void setSelectedHelpLine(int var1);
 
-    default public int getSelectedHelpLine() {
-    }
+    public int getSelectedHelpLine();
 
-    default public void setTTSASR(ITTSASR iTTSASR) {
-    }
+    public void setTTSASR(ITTSASR var1);
 
-    default public boolean isGrammarReloadTriggered() {
-    }
+    public boolean isGrammarReloadTriggered();
 
-    default public void resetGrammarReloadTriggered() {
-    }
+    public void resetGrammarReloadTriggered();
 }
 

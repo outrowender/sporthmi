@@ -4,10 +4,10 @@
 package de.audi.atip.interapp.hierarchiclist;
 
 import de.audi.atip.hmi.model.ListRow;
+import de.audi.atip.hmi.model.ListRowComparator;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.DynamicListModelApp;
 import de.audi.atip.hmi.modelaccess.HMIModelApp;
-import de.audi.atip.interapp.hierarchiclist.AbstractHierarchyListManager$DefaultComparator;
 import de.audi.atip.interapp.hierarchiclist.AbstractHierarchyListRow;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractHierarchyListManager {
-    public static final int PREVIOUS_ROWS;
-    public static final int NEXT_ROWS;
-    public static final int UPPER_BORDER_REACHED;
-    public static final int LOWER_BORDER_REACHED;
-    public static final int WAITING_JUMP_TO_FOLLOWUP;
-    public static final int WAITING_STAY_IN_SCREEN;
+    public static final int PREVIOUS_ROWS = -1;
+    public static final int NEXT_ROWS = 1;
+    public static final int UPPER_BORDER_REACHED = 1;
+    public static final int LOWER_BORDER_REACHED = 2;
+    public static final int WAITING_JUMP_TO_FOLLOWUP = 0;
+    public static final int WAITING_STAY_IN_SCREEN = 1;
     private LogChannel logCh;
     private long openedAnchorId;
     private ListRow focusedRow;
@@ -29,7 +29,7 @@ public abstract class AbstractHierarchyListManager {
     private ChoiceModelApp listAvailableModel;
     private ChoiceModelApp waitingModel;
     private int windowId;
-    private AbstractHierarchyListManager$DefaultComparator dfltComparator;
+    private DefaultComparator dfltComparator;
 
     public AbstractHierarchyListManager(LogChannel logChannel, DynamicListModelApp dynamicListModelApp, ChoiceModelApp choiceModelApp, ChoiceModelApp choiceModelApp2, int n) {
         this.logCh = logChannel;
@@ -37,7 +37,7 @@ public abstract class AbstractHierarchyListManager {
         this.listModel = dynamicListModelApp;
         this.listAvailableModel = choiceModelApp;
         this.waitingModel = choiceModelApp2;
-        this.dfltComparator = new AbstractHierarchyListManager$DefaultComparator(null);
+        this.dfltComparator = new DefaultComparator();
         this.initValues();
         this.resetModels();
     }
@@ -93,7 +93,7 @@ public abstract class AbstractHierarchyListManager {
     }
 
     public void itemSelected(HMIModelApp hMIModelApp, ListRow listRow, int n, boolean bl) {
-        this.getLogChannel().log(-2137614336, "AbstractHierarchyListManager#itemSelected(%1)", (Object)listRow);
+        this.getLogChannel().log(10000000, "AbstractHierarchyListManager#itemSelected(%1)", (Object)listRow);
         AbstractHierarchyListRow abstractHierarchyListRow = (AbstractHierarchyListRow)listRow;
         if (abstractHierarchyListRow.isHasChildren()) {
             if (abstractHierarchyListRow.getUid() == this.getOpenedAnchorId()) {
@@ -114,7 +114,7 @@ public abstract class AbstractHierarchyListManager {
     }
 
     protected void signalListCalculating() {
-        this.getLogChannel().log(-2137614336, "AbstractHierarchyListManager#signalListCalculating()");
+        this.getLogChannel().log(10000000, "AbstractHierarchyListManager#signalListCalculating()");
         if (this.listAvailableModel != null) {
             this.listAvailableModel.setValue(-1);
             this.listAvailableModel.setStatus(0);
@@ -122,7 +122,7 @@ public abstract class AbstractHierarchyListManager {
     }
 
     protected void signalListAvailable() {
-        this.getLogChannel().log(-2137614336, "AbstractHierarchyListManager#signalListAvailable()");
+        this.getLogChannel().log(10000000, "AbstractHierarchyListManager#signalListAvailable()");
         if (this.listAvailableModel != null) {
             this.listAvailableModel.setValue(1);
             this.listAvailableModel.setStatus(1);
@@ -130,7 +130,7 @@ public abstract class AbstractHierarchyListManager {
     }
 
     protected final void signalListNotAvailable() {
-        this.getLogChannel().log(-2137614336, "AbstractHierarchyListManager#signalListNotAvailable()");
+        this.getLogChannel().log(10000000, "AbstractHierarchyListManager#signalListNotAvailable()");
         if (this.listAvailableModel != null) {
             this.listAvailableModel.setValue(-1);
             this.listAvailableModel.setStatus(1);
@@ -139,7 +139,7 @@ public abstract class AbstractHierarchyListManager {
 
     protected final void setWaitingModelTo(int n) {
         if (this.waitingModel != null) {
-            this.getLogChannel().log(-2137614336, "AbstractHierarchyListManager#setWaitingModelTo( %1 )", (long)n);
+            this.getLogChannel().log(10000000, "AbstractHierarchyListManager#setWaitingModelTo( %1 )", (long)n);
             this.waitingModel.setValue(n);
         }
     }
@@ -152,27 +152,27 @@ public abstract class AbstractHierarchyListManager {
     }
 
     protected void getRowsAroundFocusedRow(ListRow listRow, List list, int n, int n2) {
-        this.logCh.log(-2137614336, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Find out possible Ids for requesting new window, row: %1", (Object)listRow);
+        this.logCh.log(10000000, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Find out possible Ids for requesting new window, row: %1", (Object)listRow);
         ListRow listRow2 = listRow;
         int n3 = 0;
         while (n3 != n2) {
             ListRow listRow3 = null;
             if (n == -1) {
-                this.logCh.log(-2137614336, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Asking for previous row...");
+                this.logCh.log(10000000, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Asking for previous row...");
                 listRow3 = this.listModel.getPreviousRow(listRow2);
-                this.logCh.log(-2137614336, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Previous row: %1", (Object)listRow3);
+                this.logCh.log(10000000, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Previous row: %1", (Object)listRow3);
             } else {
-                this.logCh.log(-2137614336, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Asking for next row...");
+                this.logCh.log(10000000, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Asking for next row...");
                 listRow3 = this.listModel.getNextRow(listRow2);
-                this.logCh.log(-2137614336, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Next row: %1 ", (Object)listRow3);
+                this.logCh.log(10000000, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Next row: %1 ", (Object)listRow3);
             }
             if (listRow3 != null) {
                 listRow2 = listRow3;
                 list.add(listRow3);
-                this.logCh.log(-2137614336, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Row with ID '%1' found, counter: %2", ((AbstractHierarchyListRow)listRow3).getUid(), (long)(++n3));
+                this.logCh.log(10000000, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - Row with ID '%1' found, counter: %2", ((AbstractHierarchyListRow)listRow3).getUid(), (long)(++n3));
                 continue;
             }
-            this.logCh.log(-2137614336, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - No next rows available!");
+            this.logCh.log(10000000, "AbstractHierarchyListManager#getRowsAroundFocusedRow() - No next rows available!");
             break;
         }
     }
@@ -191,20 +191,20 @@ public abstract class AbstractHierarchyListManager {
             lArray[i2 + 1] = ((AbstractHierarchyListRow)arrayList.get(i2)).getUid();
             buffer.append(lArray[i2 + 1]);
         }
-        this.logCh.log(-2137614336, "AbstractHierarchyListManager#getAnchorIdList() - anchor IDs: %1", (Object)buffer);
+        this.logCh.log(10000000, "AbstractHierarchyListManager#getAnchorIdList() - anchor IDs: %1", (Object)buffer);
         return lArray;
     }
 
     public void requestWindow(ListRow listRow, boolean bl) {
-        this.logCh.log(-2137614336, "AbstractHierarchyListManager#requestWindow()");
+        this.logCh.log(10000000, "AbstractHierarchyListManager#requestWindow()");
         if (listRow == null) {
             ListRow listRow2 = this.getFocusedRow();
             if (listRow2 == null) {
-                this.logCh.log(-2137614336, "AbstractHierarchyListManager#requestWindow() - request initial window");
+                this.logCh.log(10000000, "AbstractHierarchyListManager#requestWindow() - request initial window");
                 this.requestInitialWindow();
                 return;
             }
-            this.logCh.log(-2137614336, "AbstractHierarchyListManager#requestWindow() - request window for row %1", (Object)listRow2);
+            this.logCh.log(10000000, "AbstractHierarchyListManager#requestWindow() - request window for row %1", (Object)listRow2);
             listRow = listRow2;
         }
         if (bl) {
@@ -215,7 +215,7 @@ public abstract class AbstractHierarchyListManager {
     }
 
     protected void removeElements() {
-        this.logCh.log(-2137614336, "AbstractHierarchyListManager#removeElements()");
+        this.logCh.log(10000000, "AbstractHierarchyListManager#removeElements()");
         ListRow[] listRowArray = this.listModel.getRows(this.dfltComparator);
         int n = 0;
         for (int i2 = 0; i2 < listRowArray.length; ++i2) {
@@ -280,7 +280,7 @@ public abstract class AbstractHierarchyListManager {
     }
 
     protected void setListThresholds(DynamicListModelApp dynamicListModelApp, int n, int n2) {
-        this.logCh.log(-2137614336, "AbstractHierarchyListManager#setListThresholds()");
+        this.logCh.log(10000000, "AbstractHierarchyListManager#setListThresholds()");
         int n3 = n / 3;
         int n4 = n - n3;
         if ((n2 & 1) != 0) {
@@ -289,20 +289,26 @@ public abstract class AbstractHierarchyListManager {
         if ((n2 & 2) != 0) {
             n4 = -1;
         }
-        this.logCh.log(-2137614336, "AbstractHierarchyListManager#setListThresholds() - setting thresholds %1, %2", (long)n3, (long)n4);
+        this.logCh.log(10000000, "AbstractHierarchyListManager#setListThresholds() - setting thresholds %1, %2", (long)n3, (long)n4);
         dynamicListModelApp.setThreshold(n3, n4);
     }
 
-    protected abstract long getInitAnchorId() {
-    }
+    protected abstract long getInitAnchorId();
 
-    protected abstract void requestInitialWindow() {
-    }
+    protected abstract void requestInitialWindow();
 
-    protected abstract void requestWindow(long l, long l2) {
-    }
+    protected abstract void requestWindow(long var1, long var3);
 
-    protected abstract void requestWindow(long[] lArray, long l) {
+    protected abstract void requestWindow(long[] var1, long var2);
+
+    private static class DefaultComparator
+    implements ListRowComparator {
+        private DefaultComparator() {
+        }
+
+        public boolean equalsRow(ListRow listRow) {
+            return true;
+        }
     }
 }
 

@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package com.ibm.oti.connection.datagram;
 
@@ -31,34 +28,28 @@ implements Datagram {
         return this.packet;
     }
 
-    @Override
     public String getAddress() {
         return this.address;
     }
 
-    @Override
     public byte[] getData() {
         return this.packet.getData();
     }
 
-    @Override
     public int getLength() {
         return this.packet.getLength();
     }
 
-    @Override
     public int getOffset() {
         return this.packet.getOffset();
     }
 
-    @Override
     public void reset() {
         this.packet.setData(this.packet.getData(), 0, 0);
         this.pos = 0;
         this.changeLength = true;
     }
 
-    @Override
     public void setAddress(Datagram datagram) {
         if (datagram == null) {
             throw new IllegalArgumentException();
@@ -75,8 +66,7 @@ implements Datagram {
         }
     }
 
-    @Override
-    public void setAddress(String string) {
+    public void setAddress(String string) throws IOException {
         if (string == null || !string.startsWith("datagram:")) {
             throw new IllegalArgumentException(Msg.getString("K00a0"));
         }
@@ -96,7 +86,6 @@ implements Datagram {
         this.address = string;
     }
 
-    @Override
     public void setData(byte[] byArray, int n, int n2) {
         if (byArray == null || n < 0 || n2 < 0 || byArray.length - n < n2) {
             throw new IllegalArgumentException();
@@ -110,7 +99,6 @@ implements Datagram {
         this.changeLength = false;
     }
 
-    @Override
     public void setLength(int n) {
         if (n < 0 || n > this.getData().length - this.getOffset()) {
             throw new IllegalArgumentException();
@@ -119,8 +107,7 @@ implements Datagram {
         this.changeLength = false;
     }
 
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         if (n < 0 || n2 < 0 || n > byArray.length || byArray.length - n < n2) {
             throw new IndexOutOfBoundsException();
         }
@@ -135,8 +122,7 @@ implements Datagram {
         }
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         if (this.changeLength ? this.pos == this.getData().length : this.pos - this.getOffset() == this.getLength()) {
             throw new EOFException();
         }
@@ -147,24 +133,20 @@ implements Datagram {
         }
     }
 
-    @Override
-    public void writeBoolean(boolean bl) {
+    public void writeBoolean(boolean bl) throws IOException {
         this.write(bl ? 1 : 0);
     }
 
-    @Override
-    public void writeByte(int n) {
+    public void writeByte(int n) throws IOException {
         this.write(n);
     }
 
-    @Override
-    public void writeChar(int n) {
+    public void writeChar(int n) throws IOException {
         this.write(n >> 8);
         this.write(n);
     }
 
-    @Override
-    public void writeChars(String string) {
+    public void writeChars(String string) throws IOException {
         int n = 0;
         byte[] byArray = new byte[string.length() * 2];
         int n2 = 0;
@@ -176,27 +158,23 @@ implements Datagram {
         this.write(byArray);
     }
 
-    @Override
-    public void writeInt(int n) {
+    public void writeInt(int n) throws IOException {
         this.write(n >> 24);
         this.write(n >> 16);
         this.write(n >> 8);
         this.write(n);
     }
 
-    @Override
-    public void writeLong(long l) {
+    public void writeLong(long l) throws IOException {
         this.writeInt((int)(l >> 32));
         this.writeInt((int)l);
     }
 
-    @Override
-    public void writeShort(int n) {
+    public void writeShort(int n) throws IOException {
         this.writeChar(n);
     }
 
-    @Override
-    public final void writeUTF(String string) {
+    public final void writeUTF(String string) throws IOException {
         int n;
         int n2 = 0;
         int n3 = string.length();
@@ -206,7 +184,7 @@ implements Datagram {
             n2 = n > 0 && n <= 127 ? ++n2 : (n <= 2047 ? (n2 += 2) : (n2 += 3));
             ++n4;
         }
-        if (n2 > -65536) {
+        if (n2 > 65535) {
             throw new UTFDataFormatException(Msg.getString("K0068"));
         }
         byte[] byArray = new byte[n2];
@@ -232,18 +210,15 @@ implements Datagram {
         }
     }
 
-    @Override
-    public void write(byte[] byArray) {
+    public void write(byte[] byArray) throws IOException {
         this.write(byArray, 0, byArray.length);
     }
 
-    @Override
-    public boolean readBoolean() {
+    public boolean readBoolean() throws IOException {
         return this.readUnsignedByte() != 0;
     }
 
-    @Override
-    public byte readByte() {
+    public byte readByte() throws IOException {
         if (this.pos - this.getOffset() == this.getLength()) {
             throw new EOFException();
         }
@@ -251,20 +226,17 @@ implements Datagram {
         return byArray[this.pos++];
     }
 
-    @Override
-    public char readChar() {
+    public char readChar() throws IOException {
         int n = this.readUnsignedByte();
         int n2 = this.readUnsignedByte();
         return (char)((n << 8) + n2);
     }
 
-    @Override
-    public void readFully(byte[] byArray) {
+    public void readFully(byte[] byArray) throws IOException {
         this.readFully(byArray, 0, byArray.length);
     }
 
-    @Override
-    public void readFully(byte[] byArray, int n, int n2) {
+    public void readFully(byte[] byArray, int n, int n2) throws IOException {
         if (n < 0 || n2 < 0 || n > byArray.length || byArray.length - n < n2) {
             throw new IndexOutOfBoundsException();
         }
@@ -276,8 +248,7 @@ implements Datagram {
         this.pos += n2;
     }
 
-    @Override
-    public int readInt() {
+    public int readInt() throws IOException {
         int n = this.readUnsignedByte();
         int n2 = this.readUnsignedByte();
         int n3 = this.readUnsignedByte();
@@ -285,20 +256,17 @@ implements Datagram {
         return (n << 24) + (n2 << 16) + (n3 << 8) + n4;
     }
 
-    @Override
-    public long readLong() {
+    public long readLong() throws IOException {
         int n = this.readInt();
         int n2 = this.readInt();
-        return ((long)n << 32) + ((long)n2 & 0);
+        return ((long)n << 32) + ((long)n2 & 0xFFFFFFFFL);
     }
 
-    @Override
-    public short readShort() {
+    public short readShort() throws IOException {
         return (short)this.readUnsignedShort();
     }
 
-    @Override
-    public final int readUnsignedByte() {
+    public final int readUnsignedByte() throws IOException {
         if (this.pos - this.getOffset() == this.getLength()) {
             throw new EOFException();
         }
@@ -306,23 +274,20 @@ implements Datagram {
         return byArray[this.pos++] & 0xFF;
     }
 
-    @Override
-    public final int readUnsignedShort() {
+    public final int readUnsignedShort() throws IOException {
         int n = this.readUnsignedByte();
         int n2 = this.readUnsignedByte();
         return (n << 8) + n2;
     }
 
-    @Override
-    public final String readUTF() {
+    public final String readUTF() throws IOException {
         int n = this.readUnsignedShort();
         byte[] byArray = new byte[n];
         this.readFully(byArray, 0, n);
         return Util.convertFromUTF8(byArray, 0, n);
     }
 
-    @Override
-    public int skipBytes(int n) {
+    public int skipBytes(int n) throws IOException {
         int n2 = this.getLength() - (this.pos - this.getOffset());
         if (n > n2) {
             n = n2;
@@ -331,28 +296,23 @@ implements Datagram {
         return n;
     }
 
-    @Override
-    public final float readFloat() {
+    public final float readFloat() throws IOException {
         return Float.intBitsToFloat(this.readInt());
     }
 
-    @Override
-    public final double readDouble() {
-        return Double.longBitsToDouble((long)this.readLong());
+    public final double readDouble() throws IOException {
+        return Double.longBitsToDouble(this.readLong());
     }
 
-    @Override
-    public final void writeFloat(float f2) {
+    public final void writeFloat(float f2) throws IOException {
         this.writeInt(Float.floatToIntBits(f2));
     }
 
-    @Override
-    public final void writeDouble(double d2) {
-        this.writeLong(Double.doubleToLongBits((double)d2));
+    public final void writeDouble(double d2) throws IOException {
+        this.writeLong(Double.doubleToLongBits(d2));
     }
 
-    @Override
-    public final void writeBytes(String string) {
+    public final void writeBytes(String string) throws IOException {
         int n = string.length();
         if (this.changeLength ? n > this.getData().length - this.pos : n > this.getLength() - (this.pos - this.getOffset())) {
             throw new EOFException();
@@ -368,8 +328,7 @@ implements Datagram {
         }
     }
 
-    @Override
-    public final String readLine() {
+    public final String readLine() throws IOException {
         StringBuffer stringBuffer = new StringBuffer(80);
         boolean bl = false;
         block5: while (true) {

@@ -9,16 +9,12 @@ import de.audi.atip.mmicombi.exchange.MMICombiResponse;
 import de.audi.atip.mmicombi.exchange.MMICombiStatusUpdate;
 
 public interface IMMICombiListener {
-    default public void processCombiRequest(MMICombiRequest mMICombiRequest) {
-    }
+    public void processCombiRequest(MMICombiRequest var1);
 
-    default public void processCombiResponse(MMICombiResponse mMICombiResponse) {
-    }
+    public void processCombiResponse(MMICombiResponse var1);
 
-    default public void processCombiUpdate(MMICombiStatusUpdate mMICombiStatusUpdate) {
-    }
+    public void processCombiUpdate(MMICombiStatusUpdate var1);
 
-    default public void processCombiPopupStatus(MMICombiPopupStatus mMICombiPopupStatus) {
-    }
+    public void processCombiPopupStatus(MMICombiPopupStatus var1);
 }
 

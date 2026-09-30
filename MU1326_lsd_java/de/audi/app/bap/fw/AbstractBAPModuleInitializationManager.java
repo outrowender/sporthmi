@@ -18,18 +18,18 @@ import java.util.List;
 
 public abstract class AbstractBAPModuleInitializationManager
 implements IBAPModuleInitializationManager {
-    public static final int FSG_OPERATION_STATE_NORMAL_OPERATION;
-    public static final int FSG_OPERATION_STATE_OFF_STAND_BY;
-    public static final int FSG_OPERATION_STATE_INITIALIZING;
-    public static final int FSG_OPERATION_STATE_DEFECT;
-    public static final int INIT_STATE_FAILED;
-    public static final int INIT_STATE_WAITING_FOR_BAP_STACK;
-    public static final int INIT_STATE_WAITING_FOR_APP_SERVICE;
-    public static final int INIT_STATE_WAITING_FOR_HMI_STATE_INITIALIZING_ACKNOWLEDGE;
-    public static final int INIT_STATE_INITIALIZED;
-    public static final int INIT_STATE_WAITING_FOR_HMI_STATE_READY_ACKNOWLEDGE;
-    public static final int INIT_STATE_COMPLETED;
-    protected static final int MAX_INIT_FAILS;
+    public static final int FSG_OPERATION_STATE_NORMAL_OPERATION = 0;
+    public static final int FSG_OPERATION_STATE_OFF_STAND_BY = 1;
+    public static final int FSG_OPERATION_STATE_INITIALIZING = 2;
+    public static final int FSG_OPERATION_STATE_DEFECT = 3;
+    public static final int INIT_STATE_FAILED = -1;
+    public static final int INIT_STATE_WAITING_FOR_BAP_STACK = 0;
+    public static final int INIT_STATE_WAITING_FOR_APP_SERVICE = 1;
+    public static final int INIT_STATE_WAITING_FOR_HMI_STATE_INITIALIZING_ACKNOWLEDGE = 2;
+    public static final int INIT_STATE_INITIALIZED = 9;
+    public static final int INIT_STATE_WAITING_FOR_HMI_STATE_READY_ACKNOWLEDGE = 10;
+    public static final int INIT_STATE_COMPLETED = 11;
+    protected static final int MAX_INIT_FAILS = 5;
     protected final AbstractBAPModule module;
     protected final CommandListManager cmdListManager;
     protected final IDSIBAPController dsiController;
@@ -55,34 +55,29 @@ implements IBAPModuleInitializationManager {
         this.cmdListManager = new CommandListManager("ModuleInitializationCommandListManager", abstractBAPModule.getFrameworkAccess(), abstractBAPModule.getLogChannel(), null, null);
     }
 
-    @Override
     public synchronized void addInitStateListener(IInitStateListener iInitStateListener) {
         this.initStateListeners.add(iInitStateListener);
     }
 
-    @Override
     public int getBapStackState() {
         return this.bapStackState;
     }
 
-    @Override
     public int getHMIState() {
         return this.hmiState;
     }
 
-    @Override
     public int getInitState() {
         return this.initState;
     }
 
-    @Override
     public boolean isAppStateDefect() {
         return AbstractBAPModuleInitializationManager.isAppStateDefect(this.appState);
     }
 
     protected synchronized void setInitState(int n) {
         this.initState = n;
-        this.logChannel.log(-2137614336, "[AbstractBAPModuleInitializationManager#setInitState] initState for lsgID=%1 changed to %2", (Object)this.lsgIDDescription, (Object)LoggingUtils.getInitStateDescription(n));
+        this.logChannel.log(10000000, "[AbstractBAPModuleInitializationManager#setInitState] initState for lsgID=%1 changed to %2", (Object)this.lsgIDDescription, (Object)LoggingUtils.getInitStateDescription(n));
         Iterator iterator = this.initStateListeners.iterator();
         while (iterator.hasNext()) {
             ((IInitStateListener)iterator.next()).updateInitState(this.module, n);
@@ -103,7 +98,7 @@ implements IBAPModuleInitializationManager {
 
     protected synchronized void processAppStateChanged(int n) {
         if (this.appState != n) {
-            this.logChannel.log(1078071040, "[AbstractBAPModuleInitializationManager#processAppStateChanged] appState changed for lsgID %1: %2", (Object)LSGIDs.getDescription(this.module.getLSGID()), (long)n);
+            this.logChannel.log(1000000, "[AbstractBAPModuleInitializationManager#processAppStateChanged] appState changed for lsgID %1: %2", (Object)LSGIDs.getDescription(this.module.getLSGID()), (long)n);
             this.appState = n;
             if (AbstractBAPModuleInitializationManager.isAppStateDefect(this.appState)) {
                 this.updateHMIState();
@@ -116,13 +111,12 @@ implements IBAPModuleInitializationManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyBAPStackStateChanged(int n) {
         boolean bl = false;
         AbstractBAPModuleInitializationManager abstractBAPModuleInitializationManager = this;
         synchronized (abstractBAPModuleInitializationManager) {
             if (this.bapStackState != n) {
-                this.logChannel.log(1078071040, "[AbstractBAPModuleInitializationManager#notifyBAPStackStateChanged] BAPStack state changed for lsgID %1: %2", (Object)this.lsgIDDescription, (long)n);
+                this.logChannel.log(1000000, "[AbstractBAPModuleInitializationManager#notifyBAPStackStateChanged] BAPStack state changed for lsgID %1: %2", (Object)this.lsgIDDescription, (long)n);
                 this.bapStackState = n;
                 if (n == 0) {
                     bl = true;
@@ -136,23 +130,21 @@ implements IBAPModuleInitializationManager {
         }
     }
 
-    @Override
     public synchronized void notifyAppServiceChanged(boolean bl) {
         if (this.appServiceAvailable != bl) {
             if (bl) {
-                this.logChannel.log(1078071040, "[AbstractBAPModuleInitializationManager#notifyAppServiceChanged] appService of module with lsgID=%1 is now available", (Object)this.lsgIDDescription);
+                this.logChannel.log(1000000, "[AbstractBAPModuleInitializationManager#notifyAppServiceChanged] appService of module with lsgID=%1 is now available", (Object)this.lsgIDDescription);
             } else {
-                this.logChannel.log(1078071040, "[AbstractBAPModuleInitializationManager#notifyAppServiceChanged] appService of module with lsgID=%1 not available", (Object)this.lsgIDDescription);
+                this.logChannel.log(1000000, "[AbstractBAPModuleInitializationManager#notifyAppServiceChanged] appService of module with lsgID=%1 not available", (Object)this.lsgIDDescription);
             }
             this.appServiceAvailable = bl;
             this.updateHMIState();
         }
     }
 
-    @Override
     public synchronized void notifyHMIStateAcknowledged() {
         if (this.initState == 2) {
-            this.logChannel.log(-2137614336, "[AbstractBAPModuleInitializationManager#notifyHMIStateAcknowledged] LSG=%1 hmiState is in INITIALIZING state now", (Object)this.lsgIDDescription);
+            this.logChannel.log(10000000, "[AbstractBAPModuleInitializationManager#notifyHMIStateAcknowledged] LSG=%1 hmiState is in INITIALIZING state now", (Object)this.lsgIDDescription);
             this.hmiState = 1;
             if (this.isAppStateDefect()) {
                 this.updateOperationState();
@@ -160,23 +152,22 @@ implements IBAPModuleInitializationManager {
                 this.startInitialization();
             }
         } else if (this.initState == 10) {
-            this.logChannel.log(-2137614336, "[AbstractBAPModuleInitializationManager#notifyHMIStateAcknowledged] LSG=%1 hmiState is in RUNNING state now", (Object)this.lsgIDDescription);
+            this.logChannel.log(10000000, "[AbstractBAPModuleInitializationManager#notifyHMIStateAcknowledged] LSG=%1 hmiState is in RUNNING state now", (Object)this.lsgIDDescription);
             this.hmiState = 2;
             this.setInitState(11);
         } else {
-            this.logChannel.log(-1601830656, "[AbstractBAPModuleInitializationManager#notifyHMIStateAcknowledged] hmi state acknowledge ignored (lsgID=%1, initState=%2)", (Object)this.lsgIDDescription, (long)this.initState);
+            this.logChannel.log(100000, "[AbstractBAPModuleInitializationManager#notifyHMIStateAcknowledged] hmi state acknowledge ignored (lsgID=%1, initState=%2)", (Object)this.lsgIDDescription, (long)this.initState);
         }
     }
 
-    @Override
     public synchronized void notifyDSIAvailable(Class clazz, boolean bl) {
         if (this.dsiBapAvailable != bl) {
             this.dsiBapAvailable = bl;
-            this.logChannel.log(1078071040, "[AbstractBAPModuleInitializationManager#notifyDSIAvailable] dsiAvailability for module %2 changed: %1", this.dsiBapAvailable, (Object)this.lsgIDDescription);
+            this.logChannel.log(1000000, "[AbstractBAPModuleInitializationManager#notifyDSIAvailable] dsiAvailability for module %2 changed: %1", this.dsiBapAvailable, (Object)this.lsgIDDescription);
             this.updateHMIState();
             this.updateOperationState();
         } else {
-            this.logChannel.log(-2137614336, "[AbstractBAPModuleInitializationManager#notifyDSIAvailable] dsiAvailability for module %2 already set: %1", this.dsiBapAvailable, (Object)this.lsgIDDescription);
+            this.logChannel.log(10000000, "[AbstractBAPModuleInitializationManager#notifyDSIAvailable] dsiAvailability for module %2 already set: %1", this.dsiBapAvailable, (Object)this.lsgIDDescription);
         }
     }
 
@@ -186,7 +177,7 @@ implements IBAPModuleInitializationManager {
 
     protected synchronized void updateHMIState(boolean bl) {
         int n;
-        this.logChannel.log(1078071040, "[AbstractBAPModuleInitializationManager#updateHMIState] called for lsgID=%1", (Object)this.lsgIDDescription);
+        this.logChannel.log(1000000, "[AbstractBAPModuleInitializationManager#updateHMIState] called for lsgID=%1", (Object)this.lsgIDDescription);
         if (!this.isDsiBapAvailable()) {
             n = 0;
         } else if (this.bapStackState == 0) {
@@ -206,7 +197,7 @@ implements IBAPModuleInitializationManager {
             return;
         }
         if (this.hmiState != n || bl) {
-            this.logChannel.log(1078071040, "[AbstractBAPModuleInitializationManager#updateHMIState] new hmi state is: %1 (bapStackState=%2, appServiceAvailable=%3 dsiAvailability=%4)", (Object)LoggingUtils.getHMIStateDescription(n), (Object)new Integer(this.bapStackState), (Object)this.appServiceAvailable, (Object)this.dsiBapAvailable);
+            this.logChannel.log(1000000, "[AbstractBAPModuleInitializationManager#updateHMIState] new hmi state is: %1 (bapStackState=%2, appServiceAvailable=%3 dsiAvailability=%4)", (Object)LoggingUtils.getHMIStateDescription(n), (Object)new Integer(this.bapStackState), (Object)this.appServiceAvailable, (Object)this.dsiBapAvailable);
             if (n == 1) {
                 this.setInitState(2);
             } else if (n == 2) {
@@ -216,7 +207,7 @@ implements IBAPModuleInitializationManager {
             }
             this.dsiController.setHMIState(this.module.getLSGID(), n);
         } else {
-            this.logChannel.log(-2137614336, "[AbstractBAPModuleInitializationManager#updateHMIState] hmi state didn't change (hmiState=%1, bapStackState=%2, appServiceAvailable=%3 dsiAvailability=%4)", (Object)new Integer(this.hmiState), (Object)new Integer(this.bapStackState), (Object)this.appServiceAvailable, (Object)this.dsiBapAvailable);
+            this.logChannel.log(10000000, "[AbstractBAPModuleInitializationManager#updateHMIState] hmi state didn't change (hmiState=%1, bapStackState=%2, appServiceAvailable=%3 dsiAvailability=%4)", (Object)new Integer(this.hmiState), (Object)new Integer(this.bapStackState), (Object)this.appServiceAvailable, (Object)this.dsiBapAvailable);
         }
     }
 
@@ -224,26 +215,23 @@ implements IBAPModuleInitializationManager {
         this.hmiState = n;
     }
 
-    @Override
     public synchronized void processMsg(int n) {
         if (n == 5 || n == 6) {
             if (this.module.bapApplication.getFrameworkAccess().getSysApp().isEngineeringDownloadActive()) {
-                this.logChannel.log(-2137614336, "[AbstractBAPModuleInitializationManager#processMsg] SWDL started/running");
+                this.logChannel.log(10000000, "[AbstractBAPModuleInitializationManager#processMsg] SWDL started/running");
                 this.swdlRunning = true;
                 this.updateOperationState();
             }
         } else if ((n == 9 || n == 7) && this.module.bapApplication.getFrameworkAccess().getSysApp().isEngineeringDownloadActive()) {
-            this.logChannel.log(-2137614336, "[AbstractBAPModuleInitializationManager#processMsg] SWDL finished");
+            this.logChannel.log(10000000, "[AbstractBAPModuleInitializationManager#processMsg] SWDL finished");
             this.swdlRunning = false;
             this.updateOperationState();
         }
     }
 
-    protected abstract void startInitialization() {
-    }
+    protected abstract void startInitialization();
 
-    protected abstract void resetInitialization() {
-    }
+    protected abstract void resetInitialization();
 
     private static boolean isAppStateDefect(int n) {
         return n != 0 && n != 1;

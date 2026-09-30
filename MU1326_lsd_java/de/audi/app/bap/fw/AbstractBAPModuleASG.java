@@ -8,11 +8,11 @@ package de.audi.app.bap.fw;
 
 import de.audi.app.bap.AbstractBAPApplication;
 import de.audi.app.bap.fw.AbstractBAPModule;
-import de.audi.app.bap.fw.AbstractBAPModuleASG$1;
 import de.audi.app.bap.fw.AbstractFunctionList;
 import de.audi.app.bap.fw.AbstractFunctionListASG;
 import de.audi.app.bap.fw.BAPFunctionFactoryASG;
 import de.audi.app.bap.fw.CommunicationState;
+import de.audi.app.bap.fw.CommunicationUpListener;
 import de.audi.app.bap.fw.IBAPFunctionFactory;
 import de.audi.app.bap.fw.IBAPFunctionFactoryASG;
 import de.audi.app.bap.fw.IFunctionRegistrationASG;
@@ -40,11 +40,15 @@ implements IInitStateListener {
     protected IBAPIndicationHandlerASG indicationHandler;
     protected IFunctionRegistrationASG functionRegistration;
     protected AbstractBAPDiagnosisConnectorASG diagnosisConnectorAsg;
-    protected final CommunicationState communicationState = new CommunicationState(new AbstractBAPModuleASG$1(this));
+    protected final CommunicationState communicationState = new CommunicationState(new CommunicationUpListener(){
+
+        public void communicationUp() {
+            AbstractBAPModuleASG.this.onCommunicationUp();
+        }
+    });
     protected AbstractFunctionListASG functionListAsg;
 
-    protected abstract void onCommunicationUp() {
-    }
+    protected abstract void onCommunicationUp();
 
     public AbstractBAPModuleASG(int n, AbstractBAPApplication abstractBAPApplication) {
         super(n, abstractBAPApplication);
@@ -54,7 +58,6 @@ implements IInitStateListener {
         super(n, abstractBAPApplication, iBAPFunctionFactoryASG);
     }
 
-    @Override
     public IBAPIndicationListener getIndicationListener() {
         return this.indicationHandler;
     }
@@ -67,7 +70,6 @@ implements IInitStateListener {
         return this.functionRegistration;
     }
 
-    @Override
     protected IBAPFunctionFactory createBAPFunctionFactory() {
         return new BAPFunctionFactoryASG();
     }
@@ -120,7 +122,6 @@ implements IInitStateListener {
         return this.functionRegistration.createAckForPropertyASG(n);
     }
 
-    @Override
     public IBAPFunction getBAPFunction(int n) {
         return this.functionRegistration.getBAPFunction(n);
     }
@@ -141,12 +142,10 @@ implements IInitStateListener {
         return this.functionRegistration.getBAPFunctionArrayASG(n);
     }
 
-    @Override
     public void resetBAPFunctions() {
         this.functionRegistration.resetBAPFunctions();
     }
 
-    @Override
     public void destroy() {
         super.destroy();
         if (this.diagnosisConnectorAsg != null) {
@@ -157,7 +156,6 @@ implements IInitStateListener {
         this.functionRegistration = null;
     }
 
-    @Override
     protected AbstractSwDiagnosis getDiagnosisGateway(boolean bl) {
         if (this.diagnosisConnectorAsg == null && bl) {
             this.initDiagnosisConnector();
@@ -166,16 +164,15 @@ implements IInitStateListener {
     }
 
     public final void setFsgOperationState(int n) {
-        this.logChannel.log(-2137614336, "[AbstractBAPModuleASG#setFsgOperationState] fsgState=%1", (long)n);
+        this.logChannel.log(10000000, "[AbstractBAPModuleASG#setFsgOperationState] fsgState=%1", (long)n);
         this.communicationState.updateFsgOperationnState(n);
     }
 
     protected final void setInitState(int n) {
-        this.logChannel.log(-2137614336, "[AbstractBAPModuleASG#setInitState] initState=%1", (long)n);
+        this.logChannel.log(10000000, "[AbstractBAPModuleASG#setInitState] initState=%1", (long)n);
         this.communicationState.updateInitState(n);
     }
 
-    @Override
     public AbstractFunctionList getFunctionList() {
         return this.functionListAsg;
     }

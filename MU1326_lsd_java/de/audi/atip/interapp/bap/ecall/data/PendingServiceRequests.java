@@ -3,7 +3,6 @@
  */
 package de.audi.atip.interapp.bap.ecall.data;
 
-import de.audi.atip.interapp.bap.ecall.data.PendingServiceRequests$Builder;
 import de.esolutions.fw.util.commons.Buffer;
 
 public final class PendingServiceRequests {
@@ -14,8 +13,8 @@ public final class PendingServiceRequests {
     private final boolean manualEmergencyCallPending;
     private final boolean testModePending;
 
-    public static PendingServiceRequests$Builder builder() {
-        return new PendingServiceRequests$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private PendingServiceRequests(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
@@ -58,7 +57,7 @@ public final class PendingServiceRequests {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         PendingServiceRequests pendingServiceRequests = (PendingServiceRequests)object;
@@ -105,6 +104,49 @@ public final class PendingServiceRequests {
         buffer.append(", testModePending=");
         buffer.append(new StringBuffer().append(this.testModePending).append("]").toString());
         return buffer.toString();
+    }
+
+    public static final class Builder {
+        private boolean breakdownServicePending;
+        private boolean accidentalDamageManagementPending;
+        private boolean infoCallPending;
+        private boolean automaticCrashNotificationPending;
+        private boolean manualEmergencyCallPending;
+        private boolean testModePending;
+
+        public Builder setBreakdownServicePending(boolean bl) {
+            this.breakdownServicePending = bl;
+            return this;
+        }
+
+        public Builder setAccidentalDamageManagementPending(boolean bl) {
+            this.accidentalDamageManagementPending = bl;
+            return this;
+        }
+
+        public Builder setInfoCallPending(boolean bl) {
+            this.infoCallPending = bl;
+            return this;
+        }
+
+        public Builder setAutomaticCrashNotificationPending(boolean bl) {
+            this.automaticCrashNotificationPending = bl;
+            return this;
+        }
+
+        public Builder setManualEmergencyCallPending(boolean bl) {
+            this.manualEmergencyCallPending = bl;
+            return this;
+        }
+
+        public Builder setTestModePending(boolean bl) {
+            this.testModePending = bl;
+            return this;
+        }
+
+        public PendingServiceRequests build() {
+            return new PendingServiceRequests(this.breakdownServicePending, this.accidentalDamageManagementPending, this.infoCallPending, this.automaticCrashNotificationPending, this.manualEmergencyCallPending, this.testModePending);
+        }
     }
 }
 

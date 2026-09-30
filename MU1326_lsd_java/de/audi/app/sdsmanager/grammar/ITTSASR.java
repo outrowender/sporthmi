@@ -10,16 +10,12 @@ import de.audi.tghu.command.CommandListManager;
 
 public interface ITTSASR
 extends TTSASR {
-    default public ITTSASRAppContext createAppGrammarContext() {
-    }
+    public ITTSASRAppContext createAppGrammarContext();
 
-    default public void setCommandListManager(CommandListManager commandListManager) {
-    }
+    public void setCommandListManager(CommandListManager var1);
 
-    default public void setSlotGrammarContext(ITTSASRContext iTTSASRContext) {
-    }
+    public void setSlotGrammarContext(ITTSASRContext var1);
 
-    default public void reloadGrammarContext(ITTSASRContext iTTSASRContext) {
-    }
+    public void reloadGrammarContext(ITTSASRContext var1);
 }
 

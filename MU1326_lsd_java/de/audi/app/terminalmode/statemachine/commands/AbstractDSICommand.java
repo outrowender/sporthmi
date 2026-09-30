@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.atip.utils.Preconditions
  */
 package de.audi.app.terminalmode.statemachine.commands;
 
@@ -18,7 +15,7 @@ extends AbstractCommand {
 
     public AbstractDSICommand(LogChannel logChannel, String string, IContext iContext, IDSISmartphoneManager iDSISmartphoneManager) {
         super(logChannel, string, iContext);
-        this.dsiSmartphoneManager = (IDSISmartphoneManager)Preconditions.checkNotNull((Object)iDSISmartphoneManager);
+        this.dsiSmartphoneManager = Preconditions.checkNotNull(iDSISmartphoneManager);
     }
 }
 

@@ -7,40 +7,28 @@ import de.audi.app.sdsmanager.dictation.dsiadapter.ServiceProviderInfo;
 import java.util.LinkedList;
 
 public interface IDsiDictationAdapterListener {
-    default public void responseSetLanguage(int n) {
-    }
+    public void responseSetLanguage(int var1);
 
-    default public void responseSetFallbackLanguage(int n) {
-    }
+    public void responseSetFallbackLanguage(int var1);
 
-    default public void responseSetUserId(int n) {
-    }
+    public void responseSetUserId(int var1);
 
-    default public void responseActivateDictation(int n) {
-    }
+    public void responseActivateDictation(int var1);
 
-    default public void responseStartDictation(int n) {
-    }
+    public void responseStartDictation(int var1);
 
-    default public void responseProcessVoiceData(int n, LinkedList linkedList) {
-    }
+    public void responseProcessVoiceData(int var1, LinkedList var2);
 
-    default public void responseStopDictation(int n) {
-    }
+    public void responseStopDictation(int var1);
 
-    default public void updateLanguage(String string, String string2) {
-    }
+    public void updateLanguage(String var1, String var2);
 
-    default public void updateUserId(String string) {
-    }
+    public void updateUserId(String var1);
 
-    default public void updateActivationState(int n) {
-    }
+    public void updateActivationState(int var1);
 
-    default public void updateServiceProviderInfo(ServiceProviderInfo serviceProviderInfo) {
-    }
+    public void updateServiceProviderInfo(ServiceProviderInfo var1);
 
-    default public void updateDsiAvailability(boolean bl) {
-    }
+    public void updateDsiAvailability(boolean var1);
 }
 

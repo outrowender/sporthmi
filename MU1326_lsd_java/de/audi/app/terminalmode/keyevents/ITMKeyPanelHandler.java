@@ -4,7 +4,6 @@
 package de.audi.app.terminalmode.keyevents;
 
 public interface ITMKeyPanelHandler {
-    default public void setCharacterRecognition(int n, boolean bl) {
-    }
+    public void setCharacterRecognition(int var1, boolean var2);
 }
 

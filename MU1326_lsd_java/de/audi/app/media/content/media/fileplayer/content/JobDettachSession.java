@@ -11,7 +11,7 @@ import de.audi.atip.log.LogChannel;
 
 public class JobDettachSession
 extends AbstractFilePlayerJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobDettachSession";
     private final IFilePlayerListener listener;
 
     public JobDettachSession(LogChannel logChannel, IFilePlayer iFilePlayer, IFilePlayerListener iFilePlayerListener) {
@@ -19,11 +19,10 @@ extends AbstractFilePlayerJob {
         this.listener = iFilePlayerListener;
     }
 
-    @Override
     public void start() {
         FilePlayerSession filePlayerSession = this.getPlayer().getState().getActiveSession();
         if (filePlayerSession == null) {
-            this.logger.log(1078071040, "[%1.start] No session active.", (Object)"JobDettachSession");
+            this.logger.log(1000000, "[%1.start] No session active.", (Object)LOGCLASS);
             this.getExecutionContext().jobFinished();
             return;
         }
@@ -32,12 +31,12 @@ extends AbstractFilePlayerJob {
             case 2: 
             case 4: 
             case 11: {
-                this.logger.log(1078071040, "[%1.start] Player already stopped.", (Object)"JobDettachSession");
+                this.logger.log(1000000, "[%1.start] Player already stopped.", (Object)LOGCLASS);
                 this.finishJob();
                 break;
             }
             default: {
-                this.logger.log(1078071040, "[%1.start] Stop the player.", (Object)"JobDettachSession");
+                this.logger.log(1000000, "[%1.start] Stop the player.", (Object)LOGCLASS);
                 this.getPlayer().stop();
             }
         }
@@ -51,13 +50,12 @@ extends AbstractFilePlayerJob {
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void onPlaybackStateChanged() {
         if (this.getPlayer().getState().getPlaybackState() != 4) {
-            this.logger.log(1078071040, "[%1.onPlaybackStateChanged] Wait that the player is stopped.", (Object)"JobDettachSession");
+            this.logger.log(1000000, "[%1.onPlaybackStateChanged] Wait that the player is stopped.", (Object)LOGCLASS);
             return;
         }
-        this.logger.log(1078071040, "[%1.onPlaybackStateChanged] Player stopped.", (Object)"JobDettachSession");
+        this.logger.log(1000000, "[%1.onPlaybackStateChanged] Player stopped.", (Object)LOGCLASS);
         this.finishJob();
     }
 }

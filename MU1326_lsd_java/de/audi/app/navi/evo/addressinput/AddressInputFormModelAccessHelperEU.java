@@ -21,19 +21,17 @@ extends AbstractAddressInputFormModelAccessHelper {
         super(navigationEnv);
     }
 
-    @Override
     public void onUpdateLocation(NavigationEnv navigationEnv, LogChannel logChannel, NavLocation navLocation, Map map) {
         this.onUpdateLocation(navigationEnv, logChannel, null, navLocation, map);
     }
 
-    @Override
     public void onUpdateLocation(NavigationEnv navigationEnv, LogChannel logChannel, GuiModelAccessDetailsNavi guiModelAccessDetailsNavi, NavLocation navLocation, Map map) {
         boolean bl = this.getValueFromMap(map, "countryEnabled");
         boolean bl2 = this.getValueFromMap(map, "cityEnabled");
         boolean bl3 = this.getValueFromMap(map, "streetEnabled");
         boolean bl4 = this.getValueFromMap(map, "housenumberEnabled");
         boolean bl5 = this.getValueFromMap(map, "junctionEnabled");
-        navigationEnv.getTextfieldModel(-1843132928).setText1(navLocation.getCountry());
+        navigationEnv.getTextfieldModel(402578).setText1(navLocation.getCountry());
         Buffer buffer = new Buffer();
         IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessor(navLocation);
         if (!iMyLocationAccessor.isTownOrder9()) {
@@ -51,29 +49,29 @@ extends AbstractAddressInputFormModelAccessHelper {
             buffer.append(", ");
             buffer.append(iMyLocationAccessor.getTown());
         }
-        navigationEnv.getTextfieldModel(236914176).setText1(buffer.toString());
-        navigationEnv.getTextfieldModel(-367196672).setText1(LocationFormatter.formatStreetTextfield(navLocation));
-        navigationEnv.getTextfieldModel(572458496).setText1(navLocation.getHousenumber());
-        navigationEnv.getTextfieldModel(354354688).setText1(navLocation.getJunction());
-        navigationEnv.getChoiceModel(639305216).setValue(bl ? 1 : 0);
-        navigationEnv.getChoiceModel(823854592).setValue(bl2 ? 1 : 0);
-        navigationEnv.getChoiceModel(790300160).setValue(bl3 ? 1 : 0);
-        navigationEnv.getChoiceModel(656082432).setValue(bl5 ? 1 : 0);
-        navigationEnv.getChoiceModel(723191296).setValue(bl4 ? 1 : 0);
+        navigationEnv.getTextfieldModel(401166).setText1(buffer.toString());
+        navigationEnv.getTextfieldModel(400874).setText1(LocationFormatter.formatStreetTextfield(navLocation));
+        navigationEnv.getTextfieldModel(401186).setText1(navLocation.getHousenumber());
+        navigationEnv.getTextfieldModel(401173).setText1(navLocation.getJunction());
+        navigationEnv.getChoiceModel(400166).setValue(bl ? 1 : 0);
+        navigationEnv.getChoiceModel(400177).setValue(bl2 ? 1 : 0);
+        navigationEnv.getChoiceModel(400175).setValue(bl3 ? 1 : 0);
+        navigationEnv.getChoiceModel(400167).setValue(bl5 ? 1 : 0);
+        navigationEnv.getChoiceModel(400171).setValue(bl4 ? 1 : 0);
         boolean bl6 = this.getValueFromMap(map, "routeGuidancePossible");
-        navigationEnv.getChoiceModel(874186240).setValue(bl6 ? 1 : 0);
+        navigationEnv.getChoiceModel(400180).setValue(bl6 ? 1 : 0);
         int n = this.findCursorPositionForNavLocation(navLocation, bl4, bl5);
         if (logChannel.isDebug2()) {
-            logChannel.log(14808325, "%1#onUpdateLocation - nextCursorPosition will be = %2", (Object)this.CLASS_NAME, (long)n);
+            logChannel.log(100000000, "%1#onUpdateLocation - nextCursorPosition will be = %2", (Object)this.CLASS_NAME, (long)n);
         }
-        navigationEnv.getMenuModel(-518126080).setFocusedItem(n, FocusAdvice.KEEP_POSITION, -1L);
+        navigationEnv.getMenuModel(401121).setFocusedItem(n, FocusAdvice.KEEP_POSITION, -1L);
         if (null != guiModelAccessDetailsNavi && bl6) {
             guiModelAccessDetailsNavi.onUpdateLocation(navLocation);
         }
         if (navLocation.isPositionValid()) {
-            navigationEnv.getPropertyModel(1847592448).setProperties(160082217, new int[0]);
+            navigationEnv.getPropertyModel(401518).setProperties(698976777, new int[0]);
         } else {
-            navigationEnv.getPropertyModel(1847592448).setProperties(-1, new int[0]);
+            navigationEnv.getPropertyModel(401518).setProperties(-1, new int[0]);
         }
     }
 

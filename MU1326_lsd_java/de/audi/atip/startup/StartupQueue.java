@@ -5,8 +5,7 @@ package de.audi.atip.startup;
 
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.log.LogChannel;
-import de.audi.atip.startup.StartupQueue$1;
-import de.audi.atip.startup.StartupQueue$StartupJob;
+import de.esolutions.fw.util.commons.job.BaseJobFilter;
 import de.esolutions.fw.util.commons.job.Job;
 import de.esolutions.fw.util.commons.job.JobQueue;
 import java.io.PrintStream;
@@ -21,10 +20,16 @@ extends JobQueue {
     StartupQueue(IFrameworkAccess iFrameworkAccess, LogChannel logChannel) {
         super(iFrameworkAccess.getMonotonicTimeSource());
         this.logStartup = logChannel;
-        this.initFilterChain(new StartupQueue$1(this));
+        this.initFilterChain(new BaseJobFilter(){
+
+            public void enqueue(Job job, int n) {
+                ArrayList arrayList = new ArrayList(1);
+                arrayList.add(new StartupJob((Runnable)job.getPayload()));
+                StartupQueue.this.addQueue(arrayList, "stop");
+            }
+        });
     }
 
-    @Override
     public synchronized int length() {
         int n = 0;
         for (int i2 = 0; i2 < this.getJobs().size(); ++i2) {
@@ -33,21 +38,20 @@ extends JobQueue {
         return n;
     }
 
-    @Override
     public synchronized Job getNextJob() {
         while (true) {
             if (!this.isSuspended()) {
                 for (int i2 = 0; i2 < this.getJobs().size(); ++i2) {
                     ArrayList arrayList = (ArrayList)this.getJobs().get(i2);
                     if (arrayList.isEmpty()) continue;
-                    StartupQueue$StartupJob startupQueue$StartupJob = (StartupQueue$StartupJob)arrayList.remove(0);
-                    startupQueue$StartupJob.setQueueName((String)this.names.get(i2));
-                    this.logStartup.log(-2137614336, "getNextJob() returned %1", (Object)startupQueue$StartupJob);
-                    return startupQueue$StartupJob;
+                    StartupJob startupJob = (StartupJob)arrayList.remove(0);
+                    startupJob.setQueueName((String)this.names.get(i2));
+                    this.logStartup.log(10000000, "getNextJob() returned %1", (Object)startupJob);
+                    return startupJob;
                 }
             }
             try {
-                super.wait();
+                this.wait();
                 continue;
             }
             catch (InterruptedException interruptedException) {
@@ -58,7 +62,6 @@ extends JobQueue {
         }
     }
 
-    @Override
     public synchronized Job peek() {
         for (int i2 = 0; i2 < this.getJobs().size(); ++i2) {
             ArrayList arrayList = (ArrayList)this.getJobs().get(i2);
@@ -72,22 +75,21 @@ extends JobQueue {
         int n = this.getJobs().size();
         this.getJobs().add(list);
         this.names.add(string);
-        super.notifyAll();
+        this.notifyAll();
         return n;
     }
 
     synchronized void enqueue(List list, Runnable runnable, boolean bl) {
-        StartupQueue$StartupJob startupQueue$StartupJob = new StartupQueue$StartupJob(runnable);
+        StartupJob startupJob = new StartupJob(runnable);
         if (bl) {
-            list.add(0, startupQueue$StartupJob);
+            list.add(0, startupJob);
         } else {
-            list.add(startupQueue$StartupJob);
+            list.add(startupJob);
         }
-        startupQueue$StartupJob.setPosted(this.getTimeSource().getCurrentTime());
-        super.notifyAll();
+        startupJob.setPosted(this.getTimeSource().getCurrentTime());
+        this.notifyAll();
     }
 
-    @Override
     public synchronized void dump(PrintStream printStream) {
         try {
             printStream.println("StartupQueue contents:");
@@ -101,7 +103,28 @@ extends JobQueue {
             }
         }
         catch (Exception exception) {
-            this.logStartup.log(-1601830656, "Error when dumping startup manager queue!", (Throwable)exception);
+            this.logStartup.log(100000, "Error when dumping startup manager queue!", (Throwable)exception);
+        }
+    }
+
+    private static final class StartupJob
+    extends Job {
+        private String queueName = "";
+
+        StartupJob(Runnable runnable) {
+            super(runnable);
+        }
+
+        public String getQueueName() {
+            return this.queueName;
+        }
+
+        public void setQueueName(String string) {
+            this.queueName = string;
+        }
+
+        public String toString() {
+            return "Job: [" + this.getQueueName() + "] " + this.getPayload();
         }
     }
 }

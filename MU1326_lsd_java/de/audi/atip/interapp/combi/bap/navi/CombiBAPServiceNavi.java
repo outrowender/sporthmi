@@ -15,142 +15,102 @@ import de.audi.atip.interapp.combi.bap.navi.data.EtcStatus;
 
 public interface CombiBAPServiceNavi
 extends CombiBAPService {
-    public static final int MAPSCALE_MAXIMUM;
-    public static final int SUPPORTED_MAP_TYPE_NONE;
-    public static final int SUPPORTED_MAP_TYPE_DESTINATION_MAP;
-    public static final int SUPPORTED_MAP_TYPE_POSITION2D_MAP;
-    public static final int SUPPORTED_MAP_TYPE_POSITION3D_MAP;
-    public static final int SUPPORTED_MAP_TYPE_OVERVIEW_MAP;
-    public static final int SUPPORTED_MAP_VIEW_NONE;
-    public static final int SUPPORTED_MAP_VIEW_STANDARD_MAP;
-    public static final int SUPPORTED_MAP_VIEW_GOOGLE_EARTH_MAP;
-    public static final int SUPPORTED_MAP_VIEW_TRAFFIC_MAP;
-    public static final int SUPPORTED_SUPPLEMENTARY_MAP_VIEW_NONE;
-    public static final int SUPPORTED_SUPPLEMENTARY_MAP_VIEW_INTERSECTION_ZOOM;
-    public static final int SUPPORTED_SUPPLEMENTARY_MAP_VIEW_COMPASS;
-    public static final int SUPPORTED_SUPPLEMENTARY_MAP_VIEW_3_1_BOX;
-    public static final int VOICE_GUIDANCE_ON_FULL_AVAILABLE;
-    public static final int VOICE_GUIDANCE_ON_REDUCED_AVAILABLE;
-    public static final int VOICE_GUIDANCE_ON_TRAFFIC_AVAILABLE;
+    public static final int MAPSCALE_MAXIMUM = 65534;
+    public static final int SUPPORTED_MAP_TYPE_NONE = 0;
+    public static final int SUPPORTED_MAP_TYPE_DESTINATION_MAP = 1;
+    public static final int SUPPORTED_MAP_TYPE_POSITION2D_MAP = 2;
+    public static final int SUPPORTED_MAP_TYPE_POSITION3D_MAP = 4;
+    public static final int SUPPORTED_MAP_TYPE_OVERVIEW_MAP = 8;
+    public static final int SUPPORTED_MAP_VIEW_NONE = 0;
+    public static final int SUPPORTED_MAP_VIEW_STANDARD_MAP = 1;
+    public static final int SUPPORTED_MAP_VIEW_GOOGLE_EARTH_MAP = 2;
+    public static final int SUPPORTED_MAP_VIEW_TRAFFIC_MAP = 4;
+    public static final int SUPPORTED_SUPPLEMENTARY_MAP_VIEW_NONE = 0;
+    public static final int SUPPORTED_SUPPLEMENTARY_MAP_VIEW_INTERSECTION_ZOOM = 1;
+    public static final int SUPPORTED_SUPPLEMENTARY_MAP_VIEW_COMPASS = 2;
+    public static final int SUPPORTED_SUPPLEMENTARY_MAP_VIEW_3_1_BOX = 4;
+    public static final int VOICE_GUIDANCE_ON_FULL_AVAILABLE = 1;
+    public static final int VOICE_GUIDANCE_ON_REDUCED_AVAILABLE = 2;
+    public static final int VOICE_GUIDANCE_ON_TRAFFIC_AVAILABLE = 4;
 
-    default public void showInitializingScreen() {
-    }
+    public void showInitializingScreen();
 
-    default public void hideInitializingScreen() {
-    }
+    public void hideInitializingScreen();
 
-    default public void updateCompassInfo(int n, int n2) {
-    }
+    public void updateCompassInfo(int var1, int var2);
 
-    default public void updateRGStatus(int n) {
-    }
+    public void updateRGStatus(int var1);
 
-    default public void updateActiveRGType(int n) {
-    }
+    public void updateActiveRGType(int var1);
 
-    default public void updateDistanceToNextManeuver(int n, int n2, boolean bl, int n3) {
-    }
+    public void updateDistanceToNextManeuver(int var1, int var2, boolean var3, int var4);
 
-    default public void updateCurrentPositionInfo(String string) {
-    }
+    public void updateCurrentPositionInfo(String var1);
 
-    default public void updateTurnToInfo(String string, String string2) {
-    }
+    public void updateTurnToInfo(String var1, String var2);
 
-    default public void updateDistanceToDestination(int n, int n2, boolean bl) {
-    }
+    public void updateDistanceToDestination(int var1, int var2, boolean var3);
 
-    default public void updateTimeToDestination(int n, int n2, long l) {
-    }
+    public void updateTimeToDestination(int var1, int var2, long var3);
 
-    default public void updateManeuverDescriptor(CombiBAPNaviManeuverDescriptor[] combiBAPNaviManeuverDescriptorArray) {
-    }
+    public void updateManeuverDescriptor(CombiBAPNaviManeuverDescriptor[] var1);
 
-    default public void updateLaneGuidance(boolean bl, CombiBAPNaviLaneGuidanceData[] combiBAPNaviLaneGuidanceDataArray) {
-    }
+    public void updateLaneGuidance(boolean var1, CombiBAPNaviLaneGuidanceData[] var2);
 
-    default public void updateTMCInfoMessages(CombiBAPTMCInfoMessage[] combiBAPTMCInfoMessageArray) {
-    }
+    public void updateTMCInfoMessages(CombiBAPTMCInfoMessage[] var1);
 
-    default public void updateLastDestinationsList(CombiBAPDestinationListEntry[] combiBAPDestinationListEntryArray) {
-    }
+    public void updateLastDestinationsList(CombiBAPDestinationListEntry[] var1);
 
-    default public void updateFavoriteDestinationsList(CombiBAPDestinationListEntry[] combiBAPDestinationListEntryArray) {
-    }
+    public void updateFavoriteDestinationsList(CombiBAPDestinationListEntry[] var1);
 
-    default public void updateHomeAddress(CombiBAPNaviDestination combiBAPNaviDestination) {
-    }
+    public void updateHomeAddress(CombiBAPNaviDestination var1);
 
-    default public void routeGuidanceActDeactResult(int n) {
-    }
+    public void routeGuidanceActDeactResult(int var1);
 
-    default public void repeatLastNavAnnouncementResult(int n) {
-    }
+    public void repeatLastNavAnnouncementResult(int var1);
 
-    default public void updateVoiceGuidanceState(int n) {
-    }
+    public void updateVoiceGuidanceState(int var1);
 
-    default public void updateInfoStates(int n) {
-    }
+    public void updateInfoStates(int var1);
 
-    default public void updateTrafficBlockIndication(int n) {
-    }
+    public void updateTrafficBlockIndication(int var1);
 
-    default public void updateMapColor(int n) {
-    }
+    public void updateMapColor(int var1);
 
-    default public void updateMapType(int n, int n2) {
-    }
+    public void updateMapType(int var1, int var2);
 
-    default public void updateSupportedMapTypes(boolean bl, int n) {
-    }
+    public void updateSupportedMapTypes(boolean var1, int var2);
 
-    default public void updateMapView(int n, int n2) {
-    }
+    public void updateMapView(int var1, int var2);
 
-    default public void updateSupportedMapViews(int n, int n2) {
-    }
+    public void updateSupportedMapViews(int var1, int var2);
 
-    default public void updateMapVisibility(boolean bl, boolean bl2) {
-    }
+    public void updateMapVisibility(boolean var1, boolean var2);
 
-    default public void updateMapOrientation(int n) {
-    }
+    public void updateMapOrientation(int var1);
 
-    default public void updateMapScale(int n, boolean bl, int n2, int n3, boolean bl2) {
-    }
+    public void updateMapScale(int var1, boolean var2, int var3, int var4, boolean var5);
 
-    default public void updateDestinationInfo(CombiBAPDestinationInfo combiBAPDestinationInfo) {
-    }
+    public void updateDestinationInfo(CombiBAPDestinationInfo var1);
 
-    default public void updateAltitude(int n, int n2) {
-    }
+    public void updateAltitude(int var1, int var2);
 
-    default public void updateOnlineNavigationState(int n, int n2, int n3) {
-    }
+    public void updateOnlineNavigationState(int var1, int var2, int var3);
 
-    default public void updateExitView(int n, int n2) {
-    }
+    public void updateExitView(int var1, int var2);
 
-    default public void updateSemidynamicRouteGuidance(CombiBAPSemiDynamicRouteInfo combiBAPSemiDynamicRouteInfo) {
-    }
+    public void updateSemidynamicRouteGuidance(CombiBAPSemiDynamicRouteInfo var1);
 
-    default public void poiSearchResult(int n, int n2) {
-    }
+    public void poiSearchResult(int var1, int var2);
 
-    default public void updatePOIListSize(int n) {
-    }
+    public void updatePOIListSize(int var1);
 
-    default public void updateFSGSetup(int n, boolean bl) {
-    }
+    public void updateFSGSetup(int var1, boolean var2);
 
-    default public void updateMapPresentation(boolean bl, boolean bl2, boolean bl3) {
-    }
+    public void updateMapPresentation(boolean var1, boolean var2, boolean var3);
 
-    default public void updateManeuverState(int n) {
-    }
+    public void updateManeuverState(int var1);
 
-    default public void updateEtcStatus(EtcStatus etcStatus) {
-    }
+    public void updateEtcStatus(EtcStatus var1);
 }
 

@@ -8,22 +8,16 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface IDSIKombiPictureServerController
 extends IDSIController {
-    default public void setKombiHmiReady() {
-    }
+    public void setKombiHmiReady();
 
-    default public void responseCoverArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
-    }
+    public void responseCoverArt(long var1, int var3, int var4, int var5, ResourceLocator var6);
 
-    default public void responseStationArt(long l, int n, int n2, int n3, ResourceLocator resourceLocator) {
-    }
+    public void responseStationArt(long var1, int var3, int var4, int var5, ResourceLocator var6);
 
-    default public void responseActiveCallPicture(int n, int n2, ResourceLocator resourceLocator) {
-    }
+    public void responseActiveCallPicture(int var1, int var2, ResourceLocator var3);
 
-    default public void responseAdbContactPicture(long l, int n, int n2, ResourceLocator resourceLocator) {
-    }
+    public void responseAdbContactPicture(long var1, int var3, int var4, ResourceLocator var5);
 
-    default public void responseInternalAddressID(long l, int n, int n2) {
-    }
+    public void responseInternalAddressID(long var1, int var3, int var4);
 }
 

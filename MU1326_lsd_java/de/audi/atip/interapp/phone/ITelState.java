@@ -4,43 +4,33 @@
 package de.audi.atip.interapp.phone;
 
 public interface ITelState {
-    public static final int ATTR_NO_CHANGE;
-    public static final int ATTR_CONNECTION_STATUS;
-    public static final int ATTR_CALL_STATE;
-    public static final int CONNECTION_TYPE_NONE;
-    public static final int CONNECTION_TYPE_INTERNAL_SIM;
-    public static final int CONNECTION_TYPE_SAP;
-    public static final int CONNECTION_TYPE_HFP;
-    public static final int CONNECTION_TYPE_BTHS;
+    public static final int ATTR_NO_CHANGE = 0;
+    public static final int ATTR_CONNECTION_STATUS = 1;
+    public static final int ATTR_CALL_STATE = 2;
+    public static final int CONNECTION_TYPE_NONE = 0;
+    public static final int CONNECTION_TYPE_INTERNAL_SIM = 1;
+    public static final int CONNECTION_TYPE_SAP = 2;
+    public static final int CONNECTION_TYPE_HFP = 3;
+    public static final int CONNECTION_TYPE_BTHS = 4;
 
-    default public boolean getCallActive() {
-    }
+    public boolean getCallActive();
 
-    default public int getConnectionType() {
-    }
+    public int getConnectionType();
 
-    default public boolean isMultipartyActive() {
-    }
+    public boolean isMultipartyActive();
 
-    default public boolean isHeldCallPresent() {
-    }
+    public boolean isHeldCallPresent();
 
-    default public boolean isActiveCallPresent() {
-    }
+    public boolean isActiveCallPresent();
 
-    default public boolean isOutgoingCallPresent() {
-    }
+    public boolean isOutgoingCallPresent();
 
-    default public boolean isIncomingCallPresent() {
-    }
+    public boolean isIncomingCallPresent();
 
-    default public boolean isCallStateIdle() {
-    }
+    public boolean isCallStateIdle();
 
-    default public boolean isCallStateDisconnecting() {
-    }
+    public boolean isCallStateDisconnecting();
 
-    default public boolean isPhoneReady() {
-    }
+    public boolean isPhoneReady();
 }
 

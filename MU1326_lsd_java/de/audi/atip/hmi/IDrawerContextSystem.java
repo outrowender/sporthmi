@@ -4,6 +4,6 @@
 package de.audi.atip.hmi;
 
 public interface IDrawerContextSystem {
-    public static final int CONTEXT_TEXTEINGABE_TEXTINPUT;
+    public static final int CONTEXT_TEXTEINGABE_TEXTINPUT = -239478427;
 }
 

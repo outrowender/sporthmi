@@ -22,16 +22,15 @@ extends AbstractSystemCallCommand {
         this.folderType = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] folderType=%2!", (Object)this.getName(), (long)this.folderType);
+        this.logger.log(10000000, "[%1#execute] folderType=%2!", (Object)this.getName(), (long)this.folderType);
         if (this.folderType == 17) {
             this.mediaSDSService.playMoreLikeThis();
         } else {
             byte by = SDSUtils.translate(this.folderType, FOLDER_TYPES_TO_BROWSE_TYPES);
-            this.logger.log(-2137614336, "[%1#execute] folderType=%2, browseTypeID=%3!", (Object)this.getName(), (long)this.folderType, (long)by);
+            this.logger.log(10000000, "[%1#execute] folderType=%2, browseTypeID=%3!", (Object)this.getName(), (long)this.folderType, (long)by);
             if (by == -128) {
-                this.logger.log(-1601830656, "[%1#execute] Unexpected folderType %2, sending ERROR!", (Object)this.getName(), (long)this.folderType);
+                this.logger.log(100000, "[%1#execute] Unexpected folderType %2, sending ERROR!", (Object)this.getName(), (long)this.folderType);
                 this.sendResult(20001);
                 return;
             }
@@ -40,7 +39,7 @@ extends AbstractSystemCallCommand {
     }
 
     public void sendStartBrowsingReply(int n) {
-        this.logger.log(-2137614336, "[%1#sendStartBrowsingReply] folderType=%2, state=%3!", (Object)this.getName(), (long)this.folderType, (long)n);
+        this.logger.log(10000000, "[%1#sendStartBrowsingReply] folderType=%2, state=%3!", (Object)this.getName(), (long)this.folderType, (long)n);
         int n2 = 20001;
         if (n == 0) {
             n2 = 20000;
@@ -49,7 +48,7 @@ extends AbstractSystemCallCommand {
     }
 
     public void sendPlayMoreLikeThisReply(int n) {
-        this.logger.log(-2137614336, "[%1#sendPlayMoreLikeThisReply] folderType=%2, state=%3!", (Object)this.getName(), (long)this.folderType, (long)n);
+        this.logger.log(10000000, "[%1#sendPlayMoreLikeThisReply] folderType=%2, state=%3!", (Object)this.getName(), (long)this.folderType, (long)n);
         this.sendResult(this.getPlayMoreLikeThisResultCode(n));
     }
 

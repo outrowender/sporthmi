@@ -27,18 +27,15 @@ extends AbstractCommandRequestPasskeyResponse {
         this.accept = bl;
     }
 
-    @Override
     public void execute() {
         this.requestPasskeyResponse(this.passkey, this.accept);
     }
 
-    @Override
     protected void pairingFinished() {
         this.finishCommand();
         this.commandList.commandFinished();
     }
 
-    @Override
     public void abort() {
         super.abort();
         this.finishCommand();

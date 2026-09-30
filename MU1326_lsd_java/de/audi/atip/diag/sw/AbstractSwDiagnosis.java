@@ -18,25 +18,25 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public abstract class AbstractSwDiagnosis {
-    public static final String COMPLEX_PARSER_EX;
-    public static final String COMMA_EX;
-    public static final String CURLY_BRACKET_OPENED_EX;
-    public static final String CURLY_BRACKET_CLOSED_EX;
-    public static String[][] rplStrsPreParsing;
-    public static String[][] rplStrsPostParsing;
-    protected static final int ID_POWER_MANAGER;
-    protected static final int ID_WAVEPLAYER;
-    protected static final int ID_TOOLS;
-    protected static final int ID_KEYPANEL;
-    protected static final int ID_ATIPAUDIO;
-    protected static final int ID_ATIPAUDIO_SDIS;
-    protected static final int ID_TUNER_SDIS;
-    protected static final int ID_SEARCH;
-    protected static final int ID_SETTINGS;
-    protected static final int ID_SETTINGS_PORSCHE;
-    protected static final int ID_APP_SDS_MANAGER_DICTATION;
-    private static final String CMD_METHOD_PREFIX;
-    private static final String KEY_METHOD_PREFIX;
+    public static final String COMPLEX_PARSER_EX = "#!CPXPRS!#";
+    public static final String COMMA_EX = "#!KMA!#";
+    public static final String CURLY_BRACKET_OPENED_EX = "#!CBRAO!#";
+    public static final String CURLY_BRACKET_CLOSED_EX = "#!CBRAC!#";
+    public static String[][] rplStrsPreParsing = new String[][]{{"\\n", "\n"}, {"\\r", "\r"}, {"\\t", "\t"}, {"\\\"", "\""}, {"\\'", "'"}, {"\\,", "#!KMA!#"}, {"\\{", "#!CBRAO!#"}, {"\\}", "#!CBRAC!#"}, {"#!CPXPRS!#", ""}};
+    public static String[][] rplStrsPostParsing = new String[][]{{"#!KMA!#", ","}, {"#!CPXPRS!#", ""}, {"#!CBRAO!#", "{"}, {"#!CBRAC!#", "}"}};
+    protected static final int ID_POWER_MANAGER = 995;
+    protected static final int ID_WAVEPLAYER = 666;
+    protected static final int ID_TOOLS = 44;
+    protected static final int ID_KEYPANEL = 38;
+    protected static final int ID_ATIPAUDIO = 31012011;
+    protected static final int ID_ATIPAUDIO_SDIS = 29072013;
+    protected static final int ID_TUNER_SDIS = 23412397;
+    protected static final int ID_SEARCH = 14062012;
+    protected static final int ID_SETTINGS = 11;
+    protected static final int ID_SETTINGS_PORSCHE = 323232323;
+    protected static final int ID_APP_SDS_MANAGER_DICTATION = 22072013;
+    private static final String CMD_METHOD_PREFIX = "cmd";
+    private static final String KEY_METHOD_PREFIX = "get";
     protected ComplicatedParser cp = new ComplicatedParser();
     protected OriginalParser op = new OriginalParser();
     private Object modelbank = null;
@@ -44,11 +44,9 @@ public abstract class AbstractSwDiagnosis {
     static /* synthetic */ Class class$de$audi$atip$diag$sw$AbstractSwDiagnosis;
     static /* synthetic */ Class class$java$lang$Object;
 
-    public abstract String getName() {
-    }
+    public abstract String getName();
 
-    public abstract int getId() {
-    }
+    public abstract int getId();
 
     public int getModelBankId() {
         return this.getId();
@@ -82,7 +80,7 @@ public abstract class AbstractSwDiagnosis {
     }
 
     public String[] getKeys() {
-        return this.getKeys(super.getClass());
+        return this.getKeys(this.getClass());
     }
 
     protected String[] getKeys(Class clazz) {
@@ -92,7 +90,7 @@ public abstract class AbstractSwDiagnosis {
             for (int i2 = 0; i2 < methodArray.length; ++i2) {
                 String string = methodArray[i2].getName();
                 int n = methodArray[i2].getModifiers();
-                if (n != 1 || !string.startsWith("get")) continue;
+                if (n != 1 || !string.startsWith(KEY_METHOD_PREFIX)) continue;
                 linkedList.add(this.getKeyName(methodArray[i2]));
             }
         }
@@ -110,7 +108,7 @@ public abstract class AbstractSwDiagnosis {
     }
 
     public String[] getCommands() {
-        return this.getCommands(super.getClass());
+        return this.getCommands(this.getClass());
     }
 
     protected String[] getCommands(Class clazz) {
@@ -119,7 +117,7 @@ public abstract class AbstractSwDiagnosis {
         if (methodArray != null) {
             for (int i2 = 0; i2 < methodArray.length; ++i2) {
                 String string = methodArray[i2].getName();
-                if (!string.startsWith("cmd")) continue;
+                if (!string.startsWith(CMD_METHOD_PREFIX)) continue;
                 linkedList.add(this.getCommandName(methodArray[i2]));
             }
         }
@@ -200,7 +198,7 @@ public abstract class AbstractSwDiagnosis {
         OriginalParser originalParser = this.op;
         if (object2 instanceof String) {
             string2 = (String)object2;
-            originalParser = string2.indexOf("#!CPXPRS!#") != -1 ? this.cp : originalParser;
+            originalParser = string2.indexOf(COMPLEX_PARSER_EX) != -1 ? this.cp : originalParser;
             object2 = this.replaceSequences(string2, rplStrsPreParsing);
             originalParser = ((String)object2).indexOf(123) != -1 ? this.cp : originalParser;
         }
@@ -330,7 +328,7 @@ public abstract class AbstractSwDiagnosis {
         return buffer.toString();
     }
 
-    protected Field getField(Class clazz, String string) {
+    protected Field getField(Class clazz, String string) throws SecurityException, NoSuchFieldException {
         Field field = clazz.getDeclaredField(string);
         field.setAccessible(true);
         return field;
@@ -347,7 +345,7 @@ public abstract class AbstractSwDiagnosis {
         return objectArray;
     }
 
-    protected Field[] getFields(Field[] fieldArray, Object object) {
+    protected Field[] getFields(Field[] fieldArray, Object object) throws IllegalAccessException {
         ArrayList arrayList = new ArrayList(fieldArray.length);
         for (int i2 = 0; i2 < fieldArray.length; ++i2) {
             if (!fieldArray[i2].get(new Object()).equals(object)) continue;
@@ -412,11 +410,6 @@ public abstract class AbstractSwDiagnosis {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        rplStrsPreParsing = new String[][]{{"\\n", "\n"}, {"\\r", "\r"}, {"\\t", "\t"}, {"\\\"", "\""}, {"\\'", "'"}, {"\\,", "#!KMA!#"}, {"\\{", "#!CBRAO!#"}, {"\\}", "#!CBRAC!#"}, {"#!CPXPRS!#", ""}};
-        rplStrsPostParsing = new String[][]{{"#!KMA!#", ","}, {"#!CPXPRS!#", ""}, {"#!CBRAO!#", "{"}, {"#!CBRAC!#", "}"}};
     }
 }
 

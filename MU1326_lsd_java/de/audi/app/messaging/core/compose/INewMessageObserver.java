@@ -4,10 +4,17 @@
 package de.audi.app.messaging.core.compose;
 
 public interface INewMessageObserver {
-    default public void messageCleared() {
-    }
+    public void messageCleared();
 
-    default public void indicateMessageLength(int n, int n2) {
+    public void indicateMessageLength(int var1, int var2);
+
+    public static class DefaultNewMessageObserver
+    implements INewMessageObserver {
+        public void messageCleared() {
+        }
+
+        public void indicateMessageLength(int n, int n2) {
+        }
     }
 }
 

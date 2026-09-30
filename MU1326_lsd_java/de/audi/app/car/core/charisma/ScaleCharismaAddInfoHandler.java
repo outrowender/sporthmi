@@ -10,14 +10,13 @@ import de.audi.atip.log.LogChannel;
 
 public class ScaleCharismaAddInfoHandler
 extends AbstractCharismaAddInfoHandler {
-    private static final int ADDITIONAL_INFO_DISPLAY_NONE;
-    private static int[] g21Mapping;
+    private static final int ADDITIONAL_INFO_DISPLAY_NONE = 0;
+    private static int[] g21Mapping = new int[]{0, 3, 4, 5};
 
     public ScaleCharismaAddInfoHandler(LogChannel logChannel, ChoiceModelApp choiceModelApp, CharismaAddInfoConfig[] charismaAddInfoConfigArray) {
         super(logChannel, choiceModelApp, charismaAddInfoConfigArray);
     }
 
-    @Override
     protected void handleItemSelected(int n) {
         this.setAllInvisible();
         if (n != 0) {
@@ -25,7 +24,6 @@ extends AbstractCharismaAddInfoHandler {
         }
     }
 
-    @Override
     protected void readPersistentAdditionalInfo() {
         int n = 0;
         for (int i2 = 1; i2 < g21Mapping.length; ++i2) {
@@ -39,10 +37,6 @@ extends AbstractCharismaAddInfoHandler {
             this.setVisible(g21Mapping[n], true);
         }
         this.updateChoiceModelValue(n);
-    }
-
-    static {
-        g21Mapping = new int[]{0, 3, 4, 5};
     }
 }
 

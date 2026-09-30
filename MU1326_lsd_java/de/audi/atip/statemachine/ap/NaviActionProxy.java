@@ -7,307 +7,206 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface NaviActionProxy
 extends ActionProxy {
-    default public void enterPOINewAreaSearchScreen(int n) {
-    }
+    public void enterPOINewAreaSearchScreen(int var1);
 
-    default public void leavePOINewAreaSearchScreen(int n) {
-    }
+    public void leavePOINewAreaSearchScreen(int var1);
 
-    default public void onlineSearchEnter(int n, int n2) {
-    }
+    public void onlineSearchEnter(int var1, int var2);
 
-    default public void reenterPOIOnline(int n) {
-    }
+    public void reenterPOIOnline(int var1);
 
-    default public void exitTrufflesRangeSelect(int n) {
-    }
+    public void exitTrufflesRangeSelect(int var1);
 
-    default public void enterShowDetailsOnlinePoiBrowserMain(int n) {
-    }
+    public void enterShowDetailsOnlinePoiBrowserMain(int var1);
 
-    default public void destPOIHKReturn(int n, int n2) {
-    }
+    public void destPOIHKReturn(int var1, int var2);
 
-    default public void exitPoiInput(int n) {
-    }
+    public void exitPoiInput(int var1);
 
-    default public void enterDestIntellidest(int n) {
-    }
+    public void enterDestIntellidest(int var1);
 
-    default public void enterDestLastDest(int n) {
-    }
+    public void enterDestLastDest(int var1);
 
-    default public void destAddressInputHKReturn(int n) {
-    }
+    public void destAddressInputHKReturn(int var1);
 
-    default public void enterDemoModeStartPosIntellidest(int n) {
-    }
+    public void enterDemoModeStartPosIntellidest(int var1);
 
-    default public void exitRouteCriteria(int n) {
-    }
+    public void exitRouteCriteria(int var1);
 
-    default public void exitNavDestForm(int n) {
-    }
+    public void exitNavDestForm(int var1);
 
-    default public void navFuelFeatureActive(int n, int n2) {
-    }
+    public void navFuelFeatureActive(int var1, int var2);
 
-    default public void exitPreviewMapScreen(int n) {
-    }
+    public void exitPreviewMapScreen(int var1);
 
-    default public void exitDestIntellidest(int n) {
-    }
+    public void exitDestIntellidest(int var1);
 
-    default public void onlineSearchExit(int n) {
-    }
+    public void onlineSearchExit(int var1);
 
-    default public void setDestActiveContext(int n, int n2) {
-    }
+    public void setDestActiveContext(int var1, int var2);
 
-    default public void onlinePOIMainExit(int n) {
-    }
+    public void onlinePOIMainExit(int var1);
 
-    default public void onlinePOIMainEnter(int n) {
-    }
+    public void onlinePOIMainEnter(int var1);
 
-    default public void returnFromConnectivity(int n) {
-    }
+    public void returnFromConnectivity(int var1);
 
-    default public void enterGeoCoordInput(int n) {
-    }
+    public void enterGeoCoordInput(int var1);
 
-    default public void enterDestOptSaveAsFavorite(int n) {
-    }
+    public void enterDestOptSaveAsFavorite(int var1);
 
-    default public void enterNavDestForm(int n) {
-    }
+    public void enterNavDestForm(int var1);
 
-    default public void enterTpegPOIRRD(int n) {
-    }
+    public void enterTpegPOIRRD(int var1);
 
-    default public void exitTpegPOIRRD(int n) {
-    }
+    public void exitTpegPOIRRD(int var1);
 
-    default public void enterTpegPOI(int n) {
-    }
+    public void enterTpegPOI(int var1);
 
-    default public void exitTpegPOI(int n) {
-    }
+    public void exitTpegPOI(int var1);
 
-    default public void destTpegPOIHKReturn(int n, int n2) {
-    }
+    public void destTpegPOIHKReturn(int var1, int var2);
 
-    default public void exitPoiWarning(int n) {
-    }
+    public void exitPoiWarning(int var1);
 
-    default public void exitNaviGeneralSettings(int n) {
-    }
+    public void exitNaviGeneralSettings(int var1);
 
-    default public void setMapActiveContext(int n, int n2) {
-    }
+    public void setMapActiveContext(int var1, int var2);
 
-    default public void resetAudiConnectOptionState(int n) {
-    }
+    public void resetAudiConnectOptionState(int var1);
 
-    default public void navigationLeft(int n) {
-    }
+    public void navigationLeft(int var1);
 
-    default public void navigationEntered(int n) {
-    }
+    public void navigationEntered(int var1);
 
-    default public void cancelInput(int n) {
-    }
+    public void cancelInput(int var1);
 
-    default public void enterMapScreen(int n, int n2) {
-    }
+    public void enterMapScreen(int var1, int var2);
 
-    default public void exitMapScreen(int n) {
-    }
+    public void exitMapScreen(int var1);
 
-    default public void enterNavCalcRoute(int n) {
-    }
+    public void enterNavCalcRoute(int var1);
 
-    default public void exitNavCalcRoute(int n) {
-    }
+    public void exitNavCalcRoute(int var1);
 
-    default public void activateMap(int n) {
-    }
+    public void activateMap(int var1);
 
-    default public void activateDestination(int n) {
-    }
+    public void activateDestination(int var1);
 
-    default public void rmlExit(int n) {
-    }
+    public void rmlExit(int var1);
 
-    default public void rmlEnter(int n) {
-    }
+    public void rmlEnter(int var1);
 
-    default public void enterRRD(int n, int n2) {
-    }
+    public void enterRRD(int var1, int var2);
 
-    default public void exitRRD(int n, int n2) {
-    }
+    public void exitRRD(int var1, int var2);
 
-    default public void enterPoiMainScreen(int n) {
-    }
+    public void enterPoiMainScreen(int var1);
 
-    default public void exitPoiMainScreen(int n) {
-    }
+    public void exitPoiMainScreen(int var1);
 
-    default public void setNavigationInputMode(int n, int n2) {
-    }
+    public void setNavigationInputMode(int var1, int var2);
 
-    default public void enterNavFavorites(int n) {
-    }
+    public void enterNavFavorites(int var1);
 
-    default public void exitNavFavorites(int n) {
-    }
+    public void exitNavFavorites(int var1);
 
-    default public void enterPreviewMapScreen(int n, int n2, int n3) {
-    }
+    public void enterPreviewMapScreen(int var1, int var2, int var3);
 
-    default public void enterDestOptMethods(int n) {
-    }
+    public void enterDestOptMethods(int var1);
 
-    default public void exitDestOptMethods(int n) {
-    }
+    public void exitDestOptMethods(int var1);
 
-    default public void enterDestOptContacts(int n) {
-    }
+    public void enterDestOptContacts(int var1);
 
-    default public void exitDestOptContacts(int n) {
-    }
+    public void exitDestOptContacts(int var1);
 
-    default public void exitParkingAtDestinationScreen(int n) {
-    }
+    public void exitParkingAtDestinationScreen(int var1);
 
-    default public void enterAddAddressDestOpt(int n) {
-    }
+    public void enterAddAddressDestOpt(int var1);
 
-    default public void setOnlineMapDataConnectionStatus(int n, boolean bl) {
-    }
+    public void setOnlineMapDataConnectionStatus(int var1, boolean var2);
 
-    default public void onlineMapEntered(int n) {
-    }
+    public void onlineMapEntered(int var1);
 
-    default public void enterMapMainScreen(int n) {
-    }
+    public void enterMapMainScreen(int var1);
 
-    default public void exitMapMainScreen(int n) {
-    }
+    public void exitMapMainScreen(int var1);
 
-    default public void enterMapBriefingScreen(int n) {
-    }
+    public void enterMapBriefingScreen(int var1);
 
-    default public void exitMapBriefingScreen(int n) {
-    }
+    public void exitMapBriefingScreen(int var1);
 
-    default public void confirmRouteCalcFail(int n) {
-    }
+    public void confirmRouteCalcFail(int var1);
 
-    default public void onlineTrafficLicenceActive(int n) {
-    }
+    public void onlineTrafficLicenceActive(int var1);
 
-    default public void enterDestIntellidestDownTransition(int n) {
-    }
+    public void enterDestIntellidestDownTransition(int var1);
 
-    default public void enterNavFavoritesDownTransition(int n) {
-    }
+    public void enterNavFavoritesDownTransition(int var1);
 
-    default public void enterDestSelectionContext(int n, int n2) {
-    }
+    public void enterDestSelectionContext(int var1, int var2);
 
-    default public void setDestOptSelectionBreadcrumb(int n, int n2) {
-    }
+    public void setDestOptSelectionBreadcrumb(int var1, int var2);
 
-    default public void setOnlineMapDataConnectionLicenseStatus(int n, boolean bl, boolean bl2) {
-    }
+    public void setOnlineMapDataConnectionLicenseStatus(int var1, boolean var2, boolean var3);
 
-    default public void returnFromConnectivityError(int n) {
-    }
+    public void returnFromConnectivityError(int var1);
 
-    default public void setNavDestPOIContext(int n, int n2) {
-    }
+    public void setNavDestPOIContext(int var1, int var2);
 
-    default public void setNavAddressFormContext(int n, int n2) {
-    }
+    public void setNavAddressFormContext(int var1, int var2);
 
-    default public void enterTrafficDetails(int n, int n2) {
-    }
+    public void enterTrafficDetails(int var1, int var2);
 
-    default public void exitTrafficDetails(int n) {
-    }
+    public void exitTrafficDetails(int var1);
 
-    default public void setMapShowDetailsContext(int n, int n2) {
-    }
+    public void setMapShowDetailsContext(int var1, int var2);
 
-    default public void setMapPoiStackScreenInactive(int n) {
-    }
+    public void setMapPoiStackScreenInactive(int var1);
 
-    default public void setMapPoiStackScreenActive(int n) {
-    }
+    public void setMapPoiStackScreenActive(int var1);
 
-    default public void setSpellerScreenActive(int n) {
-    }
+    public void setSpellerScreenActive(int var1);
 
-    default public void setSpellerScreenInactive(int n) {
-    }
+    public void setSpellerScreenInactive(int var1);
 
-    default public void enterMapScreenFromLeftDrawer(int n) {
-    }
+    public void enterMapScreenFromLeftDrawer(int var1);
 
-    default public void enterDestOptFavorites(int n) {
-    }
+    public void enterDestOptFavorites(int var1);
 
-    default public void setPoiActiveContext(int n, int n2) {
-    }
+    public void setPoiActiveContext(int var1, int var2);
 
-    default public void weatherMapLicenceActive(int n) {
-    }
+    public void weatherMapLicenceActive(int var1);
 
-    default public void weatherMapLicenceActiveKombi(int n) {
-    }
+    public void weatherMapLicenceActiveKombi(int var1);
 
-    default public void exitAddAddressDestOpt(int n) {
-    }
+    public void exitAddAddressDestOpt(int var1);
 
-    default public void exitDemoModeStartPosIntellidest(int n) {
-    }
+    public void exitDemoModeStartPosIntellidest(int var1);
 
-    default public void exitDestLastDest(int n) {
-    }
+    public void exitDestLastDest(int var1);
 
-    default public void exitDestOptFavorites(int n) {
-    }
+    public void exitDestOptFavorites(int var1);
 
-    default public void destExitStartGuidancePopup(int n) {
-    }
+    public void destExitStartGuidancePopup(int var1);
 
-    default public void enterMapOptionsDrawer(int n) {
-    }
+    public void enterMapOptionsDrawer(int var1);
 
-    default public void exitMapOptionsDrawer(int n) {
-    }
+    public void exitMapOptionsDrawer(int var1);
 
-    default public void setMapLicenceWeatherMapCheckResChoice(int n, int n2) {
-    }
+    public void setMapLicenceWeatherMapCheckResChoice(int var1, int var2);
 
-    default public void enterGoogleSplashScreen(int n) {
-    }
+    public void enterGoogleSplashScreen(int var1);
 
-    default public void exitGoogleSplashScreen(int n) {
-    }
+    public void exitGoogleSplashScreen(int var1);
 
-    default public void enterOperatorCallMapScreen(int n) {
-    }
+    public void enterOperatorCallMapScreen(int var1);
 
-    default public void exitOperatorCallMapScreen(int n) {
-    }
+    public void exitOperatorCallMapScreen(int var1);
 
-    default public void prepareVICS2ShowInMap(int n) {
-    }
+    public void prepareVICS2ShowInMap(int var1);
 
-    default public void closeSelectionDrawer(int n) {
-    }
+    public void closeSelectionDrawer(int var1);
 }
 

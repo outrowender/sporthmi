@@ -15,7 +15,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 class SDSCommandListSupplier
 implements ICommandListSupplier {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "SDSCommandListSupplier";
     private LogChannel logger = Logger.getCommandLog();
     private final ISDSPopupHelper popupHelper;
     private final SDSAdapter sdsAdapter;
@@ -25,38 +25,33 @@ implements ICommandListSupplier {
         this.sdsAdapter = sDSAdapter;
     }
 
-    @Override
     public boolean isApplicationOperable() {
         return this.sdsAdapter != null && this.sdsAdapter.isSDSAndTTSReady();
     }
 
-    @Override
     public boolean isDSIsAvailable(CommandList commandList) {
         return true;
     }
 
-    @Override
     public String getApplicationName(CommandList commandList) {
-        return "SDSCommandListSupplier";
+        return LOGCLASS;
     }
 
-    @Override
     public void showDebugPopup(CommandList commandList, String string, String string2) {
     }
 
-    @Override
     public void handleException(Exception exception) {
-        this.logger.log(10000, "%1#handleException: Exception (%3) for SDS-commandlist: %2", (Object)"SDSCommandListSupplier", (Object)exception.getMessage(), (Object)super.getClass());
+        this.logger.log(10000, "%1#handleException: Exception (%3) for SDS-commandlist: %2", (Object)LOGCLASS, (Object)exception.getMessage(), (Object)exception.getClass());
         SDSUtils.printExceptionStackTrace(exception, "SDSCommandListSupplier#handleException");
         StackTraceElement[] stackTraceElementArray = exception.getStackTrace();
-        String string = new Buffer().append(super.getClass().toString()).append(" in ").append(stackTraceElementArray[0].getClassName()).append('#').append(stackTraceElementArray[0].getMethodName()).toString();
+        String string = new Buffer().append(exception.getClass().toString()).append(" in ").append(stackTraceElementArray[0].getClassName()).append('#').append(stackTraceElementArray[0].getMethodName()).toString();
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
-        this.popupHelper.showDebugPopup(abstractSystemCallCommand == null ? "Command" : abstractSystemCallCommand.getName(), super.getClass().toString(), string);
+        this.popupHelper.showDebugPopup(abstractSystemCallCommand == null ? "Command" : abstractSystemCallCommand.getName(), exception.getClass().toString(), string);
         if (abstractSystemCallCommand instanceof AbstractSystemCallCommand) {
-            this.logger.log(10000, "%2#handleException: command.sendResult() -> %1", (Object)abstractSystemCallCommand, (Object)"SDSCommandListSupplier");
+            this.logger.log(10000, "%2#handleException: command.sendResult() -> %1", (Object)abstractSystemCallCommand, (Object)LOGCLASS);
             abstractSystemCallCommand.sendResult(3001);
         } else {
-            this.logger.log(10000, "%1#handleException: adapter.sendResult()", (Object)"SDSCommandListSupplier");
+            this.logger.log(10000, "%1#handleException: adapter.sendResult()", (Object)LOGCLASS);
             this.sdsAdapter.sendResult(3001);
         }
     }

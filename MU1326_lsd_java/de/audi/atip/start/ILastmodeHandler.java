@@ -10,43 +10,30 @@ import de.audi.atip.start.ILastmodeStorage;
 
 public interface ILastmodeHandler
 extends IAudioFocusManager {
-    default public int getLastmode(int n) {
-    }
+    public int getLastmode(int var1);
 
-    default public int getLastmodeAudio(int n) {
-    }
+    public int getLastmodeAudio(int var1);
 
-    default public void triggerFirstAudio(int n) {
-    }
+    public void triggerFirstAudio(int var1);
 
-    default public void setLastmode(int n, int n2, boolean bl) {
-    }
+    public void setLastmode(int var1, int var2, boolean var3);
 
-    default public void setLastmodeAudio(int n, int n2) {
-    }
+    public void setLastmodeAudio(int var1, int var2);
 
-    default public void setLastmodeAudioStarted(int n, boolean bl) {
-    }
+    public void setLastmodeAudioStarted(int var1, boolean var2);
 
-    default public boolean isValidLastmode(int n) {
-    }
+    public boolean isValidLastmode(int var1);
 
-    default public boolean isValidAudioLastmode(int n) {
-    }
+    public boolean isValidAudioLastmode(int var1);
 
-    default public ILastmodeStorage getLastmodeStorage() {
-    }
+    public ILastmodeStorage getLastmodeStorage();
 
-    default public void registerAudioClient(IAudioFocusClient iAudioFocusClient) {
-    }
+    public void registerAudioClient(IAudioFocusClient var1);
 
-    default public void deregisterAudioClient(IAudioFocusClient iAudioFocusClient) {
-    }
+    public void deregisterAudioClient(IAudioFocusClient var1);
 
-    default public void initAudioFocusManagement() {
-    }
+    public void initAudioFocusManagement();
 
-    default public void setHMIAudioService(HMIAudioService hMIAudioService) {
-    }
+    public void setHMIAudioService(HMIAudioService var1);
 }
 

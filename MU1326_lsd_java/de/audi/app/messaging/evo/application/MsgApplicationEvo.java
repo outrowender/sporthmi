@@ -62,8 +62,8 @@ extends AbstractMsgApplication {
         this.templatePropertyFactoryEvo = new TemplatePropertyFactoryEvo();
         this.setEntryListRowDataFactory(new EntryListRowDataFactoryEvo());
         IHMIServiceApp iHMIServiceApp = this.framework.getHmiServiceApp();
-        BaseListModelApp baseListModelApp = iHMIServiceApp.getBaseListModel(93528320);
-        BaseListModelApp baseListModelApp2 = iHMIServiceApp.getBaseListModel(76751104);
+        BaseListModelApp baseListModelApp = iHMIServiceApp.getBaseListModel(2200325);
+        BaseListModelApp baseListModelApp2 = iHMIServiceApp.getBaseListModel(2200324);
         this.smsAccountListSubMenu = new AccountListSubMenu(messagingBundleContext, baseListModelApp, "SMS", false);
         this.emailAccountListSubMenu = new AccountListSubMenu(messagingBundleContext, baseListModelApp2, "E-Mail", false);
         this.addComponent(this.smsAccountListSubMenu);
@@ -105,7 +105,6 @@ extends AbstractMsgApplication {
         this.addComponent(this.newMessageIndicationManager);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         this.smsAccountListSubMenu.associate(this.getAccountManager().getSmsAccountList());
@@ -122,22 +121,18 @@ extends AbstractMsgApplication {
         this.getMessageReader().setReadableProvider(this.evoReadableProvider);
     }
 
-    @Override
     protected AbstractActionProxyService createActionProxyService(MessagingBundleContext messagingBundleContext) {
         return new EvoActionProxyService(messagingBundleContext);
     }
 
-    @Override
     protected ITextLookup createTextLookup(MessagingBundleContext messagingBundleContext) {
         return new TextLookupEvo(messagingBundleContext);
     }
 
-    @Override
     protected AbstractOrganizerSearch createOrganizerSearch(MessagingBundleContext messagingBundleContext) {
         return new OrganizerSearchEvo(messagingBundleContext, this.getMessagingAdbHandler());
     }
 
-    @Override
     public NewMessageIndicationManager getNewMessageIndicationManager() {
         return this.newMessageIndicationManager;
     }

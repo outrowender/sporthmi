@@ -7,85 +7,58 @@ import de.audi.app.messaging.core.component.IMessagingComponent;
 
 public interface ITextLookup
 extends IMessagingComponent {
-    default public String getForwardPrefix() {
-    }
+    public String getForwardPrefix();
 
-    default public String getReplyPrefix() {
-    }
+    public String getReplyPrefix();
 
-    default public String getTemplate1() {
-    }
+    public String getTemplate1();
 
-    default public String getTemplate2() {
-    }
+    public String getTemplate2();
 
-    default public String getTemplate3() {
-    }
+    public String getTemplate3();
 
-    default public String getTemplate4() {
-    }
+    public String getTemplate4();
 
-    default public String getTemplate5() {
-    }
+    public String getTemplate5();
 
-    default public String getTemplate6() {
-    }
+    public String getTemplate6();
 
-    default public String getTemplate7() {
-    }
+    public String getTemplate7();
 
-    default public String getTemplate8() {
-    }
+    public String getTemplate8();
 
-    default public String getTemplate9() {
-    }
+    public String getTemplate9();
 
-    default public String getTemplate10() {
-    }
+    public String getTemplate10();
 
-    default public String getFolderInbox() {
-    }
+    public String getFolderInbox();
 
-    default public String getFolderDrafts() {
-    }
+    public String getFolderDrafts();
 
-    default public String getFolderSent() {
-    }
+    public String getFolderSent();
 
-    default public String getFolderDeleted() {
-    }
+    public String getFolderDeleted();
 
-    default public String getFolderOutbox() {
-    }
+    public String getFolderOutbox();
 
-    default public String getSubjectNoneSms() {
-    }
+    public String getSubjectNoneSms();
 
-    default public String getSubjectNoneEmail() {
-    }
+    public String getSubjectNoneEmail();
 
-    default public String getRecipientNone() {
-    }
+    public String getRecipientNone();
 
-    default public String getSenderNone() {
-    }
+    public String getSenderNone();
 
-    default public String getTimeToday() {
-    }
+    public String getTimeToday();
 
-    default public String getTimeYesterday() {
-    }
+    public String getTimeYesterday();
 
-    default public String getQuoteSeparator() {
-    }
+    public String getQuoteSeparator();
 
-    default public String getTimeOfDayNone() {
-    }
+    public String getTimeOfDayNone();
 
-    default public String getDateNone() {
-    }
+    public String getDateNone();
 
-    default public String getAttachmentsDiscardedHint() {
-    }
+    public String getAttachmentsDiscardedHint();
 }
 

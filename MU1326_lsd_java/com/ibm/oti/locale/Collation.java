@@ -8,7 +8,6 @@ import com.ibm.oti.util.ExtendedResourceBundle;
 
 public class Collation
 extends ExtendedResourceBundle {
-    @Override
     protected Object[][] getContents() {
         Object[][] objectArray = new Object[][]{{Locale.COLLATION, ""}};
         return objectArray;

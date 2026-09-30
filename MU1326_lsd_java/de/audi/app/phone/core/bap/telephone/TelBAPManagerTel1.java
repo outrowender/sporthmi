@@ -132,7 +132,6 @@ implements CombiBAPServicePhoneListener {
         this.addSubPhoneComponent(this.setAutomaticRedialActiveHandler);
     }
 
-    @Override
     public void init() {
         super.init();
         this.bapCombiDispatcher.start();
@@ -140,7 +139,6 @@ implements CombiBAPServicePhoneListener {
         this.combiBapServicePhoneListenerService.startService();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.bapCombiDispatcher.stop();
@@ -149,121 +147,102 @@ implements CombiBAPServicePhoneListener {
         }
     }
 
-    @Override
     public void dialNumber(String string, String string2) {
-        this.log.log(1078071040, "[TelBAPManagerTel1#dialNumber] telNumber=%1, name=%2", (Object)string, (Object)string2);
+        this.log.log(1000000, "[TelBAPManagerTel1#dialNumber] telNumber=%1, name=%2", (Object)string, (Object)string2);
         this.dialNumberHandler.dialNumber(string, string2);
     }
 
-    @Override
     public void dialNumberFromAdbEntry(String string, String string2, CombiBAPCallStackEntry combiBAPCallStackEntry) {
         if (combiBAPCallStackEntry == null) {
             this.log.log(10000, "TelBAPManagerTel1#dialNumberFromAdbEntry adbEntry is null");
             return;
         }
-        this.log.log(1078071040, new StringBuffer().append("[TelBAPManagerTel1#dialNumberFromAdbEntry] telNumber=%1, name=%2, entryID=").append(combiBAPCallStackEntry.getCallStackEntry().getAdbEntryID()).toString(), (Object)combiBAPCallStackEntry.getCallStackEntry().getClNumber(), (Object)combiBAPCallStackEntry.getCallStackEntry().getClName());
+        this.log.log(1000000, new StringBuffer().append("[TelBAPManagerTel1#dialNumberFromAdbEntry] telNumber=%1, name=%2, entryID=").append(combiBAPCallStackEntry.getCallStackEntry().getAdbEntryID()).toString(), (Object)combiBAPCallStackEntry.getCallStackEntry().getClNumber(), (Object)combiBAPCallStackEntry.getCallStackEntry().getClName());
         this.dialNumberFromAdbEntryHandler.dialNumberFromAdbEntry(string, string2, combiBAPCallStackEntry.getCallStackEntry());
     }
 
-    @Override
     public void dialService(int n) {
-        this.log.log(1078071040, "[TelBAPManagerTel1#dialService] serviceType=%1", (long)n);
+        this.log.log(1000000, "[TelBAPManagerTel1#dialService] serviceType=%1", (long)n);
         this.dialServiceHandler.dialService(n);
     }
 
-    @Override
     public void confirmEmergencyCall(boolean bl) {
-        this.log.log(1078071040, "[TelBAPManagerTel1#confirmEmergencyCall] confirmed", bl);
+        this.log.log(1000000, "[TelBAPManagerTel1#confirmEmergencyCall] confirmed", bl);
         this.confirmEmergencyCallHandler.confirmEmergencyCall(bl);
     }
 
-    @Override
     public void hangupCall(int n) {
-        this.log.log(1078071040, "[TelBAPManagerTel1#hangupCall] index=%1", (long)n);
+        this.log.log(1000000, "[TelBAPManagerTel1#hangupCall] index=%1", (long)n);
         this.hangupCallHandler.hangupCall(n);
     }
 
-    @Override
     public void acceptCall() {
-        this.log.log(1078071040, "[TelBAPManagerTel1#acceptCall]");
+        this.log.log(1000000, "[TelBAPManagerTel1#acceptCall]");
         this.acceptCallHandler.acceptCall();
     }
 
-    @Override
     public void callHold() {
-        this.log.log(1078071040, "[TelBAPManagerTel1#callHold]");
+        this.log.log(1000000, "[TelBAPManagerTel1#callHold]");
         this.callHoldHandler.callHold();
     }
 
-    @Override
     public void resumeCall() {
-        this.log.log(1078071040, "[TelBAPManagerTel1#resumeCall]");
+        this.log.log(1000000, "[TelBAPManagerTel1#resumeCall]");
         this.callResumeHandler.resumeCall();
     }
 
-    @Override
     public void setMicMuteState(boolean bl) {
-        this.log.log(1078071040, "[TelBAPManagerTel1#setMicMuteState] micMuteState=%1", bl);
+        this.log.log(1000000, "[TelBAPManagerTel1#setMicMuteState] micMuteState=%1", bl);
         this.micMuteHandler.setMicMuteState(bl);
     }
 
-    @Override
     public void releaseActiveCallAcceptWaitingCall() {
-        this.log.log(1078071040, "[TelBAPManagerTel1#releaseActiveCallAcceptWaitingCall]");
+        this.log.log(1000000, "[TelBAPManagerTel1#releaseActiveCallAcceptWaitingCall]");
         this.releaseActiveCallAcceptWaitingCallHandler.releaseActiveCallAcceptWaitingCall();
     }
 
-    @Override
     public void swapCalls() {
-        this.log.log(1078071040, "[TelBAPManagerTel1#swapCalls]");
+        this.log.log(1000000, "[TelBAPManagerTel1#swapCalls]");
         this.swapCallsHandler.swapCalls();
     }
 
-    @Override
     public void callHoldAcceptWaitingCall() {
-        this.log.log(1078071040, "[TelBAPManagerTel1#callHoldAcceptWaitingCall]");
+        this.log.log(1000000, "[TelBAPManagerTel1#callHoldAcceptWaitingCall]");
         this.holdActiveCallAcceptWaitingCallHandler.callHoldActiveAcceptWaitingCall();
     }
 
-    @Override
     public void releaseAllCallsAcceptWaitingCall() {
-        this.log.log(-1601830656, "[TelBAPManagerTel1#releaseAllCallsAcceptWaitingCall] not implemented!");
+        this.log.log(100000, "[TelBAPManagerTel1#releaseAllCallsAcceptWaitingCall] not implemented!");
         this.releaseAllCallsAcceptWaitingCallHandler.releaseAllCallsAcceptWaitingCall();
     }
 
-    @Override
     public void setWaitingCallOnHold() {
-        this.log.log(1078071040, "[TelBAPManagerTel1#setWaitingCallOnHold]");
+        this.log.log(1000000, "[TelBAPManagerTel1#setWaitingCallOnHold]");
         this.setWaitingCallOnHoldHandler.setWaitingCallOnHold();
     }
 
-    @Override
     public void joinCalls() {
-        this.log.log(1078071040, "[TelBAPManagerTel1#joinCalls]");
+        this.log.log(1000000, "[TelBAPManagerTel1#joinCalls]");
         this.joinCallsHandler.joinCalls();
     }
 
-    @Override
     public void splitCall(int n) {
-        this.log.log(1078071040, "[TelBAPManagerTel1#splitCall] callId", (long)n);
+        this.log.log(1000000, "[TelBAPManagerTel1#splitCall] callId", (long)n);
         this.splitCallsHandler.splitCall(n);
     }
 
-    @Override
     public void setRingToneMuteState(boolean bl) {
-        this.log.log(1078071040, "[TelBAPManagerTel1#setRingToneMuteState] ringToneMuted=%1", bl);
+        this.log.log(1000000, "[TelBAPManagerTel1#setRingToneMuteState] ringToneMuted=%1", bl);
         this.ringtoneMuteHandler.setRingToneMuteState(bl);
     }
 
-    @Override
     public void setAutomaticRedialActive(boolean bl) {
-        this.log.log(-1601830656, "[TelBAPManagerTel1#setAutomaticRedialActive] automaticRedialActive=%1 - not supported", bl);
+        this.log.log(100000, "[TelBAPManagerTel1#setAutomaticRedialActive] automaticRedialActive=%1 - not supported", bl);
         this.setAutomaticRedialActiveHandler.setAutomaticRedialActive(bl);
     }
 
-    @Override
     public void resetMissedCallsIndicator() {
-        this.log.log(1078071040, "[TelBAPManagerTel1#resetMissedCallsIndicator] ");
+        this.log.log(1000000, "[TelBAPManagerTel1#resetMissedCallsIndicator] ");
         this.resetMissedCallsIndicatorHandler.resetMissedCallsIndicator();
     }
 

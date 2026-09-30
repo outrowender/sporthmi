@@ -9,30 +9,23 @@ import de.audi.atip.interapp.messaging.IMultipleMessageReadoutService;
 
 public interface MessagingSDSHandler
 extends ISDSApplication {
-    public static final byte MSG_READOUT_OFF;
-    public static final byte MSG_READOUT_ON;
-    public static final byte MSG_READOUT_NEW;
-    public static final byte MSG_READOUT_MSG_LIST;
+    public static final byte MSG_READOUT_OFF = 0;
+    public static final byte MSG_READOUT_ON = 1;
+    public static final byte MSG_READOUT_NEW = 2;
+    public static final byte MSG_READOUT_MSG_LIST = 3;
 
-    default public void setMessagingReadoutService(IMessagingReadoutService iMessagingReadoutService) {
-    }
+    public void setMessagingReadoutService(IMessagingReadoutService var1);
 
-    default public IMessagingReadoutService getMessagingReadoutService() {
-    }
+    public IMessagingReadoutService getMessagingReadoutService();
 
-    default public void unsetMessagingReadoutService() {
-    }
+    public void unsetMessagingReadoutService();
 
-    default public int getSelectedIndex() {
-    }
+    public int getSelectedIndex();
 
-    default public void setMultipleMessageReadoutService(IMultipleMessageReadoutService iMultipleMessageReadoutService) {
-    }
+    public void setMultipleMessageReadoutService(IMultipleMessageReadoutService var1);
 
-    default public IMultipleMessageReadoutService getMultipleMessageReadoutService() {
-    }
+    public IMultipleMessageReadoutService getMultipleMessageReadoutService();
 
-    default public void unsetMultipleMessageReadoutService() {
-    }
+    public void unsetMultipleMessageReadoutService();
 }
 

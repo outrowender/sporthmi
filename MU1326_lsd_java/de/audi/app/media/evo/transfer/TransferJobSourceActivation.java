@@ -17,7 +17,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class TransferJobSourceActivation
 extends AbstractTransferJobEvo {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TransferJobSourceActivation";
     private final ITransferItem transferItem;
 
     public TransferJobSourceActivation(LogChannel logChannel, ITransferController iTransferController, EvoTransferController evoTransferController, ITransferItem iTransferItem, EvoTransferState evoTransferState) {
@@ -25,97 +25,77 @@ extends AbstractTransferJobEvo {
         this.transferItem = iTransferItem;
     }
 
-    @Override
     public int getType() {
         return 2;
     }
 
-    @Override
     public String getName() {
         return "SourceActivation";
     }
 
-    @Override
     public void start() {
-        this.logger.log(1078071040, "[%1.start]", (Object)"TransferJobSourceActivation");
+        this.logger.log(1000000, "[%1.start]", (Object)LOGCLASS);
         this.evoTransferController.resetTransferProgressModels();
         this.transferState.reset();
         this.evoTransferController.disableTransfer();
         this.transferController.activate(this.transferItem.getTransferSourceSlot());
     }
 
-    @Override
     public void activationSuccessful(ISourceSlot iSourceSlot, IBrowseListContext iBrowseListContext) {
-        this.logger.log(1078071040, "[%1.activationSuccessful]", (Object)"TransferJobSourceActivation");
+        this.logger.log(1000000, "[%1.activationSuccessful]", (Object)LOGCLASS);
         iBrowseListContext.setBrowseMode(this.transferItem.isPhysicalFolder() ? 0 : 1);
     }
 
-    @Override
     public void activationFailed(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.activationFailed]", (Object)"TransferJobSourceActivation");
+        this.logger.log(1000000, "[%1.activationFailed]", (Object)LOGCLASS);
         this.evoTransferController.abortImport();
     }
 
-    @Override
     public boolean isWaiting() {
         return false;
     }
 
-    @Override
     public void readyForTransfer() {
     }
 
-    @Override
     public void importAborted(long l, long l2, long l3, boolean bl) {
     }
 
-    @Override
     public void importFinished(long l, long l2, long l3, boolean bl) {
     }
 
-    @Override
     public void importWillBeResumed() {
     }
 
-    @Override
     public void importIsSuspended() {
     }
 
-    @Override
     public void deletionFinished() {
     }
 
-    @Override
     public void deletionAborted() {
     }
 
-    @Override
     public void encodingQualityChanged(boolean bl, int n) {
     }
 
-    @Override
     public void startFailed() {
     }
 
-    @Override
     public void browseModeChanged(boolean bl, int n) {
-        this.logger.log(1078071040, "[%1.browseModeChanged]", (Object)"TransferJobSourceActivation");
+        this.logger.log(1000000, "[%1.browseModeChanged]", (Object)LOGCLASS);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void addSelectionResult(boolean bl, int n, int n2, boolean bl2, long l, long l2, long l3, long l4) {
     }
 
-    @Override
     public void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
     }
 
-    @Override
     public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("[name=");

@@ -15,16 +15,15 @@ extends AbstractFunctionSyncEpilogueAction {
         super(combiModuleAudio, logChannel);
     }
 
-    @Override
     protected void execute() {
         FunctionSynchronizationHandlerAudio functionSynchronizationHandlerAudio = (FunctionSynchronizationHandlerAudio)this.module.getFunctionSynchronizationHandler();
         InfoStates_Status infoStates_Status = functionSynchronizationHandlerAudio.getInfoStatesPending();
         if (infoStates_Status != null) {
-            this.logChannel.log(-2137614336, "[EpilogueActionUpdateInfoStates#execute] send pending InfoStates: %1", (Object)infoStates_Status);
+            this.logChannel.log(10000000, "[EpilogueActionUpdateInfoStates#execute] send pending InfoStates: %1", (Object)infoStates_Status);
             ((CombiModuleAudio)this.module).statusREQInfoStates(functionSynchronizationHandlerAudio.getInfoStatesPending());
             functionSynchronizationHandlerAudio.setInfoStatesPending(null);
         } else {
-            this.logChannel.log(-2137614336, "[EpilogueActionUpdateInfoStates#execute] InfoStates status request not pending");
+            this.logChannel.log(10000000, "[EpilogueActionUpdateInfoStates#execute] InfoStates status request not pending");
         }
     }
 }

@@ -16,7 +16,6 @@ extends AbstractReconnectInfo {
         this.bluetoothApplication = iEvoBluetoothApplication;
     }
 
-    @Override
     public void updateReconnectIndicator(org.dsi.ifc.bluetooth.ReconnectInfo reconnectInfo, int n) {
         super.updateReconnectIndicator(reconnectInfo, n);
         if (n != 1 || reconnectInfo == null) {

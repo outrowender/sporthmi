@@ -15,18 +15,17 @@ import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequentViewOptions;
 
 public abstract class AbstractAddInfoTADComponent
 extends AbstractDSICarVehicleStatesAdapter {
-    private static final String LOGCHANNEL_NAME;
-    public static final short CODING_ID;
+    private static final String LOGCHANNEL_NAME = "App.Car.Charisma.HighFrequent";
+    public static final short CODING_ID = 40;
     protected volatile DynamicVehicleInfoHighFrequentViewOptions currentViewOptions;
-    private NavDataListener navData = new NavDataListener(this.getMetricsModel(556599552), this.getMetricsModel(539822336), this.getMetricsModel(573376768), this.getLogChannel());
+    private NavDataListener navData = new NavDataListener(this.getMetricsModel(601377), this.getMetricsModel(601376), this.getMetricsModel(601378), this.getLogChannel());
     private CarServiceProvider navDataServiceProvider;
     static /* synthetic */ Class class$de$audi$atip$interapp$navcar$CarNavListener;
 
     public AbstractAddInfoTADComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Charisma.HighFrequent");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     protected void initBusiness() {
         this.initNaviServiceProvider();
     }
@@ -44,23 +43,19 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
     }
 
-    @Override
     public void deinit() {
         this.deinitNaviServiceProvider();
         super.deinit();
     }
 
-    @Override
     public String getName() {
         return "Car Additional Info TAD";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{12}, new int[]{14})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currentViewOptions == null) {
             return "no view options received yet";
@@ -68,18 +63,15 @@ extends AbstractDSICarVehicleStatesAdapter {
         return this.currentViewOptions.toString();
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAddInfoTADComponent#updateDynamicVehicleInfoHighFrequentViewOptions] vehicleInfoViewOptions='%1', valid='%2' ", (Object)(n == 1 ? this.formatViewOptionsLog(dynamicVehicleInfoHighFrequentViewOptions.toString()) : "invalid VOs"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAddInfoTADComponent#updateDynamicVehicleInfoHighFrequentViewOptions] vehicleInfoViewOptions='%1', valid='%2' ", (Object)(n == 1 ? this.formatViewOptionsLog(dynamicVehicleInfoHighFrequentViewOptions.toString()) : "invalid VOs"), (long)n);
         }
         if (n == 1) {
             this.currentViewOptions = dynamicVehicleInfoHighFrequentViewOptions;
@@ -88,10 +80,9 @@ extends AbstractDSICarVehicleStatesAdapter {
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAddInfoTADComponent#updateDynamicVehicleInfoHighFrequent] dynamicVehicleInfoHighFrequent='%1' , valid='%2' ", (Object)dynamicVehicleInfoHighFrequent, (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAddInfoTADComponent#updateDynamicVehicleInfoHighFrequent] dynamicVehicleInfoHighFrequent='%1' , valid='%2' ", (Object)dynamicVehicleInfoHighFrequent, (long)n);
         }
         if (n == 1) {
             int n2 = dynamicVehicleInfoHighFrequent.getWheelAngle();
@@ -101,13 +92,12 @@ extends AbstractDSICarVehicleStatesAdapter {
             }
             buffer.append(Math.abs(n2));
             buffer.append('\u00b0');
-            this.getLabelModel(-1020655360).setText(buffer.toString());
-            this.getChoiceModel(-2094135040).setValue(n2);
+            this.getLabelModel(600771).setText(buffer.toString());
+            this.getChoiceModel(601731).setValue(n2);
         }
     }
 
-    protected abstract void updateMenuEntryVisibility(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(DynamicVehicleInfoHighFrequentViewOptions var1);
 
     static /* synthetic */ Class class$(String string) {
         try {

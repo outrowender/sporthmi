@@ -13,23 +13,21 @@ import de.audi.atip.log.LogChannel;
 
 public class TransferJobSourceActivationWithBrowser
 extends TransferJobSourceActivation {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TransferJobSourceActivationWithBrowser";
 
     public TransferJobSourceActivationWithBrowser(LogChannel logChannel, ITransferController iTransferController, EvoTransferController evoTransferController, ITransferItem iTransferItem, EvoTransferState evoTransferState) {
         super(logChannel, iTransferController, evoTransferController, iTransferItem, evoTransferState);
     }
 
-    @Override
     public void browseModeChanged(boolean bl, int n) {
-        this.logger.log(1078071040, "[%1.browseModeChanged]", (Object)"TransferJobSourceActivationWithBrowser");
+        this.logger.log(1000000, "[%1.browseModeChanged]", (Object)LOGCLASS);
         if (1 != n || bl) {
             this.getExecutionContext().jobFinished();
         }
     }
 
-    @Override
     public void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-        this.logger.log(1078071040, "[%1.browseFolderChanged]", (Object)"TransferJobSourceActivationWithBrowser");
+        this.logger.log(1000000, "[%1.browseFolderChanged]", (Object)LOGCLASS);
         if (bl) {
             this.getExecutionContext().jobFinished();
             return;
@@ -38,9 +36,8 @@ extends TransferJobSourceActivation {
         this.evoTransferController.getBrowserListContext().requestListByIndex(0, n, this.evoTransferController.getClientId());
     }
 
-    @Override
     public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-        this.logger.log(1078071040, "[%1.responseList]", (Object)"TransferJobSourceActivationWithBrowser");
+        this.logger.log(1000000, "[%1.responseList]", (Object)LOGCLASS);
         if (bl) {
             this.getExecutionContext().jobFinished();
             return;

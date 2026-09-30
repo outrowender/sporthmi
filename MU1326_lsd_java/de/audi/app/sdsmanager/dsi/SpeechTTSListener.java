@@ -32,36 +32,31 @@ TTSToneListener {
         this.sdsAppFactory = sDSAppFactory;
         this.sdsHandlerService = sDSHandlerService;
         this.sdsTimeoutHandler = sDSTimeoutHandler;
-        this.lc.log(-2137614336, "SpeechTTSListener initialized.");
+        this.lc.log(10000000, "SpeechTTSListener initialized.");
     }
 
     public void stop() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#stop] called");
+        this.lc.log(10000000, "[SpeechTTSListener#stop] called");
     }
 
-    @Override
     public void audioAvailable(boolean bl) {
-        this.lc.log(-2137614336, "[SpeechTTSListener#audioAvailable] called: flag=%1", bl);
+        this.lc.log(10000000, "[SpeechTTSListener#audioAvailable] called: flag=%1", bl);
     }
 
-    @Override
     public void sessionResumed() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#sessionResumed] called");
+        this.lc.log(10000000, "[SpeechTTSListener#sessionResumed] called");
     }
 
-    @Override
     public void sessionStarted() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#sessionStarted] called");
+        this.lc.log(10000000, "[SpeechTTSListener#sessionStarted] called");
     }
 
-    @Override
     public void sessionStopped() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#sessionStopped] called");
+        this.lc.log(10000000, "[SpeechTTSListener#sessionStopped] called");
     }
 
-    @Override
     public void speakingAborted() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#speakingAborted] called");
+        this.lc.log(10000000, "[SpeechTTSListener#speakingAborted] called");
         this.sdsTimeoutHandler.cancelTTSTimer();
         this.ttsHandler.decrementTTSPromptRequestsCounter("[SpeechTTSListener#speakingAborted]");
         boolean bl = this.ttsHandler.isTTSAborting();
@@ -74,11 +69,10 @@ TTSToneListener {
         }
     }
 
-    @Override
     public void speakingFailed() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#speakingFailed] called");
+        this.lc.log(10000000, "[SpeechTTSListener#speakingFailed] called");
         if (this.ttsHandler.isTTSAborting()) {
-            this.lc.log(-2137614336, "[SpeechTTSListener#speakingFailed] TTS is aborting, calling speakingAborted!");
+            this.lc.log(10000000, "[SpeechTTSListener#speakingFailed] TTS is aborting, calling speakingAborted!");
             this.speakingAborted();
             return;
         }
@@ -88,20 +82,19 @@ TTSToneListener {
             return;
         }
         if (this.ttsHandler.isIgnoreSpeakingFailed()) {
-            this.lc.log(-2137614336, "[SpeechTTSListener#speakingFailed] Will be ignored and follow up event sent!");
+            this.lc.log(10000000, "[SpeechTTSListener#speakingFailed] Will be ignored and follow up event sent!");
             this.sdsHandlerService.sendSpeechSMEvent(2008, false, false);
             this.ttsHandler.setIgnoreSpeakingFailed(false);
             return;
         }
-        this.lc.log(-2137614336, "[SpeechTTSListener#speakingFailed] Aborting session!");
+        this.lc.log(10000000, "[SpeechTTSListener#speakingFailed] Aborting session!");
         this.sdsHandlerService.abortSDSSession(true);
     }
 
-    @Override
     public void speakingFinished() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#speakingFinished] called");
+        this.lc.log(10000000, "[SpeechTTSListener#speakingFinished] called");
         if (this.ttsHandler.isTTSAborting()) {
-            this.lc.log(-2137614336, "[SpeechTTSListener#speakingFinished] ttsAbort called => NOP!");
+            this.lc.log(10000000, "[SpeechTTSListener#speakingFinished] ttsAbort called => NOP!");
             this.speakingAborted();
             return;
         }
@@ -119,14 +112,12 @@ TTSToneListener {
         this.sdsHandlerService.sendSpeechSMEvent(2000, false, false);
     }
 
-    @Override
     public void sessionPaused() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#sessionPaused] called!");
+        this.lc.log(10000000, "[SpeechTTSListener#sessionPaused] called!");
     }
 
-    @Override
     public void speakingStarted() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#speakingStarted] called!");
+        this.lc.log(10000000, "[SpeechTTSListener#speakingStarted] called!");
         this.sdsTimeoutHandler.cancelTTSTimer();
         this.systemVBIHandler.sendTTSFinishAtPromptRequestForLastQueuedPrompt(this.ttsHandler.getPromptType());
         if (SDSModelAccess.getSDSPromptTypeUnchanging() == 0) {
@@ -137,17 +128,14 @@ TTSToneListener {
         }
     }
 
-    @Override
     public void speakingPaused() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#speakingPaused] called!");
+        this.lc.log(10000000, "[SpeechTTSListener#speakingPaused] called!");
     }
 
-    @Override
     public void toneStarted() {
-        this.lc.log(-2137614336, "[SpeechTTSListener#toneStarted] called!");
+        this.lc.log(10000000, "[SpeechTTSListener#toneStarted] called!");
     }
 
-    @Override
     public void toneFinished() {
         try {
             ((SystemPlayBeepCommand)SDSUtils.getActiveSystemCall()).toneFinished();

@@ -27,12 +27,12 @@ implements ITruffleSearchHandler {
     }
 
     public void init() {
-        this.logChannel.log(1078071040, "OnlineSearchImpl#init: Called");
+        this.logChannel.log(1000000, "OnlineSearchImpl#init: Called");
         this.startDSI();
     }
 
     public void deinit() {
-        this.logChannel.log(1078071040, "OnlineSearchImpl#deinit: Called", (Object)LOGCLASS);
+        this.logChannel.log(1000000, "OnlineSearchImpl#deinit: Called", (Object)LOGCLASS);
         this.stopDSI();
     }
 
@@ -40,7 +40,6 @@ implements ITruffleSearchHandler {
         this.searchListener = iSearchListener;
     }
 
-    @Override
     public void performQuery(String string, IGridList iGridList, ISearchListener iSearchListener) {
         this.searchListener = iSearchListener;
         this.currentSuggestion = null;
@@ -52,30 +51,29 @@ implements ITruffleSearchHandler {
             iGridList.restoreInitialGridVisibility();
         }
         iGridList.correctCurrentCursor();
-        this.logChannel.log(-2137614336, "OnlineSearchImpl#performQuery %1", (Object)string);
+        this.logChannel.log(10000000, "OnlineSearchImpl#performQuery %1", (Object)string);
     }
 
     public void requestSuggestionResult(int n, Suggestion[] suggestionArray) {
-        this.logChannel.log(1078071040, "OnlineSearchImpl#requestSuggestionResult # result=%1 suggestion length = %2", (long)n, (long)suggestionArray.length);
+        this.logChannel.log(1000000, "OnlineSearchImpl#requestSuggestionResult # result=%1 suggestion length = %2", (long)n, (long)suggestionArray.length);
         for (int i2 = 0; i2 < suggestionArray.length; ++i2) {
             Suggestion suggestion = suggestionArray[i2];
-            this.logChannel.log(1078071040, "OnlineSearchImpl#requestSuggestionResult:%1 query: %2 sugg: %3 full: %4", (Object)new Integer(i2), (Object)suggestion.getQuery(), (Object)suggestion.getSuggestion(), (Object)suggestion.getFullSuggestion());
+            this.logChannel.log(1000000, "OnlineSearchImpl#requestSuggestionResult:%1 query: %2 sugg: %3 full: %4", (Object)new Integer(i2), (Object)suggestion.getQuery(), (Object)suggestion.getSuggestion(), (Object)suggestion.getFullSuggestion());
         }
     }
 
-    @Override
     public void searchResult(int n, SearchResult searchResult) {
         if (searchResult.entryType == 17) {
             Suggestion suggestion;
-            this.logChannel.log(1078071040, "OnlineSearchImpl#searchResult() count: %1 queryID: %2", (long)searchResult.tokens.length, (long)searchResult.queryId);
+            this.logChannel.log(1000000, "OnlineSearchImpl#searchResult() count: %1 queryID: %2", (long)searchResult.tokens.length, (long)searchResult.queryId);
             super.searchResult(n, searchResult);
             if (this.searchListener == null || searchResult.getQueryId() != this.getLastQueryID()) {
-                this.logChannel.log(1078071040, "OnlineSearchImpl#searchResult() no search Listener or same query id (last QueryID: %1 ", (long)this.getLastQueryID());
+                this.logChannel.log(1000000, "OnlineSearchImpl#searchResult() no search Listener or same query id (last QueryID: %1 ", (long)this.getLastQueryID());
                 return;
             }
             if (this.currentSuggestion == null && (suggestion = searchResult.suggestion) != null) {
                 String string = searchResult.suggestion.fullSuggestion;
-                this.logChannel.log(1078071040, "OnlineSearchImpl#searchResult() suggestion query: %1, suggestion: %2 extractedSuggestion: %3", (Object)suggestion.query, (Object)suggestion.suggestion, (Object)string);
+                this.logChannel.log(1000000, "OnlineSearchImpl#searchResult() suggestion query: %1, suggestion: %2 extractedSuggestion: %3", (Object)suggestion.query, (Object)suggestion.suggestion, (Object)string);
                 this.searchListener.handleSuggestion(suggestion, string);
                 this.currentSuggestion = suggestion;
             }
@@ -83,34 +81,29 @@ implements ITruffleSearchHandler {
         }
     }
 
-    @Override
     public void removeAllFromHistoryResult(int n) {
-        this.logChannel.log(1078071040, "OnlineSearchImpl#removeAllFromHistoryResult(%1): called", (long)n);
+        this.logChannel.log(1000000, "OnlineSearchImpl#removeAllFromHistoryResult(%1): called", (long)n);
     }
 
     public void updatePotentialConflict(boolean bl, ConflictMatch conflictMatch, int n) {
-        this.logChannel.log(1078071040, "OnlineSearchGuiImpl#updatePotentialConflict(%1, Conflict*, %2): called", bl, (long)n);
+        this.logChannel.log(1000000, "OnlineSearchGuiImpl#updatePotentialConflict(%1, Conflict*, %2): called", bl, (long)n);
     }
 
-    @Override
     public void createBackupFileResult(int n, String string) {
-        this.logChannel.log(1078071040, "OnlineSearchGuiImpl#createBackupFileResult(%1, %2): called", (Object)new Integer(n), (Object)string);
+        this.logChannel.log(1000000, "OnlineSearchGuiImpl#createBackupFileResult(%1, %2): called", (Object)new Integer(n), (Object)string);
     }
 
-    @Override
     public void importBackupFileResult(int n, String string) {
-        this.logChannel.log(1078071040, "OnlineSearchGuiImpl#importBackupFileResult(%1, %2): called", (Object)new Integer(n), (Object)string);
+        this.logChannel.log(1000000, "OnlineSearchGuiImpl#importBackupFileResult(%1, %2): called", (Object)new Integer(n), (Object)string);
     }
 
-    @Override
     public void setEnvironmentResult(int n) {
-        this.logChannel.log(1078071040, "OnlineSearchGuiImpl#setEnvironmentResult(%1): called", (long)n);
+        this.logChannel.log(1000000, "OnlineSearchGuiImpl#setEnvironmentResult(%1): called", (long)n);
     }
 
     public void requestSuggestionResult2(int n, int n2, Suggestion[] suggestionArray) {
     }
 
-    @Override
     public void removeAllFromHistoryBySourceResult(int n) {
     }
 

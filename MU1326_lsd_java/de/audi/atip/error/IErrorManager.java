@@ -9,41 +9,32 @@ import de.audi.atip.timer.WatchDog;
 import de.esolutions.fw.util.commons.error.DumpInfoProvider;
 
 public interface IErrorManager {
-    public static final int ERROR_AFFECTED_NOTHING;
-    public static final int ERROR_AFFECTED_FUNCTION;
-    public static final int ERROR_AFFECTED_COMPONENT;
-    public static final int ERROR_AFFECTED_SYSTEM;
-    public static final int ERROR_PESISTENCE_RETRY;
-    public static final int ERROR_PESISTENCE_RESTART;
-    public static final int ERROR_PESISTENCE_RESET;
-    public static final int ERROR_PESISTENCE_EVER;
-    public static final int ERROR_PESISTENCE_MANUAL;
+    public static final int ERROR_AFFECTED_NOTHING = 0;
+    public static final int ERROR_AFFECTED_FUNCTION = 1;
+    public static final int ERROR_AFFECTED_COMPONENT = 2;
+    public static final int ERROR_AFFECTED_SYSTEM = 3;
+    public static final int ERROR_PESISTENCE_RETRY = 0;
+    public static final int ERROR_PESISTENCE_RESTART = 1;
+    public static final int ERROR_PESISTENCE_RESET = 2;
+    public static final int ERROR_PESISTENCE_EVER = 3;
+    public static final int ERROR_PESISTENCE_MANUAL = 4;
 
-    default public String[] getTargetIntegrityInfo() {
-    }
+    public String[] getTargetIntegrityInfo();
 
-    default public void registerDumpInfoProvider(DumpInfoProvider dumpInfoProvider) {
-    }
+    public void registerDumpInfoProvider(DumpInfoProvider var1);
 
-    default public void unregisterDumpInfoProvider(DumpInfoProvider dumpInfoProvider) {
-    }
+    public void unregisterDumpInfoProvider(DumpInfoProvider var1);
 
-    default public String getDumpDir() {
-    }
+    public String getDumpDir();
 
-    default public LogSink getFlightRecorder() {
-    }
+    public LogSink getFlightRecorder();
 
-    default public void handleError(Throwable throwable, String string, int n, int n2, int n3) {
-    }
+    public void handleError(Throwable var1, String var2, int var3, int var4, int var5);
 
-    default public void handleError(Throwable throwable, String string, int n, int n2, int n3, ShutdownGuard shutdownGuard) {
-    }
+    public void handleError(Throwable var1, String var2, int var3, int var4, int var5, ShutdownGuard var6);
 
-    default public WatchDog createWatchDog(long l, Runnable runnable, String string, int n, int n2, int n3) {
-    }
+    public WatchDog createWatchDog(long var1, Runnable var3, String var4, int var5, int var6, int var7);
 
-    default public WatchDog createWatchDog(long l, Runnable runnable, String string, int n, int n2, int n3, boolean bl) {
-    }
+    public WatchDog createWatchDog(long var1, Runnable var3, String var4, int var5, int var6, int var7, boolean var8);
 }
 

@@ -10,7 +10,7 @@ import de.audi.app.car.common.handler.DefaultMenuModelHandler;
 import de.audi.app.car.common.power.IPowerEventListener;
 import de.audi.app.car.common.service.CarServiceProvider;
 import de.audi.app.car.common.service.CarServiceTracker;
-import de.audi.app.earlyfunc.core.hybrid.AbstractGoodbyeComponent$BCListHandlingTrackerListener;
+import de.audi.app.car.common.service.CarServiceTrackerListener;
 import de.audi.app.earlyfunc.core.hybrid.CarNetworkPlatformInfo;
 import de.audi.app.earlyfunc.core.hybrid.ChargePopupHandler;
 import de.audi.app.earlyfunc.core.hybrid.GoodbyeMenuEventBusiness;
@@ -38,19 +38,19 @@ ChoiceListener,
 IBatteryControlListHandlingCallback,
 IBatteryControlListHandlingConstants,
 IBattCtrlCommunicationService {
-    public static final short CODING_ID1;
-    public static final short CODING_ID2;
-    protected static final String LOGCHANNEL_NAME;
-    public static final int CHARGE_POPUP_ID_INVALID;
+    public static final short CODING_ID1 = 41;
+    public static final short CODING_ID2 = 46;
+    protected static final String LOGCHANNEL_NAME = "App.EarlyFunc.Goodbye";
+    public static final int CHARGE_POPUP_ID_INVALID = -1;
     private BatteryControlViewOptions currBConViewOptions;
     private BatteryControlConfiguration bcConfig = null;
-    private static final int IMMEDIATE_CONTROL_STOP;
-    private static final int IMMEDIATE_CONTROL_START;
-    private static final int PROFILE_ID_TIMER1;
-    private static final int PROFILE_ID_TIMER2;
-    private static final int PROFILE_ID_IMMEDIATE;
-    private static final int CLIMATE_STATE_ARROW_GRAPHIC_INVISIBLE;
-    private static final int CLIMATE_STATE_ARROW_GRAPHIC_RED_BLUE;
+    private static final int IMMEDIATE_CONTROL_STOP = 0;
+    private static final int IMMEDIATE_CONTROL_START = 1;
+    private static final int PROFILE_ID_TIMER1 = 3;
+    private static final int PROFILE_ID_TIMER2 = 4;
+    private static final int PROFILE_ID_IMMEDIATE = 6;
+    private static final int CLIMATE_STATE_ARROW_GRAPHIC_INVISIBLE = 0;
+    private static final int CLIMATE_STATE_ARROW_GRAPHIC_RED_BLUE = 3;
     private GoodbyePopupHKTimerController popupHKTimer = null;
     private CarServiceProvider serviceProvider;
     private CarNetworkPlatformInfo networkPlatformInfo;
@@ -69,7 +69,7 @@ IBattCtrlCommunicationService {
     static /* synthetic */ Class class$de$audi$atip$interapp$IBatteryControlListHandlingService;
 
     public AbstractGoodbyeComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.EarlyFunc.Goodbye");
+        super(iCarApplication, LOGCHANNEL_NAME);
         this.INITIAL_CLAMP_STATE = 0;
         this.CLAMP_STATE_ON = 1;
         this.CLAMP_STATE_OFF = 2;
@@ -78,12 +78,10 @@ IBattCtrlCommunicationService {
         this.networkPlatformInfo = new CarNetworkPlatformInfo(this.getApplication().getFrameworkAccess());
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{6}, new int[]{11, 12, 13, 14, 10, 24, 18, 15, 17, 9, 8})};
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("itemSelected:", n, n2, true);
         switch (n) {
@@ -147,7 +145,7 @@ IBattCtrlCommunicationService {
             bl5 = this.currentTimerState.programmedTimer.timer4;
         }
         BatteryControlProgrammedTimer batteryControlProgrammedTimer = new BatteryControlProgrammedTimer(bl2, bl3, bl4, bl5);
-        this.getLogChannel().log(1078071040, "switchTimerActivation: dsi.setBatteryControlTimerState(timer=%1)", (Object)batteryControlProgrammedTimer);
+        this.getLogChannel().log(1000000, "switchTimerActivation: dsi.setBatteryControlTimerState(timer=%1)", (Object)batteryControlProgrammedTimer);
         this.getDSI().setBatteryControlTimerState(batteryControlProgrammedTimer);
     }
 
@@ -168,7 +166,7 @@ IBattCtrlCommunicationService {
             bl5 = bl;
         }
         BatteryControlProgrammedTimer batteryControlProgrammedTimer = new BatteryControlProgrammedTimer(bl2, bl3, bl4, bl5);
-        this.getLogChannel().log(1078071040, "switchTimerActivation: dsi.setBatteryControlTimerState(timer=%1)", (Object)batteryControlProgrammedTimer);
+        this.getLogChannel().log(1000000, "switchTimerActivation: dsi.setBatteryControlTimerState(timer=%1)", (Object)batteryControlProgrammedTimer);
         this.getDSI().setBatteryControlTimerState(batteryControlProgrammedTimer);
     }
 
@@ -178,10 +176,9 @@ IBattCtrlCommunicationService {
         }
     }
 
-    @Override
     public void updateBatteryControlViewOptions(BatteryControlViewOptions batteryControlViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateBatteryControlViewOptions(%1), valid=%2", (Object)(batteryControlViewOptions != null ? this.formatViewOptionsLog(batteryControlViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "updateBatteryControlViewOptions(%1), valid=%2", (Object)(batteryControlViewOptions != null ? this.formatViewOptionsLog(batteryControlViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && batteryControlViewOptions != null) {
             this.currBConViewOptions = batteryControlViewOptions;
@@ -193,54 +190,50 @@ IBattCtrlCommunicationService {
         }
     }
 
-    protected abstract void updateAllowParkHeaterMEVisibility(BatteryControlViewOptions batteryControlViewOptions) {
-    }
+    protected abstract void updateAllowParkHeaterMEVisibility(BatteryControlViewOptions var1);
 
-    @Override
     public void updateBatteryControlClimateState(BatteryControlClimateState batteryControlClimateState, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlClimateState: climateState=%1, validFlag=%2", (Object)batteryControlClimateState, (long)n);
+        this.getLogChannel().log(1000000, "updateBatteryControlClimateState: climateState=%1, validFlag=%2", (Object)batteryControlClimateState, (long)n);
         if (n == 1) {
             this.currClimateState = batteryControlClimateState;
             this.updateAllowParkHeaterMEVisibility(this.currBConViewOptions);
             if (this.currClimateState.climateMode != null) {
                 boolean bl = this.currClimateState.climateMode.isClimating();
-                this.getChoiceModel(-1324605440).setValue(bl ? 1 : 0);
+                this.getChoiceModel(2100401).setValue(bl ? 1 : 0);
                 this.updateAuxACImmediateOn(bl);
             }
             if (this.currClimateState.climateState == 12) {
-                this.getChoiceModel(151855104).setValue(3);
+                this.getChoiceModel(2100489).setValue(3);
             } else {
-                this.getChoiceModel(151855104).setValue(0);
+                this.getChoiceModel(2100489).setValue(0);
             }
         }
     }
 
-    @Override
     public void updateBatteryControlChargeState(BatteryControlChargeState batteryControlChargeState, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlChargeState: chargeState=%1, validFlag=%2", (Object)batteryControlChargeState, (long)n);
-        if (n == 1 && batteryControlChargeState.remainingChargeTime != -65536 && batteryControlChargeState.chargeState == 2) {
-            DateMetric dateMetric = new DateMetric(new Date(batteryControlChargeState.remainingChargeTime * 1625948160), 5);
+        this.getLogChannel().log(1000000, "updateBatteryControlChargeState: chargeState=%1, validFlag=%2", (Object)batteryControlChargeState, (long)n);
+        if (n == 1 && batteryControlChargeState.remainingChargeTime != 65535 && batteryControlChargeState.chargeState == 2) {
+            DateMetric dateMetric = new DateMetric(new Date(batteryControlChargeState.remainingChargeTime * 60000), 5);
             dateMetric.setUseInstanceUnit(true);
-            this.getMetricsModel(-1710481408).setMetric(dateMetric);
-            this.getMetricsModel(-1710481408).formatChanged();
+            this.getMetricsModel(2100378).setMetric(dateMetric);
+            this.getMetricsModel(2100378).formatChanged();
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         Object object = this.mutex;
         synchronized (object) {
-            this.getLogChannel().log(1078071040, "updateClampState: clampS=%1, clamp15=%2", bl, bl2);
+            this.getLogChannel().log(1000000, "updateClampState: clampS=%1, clamp15=%2", bl, bl2);
             if (!bl2) {
                 if (this.currentState == 1) {
                     if (this.currBConViewOptions != null && this.currBConViewOptions.getConfiguration() != null) {
                         this.updateMenuEntryVisibility(this.currBConViewOptions);
                         this.requestChargePopup(-1);
                     } else {
-                        this.getLogChannel().log(-1601830656, "AbstractGoodbyeComponent::updateAllowParkHeaterMEVisibility Trying to show popup but have VOs=%1", (Object)(this.currBConViewOptions != null ? this.currBConViewOptions.toString() : "null"));
+                        this.getLogChannel().log(100000, "AbstractGoodbyeComponent::updateAllowParkHeaterMEVisibility Trying to show popup but have VOs=%1", (Object)(this.currBConViewOptions != null ? this.currBConViewOptions.toString() : "null"));
                     }
                     this.currentState = 2;
                 }
@@ -254,21 +247,18 @@ IBattCtrlCommunicationService {
         }
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n) {
     }
 
     public void requestChargePopup(int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "requestChargePopup(%1)", (long)n);
+            this.getLogChannel().log(1000000, "requestChargePopup(%1)", (long)n);
         }
         if (this.getPopUpID() != -1) {
             this.popupHandler.requestChargePopup(n, true);
@@ -281,57 +271,48 @@ IBattCtrlCommunicationService {
         this.popupHKTimer.deactivate();
     }
 
-    protected abstract void updateMenuEntryVisibility(BatteryControlViewOptions batteryControlViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(BatteryControlViewOptions var1);
 
-    public abstract int getPopUpID() {
-    }
+    public abstract int getPopUpID();
 
-    protected abstract void updateAuxACImmediateOn(boolean bl) {
-    }
+    protected abstract void updateAuxACImmediateOn(boolean var1);
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getPowerEventDispatcher().addPowerEventListener(this);
-        this.goodbyeTracker = new CarServiceTracker(new AbstractGoodbyeComponent$BCListHandlingTrackerListener(this, this), this.getApplication().getBundleContext(), this.getApplication().getFrameworkAccess().getLogChannel("App.EarlyFunc.Goodbye"));
+        this.goodbyeTracker = new CarServiceTracker(new BCListHandlingTrackerListener(this), this.getApplication().getBundleContext(), this.getApplication().getFrameworkAccess().getLogChannel(LOGCHANNEL_NAME));
         this.goodbyeTracker.startTracking();
-        this.serviceProvider = new CarServiceProvider((class$de$audi$atip$interapp$IBattCtrlCommunicationService == null ? (class$de$audi$atip$interapp$IBattCtrlCommunicationService = AbstractGoodbyeComponent.class$("de.audi.atip.interapp.IBattCtrlCommunicationService")) : class$de$audi$atip$interapp$IBattCtrlCommunicationService).getName(), this, null, this.getApplication().getBundleContext(), this.getApplication().getFrameworkAccess().getLogChannel("App.EarlyFunc.Goodbye"));
+        this.serviceProvider = new CarServiceProvider((class$de$audi$atip$interapp$IBattCtrlCommunicationService == null ? (class$de$audi$atip$interapp$IBattCtrlCommunicationService = AbstractGoodbyeComponent.class$("de.audi.atip.interapp.IBattCtrlCommunicationService")) : class$de$audi$atip$interapp$IBattCtrlCommunicationService).getName(), this, null, this.getApplication().getBundleContext(), this.getApplication().getFrameworkAccess().getLogChannel(LOGCHANNEL_NAME));
         this.serviceProvider.startService();
     }
 
-    @Override
     public void deinit() {
         this.serviceProvider.stopService();
     }
 
-    @Override
     protected void initModels() {
         this.popupHKTimer = new GoodbyePopupHKTimerController(this.popupHandler, this.getApplication().getFrameworkAccess(), this.getLogChannel());
-        this.getChoiceModel(-1995694080).setChoiceListener(this);
-        this.getChoiceModel(-1878253568).setChoiceListener(this);
-        this.getChoiceModel(-1861476352).setChoiceListener(this);
-        this.getChoiceModel(-1978916864).setChoiceListener(this);
-        this.getChoiceModel(420290560).setChoiceListener(this);
-        this.getChoiceModel(437067776).setChoiceListener(this);
+        this.getChoiceModel(2100361).setChoiceListener(this);
+        this.getChoiceModel(2100368).setChoiceListener(this);
+        this.getChoiceModel(2100369).setChoiceListener(this);
+        this.getChoiceModel(2100362).setChoiceListener(this);
+        this.getChoiceModel(2100505).setChoiceListener(this);
+        this.getChoiceModel(2100506).setChoiceListener(this);
         this.popupHandler.init();
-        this.goodbyeMenuHandler = new DefaultMenuModelHandler(this.getMenuModel(-1374937088), this.getLogChannel());
-        this.getButtonModel(-1442045952).setButtonListener(this);
-        this.getButtonModel(-1425268736).setButtonListener(this);
+        this.goodbyeMenuHandler = new DefaultMenuModelHandler(this.getMenuModel(2100398), this.getLogChannel());
+        this.getButtonModel(2100394).setButtonListener(this);
+        this.getButtonModel(2100395).setButtonListener(this);
     }
 
-    @Override
     protected void initBusiness() {
         if (this.networkPlatformInfo.isMLBEvo()) {
-            this.goodbyeMenuHandler.setBusiness(new GoodbyeMenuEventBusiness(this.getDSI(), this.getChoiceModel(-1358159872), this.popupHKTimer, this.getLogChannel()));
+            this.goodbyeMenuHandler.setBusiness(new GoodbyeMenuEventBusiness(this.getDSI(), this.getChoiceModel(2100399), this.popupHKTimer, this.getLogChannel()));
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         this.logModelData("keyPressed", n, n2, true);
         switch (n) {
@@ -348,7 +329,7 @@ IBattCtrlCommunicationService {
 
     private void switchImmediate(int n) {
         this.checkProfileSettings(6);
-        this.getLogChannel().log(1078071040, "dsi.setBatteryControlImmediately(6,%1)", (long)n);
+        this.getLogChannel().log(1000000, "dsi.setBatteryControlImmediately(6,%1)", (long)n);
         this.getDSI().setBatteryControlImmediately(6, n);
     }
 
@@ -361,15 +342,12 @@ IBattCtrlCommunicationService {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
@@ -378,13 +356,13 @@ IBattCtrlCommunicationService {
         boolean bl2 = false;
         Date date = new Date();
         Date date2 = new Date();
-        if (this.getChoiceModel(-1995694080) != null && this.getDateMetric(-1827921920) != null) {
-            bl = this.getChoiceModel(-1995694080).getValue() == 1;
-            date = this.getDateMetric(-1827921920).getDate();
+        if (this.getChoiceModel(2100361) != null && this.getDateMetric(2100371) != null) {
+            bl = this.getChoiceModel(2100361).getValue() == 1;
+            date = this.getDateMetric(2100371).getDate();
         }
-        if (this.getChoiceModel(-1878253568) != null && this.getDateMetric(-1844699136) != null) {
-            bl2 = this.getChoiceModel(-1878253568).getValue() == 1;
-            date2 = this.getDateMetric(-1844699136).getDate();
+        if (this.getChoiceModel(2100368) != null && this.getDateMetric(2100370) != null) {
+            bl2 = this.getChoiceModel(2100368).getValue() == 1;
+            date2 = this.getDateMetric(2100370).getDate();
         }
         int n = date.before(date2) ? (bl ? 1 : (bl2 ? 2 : 0)) : (bl2 ? 2 : (bl ? 1 : 0));
         return n;
@@ -399,70 +377,64 @@ IBattCtrlCommunicationService {
         boolean bl2 = false;
         Date date = new Date();
         Date date2 = new Date();
-        if (this.getChoiceModel(-1861476352) != null && this.getDateMetric(-1962139648) != null) {
-            bl = this.getChoiceModel(-1861476352).getValue() == 1;
-            date = this.getDateMetric(-1962139648).getDate();
+        if (this.getChoiceModel(2100369) != null && this.getDateMetric(2100363) != null) {
+            bl = this.getChoiceModel(2100369).getValue() == 1;
+            date = this.getDateMetric(2100363).getDate();
         }
-        if (this.getChoiceModel(-1978916864) != null && this.getDateMetric(-1945362432) != null) {
-            bl2 = this.getChoiceModel(-1978916864).getValue() == 1;
-            date2 = this.getDateMetric(-1945362432).getDate();
+        if (this.getChoiceModel(2100362) != null && this.getDateMetric(2100364) != null) {
+            bl2 = this.getChoiceModel(2100362).getValue() == 1;
+            date2 = this.getDateMetric(2100364).getDate();
         }
         int n = date.before(date2) ? (bl ? 3 : (bl2 ? 4 : 0)) : (bl2 ? 4 : (bl ? 3 : 0));
         return n;
     }
 
-    @Override
     public void updateChargeTimerClimateChoice(int n, int n2) {
         switch (n) {
             case 1: {
-                this.getChoiceModel(420290560).setValue(n2);
+                this.getChoiceModel(2100505).setValue(n2);
                 break;
             }
             case 2: {
-                this.getChoiceModel(437067776).setValue(n2);
+                this.getChoiceModel(2100506).setValue(n2);
                 break;
             }
         }
     }
 
-    @Override
     public void updateClimateSystemType(int n, int n2) {
         switch (n) {
             case 1: {
-                this.getChoiceModel(420290560).setValue(n2 == 0 ? 1 : (n2 == 1 ? 0 : 2));
+                this.getChoiceModel(2100505).setValue(n2 == 0 ? 1 : (n2 == 1 ? 0 : 2));
                 break;
             }
             case 2: {
-                this.getChoiceModel(437067776).setValue(n2 == 0 ? 1 : (n2 == 1 ? 0 : 2));
+                this.getChoiceModel(2100506).setValue(n2 == 0 ? 1 : (n2 == 1 ? 0 : 2));
                 break;
             }
         }
     }
 
-    @Override
     public void updateBatteryControlTimerState(BatteryControlTimerState batteryControlTimerState, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlTimerState: timer=%1, validflag=%2", (Object)batteryControlTimerState, (long)n);
+        this.getLogChannel().log(1000000, "updateBatteryControlTimerState: timer=%1, validflag=%2", (Object)batteryControlTimerState, (long)n);
         if (n == 1) {
             this.currentTimerState = batteryControlTimerState;
-            this.getChoiceModel(-1995694080).setValue(batteryControlTimerState.getProgrammedTimer().isTimer1() ? 1 : 0);
-            this.getChoiceModel(-1878253568).setValue(batteryControlTimerState.getProgrammedTimer().isTimer2() ? 1 : 0);
-            this.getChoiceModel(-1861476352).setValue(batteryControlTimerState.getProgrammedTimer().isTimer3() ? 1 : 0);
-            this.getChoiceModel(-1978916864).setValue(batteryControlTimerState.getProgrammedTimer().isTimer4() ? 1 : 0);
+            this.getChoiceModel(2100361).setValue(batteryControlTimerState.getProgrammedTimer().isTimer1() ? 1 : 0);
+            this.getChoiceModel(2100368).setValue(batteryControlTimerState.getProgrammedTimer().isTimer2() ? 1 : 0);
+            this.getChoiceModel(2100369).setValue(batteryControlTimerState.getProgrammedTimer().isTimer3() ? 1 : 0);
+            this.getChoiceModel(2100362).setValue(batteryControlTimerState.getProgrammedTimer().isTimer4() ? 1 : 0);
         }
         this.popupHKTimer.resetActivated();
         this.updateMenuEntryVisibility(this.currBConViewOptions);
     }
 
-    @Override
     public void onBatteryControlProfileOperationChanged(int n, BatteryControlProfileOperation batteryControlProfileOperation) {
     }
 
-    @Override
     public void chargeTimerMetricsUpdated(int n) {
         this.updateMenuEntryVisibility(this.currBConViewOptions);
     }
 
-    @Override
     public void climateTimerMetricsUpdated(int n) {
         this.updateMenuEntryVisibility(this.currBConViewOptions);
     }
@@ -476,13 +448,30 @@ IBattCtrlCommunicationService {
         }
     }
 
-    static /* synthetic */ IBatteryControlListHandlingService access$002(AbstractGoodbyeComponent abstractGoodbyeComponent, IBatteryControlListHandlingService iBatteryControlListHandlingService) {
-        abstractGoodbyeComponent.bcListHandlingService = iBatteryControlListHandlingService;
-        return abstractGoodbyeComponent.bcListHandlingService;
-    }
+    private class BCListHandlingTrackerListener
+    implements CarServiceTrackerListener {
+        private AbstractGoodbyeComponent component;
 
-    static /* synthetic */ IBatteryControlListHandlingService access$000(AbstractGoodbyeComponent abstractGoodbyeComponent) {
-        return abstractGoodbyeComponent.bcListHandlingService;
+        public BCListHandlingTrackerListener(AbstractGoodbyeComponent abstractGoodbyeComponent2) {
+            this.component = abstractGoodbyeComponent2;
+        }
+
+        public void serviceAvailable(Object object) {
+            AbstractGoodbyeComponent.this.bcListHandlingService = (IBatteryControlListHandlingService)object;
+            AbstractGoodbyeComponent.this.bcListHandlingService.registerCalledBackComponent(this.component);
+        }
+
+        public void serviceRemoved() {
+            AbstractGoodbyeComponent.this.bcListHandlingService = null;
+        }
+
+        public String[] getTrackedServiceClazzName() {
+            return new String[]{(class$de$audi$atip$interapp$IBatteryControlListHandlingService == null ? (class$de$audi$atip$interapp$IBatteryControlListHandlingService = AbstractGoodbyeComponent.class$("de.audi.atip.interapp.IBatteryControlListHandlingService")) : class$de$audi$atip$interapp$IBatteryControlListHandlingService).getName()};
+        }
+
+        public IBatteryControlListHandlingService getGoodbyeService() {
+            return AbstractGoodbyeComponent.this.bcListHandlingService;
+        }
     }
 }
 

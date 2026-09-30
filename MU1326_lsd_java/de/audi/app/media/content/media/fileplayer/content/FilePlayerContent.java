@@ -3,6 +3,7 @@
  */
 package de.audi.app.media.content.media.fileplayer.content;
 
+import de.audi.app.media.AbstractDispatcherRunnable;
 import de.audi.app.media.IMediaTerminal;
 import de.audi.app.media.audio.AudioState;
 import de.audi.app.media.audio.IAudioManager;
@@ -15,8 +16,6 @@ import de.audi.app.media.content.media.IPlayer;
 import de.audi.app.media.content.media.fileplayer.FilePlayerSession;
 import de.audi.app.media.content.media.fileplayer.content.AbstractFilePlayerJob;
 import de.audi.app.media.content.media.fileplayer.content.FilePlayerAdapterImpl;
-import de.audi.app.media.content.media.fileplayer.content.FilePlayerContent$1;
-import de.audi.app.media.content.media.fileplayer.content.FilePlayerContent$SessionPlayer;
 import de.audi.app.media.content.media.fileplayer.content.FilePlayerStateImpl;
 import de.audi.app.media.content.media.fileplayer.content.IFilePlayer;
 import de.audi.app.media.content.media.fileplayer.content.IFilePlayerListener;
@@ -26,20 +25,28 @@ import de.audi.app.media.content.media.fileplayer.content.JobAttachSession;
 import de.audi.app.media.content.media.fileplayer.content.JobDefault;
 import de.audi.app.media.content.media.fileplayer.content.JobDettachSession;
 import de.audi.app.media.content.media.fileplayer.content.JobPause;
+import de.audi.app.media.content.media.fileplayer.content.JobPlayURL;
 import de.audi.app.media.content.media.fileplayer.content.JobResume;
+import de.audi.app.media.content.media.fileplayer.content.JobSeek;
+import de.audi.app.media.content.media.fileplayer.content.JobSetVideoScale;
+import de.audi.app.media.content.media.fileplayer.content.JobSkip;
+import de.audi.app.media.content.media.fileplayer.content.JobStop;
+import de.audi.app.media.dsi.media.AbstractMediaPlayerListener;
 import de.audi.app.media.dsi.media.IMediaDSIPlayerController;
 import de.audi.app.media.dsi.media.IMediaPlayerListener;
-import de.audi.app.media.logger.IMediaLogger;
 import de.audi.app.media.queue.Queue;
 import de.audi.app.media.source.IActivationContext;
 import de.audi.atip.hmi.model.ButtonListener;
+import de.audi.atip.interapp.media.IMediaFileSessionPlayer;
 import de.esolutions.fw.util.commons.Buffer;
+import org.dsi.ifc.media.Capabilities;
+import org.dsi.ifc.media.PlaybackMode;
 
 public class FilePlayerContent
 extends AbstractMediaContent
 implements IAudioStateListener,
 IFilePlayer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "FilePlayerContent";
     private final IMediaDSIPlayerController dsiPlayer;
     private final IMediaPlayerListener playerListener;
     private final Queue filePlayerContentQueue = new Queue(this.getTerminal().getLogger().main(), "FILEPLAYERCONTENT");
@@ -54,12 +61,65 @@ IFilePlayer {
         this.dsiPlayer = iMediaDSIPlayerController;
         this.hardKeyHandler = new HardKeyHandlerFilePlayer(iMediaTerminal, this.filePlayerAdapter);
         this.DEFAULT_JOB = new JobDefault(this.logger.main(), this);
-        this.playerListener = new FilePlayerContent$1(this, this.logger.main());
+        this.playerListener = new AbstractMediaPlayerListener(this.logger.main()){
+
+            public String getLogClass() {
+                return FilePlayerContent.LOGCLASS;
+            }
+
+            public void updateCapabilities(Capabilities capabilities) {
+                FilePlayerContent.this.logger.main().log(1000000, "[%1.updateCapabilities]", (Object)FilePlayerContent.LOGCLASS);
+                FilePlayerContent.this.filePlayerState.setCapabilities(capabilities);
+                FilePlayerContent.this.getRunningJob().onCapabilitiesChanged();
+            }
+
+            public void updatePlaybackModeList(PlaybackMode[] playbackModeArray) {
+                int n = -1;
+                int n2 = -1;
+                for (int i2 = 0; i2 < playbackModeArray.length; ++i2) {
+                    PlaybackMode playbackMode = playbackModeArray[i2];
+                    if (playbackMode.getScope() != 1) continue;
+                    if ((playbackMode.getModeFlag() & 1) == 1) {
+                        n2 = playbackMode.getModeID();
+                        continue;
+                    }
+                    n = playbackMode.getModeID();
+                }
+                FilePlayerContent.this.logger.main().log(1000000, "[%1.updatePlaybackModeList] normalMode='%2',repeatMode='%3'", (Object)FilePlayerContent.LOGCLASS, (long)n, (long)n2);
+                FilePlayerContent.this.filePlayerState.setPlaymodes(n, n2);
+                FilePlayerContent.this.getRunningJob().onPlaybackModeListChanged();
+            }
+
+            public void updatePlaybackMode(int n) {
+                FilePlayerContent.this.logger.main().log(1000000, "[%1.updatePlaybackMode] '%2'", (Object)FilePlayerContent.LOGCLASS, (long)n);
+                FilePlayerContent.this.filePlayerState.setPlaybackMode(n);
+                FilePlayerContent.this.getRunningJob().onPlaybackModeChanged();
+            }
+
+            public void updatePlaybackState(int n) {
+                FilePlayerContent.this.logger.main().log(1000000, "[%1.updatePlaybackState]", (Object)FilePlayerContent.LOGCLASS);
+                FilePlayerContent.this.filePlayerState.setPlaybackState(n);
+                FilePlayerContent.this.getRunningJob().onPlaybackStateChanged();
+            }
+
+            public void updatePlayPosition(long l, int n, int n2) {
+                FilePlayerContent.this.getRunningJob().onUpdatePlayPosition(n, n2);
+            }
+
+            public void responseSetPlaybackURL(String string) {
+                FilePlayerContent.this.logger.main().log(1000000, "[%1.responseSetPlaybackURL]", (Object)FilePlayerContent.LOGCLASS);
+                FilePlayerContent.this.getRunningJob().onResponsePlaybackURL();
+            }
+
+            public void error(int n) {
+                FilePlayerContent.this.logger.main().log(1000000, "[%1.error] '%2'", (Object)FilePlayerContent.LOGCLASS, (long)n);
+                FilePlayerContent.this.getRunningJob().onPlayerError(n);
+            }
+        };
     }
 
-    @Override
     public void activate(IActivationContext iActivationContext) {
-        this.logger.main().log(1078071040, "[%1.activate]", (Object)"FilePlayerContent");
+        this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
         super.activate(iActivationContext);
         this.filePlayerContentQueue.reset();
         this.dsiPlayer.setPlayerListener(this.playerListener);
@@ -73,9 +133,8 @@ IFilePlayer {
         this.filePlayerContentQueue.enqueue(new JobActivation(this.logger.main(), this));
     }
 
-    @Override
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate]", (Object)"FilePlayerContent");
+        this.logger.main().log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.hardKeyHandler.deactivate();
         this.filePlayerAdapter.deactivate();
         this.dsiPlayer.setPlayerListener(null);
@@ -83,7 +142,6 @@ IFilePlayer {
         super.deactivate();
     }
 
-    @Override
     public IPlayer getPlayer() {
         return this.filePlayerAdapter;
     }
@@ -96,9 +154,8 @@ IFilePlayer {
         return abstractFilePlayerJob;
     }
 
-    @Override
     public void audioStateChanged(AudioState audioState) {
-        this.logger.main().log(1078071040, "[%1.audioStateChanged] '%2'", (Object)"FilePlayerContent", (Object)audioState);
+        this.logger.main().log(1000000, "[%1.audioStateChanged] '%2'", (Object)LOGCLASS, (Object)audioState);
         this.filePlayerState.setAudioState(audioState);
         this.getRunningJob().onAudioStateChanged();
         switch (audioState.getState()) {
@@ -111,7 +168,7 @@ IFilePlayer {
                     this.filePlayerContentQueue.enqueue(new JobResume(this.logger.main(), this));
                     break;
                 }
-                this.logger.main().log(1078071040, "[%1.audioStateChanged] No playback.", (Object)"FilePlayerContent");
+                this.logger.main().log(1000000, "[%1.audioStateChanged] No playback.", (Object)LOGCLASS);
                 break;
             }
             case 3: 
@@ -121,64 +178,56 @@ IFilePlayer {
                     this.filePlayerContentQueue.enqueue(new JobPause(this.logger.main(), this));
                     break;
                 }
-                this.logger.main().log(1078071040, "[%1.audioStateChanged] No playback.", (Object)"FilePlayerContent");
+                this.logger.main().log(1000000, "[%1.audioStateChanged] No playback.", (Object)LOGCLASS);
                 break;
             }
         }
     }
 
-    @Override
     public void audioFocusChanged(boolean bl) {
     }
 
     public void attachSession(FilePlayerSession filePlayerSession) {
-        this.logger.main().log(1078071040, "[%1.attachSession] [%2]", (Object)"FilePlayerContent", (Object)filePlayerSession);
-        this.filePlayerContentQueue.enqueue(new JobAttachSession(this.logger.main(), this, new FilePlayerContent$SessionPlayer(this, filePlayerSession, this), this.filePlayerAdapter));
+        this.logger.main().log(1000000, "[%1.attachSession] [%2]", (Object)LOGCLASS, (Object)filePlayerSession);
+        this.filePlayerContentQueue.enqueue(new JobAttachSession(this.logger.main(), this, new SessionPlayer(filePlayerSession, this), this.filePlayerAdapter));
     }
 
     public void detachSession(IFilePlayerListener iFilePlayerListener) {
-        this.logger.main().log(1078071040, "[%1.detachSession]", (Object)"FilePlayerContent");
+        this.logger.main().log(1000000, "[%1.detachSession]", (Object)LOGCLASS);
         this.filePlayerContentQueue.enqueue(new JobDettachSession(this.logger.main(), this, iFilePlayerListener));
     }
 
-    @Override
     public ButtonListener getHardKeyListener() {
         return this.hardKeyHandler;
     }
 
-    @Override
     public void setPlaybackURL(String string) {
-        this.logger.main().log(1078071040, "[%1.setPlaybackURL] '%2'", (Object)"FilePlayerContent", (Object)string);
+        this.logger.main().log(1000000, "[%1.setPlaybackURL] '%2'", (Object)LOGCLASS, (Object)string);
         this.dsiPlayer.setPlaybackURL(string);
     }
 
-    @Override
     public void resume() {
-        this.logger.main().log(1078071040, "[%1.resume]", (Object)"FilePlayerContent");
+        this.logger.main().log(1000000, "[%1.resume]", (Object)LOGCLASS);
         this.dsiPlayer.resume();
     }
 
-    @Override
     public void pause() {
-        this.logger.main().log(1078071040, "[%1.pause]", (Object)"FilePlayerContent");
+        this.logger.main().log(1000000, "[%1.pause]", (Object)LOGCLASS);
         this.dsiPlayer.pause();
     }
 
-    @Override
     public void stop() {
-        this.logger.main().log(1078071040, "[%1.stop]", (Object)"FilePlayerContent");
+        this.logger.main().log(1000000, "[%1.stop]", (Object)LOGCLASS);
         this.dsiPlayer.stop();
     }
 
-    @Override
     public void seek(boolean bl) {
-        this.logger.main().log(1078071040, "[%1.seek]", (Object)"FilePlayerContent");
+        this.logger.main().log(1000000, "[%1.seek]", (Object)LOGCLASS);
         this.dsiPlayer.dsiSeek(bl, 8);
     }
 
-    @Override
     public void skip(int n) {
-        this.logger.main().log(1078071040, "[%1.skip] '%2'", (Object)"FilePlayerContent", (long)n);
+        this.logger.main().log(1000000, "[%1.skip] '%2'", (Object)LOGCLASS, (long)n);
         if (n < 0) {
             this.dsiPlayer.skip(1, Math.abs(n));
         } else {
@@ -186,188 +235,173 @@ IFilePlayer {
         }
     }
 
-    @Override
     public void setPlaybackMode(int n) {
-        this.logger.main().log(1078071040, "[%1.setPlaybackMode] '%2'", (Object)"FilePlayerContent", (long)n);
+        this.logger.main().log(1000000, "[%1.setPlaybackMode] '%2'", (Object)LOGCLASS, (long)n);
         this.dsiPlayer.setPlaybackMode(n);
     }
 
-    @Override
     public void setVideoScaling(int n, int n2, int n3, int n4) {
-        this.logger.main().log(1078071040, "[%1.setVideoScaling]", (Object)"FilePlayerContent");
+        this.logger.main().log(1000000, "[%1.setVideoScaling]", (Object)LOGCLASS);
         this.dsiPlayer.setVideoRect(n, n2, n3, n4);
     }
 
-    @Override
     public IFilePlayerState getState() {
         return this.filePlayerState;
     }
 
-    @Override
     public IAudioManager getAudioManager() {
         return this.getTerminal().getAudioManager();
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("FilePlayerContent").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 
-    @Override
     public void rearSeatAudioFocusChanged(boolean bl) {
     }
 
-    static /* synthetic */ IMediaLogger access$000(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+    class SessionPlayer
+    implements IMediaFileSessionPlayer {
+        private final FilePlayerSession session;
+        private final IFilePlayer player;
 
-    static /* synthetic */ FilePlayerStateImpl access$100(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.filePlayerState;
-    }
+        public SessionPlayer(FilePlayerSession filePlayerSession, IFilePlayer iFilePlayer) {
+            this.session = filePlayerSession;
+            this.player = iFilePlayer;
+        }
 
-    static /* synthetic */ AbstractFilePlayerJob access$200(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.getRunningJob();
-    }
+        public FilePlayerSession getSession() {
+            return this.session;
+        }
 
-    static /* synthetic */ IMediaLogger access$300(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+        public void resume() {
+            FilePlayerContent.this.logger.main().log(1000000, "[%1.resume] [%2]", (Object)FilePlayerContent.LOGCLASS, (Object)this.session);
+            FilePlayerContent.this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("FilePlayer.resume"){
 
-    static /* synthetic */ IMediaLogger access$400(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+                public void run() {
+                    if (!SessionPlayer.this.session.equals(FilePlayerContent.this.filePlayerState.getActiveSession())) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onResume] [%2] Session not active any more.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                        return;
+                    }
+                    if (FilePlayerContent.this.getState().getAudioState().isAudible()) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onResume] [%2] Already hearable.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                        if (FilePlayerContent.this.filePlayerState.isOnSeeking()) {
+                            FilePlayerContent.this.logger.main().log(1000000, "[%1.onResume] [%2] On seeking. Resume playback.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                            FilePlayerContent.this.filePlayerContentQueue.enqueue(new JobResume(FilePlayerContent.this.logger.main(), SessionPlayer.this.player));
+                        }
+                    }
+                    FilePlayerContent.this.logger.main().log(1000000, "[%1.onResume] [%2] Try to resume audio.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                    FilePlayerContent.this.getTerminal().getAudioManager().resumeAudio(false);
+                }
+            });
+        }
 
-    static /* synthetic */ IMediaLogger access$500(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+        public void pause() {
+            FilePlayerContent.this.logger.main().log(1000000, "[%1.pause] [%2]", (Object)FilePlayerContent.LOGCLASS, (Object)this.session);
+            FilePlayerContent.this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("FilePlayer.pause"){
 
-    static /* synthetic */ IMediaLogger access$600(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+                public void run() {
+                    if (!SessionPlayer.this.session.equals(FilePlayerContent.this.filePlayerState.getActiveSession())) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onPause] [%2] Session not active any more.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                        return;
+                    }
+                    FilePlayerContent.this.logger.main().log(1000000, "[%1.onPause] [%2] Mute audio.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                    FilePlayerContent.this.getTerminal().getAudioManager().mute();
+                }
+            });
+        }
 
-    static /* synthetic */ IMediaLogger access$700(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+        public void play(final String string, final boolean bl) {
+            FilePlayerContent.this.logger.main().log(1000000, "[%1.play] [%2] '%3'", (Object)FilePlayerContent.LOGCLASS, (Object)this.session, (Object)string);
+            FilePlayerContent.this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("FilePlayer.playURL"){
 
-    static /* synthetic */ IMediaLogger access$800(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+                public void run() {
+                    if (!SessionPlayer.this.session.equals(FilePlayerContent.this.filePlayerState.getActiveSession())) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onPlay] [%2] Session not active any more.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                        return;
+                    }
+                    FilePlayerContent.this.filePlayerContentQueue.enqueue(new JobPlayURL(FilePlayerContent.this.logger.main(), SessionPlayer.this.player, string, bl));
+                }
+            });
+        }
 
-    static /* synthetic */ IMediaLogger access$1100(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+        public void setVideoScaling(final int n, final int n2, final int n3, final int n4) {
+            FilePlayerContent.this.logger.main().log(1000000, "[%1.setVideoScaling] [%2]", (Object)FilePlayerContent.LOGCLASS, (Object)this.session);
+            FilePlayerContent.this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("FilePlayer.setVideoScaling"){
 
-    static /* synthetic */ IMediaLogger access$1200(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+                public void run() {
+                    if (!SessionPlayer.this.session.equals(FilePlayerContent.this.filePlayerState.getActiveSession())) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.setVideoScaling] [%2] Session not active any more.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                        return;
+                    }
+                    FilePlayerContent.this.filePlayerContentQueue.enqueue(new JobSetVideoScale(FilePlayerContent.this.logger.main(), SessionPlayer.this.player, n, n2, n3, n4));
+                }
+            });
+        }
 
-    static /* synthetic */ IMediaLogger access$1300(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+        public void stop() {
+            FilePlayerContent.this.logger.main().log(1000000, "[%1.stop] [%2]", (Object)FilePlayerContent.LOGCLASS, (Object)this.session);
+            FilePlayerContent.this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("FilePlayer.stop"){
 
-    static /* synthetic */ IMediaLogger access$1400(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+                public void run() {
+                    if (!SessionPlayer.this.session.equals(FilePlayerContent.this.filePlayerState.getActiveSession())) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onSeek] [%2] Session not active any more.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                        return;
+                    }
+                    FilePlayerContent.this.filePlayerContentQueue.enqueue(new JobStop(FilePlayerContent.this.logger.main(), SessionPlayer.this.player));
+                }
+            });
+        }
 
-    static /* synthetic */ Queue access$1600(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.filePlayerContentQueue;
-    }
+        public void seek(final boolean bl) {
+            FilePlayerContent.this.logger.main().log(1000000, "[%1.seek] [%2] '%3'", (Object)FilePlayerContent.LOGCLASS, (Object)this.session, (Object)(bl ? "FORWARD" : "BACKWARD"));
+            FilePlayerContent.this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("FilePlayer.seek"){
 
-    static /* synthetic */ IMediaLogger access$1700(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+                public void run() {
+                    if (!SessionPlayer.this.session.equals(FilePlayerContent.this.filePlayerState.getActiveSession())) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onSeek] [%2] Session not active any more.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                        return;
+                    }
+                    if (SessionPlayer.this.session.getType() != 0) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onSeek] Only supported for boardbook.", (Object)FilePlayerContent.LOGCLASS);
+                        return;
+                    }
+                    if (!SessionPlayer.this.session.isOnPlayback()) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onSeek] Not on playback.", (Object)FilePlayerContent.LOGCLASS);
+                        return;
+                    }
+                    FilePlayerContent.this.filePlayerContentQueue.enqueue(new JobSeek(FilePlayerContent.this.logger.main(), SessionPlayer.this.player, FilePlayerContent.this.getTerminal().getAudioManager(), bl));
+                }
+            });
+        }
 
-    static /* synthetic */ IMediaLogger access$1800(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
+        public void skip(final int n) {
+            FilePlayerContent.this.logger.main().log(1000000, "[%1.skip] [%2] '%3'", (Object)FilePlayerContent.LOGCLASS, (Object)this.session, (long)n);
+            FilePlayerContent.this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("FilePlayer.skip"){
 
-    static /* synthetic */ IMediaLogger access$1900(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2000(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2100(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2200(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2300(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2400(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2500(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2600(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2700(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2800(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2900(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3000(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3100(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3200(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3300(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3400(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3500(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3600(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3700(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3800(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$3900(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$4000(FilePlayerContent filePlayerContent) {
-        return filePlayerContent.logger;
+                public void run() {
+                    if (!SessionPlayer.this.session.equals(FilePlayerContent.this.filePlayerState.getActiveSession())) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onSkip] [%2] Session not active any more.", (Object)FilePlayerContent.LOGCLASS, (Object)SessionPlayer.this.session);
+                        return;
+                    }
+                    if (SessionPlayer.this.session.getType() != 0) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onSkip] Only supported for boardbook.", (Object)FilePlayerContent.LOGCLASS);
+                        return;
+                    }
+                    if (n >= 0) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onSkip] No forward skip allowed.", (Object)FilePlayerContent.LOGCLASS);
+                        return;
+                    }
+                    if (!SessionPlayer.this.session.isOnPlayback()) {
+                        FilePlayerContent.this.logger.main().log(1000000, "[%1.onSkip] Not on playback.", (Object)FilePlayerContent.LOGCLASS);
+                        return;
+                    }
+                    FilePlayerContent.this.filePlayerContentQueue.enqueue(new JobSkip(FilePlayerContent.this.logger.main(), SessionPlayer.this.player, FilePlayerContent.this.getTerminal().getAudioManager(), n));
+                }
+            });
+        }
     }
 }
 

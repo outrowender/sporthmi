@@ -15,7 +15,6 @@ implements ITelServiceEcall {
         super(logChannel, "ITelServiceEcall");
     }
 
-    @Override
     public void hangupAllCalls(ITelServiceEcallListener iTelServiceEcallListener) {
         this.log();
     }

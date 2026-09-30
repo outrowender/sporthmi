@@ -44,10 +44,10 @@ public abstract class AbstractRSEConnection {
             if (abstractRSECommandFactory != null) {
                 int n = abstractRSECommandFactory.getModuleID();
                 this.cmdFactories[n] = abstractRSECommandFactory;
-                AbstractRSEConnection.getLog().log(-2137614336, "AbstractRSEConnection#registerCommandFactory: Registering command factory: %1", (long)n);
+                AbstractRSEConnection.getLog().log(10000000, "AbstractRSEConnection#registerCommandFactory: Registering command factory: %1", (long)n);
                 if (this.commandQueues[n] != null && this.commandQueues[n].size() > 0) {
                     while (!this.commandQueues[n].isEmpty()) {
-                        AbstractRSEConnection.getLog().log(-2137614336, "AbstractRSEConnection#registerCommandFactory: executing cached command for module %1", (long)n);
+                        AbstractRSEConnection.getLog().log(10000000, "AbstractRSEConnection#registerCommandFactory: executing cached command for module %1", (long)n);
                         byte[] byArray = (byte[])this.commandQueues[n].get(0);
                         this.commandQueues[n].remove(0);
                         try {
@@ -71,7 +71,7 @@ public abstract class AbstractRSEConnection {
             if (abstractRSECommandFactory != null) {
                 int n = abstractRSECommandFactory.getModuleID();
                 this.cmdFactories[n] = null;
-                AbstractRSEConnection.getLog().log(-2137614336, "AbstractRSEConnection#registerCommandFactory: Unregistering command factory: %1", (long)n);
+                AbstractRSEConnection.getLog().log(10000000, "AbstractRSEConnection#registerCommandFactory: Unregistering command factory: %1", (long)n);
             }
         }
     }
@@ -79,14 +79,14 @@ public abstract class AbstractRSEConnection {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    protected int decodeAndExecuteCommand(byte[] byArray) {
+    protected int decodeAndExecuteCommand(byte[] byArray) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byArray);
         DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(byteArrayInputStream));
         int n = -1;
         n = AbstractRSECommand.decodeHeader(dataInputStream);
         int n2 = AbstractRSECommand.extractModuleID(n);
         if (n != -1 && n2 != -1 && n2 >= 0 && n2 < this.cmdFactories.length) {
-            AbstractRSEConnection.getLog().log(-2137614336, "AbstractRSEConnection#decodeCommand: module=%1, cmdID=%2", (long)n2, (long)n);
+            AbstractRSEConnection.getLog().log(10000000, "AbstractRSEConnection#decodeCommand: module=%1, cmdID=%2", (long)n2, (long)n);
             AbstractRSECommandFactory abstractRSECommandFactory = null;
             Object object = this.cmdFactoriesLock;
             synchronized (object) {
@@ -117,14 +117,13 @@ public abstract class AbstractRSEConnection {
         this.commandQueues[n].add(byArray);
     }
 
-    public abstract void sendCommand(AbstractRSECommand abstractRSECommand) {
-    }
+    public abstract void sendCommand(AbstractRSECommand var1);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void connectionEstablished() {
-        AbstractRSEConnection.getLog().log(-2137614336, "AbstractRSEConnection#connectionEstablished");
+        AbstractRSEConnection.getLog().log(10000000, "AbstractRSEConnection#connectionEstablished");
         Object object = this.connectionStatusLock;
         synchronized (object) {
             this.setConnectionEstablished(true);
@@ -136,7 +135,7 @@ public abstract class AbstractRSEConnection {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void connectionBroken() {
-        AbstractRSEConnection.getLog().log(-2137614336, "AbstractRSEConnection#connectionBroken: Cleaning up");
+        AbstractRSEConnection.getLog().log(10000000, "AbstractRSEConnection#connectionBroken: Cleaning up");
         Object object = this.connectionStatusLock;
         synchronized (object) {
             this.getRseConnectionService().unregister();

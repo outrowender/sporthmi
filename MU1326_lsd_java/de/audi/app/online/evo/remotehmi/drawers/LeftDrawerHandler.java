@@ -4,12 +4,6 @@
 package de.audi.app.online.evo.remotehmi.drawers;
 
 import de.audi.app.online.evo.RemoteHMIServiceEvo;
-import de.audi.app.online.evo.remotehmi.drawers.LeftDrawerHandler$1;
-import de.audi.app.online.evo.remotehmi.drawers.LeftDrawerHandler$2;
-import de.audi.app.online.evo.remotehmi.drawers.LeftDrawerHandler$3;
-import de.audi.app.online.evo.remotehmi.drawers.LeftDrawerHandler$4;
-import de.audi.app.online.evo.remotehmi.drawers.LeftDrawerHandler$5;
-import de.audi.app.online.evo.remotehmi.drawers.LeftDrawerHandler$6;
 import de.audi.app.online.evo.remotehmi.drawers.RightDrawerHandler;
 import de.audi.atip.hmi.HMIService;
 import de.audi.atip.hmi.event.ATIPEvent;
@@ -26,12 +20,15 @@ import de.audi.atip.hmi.modelaccess.ResourceLocatorModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.util.Util;
 import de.audi.remotehmi.RemoteHMIAction;
-import de.audi.remotehmi.ui.mib2.Commands$LeftDrawerPayload;
+import de.audi.remotehmi.ui.mib2.Commands;
 import de.audi.remotehmi.ui.mib2.DrawerEntry;
 import de.audi.remotehmi.ui.mib2.DrawerEntryIcon;
 import de.audi.remotehmi.ui.mib2.DrawerEntryLeftDrawer;
 import de.audi.remotehmi.ui.mib2.MenuEntry;
 import de.audi.remotehmi.util.DeepCloneable;
+import de.audi.remotehmi.util.LogAppender;
+import de.audi.tghu.online.app.remotehmi.AbstractCommandHandler;
+import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.ContextManagerComponent;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIContext;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
@@ -41,7 +38,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Set;
 
 public class LeftDrawerHandler
@@ -52,9 +48,9 @@ implements BaseListModelListener {
     final int COLUMN_TEXT;
     final int COLUMN_IMAGE;
     final int COLUMN_REFLECTION_IMAGE;
-    public static final int LEFT_DRAWER_AVAILABLE;
-    public static final int LEFT_DRAWER_NOT_AVAILABLE;
-    public static final int INDEX_OR_ID_NONE;
+    public static final int LEFT_DRAWER_AVAILABLE = 0;
+    public static final int LEFT_DRAWER_NOT_AVAILABLE = 1;
+    public static final int INDEX_OR_ID_NONE = -1;
     private Map listModelValues;
     private Map currentSubListModelValues;
     private Map subEntriesForAllEntries;
@@ -63,20 +59,30 @@ implements BaseListModelListener {
     private final HMIService hmiService;
     private final LogChannel log;
     private final ContextManagerComponent contextManagerComponent;
-    private Commands$LeftDrawerPayload payloadLastRecieved = null;
-    private static int TOP_WIZARD_HOME;
-    private static int TOP_WIZARD_INFORMATION;
-    private static int TOP_WIZARD_NAVIGATION;
-    private static int TOP_WIZARD_ENTERTAINTMENT;
-    private static int TOP_WIZARD_COMMUNICATION;
-    private static int TOP_WIZARD_CARREMOTE;
-    private static Map topWizardIcons;
+    private Commands.LeftDrawerPayload payloadLastRecieved = null;
+    private static int TOP_WIZARD_HOME = 0;
+    private static int TOP_WIZARD_INFORMATION = 1;
+    private static int TOP_WIZARD_NAVIGATION = 2;
+    private static int TOP_WIZARD_ENTERTAINTMENT = 3;
+    private static int TOP_WIZARD_COMMUNICATION = 4;
+    private static int TOP_WIZARD_CARREMOTE = 5;
+    private static Map topWizardIcons = new HashMap(){
+        private static final long serialVersionUID = -1111848786856739068L;
+        {
+            this.put("top_wizard.home", new Integer(TOP_WIZARD_HOME));
+            this.put("top_wizard.information", new Integer(TOP_WIZARD_INFORMATION));
+            this.put("top_wizard.navigation", new Integer(TOP_WIZARD_NAVIGATION));
+            this.put("top_wizard.entertainment", new Integer(TOP_WIZARD_ENTERTAINTMENT));
+            this.put("top_wizard.communication", new Integer(TOP_WIZARD_COMMUNICATION));
+            this.put("top_wizard.carRemote", new Integer(TOP_WIZARD_CARREMOTE));
+        }
+    };
 
     public LeftDrawerHandler(LogChannel logChannel, RemoteHMIService remoteHMIService, ModelGroup modelGroup) {
         this(logChannel, remoteHMIService, false, modelGroup);
     }
 
-    protected LeftDrawerHandler(LogChannel logChannel, RemoteHMIService remoteHMIService, boolean bl, ModelGroup modelGroup) {
+    protected LeftDrawerHandler(final LogChannel logChannel, final RemoteHMIService remoteHMIService, boolean bl, ModelGroup modelGroup) {
         this.MAX_COLUMNS_DRAWER = 5;
         this.COLUMN_ID = 0;
         this.COLUMN_RECORDSET = 1;
@@ -90,22 +96,82 @@ implements BaseListModelListener {
         if (bl) {
             return;
         }
-        remoteHMIService.addCommandHandler(-2120837120, new LeftDrawerHandler$2(this, "left-drawer", logChannel, remoteHMIService));
-        remoteHMIService.addCommandHandler(232912133, new LeftDrawerHandler$3(this, "left-drawer-main-icon-update"));
-        remoteHMIService.addCommandHandler(-2003396608, new LeftDrawerHandler$4(this, "selected-left-drawer-entry", logChannel, remoteHMIService));
-        remoteHMIService.addCommandHandler(182580485, new LeftDrawerHandler$5(this, "selected-left-drawer-sub-entry", logChannel));
+        remoteHMIService.addCommandHandler(10000001, new AbstractCommandHandler("left-drawer"){
+
+            protected LogAppender getParamsForDebugging(Object object) {
+                return LogAppender.Factory.fromString(((Commands.LeftDrawerPayload)object).getContextName());
+            }
+
+            public void indicateCommand(int n, Object object) {
+                logChannel.log(1000000, "LeftDrawerHandler#indicateCommand: Commands.STATE_LEFT_DRAWER called");
+                if (!(object instanceof Commands.LeftDrawerPayload)) {
+                    logChannel.log(100000, "LeftDrawerPayload#indicateCommand: wrong payload provided");
+                    return;
+                }
+                Commands.LeftDrawerPayload leftDrawerPayload = (Commands.LeftDrawerPayload)object;
+                String string = leftDrawerPayload.getContextName();
+                RemoteHMIContext remoteHMIContext = remoteHMIService.getContextManagerComponent().getCurrentContext();
+                if (remoteHMIContext != null && remoteHMIContext.getContextName().equals(string)) {
+                    LeftDrawerHandler.this.setMenuEntriesForContext(leftDrawerPayload);
+                } else {
+                    logChannel.log(10000000, "LeftDrawerPayload#indicateCommand: LeftDrawerPayload saved as payloadLastRecieved");
+                    LeftDrawerHandler.this.payloadLastRecieved = leftDrawerPayload;
+                }
+            }
+        });
+        remoteHMIService.addCommandHandler(100000013, new AbstractCommandHandler("left-drawer-main-icon-update"){
+
+            protected LogAppender getParamsForDebugging(Object object) {
+                return LogAppender.Factory.fromString(((Commands.LeftDrawerIconUpdatePayload)object).getContextName());
+            }
+
+            public void indicateCommand(int n, Object object) {
+                Commands.LeftDrawerIconUpdatePayload leftDrawerIconUpdatePayload = (Commands.LeftDrawerIconUpdatePayload)object;
+                LeftDrawerHandler.this.updateListModelEntry(leftDrawerIconUpdatePayload.getDrawerEntry(), leftDrawerIconUpdatePayload.getUpdateType(), leftDrawerIconUpdatePayload.getContextName());
+            }
+        });
+        remoteHMIService.addCommandHandler(0x989688, new AbstractCommandHandler("selected-left-drawer-entry"){
+
+            protected LogAppender getParamsForDebugging(Object object) {
+                return LogAppender.Factory.fromString(((Commands.SelectedLeftDrawerEntryPayload)object).getContextName());
+            }
+
+            public void indicateCommand(int n, Object object) {
+                Commands.SelectedLeftDrawerEntryPayload selectedLeftDrawerEntryPayload = (Commands.SelectedLeftDrawerEntryPayload)object;
+                String string = selectedLeftDrawerEntryPayload.idValue;
+                String string2 = selectedLeftDrawerEntryPayload.getContextName();
+                logChannel.log(1000000, "LeftDrawerHandler#indicateCommand: Commands.STATE_SELECTED_LEFT_DRAWER_ENTRY and contextName '%1'", (Object)string2);
+                DrawerEntryLeftDrawer drawerEntryLeftDrawer = LeftDrawerHandler.this.getDrawerEntryById(string);
+                LeftDrawerHandler.this.setCurrentlySelectedLeftDrawerEntry(drawerEntryLeftDrawer, LeftDrawerHandler.this.contextManagerComponent.getContext(string2));
+                remoteHMIService.flushModelGroup();
+            }
+        });
+        remoteHMIService.addCommandHandler(100000010, new AbstractCommandHandler("selected-left-drawer-sub-entry"){
+
+            protected LogAppender getParamsForDebugging(Object object) {
+                return LogAppender.Factory.fromString(((Commands.SelectedLeftDrawerSubEntryPayload)object).getContextName());
+            }
+
+            public void indicateCommand(int n, Object object) {
+                Commands.SelectedLeftDrawerSubEntryPayload selectedLeftDrawerSubEntryPayload = (Commands.SelectedLeftDrawerSubEntryPayload)object;
+                String string = selectedLeftDrawerSubEntryPayload.idValue;
+                String string2 = selectedLeftDrawerSubEntryPayload.getContextName();
+                logChannel.log(1000000, "LeftDrawerHandler#indicateCommand: Commands.STATE_SELECTED_LEFT_DRAWER_SUB_ENTRY and contextName '%1'", (Object)string2);
+                LeftDrawerHandler.this.setCurrentlySelectedLeftDrawerSubEntry(string, LeftDrawerHandler.this.contextManagerComponent.getContext(string2));
+            }
+        });
         HMIService hMIService = remoteHMIService.getFrameworkAccess().getHMIService();
-        hMIService.getBaseListModel(387654400).setListener(this);
-        hMIService.getBaseListModel(807150336).setListener(this);
-        modelGroup.add(hMIService.getBaseListModel(387654400));
-        modelGroup.add(hMIService.getBaseListModel(807150336));
-        modelGroup.add(hMIService.getResourceLocatorModel(1746674432));
+        hMIService.getBaseListModel(2300695).setListener(this);
+        hMIService.getBaseListModel(2300976).setListener(this);
+        modelGroup.add(hMIService.getBaseListModel(2300695));
+        modelGroup.add(hMIService.getBaseListModel(2300976));
+        modelGroup.add(hMIService.getResourceLocatorModel(2301032));
     }
 
     public void populateSubListAndSetSelection(RemoteHMIContext remoteHMIContext) {
         Object object;
-        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(387654400);
-        BaseListModelApp baseListModelApp2 = this.hmiService.getBaseListModel(807150336);
+        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(2300695);
+        BaseListModelApp baseListModelApp2 = this.hmiService.getBaseListModel(2300976);
         int n = this.getEntryIndex(remoteHMIContext.getCurrentlySelectedLeftDrawerEntryId(), this.listModelValues);
         if (baseListModelApp.getLength() == 0 || n == -1) {
             return;
@@ -124,9 +190,13 @@ implements BaseListModelListener {
         return this.menuEntries;
     }
 
-    @Override
-    public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.remoteHMIService.execute(new LeftDrawerHandler$6(this, "leftdrawer-item-selected", evoListRow, n));
+    public void itemSelected(final EvoListRow evoListRow, final int n, int n2, int n3, int n4) {
+        this.remoteHMIService.execute(new AbstractRemoteHMITask("leftdrawer-item-selected"){
+
+            public void run() {
+                LeftDrawerHandler.this.invokeAction(evoListRow, n);
+            }
+        });
     }
 
     public Set getCurrentLeftDrawerEntriesIds() {
@@ -137,27 +207,24 @@ implements BaseListModelListener {
         return this.currentSubListModelValues.keySet();
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    protected void setMenuEntriesForContext(Commands$LeftDrawerPayload commands$LeftDrawerPayload) {
-        if (commands$LeftDrawerPayload == null) {
-            this.log.log(-1601830656, "LeftDrawerHandler#setMenuEntriesForContext: LeftDrawerPayload provided is null");
+    protected void setMenuEntriesForContext(Commands.LeftDrawerPayload leftDrawerPayload) {
+        if (leftDrawerPayload == null) {
+            this.log.log(100000, "LeftDrawerHandler#setMenuEntriesForContext: LeftDrawerPayload provided is null");
             return;
         }
-        String string = commands$LeftDrawerPayload.getContextName();
-        List list = commands$LeftDrawerPayload.leftDrawerEntriesList;
+        String string = leftDrawerPayload.getContextName();
+        List list = leftDrawerPayload.leftDrawerEntriesList;
         List list2 = list == null ? Collections.EMPTY_LIST : list;
-        this.log.log(1078071040, "LeftDrawerHandler#setMenuEntriesForContext: Called for context name '%1' with number of menu entries '%2'", (Object)string, (long)list2.size());
+        this.log.log(1000000, "LeftDrawerHandler#setMenuEntriesForContext: Called for context name '%1' with number of menu entries '%2'", (Object)string, (long)list2.size());
         this.menuEntries = list2;
         RightDrawerHandler rightDrawerHandler = ((RemoteHMIServiceEvo)this.remoteHMIService).getRightDrawerHandler();
         Map map = this.loadLeftDrawerForSpecificContext(string, list2);
@@ -165,13 +232,13 @@ implements BaseListModelListener {
     }
 
     protected void updateListModelEntry(DrawerEntryLeftDrawer drawerEntryLeftDrawer, int n, String string) {
-        this.log.log(1078071040, "LeftDrawerHandler#updateListModelEntry: called for context '%1'", (Object)string);
+        this.log.log(1000000, "LeftDrawerHandler#updateListModelEntry: called for context '%1'", (Object)string);
         if (drawerEntryLeftDrawer == null) {
-            this.log.log(-1601830656, "LeftDrawerHandler#updateListModelEntry: Can not update left drawer entry because the entry provided for update is null");
+            this.log.log(100000, "LeftDrawerHandler#updateListModelEntry: Can not update left drawer entry because the entry provided for update is null");
             return;
         }
         if (this.menuEntries == null) {
-            this.log.log(-1601830656, "LeftDrawerHandler#updateListModelEntry: Drawer entry '%1' can not be updated because menuEntries is null", (Object)drawerEntryLeftDrawer.getEntryName());
+            this.log.log(100000, "LeftDrawerHandler#updateListModelEntry: Drawer entry '%1' can not be updated because menuEntries is null", (Object)drawerEntryLeftDrawer.getEntryName());
             return;
         }
         Iterator iterator = this.menuEntries.iterator();
@@ -183,20 +250,20 @@ implements BaseListModelListener {
             String string2 = drawerEntryLeftDrawer.getIcon().getPath();
             String string3 = drawerEntryLeftDrawer.getReflectionIcon().getPath();
             if (drawerEntryLeftDrawer2.getEntryId().equals(drawerEntryLeftDrawer.getEntryId())) {
-                object2 = this.hmiService.getBaseListModel(387654400);
+                object2 = this.hmiService.getBaseListModel(2300695);
                 long l = ((Integer)this.listModelValues.get(drawerEntryLeftDrawer.getEntryId())).longValue();
                 object = object2.getRowByUniqueID(l);
                 int n2 = object2.getIndexForUniqueID(l);
                 if (n == 1) {
                     drawerEntryLeftDrawer2.getIcon().setPath(string2);
                     ((EvoListRow)object).setHMIResourceLocator(3, new HMIResourceLocator(-1, string2));
-                    this.log.log(-2137614336, "LeftDrawerHandler#updateListModelEntry: Update call for drawer entry : %1, update type : UPDATE_TYPE_MAIN, icon path : %2", (Object)drawerEntryLeftDrawer.getEntryName(), (Object)string2);
+                    this.log.log(10000000, "LeftDrawerHandler#updateListModelEntry: Update call for drawer entry : %1, update type : UPDATE_TYPE_MAIN, icon path : %2", (Object)drawerEntryLeftDrawer.getEntryName(), (Object)string2);
                 } else if (n == 2) {
                     drawerEntryLeftDrawer2.getReflectionIcon().setPath(string3);
                     ((EvoListRow)object).setHMIResourceLocator(4, new HMIResourceLocator(-1, string3));
-                    this.log.log(-2137614336, "LeftDrawerHandler#updateListModelEntry: Update call for drawer entry : %1, update type : UPDATE_TYPE_REFLECTION, icon path : %2", (Object)drawerEntryLeftDrawer.getEntryName(), (Object)string3);
+                    this.log.log(10000000, "LeftDrawerHandler#updateListModelEntry: Update call for drawer entry : %1, update type : UPDATE_TYPE_REFLECTION, icon path : %2", (Object)drawerEntryLeftDrawer.getEntryName(), (Object)string3);
                 } else if (n == 3) {
-                    this.log.log(-2137614336, "LeftDrawerHandler#updateListModelEntry: update type : UPDATE_TYPE_CLOSED so doing nothing as this is not supported anymore");
+                    this.log.log(10000000, "LeftDrawerHandler#updateListModelEntry: update type : UPDATE_TYPE_CLOSED so doing nothing as this is not supported anymore");
                 }
                 object2.setRow(n2, (EvoListRow)object);
                 this.remoteHMIService.flushModelGroup();
@@ -223,7 +290,7 @@ implements BaseListModelListener {
                     n4 = 3;
                 }
                 if (l != -1L && n4 != -1) {
-                    BaseListModelApp baseListModelApp = this.remoteHMIService.getFrameworkAccess().getHMIService().getBaseListModel(807150336);
+                    BaseListModelApp baseListModelApp = this.remoteHMIService.getFrameworkAccess().getHMIService().getBaseListModel(2300976);
                     EvoListRow evoListRow = baseListModelApp.getRowByUniqueID(l);
                     int n5 = baseListModelApp.getIndexForUniqueID(l);
                     evoListRow.setHMIResourceLocator(n4, new HMIResourceLocator(-1, string4));
@@ -258,14 +325,14 @@ implements BaseListModelListener {
      */
     private Map loadLeftDrawerForSpecificContext(String string, List list) {
         int n;
-        this.log.log(1078071040, "LeftDrawerHandler#loadLeftDrawerForSpecificContext: Called for context name %1", (Object)string);
-        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(387654400);
+        this.log.log(1000000, "LeftDrawerHandler#loadLeftDrawerForSpecificContext: Called for context name %1", (Object)string);
+        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(2300695);
         BaseListModel baseListModel = new BaseListModel(baseListModelApp.getID(), null);
         RemoteHMIContext remoteHMIContext = this.contextManagerComponent.getContext(string);
-        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(1226646272);
+        ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(2301257);
         int n2 = n = list == null ? 0 : list.size();
         if (n == 0) {
-            this.log.log(1078071040, "LeftDrawerHandler#loadLeftDrawerForSpecificContext: no entries for context '%1'", (Object)string);
+            this.log.log(1000000, "LeftDrawerHandler#loadLeftDrawerForSpecificContext: no entries for context '%1'", (Object)string);
             choiceModelApp.setValue(1);
             remoteHMIContext.setLeftDrawerAvailable(false);
             this.listModelValues = Collections.EMPTY_MAP;
@@ -276,7 +343,7 @@ implements BaseListModelListener {
             this.remoteHMIService.flushModelGroup();
             return Collections.EMPTY_MAP;
         }
-        this.log.log(1078071040, "LeftDrawerHandler#loadLeftDrawerForSpecificContext: no. of entries for context '%1' are '%2'", (Object)string, (long)n);
+        this.log.log(1000000, "LeftDrawerHandler#loadLeftDrawerForSpecificContext: no. of entries for context '%1' are '%2'", (Object)string, (long)n);
         choiceModelApp.setValue(0);
         remoteHMIContext.setLeftDrawerAvailable(true);
         HashMap hashMap = new HashMap();
@@ -301,7 +368,7 @@ implements BaseListModelListener {
             }
         }
         catch (Exception exception) {
-            this.log.log(1078071040, "LeftDrawerHandler#loadLeftDrawerForSpecificContext: Exception %1", (Throwable)exception);
+            this.log.log(1000000, "LeftDrawerHandler#loadLeftDrawerForSpecificContext: Exception %1", (Throwable)exception);
         }
         finally {
             baseListModelApp.update(baseListModel);
@@ -323,7 +390,7 @@ implements BaseListModelListener {
         block8: {
             int n2;
             Object object;
-            this.log.log(1078071040, "LeftDrawerHandler#populateSubListModel: Populate sub list model for row '%1'", (Object)Integer.toString(n));
+            this.log.log(1000000, "LeftDrawerHandler#populateSubListModel: Populate sub list model for row '%1'", (Object)Integer.toString(n));
             baseListModelApp2.removeAll();
             if (this.hasRightDrawerSelectionChanged(baseListModelApp, n)) {
                 baseListModelApp.setSelectedUniqueID(n);
@@ -338,7 +405,7 @@ implements BaseListModelListener {
                 this.currentSubListModelValues = new HashMap();
                 object = (List)this.subEntriesForAllEntries.get(string2);
                 n2 = object == null ? 0 : object.size();
-                this.log.log(-2137614336, "LeftDrawerHandler#populateSubListModel: Number of sub entries for row '%1' are '%2'", (Object)Integer.toString(n), (Object)Integer.toString(n2));
+                this.log.log(10000000, "LeftDrawerHandler#populateSubListModel: Number of sub entries for row '%1' are '%2'", (Object)Integer.toString(n), (Object)Integer.toString(n2));
                 for (int i2 = 0; i2 < n2; ++i2) {
                     drawerEntry = (DrawerEntryLeftDrawer)object.get(i2);
                     if (drawerEntry == null) continue;
@@ -390,12 +457,12 @@ implements BaseListModelListener {
         evoListRow.setText(2, string);
         if ("top_wizard".equals(string5)) {
             Integer n2 = (Integer)topWizardIcons.get(string4);
-            this.log.log(-2137614336, "LeftDrawerHandler#populateListModelRow: context top_wizard, entryid %1, iconId %2", (Object)string4, (Object)n2);
+            this.log.log(10000000, "LeftDrawerHandler#populateListModelRow: context top_wizard, entryid %1, iconId %2", (Object)string4, (Object)n2);
             int n3 = n2 != null ? n2 : -1;
             evoListRow.setHMIResourceLocator(3, new HMIResourceLocator(n3, HMIResourceLocator.UNDEFINED_URI));
             evoListRow.setHMIResourceLocator(4, new HMIResourceLocator(n3, HMIResourceLocator.UNDEFINED_URI));
         } else {
-            this.log.log(-2137614336, "LeftDrawerHandler#populateListModelRow: context '%1', local url used for icon and reflection icon", (Object)string5);
+            this.log.log(10000000, "LeftDrawerHandler#populateListModelRow: context '%1', local url used for icon and reflection icon", (Object)string5);
             evoListRow.setHMIResourceLocator(3, new HMIResourceLocator(-1, string2));
             evoListRow.setHMIResourceLocator(4, new HMIResourceLocator(-1, string3));
         }
@@ -404,19 +471,19 @@ implements BaseListModelListener {
     }
 
     private void invokeAction(EvoListRow evoListRow, int n) {
-        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(807150336);
+        BaseListModelApp baseListModelApp = this.hmiService.getBaseListModel(2300976);
         baseListModelApp.clearAll();
         int n2 = (int)evoListRow.getUniqueID();
         String string = "";
-        RemoteHMIAction remoteHMIAction = this.remoteHMIService.getAction(-2120837120);
-        if (n == 387654400) {
-            this.log.log(1078071040, "LeftDrawerHandler#invokeAction: item %1 was selected", (long)n2);
+        RemoteHMIAction remoteHMIAction = this.remoteHMIService.getAction(10000001);
+        if (n == 2300695) {
+            this.log.log(1000000, "LeftDrawerHandler#invokeAction: item %1 was selected", (long)n2);
             remoteHMIAction.getParameters().putInt("selectedNumber", n2);
             string = this.getSelectedEntry(n2, this.listModelValues);
             DrawerEntryLeftDrawer drawerEntryLeftDrawer = this.getDrawerEntryById(string);
             this.setCurrentlySelectedLeftDrawerEntry(drawerEntryLeftDrawer, this.remoteHMIService.getContext());
-        } else if (n == 807150336) {
-            this.log.log(1078071040, "LeftDrawerHandler#invokeAction: subitem %1 was selected", (long)n2);
+        } else if (n == 2300976) {
+            this.log.log(1000000, "LeftDrawerHandler#invokeAction: subitem %1 was selected", (long)n2);
             string = this.getSelectedEntry(n2, this.currentSubListModelValues);
             this.setCurrentlySelectedLeftDrawerSubEntry(string, this.remoteHMIService.getContext());
         }
@@ -438,10 +505,10 @@ implements BaseListModelListener {
         String string = "";
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            Integer n2 = (Integer)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            Integer n2 = (Integer)entry.getValue();
             if (n2 != n) continue;
-            string = (String)map$Entry.getKey();
+            string = (String)entry.getKey();
             break;
         }
         return string;
@@ -464,9 +531,9 @@ implements BaseListModelListener {
     private void updateClosedIcon(DrawerEntryLeftDrawer drawerEntryLeftDrawer) {
         String string;
         int n;
-        ResourceLocatorModelApp resourceLocatorModelApp = this.hmiService.getResourceLocatorModel(1746674432);
+        ResourceLocatorModelApp resourceLocatorModelApp = this.hmiService.getResourceLocatorModel(2301032);
         if (drawerEntryLeftDrawer == null) {
-            this.log.log(1078071040, "LeftDrawerHandler#updateClosedIcon: entry is null and doing nothing");
+            this.log.log(1000000, "LeftDrawerHandler#updateClosedIcon: entry is null and doing nothing");
             return;
         }
         DrawerEntryIcon drawerEntryIcon = drawerEntryLeftDrawer.getClosedIcon();
@@ -477,74 +544,23 @@ implements BaseListModelListener {
             n = 0;
             string = drawerEntryIcon.getPath();
         }
-        this.log.log(1078071040, "LeftDrawerHandler#updateClosedIcon: updating closed icon for entry id %1 with status %2 and path %3", (Object)drawerEntryLeftDrawer);
+        this.log.log(1000000, "LeftDrawerHandler#updateClosedIcon: updating closed icon for entry id %1 with status %2 and path %3", (Object)drawerEntryLeftDrawer);
         resourceLocatorModelApp.setStatus(n);
         resourceLocatorModelApp.setResourceLocator(-1, string);
     }
 
     public void setLeftDrawerForContext(String string) {
         if (this.payloadLastRecieved == null) {
-            this.log.log(1078071040, "LeftDrawerHandler#setLeftDrawerForContext: no last recieved drawer configuration exists");
+            this.log.log(1000000, "LeftDrawerHandler#setLeftDrawerForContext: no last recieved drawer configuration exists");
             return;
         }
         if (!string.equals(this.payloadLastRecieved.getContextName())) {
-            this.log.log(1078071040, "LeftDrawerHandler#setLeftDrawerForContext: no last recieved drawer configuration exists for context '%1'", (Object)string);
+            this.log.log(1000000, "LeftDrawerHandler#setLeftDrawerForContext: no last recieved drawer configuration exists for context '%1'", (Object)string);
             return;
         }
-        this.log.log(1078071040, "LeftDrawerHandler#setLeftDrawerForContext: set last recieved drawer configuration for context '%1'", (Object)string);
+        this.log.log(1000000, "LeftDrawerHandler#setLeftDrawerForContext: set last recieved drawer configuration for context '%1'", (Object)string);
         this.setMenuEntriesForContext(this.payloadLastRecieved);
         this.payloadLastRecieved = null;
-    }
-
-    static /* synthetic */ int access$000() {
-        return TOP_WIZARD_HOME;
-    }
-
-    static /* synthetic */ int access$100() {
-        return TOP_WIZARD_INFORMATION;
-    }
-
-    static /* synthetic */ int access$200() {
-        return TOP_WIZARD_NAVIGATION;
-    }
-
-    static /* synthetic */ int access$300() {
-        return TOP_WIZARD_ENTERTAINTMENT;
-    }
-
-    static /* synthetic */ int access$400() {
-        return TOP_WIZARD_COMMUNICATION;
-    }
-
-    static /* synthetic */ int access$500() {
-        return TOP_WIZARD_CARREMOTE;
-    }
-
-    static /* synthetic */ Commands$LeftDrawerPayload access$602(LeftDrawerHandler leftDrawerHandler, Commands$LeftDrawerPayload commands$LeftDrawerPayload) {
-        leftDrawerHandler.payloadLastRecieved = commands$LeftDrawerPayload;
-        return leftDrawerHandler.payloadLastRecieved;
-    }
-
-    static /* synthetic */ DrawerEntryLeftDrawer access$700(LeftDrawerHandler leftDrawerHandler, String string) {
-        return leftDrawerHandler.getDrawerEntryById(string);
-    }
-
-    static /* synthetic */ ContextManagerComponent access$800(LeftDrawerHandler leftDrawerHandler) {
-        return leftDrawerHandler.contextManagerComponent;
-    }
-
-    static /* synthetic */ void access$900(LeftDrawerHandler leftDrawerHandler, EvoListRow evoListRow, int n) {
-        leftDrawerHandler.invokeAction(evoListRow, n);
-    }
-
-    static {
-        TOP_WIZARD_HOME = 0;
-        TOP_WIZARD_INFORMATION = 1;
-        TOP_WIZARD_NAVIGATION = 2;
-        TOP_WIZARD_ENTERTAINTMENT = 3;
-        TOP_WIZARD_COMMUNICATION = 4;
-        TOP_WIZARD_CARREMOTE = 5;
-        topWizardIcons = new LeftDrawerHandler$1();
     }
 }
 

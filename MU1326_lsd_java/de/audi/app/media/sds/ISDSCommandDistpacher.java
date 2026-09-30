@@ -7,13 +7,10 @@ import de.audi.app.media.sds.ISDSCommandListener;
 import java.util.Map;
 
 public interface ISDSCommandDistpacher {
-    default public void addCommandListener(int n, ISDSCommandListener iSDSCommandListener) {
-    }
+    public void addCommandListener(int var1, ISDSCommandListener var2);
 
-    default public void removeCommandListener(int n, ISDSCommandListener iSDSCommandListener) {
-    }
+    public void removeCommandListener(int var1, ISDSCommandListener var2);
 
-    default public Object notifyCommand(int n, int n2, Map map) {
-    }
+    public Object notifyCommand(int var1, int var2, Map var3);
 }
 

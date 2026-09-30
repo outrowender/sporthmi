@@ -4,18 +4,14 @@
 package de.audi.app.car.core.charisma;
 
 public interface ISpoilerMessageHandler {
-    public static final int INVALID_POPUP_ID;
+    public static final int INVALID_POPUP_ID = -1;
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void showMessage(int n) {
-    }
+    public void showMessage(int var1);
 
-    default public void updateMessage() {
-    }
+    public void updateMessage();
 }
 

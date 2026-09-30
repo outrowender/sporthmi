@@ -17,9 +17,8 @@ extends AbstractSystemCallCommand {
         this.naviService = naviService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called.", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called.", (Object)this.getName());
         this.naviService.triggerTpegPoiReturn();
         this.processingFinished();
     }

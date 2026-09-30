@@ -16,13 +16,11 @@ import de.mib.swdiagnosis.combi.CombiDiagnosisConnector;
 
 public abstract class AbstractCombiActivator
 extends AbstractBAPActivator {
-    @Override
     protected void init() {
         CombiModelAccess.init(this.framework);
         CombiCodingAccess.init(this.framework);
     }
 
-    @Override
     protected AbstractSwDiagnosis createDiagnosis(AbstractBAPApplication abstractBAPApplication) {
         return new CombiDiagnosisConnector((AbstractCombiBAPApplication)abstractBAPApplication);
     }

@@ -23,10 +23,10 @@ public class TMCInfoHandler {
 
     protected void updateTMCInfoMessages(CombiBAPTMCInfoMessage[] combiBAPTMCInfoMessageArray) {
         if (combiBAPTMCInfoMessageArray == null) {
-            this.logChannel.log(-1601830656, "[TMCInfoHandler#updateTMCInfoMessages] xUrgentMessages is null");
+            this.logChannel.log(100000, "[TMCInfoHandler#updateTMCInfoMessages] xUrgentMessages is null");
             return;
         }
-        this.logChannel.log(-2137614336, "[TMCInfoHandler#updateTMCInfoMessages] %1 messages received", (long)combiBAPTMCInfoMessageArray.length);
+        this.logChannel.log(10000000, "[TMCInfoHandler#updateTMCInfoMessages] %1 messages received", (long)combiBAPTMCInfoMessageArray.length);
         this.pendingMessages.clear();
         this.waitingForConfirmation = false;
         for (int i2 = 0; i2 < combiBAPTMCInfoMessageArray.length; ++i2) {
@@ -58,9 +58,9 @@ public class TMCInfoHandler {
     }
 
     protected void notifyMessagePresentationConfirmed(int n) {
-        this.logChannel.log(-2137614336, "[TMCInfoHandler#notifyMessagePresentationConfirmed] presentation confirmed for messageID=%1", (long)n);
+        this.logChannel.log(10000000, "[TMCInfoHandler#notifyMessagePresentationConfirmed] presentation confirmed for messageID=%1", (long)n);
         if (this.pendingMessages.isEmpty()) {
-            this.logChannel.log(-1601830656, "[TMCInfoHandler#notifyMessagePresentationConfirmed] no waiting messages to be confirmed");
+            this.logChannel.log(100000, "[TMCInfoHandler#notifyMessagePresentationConfirmed] no waiting messages to be confirmed");
         } else {
             this.pendingMessages.remove(0);
             this.waitingForConfirmation = false;

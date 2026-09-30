@@ -21,7 +21,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class DataBrowser
 extends AbstractMediaBrowser {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DataBrowser";
     private final DataBrowserList dataBrowserList;
     private final DataTruffleSearchController searchController;
     private final DataBrowserCategoryList categoryList;
@@ -33,9 +33,8 @@ extends AbstractMediaBrowser {
         this.categoryList = new DataBrowserCategoryList(iMediaTerminal, this.dataBrowserList, iFavoritesController, iDataBrowserLastSelectionHandler, dataPlayer);
     }
 
-    @Override
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"DataBrowser");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         super.init();
         this.dataBrowserList.init();
         if (this.searchController != null) {
@@ -44,9 +43,8 @@ extends AbstractMediaBrowser {
         this.categoryList.init();
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"DataBrowser");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         super.deinit();
         this.categoryList.deinit();
         this.dataBrowserList.deinit();
@@ -55,22 +53,21 @@ extends AbstractMediaBrowser {
         }
     }
 
-    @Override
     public void activate(ISourceSlot iSourceSlot) {
         MediaCapabilities mediaCapabilities = iSourceSlot.getCapabilities();
         if (mediaCapabilities.isListHandling()) {
-            this.logger.log(1078071040, "[%1.activate] Browser list supported.", (Object)"DataBrowser");
+            this.logger.log(1000000, "[%1.activate] Browser list supported.", (Object)LOGCLASS);
             super.activate(iSourceSlot);
             if (mediaCapabilities.isContentBrowsing() && this.searchController != null && mediaCapabilities.isSearch()) {
-                this.logger.log(1078071040, "[%1.activate] Search supported.", (Object)"DataBrowser");
+                this.logger.log(1000000, "[%1.activate] Search supported.", (Object)LOGCLASS);
                 this.searchController.activate(iSourceSlot);
             } else {
-                this.logger.log(1078071040, "[%1.activate] No search supported.", (Object)"DataBrowser");
+                this.logger.log(1000000, "[%1.activate] No search supported.", (Object)LOGCLASS);
             }
             this.categoryList.activate(iSourceSlot);
             return;
         }
-        this.logger.log(1078071040, "[%1.activate] No browse list supported.", (Object)"DataBrowser");
+        this.logger.log(1000000, "[%1.activate] No browse list supported.", (Object)LOGCLASS);
     }
 
     public void setRestoreLastSelectionPossible(boolean bl) {
@@ -78,47 +75,44 @@ extends AbstractMediaBrowser {
     }
 
     public void update(byte by, ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.update]", (Object)"DataBrowser");
+        this.logger.log(1000000, "[%1.update]", (Object)LOGCLASS);
         MediaCapabilities mediaCapabilities = iSourceSlot.getCapabilities();
         if (1 == by || 2 == by) {
-            this.logger.log(1078071040, "[%1.update] Browser list supported.", (Object)"DataBrowser");
+            this.logger.log(1000000, "[%1.update] Browser list supported.", (Object)LOGCLASS);
             super.activate(iSourceSlot);
             if (mediaCapabilities.isContentBrowsing() && this.searchController != null && mediaCapabilities.isSearch()) {
-                this.logger.log(1078071040, "[%1.update] Search supported.", (Object)"DataBrowser");
+                this.logger.log(1000000, "[%1.update] Search supported.", (Object)LOGCLASS);
                 this.searchController.activate(iSourceSlot);
             } else {
-                this.logger.log(1078071040, "[%1.update] No search supported.", (Object)"DataBrowser");
+                this.logger.log(1000000, "[%1.update] No search supported.", (Object)LOGCLASS);
             }
             this.categoryList.activate(iSourceSlot);
             return;
         }
         if (3 == by) {
             if (this.searchController != null && mediaCapabilities.isSearch()) {
-                this.logger.log(1078071040, "[%1.update] Search supported.", (Object)"DataBrowser");
+                this.logger.log(1000000, "[%1.update] Search supported.", (Object)LOGCLASS);
                 this.searchController.activate(iSourceSlot);
             } else {
-                this.logger.log(1078071040, "[%1.update] No search supported.", (Object)"DataBrowser");
+                this.logger.log(1000000, "[%1.update] No search supported.", (Object)LOGCLASS);
             }
             this.categoryList.activate(iSourceSlot);
             return;
         }
     }
 
-    @Override
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"DataBrowser");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         super.deactivate();
     }
 
-    @Override
     protected void browserActivated(IBrowseListContext iBrowseListContext) {
-        this.logger.log(1078071040, "[%1.browserActivated]", (Object)"DataBrowser");
+        this.logger.log(1000000, "[%1.browserActivated]", (Object)LOGCLASS);
         this.dataBrowserList.activate(iBrowseListContext);
     }
 
-    @Override
     protected void browserDeactivated(ISourceSlot iSourceSlot, boolean bl) {
-        this.logger.log(1078071040, "[%1.browserDeactivated]", (Object)"DataBrowser");
+        this.logger.log(1000000, "[%1.browserDeactivated]", (Object)LOGCLASS);
         if (this.searchController != null) {
             this.searchController.deactivate();
         }
@@ -128,14 +122,13 @@ extends AbstractMediaBrowser {
         }
     }
 
-    @Override
     protected void diagResetBrowser() {
         super.diagResetBrowser();
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("DataBrowser").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 }

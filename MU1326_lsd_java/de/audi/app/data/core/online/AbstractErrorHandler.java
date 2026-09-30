@@ -26,8 +26,8 @@ public abstract class AbstractErrorHandler
 extends AbstractDataConfigurationComponent
 implements IErrorHandler {
     private static final int[] ATTRIBUTE_NOTIFICATIONS = new int[]{6};
-    protected static final int AUDI_CONNECT;
-    protected static final int WLAN;
+    protected static final int AUDI_CONNECT = 0;
+    protected static final int WLAN = 1;
     private ServiceTracker serviceTracker;
     private ServiceRegistration serviceRegistration;
     private final Object stateLock = new Object();
@@ -43,7 +43,7 @@ implements IErrorHandler {
     private volatile boolean dataOnly = false;
     private volatile boolean requestPopupShown = false;
     private final ChoiceModelApp changeMediator = this.getChoiceModel(4097);
-    private final ChoiceModelApp onlineCheckApplicationChoice = this.getChoiceModel(2049320448);
+    private final ChoiceModelApp onlineCheckApplicationChoice = this.getChoiceModel(2500218);
     private INaviConnectivityStateListener navigation;
     static /* synthetic */ Class class$de$audi$atip$interapp$INaviConnectivityStateListener;
     static /* synthetic */ Class class$de$audi$atip$power$PowerEventListener;
@@ -52,7 +52,6 @@ implements IErrorHandler {
         super(iDataApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
@@ -64,7 +63,7 @@ implements IErrorHandler {
         int n3;
         int n4;
         int n5;
-        this.log.log(1078071040, "AbstractErrorHandler#updateErrorState() MMI: %1, WLAN: %2", (Object)OnlineErrorState.ERROR_NAMES[n], (Object)OnlineErrorState.ERROR_NAMES[n2]);
+        this.log.log(1000000, "AbstractErrorHandler#updateErrorState() MMI: %1, WLAN: %2", (Object)OnlineErrorState.ERROR_NAMES[n], (Object)OnlineErrorState.ERROR_NAMES[n2]);
         Object object = this.stateLock;
         synchronized (object) {
             n5 = this.errorMmi;
@@ -79,10 +78,10 @@ implements IErrorHandler {
             this.phone.updateErrorState(n, n2);
             if (n3 != 3) {
                 if (this.map.errorSuppressed(n)) {
-                    this.log.log(1078071040, "AbstractErrorHandler#updateErrorState(): Activating navi bypass to suppress error hint");
+                    this.log.log(1000000, "AbstractErrorHandler#updateErrorState(): Activating navi bypass to suppress error hint");
                     this.activateNaviBypass();
                 } else if (n == 22 || n == 21) {
-                    this.log.log(1078071040, "AbstractErrorHandler#updateErrorState(): Not deactivating Navi Bypass for %1", (Object)OnlineErrorState.ERROR_NAMES[n]);
+                    this.log.log(1000000, "AbstractErrorHandler#updateErrorState(): Not deactivating Navi Bypass for %1", (Object)OnlineErrorState.ERROR_NAMES[n]);
                 } else {
                     this.deactivateNaviBypass();
                 }
@@ -101,7 +100,7 @@ implements IErrorHandler {
         boolean bl3;
         boolean bl4;
         int n2;
-        this.log.log(1078071040, "AbstractErrorHandler#updateApplicationState(): %3, wlan=%1, dataOnly=%2", (Object)bl, (Object)bl2, (long)n);
+        this.log.log(1000000, "AbstractErrorHandler#updateApplicationState(): %3, wlan=%1, dataOnly=%2", (Object)bl, (Object)bl2, (long)n);
         Object object = this.stateLock;
         synchronized (object) {
             n2 = this.context;
@@ -121,25 +120,25 @@ implements IErrorHandler {
     }
 
     void telAppEntered() {
-        this.log.log(-2137614336, "AbstractErrorHandler#telAppEntered()");
+        this.log.log(10000000, "AbstractErrorHandler#telAppEntered()");
         this.phone.telAppEntered();
         this.checkPhoneUnlockPopup();
     }
 
     void telAppLeft() {
-        this.log.log(-2137614336, "AbstractErrorHandler#telAppLeft()");
+        this.log.log(10000000, "AbstractErrorHandler#telAppLeft()");
         this.phone.telAppLeft();
     }
 
     void hkTelPressed() {
-        this.log.log(-2137614336, "AbstractErrorHandler#hkTelPressed()");
+        this.log.log(10000000, "AbstractErrorHandler#hkTelPressed()");
         this.phone.hkTelPressed();
         this.checkPhoneUnlockPopup();
     }
 
     private void checkPhoneUnlockPopup() {
         if (this.phone.isActionRequired()) {
-            this.log.log(1078071040, "AbstractErrorHandler#checkPhoneUnlockPopup(): showing UNLOCK popup");
+            this.log.log(1000000, "AbstractErrorHandler#checkPhoneUnlockPopup(): showing UNLOCK popup");
             this.showUnlockPopup();
             this.phone.notifyErrorShown(0, this.errorMmi);
         }
@@ -147,10 +146,10 @@ implements IErrorHandler {
 
     void updateReconnectInfo(ReconnectInfo reconnectInfo) {
         boolean bl = AbstractErrorHandler.isRsapReconnect(reconnectInfo);
-        this.log.log(1078071040, "AbstractErrorHandler#updateReconnectInfo(): isRsapReconnect=%1", bl);
+        this.log.log(1000000, "AbstractErrorHandler#updateReconnectInfo(): isRsapReconnect=%1", bl);
         this.errorTimerHandler.updateReconnectInfo(bl);
         if (this.map.isReconnectBlocking()) {
-            this.log.log(1078071040, "AbstractErrorHandler#updateReconnectInfo(): Activating Navi bypass");
+            this.log.log(1000000, "AbstractErrorHandler#updateReconnectInfo(): Activating Navi bypass");
             this.activateNaviBypass();
         }
     }
@@ -168,7 +167,7 @@ implements IErrorHandler {
     }
 
     void reaction() {
-        this.log.log(1078071040, "AbstractErrorHandler#reaction(): Retriggering error presentation");
+        this.log.log(1000000, "AbstractErrorHandler#reaction(): Retriggering error presentation");
         this.action();
     }
 
@@ -177,26 +176,26 @@ implements IErrorHandler {
         boolean bl2 = this.map.isActionRequired();
         boolean bl3 = this.hotspot.isActionRequired();
         boolean bl4 = this.phone.isActionRequired();
-        this.log.log(1078071040, "AbstractErrorHandler#action(): red=%1, map=%2, wlan=%3, phone=%4", (Object)bl, (Object)bl2, (Object)bl3, (Object)bl4);
+        this.log.log(1000000, "AbstractErrorHandler#action(): red=%1, map=%2, wlan=%3, phone=%4", (Object)bl, (Object)bl2, (Object)bl3, (Object)bl4);
         if (bl) {
-            this.log.log(1078071040, "AbstractErrorHandler#action(): Show RED");
+            this.log.log(1000000, "AbstractErrorHandler#action(): Show RED");
             this.enterOnlineCheck();
             this.notifyErrorShown(0, this.errorMmi);
         } else if (bl2) {
-            this.log.log(1078071040, "AbstractErrorHandler#action(): Show Map");
+            this.log.log(1000000, "AbstractErrorHandler#action(): Show Map");
             this.deactivateNaviBypass();
             this.enterOnlineCheck();
             this.notifyErrorShown(0, this.errorMmi);
         } else {
             this.leaveOnlineCheck();
             if (bl3) {
-                this.log.log(1078071040, "AbstractErrorHandler#action(): Show WLAN");
+                this.log.log(1000000, "AbstractErrorHandler#action(): Show WLAN");
                 this.showPopup(1);
                 this.notifyErrorShown(1, this.errorWlan);
             } else {
                 this.hidePopup(this.context == 0 ? this.errorMmi : this.errorWlan, 1);
                 if (bl4) {
-                    this.log.log(1078071040, "AbstractErrorHandler#action(): Show phone");
+                    this.log.log(1000000, "AbstractErrorHandler#action(): Show phone");
                     this.showUnlockPopup();
                     this.phone.notifyErrorShown(0, this.errorMmi);
                 }
@@ -254,27 +253,22 @@ implements IErrorHandler {
         this.context = 3;
     }
 
-    @Override
-    public abstract void showPopup(int n, int n2) {
-    }
+    public abstract void showPopup(int var1, int var2);
 
     protected void hidePopup(int n, int n2) {
     }
 
-    @Override
-    public abstract void showUnlockPopup() {
-    }
+    public abstract void showUnlockPopup();
 
-    @Override
     public void updateDataRequest(int n, int n2) {
         if (n2 != 1) {
             return;
         }
-        this.log.log(1078071040, "AbstractErrorHandler#updateDataRequest(): service=%1", (long)n);
+        this.log.log(1000000, "AbstractErrorHandler#updateDataRequest(): service=%1", (long)n);
         if (n == 8) {
             this.handleUpdateDataRequest();
         } else if (n == 6 && AbstractErrorHandler.silentAccept(this.errorWlan)) {
-            this.log.log(1078071040, "AbstractErrorHandler#updateDataRequest(): Silently accepting WLAN data request");
+            this.log.log(1000000, "AbstractErrorHandler#updateDataRequest(): Silently accepting WLAN data request");
             this.acceptDataRequest(6);
         }
     }
@@ -291,10 +285,10 @@ implements IErrorHandler {
             n = this.context;
         }
         if (AbstractErrorHandler.silentAccept(n2)) {
-            this.log.log(1078071040, "AbstractErrorHandler#handleUpdateDataRequest(): Silently accepting MMI data request");
+            this.log.log(1000000, "AbstractErrorHandler#handleUpdateDataRequest(): Silently accepting MMI data request");
             this.acceptDataRequest(8);
         } else if (!(n2 != 14 && n2 != 12 && n2 != 13 || n != 0 || this.requestPopupShown)) {
-            this.log.log(1078071040, "AbstractErrorHandler#handleUpdateDataRequest(): Showing pop up for udpateDataRequest!");
+            this.log.log(1000000, "AbstractErrorHandler#handleUpdateDataRequest(): Showing pop up for udpateDataRequest!");
             this.requestPopupShown = true;
             this.showPopup(0);
         }
@@ -316,7 +310,6 @@ implements IErrorHandler {
         return this.errorMmi;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof INaviConnectivityStateListener) {
@@ -326,7 +319,6 @@ implements IErrorHandler {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof INaviConnectivityStateListener) {
             this.navigation = null;
@@ -335,7 +327,6 @@ implements IErrorHandler {
         super.removedService(serviceReference, object);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof INaviConnectivityStateListener) {
             this.navigation = (INaviConnectivityStateListener)object;
@@ -343,7 +334,6 @@ implements IErrorHandler {
         super.modifiedService(serviceReference, object);
     }
 
-    @Override
     public void init() {
         super.init();
         this.serviceTracker = new ServiceTracker(this.bundleContext, new String[]{(class$de$audi$atip$interapp$INaviConnectivityStateListener == null ? (class$de$audi$atip$interapp$INaviConnectivityStateListener = AbstractErrorHandler.class$("de.audi.atip.interapp.INaviConnectivityStateListener")) : class$de$audi$atip$interapp$INaviConnectivityStateListener).getName()}, (ServiceTrackerCustomizer)this);
@@ -351,7 +341,6 @@ implements IErrorHandler {
         this.serviceRegistration = this.bundleContext.registerService((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = AbstractErrorHandler.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), (Object)this.errorTimerHandler, null);
     }
 
-    @Override
     public void deinit() {
         this.serviceRegistration.unregister();
         this.serviceRegistration = null;

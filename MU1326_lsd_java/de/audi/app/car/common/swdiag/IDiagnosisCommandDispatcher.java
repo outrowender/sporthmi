@@ -4,7 +4,6 @@
 package de.audi.app.car.common.swdiag;
 
 public interface IDiagnosisCommandDispatcher {
-    default public String run() {
-    }
+    public String run();
 }
 

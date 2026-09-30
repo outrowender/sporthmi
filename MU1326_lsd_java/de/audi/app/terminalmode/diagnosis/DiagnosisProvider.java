@@ -15,7 +15,7 @@ import java.util.List;
 public class DiagnosisProvider
 implements ITerminalModeComponent,
 IDiagnosisDataProvider {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DiagnosisProvider";
     private IContext context;
     private CommandListManager commandListManager;
     private ITerminalLogger logger;
@@ -24,25 +24,21 @@ IDiagnosisDataProvider {
         this.context = iContext;
     }
 
-    @Override
     public void init() {
         this.context.getDiagnosisManager().addDataProvider(-1, this);
         this.commandListManager = this.context.getCommandListManager();
         this.logger = this.context.getLogger();
     }
 
-    @Override
     public void deinit() {
     }
 
-    @Override
     public String getDiagKey() {
         return "getCommandQueue";
     }
 
-    @Override
     public String getDiagValue() {
-        this.logger.main().log(1078071040, "[%1.getDiagValue]", (Object)"DiagnosisProvider");
+        this.logger.main().log(1000000, "[%1.getDiagValue]", (Object)LOGCLASS);
         Buffer buffer = new Buffer(500);
         if (null != this.commandListManager.getActiveCommandList()) {
             buffer.append(this.commandListManager.getActiveCommandList().toString());

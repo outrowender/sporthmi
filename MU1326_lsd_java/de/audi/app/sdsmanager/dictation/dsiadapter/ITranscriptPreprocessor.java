@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import org.dsi.ifc.online.DictationValueSentence;
 
 public interface ITranscriptPreprocessor {
-    default public LinkedList preprocessTranscript(DictationValueSentence dictationValueSentence) {
-    }
+    public LinkedList preprocessTranscript(DictationValueSentence var1);
 }
 

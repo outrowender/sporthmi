@@ -6,7 +6,6 @@ package de.audi.atip.utils.eventbus;
 import de.audi.atip.utils.eventbus.EventSubscriber;
 
 public interface SubscriberExceptionHandler {
-    default public void handleException(Throwable throwable, EventSubscriber eventSubscriber) {
-    }
+    public void handleException(Throwable var1, EventSubscriber var2);
 }
 

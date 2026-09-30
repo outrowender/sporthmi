@@ -6,19 +6,14 @@ package de.audi.app.media.dsi.media;
 import de.audi.app.media.dsi.media.MediaListEntry;
 
 public interface IMediaBrowserListListener {
-    default public int getClientID() {
-    }
+    public int getClientID();
 
-    default public void responseList(MediaListEntry[] mediaListEntryArray, int n) {
-    }
+    public void responseList(MediaListEntry[] var1, int var2);
 
-    default public void responsePickList(MediaListEntry[] mediaListEntryArray) {
-    }
+    public void responsePickList(MediaListEntry[] var1);
 
-    default public void errorListRequestAborted() {
-    }
+    public void errorListRequestAborted();
 
-    default public void errorPickListRequestAborted() {
-    }
+    public void errorPickListRequestAborted();
 }
 

@@ -15,12 +15,12 @@ import java.util.ResourceBundle;
 public class PriviAction
 implements PrivilegedAction {
     private int action;
-    private static final int GET_SYSTEM_PROPERTY;
-    private static final int GET_SECURITY_POLICY;
-    private static final int SET_ACCESSIBLE;
-    private static final int GET_SECURITY_PROPERTY;
-    private static final int LOAD_MESSAGES;
-    private static final int GET_BUNDLE;
+    private static final int GET_SYSTEM_PROPERTY = 1;
+    private static final int GET_SECURITY_POLICY = 2;
+    private static final int SET_ACCESSIBLE = 3;
+    private static final int GET_SECURITY_PROPERTY = 4;
+    private static final int LOAD_MESSAGES = 5;
+    private static final int GET_BUNDLE = 6;
     private String stringArg1;
     private String stringArg2;
     private AccessibleObject accessible;
@@ -65,7 +65,6 @@ implements PrivilegedAction {
         this.locale = locale;
     }
 
-    @Override
     public Object run() {
         switch (this.action) {
             case 1: {

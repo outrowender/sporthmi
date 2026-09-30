@@ -20,7 +20,6 @@ extends AbstractEntertainmentDrawerElement {
         this.modelGroupType = n;
     }
 
-    @Override
     public ModelGroup updateInternalModelValues(ModelGroup modelGroup, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.stateStruct = iGlobalTelephoneStateStruct;
         List list = this.getModels();
@@ -39,10 +38,30 @@ extends AbstractEntertainmentDrawerElement {
         return this.modelGroupType;
     }
 
-    public abstract List getModels() {
+    public abstract List getModels();
+
+    public abstract void updateValues();
+
+    static final class CallType {
+        public static final int CALLTYPE_SINGLE = -1;
+        public static final int CALLTYPE_SINGLE_MAILBOX = 0;
+        public static final int CALLTYPE_SINGLE_INFO = 1;
+        public static final int CALLTYPE_SINGLE_BREAKDOWN = 2;
+        public static final int CALLTYPE_SINGLE_EMERGENCY = 3;
+        public static final int CALLTYPE_SINGLE_UNKNOWN = 4;
+        public static final int CALLTYPE_CONFERENCE = 5;
+
+        CallType() {
+        }
     }
 
-    public abstract void updateValues() {
+    static final class CallImageType {
+        public static final int SINGLE = 0;
+        public static final int CUSTOM_IMAGE = 1;
+        public static final int CONFERENCE = 2;
+
+        CallImageType() {
+        }
     }
 }
 

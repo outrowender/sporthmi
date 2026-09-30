@@ -6,16 +6,12 @@ package de.audi.app.media.source;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface ISourceActivationCallbackHandler {
-    default public void sourceDeviceActivated(ISourceSlot iSourceSlot, int n, boolean bl) {
-    }
+    public void sourceDeviceActivated(ISourceSlot var1, int var2, boolean var3);
 
-    default public void sourceDeviceDeactivated() {
-    }
+    public void sourceDeviceDeactivated();
 
-    default public void sourceDevicePending(long l) {
-    }
+    public void sourceDevicePending(long var1);
 
-    default public void sourceActivationFailed() {
-    }
+    public void sourceActivationFailed();
 }
 

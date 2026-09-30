@@ -14,7 +14,7 @@ import org.dsi.ifc.search.DataSet;
 public abstract class AbstractMediaSearchDataProvider
 implements IMediaSearchDataProviderListener,
 IDSIControllerStateListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractMediaSearchDataProvider";
     private final LogChannel logger;
     private final int searchSourceId;
     private final IMediaDSISearchDataController dsiSearchDataController;
@@ -27,17 +27,17 @@ IDSIControllerStateListener {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"AbstractMediaSearchDataProvider");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.dsiSearchDataController.init();
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"AbstractMediaSearchDataProvider");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.dsiSearchDataController.deinit();
     }
 
     public void activate() {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"AbstractMediaSearchDataProvider");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.isActive = false;
         this.dsiSearchDataController.setStateListener(this);
         this.dsiSearchDataController.setMediaSearchDataProviderListener(this);
@@ -45,23 +45,21 @@ IDSIControllerStateListener {
     }
 
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"AbstractMediaSearchDataProvider");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.dsiSearchDataController.setStateListener(null);
         this.dsiSearchDataController.setMediaSearchDataProviderListener(null);
     }
 
-    @Override
     public void registerProviderSourceResult(boolean bl, int n) {
         if (n == this.searchSourceId) {
             return;
         }
-        this.logger.log(1078071040, "[%1.registerProviderSourceResult]", (Object)"AbstractMediaSearchDataProvider");
+        this.logger.log(1000000, "[%1.registerProviderSourceResult]", (Object)LOGCLASS);
         if (!bl) {
-            this.logger.log(1078071040, "[%1.registerProviderSourceResult] Registration was not successful for source='%2'.", (Object)"AbstractMediaSearchDataProvider", (long)n);
+            this.logger.log(1000000, "[%1.registerProviderSourceResult] Registration was not successful for source='%2'.", (Object)LOGCLASS, (long)n);
         }
     }
 
-    @Override
     public void activateProviderSource(int n) {
         if (n != this.searchSourceId) {
             return;
@@ -86,16 +84,14 @@ IDSIControllerStateListener {
         this.dsiSearchDataController.deleteDataSet(this.searchSourceId, l);
     }
 
-    @Override
     public void dsiAvailable() {
-        this.logger.log(1078071040, "[%1.dsiAvailable]", (Object)"AbstractMediaSearchDataProvider");
+        this.logger.log(1000000, "[%1.dsiAvailable]", (Object)LOGCLASS);
         this.dsiSearchDataController.registerProviderSource(this.searchSourceId);
         this.isActive = true;
     }
 
-    @Override
     public void dsiUnavailable() {
-        this.logger.log(1078071040, "[%1.dsiUnavailable]", (Object)"AbstractMediaSearchDataProvider");
+        this.logger.log(1000000, "[%1.dsiUnavailable]", (Object)LOGCLASS);
         this.isActive = false;
     }
 
@@ -103,7 +99,6 @@ IDSIControllerStateListener {
         return this.isActive;
     }
 
-    protected abstract void providerSourceActivated() {
-    }
+    protected abstract void providerSourceActivated();
 }
 

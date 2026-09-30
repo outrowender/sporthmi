@@ -4,19 +4,17 @@
 package de.audi.atip.bulkcopy;
 
 public interface IBulkCopyClient {
-    public static final int BULKCOPY_TYPE_SWDL;
-    public static final int BULKCOPY_TYPE_MEDIA;
-    public static final int BULKCOPY_TYPE_SURVEILLANT;
-    public static final int BULKCOPY_STATE_UNINITIALIZED;
-    public static final int BULKCOPY_STATE_REGISTERED;
-    public static final int BULKCOPY_STATE_WAITING;
-    public static final int BULKCOPY_STATE_BUSY;
-    public static final int BULKCOPY_STATE_IDLE;
+    public static final int BULKCOPY_TYPE_SWDL = 1;
+    public static final int BULKCOPY_TYPE_MEDIA = 2;
+    public static final int BULKCOPY_TYPE_SURVEILLANT = -1;
+    public static final int BULKCOPY_STATE_UNINITIALIZED = 0;
+    public static final int BULKCOPY_STATE_REGISTERED = 1;
+    public static final int BULKCOPY_STATE_WAITING = 2;
+    public static final int BULKCOPY_STATE_BUSY = 3;
+    public static final int BULKCOPY_STATE_IDLE = 4;
 
-    default public int getClientType() {
-    }
+    public int getClientType();
 
-    default public void onChangeStateBulkCopy(int n, int n2) {
-    }
+    public void onChangeStateBulkCopy(int var1, int var2);
 }
 

@@ -12,10 +12,10 @@ import de.audi.atip.log.LogChannel;
 
 public class MsgDictateDeleteCommand
 extends AbstractSystemCallCommand {
-    private static final int DELETE_MODE_UNDO;
-    private static final int DELETE_MODE_ALL;
-    private static final int DELETE_MODE_UNDO_MAIL_SUBJECT;
-    private static final int DELETE_MODE_ALL_MAIL_SUBJECTL;
+    private static final int DELETE_MODE_UNDO = 0;
+    private static final int DELETE_MODE_ALL = 1;
+    private static final int DELETE_MODE_UNDO_MAIL_SUBJECT = 2;
+    private static final int DELETE_MODE_ALL_MAIL_SUBJECTL = 3;
     private final MessageDictationHandler dictationHandler;
     private final int deleteMode;
 
@@ -25,31 +25,30 @@ extends AbstractSystemCallCommand {
         this.deleteMode = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: deleteMode=%2", (Object)this.getName(), (long)this.deleteMode);
+        this.logger.log(10000000, "%1#execute: deleteMode=%2", (Object)this.getName(), (long)this.deleteMode);
         switch (this.deleteMode) {
             case 0: 
             case 2: {
-                this.logger.log(-2137614336, "%1#execute: Requesting undo of last section!", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: Requesting undo of last section!", (Object)this.getName());
                 this.dictationHandler.undoLastInsertion();
                 break;
             }
             case 1: {
-                this.logger.log(-2137614336, "%1#execute: Requesting deletion of full body!", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: Requesting deletion of full body!", (Object)this.getName());
                 this.dictationHandler.clearBody();
                 break;
             }
             case 3: {
-                this.logger.log(-2137614336, "%1#execute: Requesting deletion of full body!", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: Requesting deletion of full body!", (Object)this.getName());
                 this.dictationHandler.clearSubject();
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#execute: Unhandled deletion mode -> NOP!", (Object)this.getName());
+                this.logger.log(100000, "%1#execute: Unhandled deletion mode -> NOP!", (Object)this.getName());
             }
         }
-        this.sendResult(-131858176);
+        this.sendResult(75000);
     }
 }
 

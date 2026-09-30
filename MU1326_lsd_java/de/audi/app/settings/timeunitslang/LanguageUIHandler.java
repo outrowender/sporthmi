@@ -3,7 +3,6 @@
  */
 package de.audi.app.settings.timeunitslang;
 
-import de.audi.app.settings.timeunitslang.LanguageUIHandler$1;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.IHMIServiceApp;
 import de.audi.atip.hmi.event.RunnableEvent;
@@ -36,40 +35,41 @@ PowerEventListener {
         this.lc = this.fw.getLogChannel("Fw.Language.UI");
     }
 
-    @Override
     public void setLanguageManager(ILanguageManager iLanguageManager) {
         this.langMngr = iLanguageManager;
     }
 
-    @Override
     public void initModels() {
-        this.lc.log(-2137614336, "initModels()");
+        this.lc.log(10000000, "initModels()");
         IHMIServiceApp iHMIServiceApp = this.fw.getHmiServiceApp();
-        this.languageList = iHMIServiceApp.getListModel(-1094119424);
+        this.languageList = iHMIServiceApp.getListModel(1100222);
         this.languageList.setMaxColumns(3);
         this.languageList.setMaxRows(25);
         this.languageList.setListListener(this);
-        this.flag = iHMIServiceApp.getChoiceModel(-1563881472);
-        this.languageVisibilityProxy = iHMIServiceApp.getChoiceModel(63574016);
-        this.languageDisclaimer = iHMIServiceApp.getChoiceModel(164237312);
+        this.flag = iHMIServiceApp.getChoiceModel(1100194);
+        this.languageVisibilityProxy = iHMIServiceApp.getChoiceModel(1100291);
+        this.languageDisclaimer = iHMIServiceApp.getChoiceModel(1100297);
         this.updateList();
         this.updateFlag();
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "itemSelected: modelID=%1, row=%2, terminalID=%3", (long)n, (long)n2, (long)n4);
-        if (n == -1094119424) {
-            Language language = this.langMngr.getAvailableLanguages("LANG_COMPONENT_HMI")[n2];
+        this.lc.log(10000000, "itemSelected: modelID=%1, row=%2, terminalID=%3", (long)n, (long)n2, (long)n4);
+        if (n == 1100222) {
+            final Language language = this.langMngr.getAvailableLanguages("LANG_COMPONENT_HMI")[n2];
             if (language == this.langMngr.getCurrentLanguage("LANG_COMPONENT_HMI")) {
-                this.lc.log(-2137614336, "new language is current language -> no language change");
+                this.lc.log(10000000, "new language is current language -> no language change");
             } else {
-                this.lc.log(-2137614336, "new language is not current language -> start language change");
-                this.fw.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(true, new LanguageUIHandler$1(this, language)));
+                this.lc.log(10000000, "new language is not current language -> start language change");
+                this.fw.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(true, new Runnable(){
+
+                    public void run() {
+                        LanguageUIHandler.this.executeLanguageChange(language);
+                    }
+                }));
             }
         } else {
             this.lc.log(10000, "Invalid modelID=%1", (long)n);
@@ -77,7 +77,7 @@ PowerEventListener {
     }
 
     private void updateList() {
-        this.lc.log(-2137614336, "updateList()");
+        this.lc.log(10000000, "updateList()");
         if (this.languageList != null) {
             this.languageList.clear();
             Language[] languageArray = this.langMngr.getAvailableLanguages("LANG_COMPONENT_HMI");
@@ -92,10 +92,9 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void updateListSelection() {
         int n;
-        this.lc.log(-2137614336, "updateListSelection()");
+        this.lc.log(10000000, "updateListSelection()");
         if (this.languageList != null && (n = this.getLocaleIdxInLangCodes(this.langMngr.getCurrentLanguage("LANG_COMPONENT_HMI"))) >= 0 && n < this.languageList.getLength()) {
             this.languageList.setSelected(n);
             this.languageList.setCell(this.lastSelectedLangIndex, 1, IntegerListCell.create(0));
@@ -115,36 +114,31 @@ PowerEventListener {
         return n;
     }
 
-    @Override
     public void updateFlag() {
         int n;
-        this.lc.log(-2137614336, "updateFlag()");
+        this.lc.log(10000000, "updateFlag()");
         if (this.flag != null && (n = this.getLocaleIdxInLangCodes(this.langMngr.getCurrentLanguage("LANG_COMPONENT_HMI"))) < this.languageList.getLength()) {
             this.flag.setValue(((IntegerListCell)this.languageList.getCell(n, 2)).getValue());
         }
     }
 
-    @Override
     public void executeLanguageChange(Language language) {
-        this.lc.log(-2137614336, "executeLanguageChange: languageCode=%1", (Object)language);
+        this.lc.log(10000000, "executeLanguageChange: languageCode=%1", (Object)language);
         this.langMngr.checkAndSetNewLanguage(language);
     }
 
-    @Override
     public void setWaiting() {
-        this.fw.getHmiServiceApp().getChoiceModel(852103168).setValue(1);
+        this.fw.getHmiServiceApp().getChoiceModel(1100338).setValue(1);
         this.languageList.setStatus(0);
         this.languageList.fireEvent(0);
     }
 
-    @Override
     public void langChangeFinished() {
-        this.lc.log(-2137614336, "langChangeFinished()");
+        this.lc.log(10000000, "langChangeFinished()");
         this.languageList.setStatus(1);
-        this.fw.getHmiServiceApp().getChoiceModel(852103168).setValue(0);
+        this.fw.getHmiServiceApp().getChoiceModel(1100338).setValue(0);
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
@@ -157,19 +151,15 @@ PowerEventListener {
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         if (bl2) {
             this.languageVisibilityProxy.setValue(0);

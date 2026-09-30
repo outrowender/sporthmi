@@ -30,42 +30,34 @@ LogServAdmin {
         return 0L;
     }
 
-    @Override
     public Map getAvailableChannels() {
         return new HashMap();
     }
 
-    @Override
     public LogChannel getLogChannel(String string) {
         return NullLogChannel.getInstance();
     }
 
-    @Override
     public void updateChannelConfiguration() {
     }
 
-    @Override
     public void updateChannelConfiguration(String string) {
     }
 
     public synchronized void deinit() {
     }
 
-    @Override
     public LogSink addLogSink(LogSink logSink) {
         return logSink;
     }
 
-    @Override
     public void removeLogSink(LogSink logSink) {
     }
 
-    @Override
     public List getAllLogSinks() {
         return new ArrayList(10);
     }
 
-    @Override
     public void log(LogEntry logEntry) {
     }
 
@@ -75,7 +67,6 @@ LogServAdmin {
     public void initDebugSPIConfig() {
     }
 
-    @Override
     public long getTimeStamp(boolean bl) {
         return 0L;
     }

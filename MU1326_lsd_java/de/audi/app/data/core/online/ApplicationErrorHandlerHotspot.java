@@ -11,8 +11,8 @@ import de.audi.atip.timer.TimerListener;
 class ApplicationErrorHandlerHotspot
 extends AbstractApplicationErrorHandler
 implements TimerListener {
-    private static final String TIMER_NAME;
-    private static final long TIMER_DELAY;
+    private static final String TIMER_NAME = "ErrorHandlerHotspotTimer";
+    private static final long TIMER_DELAY = 30000L;
     private final AnnoyingOrange orange;
     private final Timer wlanTimer;
     private boolean isActive = false;
@@ -61,10 +61,9 @@ implements TimerListener {
 
     ApplicationErrorHandlerHotspot(AnnoyingOrange annoyingOrange) {
         this.orange = annoyingOrange;
-        this.wlanTimer = new Timer("ErrorHandlerHotspotTimer", 0, true, this);
+        this.wlanTimer = new Timer(TIMER_NAME, 30000L, true, this);
     }
 
-    @Override
     void updateErrorState(int n, int n2) {
         this.wlanTimer.cancel();
         this.errorWlan = n2;
@@ -78,12 +77,10 @@ implements TimerListener {
         }
     }
 
-    @Override
     void updateApplicationState(int n, boolean bl, boolean bl2) {
         this.isActive = bl && n != 3 && n != 4;
     }
 
-    @Override
     void notifyErrorShown(int n, int n2) {
         boolean bl = this.errorWlan == n2 && n2 != 14;
         boolean bl2 = this.errorShown = n == 1 || bl ? true : this.errorShown;
@@ -92,7 +89,6 @@ implements TimerListener {
         }
     }
 
-    @Override
     boolean isActionRequired() {
         return this.isActive && ApplicationErrorHandlerHotspot.isError(this.errorWlan) && !this.errorShown && this.isErrorStable && this.orange.isStartupOverAndClampOn() && !this.isReconnectBlocking() && !this.errorSuppressed(this.errorWlan);
     }
@@ -109,15 +105,13 @@ implements TimerListener {
         this.roamingDeactivatedShown = true;
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        if ("ErrorHandlerHotspotTimer".equals(timer.getName())) {
+        if (TIMER_NAME.equals(timer.getName())) {
             this.isErrorStable = true;
             this.orange.retriggerErrorPresentation();
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

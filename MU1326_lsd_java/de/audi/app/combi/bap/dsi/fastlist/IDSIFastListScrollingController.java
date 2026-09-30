@@ -7,7 +7,6 @@ import de.audi.app.bap.dsi.IDSIController;
 
 public interface IDSIFastListScrollingController
 extends IDSIController {
-    default public void pushMOSTOperationState(int n) {
-    }
+    public void pushMOSTOperationState(int var1);
 }
 

@@ -4,58 +4,54 @@
 package de.audi.remotehmi.ui.mib2.grid;
 
 import de.audi.remotehmi.ui.mib2.grid.IGridCell;
-import de.audi.remotehmi.ui.mib2.grid.IPorscheGridCell$1;
 import de.audi.remotehmi.ui.mib2.grid.IStyleableText;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface IPorscheGridCell
 extends IGridCell,
 IStyleableText {
-    public static final int STYLE_PREVIEW;
-    public static final int STYLE_HIGHLIGHTED;
-    public static final int STYLE_DESCRIPTION;
-    public static final int TYPE_SHORTCUT;
-    public static final int TYPE_FORMATTED_TEXT;
-    public static final int TYPE_LABEL_IMAGE;
-    public static final List porscheDescription;
-    public static final int COLOR_WHITE;
-    public static final int COLOR_GRAY;
-    public static final int COLOR_GREEN;
-    public static final int COLOR_ORANGE;
-    public static final int COLOR_RED;
-    public static final int COLOR_DEFAULT;
-    public static final Map colors;
+    public static final int STYLE_PREVIEW = 3;
+    public static final int STYLE_HIGHLIGHTED = 4;
+    public static final int STYLE_DESCRIPTION = 5;
+    public static final int TYPE_SHORTCUT = 50;
+    public static final int TYPE_FORMATTED_TEXT = 51;
+    public static final int TYPE_LABEL_IMAGE = 52;
+    public static final List porscheDescription = Collections.unmodifiableList(Arrays.asList(new String[]{"shortcut", "formattedText", "labelImage"}));
+    public static final int COLOR_WHITE = 0;
+    public static final int COLOR_GRAY = 1;
+    public static final int COLOR_GREEN = 2;
+    public static final int COLOR_ORANGE = 3;
+    public static final int COLOR_RED = 4;
+    public static final int COLOR_DEFAULT = 0;
+    public static final Map colors = new HashMap(){
+        private static final long serialVersionUID = 8774891373874452584L;
+        {
+            this.put("white", new Integer(0));
+            this.put("gray", new Integer(1));
+            this.put("green", new Integer(2));
+            this.put("orange", new Integer(3));
+            this.put("red", new Integer(4));
+        }
+    };
 
-    default public List getTokens() {
-    }
+    public List getTokens();
 
-    default public void setTokens(List list) {
-    }
+    public void setTokens(List var1);
 
-    default public String getSecondLocalLocation() {
-    }
+    public String getSecondLocalLocation();
 
-    default public void setSecondLocalLocation(String string) {
-    }
+    public void setSecondLocalLocation(String var1);
 
-    default public String getSecondStringValue() {
-    }
+    public String getSecondStringValue();
 
-    default public void setSecondStringValue(String string) {
-    }
+    public void setSecondStringValue(String var1);
 
-    default public int getColor() {
-    }
+    public int getColor();
 
-    default public void setColor(int n) {
-    }
-
-    static {
-        porscheDescription = Collections.unmodifiableList(Arrays.asList(new String[]{"shortcut", "formattedText", "labelImage"}));
-        colors = new IPorscheGridCell$1();
-    }
+    public void setColor(int var1);
 }
 

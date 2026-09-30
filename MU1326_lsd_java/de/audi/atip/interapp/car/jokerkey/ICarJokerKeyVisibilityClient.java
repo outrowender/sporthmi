@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.car.jokerkey;
 
 public interface ICarJokerKeyVisibilityClient {
-    default public void notifyCurrentVisibilityRequest() {
-    }
+    public void notifyCurrentVisibilityRequest();
 }
 

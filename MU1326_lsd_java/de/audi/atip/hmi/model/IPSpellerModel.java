@@ -12,12 +12,12 @@ public class IPSpellerModel
 extends MatchspellerModel
 implements IPSpellerModelApp,
 MatchspellerModelGUI {
-    private static final char DONT_CARE;
-    private static final char BACKSPACE;
-    private static final String DOT;
-    private static final String VALID_CHARS_FIRST_NUMBER;
-    private static final String VALID_CHARS_FOLLOWING_NUMBER;
-    private static final String VALID_CHARS_SECOND_NUMBER_2;
+    private static final char DONT_CARE = '\u0000';
+    private static final char BACKSPACE = '\b';
+    private static final String DOT = ".";
+    private static final String VALID_CHARS_FIRST_NUMBER = "012";
+    private static final String VALID_CHARS_FOLLOWING_NUMBER = "0123456789";
+    private static final String VALID_CHARS_SECOND_NUMBER_2 = "012345";
 
     public IPSpellerModel(int n) {
         this(n, 0);
@@ -27,10 +27,9 @@ MatchspellerModelGUI {
         super(n, n2);
         this.setMinLength(15);
         this.setMaxLength(15);
-        this.setValidChars("012");
+        this.setValidChars(VALID_CHARS_FIRST_NUMBER);
     }
 
-    @Override
     public void textChanged(String string, char c2, int n) {
         this.setStatus(0);
         String string2 = this.determineCurrentInputText(string, c2);
@@ -73,7 +72,7 @@ MatchspellerModelGUI {
     private String charRemoved(String string) {
         String string2 = string;
         int n = string2.length();
-        if (n > 0 && n - string2.lastIndexOf(".") >= 4) {
+        if (n > 0 && n - string2.lastIndexOf(DOT) >= 4) {
             string2 = string2.substring(0, n - 1);
         }
         return string2;
@@ -84,9 +83,9 @@ MatchspellerModelGUI {
         buffer.append(string);
         int n = buffer.length();
         if (n == 3) {
-            buffer.append(".");
+            buffer.append(DOT);
         } else if (n < 15 && n % 4 == 3) {
-            buffer.append(".");
+            buffer.append(DOT);
         }
         return buffer.toString();
     }
@@ -98,18 +97,18 @@ MatchspellerModelGUI {
         block0 : switch (n2) {
             case 0: 
             case 3: {
-                string2 = "012";
+                string2 = VALID_CHARS_FIRST_NUMBER;
                 break;
             }
             case 1: {
                 switch (string.charAt(n - 1)) {
                     case '0': 
                     case '1': {
-                        string2 = "0123456789";
+                        string2 = VALID_CHARS_FOLLOWING_NUMBER;
                         break block0;
                     }
                     case '2': {
-                        string2 = "012345";
+                        string2 = VALID_CHARS_SECOND_NUMBER_2;
                         break block0;
                     }
                 }
@@ -121,15 +120,15 @@ MatchspellerModelGUI {
                 switch (string.charAt(n - 2)) {
                     case '0': 
                     case '1': {
-                        string2 = "0123456789";
+                        string2 = VALID_CHARS_FOLLOWING_NUMBER;
                         break block0;
                     }
                     case '2': {
                         if (string.charAt(n - 1) >= '5') {
-                            string2 = "012345";
+                            string2 = VALID_CHARS_SECOND_NUMBER_2;
                             break block0;
                         }
-                        string2 = "0123456789";
+                        string2 = VALID_CHARS_FOLLOWING_NUMBER;
                         break block0;
                     }
                 }

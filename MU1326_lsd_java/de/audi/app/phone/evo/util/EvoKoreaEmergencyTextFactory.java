@@ -17,63 +17,60 @@ implements IEmergencyTextFactory {
         this.hmiService = iTelApplication.getFrameworkAccess().getHmiServiceApp();
     }
 
-    @Override
     public String getText(int n) {
         String string = "";
         switch (n) {
             case 1: {
-                string = this.hmiService.getText(-375520256);
+                string = this.hmiService.getText(302825);
                 break;
             }
             case 2: {
-                string = this.hmiService.getText(-358743040);
+                string = this.hmiService.getText(302826);
                 break;
             }
             case 3: {
-                string = this.hmiService.getText(-341965824);
+                string = this.hmiService.getText(302827);
                 break;
             }
             case 4: {
-                string = this.hmiService.getText(-325188608);
+                string = this.hmiService.getText(302828);
                 break;
             }
             case 5: {
-                string = this.hmiService.getText(-308411392);
+                string = this.hmiService.getText(302829);
                 break;
             }
             case 6: {
-                string = this.hmiService.getText(-291634176);
+                string = this.hmiService.getText(302830);
                 break;
             }
             case 7: {
-                string = this.hmiService.getText(-274856960);
+                string = this.hmiService.getText(302831);
                 break;
             }
             case 8: {
-                string = this.hmiService.getText(-258079744);
+                string = this.hmiService.getText(302832);
                 break;
             }
             case 9: {
-                string = this.hmiService.getText(-241302528);
+                string = this.hmiService.getText(302833);
                 break;
             }
             case 0: {
-                string = this.hmiService.getText(2123891712);
+                string = this.hmiService.getText(301182);
                 break;
             }
             default: {
-                string = this.hmiService.getText(2123891712);
+                string = this.hmiService.getText(301182);
             }
         }
         return string;
     }
 
-    @Override
     public String[] getEmergencyNumbers() {
         return KOREA_SOS_NUMBERS;
     }
 
-    @Override
     public int[] getEmergencyNumbersIDs() {
         return KOREA_SOS_NUMBERS_IDS;
     }

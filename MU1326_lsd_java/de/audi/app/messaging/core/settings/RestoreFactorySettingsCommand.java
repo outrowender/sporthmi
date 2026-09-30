@@ -4,23 +4,21 @@
 package de.audi.app.messaging.core.settings;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.dsi.messagingconfig.AbstractDsiMessagingConfigCommand;
-import de.audi.app.messaging.core.settings.RestoreFactorySettingsCommand$1;
-import de.audi.app.messaging.core.settings.RestoreFactorySettingsCommand$ResultHandler;
 import de.audi.tghu.command.Command;
 
 final class RestoreFactorySettingsCommand
 extends AbstractDsiMessagingConfigCommand {
-    private final RestoreFactorySettingsCommand$ResultHandler resultHandler;
+    private final ResultHandler resultHandler;
 
-    RestoreFactorySettingsCommand(AbstractMsgApplication abstractMsgApplication, RestoreFactorySettingsCommand$ResultHandler restoreFactorySettingsCommand$ResultHandler) {
+    RestoreFactorySettingsCommand(AbstractMsgApplication abstractMsgApplication, ResultHandler resultHandler) {
         super(abstractMsgApplication);
-        this.resultHandler = restoreFactorySettingsCommand$ResultHandler;
+        this.resultHandler = resultHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[RestoreFactorySettingsCommand#execute]");
+        this.logger.log(10000000, "[RestoreFactorySettingsCommand#execute]");
         try {
             this.dsiMessagingConfigAccess.restoreFactorySettingsRequest();
         }
@@ -30,9 +28,8 @@ extends AbstractDsiMessagingConfigCommand {
         }
     }
 
-    @Override
     public void restoreFactorySettingsResponse(int n) {
-        this.logger.log(-2137614336, "[RestoreFactorySettingsCommand#restoreFactorySettingsResponse] result = %1", (long)n);
+        this.logger.log(10000000, "[RestoreFactorySettingsCommand#restoreFactorySettingsResponse] result = %1", (long)n);
         this.signalResult(n);
     }
 
@@ -41,7 +38,7 @@ extends AbstractDsiMessagingConfigCommand {
      */
     private void signalResult(int n) {
         try {
-            this.logger.log(-2137614336, "[RestoreFactorySettingsCommand#signalResult] result = %1", (long)n);
+            this.logger.log(10000000, "[RestoreFactorySettingsCommand#signalResult] result = %1", (long)n);
             this.resultHandler.handleResult(n);
         }
         catch (Exception exception) {
@@ -52,13 +49,18 @@ extends AbstractDsiMessagingConfigCommand {
         }
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new RestoreFactorySettingsCommand$1(this, this.msgApp);
+        return new AbstractMessagingCommand(this.msgApp){
+
+            public void execute() {
+                this.logger.log(10000000, "[RestoreFactorySettingsErrorCommand#execute]");
+                RestoreFactorySettingsCommand.this.signalResult(1);
+            }
+        };
     }
 
-    static /* synthetic */ void access$000(RestoreFactorySettingsCommand restoreFactorySettingsCommand, int n) {
-        restoreFactorySettingsCommand.signalResult(n);
+    static interface ResultHandler {
+        public void handleResult(int var1);
     }
 }
 

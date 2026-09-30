@@ -5,29 +5,29 @@ package de.audi.audio.volume;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.audio.AudioEnv;
+import de.audi.audio.intra.DefaultAudioListener;
+import de.audi.audio.intra.DefaultSoundListener;
 import de.audi.audio.intra.IAudioListener;
 import de.audi.audio.intra.ISoundListener;
-import de.audi.audio.volume.OnOffVolumeRange$Controller;
-import de.audi.audio.volume.VolumeLimits$Audiolistener;
-import de.audi.audio.volume.VolumeLimits$SoundListener;
+import de.audi.audio.volume.OnOffVolumeRange;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class VolumeLimits {
-    private static final int INT_AMP_MAX;
-    private static final int EXT_AMP_MAX;
-    public final IAudioListener audioListener = new VolumeLimits$Audiolistener(this, null);
-    public final ISoundListener soundListener = new VolumeLimits$SoundListener(this, null);
+    private static final int INT_AMP_MAX = 30;
+    private static final int EXT_AMP_MAX = 40;
+    public final IAudioListener audioListener = new Audiolistener();
+    public final ISoundListener soundListener = new SoundListener();
     private final Object mutex = new Object();
-    private final OnOffVolumeRange$Controller controller;
+    private final OnOffVolumeRange.Controller controller;
     private final LogChannel lc;
     private volatile int origMin = 0;
     private volatile int origMax = 40;
     private volatile int activeConnection = 0;
     private boolean internalAmplifier = true;
 
-    public VolumeLimits(AudioEnv audioEnv, OnOffVolumeRange$Controller onOffVolumeRange$Controller) {
+    public VolumeLimits(AudioEnv audioEnv, OnOffVolumeRange.Controller controller) {
         this.lc = audioEnv.lcVol;
-        this.controller = onOffVolumeRange$Controller;
+        this.controller = controller;
     }
 
     private Buffer updateLimits() {
@@ -92,31 +92,46 @@ public class VolumeLimits {
         return false;
     }
 
-    static /* synthetic */ Object access$200(VolumeLimits volumeLimits) {
-        return volumeLimits.mutex;
+    private class Audiolistener
+    extends DefaultAudioListener {
+        private Audiolistener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateActiveConnection(int n, int n2) {
+            Buffer buffer;
+            Object object = VolumeLimits.this.mutex;
+            synchronized (object) {
+                VolumeLimits.this.activeConnection = n;
+                buffer = VolumeLimits.this.updateLimits();
+            }
+            VolumeLimits.this.lc.log(10000000, "[VolumeLimits.updateActiveConnection] %1", (Object)buffer);
+        }
     }
 
-    static /* synthetic */ int access$302(VolumeLimits volumeLimits, int n) {
-        volumeLimits.activeConnection = n;
-        return volumeLimits.activeConnection;
-    }
+    private class SoundListener
+    extends DefaultSoundListener {
+        private SoundListener() {
+        }
 
-    static /* synthetic */ Buffer access$400(VolumeLimits volumeLimits) {
-        return volumeLimits.updateLimits();
-    }
+        public void updateActiveAmplifiers(int n) {
+        }
 
-    static /* synthetic */ LogChannel access$500(VolumeLimits volumeLimits) {
-        return volumeLimits.lc;
-    }
-
-    static /* synthetic */ int access$602(VolumeLimits volumeLimits, int n) {
-        volumeLimits.origMin = n;
-        return volumeLimits.origMin;
-    }
-
-    static /* synthetic */ int access$702(VolumeLimits volumeLimits, int n) {
-        volumeLimits.origMax = n;
-        return volumeLimits.origMax;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateVolumeRange(int n, int n2) {
+            Buffer buffer;
+            Object object = VolumeLimits.this.mutex;
+            synchronized (object) {
+                VolumeLimits.this.origMin = n;
+                VolumeLimits.this.origMax = n2;
+                buffer = VolumeLimits.this.updateLimits();
+            }
+            VolumeLimits.this.lc.log(10000000, "[VolumeLimits.updateVolumeRange] %1", (Object)buffer);
+        }
     }
 }
 

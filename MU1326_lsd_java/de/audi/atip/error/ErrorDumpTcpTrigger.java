@@ -23,47 +23,46 @@ implements Runnable {
     }
 
     public final String toString() {
-        return new StringBuffer().append("ErrorDumpTcpTrigger:").append(this.port).toString();
+        return "ErrorDumpTcpTrigger:" + this.port;
     }
 
     public void start() {
         Integer n = Integer.getInteger("ErrorDumpTriggerPort");
         if (n != null) {
             this.port = n;
-            System.out.println(new StringBuffer().append("Open ErrorDump Trigger Port on ").append(this.port).toString());
+            System.out.println("Open ErrorDump Trigger Port on " + this.port);
             this.framework.getHMIThreadPool().execute(this);
         }
     }
 
     public void stop() {
         if (this.serverSocket != null) {
-            this.logCh.log(1078071040, "Closing ErrorDump Trigger Port on %1", (long)this.port);
+            this.logCh.log(1000000, "Closing ErrorDump Trigger Port on %1", (long)this.port);
             try {
                 this.serverSocket.close();
                 this.serverSocket = null;
             }
             catch (IOException iOException) {
-                this.logCh.log(-1601830656, "Closing ErrorDump Trigger Port failed!", (Throwable)iOException);
+                this.logCh.log(100000, "Closing ErrorDump Trigger Port failed!", (Throwable)iOException);
             }
         }
     }
 
-    @Override
     public void run() {
         int n = 0;
-        Thread.currentThread().setName(new StringBuffer().append(Thread.currentThread().getName()).append(this).toString());
+        Thread.currentThread().setName(Thread.currentThread().getName() + this);
         try {
             this.serverSocket = new ServerSocket(this.port, 50, InetAddress.getByName(null));
-            this.logCh.log(1078071040, "ErrorDump Trigger waiting for client on port %1", (long)this.serverSocket.getLocalPort());
+            this.logCh.log(1000000, "ErrorDump Trigger waiting for client on port %1", (long)this.serverSocket.getLocalPort());
         }
         catch (IOException iOException) {
-            this.logCh.log(-1601830656, "ErrorDump Trigger failed to create Server Socket", (Throwable)iOException);
+            this.logCh.log(100000, "ErrorDump Trigger failed to create Server Socket", (Throwable)iOException);
             return;
         }
         while (this.serverSocket != null) {
             try {
                 Socket socket = this.serverSocket.accept();
-                this.logCh.log(-2137614336, "ErrorDump Trigger accepted %1:%2", (Object)socket.getInetAddress(), (long)socket.getPort());
+                this.logCh.log(10000000, "ErrorDump Trigger accepted %1:%2", (Object)socket.getInetAddress(), (long)socket.getPort());
                 n = 0;
                 this.framework.getErrorMgr().handleError(null, "error dump triggered manually", 0, 0, 4);
                 try {
@@ -71,17 +70,17 @@ implements Runnable {
                     socket.close();
                 }
                 catch (Exception exception) {
-                    this.logCh.log(-1601830656, "ErrorDump Trigger failed to close client socket", (Throwable)exception);
+                    this.logCh.log(100000, "ErrorDump Trigger failed to close client socket", (Throwable)exception);
                 }
             }
             catch (IOException iOException) {
                 if (++n > 5) {
-                    this.logCh.log(-1601830656, "ErrorDump Trigger too many failures", (Throwable)iOException);
+                    this.logCh.log(100000, "ErrorDump Trigger too many failures", (Throwable)iOException);
                     this.stop();
                     return;
                 }
                 try {
-                    Thread.sleep(0);
+                    Thread.sleep(1000L);
                 }
                 catch (InterruptedException interruptedException) {
                     Thread.interrupted();

@@ -60,7 +60,7 @@ public class AudioState {
                 return "UNDEFINED";
             }
         }
-        return new StringBuffer().append("UNKNOWN (").append(n).append(")").toString();
+        return "UNKNOWN (" + n + ")";
     }
 
     public String toString() {

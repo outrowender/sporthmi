@@ -13,7 +13,7 @@ import org.dsi.ifc.global.NavPriceInfo;
 import org.dsi.ifc.tollcollect.TCPaymentInfo;
 
 public class PaymentFormatter {
-    private static final String DATE_TIME_DELIMETER;
+    private static final String DATE_TIME_DELIMETER = " ";
     private final DateTime timeStamp;
     private final NavPriceInfo tollAmount;
     private final LogChannel log;
@@ -38,7 +38,7 @@ public class PaymentFormatter {
             if (n2 < 0) {
                 n2 *= -1;
             }
-            if ((n = Math.round((float)n2 % 31300 / 8257)) == 100) {
+            if ((n = Math.round((float)n2 % 1000.0f / 10.0f)) == 100) {
                 string = String.valueOf(n2 / 1000 + 1);
                 n = 0;
             } else {
@@ -101,7 +101,7 @@ public class PaymentFormatter {
     }
 
     String getDateTimeText() {
-        return new Buffer(this.getDateString()).append(" ").append(this.getTimeString()).toString();
+        return new Buffer(this.getDateString()).append(DATE_TIME_DELIMETER).append(this.getTimeString()).toString();
     }
 }
 

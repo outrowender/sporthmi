@@ -54,7 +54,6 @@ extends AbstractAddressInputService {
         super(navigationEnv, iCommandListFactory, spellerStack, iPreviewMap, iStartGuidanceToDestinationSequence, iVehicle, locationSerializer, iRouteManager, cityHistory, naviADBHandler, iNaviFavoriteHandler, asyncNavLocationExtractor, aDBInterAppService, homeAddressHandler, mapInterface, asyncNavLocationExtractor2, iconHandler, iDetailsHMIListener, homeAddressHandler2, iLocationDisambiguatorSequence, iLocationDisambiguatorPopupHandler, new NullNavObserverRegistry());
     }
 
-    @Override
     protected final void initAddressInput() {
         if (Util.isHURegionEU()) {
             this.modelAccessHelper = new AddressInputFormModelAccessHelperEU(this.env);
@@ -85,7 +84,7 @@ extends AbstractAddressInputService {
             this.modelAccessHelper = new AddressInputFormModelAccessHelperKR(this.env);
             this.workFlowManager = new AddressInputWorkFlowManagerKR(this.env, this.commandListFactory, this.spellerStack);
             this.inputManager = new AddressInputManagerKR(this.env, this.commandListFactory, this.workFlowManager, this.spellerStack, this.previewMap, this.startRouteGuidanceSequence, this.vehicle, this.locationSerializer, this.routeManager, this.cityHistory, this.adbHandler, this.naviFavoriteHandler, this.asyncLiValueListNavLocationExctractor, this.adbInterAppService, this.homeAddressHandler, this.mapInterface, this.asyncLiCityHistoryListNavLocationExtractor, this.modelAccessHelper, this.officeAddressHandler);
-            this.startAddressInputWFMId = 1285292032;
+            this.startAddressInputWFMId = 40012;
             this.addressInputSDSForm = new AddressInputSDSFormKR(this, this.env.getSDSLogChannel(), this.commandListFactory, this.spellerStack, this.cityHistory, this.env, this.previewMap, new GuiModelAccessDetailsLocationPoi(this.env, this.iconHandler, this.detailsHMIListener.getDestinationHandler()), this.modelAccessHelper, this.vehicle, this.startRouteGuidanceSequence, this.iconHandler, this.routeManager, this.detailsHMIListener);
         } else if (Util.isHURegionRdW()) {
             this.modelAccessHelper = new AddressInputFormModelAccessHelperEU(this.env);

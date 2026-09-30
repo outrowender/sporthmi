@@ -7,7 +7,6 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface PicNavActionProxy
 extends ActionProxy {
-    default public void enterPicNav(int n) {
-    }
+    public void enterPicNav(int var1);
 }
 

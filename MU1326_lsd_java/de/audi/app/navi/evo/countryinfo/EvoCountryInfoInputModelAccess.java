@@ -19,7 +19,6 @@ extends CountryInputModelAccess {
         this.countryInfoHandler = iCountryInfoHandler;
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
         this.countryInfoHandler.setCountry(navLocation);
     }

@@ -7,7 +7,6 @@ import de.audi.atip.phone.ITelServiceConnectivity;
 
 public interface ITelPCoreServiceConnectivity
 extends ITelServiceConnectivity {
-    default public void enterTelSIMContext() {
-    }
+    public void enterTelSIMContext();
 }
 

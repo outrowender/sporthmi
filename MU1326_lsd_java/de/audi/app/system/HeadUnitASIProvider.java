@@ -3,7 +3,6 @@
  */
 package de.audi.app.system;
 
-import de.audi.app.system.HeadUnitASIProvider$1;
 import de.audi.app.system.SystemSDISEnv;
 import de.audi.atip.agent.IASICall;
 import de.audi.atip.agent.IASIProvider;
@@ -15,7 +14,9 @@ import de.audi.mib.jdsi.IDSIClient;
 import de.esolutions.fw.comm.asi.hmisync.headunit.CarConfiguration;
 import de.esolutions.fw.comm.asi.hmisync.headunit.ClockDate;
 import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitAbstractBaseService;
+import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitReplyProxy;
 import de.esolutions.fw.comm.asi.hmisync.headunit.impl.ASIHMISyncHeadUnitService;
+import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.IService;
 import de.esolutions.fw.comm.core.IStub;
 import de.esolutions.fw.comm.core.method.MethodException;
@@ -74,25 +75,22 @@ IDSIClient {
             this.updateRequestIDs(new short[]{0, 1, 2, 4, 5, 6});
         }
         catch (MethodException methodException) {
-            this.getLog().log(1078071040, "[HeadUnitASIProvider.iniAttributes] unexpected MethodException", (Throwable)methodException);
+            this.getLog().log(1000000, "[HeadUnitASIProvider.iniAttributes] unexpected MethodException", (Throwable)methodException);
         }
     }
 
-    @Override
     public final IService getService() {
         return this.headUnitService;
     }
 
-    @Override
     public final void attachStub(IStub iStub) {
-        this.getLog().log(1078071040, "[HeadUnitASIProvider.attachStub] '%1'", (Object)iStub);
+        this.getLog().log(1000000, "[HeadUnitASIProvider.attachStub] '%1'", (Object)iStub);
         this.stubs.add(iStub);
         this.updateConnectionCount();
     }
 
-    @Override
     public final void detachStub(IStub iStub) {
-        this.getLog().log(1078071040, "[HeadUnitASIProvider.detachStub] '%1'", (Object)iStub);
+        this.getLog().log(1000000, "[HeadUnitASIProvider.detachStub] '%1'", (Object)iStub);
         this.stubs.remove(iStub);
         this.updateConnectionCount();
     }
@@ -108,7 +106,7 @@ IDSIClient {
                 iASICall.call(((IStub)iterator.next()).getReplyProxyFrontend());
             }
             catch (Exception exception) {
-                this.getLog().log(-1601830656, "[HeadUnitASIProvider.broadcast] call '%1'failed!", (Object)iASICall, (Throwable)exception);
+                this.getLog().log(100000, "[HeadUnitASIProvider.broadcast] call '%1'failed!", (Object)iASICall, (Throwable)exception);
             }
         }
     }
@@ -119,42 +117,43 @@ IDSIClient {
         this.getEnv().setSdisConnected(bl);
     }
 
-    @Override
     public void setLanguage(Language language) {
-        this.getLog().log(1078071040, "[HeadUnitASIProvider.setLanguage] (%1)", (Object)language);
+        this.getLog().log(1000000, "[HeadUnitASIProvider.setLanguage] (%1)", (Object)language);
         try {
             this.currentLanguage = language;
             this.updateLanguage1(language.getSDISLanguage());
             this.updateLanguage2(language.getSDISLocale().toString());
         }
         catch (MethodException methodException) {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.setLanguage] (%1) failed!", (Object)language, (Throwable)methodException);
+            this.getLog().log(100000, "[HeadUnitASIProvider.setLanguage] (%1) failed!", (Object)language, (Throwable)methodException);
         }
     }
 
-    @Override
     public void resetLanguage() {
-        this.getLog().log(1078071040, "[HeadUnitASIProvider.resetLanguage] language reset was triggered.");
+        this.getLog().log(1000000, "[HeadUnitASIProvider.resetLanguage] language reset was triggered.");
         if (this.currentLanguage != null) {
-            this.broadcast(new HeadUnitASIProvider$1(this));
+            this.broadcast(new IASICall(){
+
+                public void call(IProxyFrontend iProxyFrontend) throws MethodException {
+                    ((ASIHMISyncHeadUnitReplyProxy)iProxyFrontend).resetLanguage(HeadUnitASIProvider.this.currentLanguage.getSDISLanguage(), HeadUnitASIProvider.this.currentLanguage.getSDISLocale().toString());
+                }
+            });
         } else {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.resetLanguage] language reset failed, language unknown.");
+            this.getLog().log(100000, "[HeadUnitASIProvider.resetLanguage] language reset failed, language unknown.");
         }
     }
 
-    @Override
     protected de.esolutions.fw.comm.asi.hmisync.headunit.ClockTime getClockTime() {
         if (this.isTimeInitialized()) {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.getClockTime] update time to %1", (Object)this.currentTime);
+            this.getLog().log(100000, "[HeadUnitASIProvider.getClockTime] update time to %1", (Object)this.currentTime);
             return this.createASITime(this.currentTime);
         }
         return null;
     }
 
-    @Override
     protected ClockDate getClockDate() {
         if (this.isTimeInitialized()) {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.getClockDate] update date to %1", (Object)this.currentDate);
+            this.getLog().log(100000, "[HeadUnitASIProvider.getClockDate] update date to %1", (Object)this.currentDate);
             return this.createASIDate(this.currentDate);
         }
         return null;
@@ -175,20 +174,20 @@ IDSIClient {
         if (this.currentTime.timeZone != clockTime.timeZone || this.currentTime.summerTime != clockTime.summerTime) {
             return true;
         }
-        long l = (long)(clockTime.hours * 3600 + clockTime.minutes * 60 + clockTime.seconds - (this.currentTime.hours * 3600 + this.currentTime.minutes * 60 + this.currentTime.seconds)) * 0;
+        long l = (long)(clockTime.hours * 3600 + clockTime.minutes * 60 + clockTime.seconds - (this.currentTime.hours * 3600 + this.currentTime.minutes * 60 + this.currentTime.seconds)) * 1000L;
         long l2 = this.getEnv().getMonotonicTime() - this.lastTimeUpdate;
         long l3 = l - l2;
-        return l3 < -999L || l3 > 0;
+        return l3 < -999L || l3 > 999L;
     }
 
     private void updateKombiTime(ClockTime clockTime) {
         if (this.timeChanged(clockTime)) {
             try {
                 this.updateClockTime(this.createASITime(clockTime));
-                this.getLog().log(-1601830656, "[HeadUnitASIProvider.getClockTime] updated time to %1", (Object)this.currentTime);
+                this.getLog().log(100000, "[HeadUnitASIProvider.getClockTime] updated time to %1", (Object)this.currentTime);
             }
             catch (MethodException methodException) {
-                this.getLog().log(-1601830656, "[HeadUnitASIProvider.updateKombiTime] updating time failed!", (Throwable)methodException);
+                this.getLog().log(100000, "[HeadUnitASIProvider.updateKombiTime] updating time failed!", (Throwable)methodException);
             }
         }
         this.currentTime = clockTime;
@@ -211,16 +210,15 @@ IDSIClient {
         if (this.dateChanged(clockDate)) {
             try {
                 this.updateClockDate(this.createASIDate(clockDate));
-                this.getLog().log(-1601830656, "[HeadUnitASIProvider.getClockDate] updated date to %1", (Object)this.currentDate);
+                this.getLog().log(100000, "[HeadUnitASIProvider.getClockDate] updated date to %1", (Object)this.currentDate);
             }
             catch (MethodException methodException) {
-                this.getLog().log(-1601830656, "[HeadUnitASIProvider.updateKombiDate] updating date failed!", (Throwable)methodException);
+                this.getLog().log(100000, "[HeadUnitASIProvider.updateKombiDate] updating date failed!", (Throwable)methodException);
             }
         }
         this.currentDate = clockDate;
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
         if (dSIBase == null) {
             this.currentTime = null;
@@ -228,138 +226,112 @@ IDSIClient {
         }
     }
 
-    @Override
     public int[] getAutoNotifications() {
         return new int[]{2, 3, 12, 13, 14, 15, 16};
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void updateUnitmasterViewOptions(UnitmasterViewOptions unitmasterViewOptions, int n) {
     }
 
-    @Override
     public void updateMenuLanguage(int n, int n2) {
     }
 
-    @Override
     public void updateTemperatureUnit(int n, int n2) {
         try {
             this.updateTemperatureUnit(n, n2 == 1);
         }
         catch (MethodException methodException) {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.updateTemperatureUnit] updating temperature unit failed!", (Throwable)methodException);
+            this.getLog().log(100000, "[HeadUnitASIProvider.updateTemperatureUnit] updating temperature unit failed!", (Throwable)methodException);
         }
     }
 
-    @Override
     public void updateDistanceUnit(int n, int n2) {
         try {
             this.updateDistanceUnit(n, n2 == 1);
         }
         catch (MethodException methodException) {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.updateDistanceUnit] updating distance unit failed!", (Throwable)methodException);
+            this.getLog().log(100000, "[HeadUnitASIProvider.updateDistanceUnit] updating distance unit failed!", (Throwable)methodException);
         }
     }
 
-    @Override
     public void updateSpeedUnit(int n, int n2) {
         try {
             this.updateSpeedUnit(n, n2 == 1);
         }
         catch (MethodException methodException) {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.updateSpeedUnit] updating speed unit failed!", (Throwable)methodException);
+            this.getLog().log(100000, "[HeadUnitASIProvider.updateSpeedUnit] updating speed unit failed!", (Throwable)methodException);
         }
     }
 
-    @Override
     public void updatePressureUnit(int n, int n2) {
         try {
             this.updatePressureUnit(n, n2 == 1);
         }
         catch (MethodException methodException) {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.updateDistanceUnit] updating pressure unit failed!", (Throwable)methodException);
+            this.getLog().log(100000, "[HeadUnitASIProvider.updateDistanceUnit] updating pressure unit failed!", (Throwable)methodException);
         }
     }
 
-    @Override
     public void updateVolumeUnit(int n, int n2) {
     }
 
-    @Override
     public void updateConsumptionPetrolUnit(int n, int n2) {
     }
 
-    @Override
     public void updateConsumptionGasUnit(int n, int n2) {
     }
 
-    @Override
     public void updateConsumptionElectricUnit(int n, int n2) {
     }
 
-    @Override
     public void updateClockFormat(int n, int n2) {
     }
 
-    @Override
     public void updateDateFormat(int n, int n2) {
     }
 
-    @Override
     public void updateClockViewOptions(ClockViewOptions clockViewOptions, int n) {
     }
 
-    @Override
     public void updateClockDate(org.dsi.ifc.cartimeunitslanguage.ClockDate clockDate, int n) {
         if (1 == n && clockDate != null) {
             this.updateKombiDate(clockDate);
         }
     }
 
-    @Override
     public void updateClockTime(ClockTime clockTime, int n) {
         if (1 == n && clockTime != null) {
             this.updateKombiTime(clockTime);
         }
     }
 
-    @Override
     public void updateClockSource(int n, int n2) {
     }
 
-    @Override
     public void updateClockDayLightSaving(boolean bl, int n) {
     }
 
-    @Override
     public void updateClockDayLightSavingData(ClockDayLightSavingData clockDayLightSavingData, int n) {
     }
 
-    @Override
     public void updateClockTimeZoneOffset(float f2, int n) {
     }
 
-    @Override
     public void updateClockTimeSourcesAvailable(ClockSources clockSources, int n) {
     }
 
-    @Override
     public void updateClockGPSSyncData(ClockGPSSyncData clockGPSSyncData, int n) {
     }
 
-    @Override
     public void acknowledgeUmSetFactoryDefault(boolean bl) {
     }
 
-    @Override
     public void updateUTCOffset(UTCOffset uTCOffset, int n) {
     }
 
-    @Override
     public void updateSkin(int n, int n2) {
     }
 
@@ -369,7 +341,7 @@ IDSIClient {
                 this.updateCarConfiguration(carConfiguration);
             }
             catch (MethodException methodException) {
-                this.getLog().log(-1601830656, "[HeadUnitASIProvider.updateCarConfiguration] updating car configuration failed!", (Throwable)methodException);
+                this.getLog().log(100000, "[HeadUnitASIProvider.updateCarConfiguration] updating car configuration failed!", (Throwable)methodException);
             }
         }
     }
@@ -379,7 +351,7 @@ IDSIClient {
             this.updateRegion(n, n2 == 1);
         }
         catch (MethodException methodException) {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.updateRegion] updating region failed!", (Throwable)methodException);
+            this.getLog().log(100000, "[HeadUnitASIProvider.updateRegion] updating region failed!", (Throwable)methodException);
         }
     }
 
@@ -388,16 +360,11 @@ IDSIClient {
             this.updateExtCarConfiguration(nArray, n == 1);
         }
         catch (MethodException methodException) {
-            this.getLog().log(-1601830656, "[HeadUnitASIProvider.updateExtCarConfiguration] updating external car configuration failed!", (Throwable)methodException);
+            this.getLog().log(100000, "[HeadUnitASIProvider.updateExtCarConfiguration] updating external car configuration failed!", (Throwable)methodException);
         }
     }
 
-    @Override
     public void updateWeightUnit(int n, int n2) {
-    }
-
-    static /* synthetic */ Language access$000(HeadUnitASIProvider headUnitASIProvider) {
-        return headUnitASIProvider.currentLanguage;
     }
 }
 

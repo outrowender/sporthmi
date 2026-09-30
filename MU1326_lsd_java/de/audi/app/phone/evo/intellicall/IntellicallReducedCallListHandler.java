@@ -4,13 +4,12 @@
 package de.audi.app.phone.evo.intellicall;
 
 import de.audi.app.phone.core.ITelApplication;
+import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
+import de.audi.app.phone.core.screen.IScreenStateListener;
 import de.audi.app.phone.core.state.CallStateStruct;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.evo.intellicall.AbstractIntellicallCallListModelHandler;
-import de.audi.app.phone.evo.intellicall.IntellicallReducedCallListHandler$1;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
-import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
-import de.audi.atip.log.LogChannel;
 
 public class IntellicallReducedCallListHandler
 extends AbstractIntellicallCallListModelHandler {
@@ -21,75 +20,78 @@ extends AbstractIntellicallCallListModelHandler {
         super(iTelApplication);
     }
 
-    @Override
     public void init() {
         super.init();
-        this.getApplication().getPopupScreenStateDispatcher().addScreenStateListener(-426572800, new IntellicallReducedCallListHandler$1(this));
+        this.getApplication().getPopupScreenStateDispatcher().addScreenStateListener(300006, new IScreenStateListener(){
+
+            public void screenVisible(int n) {
+            }
+
+            public void screenHidden(int n) {
+            }
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void notifyScreenFadedOut(int n) {
+                Object object = IntellicallReducedCallListHandler.this.mutex;
+                synchronized (object) {
+                    ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState;
+                    IntellicallReducedCallListHandler.this.intellicallReducedConnected = false;
+                    ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState2 = iTelDSIMobileEquipmentDeviceState = IntellicallReducedCallListHandler.this.state == null ? null : IntellicallReducedCallListHandler.this.state.getCallLeadingDevice();
+                    if (iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getCallState() != null) {
+                        if (iTelDSIMobileEquipmentDeviceState.getCallState().isIdle() && !IntellicallReducedCallListHandler.this.state.getConnectedGatewayState().isLowPrioritySOSEmergencyCallType()) {
+                            IntellicallReducedCallListHandler.this.log.log(1000000, "[IntellicallReducedCallListHandler.init().new IScreenStateListener() {...}#notifyScreenFadedOut] intellicall reduced view faded out - removing all calls from list.");
+                            BaseListModelApp baseListModelApp = IntellicallReducedCallListHandler.this.getCallListList().getCopy();
+                            baseListModelApp.removeAll();
+                            IntellicallReducedCallListHandler.this.getCallListList().update(baseListModelApp);
+                            IntellicallReducedCallListHandler.this.getChoiceModel(300830).setValue(0);
+                        } else {
+                            IntellicallReducedCallListHandler.this.log.log(1000000, "[IntellicallReducedCallListHandler.init().new IScreenStateListener() {...}#notifyScreenFadedOut] intellicall reduced view faded out but call(s) still present, not removing all calls from list.");
+                        }
+                    }
+                }
+            }
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void notifyScreenConnected(int n) {
+                Object object = IntellicallReducedCallListHandler.this.mutex;
+                synchronized (object) {
+                    IntellicallReducedCallListHandler.this.intellicallReducedConnected = true;
+                }
+            }
+        });
     }
 
-    @Override
     public void updateCallList(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         CallStateStruct callStateStruct;
         super.updateCallList(iGlobalTelephoneStateStruct);
         CallStateStruct callStateStruct2 = callStateStruct = iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null ? iGlobalTelephoneStateStruct.getCallLeadingDevice().getCallState() : null;
         if (callStateStruct != null && !callStateStruct.isIdle()) {
-            this.getChoiceModel(513213440).setValue(1);
+            this.getChoiceModel(300830).setValue(1);
         }
     }
 
-    @Override
     protected BaseListModelApp getCallListList() {
-        return this.getBaseListModel(479659008);
+        return this.getBaseListModel(300828);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void updateCallStateIdle(BaseListModelApp baseListModelApp) {
         Object object = this.mutex;
         synchronized (object) {
             if (this.intellicallReducedConnected) {
-                this.log.log(1078071040, "[IntellicallReducedCallListHandler#updateCallStateIdle] waiting for faded out before removing calls.");
+                this.log.log(1000000, "[IntellicallReducedCallListHandler#updateCallStateIdle] waiting for faded out before removing calls.");
             } else {
-                this.log.log(1078071040, "[IntellicallReducedCallListHandler#updateCallStateIdle] not in Intellicall reduced, removing calls from list.");
+                this.log.log(1000000, "[IntellicallReducedCallListHandler#updateCallStateIdle] not in Intellicall reduced, removing calls from list.");
                 super.updateCallStateIdle(baseListModelApp);
-                this.getChoiceModel(513213440).setValue(0);
+                this.getChoiceModel(300830).setValue(0);
             }
         }
-    }
-
-    static /* synthetic */ Object access$000(IntellicallReducedCallListHandler intellicallReducedCallListHandler) {
-        return intellicallReducedCallListHandler.mutex;
-    }
-
-    static /* synthetic */ boolean access$102(IntellicallReducedCallListHandler intellicallReducedCallListHandler, boolean bl) {
-        intellicallReducedCallListHandler.intellicallReducedConnected = bl;
-        return intellicallReducedCallListHandler.intellicallReducedConnected;
-    }
-
-    static /* synthetic */ IGlobalTelephoneStateStruct access$200(IntellicallReducedCallListHandler intellicallReducedCallListHandler) {
-        return intellicallReducedCallListHandler.state;
-    }
-
-    static /* synthetic */ IGlobalTelephoneStateStruct access$300(IntellicallReducedCallListHandler intellicallReducedCallListHandler) {
-        return intellicallReducedCallListHandler.state;
-    }
-
-    static /* synthetic */ IGlobalTelephoneStateStruct access$400(IntellicallReducedCallListHandler intellicallReducedCallListHandler) {
-        return intellicallReducedCallListHandler.state;
-    }
-
-    static /* synthetic */ LogChannel access$500(IntellicallReducedCallListHandler intellicallReducedCallListHandler) {
-        return intellicallReducedCallListHandler.log;
-    }
-
-    static /* synthetic */ ChoiceModelApp access$600(IntellicallReducedCallListHandler intellicallReducedCallListHandler, int n) {
-        return intellicallReducedCallListHandler.getChoiceModel(n);
-    }
-
-    static /* synthetic */ LogChannel access$700(IntellicallReducedCallListHandler intellicallReducedCallListHandler) {
-        return intellicallReducedCallListHandler.log;
     }
 }
 

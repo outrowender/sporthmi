@@ -12,7 +12,7 @@ import java.util.List;
 
 public class JobNotifyRearSeatAudioFocus
 implements Runnable {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobNotifyRearSeatAudioFocus";
     private final IMediaLogger logger;
     private final boolean hasAudioFocus;
     private final ChoiceModelApp rearSeatChoiceModel;
@@ -25,13 +25,12 @@ implements Runnable {
         this.focusListeners = list;
     }
 
-    @Override
     public void run() {
         try {
             this.rearSeatChoiceModel.setValue(this.hasAudioFocus ? 1 : 0);
         }
         catch (Exception exception) {
-            this.logger.audio().log(10000, "[%1.run]", (Object)"JobNotifyRearSeatAudioFocus", (Throwable)exception);
+            this.logger.audio().log(10000, "[%1.run]", (Object)LOGCLASS, (Throwable)exception);
         }
         Iterator iterator = this.focusListeners.iterator();
         while (iterator.hasNext()) {
@@ -39,7 +38,7 @@ implements Runnable {
                 ((IAudioStateListener)iterator.next()).rearSeatAudioFocusChanged(this.hasAudioFocus);
             }
             catch (Exception exception) {
-                this.logger.audio().log(10000, "[%1.run]", (Object)"JobNotifyRearSeatAudioFocus", (Throwable)exception);
+                this.logger.audio().log(10000, "[%1.run]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }

@@ -53,7 +53,7 @@ public class CombiADBStateHandler {
     public void updateCombiPbState() {
         int n = this.computePbState();
         if (n != this.lastPbState || this.entryCount != this.lastEntryCount) {
-            this.log.log(1078071040, "CombiADBStateHandler#updateCombiPbState(): pbState: %1, entryCount: %2", (Object)ADBDbgUtils.dbgCombiPbState(n), (long)this.entryCount);
+            this.log.log(1000000, "CombiADBStateHandler#updateCombiPbState(): pbState: %1, entryCount: %2", (Object)ADBDbgUtils.dbgCombiPbState(n), (long)this.entryCount);
             this.adbHandler.getCombiService().updatePbState(n, this.entryCount);
             this.lastPbState = n;
             this.lastEntryCount = this.entryCount;
@@ -71,19 +71,19 @@ public class CombiADBStateHandler {
     }
 
     public void updateDownloadCountMe(DownloadInfo downloadInfo) {
-        this.log.log(1078071040, "CombiADBStateHandler#updateDownloadCountMe(): downloadCountMe: %1", (Object)downloadInfo);
+        this.log.log(1000000, "CombiADBStateHandler#updateDownloadCountMe(): downloadCountMe: %1", (Object)downloadInfo);
         this.downloadCountMe = downloadInfo;
         this.updateCombiDownloadProgress();
     }
 
     public void updateDownloadCountSim(DownloadInfo downloadInfo) {
-        this.log.log(1078071040, "CombiADBStateHandler#updateDownloadCountSim(): downloadCountSim: %1", (Object)downloadInfo);
+        this.log.log(1000000, "CombiADBStateHandler#updateDownloadCountSim(): downloadCountSim: %1", (Object)downloadInfo);
         this.downloadCountSim = downloadInfo;
         this.updateCombiDownloadProgress();
     }
 
     public void resetDownloadProgress() {
-        this.log.log(1078071040, "CombiADBStateHandler#resetDownloadProgress()");
+        this.log.log(1000000, "CombiADBStateHandler#resetDownloadProgress()");
         if (this.downloadCountMe != null) {
             this.downloadCountMe.count = 0;
             this.downloadCountMe.numberOfItems = -1;

@@ -9,11 +9,6 @@ import de.audi.app.media.audio.AudioManager;
 import de.audi.app.media.audio.AudioState;
 import de.audi.app.media.audio.IAudioStateListener;
 import de.audi.app.media.content.IContent;
-import de.audi.app.media.content.media.AbstractMediaPlayer$1;
-import de.audi.app.media.content.media.AbstractMediaPlayer$2;
-import de.audi.app.media.content.media.AbstractMediaPlayer$3;
-import de.audi.app.media.content.media.AbstractMediaPlayer$4;
-import de.audi.app.media.content.media.AbstractMediaPlayer$5;
 import de.audi.app.media.content.media.AbstractMediaPlayerHMIHandler;
 import de.audi.app.media.content.media.AbstractMediaPlayerJob;
 import de.audi.app.media.content.media.AbstractMediaPlayerJobSelection;
@@ -31,13 +26,13 @@ import de.audi.app.media.content.media.MediaPlayerSeekerAdapter;
 import de.audi.app.media.content.media.PlayTime;
 import de.audi.app.media.content.media.PlayingTrack;
 import de.audi.app.media.content.media.utils.MediaUtils;
+import de.audi.app.media.diagnosis.IDiagnosisCommandProvider;
 import de.audi.app.media.dsi.media.IMediaDSIPlayerController;
 import de.audi.app.media.dsi.media.IMediaPlayerListener;
 import de.audi.app.media.dsi.media.MediaListEntry;
 import de.audi.app.media.dsi.media.requests.RequestParameterEntryID;
 import de.audi.app.media.dsi.media.requests.RequestParameterList;
 import de.audi.app.media.i18n.I18NString;
-import de.audi.app.media.logger.IMediaLogger;
 import de.audi.app.media.queue.Queue;
 import de.audi.app.media.selection.ISelectionListener;
 import de.audi.app.media.source.ActiveSourceState;
@@ -49,6 +44,7 @@ import de.audi.app.media.util.CopyOnWriteArrayList;
 import de.audi.app.media.util.CopyOnWriteMap;
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Iterator;
 import org.dsi.ifc.global.ResourceLocator;
@@ -63,32 +59,32 @@ implements IPlayer,
 IMediaPlayerListener,
 IAudioStateListener,
 IActiveSourceListener {
-    private static final String LOGCLASS;
-    static final byte STARTUP_WAITFOR_CAPABILITIES;
-    static final byte STARTUP_RECEIVED_CAPABILITIES;
-    static final byte STARTUP_WAITFOR_READY_TO_PLAY;
-    static final byte STARTUP_RECEIVE_READY_TO_PLAY;
-    static final byte STARTUP_WAITFOR_PLAYMODE;
-    static final byte STARTUP_SET_VALID_PLAYMODE;
-    static final byte STARTUP_RECEIVED_PLAYMODE;
-    static final byte STARTUP_START_PLAYBACK;
-    static final byte STARTUP_WAITFOR_PLAYPOSITION;
-    static final byte STARTUP_RECEIVED_PLAYPOSITION;
-    static final byte STARTUP_WAITFOR_PLAYLIST_SIZE;
-    static final byte STARTUP_RECEIVED_PLAYLIST_SIZE;
-    static final byte STARTUP_WAITFOR_DETAIL_INFO;
-    static final byte STARTUP_RECEIVED_DETAIL_INFO;
-    static final byte STARTUP_ERROR;
-    static final byte STARTUP_FINISHED;
-    public static final int DEFAULT_SEEK_SPEED;
-    private static final byte STATE_IDLE;
-    private static final byte STATE_WAITFOR_PLAYLIST_SIZE;
-    private static final byte STATE_WAITFOR_PLAYPOSITION;
-    private static final int SKIP_TO_PREVIOUS_FILE_DEFAULT_THRESHOLD;
-    static final PlayTime INVALID_PLAYTIME;
-    private static final int INVALID_PLAYVIEW_SIZE;
-    private static final int DVD_MENU_TIMEOUT;
-    private static final long DETAIL_INFO_DELAY_TIMER_TIMEOUT;
+    private static final String LOGCLASS = "AbstractMediaPlayer";
+    static final byte STARTUP_WAITFOR_CAPABILITIES = 1;
+    static final byte STARTUP_RECEIVED_CAPABILITIES = 2;
+    static final byte STARTUP_WAITFOR_READY_TO_PLAY = 3;
+    static final byte STARTUP_RECEIVE_READY_TO_PLAY = 4;
+    static final byte STARTUP_WAITFOR_PLAYMODE = 5;
+    static final byte STARTUP_SET_VALID_PLAYMODE = 6;
+    static final byte STARTUP_RECEIVED_PLAYMODE = 7;
+    static final byte STARTUP_START_PLAYBACK = 8;
+    static final byte STARTUP_WAITFOR_PLAYPOSITION = 9;
+    static final byte STARTUP_RECEIVED_PLAYPOSITION = 10;
+    static final byte STARTUP_WAITFOR_PLAYLIST_SIZE = 11;
+    static final byte STARTUP_RECEIVED_PLAYLIST_SIZE = 12;
+    static final byte STARTUP_WAITFOR_DETAIL_INFO = 13;
+    static final byte STARTUP_RECEIVED_DETAIL_INFO = 14;
+    static final byte STARTUP_ERROR = 15;
+    static final byte STARTUP_FINISHED = 16;
+    public static final int DEFAULT_SEEK_SPEED = 16;
+    private static final byte STATE_IDLE = 0;
+    private static final byte STATE_WAITFOR_PLAYLIST_SIZE = 1;
+    private static final byte STATE_WAITFOR_PLAYPOSITION = 2;
+    private static final int SKIP_TO_PREVIOUS_FILE_DEFAULT_THRESHOLD = 10;
+    static final PlayTime INVALID_PLAYTIME = new PlayTime(-1, -1);
+    private static final int INVALID_PLAYVIEW_SIZE = -1;
+    private static final int DVD_MENU_TIMEOUT = 3000;
+    private static final long DETAIL_INFO_DELAY_TIMER_TIMEOUT = 1000L;
     private final IMediaDSIPlayerController dsiPlayer;
     private final IncreaseSeekHandler increaseSeekHandler;
     protected volatile IPlaybackModeHandler playbackModeHandler;
@@ -129,8 +125,30 @@ IActiveSourceListener {
     private boolean responseExpected;
     private volatile PlaybackMode[] playbackModeList = new PlaybackMode[0];
     private volatile int playbackMode = 0;
-    Timer detailInfoNotifyDelayTimer = new Timer("DetailInfoDelayTimer", 5, null, new AbstractMediaPlayer$4(this), 0, true);
-    Timer dvdMenuTimer = new Timer("DVDMenuLeft", 0, true, new AbstractMediaPlayer$5(this));
+    Timer detailInfoNotifyDelayTimer = new Timer("DetailInfoDelayTimer", 5, null, new TimerListener(){
+
+        public void fireTimer(Timer timer) {
+            AbstractMediaPlayer.this.logger.main().log(1000000, "[%1.fireTimer] Send delayed notification of detailInfo.", (Object)AbstractMediaPlayer.LOGCLASS);
+            AbstractMediaPlayer.this.notifyDetailInfoChanged(AbstractMediaPlayer.this.currentDetailInfo);
+        }
+
+        public void cancelTimer(Timer timer) {
+        }
+    }, 1000L, true);
+    Timer dvdMenuTimer = new Timer("DVDMenuLeft", 3000L, true, new TimerListener(){
+
+        public void fireTimer(Timer timer) {
+            AbstractMediaPlayer.this.logger.main().log(1000000, "[%1.dvdMenuTimer] DVD Menu left.", (Object)AbstractMediaPlayer.LOGCLASS);
+            if (AbstractMediaPlayer.this.dvdMenuPlaying) {
+                AbstractMediaPlayer.this.notifyPlayerPlaybackStateChanged(AbstractMediaPlayer.this.currentPlaybackState);
+                AbstractMediaPlayer.this.updateHMIPlaybackState(AbstractMediaPlayer.this.currentPlaybackState);
+                AbstractMediaPlayer.this.dvdMenuPlaying = false;
+            }
+        }
+
+        public void cancelTimer(Timer timer) {
+        }
+    });
 
     public AbstractMediaPlayer(IMediaTerminal iMediaTerminal, IContent iContent, IMediaDSIPlayerController iMediaDSIPlayerController, boolean bl) {
         this(iMediaTerminal, iContent, iMediaDSIPlayerController, bl, new MediaPlayerParameterFactory());
@@ -141,7 +159,18 @@ IActiveSourceListener {
         this.content = iContent;
         this.playerQueue = mediaPlayerParameterFactory.createQueue(this.logger.main(), "PLAYER");
         iMediaTerminal.getDiagnosisManager().addDataProvider(0, this.playerQueue);
-        iMediaTerminal.getDiagnosisManager().addCommandProvider(0, new AbstractMediaPlayer$1(this));
+        iMediaTerminal.getDiagnosisManager().addCommandProvider(0, new IDiagnosisCommandProvider(){
+
+            public String[] getDiagKeys() {
+                return new String[]{"AbstractMediaPlayer.audioStateChanged(connection:int state:int)"};
+            }
+
+            public void executeDiagCommand(String string, String[] stringArray) {
+                if ("AbstractMediaPlayer.audioStateChanged(connection:int state:int)".equals(string)) {
+                    AbstractMediaPlayer.this.audioStateChanged(new AudioState(Integer.parseInt(stringArray[0]), Integer.parseInt(stringArray[1])));
+                }
+            }
+        });
         this.registeredPlayerListener = mediaPlayerParameterFactory.createCopyOnWriteArrayList();
         this.registeredTrackListener = mediaPlayerParameterFactory.createCopyOnWriteArrayList();
         this.registeredPlayViewListener = mediaPlayerParameterFactory.createCopyOnWriteMap(1);
@@ -154,16 +183,14 @@ IActiveSourceListener {
         this.logTrackInfoToSerialPort = this.getTerminal().getFramework().getSysConst(4633) == 1;
     }
 
-    @Override
     public void init() {
     }
 
-    @Override
     public void deinit() {
     }
 
     public void activate(IActivationContext iActivationContext, IPlaybackModeHandler iPlaybackModeHandler) {
-        this.logger.main().log(1078071040, "[%1.activate] '%2'", (Object)"AbstractMediaPlayer", (Object)iActivationContext);
+        this.logger.main().log(1000000, "[%1.activate] '%2'", (Object)LOGCLASS, (Object)iActivationContext);
         this.setActivationContext(iActivationContext);
         this.mediaCapabilities = iActivationContext.getSlot().getSource().getSlot(iActivationContext.getSlot()).getCapabilities();
         this.reset();
@@ -185,7 +212,7 @@ IActiveSourceListener {
     }
 
     private void reset() {
-        this.logger.main().log(1078071040, "[%1.reset]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.reset]", (Object)LOGCLASS);
         this.currentPlayTime = INVALID_PLAYTIME;
         this.currentPlayingTrack = new PlayingTrack();
         this.currentPlaybackFolder = PlayingTrack.EMPTY_PLAYBACK_FOLDER;
@@ -204,7 +231,7 @@ IActiveSourceListener {
     }
 
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.dsiPlayer.setPlayerListener(null);
         this.playerQueue.abort();
         this.playerQueue.reset();
@@ -240,7 +267,7 @@ IActiveSourceListener {
     }
 
     public void resetSettings() {
-        this.logger.main().log(1078071040, "[%1.resetSettings]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.resetSettings]", (Object)LOGCLASS);
         if (this.getActiveSlot() != null) {
             this.playbackModeHandler.resetPlaybackMode();
         }
@@ -254,17 +281,15 @@ IActiveSourceListener {
         return iActivationContext.getSlot().getSource().getSlot(iActivationContext.getSlot());
     }
 
-    @Override
     public final boolean isActive() {
         return this.getActivationContext() != null;
     }
 
-    @Override
     public final void addTrackListener(IPlayerTrackListener iPlayerTrackListener) {
         MediaListEntry[] mediaListEntryArray;
         ResourceLocator resourceLocator;
         Object object;
-        this.logger.main().log(1078071040, "[%1.addTrackListener] '%2'.", (Object)"AbstractMediaPlayer", (Object)iPlayerTrackListener);
+        this.logger.main().log(1000000, "[%1.addTrackListener] '%2'.", (Object)LOGCLASS, (Object)iPlayerTrackListener);
         this.registeredTrackListener.addIfAbsent(iPlayerTrackListener);
         PlayingTrack playingTrack = this.currentPlayingTrack;
         if (null != playingTrack && playingTrack.getEntryID() != -1L) {
@@ -282,14 +307,13 @@ IActiveSourceListener {
         }
     }
 
-    @Override
     public final void removeTrackListener(IPlayerTrackListener iPlayerTrackListener) {
-        this.logger.main().log(1078071040, "[%1.removeTrackListener] '%2'.", (Object)"AbstractMediaPlayer", (Object)iPlayerTrackListener);
+        this.logger.main().log(1000000, "[%1.removeTrackListener] '%2'.", (Object)LOGCLASS, (Object)iPlayerTrackListener);
         this.registeredTrackListener.remove(iPlayerTrackListener);
     }
 
     private void removeAllTrackListener() {
-        this.logger.main().log(1078071040, "[%1.removeAllTrackListener]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.removeAllTrackListener]", (Object)LOGCLASS);
         this.registeredTrackListener.clear();
     }
 
@@ -301,14 +325,14 @@ IActiveSourceListener {
                 ((IPlayerTrackListener)iterator.next()).trackChanged(bl, bl2, playingTrack, playTime);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyTrackChange] Exception in listener callback.", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyTrackChange] Exception in listener callback.", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
     private void notifyDetailInfoChanged(MediaDetailInfo mediaDetailInfo) {
         CopyOnWriteArrayList copyOnWriteArrayList = this.registeredTrackListener;
-        this.logger.main().log(1078071040, "[%1.notifyDetailInfoChanged]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.notifyDetailInfoChanged]", (Object)LOGCLASS);
         this.hmiHandler.setWaitForDetailInfos(false);
         Iterator iterator = copyOnWriteArrayList.iterator();
         while (iterator.hasNext()) {
@@ -316,13 +340,13 @@ IActiveSourceListener {
                 ((IPlayerTrackListener)iterator.next()).detailInfoChanged(mediaDetailInfo);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyDetailInfoChanged] Exception in listener callback : %2.", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyDetailInfoChanged] Exception in listener callback : %2.", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
     protected void waitForDetailInfos() {
-        this.logger.main().log(1078071040, "[%1.waitForDetailInfos] ", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.waitForDetailInfos] ", (Object)LOGCLASS);
         this.hmiHandler.setWaitForDetailInfos(true);
     }
 
@@ -334,7 +358,7 @@ IActiveSourceListener {
                 ((IPlayerTrackListener)iterator.next()).coverArtChanged(resourceLocator);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyCoverArtChanged]", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyCoverArtChanged]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
@@ -347,14 +371,13 @@ IActiveSourceListener {
                 ((IPlayerTrackListener)iterator.next()).playbackFolderChanged(mediaListEntryArray);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyDetailInfoChanged] Exception in listener callback : %2.", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyDetailInfoChanged] Exception in listener callback : %2.", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public final void addPlayerListener(IPlayerListener iPlayerListener) {
-        this.logger.main().log(1078071040, "[%1.addPlayerListener] '%2'.", (Object)"AbstractMediaPlayer", (Object)iPlayerListener);
+        this.logger.main().log(1000000, "[%1.addPlayerListener] '%2'.", (Object)LOGCLASS, (Object)iPlayerListener);
         this.registeredPlayerListener.addIfAbsent(iPlayerListener);
         iPlayerListener.playbackStateChanged(this.lastNotifiedPlaybackState);
         Capabilities capabilities = this.capabilities;
@@ -364,14 +387,13 @@ IActiveSourceListener {
         iPlayerListener.capabilitiesChanged(capabilities);
     }
 
-    @Override
     public final void removePlayerListener(IPlayerListener iPlayerListener) {
-        this.logger.main().log(1078071040, "[%1.removePlayerListener] '%2'.", (Object)"AbstractMediaPlayer", (Object)iPlayerListener);
+        this.logger.main().log(1000000, "[%1.removePlayerListener] '%2'.", (Object)LOGCLASS, (Object)iPlayerListener);
         this.registeredPlayerListener.remove(iPlayerListener);
     }
 
     private void removeAllPlayerListener() {
-        this.logger.main().log(1078071040, "[%1.removeAllPlayerListener]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.removeAllPlayerListener]", (Object)LOGCLASS);
         this.registeredPlayerListener.clear();
     }
 
@@ -383,7 +405,7 @@ IActiveSourceListener {
                 ((IPlayerListener)iterator.next()).repeatScopeChanged(n, bl);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyPlayerRepeatScopeChanged]", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyPlayerRepeatScopeChanged]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
@@ -396,13 +418,13 @@ IActiveSourceListener {
                 ((IPlayerListener)iterator.next()).repeatModeChanged(n);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyPlayerRepeatModeChanged]", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyPlayerRepeatModeChanged]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
     private void notifyPlayerStartupComplete() {
-        this.logger.main().log(1078071040, "[%1.notifyPlayerStartupComplete]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.notifyPlayerStartupComplete]", (Object)LOGCLASS);
         CopyOnWriteArrayList copyOnWriteArrayList = this.registeredPlayerListener;
         Iterator iterator = copyOnWriteArrayList.iterator();
         while (iterator.hasNext()) {
@@ -410,13 +432,13 @@ IActiveSourceListener {
                 ((IPlayerListener)iterator.next()).playerStartupComplete();
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyPlayerStartupComplete]", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyPlayerStartupComplete]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
     protected void playerStartupComplete() {
-        this.logger.main().log(1078071040, "[%1.playerStartupComplete]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.playerStartupComplete]", (Object)LOGCLASS);
         this.notifyPlayerStartupComplete();
     }
 
@@ -428,7 +450,7 @@ IActiveSourceListener {
                 ((IPlayerListener)iterator.next()).capabilitiesChanged(capabilities);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyPlayerCapabilitiesChanged]", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyPlayerCapabilitiesChanged]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
@@ -477,7 +499,7 @@ IActiveSourceListener {
                 ((IPlayerListener)iterator.next()).playbackStateChanged(n2);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyPlayerPlaybackStateChanged]", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyPlayerPlaybackStateChanged]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
@@ -490,7 +512,7 @@ IActiveSourceListener {
                 ((IPlayerListener)iterator.next()).commandBlocked();
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyPlayerCommandIsBlock]", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyPlayerCommandIsBlock]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
@@ -503,14 +525,13 @@ IActiveSourceListener {
                 ((IPlayerListener)iterator.next()).currentPMLevelChanged(n);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyCurrentPMLevel]", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyCurrentPMLevel]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public void setBrowserPlayerSelection(IPlayerSelectionRequest iPlayerSelectionRequest) {
-        this.logger.main().log(1078071040, "[%1.setBrowserPlayerSelection] '%2'", (Object)"AbstractMediaPlayer", (Object)iPlayerSelectionRequest);
+        this.logger.main().log(1000000, "[%1.setBrowserPlayerSelection] '%2'", (Object)LOGCLASS, (Object)iPlayerSelectionRequest);
         if (!iPlayerSelectionRequest.isSeamless()) {
             this.playbackModeHandler.trackChanged();
         }
@@ -521,12 +542,12 @@ IActiveSourceListener {
         try {
             AbstractMediaPlayerJob abstractMediaPlayerJob = (AbstractMediaPlayerJob)this.playerQueue.getRunningJob();
             if (null != abstractMediaPlayerJob) {
-                this.logger.main().log(1078071040, "[%2.notifyPlaySelectionResult] '%1'", bl, (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%2.notifyPlaySelectionResult] '%1'", bl, (Object)LOGCLASS);
                 abstractMediaPlayerJob.responseSetPlaySelection(bl);
             }
         }
         catch (Exception exception) {
-            this.logger.main().log(-1601830656, "[%1.notifyPlaySelectionResult]", (Object)"AbstractMediaPlayer", (Throwable)exception);
+            this.logger.main().log(100000, "[%1.notifyPlaySelectionResult]", (Object)LOGCLASS, (Throwable)exception);
         }
     }
 
@@ -534,37 +555,37 @@ IActiveSourceListener {
         try {
             AbstractMediaPlayerJob abstractMediaPlayerJob = (AbstractMediaPlayerJob)this.playerQueue.getRunningJob();
             if (null != abstractMediaPlayerJob) {
-                this.logger.main().log(-2137614336, "[%1.notifyUpdatePlayPosition]", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(10000000, "[%1.notifyUpdatePlayPosition]", (Object)LOGCLASS);
                 abstractMediaPlayerJob.notifyPlayPosition();
             }
         }
         catch (Exception exception) {
-            this.logger.main().log(-1601830656, "[%1.notifyUpdatePlayPosition] %2", (Object)"AbstractMediaPlayer", (Throwable)exception);
+            this.logger.main().log(100000, "[%1.notifyUpdatePlayPosition] %2", (Object)LOGCLASS, (Throwable)exception);
         }
     }
 
     protected void notifyListChanged(long l) {
-        this.logger.main().log(1078071040, "[%1.notifyListChanged]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.notifyListChanged]", (Object)LOGCLASS);
         Iterator iterator = this.registeredPlayViewListener.values().iterator();
         while (iterator.hasNext()) {
             try {
                 ((IPlayerViewListener)iterator.next()).listChanged(true, l, this.currentPlayViewSize, this.currentPlayViewFlag);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyListChanged] Exception in listener callback.", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyListChanged] Exception in listener callback.", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
     protected void notifySameTrackSelected() {
-        this.logger.main().log(1078071040, "[%1.notifySameTrackSelected]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.notifySameTrackSelected]", (Object)LOGCLASS);
         Iterator iterator = this.registeredPlayViewListener.values().iterator();
         while (iterator.hasNext()) {
             try {
                 ((IPlayerViewListener)iterator.next()).notifySameTrackSelected(this.currentDetailInfo, this.currentCoverArt);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyListChanged] Exception in listener callback.", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyListChanged] Exception in listener callback.", (Object)LOGCLASS, (Throwable)exception);
             }
         }
         if (this.isOnIPOD && this.getTerminal().getConfiguration().isIAP2Supported() && !this.capabilities.isPlayView() && this.capabilities.isDetailInfos()) {
@@ -573,16 +594,15 @@ IActiveSourceListener {
         }
     }
 
-    @Override
     public boolean requestPlayViewListEntryBased(int n, long l, int n2) {
         if (!this.isPlayViewSizeValid()) {
             return false;
         }
         if (this.logger.main().isInfo()) {
-            this.logger.main().log(1078071040, "[%1.requestPlayViewListEntryBased] client='%3',entryID='%2',size='%4'", (Object)"AbstractMediaPlayer", (Object)String.valueOf(l), (Object)MediaUtils.getPlayViewClientIDToStr(n), (Object)String.valueOf(n2));
+            this.logger.main().log(1000000, "[%1.requestPlayViewListEntryBased] client='%3',entryID='%2',size='%4'", (Object)LOGCLASS, (Object)String.valueOf(l), (Object)MediaUtils.getPlayViewClientIDToStr(n), (Object)String.valueOf(n2));
         }
         if (!this.supportsPlayListHandling()) {
-            this.logger.main().log(1078071040, "[%1.requestPlayViewListEntryBased] No list support.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.requestPlayViewListEntryBased] No list support.", (Object)LOGCLASS);
             return false;
         }
         if (n == 3) {
@@ -591,16 +611,15 @@ IActiveSourceListener {
         return this.dsiPlayer.requestPlayView(l, 0, n2, n);
     }
 
-    @Override
     public boolean requestPlayViewListIndexBased(int n, int n2, int n3) {
         if (!this.isPlayViewSizeValid()) {
             return false;
         }
         if (this.logger.main().isInfo()) {
-            this.logger.main().log(1078071040, "[%1.requestPlayViewListIndexBased] client='%3',index='%2',size='%4'", (Object)"AbstractMediaPlayer", (Object)String.valueOf(n2), (Object)MediaUtils.getPlayViewClientIDToStr(n), (Object)String.valueOf(n3));
+            this.logger.main().log(1000000, "[%1.requestPlayViewListIndexBased] client='%3',index='%2',size='%4'", (Object)LOGCLASS, (Object)String.valueOf(n2), (Object)MediaUtils.getPlayViewClientIDToStr(n), (Object)String.valueOf(n3));
         }
         if (!this.supportsPlayListHandling()) {
-            this.logger.main().log(1078071040, "[%1.requestPlayViewListIndexBased] No list support.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.requestPlayViewListIndexBased] No list support.", (Object)LOGCLASS);
             return false;
         }
         if (n == 3) {
@@ -609,45 +628,40 @@ IActiveSourceListener {
         return this.dsiPlayer.requestPlayView(0L, n2, n3, n);
     }
 
-    @Override
     public void discardPlayViewRequests(int n) {
-        this.logger.main().log(1078071040, "[%1.discardPlayViewRequests] clientID='%2'.", (Object)"AbstractMediaPlayer", (long)n);
+        this.logger.main().log(1000000, "[%1.discardPlayViewRequests] clientID='%2'.", (Object)LOGCLASS, (long)n);
         this.dsiPlayer.discardPlayViewRequest(n);
     }
 
-    @Override
     public void addViewListener(IPlayerViewListener iPlayerViewListener) {
-        this.logger.main().log(1078071040, "[%1.addViewListener] '%2'.", (Object)"AbstractMediaPlayer", (Object)iPlayerViewListener);
+        this.logger.main().log(1000000, "[%1.addViewListener] '%2'.", (Object)LOGCLASS, (Object)iPlayerViewListener);
         this.registeredPlayViewListener.put(new Integer(iPlayerViewListener.getClientID()), iPlayerViewListener);
         if (this.currentPlayViewSize != -1) {
             iPlayerViewListener.listChanged(false, this.currentPlayingTrack.getEntryID(), this.currentPlayViewSize, this.currentPlayViewFlag);
         }
     }
 
-    @Override
     public void removeViewListener(IPlayerViewListener iPlayerViewListener) {
-        this.logger.main().log(1078071040, "[%1.removeViewListener] '%2'.", (Object)"AbstractMediaPlayer", (Object)iPlayerViewListener);
+        this.logger.main().log(1000000, "[%1.removeViewListener] '%2'.", (Object)LOGCLASS, (Object)iPlayerViewListener);
         this.registeredPlayViewListener.remove(new Integer(iPlayerViewListener.getClientID()));
     }
 
-    @Override
     public void playMoreOf(long l, int n, ISelectionListener iSelectionListener) {
     }
 
-    @Override
     public boolean supportsPlayMoreOf() {
         return false;
     }
 
     private void removeAllViewListener() {
-        this.logger.main().log(1078071040, "[%1.removeAllViewListener]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.removeAllViewListener]", (Object)LOGCLASS);
         this.registeredPlayViewListener.clear();
     }
 
     private void notifyPlayViewResponse(int n, MediaListEntry[] mediaListEntryArray, int n2, int n3) {
         IPlayerViewListener iPlayerViewListener = (IPlayerViewListener)this.registeredPlayViewListener.get(new Integer(n));
         if (iPlayerViewListener == null) {
-            this.logger.main().log(-1601830656, "[%1.notifyPlayViewResponse] No listener for clientID '%2'.", (Object)"AbstractMediaPlayer", (long)n);
+            this.logger.main().log(100000, "[%1.notifyPlayViewResponse] No listener for clientID '%2'.", (Object)LOGCLASS, (long)n);
             return;
         }
         iPlayerViewListener.responsePlayView(n3, mediaListEntryArray, n2);
@@ -660,7 +674,7 @@ IActiveSourceListener {
                 ((IPlayerViewListener)iterator.next()).listChanged(false, -1L, n, n2);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyPlayViewUpdateSize] Exception in listener callback.", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyPlayViewUpdateSize] Exception in listener callback.", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
@@ -672,7 +686,7 @@ IActiveSourceListener {
                 ((IPlayerViewListener)iterator.next()).listInvalidated();
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyPlayViewUpdateSize] Exception in listener callback.", (Object)"AbstractMediaPlayer", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyPlayViewUpdateSize] Exception in listener callback.", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
@@ -681,68 +695,68 @@ IActiveSourceListener {
         this.startupState = by;
         switch (this.startupState) {
             case 1: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_WAITFOR_CAPABILITIES", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_WAITFOR_CAPABILITIES", (Object)LOGCLASS);
                 break;
             }
             case 2: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_CAPABILITIES_RECEIVED", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_CAPABILITIES_RECEIVED", (Object)LOGCLASS);
                 this.setStartupState((byte)3);
                 break;
             }
             case 3: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_WAITFOR_READY_TO_PLAY", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_WAITFOR_READY_TO_PLAY", (Object)LOGCLASS);
                 break;
             }
             case 4: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_RECEIVE_READY_TO_PLAY", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_RECEIVE_READY_TO_PLAY", (Object)LOGCLASS);
                 this.getTerminal().getFramework().getStartupMgr().logStartupEvent("[MEDIA] READY TO PLAY");
                 if (this.supportsPlaymodes()) {
                     if (this.playbackModeHandler.sendCurrentPlaybackMode()) {
                         this.setStartupState((byte)5);
                         return;
                     }
-                    this.logger.main().log(1078071040, "[%1.setStartupState] No playback modes.", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(1000000, "[%1.setStartupState] No playback modes.", (Object)LOGCLASS);
                 } else {
-                    this.logger.main().log(1078071040, "[%1.setStartupState] Playback modes not supported.", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(1000000, "[%1.setStartupState] Playback modes not supported.", (Object)LOGCLASS);
                 }
                 this.setStartupState((byte)8);
                 break;
             }
             case 5: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_WAITFOR_PLAYMODE", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_WAITFOR_PLAYMODE", (Object)LOGCLASS);
                 break;
             }
             case 6: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_SET_VALID_PLAYMODE (STD ONLY HACK)", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_SET_VALID_PLAYMODE (STD ONLY HACK)", (Object)LOGCLASS);
                 if (!this.getTerminal().getFramework().isEvoStd()) {
-                    this.logger.main().log(10000, "[%1.setStartupState] This is not an Evo-STD system. The STARTUP_SET_VALID_PLAYMODE should be used only on STD systems.", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(10000, "[%1.setStartupState] This is not an Evo-STD system. The STARTUP_SET_VALID_PLAYMODE should be used only on STD systems.", (Object)LOGCLASS);
                 }
                 this.playbackModeHandler.sendRepeatPlayview();
                 break;
             }
             case 7: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_RECEIVED_PLAYMODE", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_RECEIVED_PLAYMODE", (Object)LOGCLASS);
                 this.setStartupState((byte)8);
                 break;
             }
             case 8: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_START_PLAYBACK", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_START_PLAYBACK", (Object)LOGCLASS);
                 this.getTerminal().getFramework().getStartupMgr().logStartupEvent("[MEDIA] START PLAYBACK");
                 this.onStartupReadyForPlayback();
                 this.setStartupState((byte)9);
                 break;
             }
             case 9: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_WAITFOR_PLAYPOSITION", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_WAITFOR_PLAYPOSITION", (Object)LOGCLASS);
                 if (this.getCurrentPlayTime() == INVALID_PLAYTIME && this.supportsPlaytime()) break;
                 this.setStartupState((byte)10);
                 return;
             }
             case 10: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_RECEIVED_PLAYPOSITION", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_RECEIVED_PLAYPOSITION", (Object)LOGCLASS);
                 this.getTerminal().getFramework().getStartupMgr().logStartupEvent("[MEDIA] RECEIVE PLAY POSITION.");
                 if (!this.supportsPlayListHandling()) {
-                    this.logger.main().log(1078071040, "[%1.setStartupState] List handling not supported.", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(1000000, "[%1.setStartupState] List handling not supported.", (Object)LOGCLASS);
                     this.setStartupState((byte)12);
                     return;
                 }
@@ -750,15 +764,15 @@ IActiveSourceListener {
                 break;
             }
             case 11: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_WAITFOR_PLAYLIST_SIZE", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_WAITFOR_PLAYLIST_SIZE", (Object)LOGCLASS);
                 if (this.currentPlayViewSize == -1) break;
                 this.setStartupState((byte)12);
                 return;
             }
             case 12: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_RECEIVED_PLAYLIST_SIZE", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_RECEIVED_PLAYLIST_SIZE", (Object)LOGCLASS);
                 if (!this.supportsDetailInfo()) {
-                    this.logger.main().log(1078071040, "[%1.setStartupState] Detail info not supported.", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(1000000, "[%1.setStartupState] Detail info not supported.", (Object)LOGCLASS);
                     this.setStartupState((byte)14);
                     return;
                 }
@@ -766,27 +780,27 @@ IActiveSourceListener {
                 break;
             }
             case 13: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_WAITFOR_DETAIL_INFO", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_WAITFOR_DETAIL_INFO", (Object)LOGCLASS);
                 if (this.currentDetailInfo == null) break;
                 this.setStartupState((byte)14);
                 return;
             }
             case 14: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_RECEIVED_DETAIL_INFO", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_RECEIVED_DETAIL_INFO", (Object)LOGCLASS);
                 this.getTerminal().getFramework().getStartupMgr().logStartupEvent("[MEDIA] RECEIVE DETAIL INFO");
                 this.setStartupState((byte)16);
                 break;
             }
             case 15: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_ERROR", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_ERROR", (Object)LOGCLASS);
                 ISourceSlot iSourceSlot = this.getActiveSlot();
                 if (iSourceSlot == null) {
-                    this.logger.main().log(1078071040, "[%1.setStartupState] Not active any more.", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(1000000, "[%1.setStartupState] Not active any more.", (Object)LOGCLASS);
                     break;
                 }
                 this.getTerminal().getAudioManager().requestAudio(iSourceSlot.getSource().getAudioConnection(iSourceSlot), true);
                 if (this.currentDetailInfo == null) {
-                    this.logger.main().log(1078071040, "[%1.updatePlaybackState] No detail info. Send invalidation.", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(1000000, "[%1.updatePlaybackState] No detail info. Send invalidation.", (Object)LOGCLASS);
                     this.currentDetailInfo = new MediaDetailInfo();
                     this.notifyDetailInfoChanged(this.currentDetailInfo);
                 }
@@ -794,7 +808,7 @@ IActiveSourceListener {
                 break;
             }
             case 16: {
-                this.logger.main().log(1078071040, "[%1.setStartupState] STARTUP_FINISHED", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.setStartupState] STARTUP_FINISHED", (Object)LOGCLASS);
                 this.getTerminal().getFramework().getStartupMgr().logStartupEvent("[MEDIA] PLAYER STARTUP FINISHED.");
                 this.enableHMIPlayerControls(true);
                 if (!this.isActive()) {
@@ -805,7 +819,7 @@ IActiveSourceListener {
                 break;
             }
             default: {
-                this.logger.main().log(10000, "[%1.setStartupState] Invalid startup state '%2'.", (Object)"AbstractMediaPlayer", (long)this.startupState);
+                this.logger.main().log(10000, "[%1.setStartupState] Invalid startup state '%2'.", (Object)LOGCLASS, (long)this.startupState);
             }
         }
     }
@@ -820,68 +834,65 @@ IActiveSourceListener {
 
     protected void onStartupReadyForPlayback() {
         if (this.getCurrentAudioState().getState() == 2 || this.getCurrentAudioState().getState() == 4 || this.getTerminal().getAudioManager().hasRearSeatAudioFocusOnly() || this.isActiveSDISAndStandby()) {
-            this.logger.main().log(1078071040, "[%1.onStartupReadyForPlayback] Start playback.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.onStartupReadyForPlayback] Start playback.", (Object)LOGCLASS);
             this.dsiPlayer.resume();
         } else {
-            this.logger.main().log(1078071040, "[%1.onStartupReadyForPlayback] Pause playback. No audio.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.onStartupReadyForPlayback] Pause playback. No audio.", (Object)LOGCLASS);
             this.dsiPlayer.pause();
         }
     }
 
     private void enableHMIPlayerControls(boolean bl) {
-        this.getChoiceModel(906887936).setValue(bl ? 1 : 0);
+        this.getChoiceModel(200246).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void pause() {
         if (!this.isActive()) {
-            this.logger.main().log(1078071040, "[%1.pause] Not active any more.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.pause] Not active any more.", (Object)LOGCLASS);
             return;
         }
         if (this.isNotReadyToPlay()) {
-            this.logger.main().log(1078071040, "[%1.pause] Not ready to play.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.pause] Not ready to play.", (Object)LOGCLASS);
             return;
         }
-        this.logger.main().log(1078071040, "[%1.pause]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.pause]", (Object)LOGCLASS);
         this.dsiPlayer.pause();
     }
 
-    @Override
     public void resume() {
         if (!this.isActive()) {
-            this.logger.main().log(1078071040, "[%1.resume] Not active any more.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.resume] Not active any more.", (Object)LOGCLASS);
             return;
         }
         if (!this.isPlaybackStateValid()) {
-            this.logger.main().log(1078071040, "[%1.resume] Invalid playback state", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.resume] Invalid playback state", (Object)LOGCLASS);
             return;
         }
         if (this.isNotReadyToPlay()) {
-            this.logger.main().log(1078071040, "[%1.resume] Not ready to play", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.resume] Not ready to play", (Object)LOGCLASS);
             return;
         }
         if (!(this.getCurrentAudioState().isAudible() || this.getTerminal().getAudioManager().hasRearSeatAudioFocusOnly() || this.isActiveSDISAndStandby())) {
-            this.logger.main().log(1078071040, "[%1.resume] Not audible", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.resume] Not audible", (Object)LOGCLASS);
             this.dsiPlayer.pause();
             if (!this.getTerminal().getAudioManager().resumeAudio(true)) {
-                this.logger.main().log(1078071040, "[%1.resume] Audio cannot be resumed", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.resume] Audio cannot be resumed", (Object)LOGCLASS);
                 return;
             }
             return;
         }
-        this.logger.main().log(1078071040, "[%1.resume]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.resume]", (Object)LOGCLASS);
         this.dsiPlayer.resume();
     }
 
-    @Override
     public void playEntry(long l) {
         if (!this.isActive()) {
-            this.logger.main().log(1078071040, "[%1.playEntry] Not active any more.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.playEntry] Not active any more.", (Object)LOGCLASS);
             return;
         }
-        this.logger.main().log(1078071040, "[%1.playEntry] '%2'.", (Object)"AbstractMediaPlayer", l);
+        this.logger.main().log(1000000, "[%1.playEntry] '%2'.", (Object)LOGCLASS, l);
         if (this.currentPlayingTrack.getEntryID() != l) {
-            this.logger.main().log(-2137614336, "[%1.playEntry] New track.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(10000000, "[%1.playEntry] New track.", (Object)LOGCLASS);
             this.setNotifyTrackEvents(false);
         } else {
             this.setNotifyTrackEvents(true);
@@ -892,7 +903,7 @@ IActiveSourceListener {
     }
 
     private void setNotifyTrackEvents(boolean bl) {
-        this.logger.main().log(-2137614336, "[%1.setNotifyTrackEvents] '%2'", (Object)"AbstractMediaPlayer", (Object)(bl ? "NOTIFY" : "BLOCKED"));
+        this.logger.main().log(10000000, "[%1.setNotifyTrackEvents] '%2'", (Object)LOGCLASS, (Object)(bl ? "NOTIFY" : "BLOCKED"));
         this.notifyTrackEvents = bl;
     }
 
@@ -905,18 +916,15 @@ IActiveSourceListener {
         return mediaDetailInfo != null ? mediaDetailInfo.isChapterAvailable() : false;
     }
 
-    @Override
     public void touchEvent(int n, int n2, int n3) {
     }
 
-    @Override
     public void executeMenuCommand(int n) {
     }
 
-    @Override
     public void setPlayPosition(int n) {
         PlayTime playTime;
-        this.logger.main().log(1078071040, "[%1.setPlayPosition] '%2'.", (Object)"AbstractMediaPlayer", (long)n);
+        this.logger.main().log(1000000, "[%1.setPlayPosition] '%2'.", (Object)LOGCLASS, (long)n);
         PlayingTrack playingTrack = this.currentPlayingTrack;
         this.dsiPlayer.setEntry(playingTrack.getEntryID(), n);
         if (!this.getCurrentAudioState().isAudible() && !this.isActiveSDISAndStandby()) {
@@ -927,7 +935,6 @@ IActiveSourceListener {
         this.notifyTrackChange(false, false, playingTrack, playTime);
     }
 
-    @Override
     public final PlayingTrack getCurrentPlayingTrack() {
         return this.currentPlayingTrack;
     }
@@ -940,21 +947,20 @@ IActiveSourceListener {
         return this.currentDetailInfo;
     }
 
-    @Override
     public boolean skip(boolean bl, int n) {
         if (!this.isActive()) {
-            this.logger.main().log(1078071040, "[%1.skip] Not active any more.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.skip] Not active any more.", (Object)LOGCLASS);
             return false;
         }
         if (this.isNotReadyToPlay()) {
-            this.logger.main().log(1078071040, "[%1.skip] Not ready to play.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.skip] Not ready to play.", (Object)LOGCLASS);
             return false;
         }
         if (bl) {
             int n2;
             int n3;
             if (!this.supportsSkipFW()) {
-                this.logger.main().log(1078071040, "[%1.skip] Not supported.", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.skip] Not supported.", (Object)LOGCLASS);
                 return false;
             }
             if (this.isChaptersAvailable()) {
@@ -974,7 +980,7 @@ IActiveSourceListener {
             this.dsiPlayer.skip(n3, n2);
         } else {
             if (!this.supportsSkipBW()) {
-                this.logger.main().log(1078071040, "[%1.skip] Not supported.", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.skip] Not supported.", (Object)LOGCLASS);
                 return false;
             }
             int n4 = n;
@@ -988,14 +994,14 @@ IActiveSourceListener {
                 }
             } else {
                 if (!this.supportsPlaytime()) {
-                    this.logger.main().log(1078071040, "[%1.skip] no playtime supported", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(1000000, "[%1.skip] no playtime supported", (Object)LOGCLASS);
                 } else if (!this.immediatelyJumpToPreviousTrack && this.currentPlayTime.getPlayTime() > this.getSkipToPreviousThreshold()) {
-                    this.logger.main().log(1078071040, "[%1.skip] playTime > %2s threshold", (Object)"AbstractMediaPlayer", (long)this.getSkipToPreviousThreshold());
+                    this.logger.main().log(1000000, "[%1.skip] playTime > %2s threshold", (Object)LOGCLASS, (long)this.getSkipToPreviousThreshold());
                     --n4;
                 }
                 this.hmiHandler.disableNPSTimer(true);
                 if (n4 <= 0) {
-                    this.logger.main().log(1078071040, "[%1.skip] Skip to beginning", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(1000000, "[%1.skip] Skip to beginning", (Object)LOGCLASS);
                     if (this.dsiPlayer.skip(2, 0)) {
                         this.currentPlayTime = new PlayTime(0, this.currentPlayTime.getTotalTimeOfTrack());
                     }
@@ -1015,36 +1021,35 @@ IActiveSourceListener {
         return 10;
     }
 
-    @Override
     public boolean startSeek(boolean bl) {
         MediaDetailInfo mediaDetailInfo;
-        this.logger.main().log(1078071040, "[%1.startSeek] '%2'", (Object)"AbstractMediaPlayer", (Object)(bl ? "FORWARD" : "BACKWARD"));
+        this.logger.main().log(1000000, "[%1.startSeek] '%2'", (Object)LOGCLASS, (Object)(bl ? "FORWARD" : "BACKWARD"));
         if (!this.isActive()) {
-            this.logger.main().log(1078071040, "[%1.startSeek] Not active any more.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.startSeek] Not active any more.", (Object)LOGCLASS);
             return false;
         }
         if (this.isSeekingFwd() && bl || this.isSeekingBwd() && !bl) {
-            this.logger.main().log(-2137614336, "[%1.startSeek] Already seeking.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(10000000, "[%1.startSeek] Already seeking.", (Object)LOGCLASS);
             return false;
         }
         if (this.isNotReadyToPlay()) {
-            this.logger.main().log(1078071040, "[%1.startSeek] Not ready to play.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.startSeek] Not ready to play.", (Object)LOGCLASS);
             return false;
         }
         if (bl) {
             if (!this.supportsSeekForward()) {
-                this.logger.main().log(1078071040, "[%1.startSeek] Seek forward not supported.", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.startSeek] Seek forward not supported.", (Object)LOGCLASS);
                 return false;
             }
         } else if (!this.supportsSeekBackward()) {
-            this.logger.main().log(1078071040, "[%1.startSeek] Seek backward not supported.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.startSeek] Seek backward not supported.", (Object)LOGCLASS);
             return false;
         }
         if ((mediaDetailInfo = this.getCurrentDetailInfo()) != null && mediaDetailInfo.isImportRunning()) {
-            this.logger.main().log(1078071040, "[%1.startSeek] File is currently imported. Seek not supported.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.startSeek] File is currently imported. Seek not supported.", (Object)LOGCLASS);
             return false;
         }
-        if (!this.increaseSeekHandler.start(bl, 0)) {
+        if (!this.increaseSeekHandler.start(bl, 5000L)) {
             return false;
         }
         this.isDSISeekRequested = true;
@@ -1052,15 +1057,14 @@ IActiveSourceListener {
         return true;
     }
 
-    @Override
     public boolean stopSeek(boolean bl) {
         if (!this.isActive()) {
-            this.logger.main().log(1078071040, "[%1.stopSeek] Not active any more.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.stopSeek] Not active any more.", (Object)LOGCLASS);
             return false;
         }
         this.increaseSeekHandler.stop();
         if (!this.isSeeking()) {
-            this.logger.main().log(-2137614336, "[%1.stopSeek] Not seeking.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(10000000, "[%1.stopSeek] Not seeking.", (Object)LOGCLASS);
             if (bl) {
                 this.resume();
             }
@@ -1073,7 +1077,6 @@ IActiveSourceListener {
         return true;
     }
 
-    @Override
     public final boolean isSeeking() {
         return AbstractMediaPlayer.isSeeking(this.currentPlaybackState) || this.isDSISeekRequested;
     }
@@ -1090,12 +1093,10 @@ IActiveSourceListener {
         return this.currentPlaybackState == 9 || this.currentPlaybackState == 7;
     }
 
-    @Override
     public final boolean isPlaying() {
         return this.currentPlaybackState == 3 || this.currentPlaybackState == 10;
     }
 
-    @Override
     public boolean isReadyToPlay() {
         return !this.isNotReadyToPlay();
     }
@@ -1112,23 +1113,22 @@ IActiveSourceListener {
         return this.currentPlaybackState == 5;
     }
 
-    @Override
     public void updatePlayPosition(long l, int n, int n2) {
         boolean bl;
         boolean bl2;
         if (this.startupState < 8) {
-            this.logger.main().log(1078071040, "[%1.updatePlayPosition] Playback not started. Ignore.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.updatePlayPosition] Playback not started. Ignore.", (Object)LOGCLASS);
             return;
         }
         int n3 = 0;
         int n4 = n2;
         if (n < 0) {
-            this.logger.main().log(-1601830656, "[%1.updatePlayPosition] play time < 0 ('%2').", (Object)"AbstractMediaPlayer", l);
+            this.logger.main().log(100000, "[%1.updatePlayPosition] play time < 0 ('%2').", (Object)LOGCLASS, l);
         } else {
             n3 = n;
         }
         if (n4 > 0 && n > n4) {
-            this.logger.main().log(-1601830656, "[%1.updatePlayPosition] play time > total time ('%2').", (Object)"AbstractMediaPlayer", l);
+            this.logger.main().log(100000, "[%1.updatePlayPosition] play time > total time ('%2').", (Object)LOGCLASS, l);
             n4 = n3 = n;
         } else {
             n3 = n;
@@ -1140,7 +1140,7 @@ IActiveSourceListener {
             this.hmiHandler.disableNPSTimer(false);
             this.notifyTrackSkipAfterTrackChange = false;
             if (this.logger.main().isInfo()) {
-                this.logger.main().log(1078071040, "[%1.updatePlayPosition] Track changed ('%2'%3)", (Object)"AbstractMediaPlayer", (Object)new Long(l), (Object)(bl ? " SKIPPED" : ""));
+                this.logger.main().log(1000000, "[%1.updatePlayPosition] Track changed ('%2'%3)", (Object)LOGCLASS, (Object)new Long(l), (Object)(bl ? " SKIPPED" : ""));
             }
             this.setNotifyTrackEvents(true);
             this.currentPlayingTrack = new PlayingTrack(l, this.currentPlaybackFolder);
@@ -1153,7 +1153,7 @@ IActiveSourceListener {
             bl2 = false;
             bl = false;
             if (this.trackSelected) {
-                this.logger.main().log(1078071040, "[%1.updatePlayPosition] same track selected", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.updatePlayPosition] same track selected", (Object)LOGCLASS);
                 this.trackSelected = false;
                 this.notifySameTrackSelected();
             }
@@ -1178,29 +1178,42 @@ IActiveSourceListener {
         for (int i2 = 1; i2 < mediaListEntryArray.length; ++i2) {
             MediaListEntry mediaListEntry = mediaListEntryArray[i2];
             if (mediaListEntry.getFilename().getOriginalString().equals("playengine")) {
-                this.logger.main().log(1078071040, "[%1.updatePlayPosition] iPod playbackModes - currentPathElement: playengine", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.updatePlayPosition] iPod playbackModes - currentPathElement: playengine", (Object)LOGCLASS);
                 bl2 = true;
                 break;
             }
-            this.logger.main().log(1078071040, "[%1.updatePlayPosition] iPod playbackModes - currentPathElement: %2", (Object)"AbstractMediaPlayer", (Object)mediaListEntry.getFilename().getOriginalString());
+            this.logger.main().log(1000000, "[%1.updatePlayPosition] iPod playbackModes - currentPathElement: %2", (Object)LOGCLASS, (Object)mediaListEntry.getFilename().getOriginalString());
             if (mediaListEntry.getContentType() != 18 && mediaListEntry.getContentType() != 11) continue;
             bl = true;
             break;
         }
         if (bl2) {
-            this.logger.main().log(1078071040, "[%1.updatePlayPosition] iPod playbackModes - 'playengine' reported as path. Can't decide if it is an AudioBook or Podcast.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.updatePlayPosition] iPod playbackModes - 'playengine' reported as path. Can't decide if it is an AudioBook or Podcast.", (Object)LOGCLASS);
         } else if (bl) {
-            this.logger.main().log(1078071040, "[%1.updatePlayPosition] iPod playbackModes - AudioBook or PodCast on iPod: Disable playbackModes.", (Object)"AbstractMediaPlayer");
-            this.getTerminal().getDispatcher().execute(new AbstractMediaPlayer$2(this));
+            this.logger.main().log(1000000, "[%1.updatePlayPosition] iPod playbackModes - AudioBook or PodCast on iPod: Disable playbackModes.", (Object)LOGCLASS);
+            this.getTerminal().getDispatcher().execute(new Runnable(){
+
+                public void run() {
+                    AbstractMediaPlayer.this.logger.main().log(1000000, "[%1.updatePlayPosition] iPod playbackModes - Done: Disable playbackModes.", (Object)AbstractMediaPlayer.LOGCLASS);
+                    AbstractMediaPlayer.this.playbackModeHandler.updatePlaymodesAvailable(false);
+                }
+            });
         } else {
-            this.logger.main().log(1078071040, "[%1.updatePlayPosition] iPod playbackModes - No AudioBook or PodCast: Restore playbackModes.", (Object)"AbstractMediaPlayer");
-            this.getTerminal().getDispatcher().execute(new AbstractMediaPlayer$3(this));
+            this.logger.main().log(1000000, "[%1.updatePlayPosition] iPod playbackModes - No AudioBook or PodCast: Restore playbackModes.", (Object)LOGCLASS);
+            this.getTerminal().getDispatcher().execute(new Runnable(){
+
+                public void run() {
+                    AbstractMediaPlayer.this.logger.main().log(1000000, "[%1.updatePlayPosition] iPod playbackModes - Done: Reset playbackModes. playbackModes: %2", (Object)AbstractMediaPlayer.LOGCLASS, (Object)AbstractMediaPlayer.this.capabilities.playbackModes);
+                    AbstractMediaPlayer.this.updatePlaybackModeList(AbstractMediaPlayer.this.playbackModeList);
+                    AbstractMediaPlayer.this.updatePlaybackMode(AbstractMediaPlayer.this.playbackMode);
+                    AbstractMediaPlayer.this.playbackModeHandler.updatePlaymodesAvailable(true);
+                }
+            });
         }
     }
 
-    @Override
     public void playPositionInvalidated() {
-        this.logger.main().log(1078071040, "[%1.playPositionInvalidated]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.playPositionInvalidated]", (Object)LOGCLASS);
         this.currentPlayTime = new PlayTime(-1, -1);
         this.currentPlayingTrack = new PlayingTrack(-1L, this.currentPlaybackFolder);
     }
@@ -1212,22 +1225,21 @@ IActiveSourceListener {
         this.getDSIPlayer().requestDetailInfo(l);
     }
 
-    @Override
     public void responseDetailInfo(RequestParameterEntryID requestParameterEntryID, EntryInfo entryInfo) {
         boolean bl;
-        this.logger.dsi().log(1078071040, "[%1.responseDetailInfo] '%2'", (Object)"AbstractMediaPlayer", entryInfo.getEntryID());
+        this.logger.dsi().log(1000000, "[%1.responseDetailInfo] '%2'", (Object)LOGCLASS, entryInfo.getEntryID());
         if (requestParameterEntryID == null) {
-            this.logger.dsi().log(-2137614336, "[%1.responseDetailInfo] Receive update.", (Object)"AbstractMediaPlayer");
+            this.logger.dsi().log(10000000, "[%1.responseDetailInfo] Receive update.", (Object)LOGCLASS);
             bl = true;
         } else {
             if (requestParameterEntryID.isOutdated()) {
-                this.logger.dsi().log(-2137614336, "[%1.responseDetailInfo] Detail info outdated.", (Object)"AbstractMediaPlayer");
+                this.logger.dsi().log(10000000, "[%1.responseDetailInfo] Detail info outdated.", (Object)LOGCLASS);
                 return;
             }
             bl = false;
         }
         if (entryInfo.getEntryID() != this.currentPlayingTrack.getEntryID()) {
-            this.logger.dsi().log(1078071040, "[%1.responseDetailInfo] '%2' not playing track '%3'", (Object)"AbstractMediaPlayer", entryInfo.getEntryID(), this.currentPlayingTrack.getEntryID());
+            this.logger.dsi().log(1000000, "[%1.responseDetailInfo] '%2' not playing track '%3'", (Object)LOGCLASS, entryInfo.getEntryID(), this.currentPlayingTrack.getEntryID());
             return;
         }
         this.currentDetailInfo = new MediaDetailInfo(entryInfo, this.currentPlayingTrack);
@@ -1256,9 +1268,8 @@ IActiveSourceListener {
         }
     }
 
-    @Override
     public void updatePlayViewSize(int n, int n2) {
-        this.logger.main().log(1078071040, "[%1.updatePlayViewSize] '%2','%3'", (Object)"AbstractMediaPlayer", (long)n, (long)n2);
+        this.logger.main().log(1000000, "[%1.updatePlayViewSize] '%2','%3'", (Object)LOGCLASS, (long)n, (long)n2);
         int n3 = 0;
         if (this.isOnIPOD && this.getTerminal().getFramework().getSysConst(5572) == 2 && !this.isOnStartup() && n == 1) {
             n3 |= 0x1000;
@@ -1303,22 +1314,20 @@ IActiveSourceListener {
         return this.currentPlayViewSize != -1;
     }
 
-    @Override
     public void playViewSizeInvalidated() {
-        this.logger.main().log(1078071040, "[%1.playViewSizeInvalidated]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.playViewSizeInvalidated]", (Object)LOGCLASS);
         this.currentPlayViewSize = -1;
         this.selectionState = 1;
         this.responseExpected = false;
         this.notifyPlayViewSizeInvalid();
     }
 
-    @Override
     public void responsePlayView(RequestParameterList requestParameterList, MediaListEntry[] mediaListEntryArray, int n, int n2) {
         if (requestParameterList == null || requestParameterList.isOutdated()) {
-            this.logger.main().log(1078071040, "[%1.responsePlayView] Request outdated or not exists. Ignore.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.responsePlayView] Request outdated or not exists. Ignore.", (Object)LOGCLASS);
             return;
         }
-        this.logger.main().log(1078071040, "[%1.responsePlayView] clientID='%2'", (Object)"AbstractMediaPlayer", (Object)MediaUtils.getPlayViewClientIDToStr(requestParameterList.getClientID()));
+        this.logger.main().log(1000000, "[%1.responsePlayView] clientID='%2'", (Object)LOGCLASS, (Object)MediaUtils.getPlayViewClientIDToStr(requestParameterList.getClientID()));
         this.notifyPlayViewResponse(requestParameterList.getClientID(), mediaListEntryArray, n, n2);
     }
 
@@ -1326,19 +1335,18 @@ IActiveSourceListener {
         return this.hardKeyHandler;
     }
 
-    @Override
     public void updatePlaybackFolder(MediaListEntry[] mediaListEntryArray) {
-        this.logger.dsi().log(1078071040, "[%1.updatePlaybackFolder]", (Object)"AbstractMediaPlayer");
+        this.logger.dsi().log(1000000, "[%1.updatePlaybackFolder]", (Object)LOGCLASS);
         this.currentPlaybackFolder = mediaListEntryArray;
         if (this.isOnStartup() && (this.getActiveSlot().getSource().getType() == 3 || this.getActiveSlot().getSource().getType() == 1)) {
             if (this.currentPlayingTrack.getEntryID() != -1L) {
-                this.logger.dsi().log(1078071040, "[%1.updatePlaybackFolder] External Device on startup -> The current playing track entryID is not invalid.", (Object)"AbstractMediaPlayer");
+                this.logger.dsi().log(1000000, "[%1.updatePlaybackFolder] External Device on startup -> The current playing track entryID is not invalid.", (Object)LOGCLASS);
             }
-            this.logger.dsi().log(1078071040, "[%1.updatePlaybackFolder] External Device on startup -> Don't invalidate the current playing track entryID.", (Object)"AbstractMediaPlayer");
+            this.logger.dsi().log(1000000, "[%1.updatePlaybackFolder] External Device on startup -> Don't invalidate the current playing track entryID.", (Object)LOGCLASS);
         } else if (this.getActiveSlot().getSource().getType() == 11) {
-            this.logger.dsi().log(1078071040, "[%1.updatePlaybackFolder] Bluetooth source -> Don't invalidate the current playing track entryID.", (Object)"AbstractMediaPlayer");
+            this.logger.dsi().log(1000000, "[%1.updatePlaybackFolder] Bluetooth source -> Don't invalidate the current playing track entryID.", (Object)LOGCLASS);
         } else {
-            this.logger.dsi().log(1078071040, "[%1.updatePlaybackFolder] Invalidate the current playing track entryID.", (Object)"AbstractMediaPlayer");
+            this.logger.dsi().log(1000000, "[%1.updatePlaybackFolder] Invalidate the current playing track entryID.", (Object)LOGCLASS);
             this.currentPlayingTrack = new PlayingTrack(-1L, this.currentPlaybackFolder);
         }
         this.notifyPlaybackFolderChanged(this.currentPlaybackFolder);
@@ -1349,13 +1357,12 @@ IActiveSourceListener {
     }
 
     public void setPlaybackMode(int n) {
-        this.logger.main().log(1078071040, "[%1.setPlaybackMode] '%2'", (Object)"AbstractMediaPlayer", (long)n);
+        this.logger.main().log(1000000, "[%1.setPlaybackMode] '%2'", (Object)LOGCLASS, (long)n);
         this.dsiPlayer.setPlaybackMode(n);
     }
 
-    @Override
     public void updatePlaybackMode(int n) {
-        this.logger.dsi().log(1078071040, "[%1.updatePlaybackMode] '%2'", (Object)"AbstractMediaPlayer", (long)n);
+        this.logger.dsi().log(1000000, "[%1.updatePlaybackMode] '%2'", (Object)LOGCLASS, (long)n);
         this.playbackMode = n;
         this.playbackModeHandler.updateActivePlaybackMode(n);
         if (this.getStartupState() == 5) {
@@ -1369,15 +1376,13 @@ IActiveSourceListener {
         }
     }
 
-    @Override
     public void updatePlaybackModeList(PlaybackMode[] playbackModeArray) {
         this.playbackModeList = playbackModeArray;
         this.playbackModeHandler.updatePlaybackModeList(playbackModeArray);
     }
 
-    @Override
     public void updatePlaybackState(int n) {
-        this.logger.main().log(1078071040, "[%1.updatePlaybackState]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.updatePlaybackState]", (Object)LOGCLASS);
         int n2 = this.currentPlaybackState;
         this.currentPlaybackState = n;
         this.dvdMenuPlaying = false;
@@ -1401,7 +1406,7 @@ IActiveSourceListener {
                     this.setStartupState((byte)15);
                     return;
                 }
-                this.logger.main().log(1078071040, "[%1.updatePlaybackState] Invalidate detail info.", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.updatePlaybackState] Invalidate detail info.", (Object)LOGCLASS);
                 this.currentDetailInfo = new MediaDetailInfo();
                 this.currentCoverArt = null;
                 this.notifyDetailInfoChanged(this.currentDetailInfo);
@@ -1484,32 +1489,32 @@ IActiveSourceListener {
         switch (n) {
             case 3: 
             case 10: {
-                this.getButtonModel(1108214528).setPressed(false);
-                this.getButtonModel(1192100608).setPressed(false);
-                this.getButtonModel(1208877824).setPressed(false);
+                this.getButtonModel(200258).setPressed(false);
+                this.getButtonModel(200263).setPressed(false);
+                this.getButtonModel(200264).setPressed(false);
                 break;
             }
             case 7: 
             case 9: {
-                this.getButtonModel(1108214528).setPressed(false);
-                this.getButtonModel(1192100608).setPressed(true);
-                this.getButtonModel(1208877824).setPressed(false);
+                this.getButtonModel(200258).setPressed(false);
+                this.getButtonModel(200263).setPressed(true);
+                this.getButtonModel(200264).setPressed(false);
                 break;
             }
             case 6: 
             case 8: {
-                this.getButtonModel(1108214528).setPressed(false);
-                this.getButtonModel(1192100608).setPressed(false);
-                this.getButtonModel(1208877824).setPressed(true);
+                this.getButtonModel(200258).setPressed(false);
+                this.getButtonModel(200263).setPressed(false);
+                this.getButtonModel(200264).setPressed(true);
                 break;
             }
             case 0: {
                 break;
             }
             default: {
-                this.getButtonModel(1108214528).setPressed(true);
-                this.getButtonModel(1192100608).setPressed(false);
-                this.getButtonModel(1208877824).setPressed(false);
+                this.getButtonModel(200258).setPressed(true);
+                this.getButtonModel(200263).setPressed(false);
+                this.getButtonModel(200264).setPressed(false);
             }
         }
     }
@@ -1528,53 +1533,47 @@ IActiveSourceListener {
         }
     }
 
-    @Override
     public void indicationDvdEvent(int n) {
         if (n == 1) {
             if (!this.dvdMenuPlaying) {
                 this.dvdMenuPlaying = true;
-                this.logger.main().log(1078071040, "[%1.indicationDvdEvent] DVD Menu entered.", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(1000000, "[%1.indicationDvdEvent] DVD Menu entered.", (Object)LOGCLASS);
                 this.notifyPlayerPlaybackStateChanged(10);
                 this.updateHMIPlaybackState(10);
             }
         } else if (n == 0 && this.dvdMenuPlaying) {
-            this.logger.main().log(1078071040, "[%1.indicationDvdEvent] DVD Menu left.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.indicationDvdEvent] DVD Menu left.", (Object)LOGCLASS);
             this.dvdMenuPlaying = false;
             this.notifyPlayerPlaybackStateChanged(this.currentPlaybackState);
             this.updateHMIPlaybackState(this.currentPlaybackState);
         }
     }
 
-    @Override
     public void responseCmdBlocked(int n) {
     }
 
-    @Override
     public void responseCoverArtURL(RequestParameterEntryID requestParameterEntryID, long l, ResourceLocator resourceLocator) {
-        this.logger.dsi().log(1078071040, "[%1.responseCoverArtURL]", (Object)"AbstractMediaPlayer");
+        this.logger.dsi().log(1000000, "[%1.responseCoverArtURL]", (Object)LOGCLASS);
         if (requestParameterEntryID != null && requestParameterEntryID.isOutdated()) {
-            this.logger.dsi().log(-2137614336, "[%1.responseCoverArtURL] Cover art URL outdated. Ignore.", (Object)"AbstractMediaPlayer");
+            this.logger.dsi().log(10000000, "[%1.responseCoverArtURL] Cover art URL outdated. Ignore.", (Object)LOGCLASS);
             return;
         }
         if (l != this.currentPlayingTrack.getEntryID()) {
-            this.logger.dsi().log(-2137614336, "[%1.responseCoverArtURL] Responded cover art URL belongs not to the current track. Ignore.", (Object)"AbstractMediaPlayer");
+            this.logger.dsi().log(10000000, "[%1.responseCoverArtURL] Responded cover art URL belongs not to the current track. Ignore.", (Object)LOGCLASS);
             return;
         }
         this.currentCoverArt = resourceLocator;
         this.notifyCoverArtChanged(resourceLocator);
     }
 
-    @Override
     public void responseFullyQualifiedName(long l, String string) {
     }
 
-    @Override
     public void responsePlaySimilarEntry(long l, boolean bl) {
     }
 
-    @Override
     public void responseSetPlaySelection(int n, boolean bl) {
-        this.logger.main().log(1078071040, "[%1.responseSetPlaySelection] '%2','%3'", (Object)"AbstractMediaPlayer", (Object)String.valueOf(n), (Object)bl);
+        this.logger.main().log(1000000, "[%1.responseSetPlaySelection] '%2','%3'", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)bl);
         if (!bl) {
             this.notifyPlaySelectionResult(false);
             return;
@@ -1583,34 +1582,27 @@ IActiveSourceListener {
         this.notifyPlaySelectionResult(true);
     }
 
-    @Override
     public void responseSetPlaySelectionCoverflow(int n, boolean bl) {
     }
 
-    @Override
     public void responseTempPMLRequest(int n) {
         this.notifyCurrentPMLevel(n);
     }
 
-    @Override
     public void updateActiveAudioStream(int n) {
     }
 
-    @Override
     public void updateActiveSubtitle(int n) {
     }
 
-    @Override
     public void updateActiveVideoAngle(int n) {
     }
 
-    @Override
     public void updateAudioStreamList(AudioStream[] audioStreamArray) {
     }
 
-    @Override
     public void updateCapabilities(Capabilities capabilities) {
-        this.logger.main().log(1078071040, "[%1.performCapabilitiesUpdate]", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.performCapabilitiesUpdate]", (Object)LOGCLASS);
         this.capabilities = capabilities;
         this.hmiHandler.setHMIPlayerCapabilities(capabilities);
         this.notifyPlayerCapabilitiesChanged(this.capabilities);
@@ -1636,7 +1628,6 @@ IActiveSourceListener {
         return this.mediaCapabilities.isPlaymodes();
     }
 
-    @Override
     public boolean supportsVideoPlayback() {
         ISourceSlot iSourceSlot = this.getActiveSlot();
         if (iSourceSlot != null) {
@@ -1645,19 +1636,16 @@ IActiveSourceListener {
         return false;
     }
 
-    @Override
     public final boolean supportsTimeToSeek() {
         Capabilities capabilities = this.capabilities;
         return capabilities != null ? capabilities.isSetTimePos() : false;
     }
 
-    @Override
     public boolean supportsExtendedPlayView() {
         Capabilities capabilities = this.capabilities;
         return capabilities != null ? capabilities.isExtendedPlayView() : false;
     }
 
-    @Override
     public boolean supportsPlayListHandling() {
         Capabilities capabilities = this.capabilities;
         return capabilities != null ? capabilities.isPlayView() : false;
@@ -1688,73 +1676,59 @@ IActiveSourceListener {
         return capabilities != null ? capabilities.isSkipBwd() : false;
     }
 
-    @Override
     public final boolean supportsDetailInfo() {
         Capabilities capabilities = this.capabilities;
         return capabilities != null ? capabilities.isDetailInfos() : false;
     }
 
-    @Override
     public boolean supportsPlaytime() {
         Capabilities capabilities = this.capabilities;
         return capabilities != null ? capabilities.isPlayTime() : false;
     }
 
-    @Override
     public boolean supportsPlaybackModeTakeOver() {
         Capabilities capabilities = this.capabilities;
         return capabilities != null ? capabilities.isPlaybackModeTakeOver() : false;
     }
 
-    @Override
     public boolean supportsPlaybackModeToggle() {
         Capabilities capabilities = this.capabilities;
         return capabilities != null ? capabilities.isPlaybackModeToggle() : false;
     }
 
-    @Override
     public IPlaybackModeHandler getPlaybackModeHandler() {
         return this.playbackModeHandler;
     }
 
-    @Override
     public boolean isPlayerStartupComplete() {
         return !this.isOnStartup();
     }
 
-    @Override
     public void updateCmdBlockingMask(int n) {
     }
 
-    @Override
     public void updateNumVideoAngles(int n) {
     }
 
-    @Override
     public void updateSubtitleList(int[] nArray) {
     }
 
-    @Override
     public void updateVideoFormat(int n) {
     }
 
-    @Override
     public void updateVideoNorm(int n) {
     }
 
-    @Override
     public void responseSetPlaybackURL(String string) {
     }
 
-    @Override
     public void responseFidForPlaylistEntryID(long l, long l2) {
     }
 
-    @Override
     public void errorPlayViewListRequestAborted(int n) {
-        this.logger.main().log(1078071040, "[%1.errorPlayViewListRequestAborted] clientID='%2'.", (Object)"AbstractMediaPlayer", (long)n);
+        this.logger.main().log(1000000, "[%1.errorPlayViewListRequestAborted] clientID='%2'.", (Object)LOGCLASS, (long)n);
         if (!this.responseExpected && n == 3) {
-            this.logger.main().log(-1601830656, "[%1.errorPlayViewListRequestedAborted] clientID %2, no valid playview size - suppressing notification", (Object)"AbstractMediaPlayer", (long)n);
+            this.logger.main().log(100000, "[%1.errorPlayViewListRequestedAborted] clientID %2, no valid playview size - suppressing notification", (Object)LOGCLASS, (long)n);
             return;
         }
         CopyOnWriteMap copyOnWriteMap = this.registeredPlayViewListener;
@@ -1765,18 +1739,17 @@ IActiveSourceListener {
         iPlayerViewListener.errorListRequestAborted();
     }
 
-    @Override
     public void error(int n) {
-        this.logger.main().log(-1601830656, "[%1.error] requestType='%2'", (Object)"AbstractMediaPlayer", (long)n);
+        this.logger.main().log(100000, "[%1.error] requestType='%2'", (Object)LOGCLASS, (long)n);
         switch (n) {
             case 1005: {
-                this.logger.main().log(-1601830656, "[%1.error] SETENTRY failed.", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(100000, "[%1.error] SETENTRY failed.", (Object)LOGCLASS);
                 this.setNotifyTrackEvents(true);
                 this.playPositionInvalidated();
                 break;
             }
             case 1021: {
-                this.logger.main().log(-1601830656, "[%1.error] SETPLAYSELECTION failed.", (Object)"AbstractMediaPlayer");
+                this.logger.main().log(100000, "[%1.error] SETPLAYSELECTION failed.", (Object)LOGCLASS);
                 this.notifyPlaySelectionResult(false);
                 break;
             }
@@ -1791,20 +1764,19 @@ IActiveSourceListener {
         return this.currentAudioState;
     }
 
-    @Override
     public void audioStateChanged(AudioState audioState) {
         if (!this.isActive()) {
-            this.logger.main().log(1078071040, "[%1.audioStateChanged] Not active any more.", (Object)"AbstractMediaPlayer", (Object)audioState);
+            this.logger.main().log(1000000, "[%1.audioStateChanged] Not active any more.", (Object)LOGCLASS, (Object)audioState);
             return;
         }
-        this.logger.main().log(1078071040, "[%1.audioStateChanged] '%2'", (Object)"AbstractMediaPlayer", (Object)audioState);
+        this.logger.main().log(1000000, "[%1.audioStateChanged] '%2'", (Object)LOGCLASS, (Object)audioState);
         this.currentAudioState = audioState;
         if (this.isNotReadyToPlay()) {
-            this.logger.main().log(1078071040, "[%1.audioStateChanged] Not ready to play.", (Object)"AbstractMediaPlayer");
+            this.logger.main().log(1000000, "[%1.audioStateChanged] Not ready to play.", (Object)LOGCLASS);
             return;
         }
         if (this.getStartupState() < 8) {
-            this.logger.main().log(1078071040, "[%1.audioStateChanged] On startup.", (Object)"AbstractMediaPlayer", (Object)audioState);
+            this.logger.main().log(1000000, "[%1.audioStateChanged] On startup.", (Object)LOGCLASS, (Object)audioState);
             return;
         }
         switch (audioState.getState()) {
@@ -1814,25 +1786,25 @@ IActiveSourceListener {
                     this.getTerminal().getAudioManager().requestSdisConnectionsIfRequired(audioState.getConnection());
                 }
                 if (this.isSeeking()) {
-                    this.logger.main().log(1078071040, "[%1.audioStateChanged] On seeking. Fade to connection.", (Object)"AbstractMediaPlayer", (Object)audioState);
+                    this.logger.main().log(1000000, "[%1.audioStateChanged] On seeking. Fade to connection.", (Object)LOGCLASS, (Object)audioState);
                     this.getTerminal().getAudioManager().fadeTo();
                     return;
                 }
                 if (this.isPlaying()) {
-                    this.logger.main().log(1078071040, "[%1.audioStateChanged] Already playing. Fade to connection.", (Object)"AbstractMediaPlayer", (Object)audioState);
+                    this.logger.main().log(1000000, "[%1.audioStateChanged] Already playing. Fade to connection.", (Object)LOGCLASS, (Object)audioState);
                     this.getTerminal().getAudioManager().fadeTo();
                 }
                 this.dsiPlayer.resume();
                 break;
             }
             case 3: {
-                this.logger.main().log(1078071040, "[%1.audioStateChanged] Pause playback. (AUDIO_STATE_PAUSED)", (Object)"AbstractMediaPlayer", (Object)audioState);
+                this.logger.main().log(1000000, "[%1.audioStateChanged] Pause playback. (AUDIO_STATE_PAUSED)", (Object)LOGCLASS, (Object)audioState);
                 if (this.isActiveSDISAndStandby()) {
-                    this.logger.audio().log(1078071040, "[%1.pause] SDIS active on internal source and standby active. Ignore.", (Object)"AbstractMediaPlayer");
+                    this.logger.audio().log(1000000, "[%1.pause] SDIS active on internal source and standby active. Ignore.", (Object)LOGCLASS);
                     break;
                 }
                 if (this.currentPlaybackState == 4) {
-                    this.logger.main().log(1078071040, "[%1.audioStateChanged] Resume playback from STOPPED state.", (Object)"AbstractMediaPlayer");
+                    this.logger.main().log(1000000, "[%1.audioStateChanged] Resume playback from STOPPED state.", (Object)LOGCLASS);
                     this.getTerminal().getAudioManager().demute();
                     break;
                 }
@@ -1840,12 +1812,12 @@ IActiveSourceListener {
                 break;
             }
             case 5: {
-                this.logger.main().log(1078071040, "[%1.audioStateChanged] Stop playback. (AUDIO_STATE_STOPPED)", (Object)"AbstractMediaPlayer", (Object)audioState);
+                this.logger.main().log(1000000, "[%1.audioStateChanged] Stop playback. (AUDIO_STATE_STOPPED)", (Object)LOGCLASS, (Object)audioState);
                 if (!this.rearSeatAudioFocus) {
                     this.pausePlaybackNoCheck();
                     break;
                 }
-                this.logger.main().log(1078071040, "[%1.audioStateChanged] Rearseat has the media audio focus. Do not Pause the playback. (AUDIO_STATE_STOPPED)", (Object)"AbstractMediaPlayer", (Object)audioState);
+                this.logger.main().log(1000000, "[%1.audioStateChanged] Rearseat has the media audio focus. Do not Pause the playback. (AUDIO_STATE_STOPPED)", (Object)LOGCLASS, (Object)audioState);
                 break;
             }
             case 6: {
@@ -1888,28 +1860,25 @@ IActiveSourceListener {
     }
 
     boolean isActiveSDISAndStandby() {
-        this.logger.main().log(1078071040, "[AbstractMediaPlayer.isActiveSDISAndStandby] isSDIS=%1, isStandby=%2, hasRearAudioFocus=%3, isInternalSource=%4", (Object)Boolean.toString(this.isSDISConnected()), (Object)Boolean.toString(this.getTerminal().getAudioManager().isStandbyMuted()), (Object)Boolean.toString(this.rearSeatAudioFocus), (Object)Boolean.toString(this.isInternalSourceActive()));
+        this.logger.main().log(1000000, "[AbstractMediaPlayer.isActiveSDISAndStandby] isSDIS=%1, isStandby=%2, hasRearAudioFocus=%3, isInternalSource=%4", (Object)Boolean.toString(this.isSDISConnected()), (Object)Boolean.toString(this.getTerminal().getAudioManager().isStandbyMuted()), (Object)Boolean.toString(this.rearSeatAudioFocus), (Object)Boolean.toString(this.isInternalSourceActive()));
         return this.getTerminal().getAudioManager().isStandbyMuted() && this.isSDISConnected() && this.rearSeatAudioFocus && (this.isInternalSourceActive() || this.sourceTypeOfActiveSource == 1 || this.sourceTypeOfActiveSource == 3);
     }
 
-    @Override
     public void audioFocusChanged(boolean bl) {
         int n = this.activationContext.getSlot().getSource().getAudioConnection(this.activationContext.getSlot());
         this.getTerminal().getAudioManager().requestAudio(n, true);
     }
 
-    @Override
     public void rearSeatAudioFocusChanged(boolean bl) {
-        this.logger.main().log(1078071040, "[%1.rearSeatAudioFocusChanged] rearSeatAudioFocus: '%2'", (Object)"AbstractMediaPlayer", (Object)bl);
+        this.logger.main().log(1000000, "[%1.rearSeatAudioFocusChanged] rearSeatAudioFocus: '%2'", (Object)LOGCLASS, (Object)bl);
         this.rearSeatAudioFocus = bl;
     }
 
-    @Override
     public void activeSourceChanged(boolean bl, ActiveSourceState activeSourceState) {
         MediaCapabilities mediaCapabilities = activeSourceState.getSlot().getCapabilities();
         boolean bl2 = this.mediaCapabilities.isPlaymodes() != mediaCapabilities.isPlaymodes();
         this.mediaCapabilities = mediaCapabilities;
-        this.logger.main().log(1078071040, "[%1.activeSourceChanged] playModesChanged=%2 supportsPlaymodes=%3", (Object)"AbstractMediaPlayer", (Object)bl2, (Object)this.supportsPlaymodes());
+        this.logger.main().log(1000000, "[%1.activeSourceChanged] playModesChanged=%2 supportsPlaymodes=%3", (Object)LOGCLASS, (Object)bl2, (Object)this.supportsPlaymodes());
         if (bl2) {
             this.playbackModeHandler.updatePlaymodesAvailable(this.mediaCapabilities.isPlaymodes());
         }
@@ -1917,7 +1886,6 @@ IActiveSourceListener {
         this.sourceTypeOfActiveSource = activeSourceState.getSlot().getSource().getType();
     }
 
-    @Override
     public void sourceDeactivated() {
     }
 
@@ -1935,7 +1903,7 @@ IActiveSourceListener {
     }
 
     protected void notifySelectionFinished() {
-        this.logger.main().log(1078071040, "[%1.notifySelectionFinished] ", (Object)"AbstractMediaPlayer");
+        this.logger.main().log(1000000, "[%1.notifySelectionFinished] ", (Object)LOGCLASS);
         this.trackSelected = true;
     }
 
@@ -1949,59 +1917,6 @@ IActiveSourceListener {
 
     int getSourceTypeOfActiveSource() {
         return this.sourceTypeOfActiveSource;
-    }
-
-    static /* synthetic */ IMediaLogger access$000(AbstractMediaPlayer abstractMediaPlayer) {
-        return abstractMediaPlayer.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$100(AbstractMediaPlayer abstractMediaPlayer) {
-        return abstractMediaPlayer.logger;
-    }
-
-    static /* synthetic */ PlaybackMode[] access$200(AbstractMediaPlayer abstractMediaPlayer) {
-        return abstractMediaPlayer.playbackModeList;
-    }
-
-    static /* synthetic */ int access$300(AbstractMediaPlayer abstractMediaPlayer) {
-        return abstractMediaPlayer.playbackMode;
-    }
-
-    static /* synthetic */ IMediaLogger access$400(AbstractMediaPlayer abstractMediaPlayer) {
-        return abstractMediaPlayer.logger;
-    }
-
-    static /* synthetic */ MediaDetailInfo access$500(AbstractMediaPlayer abstractMediaPlayer) {
-        return abstractMediaPlayer.currentDetailInfo;
-    }
-
-    static /* synthetic */ void access$600(AbstractMediaPlayer abstractMediaPlayer, MediaDetailInfo mediaDetailInfo) {
-        abstractMediaPlayer.notifyDetailInfoChanged(mediaDetailInfo);
-    }
-
-    static /* synthetic */ IMediaLogger access$700(AbstractMediaPlayer abstractMediaPlayer) {
-        return abstractMediaPlayer.logger;
-    }
-
-    static /* synthetic */ boolean access$800(AbstractMediaPlayer abstractMediaPlayer) {
-        return abstractMediaPlayer.dvdMenuPlaying;
-    }
-
-    static /* synthetic */ void access$900(AbstractMediaPlayer abstractMediaPlayer, int n) {
-        abstractMediaPlayer.notifyPlayerPlaybackStateChanged(n);
-    }
-
-    static /* synthetic */ void access$1000(AbstractMediaPlayer abstractMediaPlayer, int n) {
-        abstractMediaPlayer.updateHMIPlaybackState(n);
-    }
-
-    static /* synthetic */ boolean access$802(AbstractMediaPlayer abstractMediaPlayer, boolean bl) {
-        abstractMediaPlayer.dvdMenuPlaying = bl;
-        return abstractMediaPlayer.dvdMenuPlaying;
-    }
-
-    static {
-        INVALID_PLAYTIME = new PlayTime(-1, -1);
     }
 }
 

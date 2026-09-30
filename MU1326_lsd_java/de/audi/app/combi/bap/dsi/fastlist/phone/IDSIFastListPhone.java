@@ -8,13 +8,10 @@ import org.dsi.ifc.kombifastlist.DataInitials;
 
 public interface IDSIFastListPhone
 extends IDSIFastListScrollingController {
-    default public void responseGetInitialsTelephone(int n, int n2, int n3, DataInitials[] dataInitialsArray) {
-    }
+    public void responseGetInitialsTelephone(int var1, int var2, int var3, DataInitials[] var4);
 
-    default public void pushFunctionAvailabilityTelephone(int n) {
-    }
+    public void pushFunctionAvailabilityTelephone(int var1);
 
-    default public void responseNotifyCurrentListSizesTelephone(boolean bl) {
-    }
+    public void responseNotifyCurrentListSizesTelephone(boolean var1);
 }
 

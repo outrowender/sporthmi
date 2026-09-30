@@ -27,11 +27,10 @@ extends AbstractBAPModuleServiceManager {
         this.logChannel = abstractBAPModule.getLogChannel();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof BAPServiceRemoteServicesListener) {
-            this.logChannel.log(1078071040, "[ServiceManagerRemoteServices#addingService] BAPServiceRemoteServicesListener found");
+            this.logChannel.log(1000000, "[ServiceManagerRemoteServices#addingService] BAPServiceRemoteServicesListener found");
             ((AppConnectorRemoteServices)this.module.getAppConnectors().get("AppBapRemoteServices")).setAppServiceListener((BAPServiceListener)object);
             this.module.getInitializationManager().notifyAppServiceChanged(true);
             return object;
@@ -40,10 +39,9 @@ extends AbstractBAPModuleServiceManager {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof BAPServiceRemoteServicesListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerRemoteServices#removedService] BAPServiceRemoteServicesListener removed");
+            this.logChannel.log(10000000, "[ServiceManagerRemoteServices#removedService] BAPServiceRemoteServicesListener removed");
             ((AppConnectorRemoteServices)this.module.getAppConnectors().get("AppBapRemoteServices")).setAppServiceListener(null);
             this.bundleContext.ungetService(serviceReference);
         } else {
@@ -51,15 +49,13 @@ extends AbstractBAPModuleServiceManager {
         }
     }
 
-    @Override
     public void registerServices(AbstractActivator abstractActivator) {
-        this.logChannel.log(1078071040, "[ServiceManagerRemoteServices#registerServices] activator: %1", (Object)abstractActivator);
+        this.logChannel.log(1000000, "[ServiceManagerRemoteServices#registerServices] activator: %1", (Object)abstractActivator);
         abstractActivator.registerService((class$de$audi$atip$interapp$bap$remoteservices$BAPServiceRemoteServices == null ? (class$de$audi$atip$interapp$bap$remoteservices$BAPServiceRemoteServices = ServiceManagerRemoteServices.class$("de.audi.atip.interapp.bap.remoteservices.BAPServiceRemoteServices")) : class$de$audi$atip$interapp$bap$remoteservices$BAPServiceRemoteServices).getName(), this.module.getAppConnectors().get("AppBapRemoteServices"), null);
     }
 
-    @Override
     public void trackServices() {
-        this.logChannel.log(1078071040, "[ServiceManagerRemoteServices#trackServices]");
+        this.logChannel.log(1000000, "[ServiceManagerRemoteServices#trackServices]");
         String[] stringArray = new String[]{(class$de$audi$atip$interapp$bap$remoteservices$BAPServiceRemoteServicesListener == null ? (class$de$audi$atip$interapp$bap$remoteservices$BAPServiceRemoteServicesListener = ServiceManagerRemoteServices.class$("de.audi.atip.interapp.bap.remoteservices.BAPServiceRemoteServicesListener")) : class$de$audi$atip$interapp$bap$remoteservices$BAPServiceRemoteServicesListener).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = ServiceManagerRemoteServices.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName()};
         this.serviceTracker = new ServiceTracker(this.bundleContext, stringArray, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();

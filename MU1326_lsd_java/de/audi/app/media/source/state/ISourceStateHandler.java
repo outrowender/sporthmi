@@ -9,19 +9,14 @@ import de.audi.app.media.source.ISourceSlotListener;
 import de.audi.app.media.source.state.ISourceStateUpdater;
 
 public interface ISourceStateHandler {
-    default public void registerSource(ISource iSource) {
-    }
+    public void registerSource(ISource var1);
 
-    default public void addSourceSlotListener(IMultipleSourceSlotListener iMultipleSourceSlotListener) {
-    }
+    public void addSourceSlotListener(IMultipleSourceSlotListener var1);
 
-    default public void addSourceSlotListener(ISource iSource, ISourceSlotListener iSourceSlotListener, boolean bl) {
-    }
+    public void addSourceSlotListener(ISource var1, ISourceSlotListener var2, boolean var3);
 
-    default public void removeSlotListener(ISource iSource, ISourceSlotListener iSourceSlotListener) {
-    }
+    public void removeSlotListener(ISource var1, ISourceSlotListener var2);
 
-    default public ISourceStateUpdater getSourceStateUpdater() {
-    }
+    public ISourceStateUpdater getSourceStateUpdater();
 }
 

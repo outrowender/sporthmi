@@ -16,52 +16,42 @@ implements DSIBrowserBookmark {
         super(logChannel, "DSIBrowserBookmark");
     }
 
-    @Override
     public void listBookmarks(String string) {
         this.log();
     }
 
-    @Override
     public void addBookmark(Bookmark bookmark) {
         this.log();
     }
 
-    @Override
     public void editBookmark(Bookmark bookmark, Bookmark bookmark2) {
         this.log();
     }
 
-    @Override
     public void deleteBookmark(Bookmark bookmark) {
         this.log();
     }
 
-    @Override
     public void createFolder(Bookmark bookmark) {
         this.log();
     }
 
-    @Override
     public void deleteFolder(String string) {
         this.log();
     }
 
-    @Override
     public void renameFolder(String string, String string2) {
         this.log();
     }
 
-    @Override
     public void exportBookmarks(PathInfo pathInfo) {
         this.log();
     }
 
-    @Override
     public void importBookmarks(PathInfo pathInfo, boolean bl, boolean bl2) {
         this.log();
     }
 
-    @Override
     public void getQuotaInformation() {
         this.log();
     }

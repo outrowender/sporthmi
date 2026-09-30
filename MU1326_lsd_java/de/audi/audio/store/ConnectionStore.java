@@ -227,7 +227,7 @@ public final class ConnectionStore {
                 return this.autoFadeToListRearRight;
             }
         }
-        throw new IllegalArgumentException(new StringBuffer().append("Unknown audio terminal: ").append(n).toString());
+        throw new IllegalArgumentException("Unknown audio terminal: " + n);
     }
 }
 

@@ -3,9 +3,6 @@
  */
 package de.audi.app.system;
 
-import de.audi.app.system.MasterControlASIProvider$1;
-import de.audi.app.system.MasterControlASIProvider$2;
-import de.audi.app.system.MasterControlASIProvider$3;
 import de.audi.app.system.SystemSDISEnv;
 import de.audi.atip.agent.IASICall;
 import de.audi.atip.agent.IASIProvider;
@@ -14,8 +11,11 @@ import de.audi.atip.interapp.sdis.ISDISBlockingService;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.msg.MsgListener;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.esolutions.fw.comm.asi.hmisync.mastercontrol.impl.ASIHMISyncMasterControlAbstractBaseService;
+import de.esolutions.fw.comm.asi.hmisync.mastercontrol.impl.ASIHMISyncMasterControlReplyProxy;
 import de.esolutions.fw.comm.asi.hmisync.mastercontrol.impl.ASIHMISyncMasterControlService;
+import de.esolutions.fw.comm.core.IProxyFrontend;
 import de.esolutions.fw.comm.core.IService;
 import de.esolutions.fw.comm.core.IStub;
 import de.esolutions.fw.comm.core.method.MethodException;
@@ -28,7 +28,7 @@ extends ASIHMISyncMasterControlAbstractBaseService
 implements IASIProvider,
 MsgListener,
 ISDISBlockingService {
-    private static final long HUVERSION_TIMEOUT;
+    private static final long HUVERSION_TIMEOUT = 30000L;
     private final SystemSDISEnv env;
     private final ASIHMISyncMasterControlService masterControlService;
     private final List blockingListeners;
@@ -61,7 +61,20 @@ ISDISBlockingService {
             this.updateASIVersion("1.1.01");
             this.updateReplyIDs(new short[]{3, 4, 8, 9, 10, 11, 13, 14, 12});
             this.updateRequestIDs(new short[]{0, 1, 2, 5, 6, 7});
-            new Timer("SDIS HU Version reader", 0, true, new MasterControlASIProvider$1(this)).start();
+            new Timer("SDIS HU Version reader", 30000L, true, new TimerListener(){
+
+                public void fireTimer(Timer timer) {
+                    try {
+                        MasterControlASIProvider.this.updateHUVersion(MasterControlASIProvider.this.getEnv().getHUSwVersion());
+                    }
+                    catch (MethodException methodException) {
+                        MasterControlASIProvider.this.getLog().log(1000000, "[MasterControlASIProvider.updateHUVersion] unexpected MethodException", (Throwable)methodException);
+                    }
+                }
+
+                public void cancelTimer(Timer timer) {
+                }
+            }).start();
             this.distributeVIN();
             this.currentBlockState = this.getEnv().readInt(1010, 10);
             this.currentLockState = this.getEnv().readInt(1010, 20);
@@ -69,7 +82,7 @@ ISDISBlockingService {
             this.setBlockState(this.currentBlockState);
         }
         catch (MethodException methodException) {
-            this.getLog().log(1078071040, "[MasterControlASIProvider.iniAttributes] unexpected MethodException", (Throwable)methodException);
+            this.getLog().log(1000000, "[MasterControlASIProvider.iniAttributes] unexpected MethodException", (Throwable)methodException);
         }
     }
 
@@ -77,10 +90,10 @@ ISDISBlockingService {
         if (this.getEnv().getChoiceModel(46).getValue() == 1) {
             String string = null;
             string = this.getEnv().getLabelModel(49).getText();
-            this.getLog().log(-1601830656, "[MasterControlASIProvider.getVin] return %1", (Object)string);
+            this.getLog().log(100000, "[MasterControlASIProvider.getVin] return %1", (Object)string);
             return string;
         }
-        this.getLog().log(-1601830656, "[MasterControlASIProvider.getVin] not available yet! return null");
+        this.getLog().log(100000, "[MasterControlASIProvider.getVin] not available yet! return null");
         return null;
     }
 
@@ -92,24 +105,21 @@ ISDISBlockingService {
             }
         }
         catch (MethodException methodException) {
-            this.getLog().log(1078071040, "[MasterControlASIProvider.distributeVIN] unexpected MethodException", (Throwable)methodException);
+            this.getLog().log(1000000, "[MasterControlASIProvider.distributeVIN] unexpected MethodException", (Throwable)methodException);
         }
     }
 
-    @Override
     public final IService getService() {
         return this.masterControlService;
     }
 
-    @Override
     public final synchronized void attachStub(IStub iStub) {
-        this.getLog().log(1078071040, "[MasterControlASIProvider.attachStub] '%1'", (Object)iStub);
+        this.getLog().log(1000000, "[MasterControlASIProvider.attachStub] '%1'", (Object)iStub);
         this.stubs.add(iStub);
     }
 
-    @Override
     public final synchronized void detachStub(IStub iStub) {
-        this.getLog().log(1078071040, "[MasterControlASIProvider.detachStub] '%1'", (Object)iStub);
+        this.getLog().log(1000000, "[MasterControlASIProvider.detachStub] '%1'", (Object)iStub);
         this.stubs.remove(iStub);
     }
 
@@ -124,23 +134,26 @@ ISDISBlockingService {
                 iASICall.call(((IStub)iterator.next()).getReplyProxyFrontend());
             }
             catch (Exception exception) {
-                this.getLog().log(-1601830656, "[MasterControlASIProvider.broadcast] call '%1'failed!", (Object)iASICall, (Throwable)exception);
+                this.getLog().log(100000, "[MasterControlASIProvider.broadcast] call '%1'failed!", (Object)iASICall, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public void processMsg(int n) {
         if (84 == n) {
-            this.getLog().log(1078071040, "[MasterControlASIProvider.processMsg] VIN is available now.");
+            this.getLog().log(1000000, "[MasterControlASIProvider.processMsg] VIN is available now.");
             this.distributeVIN();
         } else if (85 == n) {
-            this.getLog().log(1078071040, "[MasterControlASIProvider.processMsg] factory reset was triggered.");
-            this.broadcast(new MasterControlASIProvider$2(this));
+            this.getLog().log(1000000, "[MasterControlASIProvider.processMsg] factory reset was triggered.");
+            this.broadcast(new IASICall(){
+
+                public void call(IProxyFrontend iProxyFrontend) throws MethodException {
+                    ((ASIHMISyncMasterControlReplyProxy)iProxyFrontend).factoryReset();
+                }
+            });
         }
     }
 
-    @Override
     public final void setLockState(int n) {
         try {
             if (n != this.currentLockState) {
@@ -153,11 +166,10 @@ ISDISBlockingService {
             }
         }
         catch (MethodException methodException) {
-            this.getLog().log(1078071040, "[MasterControlASIProvider.doUpdateLockState] unexpected MethodException", (Throwable)methodException);
+            this.getLog().log(1000000, "[MasterControlASIProvider.doUpdateLockState] unexpected MethodException", (Throwable)methodException);
         }
     }
 
-    @Override
     public final void setBlockState(int n) {
         try {
             if (n != this.currentBlockState) {
@@ -170,14 +182,18 @@ ISDISBlockingService {
             }
         }
         catch (MethodException methodException) {
-            this.getLog().log(1078071040, "[MasterControlASIProvider.doUpdateBlockState] unexpected MethodException", (Throwable)methodException);
+            this.getLog().log(1000000, "[MasterControlASIProvider.doUpdateBlockState] unexpected MethodException", (Throwable)methodException);
         }
     }
 
-    @Override
-    public final void enterAppContext(int n, String string) {
-        this.getLog().log(1078071040, "[MasterControlASIProvider.enterAppContext] tell SDIS to enter specific app context");
-        this.broadcast(new MasterControlASIProvider$3(this, n, string));
+    public final void enterAppContext(final int n, final String string) {
+        this.getLog().log(1000000, "[MasterControlASIProvider.enterAppContext] tell SDIS to enter specific app context");
+        this.broadcast(new IASICall(){
+
+            public void call(IProxyFrontend iProxyFrontend) throws MethodException {
+                ((ASIHMISyncMasterControlReplyProxy)iProxyFrontend).enterAppContext(n, string);
+            }
+        });
     }
 
     public void addBlockingListener(ISDISBlockingListener iSDISBlockingListener) {
@@ -190,14 +206,6 @@ ISDISBlockingService {
 
     public void removeBlockingListener(ISDISBlockingListener iSDISBlockingListener) {
         this.blockingListeners.remove(iSDISBlockingListener);
-    }
-
-    static /* synthetic */ SystemSDISEnv access$000(MasterControlASIProvider masterControlASIProvider) {
-        return masterControlASIProvider.getEnv();
-    }
-
-    static /* synthetic */ LogChannel access$100(MasterControlASIProvider masterControlASIProvider) {
-        return masterControlASIProvider.getLog();
     }
 }
 

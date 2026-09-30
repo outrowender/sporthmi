@@ -19,12 +19,12 @@ import org.dsi.ifc.messaging.MessageListEntry;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public final class DrawerOptions {
-    public static final int CATEGORY_NONE;
-    public static final int PROPERTY_NONE;
+    public static final int CATEGORY_NONE = 0;
+    public static final int PROPERTY_NONE = 0;
 
     public static int getCategory(ListEntry listEntry) {
         int n = 0;
-        n = ListEntries.isFolder(listEntry) ? -1897596459 : DrawerOptions.getCategory(listEntry.getMessageListEntry());
+        n = ListEntries.isFolder(listEntry) ? -705043314 : DrawerOptions.getCategory(listEntry.getMessageListEntry());
         return n;
     }
 
@@ -34,9 +34,9 @@ public final class DrawerOptions {
         boolean bl2 = messageListEntry.getType() == 1;
         boolean bl3 = bl = messageListEntry.getType() == 2;
         if (bl2) {
-            n = -1263632642;
+            n = -25252172;
         } else if (bl) {
-            n = 1854484363;
+            n = -1959818898;
         }
         return n;
     }
@@ -50,7 +50,7 @@ public final class DrawerOptions {
             boolean bl2 = bl = ADBUtils.countPhoneNumbers(adbEntry) > 0;
         }
         if (bl) {
-            collection.add(Util.createInteger(-239573125));
+            collection.add(Util.createInteger(2070395121));
         }
     }
 
@@ -58,31 +58,31 @@ public final class DrawerOptions {
         int n2;
         switch (n) {
             case 2: {
-                n2 = -1867283199;
+                n2 = 25539472;
                 break;
             }
             case 3: {
-                n2 = 1991050668;
+                n2 = -1408914058;
                 break;
             }
             case 4: {
-                n2 = 880413872;
+                n2 = -1341359564;
                 break;
             }
             case 5: {
-                n2 = 1933354258;
+                n2 = 312818803;
                 break;
             }
             case 1: {
-                n2 = 143262779;
+                n2 = 990153224;
                 break;
             }
             case 6: {
-                n2 = -170553994;
+                n2 = 1989006837;
                 break;
             }
             case 7: {
-                n2 = -1329739434;
+                n2 = 1456061872;
                 break;
             }
             default: {
@@ -96,13 +96,13 @@ public final class DrawerOptions {
 
     public static void tryAddPropertyNavLocAvailable(Collection collection, AdbEntry adbEntry) {
         if (ADBAddressUtils.hasNavLocation(adbEntry)) {
-            collection.add(Util.createInteger(1882835997));
+            collection.add(Util.createInteger(499923312));
         }
     }
 
     public static void tryAddPropertyAttachmentsAvailable(Collection collection, MessageDetails messageDetails, MessageListEntry messageListEntry) {
         if (messageListEntry != null && messageListEntry.attachmentSize > 0) {
-            collection.add(Util.createInteger(1233105954));
+            collection.add(Util.createInteger(582254409));
         }
         if (messageDetails != null) {
             AttachmentInformation[] attachmentInformationArray = messageDetails.getAttachments();
@@ -113,25 +113,25 @@ public final class DrawerOptions {
                     bl = true;
                 }
                 if (bl) {
-                    collection.add(Util.createInteger(-1338471824));
+                    collection.add(Util.createInteger(1888106672));
                 }
             }
         }
     }
 
     public static void tryAddPropertyTtsReadable(Collection collection, int n) {
-        collection.add(Util.createInteger(-747091600));
+        collection.add(Util.createInteger(1883863251));
     }
 
     public static void tryAddPropertyExtractedPhoneNumbersAvailable(Collection collection, boolean bl) {
         if (bl) {
-            collection.add(Util.createInteger(1625456276));
+            collection.add(Util.createInteger(-1803623840));
         }
     }
 
     public static void tryAddPropertyExtractedEmailAddressesAvailable(Collection collection, boolean bl) {
         if (bl) {
-            collection.add(Util.createInteger(1144744447));
+            collection.add(Util.createInteger(-9880764));
         }
     }
 

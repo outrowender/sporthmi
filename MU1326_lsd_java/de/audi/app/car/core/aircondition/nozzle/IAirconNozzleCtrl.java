@@ -10,16 +10,12 @@ import de.audi.atip.hmi.modelaccess.RangeModelApp;
 
 public interface IAirconNozzleCtrl
 extends IAirconNozzleState {
-    default public void setModels(RangeModelApp rangeModelApp, RangeModel2DApp rangeModel2DApp, ChoiceModelApp choiceModelApp) {
-    }
+    public void setModels(RangeModelApp var1, RangeModel2DApp var2, ChoiceModelApp var3);
 
-    default public RangeModel2DApp getPositionModel() {
-    }
+    public RangeModel2DApp getPositionModel();
 
-    default public RangeModelApp getAirflowModel() {
-    }
+    public RangeModelApp getAirflowModel();
 
-    default public ChoiceModelApp getStyleModel() {
-    }
+    public ChoiceModelApp getStyleModel();
 }
 

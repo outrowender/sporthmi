@@ -14,12 +14,10 @@ implements AtipAudioSdisService {
         super(logChannel, "NullAtipAudioSdisService");
     }
 
-    @Override
     public void mediaTunerAreaEntered() {
         this.log("mediaTunerAreaEntered");
     }
 
-    @Override
     public void mediaTunerAreaLeft() {
         this.log("mediaTunerAreaLeft");
     }

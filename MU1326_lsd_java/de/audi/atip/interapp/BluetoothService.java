@@ -6,43 +6,30 @@ package de.audi.atip.interapp;
 import de.audi.atip.interapp.BluetoothHeadPhoneInfo;
 
 public interface BluetoothService {
-    default public String[] getBthsDevices() {
-    }
+    public String[] getBthsDevices();
 
-    default public void updateTelMode(int n) {
-    }
+    public void updateTelMode(int var1);
 
-    default public void setTransitionToBtDevices() {
-    }
+    public void setTransitionToBtDevices();
 
-    default public void enableAudioPlayer(boolean bl) {
-    }
+    public void enableAudioPlayer(boolean var1);
 
-    default public void activateBluetooth() {
-    }
+    public void activateBluetooth();
 
-    default public void updateHPActivity(BluetoothHeadPhoneInfo bluetoothHeadPhoneInfo) {
-    }
+    public void updateHPActivity(BluetoothHeadPhoneInfo var1);
 
-    default public void setTelSwitchedOn(boolean bl) {
-    }
+    public void setTelSwitchedOn(boolean var1);
 
-    default public void setDataConnectionsEnabled(boolean bl) {
-    }
+    public void setDataConnectionsEnabled(boolean var1);
 
-    default public void setCallStateIdle(boolean bl) {
-    }
+    public void setCallStateIdle(boolean var1);
 
-    default public String getMapDeviceAddress() {
-    }
+    public String getMapDeviceAddress();
 
-    default public String getSapDeviceAddress() {
-    }
+    public String getSapDeviceAddress();
 
-    default public String getMapDeviceName() {
-    }
+    public String getMapDeviceName();
 
-    default public boolean isTrusted(String string) {
-    }
+    public boolean isTrusted(String var1);
 }
 

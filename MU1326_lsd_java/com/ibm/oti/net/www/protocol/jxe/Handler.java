@@ -20,7 +20,6 @@ extends URLStreamHandler {
         this.jxe = jxe;
     }
 
-    @Override
     public URLConnection openConnection(URL uRL) {
         return new JxeURLConnection(uRL, this.jxe);
     }

@@ -9,31 +9,22 @@ import de.audi.app.media.transfer.dsi.IMediaRecorderListener;
 
 public interface IMediaDSIRecorderController
 extends IDSIController {
-    default public void setRecorderListener(IMediaRecorderListener iMediaRecorderListener) {
-    }
+    public void setRecorderListener(IMediaRecorderListener var1);
 
-    default public IMediaRecorderListener getRecorderListener() {
-    }
+    public IMediaRecorderListener getRecorderListener();
 
-    default public void setActiveMedia(MediaSourceSlot mediaSourceSlot) {
-    }
+    public void setActiveMedia(MediaSourceSlot var1);
 
-    default public void setSelection(int n) {
-    }
+    public void setSelection(int var1);
 
-    default public void startImport(boolean bl) {
-    }
+    public void startImport(boolean var1);
 
-    default public void abortImport() {
-    }
+    public void abortImport();
 
-    default public void startDelete() {
-    }
+    public void startDelete();
 
-    default public void abortDelete() {
-    }
+    public void abortDelete();
 
-    default public void setEncodingQuality(int n) {
-    }
+    public void setEncodingQuality(int var1);
 }
 

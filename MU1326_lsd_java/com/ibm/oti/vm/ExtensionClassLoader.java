@@ -34,7 +34,7 @@ extends AppClassLoader {
             stringArray2[0] = file.list();
             if (stringArray2[0] != null) {
                 n2 = stringArray2[0].length;
-                stringArray[0] = new StringBuffer(String.valueOf(file.getPath())).append(File.separatorChar).toString();
+                stringArray[0] = String.valueOf(file.getPath()) + File.separatorChar;
             }
         } else {
             int n3;
@@ -66,7 +66,7 @@ extends AppClassLoader {
                     stringArray2[n5] = file.list();
                     if (stringArray2[n5] != null) {
                         n2 += stringArray2[n5].length;
-                        stringArray[n5++] = new StringBuffer(String.valueOf(file.getPath())).append(File.separatorChar).toString();
+                        stringArray[n5++] = String.valueOf(file.getPath()) + File.separatorChar;
                     }
                 }
                 n4 = n3 + 1;
@@ -84,7 +84,7 @@ extends AppClassLoader {
                     while (n < stringArray2[n6].length) {
                         ((StringBuffer)charSequence).append(stringArray[n6]);
                         ((StringBuffer)charSequence).append(stringArray2[n6][n]);
-                        this.parsedPath[n] = new StringBuffer(String.valueOf(stringArray[n6])).append(stringArray2[n6][n]).toString();
+                        this.parsedPath[n] = String.valueOf(stringArray[n6]) + stringArray2[n6][n];
                         if (n != stringArray2.length - 1) {
                             ((StringBuffer)charSequence).append(';');
                         }
@@ -105,12 +105,10 @@ extends AppClassLoader {
         return singleton;
     }
 
-    @Override
     Hashtable getProtectionDomainCache() {
         return protectionDomainCache;
     }
 
-    @Override
     boolean addExitPermission() {
         return false;
     }

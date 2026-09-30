@@ -7,37 +7,26 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface CustDownloadActionProxy
 extends ActionProxy {
-    default public void readyForCustomerUpdate(int n) {
-    }
+    public void readyForCustomerUpdate(int var1);
 
-    default public void resetSummaryUpdateCompleteStatus(int n) {
-    }
+    public void resetSummaryUpdateCompleteStatus(int var1);
 
-    default public void abortSelection(int n) {
-    }
+    public void abortSelection(int var1);
 
-    default public void abortProgressError(int n) {
-    }
+    public void abortProgressError(int var1);
 
-    default public void abortProgressInterrupt(int n) {
-    }
+    public void abortProgressInterrupt(int var1);
 
-    default public void leaveCustomerUpdate(int n) {
-    }
+    public void leaveCustomerUpdate(int var1);
 
-    default public void leaveCustomerUpdatePopups(int n, int n2) {
-    }
+    public void leaveCustomerUpdatePopups(int var1, int var2);
 
-    default public void swdlCustomerUpdateEntered(int n) {
-    }
+    public void swdlCustomerUpdateEntered(int var1);
 
-    default public void swdlCustomerUpdateLeft(int n) {
-    }
+    public void swdlCustomerUpdateLeft(int var1);
 
-    default public void swdlEnterUota(int n) {
-    }
+    public void swdlEnterUota(int var1);
 
-    default public void swdlCustomerUpdateEnteredFromNavi(int n) {
-    }
+    public void swdlCustomerUpdateEnteredFromNavi(int var1);
 }
 

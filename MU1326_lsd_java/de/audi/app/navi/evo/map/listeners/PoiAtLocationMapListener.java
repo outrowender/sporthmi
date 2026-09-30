@@ -13,8 +13,8 @@ import org.dsi.ifc.global.NavLocation;
 
 public class PoiAtLocationMapListener
 implements ButtonListener {
-    private static final int BUTTON_MODEL;
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private static final int BUTTON_MODEL = 401951;
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private final NavigationEnv env;
     private final IPoiService poiService;
     private final IDestinationHandler destinationHandler;
@@ -29,27 +29,23 @@ implements ButtonListener {
     }
 
     private void initListeners() {
-        this.env.getButtonModel(522323456).setButtonListener(this);
+        this.env.getButtonModel(401951).setButtonListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#keyPressed - modelId=%2, keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#keyPressed - modelId=%2, keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         this.env.getChoiceModel(170).setValue(0);
         NavLocation navLocation = this.destinationHandler.getLocation();
         this.poiService.startPoiWithSearchContext(4, navLocation, true, true);
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

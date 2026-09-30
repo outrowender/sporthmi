@@ -26,7 +26,7 @@ public class CarSportChronoAsiHandler {
     protected void updateSCVisibilityState(CarViewOption carViewOption) {
         try {
             int n = this.sdisBase.updateVisibility(carViewOption, (short)52);
-            this.logChannel.log(1078071040, "[SDISCarStatusDistributor#updateSCVisibilityState] %1", (long)n);
+            this.logChannel.log(1000000, "[SDISCarStatusDistributor#updateSCVisibilityState] %1", (long)n);
             this.asiUpdater.updateSCVisibilityState(n);
         }
         catch (MethodException methodException) {

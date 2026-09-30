@@ -8,25 +8,18 @@ import de.audi.app.media.queue.IQueueJob;
 
 public interface IDataSelectionJob
 extends IQueueJob {
-    default public void browserActivated() {
-    }
+    public void browserActivated();
 
-    default public void browserDeactivated(boolean bl) {
-    }
+    public void browserDeactivated(boolean var1);
 
-    default public void browseModeChanged(boolean bl, int n) {
-    }
+    public void browseModeChanged(boolean var1, int var2);
 
-    default public void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-    }
+    public void browseFolderChanged(boolean var1, MediaListEntry[] var2, int var3);
 
-    default public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-    }
+    public void responseList(boolean var1, MediaListEntry[] var2, int var3);
 
-    default public void responsePicklist(boolean bl, MediaListEntry[] mediaListEntryArray) {
-    }
+    public void responsePicklist(boolean var1, MediaListEntry[] var2);
 
-    default public void addSelectionResult(boolean bl, int n, int n2, boolean bl2, long l, long l2, long l3, long l4, long l5) {
-    }
+    public void addSelectionResult(boolean var1, int var2, int var3, boolean var4, long var5, long var7, long var9, long var11, long var13);
 }
 

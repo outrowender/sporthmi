@@ -9,8 +9,8 @@ import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.messaging.ListChangedInformation;
 
 final class ListDataRequest {
-    static final int REQUEST_ID_NONE;
-    static final int MODEL_REQUEST_ID_NONE;
+    static final int REQUEST_ID_NONE = -1;
+    static final int MODEL_REQUEST_ID_NONE = -1;
     private final int requestId;
     private final int modelRequestId;
     private final int offset;

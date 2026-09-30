@@ -5,10 +5,10 @@ package de.audi.app.terminalmode.actionproxy;
 
 import de.audi.app.terminalmode.ITerminalLogger;
 import de.audi.app.terminalmode.ITerminalModeComponent;
-import de.audi.app.terminalmode.actionproxy.ActionProxyDispatcherImpl$1;
 import de.audi.app.terminalmode.actionproxy.ActionProxyMethod;
 import de.audi.app.terminalmode.actionproxy.IActionProxyDispatcher;
 import de.audi.app.terminalmode.actionproxy.IActionProxyListener;
+import de.audi.app.terminalmode.dsi.AbstractDispatcherRunnable;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class ActionProxyDispatcherImpl
 implements IActionProxyDispatcher,
 ITerminalModeComponent {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "ActionProxyDispatcherImpl";
     private final LogChannel logger;
     private final Map listenerMap;
     private final DispatcherBase dispatcher;
@@ -30,23 +30,20 @@ ITerminalModeComponent {
         this.dispatcher = dispatcherBase;
     }
 
-    @Override
     public void init() {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit] Deinit.", (Object)"ActionProxyDispatcherImpl");
+        this.logger.log(1000000, "[%1.deinit] Deinit.", (Object)LOGCLASS);
         Map map = this.listenerMap;
         synchronized (map) {
             this.listenerMap.clear();
         }
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logger;
     }
@@ -54,10 +51,9 @@ ITerminalModeComponent {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addActionProxyListener(int n, int n2, IActionProxyListener iActionProxyListener) {
         ActionProxyMethod actionProxyMethod = new ActionProxyMethod(n, n2);
-        this.logger.log(14808325, "[%1.addActionProxyListener] %2, '%3'", (Object)"ActionProxyDispatcherImpl", (Object)actionProxyMethod, (Object)iActionProxyListener);
+        this.logger.log(100000000, "[%1.addActionProxyListener] %2, '%3'", (Object)LOGCLASS, (Object)actionProxyMethod, (Object)iActionProxyListener);
         Map map = this.listenerMap;
         synchronized (map) {
             LinkedList linkedList = (LinkedList)this.listenerMap.get(actionProxyMethod);
@@ -66,7 +62,7 @@ ITerminalModeComponent {
                 this.listenerMap.put(actionProxyMethod, linkedList);
             }
             if (linkedList.contains(iActionProxyListener)) {
-                this.logger.log(-1601830656, "[%1.addActionProxyListener] Already added.", (Object)"ActionProxyDispatcherImpl");
+                this.logger.log(100000, "[%1.addActionProxyListener] Already added.", (Object)LOGCLASS);
                 return;
             }
             linkedList.add(iActionProxyListener);
@@ -76,9 +72,8 @@ ITerminalModeComponent {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeActionProxyListener(int n, IActionProxyListener iActionProxyListener) {
-        this.logger.log(1078071040, "[%1.removeActionProxyListener] tId='%2', '%3'", (Object)"ActionProxyDispatcherImpl", (Object)String.valueOf(n), (Object)iActionProxyListener);
+        this.logger.log(1000000, "[%1.removeActionProxyListener] tId='%2', '%3'", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)iActionProxyListener);
         Map map = this.listenerMap;
         synchronized (map) {
             Iterator iterator = this.listenerMap.keySet().iterator();
@@ -91,20 +86,37 @@ ITerminalModeComponent {
         }
     }
 
-    @Override
-    public void notifyActionProxyCall(int n, int n2, Map map) {
+    public void notifyActionProxyCall(final int n, final int n2, final Map map) {
         if (map == null) {
             throw new IllegalArgumentException();
         }
-        this.dispatcher.execute(new ActionProxyDispatcherImpl$1(this, "ActionProxyDispatcherImpl.notifyActionProxyCall", n, n2, map));
-    }
+        this.dispatcher.execute(new AbstractDispatcherRunnable("ActionProxyDispatcherImpl.notifyActionProxyCall"){
 
-    static /* synthetic */ Map access$000(ActionProxyDispatcherImpl actionProxyDispatcherImpl) {
-        return actionProxyDispatcherImpl.listenerMap;
-    }
-
-    static /* synthetic */ LogChannel access$100(ActionProxyDispatcherImpl actionProxyDispatcherImpl) {
-        return actionProxyDispatcherImpl.logger;
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                LinkedList linkedList;
+                ActionProxyMethod actionProxyMethod = new ActionProxyMethod(n, n2);
+                Object object = ActionProxyDispatcherImpl.this.listenerMap;
+                synchronized (object) {
+                    LinkedList linkedList2 = (LinkedList)ActionProxyDispatcherImpl.this.listenerMap.get(actionProxyMethod);
+                    if (linkedList2 == null) {
+                        return;
+                    }
+                    linkedList = (LinkedList)linkedList2.clone();
+                }
+                object = linkedList.iterator();
+                while (object.hasNext()) {
+                    try {
+                        ((IActionProxyListener)object.next()).actionProxyCallPerformed(actionProxyMethod.getMethodID(), map);
+                    }
+                    catch (Exception exception) {
+                        ActionProxyDispatcherImpl.this.logger.log(100000, "[%1.notifyActionProxyCall] Error: ", (Object)ActionProxyDispatcherImpl.LOGCLASS, (Throwable)exception);
+                    }
+                }
+            }
+        });
     }
 }
 

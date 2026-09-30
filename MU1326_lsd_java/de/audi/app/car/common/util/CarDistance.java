@@ -8,7 +8,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class CarDistance
 extends Distance {
-    protected static final String TEXT_NO_DISTANCE;
+    protected static final String TEXT_NO_DISTANCE = "--";
     private boolean undefinedDistance = false;
 
     public CarDistance() {
@@ -21,10 +21,9 @@ extends Distance {
         this.value = f2;
     }
 
-    @Override
     public String format(int n) {
         if (this.undefinedDistance) {
-            this.lastFormat = "--";
+            this.lastFormat = TEXT_NO_DISTANCE;
             return this.lastFormat;
         }
         if (n == 2) {
@@ -38,7 +37,6 @@ extends Distance {
         return super.format(n);
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         if (this.undefinedDistance) {
             return "";
@@ -50,10 +48,9 @@ extends Distance {
         return super.getFormattedUnit(n);
     }
 
-    @Override
     public String getFormattedValue(int n) {
         if (this.undefinedDistance) {
-            return "--".trim();
+            return TEXT_NO_DISTANCE.trim();
         }
         if (2 == n) {
             return Integer.toString((int)this.value);

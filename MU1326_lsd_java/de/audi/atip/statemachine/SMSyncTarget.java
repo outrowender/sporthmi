@@ -6,19 +6,14 @@ package de.audi.atip.statemachine;
 import de.audi.atip.statemachine.SyncTargetProcessor;
 
 public interface SMSyncTarget {
-    default public void activate(SyncTargetProcessor syncTargetProcessor) {
-    }
+    public void activate(SyncTargetProcessor var1);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public boolean isActive() {
-    }
+    public boolean isActive();
 
-    default public boolean triggerSync(SyncTargetProcessor syncTargetProcessor, int n) {
-    }
+    public boolean triggerSync(SyncTargetProcessor var1, int var2);
 
-    default public void resetTrigger() {
-    }
+    public void resetTrigger();
 }
 

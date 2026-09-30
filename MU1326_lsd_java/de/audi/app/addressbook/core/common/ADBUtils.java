@@ -32,7 +32,7 @@ public class ADBUtils {
     }
 
     public static void checkAndFixADBEntry(AdbEntry adbEntry, LogChannel logChannel, IFrameworkAccess iFrameworkAccess) {
-        logChannel.log(-2137614336, "ADBUtils#checkAndFixADBEntry(): entry: %1", (Object)adbEntry);
+        logChannel.log(10000000, "ADBUtils#checkAndFixADBEntry(): entry: %1", (Object)adbEntry);
         ADBUtils.checkAndFixPhoneData(adbEntry);
         ADBUtils.checkAndFixEmailData(adbEntry);
         ADBAddressUtils.checkAndFixAddressData(adbEntry, iFrameworkAccess);

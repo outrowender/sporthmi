@@ -5,11 +5,9 @@ package de.audi.app.terminalmode.dsi.keypanel;
 
 import de.audi.app.terminalmode.ITerminalLogger;
 import de.audi.app.terminalmode.dsi.AbstractDSIController;
+import de.audi.app.terminalmode.dsi.AbstractDispatcherRunnable;
 import de.audi.app.terminalmode.dsi.keypanel.ITMDSIKeyPanelController;
 import de.audi.app.terminalmode.dsi.keypanel.NullTMDSIKeyPanelListener;
-import de.audi.app.terminalmode.dsi.keypanel.TMDSIKeyPanelControllerImpl$1;
-import de.audi.app.terminalmode.dsi.keypanel.TMDSIKeyPanelControllerImpl$2;
-import de.audi.app.terminalmode.dsi.keypanel.TMDSIKeyPanelControllerImpl$3;
 import de.audi.app.terminalmode.dsi.keypanel.TMDSIKeyPanelListener;
 import de.audi.app.terminalmode.osgi.IServiceManager;
 import de.audi.atip.activator.FrameworkException;
@@ -27,8 +25,8 @@ public class TMDSIKeyPanelControllerImpl
 extends AbstractDSIController
 implements ITMDSIKeyPanelController,
 DSIKeyPanelListener {
-    private static final String LOGCLASS;
-    private static final int INSTANCE_ID;
+    private static final String LOGCLASS = "TMDSIKeyPanelControllerImpl";
+    private static final int INSTANCE_ID = 0;
     private final LogChannel logger;
     private final TMDSIKeyPanelListener nullDSIKeyPanelListener;
     private volatile TMDSIKeyPanelListener listener;
@@ -49,7 +47,7 @@ DSIKeyPanelListener {
     }
 
     public void activate() {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"TMDSIKeyPanelControllerImpl");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.startDSI();
         this.kbdService = null;
         ServiceReference serviceReference = this.framework.getBundleCxt().getServiceReference((class$de$audi$atip$hmi$KbdService == null ? (class$de$audi$atip$hmi$KbdService = TMDSIKeyPanelControllerImpl.class$("de.audi.atip.hmi.KbdService")) : class$de$audi$atip$hmi$KbdService).getName());
@@ -60,11 +58,10 @@ DSIKeyPanelListener {
     }
 
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"TMDSIKeyPanelControllerImpl");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.kbdService = null;
     }
 
-    @Override
     public void addTMKeyPanelListener(TMDSIKeyPanelListener tMDSIKeyPanelListener) {
         if (null == tMDSIKeyPanelListener) {
             this.listener = this.nullDSIKeyPanelListener;
@@ -73,92 +70,90 @@ DSIKeyPanelListener {
         this.listener = tMDSIKeyPanelListener;
     }
 
-    @Override
     public void removeTMKeyPanelListener() {
         this.listener = this.nullDSIKeyPanelListener;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void updateKey2(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void updateEncoder2(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void updateDisplayTurnMechStatus(int n, int n2) {
     }
 
-    @Override
-    public void updateRecognizerLanguage2(int n, String string, int n2, int n3) {
+    public void updateRecognizerLanguage2(final int n, final String string, final int n2, int n3) {
         if (!this.isValid(n3)) {
-            this.logger.log(-2137614336, "[%1.updateRecognizerLanguage2] Invalid.", (Object)"TMDSIKeyPanelControllerImpl");
+            this.logger.log(10000000, "[%1.updateRecognizerLanguage2] Invalid.", (Object)LOGCLASS);
             return;
         }
-        this.logger.log(1078071040, "[%1.updateRecognizerLanguage2]", (Object)"TMDSIKeyPanelControllerImpl");
-        this.dispatcher.execute(new TMDSIKeyPanelControllerImpl$1(this, "keyPanelListener.updateRecognizerLanguage2", n, string, n2));
+        this.logger.log(1000000, "[%1.updateRecognizerLanguage2]", (Object)LOGCLASS);
+        this.dispatcher.execute(new AbstractDispatcherRunnable("keyPanelListener.updateRecognizerLanguage2"){
+
+            public void run() {
+                TMDSIKeyPanelControllerImpl.this.listener.updateRecognizerLanguage2(n, string, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateRecognizerMode(int n, int n2, int n3) {
+    public void updateRecognizerMode(final int n, final int n2, int n3) {
         if (!this.isValid(n3)) {
-            this.logger.log(-2137614336, "[%1.updateRecognizerMode] Invalid.", (Object)"TMDSIKeyPanelControllerImpl");
+            this.logger.log(10000000, "[%1.updateRecognizerMode] Invalid.", (Object)LOGCLASS);
             return;
         }
-        this.logger.log(1078071040, "[%1.updateRecognizerMode] %2", (Object)"TMDSIKeyPanelControllerImpl", (long)n2);
-        this.dispatcher.execute(new TMDSIKeyPanelControllerImpl$2(this, "keyPanelListener.updateRecognizerMode", n, n2));
+        this.logger.log(1000000, "[%1.updateRecognizerMode] %2", (Object)LOGCLASS, (long)n2);
+        this.dispatcher.execute(new AbstractDispatcherRunnable("keyPanelListener.updateRecognizerMode"){
+
+            public void run() {
+                TMDSIKeyPanelControllerImpl.this.listener.updateRecognizerMode(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateCharacterEvent2(int n, String[] stringArray, int[] nArray, int n2) {
+    public void updateCharacterEvent2(final int n, final String[] stringArray, final int[] nArray, int n2) {
         if (!this.isValid(n2)) {
-            this.logger.log(-2137614336, "[%1.updateCharacterEvent2] Invalid.", (Object)"TMDSIKeyPanelControllerImpl");
+            this.logger.log(10000000, "[%1.updateCharacterEvent2] Invalid.", (Object)LOGCLASS);
             return;
         }
-        this.logger.log(1078071040, "[%1.updateCharacterEvent2]", (Object)"TMDSIKeyPanelControllerImpl");
-        this.dispatcher.execute(new TMDSIKeyPanelControllerImpl$3(this, "keyPanelListener.updateCharacterEvent2", n, stringArray, nArray));
+        this.logger.log(1000000, "[%1.updateCharacterEvent2]", (Object)LOGCLASS);
+        this.dispatcher.execute(new AbstractDispatcherRunnable("keyPanelListener.updateCharacterEvent2"){
+
+            public void run() {
+                TMDSIKeyPanelControllerImpl.this.listener.updateCharacterEvent2(n, stringArray, nArray);
+            }
+        });
     }
 
-    @Override
     public void updateGesture2(int n, int n2, int n3, boolean bl, int n4, int n5, int n6, int n7, int n8, int n9) {
     }
 
-    @Override
     public void genericSettingResponse(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateProximity(int n, int n2, int n3) {
     }
 
-    @Override
     public void lastKey(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateKeyboardType(int n, int n2) {
     }
 
-    @Override
     public void updateTouchSensitiveArea(int n, int n2, int n3, int n4, int n5, int n6) {
     }
 
-    @Override
     public void getVersionInfo(int n, int n2, String string) {
     }
 
-    @Override
     public void updateInputPanelReady(int n, int n2, int n3) {
     }
 
-    @Override
     public void setTextInputActive(int n, boolean bl) {
-        this.logger.log(1078071040, "[%1.setTextInputActive] %2", (Object)"TMDSIKeyPanelControllerImpl", (Object)String.valueOf(bl));
+        this.logger.log(1000000, "[%1.setTextInputActive] %2", (Object)LOGCLASS, (Object)String.valueOf(bl));
         if (null != this.keyPanelService) {
             if (bl) {
                 this.kbdService.setRecognizerLanguage(this.framework.getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_HMI").getLanguageCode(), 2);
@@ -167,22 +162,18 @@ DSIKeyPanelListener {
         }
     }
 
-    @Override
     protected Class getDSIServiceClass() {
         return class$org$dsi$ifc$keypanel$DSIKeyPanel == null ? (class$org$dsi$ifc$keypanel$DSIKeyPanel = TMDSIKeyPanelControllerImpl.class$("org.dsi.ifc.keypanel.DSIKeyPanel")) : class$org$dsi$ifc$keypanel$DSIKeyPanel;
     }
 
-    @Override
     protected DSIListener getDSIListener() {
         return this;
     }
 
-    @Override
     protected Class getDSIListenerClass() {
         return class$org$dsi$ifc$keypanel$DSIKeyPanelListener == null ? (class$org$dsi$ifc$keypanel$DSIKeyPanelListener = TMDSIKeyPanelControllerImpl.class$("org.dsi.ifc.keypanel.DSIKeyPanelListener")) : class$org$dsi$ifc$keypanel$DSIKeyPanelListener;
     }
 
-    @Override
     protected void addDSIService(DSIBase dSIBase) {
         if (null != dSIBase) {
             this.keyPanelService = (DSIKeyPanel)dSIBase;
@@ -190,17 +181,14 @@ DSIKeyPanelListener {
         }
     }
 
-    @Override
     protected void removeDSIService() {
-        this.logger.log(1078071040, "[%1.removeDSIService]", (Object)"TMDSIKeyPanelControllerImpl");
+        this.logger.log(1000000, "[%1.removeDSIService]", (Object)LOGCLASS);
         this.keyPanelService = null;
     }
 
-    @Override
     public void getProperty(int n, int n2, int n3, int n4, byte[] byArray) {
     }
 
-    @Override
     public void updateAdvancedProximity(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
     }
 
@@ -211,10 +199,6 @@ DSIKeyPanelListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ TMDSIKeyPanelListener access$000(TMDSIKeyPanelControllerImpl tMDSIKeyPanelControllerImpl) {
-        return tMDSIKeyPanelControllerImpl.listener;
     }
 }
 

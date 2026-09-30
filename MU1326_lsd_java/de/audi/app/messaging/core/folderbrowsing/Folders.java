@@ -18,13 +18,13 @@ public final class Folders {
         return n == 4 || n == 5 || n == 3 || n == 6 || n == 2;
     }
 
-    public static boolean isFolderTypeEqual(FolderEntry folderEntry, int n) {
+    public static boolean isFolderTypeEqual(FolderEntry folderEntry, int n) throws IllegalArgumentException {
         int n2 = Folders.mapToHmiFolderType(folderEntry);
         if (!Folders.isStandardFolder(n2)) {
-            throw new IllegalArgumentException(new StringBuffer().append("Not a standard folder: standardFolderEntry = ").append(folderEntry).toString());
+            throw new IllegalArgumentException("Not a standard folder: standardFolderEntry = " + folderEntry);
         }
         if (!Folders.isPredefinedFolderId(n) || n == -2) {
-            throw new IllegalArgumentException(new StringBuffer().append("Illegal folder ID: predefinedFolderId = ").append(n).toString());
+            throw new IllegalArgumentException("Illegal folder ID: predefinedFolderId = " + n);
         }
         return n2 == Folders.mapToHmiFolderType(n);
     }
@@ -65,7 +65,7 @@ public final class Folders {
         return n2;
     }
 
-    public static int mapToHmiFolderType(FolderEntry folderEntry) {
+    public static int mapToHmiFolderType(FolderEntry folderEntry) throws IllegalArgumentException {
         int n = 7;
         int n2 = folderEntry.getFolderType();
         switch (n2) {
@@ -94,7 +94,7 @@ public final class Folders {
                 break;
             }
             default: {
-                throw new IllegalArgumentException(new StringBuffer().append("Unknown folderEntry.getFolderType() = ").append(n2).toString());
+                throw new IllegalArgumentException("Unknown folderEntry.getFolderType() = " + n2);
             }
         }
         return n;

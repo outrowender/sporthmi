@@ -11,11 +11,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class WidgetInfoDiag {
-    public static final int DRAWER_TYPE_MAIN_AREA;
-    public static final int DRAWER_TYPE_SELECTION_DRAWER;
-    public static final int DRAWER_TYPE_OPTION_DRAWER;
-    public static final int DRAWER_TYPE_ENTERTAINMENT_DRAWER;
-    private static final String VERSION_OF_WIDGETINFODIAG;
+    public static final int DRAWER_TYPE_MAIN_AREA = 1;
+    public static final int DRAWER_TYPE_SELECTION_DRAWER = 2;
+    public static final int DRAWER_TYPE_OPTION_DRAWER = 3;
+    public static final int DRAWER_TYPE_ENTERTAINMENT_DRAWER = 4;
+    private static final String VERSION_OF_WIDGETINFODIAG = "0.2";
     private static int[] activeColorPlate;
 
     private static void addAttrib(String string, int n, Buffer buffer) {
@@ -149,7 +149,7 @@ public class WidgetInfoDiag {
         WidgetInfoDiag.addModelIDAttrib(iWidgetDiagnosis, buffer);
         String string2 = iWidgetDiagnosis.getInternalInfo();
         if (string2 != null) {
-            buffer.append(new StringBuffer().append(" ").append(string2).toString());
+            buffer.append(" " + string2);
         }
         WidgetInfoDiag.addAttrib("bitmapIDs", iWidgetDiagnosis.getBitmapIndices(), buffer);
         WidgetInfoDiag.addAttrib("enabled", iWidgetDiagnosis.isEnabled(), buffer);
@@ -190,7 +190,7 @@ public class WidgetInfoDiag {
         buffer.append(':');
         buffer.append(gregorianCalendar.get(13));
         buffer.append(" -->\n<!-- WidgetInfoDiag Version: ");
-        buffer.append("0.2");
+        buffer.append(VERSION_OF_WIDGETINFODIAG);
         String string2 = WidgetInfoDiag.getDrawerText(n);
         buffer.append(" -->\n<").append(string2);
         WidgetInfoDiag.addAttrib("id", screen.getID(), buffer);

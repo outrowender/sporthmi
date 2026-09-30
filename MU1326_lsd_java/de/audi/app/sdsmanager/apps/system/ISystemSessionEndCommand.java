@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.system;
 
 public interface ISystemSessionEndCommand {
-    default public void responseReleaseAudioConnections(boolean bl) {
-    }
+    public void responseReleaseAudioConnections(boolean var1);
 }
 

@@ -4,23 +4,23 @@
 package de.audi.atip.hmi.drawerfocus;
 
 public class DrawerFocusUtil {
-    public static final int FOCUS_LOST;
-    public static final int FOCUS_GAINED;
-    public static final int STATE_SELECTION_MENU;
-    public static final int STATE_OPTION_MENU;
-    public static final int STATE_MAIN_AREA;
-    public static final int STATE_ENTERTAINMENT_MENU;
-    public static final int STATE_ATLEAST_ONE_PARTIAL_POPUP_VISIBLE;
-    public static final int STATE_NO_PARTIAL_POPUP_VISIBLE;
-    public static final int STATE_DISCONNECT;
-    public static final int STATE_MASK;
-    public static final int DEFAULT_LISTENER_MASK;
-    public static final int REASON_STATE_CHANGE;
-    public static final int REASON_SCREEN_CHANGE;
-    public static final int REASON_VIEWSIZE_CHANGE;
-    public static final int REASON_REINIT_FLAG;
-    public static final int REASON_DISCONNECT;
-    public static final int REASON_MASK;
+    public static final int FOCUS_LOST = 1;
+    public static final int FOCUS_GAINED = 2;
+    public static final int STATE_SELECTION_MENU = 4;
+    public static final int STATE_OPTION_MENU = 8;
+    public static final int STATE_MAIN_AREA = 16;
+    public static final int STATE_ENTERTAINMENT_MENU = 32;
+    public static final int STATE_ATLEAST_ONE_PARTIAL_POPUP_VISIBLE = 64;
+    public static final int STATE_NO_PARTIAL_POPUP_VISIBLE = 128;
+    public static final int STATE_DISCONNECT = 256;
+    public static final int STATE_MASK = 508;
+    public static final int DEFAULT_LISTENER_MASK = 316;
+    public static final int REASON_STATE_CHANGE = 512;
+    public static final int REASON_SCREEN_CHANGE = 1024;
+    public static final int REASON_VIEWSIZE_CHANGE = 2048;
+    public static final int REASON_REINIT_FLAG = 4096;
+    public static final int REASON_DISCONNECT = 8192;
+    public static final int REASON_MASK = 15872;
 
     private DrawerFocusUtil() {
     }

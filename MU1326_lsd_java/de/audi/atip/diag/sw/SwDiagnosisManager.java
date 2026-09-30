@@ -8,70 +8,50 @@ import de.audi.atip.diag.sw.CmdDescriptionMap;
 import java.io.PrintStream;
 
 public interface SwDiagnosisManager {
-    public static final int ERROR_CODE_NO_ERROR;
-    public static final int ERROR_CODE_EXCEPTION;
-    public static final int ERROR_CODE_NOT_SUPPORTED;
-    public static final int ERROR_CODE_WRONG_PARAMETER_FORMAT;
-    public static final int ERROR_CODE_NO_SUCH_CALL;
+    public static final int ERROR_CODE_NO_ERROR = 0;
+    public static final int ERROR_CODE_EXCEPTION = -1;
+    public static final int ERROR_CODE_NOT_SUPPORTED = -2;
+    public static final int ERROR_CODE_WRONG_PARAMETER_FORMAT = -3;
+    public static final int ERROR_CODE_NO_SUCH_CALL = -10;
 
-    default public void addDiagGateway(AbstractSwDiagnosis abstractSwDiagnosis) {
-    }
+    public void addDiagGateway(AbstractSwDiagnosis var1);
 
-    default public AbstractSwDiagnosis getDiagGatewayByName(String string) {
-    }
+    public AbstractSwDiagnosis getDiagGatewayByName(String var1);
 
-    default public void removeDiagGateway(AbstractSwDiagnosis abstractSwDiagnosis) {
-    }
+    public void removeDiagGateway(AbstractSwDiagnosis var1);
 
-    default public int getIdByModule(String string) {
-    }
+    public int getIdByModule(String var1);
 
-    default public String getModuleById(int n) {
-    }
+    public String getModuleById(int var1);
 
-    default public String[] getKeys(String string) {
-    }
+    public String[] getKeys(String var1);
 
-    default public Object getValue(int n, String string) {
-    }
+    public Object getValue(int var1, String var2);
 
-    default public String[] getModel(int n, int n2) {
-    }
+    public String[] getModel(int var1, int var2);
 
-    default public int[] getModelIds(int n) {
-    }
+    public int[] getModelIds(int var1);
 
-    default public String[] getModelNames(int n) {
-    }
+    public String[] getModelNames(int var1);
 
-    default public String[] getModules() {
-    }
+    public String[] getModules();
 
-    default public String[] getModels(int n) {
-    }
+    public String[] getModels(int var1);
 
-    default public String[] getBundleInformation(long l) {
-    }
+    public String[] getBundleInformation(long var1);
 
-    default public void getGlobalDump(PrintStream printStream) {
-    }
+    public void getGlobalDump(PrintStream var1);
 
-    default public void setXMLMode(boolean bl) {
-    }
+    public void setXMLMode(boolean var1);
 
-    default public boolean isXMLMode() {
-    }
+    public boolean isXMLMode();
 
-    default public String getMemoryState() {
-    }
+    public String getMemoryState();
 
-    default public String[] getCommands(String string) {
-    }
+    public String[] getCommands(String var1);
 
-    default public CmdDescriptionMap getCommandDescriptions(String string) {
-    }
+    public CmdDescriptionMap getCommandDescriptions(String var1);
 
-    default public Object processCommand(int n, String string, Object object) {
-    }
+    public Object processCommand(int var1, String var2, Object var3);
 }
 

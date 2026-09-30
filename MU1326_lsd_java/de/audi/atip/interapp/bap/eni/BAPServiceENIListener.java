@@ -15,43 +15,30 @@ import de.audi.atip.interapp.bap.eni.data.User;
 
 public interface BAPServiceENIListener
 extends BAPServiceListener {
-    default public void onCommunicationUp() {
-    }
+    public void onCommunicationUp();
 
-    default public void onDestinationList(Destination[] destinationArray) {
-    }
+    public void onDestinationList(Destination[] var1);
 
-    default public void onRemoteProcessFinished(boolean bl) {
-    }
+    public void onRemoteProcessFinished(boolean var1);
 
-    default public void onSupportedRemoteProcesses(SupportedRemoteProcesses supportedRemoteProcesses) {
-    }
+    public void onSupportedRemoteProcesses(SupportedRemoteProcesses var1);
 
-    default public void onRemoteProcessState(RemoteProcessState remoteProcessState) {
-    }
+    public void onRemoteProcessState(RemoteProcessState var1);
 
-    default public void onUserList(User[] userArray) {
-    }
+    public void onUserList(User[] var1);
 
-    default public void onServiceList(Service[] serviceArray) {
-    }
+    public void onServiceList(Service[] var1);
 
-    default public void onMonitorings(Monitorings monitorings) {
-    }
+    public void onMonitorings(Monitorings var1);
 
-    default public void onPrivacySetup(PrivacySetup privacySetup) {
-    }
+    public void onPrivacySetup(PrivacySetup var1);
 
-    default public void onMobileDeviceKeyCount(MobileKeyCount mobileKeyCount) {
-    }
+    public void onMobileDeviceKeyCount(MobileKeyCount var1);
 
-    default public void onVtanDataEncrypted(String string) {
-    }
+    public void onVtanDataEncrypted(String var1);
 
-    default public void onFleetModeAvailability(boolean bl) {
-    }
+    public void onFleetModeAvailability(boolean var1);
 
-    default public void onPrivacyModeSupported(boolean bl) {
-    }
+    public void onPrivacyModeSupported(boolean var1);
 }
 

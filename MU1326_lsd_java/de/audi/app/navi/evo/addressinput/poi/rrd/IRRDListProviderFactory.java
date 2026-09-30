@@ -8,10 +8,8 @@ import de.audi.tghu.navi.app.addressinput.poi.rrd.IRRDListProvider;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 
 public interface IRRDListProviderFactory {
-    default public IRRDListProvider getProviderForType(int n, NavigationEnv navigationEnv, IVehicle iVehicle) {
-    }
+    public IRRDListProvider getProviderForType(int var1, NavigationEnv var2, IVehicle var3);
 
-    default public void cleanUp() {
-    }
+    public void cleanUp();
 }
 

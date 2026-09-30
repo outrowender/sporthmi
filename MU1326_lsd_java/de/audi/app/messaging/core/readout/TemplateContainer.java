@@ -16,7 +16,7 @@ public final class TemplateContainer {
             throw new IllegalArgumentException("Arguments must not be null.");
         }
         if (this.templateMap.containsKey(object)) {
-            throw new IllegalArgumentException(new StringBuffer().append("Cannot add another item with key: ").append(object).toString());
+            throw new IllegalArgumentException("Cannot add another item with key: " + object);
         }
         this.templateMap.put(object, string);
     }

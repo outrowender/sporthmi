@@ -9,99 +9,70 @@ import de.audi.atip.hmi.modelaccess.ICopyTo;
 
 public interface TextEditorModelDDApp
 extends ICopyTo {
-    public static final int CURSOR_POS_START;
-    public static final int CURSOR_POS_DEFAULT;
-    public static final int CURSOR_POS_END;
-    public static final int CURSOR_POS_OLD;
-    public static final int NO_TEXT_LENGHT_LIMIT;
-    public static final int MODE_EDIT;
-    public static final int MODE_READ_ONLY;
+    public static final int CURSOR_POS_START = 0;
+    public static final int CURSOR_POS_DEFAULT = -1;
+    public static final int CURSOR_POS_END = -2;
+    public static final int CURSOR_POS_OLD = -3;
+    public static final int NO_TEXT_LENGHT_LIMIT = -1;
+    public static final int MODE_EDIT = 0;
+    public static final int MODE_READ_ONLY = 1;
 
-    default public void resetListener() {
-    }
+    public void resetListener();
 
-    default public void setListener(TextEditorListenerDD textEditorListenerDD) {
-    }
+    public void setListener(TextEditorListenerDD var1);
 
-    default public void addListener(TextEditorListenerDD textEditorListenerDD) {
-    }
+    public void addListener(TextEditorListenerDD var1);
 
-    default public void removeListener(TextEditorListenerDD textEditorListenerDD) {
-    }
+    public void removeListener(TextEditorListenerDD var1);
 
-    default public boolean setText(String[][] stringArray, int n) {
-    }
+    public boolean setText(String[][] var1, int var2);
 
-    default public boolean setText(String string, int n) {
-    }
+    public boolean setText(String var1, int var2);
 
-    default public boolean replace(String[][] stringArray) {
-    }
+    public boolean replace(String[][] var1);
 
-    default public boolean replace(String string) {
-    }
+    public boolean replace(String var1);
 
-    default public boolean append(String[][] stringArray, int n) {
-    }
+    public boolean append(String[][] var1, int var2);
 
-    default public boolean append(String string, int n) {
-    }
+    public boolean append(String var1, int var2);
 
-    default public String getLastInsertion() {
-    }
+    public String getLastInsertion();
 
-    default public boolean undoLastInsertion() {
-    }
+    public boolean undoLastInsertion();
 
-    default public String getText() {
-    }
+    public String getText();
 
-    default public String getSelectedWord() {
-    }
+    public String getSelectedWord();
 
-    default public String[] getAlternatives() {
-    }
+    public String[] getAlternatives();
 
-    default public boolean selectAlternative(int n) {
-    }
+    public boolean selectAlternative(int var1);
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public DoubleCursor getCursor() {
-    }
+    public DoubleCursor getCursor();
 
-    default public TextEditorModelDDApp getSyncedModel() {
-    }
+    public TextEditorModelDDApp getSyncedModel();
 
-    default public void setMaxLength(int n) {
-    }
+    public void setMaxLength(int var1);
 
-    default public int getMaxLength() {
-    }
+    public int getMaxLength();
 
-    default public boolean lock() {
-    }
+    public boolean lock();
 
-    default public void unlock() {
-    }
+    public void unlock();
 
-    default public String validityCheck() {
-    }
+    public String validityCheck();
 
-    default public boolean insert(String string) {
-    }
+    public boolean insert(String var1);
 
-    default public boolean insert(String[] stringArray) {
-    }
+    public boolean insert(String[] var1);
 
-    default public boolean insert(String[][] stringArray) {
-    }
+    public boolean insert(String[][] var1);
 
-    default public void remove(int n, int n2, int n3) {
-    }
+    public void remove(int var1, int var2, int var3);
 
-    default public void setMode(int n) {
-    }
+    public void setMode(int var1);
 }
 

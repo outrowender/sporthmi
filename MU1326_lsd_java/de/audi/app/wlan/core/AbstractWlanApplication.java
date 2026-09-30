@@ -27,12 +27,11 @@ implements IWlanApplication {
 
     protected AbstractWlanApplication(IFrameworkAccess iFrameworkAccess, BundleContext bundleContext, IConnectivity iConnectivity) {
         super(iFrameworkAccess, bundleContext, "App.Wlan.Main", "App.Wlan.Commands", "AppWlan");
-        this.log.log(-2137614336, "AbstractWlanApplication#AbstractWlanApplication(): WlanApplication created.");
+        this.log.log(10000000, "AbstractWlanApplication#AbstractWlanApplication(): WlanApplication created.");
         this.wlanDsiListener = new WLANDSIListener(this.commandListManager, this.log);
         this.connectivity = iConnectivity;
     }
 
-    @Override
     protected void registerDSIListener() {
         Hashtable hashtable = new Hashtable();
         hashtable.put("DEVICE_NAME", (class$org$dsi$ifc$networking$DSIWLANListener == null ? (class$org$dsi$ifc$networking$DSIWLANListener = AbstractWlanApplication.class$("org.dsi.ifc.networking.DSIWLANListener")) : class$org$dsi$ifc$networking$DSIWLANListener).getName());
@@ -40,12 +39,10 @@ implements IWlanApplication {
         this.getBundleContext().registerService((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = AbstractWlanApplication.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (Object)this.wlanDsiListener, (Dictionary)hashtable);
     }
 
-    @Override
     protected void startDSI() {
         this.framework.startDSIService((class$org$dsi$ifc$networking$DSIWLAN == null ? (class$org$dsi$ifc$networking$DSIWLAN = AbstractWlanApplication.class$("org.dsi.ifc.networking.DSIWLAN")) : class$org$dsi$ifc$networking$DSIWLAN).getName(), 0);
     }
 
-    @Override
     public ConnectivityDiag getDiag() {
         return this.connectivity.getDiagnosis();
     }

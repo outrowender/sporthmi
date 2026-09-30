@@ -6,25 +6,18 @@ package de.audi.remotehmi.ui.mib2.grid;
 import de.audi.remotehmi.ui.mib2.grid.ICursorComponent;
 
 public interface ICursor {
-    default public ICursorComponent getFocus() {
-    }
+    public ICursorComponent getFocus();
 
-    default public ICursorComponent getSelection() {
-    }
+    public ICursorComponent getSelection();
 
-    default public boolean isForceUpdate() {
-    }
+    public boolean isForceUpdate();
 
-    default public ICursor withSelection(ICursorComponent iCursorComponent) {
-    }
+    public ICursor withSelection(ICursorComponent var1);
 
-    default public ICursor withSelection(int n, int n2, String string, String string2) {
-    }
+    public ICursor withSelection(int var1, int var2, String var3, String var4);
 
-    default public ICursor withFocus(ICursorComponent iCursorComponent) {
-    }
+    public ICursor withFocus(ICursorComponent var1);
 
-    default public ICursor withFocus(int n, int n2, String string, String string2) {
-    }
+    public ICursor withFocus(int var1, int var2, String var3, String var4);
 }
 

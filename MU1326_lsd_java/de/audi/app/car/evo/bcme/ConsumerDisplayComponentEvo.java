@@ -12,13 +12,12 @@ import org.dsi.ifc.global.CarViewOption;
 
 public class ConsumerDisplayComponentEvo
 extends AbstractConsumerDisplayComponent {
-    private static final int MAX_DISPLAYABLE_CONSUMERS;
+    private static final int MAX_DISPLAYABLE_CONSUMERS = 3;
 
     public ConsumerDisplayComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(BCmEViewOptions bCmEViewOptions) {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(18, this.getMenuEntryVisibilityState(bCmEViewOptions.getCurrentRange()));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(19, this.getMenuEntryVisibilityState(bCmEViewOptions.getCurrentRange()));
@@ -38,7 +37,6 @@ extends AbstractConsumerDisplayComponent {
         }
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(18, (short)36);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(19, (short)36);
@@ -48,7 +46,6 @@ extends AbstractConsumerDisplayComponent {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(252, (short)36);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(18);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(19);
@@ -58,29 +55,24 @@ extends AbstractConsumerDisplayComponent {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(252);
     }
 
-    @Override
     public int getID() {
         return 26;
     }
 
-    @Override
     protected int getMaxNrDisplayableConsumers() {
         return 3;
     }
 
-    @Override
     public void updateBCmEListUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo, int n) {
-        this.getLogChannel().log(1078071040, "[ConsumerDisplayComponentEvo#updateBCmEListUpdateInfo] Ignored on the RangeMonitor System");
+        this.getLogChannel().log(1000000, "[ConsumerDisplayComponentEvo#updateBCmEListUpdateInfo] Ignored on the RangeMonitor System");
     }
 
-    @Override
     public void responseBCmEConsumerList(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerList[] bCmEConsumerListArray) {
-        this.getLogChannel().log(1078071040, "[ConsumerDisplayComponentEvo#responseBCmEConsumerList] Ignored on the RangeMonitor System");
+        this.getLogChannel().log(1000000, "[ConsumerDisplayComponentEvo#responseBCmEConsumerList] Ignored on the RangeMonitor System");
     }
 
-    @Override
     public void updateBCmEConsumerListTotalNumberOfElements(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[ConsumerDisplayComponentEvo#updateBCmEConsumerListTotalNumberOfElements] Ignored on the RangeMonitor System");
+        this.getLogChannel().log(1000000, "[ConsumerDisplayComponentEvo#updateBCmEConsumerListTotalNumberOfElements] Ignored on the RangeMonitor System");
     }
 }
 

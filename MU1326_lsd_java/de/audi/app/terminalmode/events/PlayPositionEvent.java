@@ -5,8 +5,11 @@ package de.audi.app.terminalmode.events;
 
 import de.audi.app.terminalmode.util.Enum;
 
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
 public class PlayPositionEvent
-extends Enum {
+extends Enum<PlayPositionEvent> {
     public static final PlayPositionEvent STARTUP = new PlayPositionEvent(0, "STARTUP");
     public static final PlayPositionEvent PLAYBACK_STATE_CHANGED = new PlayPositionEvent(1, "PLAYBACK_STATE_CHANGED");
     public static final PlayPositionEvent TRACK_CHANGED = new PlayPositionEvent(2, "TRACK_CHANGED");

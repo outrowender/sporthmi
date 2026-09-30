@@ -11,8 +11,8 @@ import de.audi.atip.timer.TimerListener;
 
 public class WatchDog
 implements TimerListener {
-    private static final int WATCHDOG_PRIORITY;
-    private static final long ONE_DAY;
+    private static final int WATCHDOG_PRIORITY = 5;
+    private static final long ONE_DAY = 86400000L;
     private LogChannel log;
     private String name;
     private Runnable alarm;
@@ -58,15 +58,15 @@ implements TimerListener {
     }
 
     private final void setupTimer() {
-        this.timer = new Timer(new StringBuffer().append("WatchDog.").append(this.name).toString(), 5, this.log, this, this.timeout, true);
+        this.timer = new Timer("WatchDog." + this.name, 5, this.log, this, this.timeout, true);
     }
 
     private void check() {
         long l = TimerDispatcher.getMonotonicTime();
-        this.log.log(-2137614336, "WatchDog %1 check %2 >= %3", (Object)this.name, l, this.lastping + this.timeout);
+        this.log.log(10000000, "WatchDog %1 check %2 >= %3", (Object)this.name, l, this.lastping + this.timeout);
         if (l >= this.lastping + this.timeout) {
-            if (l >= this.lastping + this.timeout + 0) {
-                this.log.log(-1601830656, "WatchDog overdue for more than one day. This has to be a mistake");
+            if (l >= this.lastping + this.timeout + 86400000L) {
+                this.log.log(100000, "WatchDog overdue for more than one day. This has to be a mistake");
             } else {
                 this.bark();
             }
@@ -83,14 +83,12 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-        this.log.log(1078071040, "WatchDog %1 timer was canceled", (Object)this.name);
+        this.log.log(1000000, "WatchDog %1 timer was canceled", (Object)this.name);
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.log.log(1078071040, "WatchDog %1 timer fired", (Object)this.name);
+        this.log.log(1000000, "WatchDog %1 timer fired", (Object)this.name);
         this.check();
     }
 }

@@ -8,22 +8,16 @@ import org.dsi.ifc.base.DSIListener;
 
 public interface ICommand
 extends DSIListener {
-    default public ICommandList getCommandList() {
-    }
+    public ICommandList getCommandList();
 
-    default public void setCommandList(ICommandList iCommandList) {
-    }
+    public void setCommandList(ICommandList var1);
 
-    default public void execute() {
-    }
+    public void execute();
 
-    default public void abort() {
-    }
+    public void abort();
 
-    default public long getTimeout() {
-    }
+    public long getTimeout();
 
-    default public String getName() {
-    }
+    public String getName();
 }
 

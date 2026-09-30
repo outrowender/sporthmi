@@ -14,42 +14,42 @@ import java.text.DecimalFormat;
 
 public class Distance
 extends AbstractMetrics {
-    private static final String TEXT_MILES_COMPLETE;
-    private static final String TEXT_YARDS;
-    private static final String TEXT_FOOT;
-    private static final String TEXT_MILES;
-    private static final String TEXT_METER;
-    private static final String TEXT_KM;
-    public static final String TEXT_DISTANCE_INVALID;
-    public static final int KM;
-    public static final int MILES;
-    public static final int FOOT;
-    public static final int YARDS;
-    public static final int METERS;
-    public static final int NONE;
-    public static final int MODE_DISTANCE2DESTINATION;
-    public static final int MODE_DISTANCE2TURN;
-    public static final int MODE_HEIGHT;
-    public static final int MODE_LENGTH;
-    public static final int MODE_SCALE;
-    public static final int MODE_SCALE_VALUE_ONLY;
-    public static final int MODE_SCALE_UNIT_ONLY;
-    public static final int MODE_DECIMAL;
-    public static final int MODE_UNFORMATTED;
-    public static final int HU_REGION_EURDW;
-    public static final int HU_REGION_NAR;
-    public static final float KM_PER_MILE;
-    public static final float M_PER_FOOT;
-    public static final float M_PER_YARD;
-    public static final float YARDS_PER_MILE;
-    private static int systemUnit;
-    private static int huRegion;
+    private static final String TEXT_MILES_COMPLETE = " Miles";
+    private static final String TEXT_YARDS = " yd";
+    private static final String TEXT_FOOT = " ft";
+    private static final String TEXT_MILES = " mi";
+    private static final String TEXT_METER = " m";
+    private static final String TEXT_KM = " km";
+    public static final String TEXT_DISTANCE_INVALID = "---";
+    public static final int KM = 1;
+    public static final int MILES = 2;
+    public static final int FOOT = 3;
+    public static final int YARDS = 4;
+    public static final int METERS = 5;
+    public static final int NONE = 6;
+    public static final int MODE_DISTANCE2DESTINATION = 1;
+    public static final int MODE_DISTANCE2TURN = 5;
+    public static final int MODE_HEIGHT = 2;
+    public static final int MODE_LENGTH = 3;
+    public static final int MODE_SCALE = 4;
+    public static final int MODE_SCALE_VALUE_ONLY = 6;
+    public static final int MODE_SCALE_UNIT_ONLY = 7;
+    public static final int MODE_DECIMAL = 8;
+    public static final int MODE_UNFORMATTED = 9;
+    public static final int HU_REGION_EURDW = 0;
+    public static final int HU_REGION_NAR = 1;
+    public static final float KM_PER_MILE = 1.609344f;
+    public static final float M_PER_FOOT = 0.3048f;
+    public static final float M_PER_YARD = 0.9144f;
+    public static final float YARDS_PER_MILE = 1760.0f;
+    private static int systemUnit = 1;
+    private static int huRegion = 0;
     private Buffer buffer;
     private DistanceEntity entity;
-    public static final int ZERO_VALUE_FORMAT_ZEROS;
-    public static final int ZERO_VALUE_FORMAT_MINUS;
-    public static final int NO_OF_DECIMAL_PLACES_FIXED;
-    public static final int NO_OF_DECIMAL_PLACES_FLOATING;
+    public static final int ZERO_VALUE_FORMAT_ZEROS = 0;
+    public static final int ZERO_VALUE_FORMAT_MINUS = 1;
+    public static final int NO_OF_DECIMAL_PLACES_FIXED = 0;
+    public static final int NO_OF_DECIMAL_PLACES_FLOATING = 1;
     private int zeroValueFormat;
     private int numberOfMajorPlacesMax;
     private int numberOfDecimalPlacesFormat;
@@ -76,31 +76,31 @@ extends AbstractMetrics {
     }
 
     protected static final float km2miles(float f2) {
-        return f2 / -50410177;
+        return f2 / 1.609344f;
     }
 
     protected final float miles2km(float f2) {
-        return f2 * -50410177;
+        return f2 * 1.609344f;
     }
 
     protected final float km2yards(float f2) {
-        return 31300 * f2 / 504785471;
+        return 1000.0f * f2 / 0.9144f;
     }
 
     protected final float yards2km(float f2) {
-        return f2 * 504785471 / 31300;
+        return f2 * 0.9144f / 1000.0f;
     }
 
     protected final float km2foot(float f2) {
-        return 31300 * f2 / -1089561538;
+        return 1000.0f * f2 / 0.3048f;
     }
 
     protected final float km2meters(float f2) {
-        return 31300 * f2;
+        return 1000.0f * f2;
     }
 
     protected final float foot2km(float f2) {
-        return f2 * -1089561538 / 31300;
+        return f2 * 0.3048f / 1000.0f;
     }
 
     protected final void importValue() {
@@ -118,14 +118,14 @@ extends AbstractMetrics {
                 break;
             }
             case 5: {
-                this.value /= 31300;
+                this.value /= 1000.0f;
                 break;
             }
             case 1: {
                 break;
             }
             default: {
-                throw new IllegalArgumentException(new StringBuffer().append("The given unit (").append(this.unit).append(") cannot be used to create a Distance instance.").toString());
+                throw new IllegalArgumentException("The given unit (" + this.unit + ") cannot be used to create a Distance instance.");
             }
         }
         if (AbstractMetrics.LOGGING_ENABLED) {
@@ -187,7 +187,6 @@ extends AbstractMetrics {
         this.mode = n;
     }
 
-    @Override
     public void setValue(float f2) {
         if (AbstractMetrics.LOGGING_ENABLED) {
             Buffer buffer = new Buffer().append("Distance.setValue()");
@@ -198,12 +197,10 @@ extends AbstractMetrics {
         this.importValue();
     }
 
-    @Override
     public float getValue() {
         return this.getValueInUnit(systemUnit);
     }
 
-    @Override
     public float getValue(int n) {
         if (!Distance.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -229,12 +226,10 @@ extends AbstractMetrics {
         return this.value;
     }
 
-    @Override
     public String format() {
         return this.format(this.useInstanceUnit ? this.unit : systemUnit);
     }
 
-    @Override
     public String format(int n) {
         if (!Distance.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -254,13 +249,13 @@ extends AbstractMetrics {
                 break;
             }
             case 5: {
-                float f4 = this.value * 31300;
+                float f4 = this.value * 1000.0f;
                 int n4 = (int)f4;
                 this.buffer.append(n4).append(Distance.getText(5));
                 break;
             }
             default: {
-                this.buffer.append("---");
+                this.buffer.append(TEXT_DISTANCE_INVALID);
             }
         }
         if (!Distance.contentEquals(this.lastFormat, this.buffer)) {
@@ -327,27 +322,27 @@ extends AbstractMetrics {
         if (string == null) {
             switch (n) {
                 case 0: {
-                    string = " km";
+                    string = TEXT_KM;
                     break;
                 }
                 case 5: {
-                    string = " m";
+                    string = TEXT_METER;
                     break;
                 }
                 case 1: {
-                    string = " mi";
+                    string = TEXT_MILES;
                     break;
                 }
                 case 2: {
-                    string = " Miles";
+                    string = TEXT_MILES_COMPLETE;
                     break;
                 }
                 case 3: {
-                    string = " ft";
+                    string = TEXT_FOOT;
                     break;
                 }
                 case 4: {
-                    string = " yd";
+                    string = TEXT_YARDS;
                     break;
                 }
                 case 6: {
@@ -404,12 +399,10 @@ extends AbstractMetrics {
         return buffer.toString();
     }
 
-    @Override
     public String[] getStringValueAndUnit() {
         return this.getStringValueAndUnit(this.useInstanceUnit ? this.unit : systemUnit);
     }
 
-    @Override
     public String[] getStringValueAndUnit(int n) {
         return this.getStringValueAndUnit(n, this.mode);
     }
@@ -441,28 +434,24 @@ extends AbstractMetrics {
         return new String[]{this.isMetricvalid() ? ((StringBuffer)object).toString() : this.getInvalidText(), stringBuffer.toString()};
     }
 
-    @Override
     public String getFormattedMetricUnit() {
         return this.getFormattedUnit(this.useInstanceUnit ? this.unit : systemUnit);
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         return this.getStringValueAndUnit(n, this.mode)[1].trim();
     }
 
-    @Override
     public String getFormattedValue() {
         return this.isMetricvalid() ? this.getFormattedValue(this.useInstanceUnit ? this.unit : systemUnit) : this.getInvalidText();
     }
 
-    @Override
     public String getFormattedValue(int n) {
         return this.getStringValueAndUnit(n, this.mode)[0];
     }
 
     public String toString() {
-        return new StringBuffer().append("Distance(").append(this.getValue()).append(',').append(this.unit).append(',').append(this.lastFormat).append(')').toString();
+        return "Distance(" + this.getValue() + ',' + this.unit + ',' + this.lastFormat + ')';
     }
 
     private String entityToString(DistanceEntity distanceEntity) {
@@ -492,7 +481,7 @@ extends AbstractMetrics {
                 break;
             }
             default: {
-                f2 = this.value * 31300;
+                f2 = this.value * 1000.0f;
             }
         }
         int n4 = Math.round(f2);
@@ -571,7 +560,7 @@ extends AbstractMetrics {
         switch (n) {
             case 2: {
                 int n3 = n2 * 3;
-                if (n3 < 1015415040) {
+                if (n3 < 99900) {
                     n3 = this.roundHeight(n3, 10);
                     distanceEntity.setValues(n3, 3);
                     break;
@@ -580,7 +569,7 @@ extends AbstractMetrics {
                 break;
             }
             default: {
-                if (n2 < 1854275840) {
+                if (n2 < 99950) {
                     n2 = this.roundHeight(n2, 5);
                     distanceEntity.setValues(n2, 5);
                     break;
@@ -592,9 +581,9 @@ extends AbstractMetrics {
 
     private int roundHeight(int n, int n2) {
         if (n < 0) {
-            return (int)((float)n / (float)n2 - 63) * n2;
+            return (int)((float)n / (float)n2 - 0.5f) * n2;
         }
-        return (int)((float)n / (float)n2 + 63) * n2;
+        return (int)((float)n / (float)n2 + 0.5f) * n2;
     }
 
     private void formatModeLength(int n, DistanceEntity distanceEntity, int n2) {
@@ -610,7 +599,7 @@ extends AbstractMetrics {
                     break;
                 }
                 if ((double)n2 < 1759120.0) {
-                    n2 = Math.round(Distance.km2miles(this.value) * 51266);
+                    n2 = Math.round(Distance.km2miles(this.value) * 100.0f);
                     n2 = (int)(Math.floor((double)n2 / 10.0 + 0.5) * 10.0);
                     distanceEntity.setValues(n2 / 100, 7, n2 % 100 / 10, 1);
                     break;
@@ -628,7 +617,7 @@ extends AbstractMetrics {
                     distanceEntity.setValues(n2, 5);
                     break;
                 }
-                if (n2 < 239210240) {
+                if (n2 < 999950) {
                     n2 = (int)(Math.floor((double)n2 / 100.0 + 0.5) * 100.0);
                     distanceEntity.setValues(n2 / 1000, 6, n2 % 1000 / 100, 0);
                     break;
@@ -781,8 +770,8 @@ extends AbstractMetrics {
             }
         } else if ((double)n2 < 17512.0) {
             this.formatMilesRoundedOnOneDigit(n2, n, distanceEntity);
-        } else if ((float)n2 < 14723912) {
-            n2 = Math.round(Distance.km2miles(this.value) * 8257);
+        } else if ((float)n2 < 352000.0f) {
+            n2 = Math.round(Distance.km2miles(this.value) * 10.0f);
             n2 = (int)Math.floor((double)n2 / 10.0 + 0.5);
             if (n != 7) {
                 distanceEntity.setValues(n2, -1);
@@ -791,7 +780,7 @@ extends AbstractMetrics {
                 distanceEntity.setUnitTextConstant(1);
             }
         } else {
-            n2 = Math.round(Distance.km2miles(this.value) * 8257);
+            n2 = Math.round(Distance.km2miles(this.value) * 10.0f);
             n2 = (int)(Math.floor((double)n2 / 100.0 + 0.5) * 10.0);
             if (n != 7) {
                 distanceEntity.setValues(n2, -1);
@@ -804,7 +793,7 @@ extends AbstractMetrics {
 
     private void formatMilesRoundedOnOneDigit(int n, int n2, DistanceEntity distanceEntity) {
         int n3 = n;
-        n3 = Math.round(Distance.km2miles(this.value) * 51266);
+        n3 = Math.round(Distance.km2miles(this.value) * 100.0f);
         n3 = (int)(Math.floor((double)n3 / 10.0 + 0.5) * 10.0);
         if (n2 != 7) {
             distanceEntity.setValues(n3 / 100, 7, n3 % 100 / 10, -1);
@@ -876,7 +865,7 @@ extends AbstractMetrics {
         int n2 = n;
         switch (n) {
             case 1: {
-                f3 = f2 / 31300;
+                f3 = f2 / 1000.0f;
                 n2 = 0;
                 break;
             }
@@ -886,12 +875,12 @@ extends AbstractMetrics {
                 break;
             }
             case 3: {
-                f3 = this.km2foot(f2 / 31300);
+                f3 = this.km2foot(f2 / 1000.0f);
                 n2 = 3;
                 break;
             }
             case 4: {
-                f3 = this.km2yards(f2 / 31300);
+                f3 = this.km2yards(f2 / 1000.0f);
                 n2 = 4;
                 break;
             }
@@ -900,21 +889,15 @@ extends AbstractMetrics {
     }
 
     static int roundDistance(int n, int n2) {
-        int n3 = (int)(Math.floor((float)n / (float)n2 + 63) * (double)n2);
+        int n3 = (int)(Math.floor((float)n / (float)n2 + 0.5f) * (double)n2);
         if (n3 == 0) {
             return n2;
         }
         return n3;
     }
 
-    @Override
     public String getInvalidText() {
-        return "---";
-    }
-
-    static {
-        systemUnit = 1;
-        huRegion = 0;
+        return TEXT_DISTANCE_INVALID;
     }
 }
 

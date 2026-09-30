@@ -16,7 +16,6 @@ extends AbstractPhoneCall {
         super(callInformation, false);
     }
 
-    @Override
     public HMIResourceLocator getHMIResourceLocator() {
         ResourceLocator resourceLocator = this.getTelRemPictureId();
         if (PhoneUtils.isPictureAvailable(resourceLocator)) {
@@ -25,7 +24,6 @@ extends AbstractPhoneCall {
         return new HMIResourceLocator(-1, HMIResourceLocator.UNDEFINED_URI);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("SingleCall(");

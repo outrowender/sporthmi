@@ -25,7 +25,7 @@ import org.dsi.ifc.speechrec.GrammarInfo;
 
 public class CommandSetGrammarContext
 extends AbstractSpeechCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CommandSetGrammarContext";
     private final ITTSASRContext contextToLoad;
     private final ISDSGrammarState currentGrammarState;
     private final SpeechRecognitionHandler speechRecognitionHandler;
@@ -49,12 +49,11 @@ extends AbstractSpeechCommand {
         this.reload = bl;
     }
 
-    @Override
     public void execute() {
         boolean bl = this.contextToLoad.isDynamicListUpdate();
-        this.logger.log(1078071040, "[%1#execute] isDynamic=%2, reload=%3", (Object)"CommandSetGrammarContext", (Object)bl, (Object)this.reload);
+        this.logger.log(1000000, "[%1#execute] isDynamic=%2, reload=%3", (Object)LOGCLASS, (Object)bl, (Object)this.reload);
         if (!this.sdsAdapter.isSDSAndTTSReady()) {
-            this.logger.log(1078071040, "[%1#execute] SDS or TTS not ready. Do NOT clear grammar state!", (Object)"CommandSetGrammarContext");
+            this.logger.log(1000000, "[%1#execute] SDS or TTS not ready. Do NOT clear grammar state!", (Object)LOGCLASS);
             this.dynamicHMILists.resetLoadedSlotRuleIDs();
             this.processingFinished();
             return;
@@ -82,39 +81,39 @@ extends AbstractSpeechCommand {
         }
         CommandSetGrammarContext.showIDSet(this.grammarsToLoad, "TO LOAD", this.logger);
         if (!this.grammarsToUnload.isEmpty()) {
-            this.logger.log(1078071040, "[%1#execute] Unload grammars", (Object)"CommandSetGrammarContext");
+            this.logger.log(1000000, "[%1#execute] Unload grammars", (Object)LOGCLASS);
             if (this.unloadGrammars()) {
-                this.logger.log(1078071040, "[%1#execute] Waiting for responseUnloadGrammar.", (Object)"CommandSetGrammarContext");
+                this.logger.log(1000000, "[%1#execute] Waiting for responseUnloadGrammar.", (Object)LOGCLASS);
                 return;
             }
-            this.logger.log(1078071040, "[%1#execute] Unload failed. Abort.", (Object)"CommandSetGrammarContext");
+            this.logger.log(1000000, "[%1#execute] Unload failed. Abort.", (Object)LOGCLASS);
             this.processingFinished();
             return;
         }
-        this.logger.log(1078071040, "[%1#execute] No unload necessary", (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%1#execute] No unload necessary", (Object)LOGCLASS);
         if (this.startLoadGrammar()) {
-            this.logger.log(1078071040, "[%1#execute] Waiting for responseLoadGrammar", (Object)"CommandSetGrammarContext");
+            this.logger.log(1000000, "[%1#execute] Waiting for responseLoadGrammar", (Object)LOGCLASS);
             return;
         }
-        this.logger.log(1078071040, "[%1#execute] No load necessary", (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%1#execute] No load necessary", (Object)LOGCLASS);
         this.processingFinished();
     }
 
     private boolean startLoadGrammar() {
         if (!this.contextToLoad.isDynamicListUpdate() && this.grammarsToLoad.isEmpty() && !this.isSlotContentNew()) {
-            this.logger.log(1078071040, "[%1#startLoadGrammar] No grammars to load.", (Object)"CommandSetGrammarContext");
+            this.logger.log(1000000, "[%1#startLoadGrammar] No grammars to load.", (Object)LOGCLASS);
             return false;
         }
         List list = this.constructGrammars(this.grammarsToLoad);
         if (list.isEmpty()) {
-            this.logger.log(1078071040, "[%1#startLoadGrammar] DSI grammar list empty.", (Object)"CommandSetGrammarContext");
+            this.logger.log(1000000, "[%1#startLoadGrammar] DSI grammar list empty.", (Object)LOGCLASS);
             return false;
         }
         if (!this.loadGrammars(list)) {
-            this.logger.log(1078071040, "[%1#startLoadGrammar] FAILED", (Object)"CommandSetGrammarContext");
+            this.logger.log(1000000, "[%1#startLoadGrammar] FAILED", (Object)LOGCLASS);
             return false;
         }
-        this.logger.log(1078071040, "[%1#startLoadGrammar] SUCCESSFUL", (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%1#startLoadGrammar] SUCCESSFUL", (Object)LOGCLASS);
         return true;
     }
 
@@ -123,7 +122,7 @@ extends AbstractSpeechCommand {
     }
 
     private boolean unloadGrammars() {
-        this.logger.log(1078071040, "[%1#unloadGrammars]", (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%1#unloadGrammars]", (Object)LOGCLASS);
         int[] nArray = new int[this.grammarsToUnload.size()];
         int n = 0;
         Iterator iterator = this.grammarsToUnload.iterator();
@@ -132,27 +131,27 @@ extends AbstractSpeechCommand {
             ++n;
         }
         boolean bl = this.speechRecognitionHandler.unloadGrammar(nArray);
-        this.logger.log(-2137614336, "[%1#unloadGrammars] '%2'", (Object)"CommandSetGrammarContext", (Object)(bl ? "SUCCESSFUL" : "FAILED"));
+        this.logger.log(10000000, "[%1#unloadGrammars] '%2'", (Object)LOGCLASS, (Object)(bl ? "SUCCESSFUL" : "FAILED"));
         return bl;
     }
 
     private List constructGrammars(SortedSet sortedSet) {
-        this.logger.log(1078071040, "[%1#constructGrammars]", (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%1#constructGrammars]", (Object)LOGCLASS);
         LinkedList linkedList = new LinkedList();
         SortedSet sortedSet2 = this.contextToLoad.getSlotIds();
         if (sortedSet2 != null) {
-            this.logger.log(-2137614336, "[%1#constructGrammars] Process slotIDs.", (Object)"CommandSetGrammarContext");
+            this.logger.log(10000000, "[%1#constructGrammars] Process slotIDs.", (Object)LOGCLASS);
             linkedList.addAll(CommandSetGrammarContext.slotIDsToDSIGrammar(this.logger, this.dynamicHMILists, sortedSet2));
         }
         if (sortedSet != null) {
-            this.logger.log(-2137614336, "[%1#constructGrammars] Process ruleIDs.", (Object)"CommandSetGrammarContext");
+            this.logger.log(10000000, "[%1#constructGrammars] Process ruleIDs.", (Object)LOGCLASS);
             linkedList.addAll(CommandSetGrammarContext.ruleIDsToDSIGrammar(this.logger, this.nbestStorage, this.dynamicHMILists, sortedSet, true, this.contextToLoad));
         }
         return linkedList;
     }
 
     static List ruleIDsToDSIGrammar(LogChannel logChannel, NBestStorageAccess nBestStorageAccess, IDynamicLists iDynamicLists, SortedSet sortedSet, boolean bl, ITTSASRContext iTTSASRContext) {
-        logChannel.log(1078071040, "[%1#ruleIDsToDSIGrammar]", (Object)"CommandSetGrammarContext");
+        logChannel.log(1000000, "[%1#ruleIDsToDSIGrammar]", (Object)LOGCLASS);
         if (bl && (nBestStorageAccess == null || iTTSASRContext == null)) {
             throw new IllegalArgumentException("Data not set.");
         }
@@ -170,12 +169,12 @@ extends AbstractSpeechCommand {
                 String string2 = string = iTTSASRAppContext != null ? iTTSASRAppContext.getSRGSString(n) : "";
                 if (n4 == n) {
                     n3 = nBestStorageAccess.getLatestPicklistID();
-                    logChannel.log(-2137614336, "[%1#ruleIDsToDSIGrammar] [%2] nBestListID='%3'", (Object)"CommandSetGrammarContext", (long)n, (long)n3);
+                    logChannel.log(10000000, "[%1#ruleIDsToDSIGrammar] [%2] nBestListID='%3'", (Object)LOGCLASS, (long)n, (long)n3);
                 } else if (list.contains(new Integer(n))) {
-                    logChannel.log(-2137614336, "[%1#ruleIDsToDSIGrammar] [%2] Spelling rule.'", (Object)"CommandSetGrammarContext", (long)n);
+                    logChannel.log(10000000, "[%1#ruleIDsToDSIGrammar] [%2] Spelling rule.'", (Object)LOGCLASS, (long)n);
                     n2 = 5;
                 } else if (!SDSUtils.isEmpty(string)) {
-                    logChannel.log(-2137614336, "[%1#ruleIDsToDSIGrammar] [%2] SRGS rule.'", (Object)"CommandSetGrammarContext", (long)n);
+                    logChannel.log(10000000, "[%1#ruleIDsToDSIGrammar] [%2] SRGS rule.'", (Object)LOGCLASS, (long)n);
                     n2 = 1;
                 }
             }
@@ -185,52 +184,52 @@ extends AbstractSpeechCommand {
     }
 
     static List slotIDsToDSIGrammar(LogChannel logChannel, IDynamicLists iDynamicLists, SortedSet sortedSet) {
-        logChannel.log(-2137614336, "[%1#slotIDsToDSIGrammar]", (Object)"CommandSetGrammarContext");
+        logChannel.log(10000000, "[%1#slotIDsToDSIGrammar]", (Object)LOGCLASS);
         ArrayList arrayList = new ArrayList(sortedSet.size());
         Iterator iterator = sortedSet.iterator();
         while (iterator.hasNext()) {
             int n = (Integer)iterator.next();
-            String string = new StringBuffer().append("SlotGrammar_").append(n).toString();
+            String string = "SlotGrammar_" + n;
             if (!iDynamicLists.isSlotContentNew(n)) {
-                logChannel.log(-2137614336, "[%1#slotIDsToDSIGrammar] [%2] not updated.", (Object)"CommandSetGrammarContext", (long)n);
+                logChannel.log(10000000, "[%1#slotIDsToDSIGrammar] [%2] not updated.", (Object)LOGCLASS, (long)n);
                 continue;
             }
             String[] stringArray = iDynamicLists.getDynListStrings(n);
             long[] lArray = iDynamicLists.getDynListIDs(n);
-            logChannel.log(-2137614336, "[%1#slotIDsToDSIGrammar] [%2] strData='%3', idData=%4", (Object)"CommandSetGrammarContext", (Object)new Integer(n), (Object)stringArray, (Object)lArray);
+            logChannel.log(10000000, "[%1#slotIDsToDSIGrammar] [%2] strData='%3', idData=%4", (Object)LOGCLASS, (Object)new Integer(n), (Object)stringArray, (Object)lArray);
             if (stringArray != null) {
                 int n2 = 8;
                 if (lArray == null || lArray.length == 0) {
-                    logChannel.log(-2137614336, "[%1#slotIDsToDSIGrammar] [%2] new HMI filled grammar - only strings", (Object)"CommandSetGrammarContext", (long)n);
+                    logChannel.log(10000000, "[%1#slotIDsToDSIGrammar] [%2] new HMI filled grammar - only strings", (Object)LOGCLASS, (long)n);
                     n2 = 2;
                     lArray = new long[]{};
                 } else {
-                    logChannel.log(-2137614336, "[%1#slotIDsToDSIGrammar] [%2] new HMI filled grammar - strings + IDs", (Object)"CommandSetGrammarContext", (long)n);
+                    logChannel.log(10000000, "[%1#slotIDsToDSIGrammar] [%2] new HMI filled grammar - strings + IDs", (Object)LOGCLASS, (long)n);
                 }
                 arrayList.add(new Grammar(n2, 0, false, stringArray, lArray, -1, n, string, 0, 0));
                 iDynamicLists.setSlotContentStatus(n, (byte)1);
                 continue;
             }
-            logChannel.log(-1601830656, "[%1#slotIDsToDSIGrammar] [%2] ID data not found.", (Object)"CommandSetGrammarContext", (long)n);
+            logChannel.log(100000, "[%1#slotIDsToDSIGrammar] [%2] ID data not found.", (Object)LOGCLASS, (long)n);
         }
         return arrayList;
     }
 
     private boolean loadGrammars(List list) {
-        this.logger.log(1078071040, "[%1#loadGrammars]", (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%1#loadGrammars]", (Object)LOGCLASS);
         boolean bl = this.speechRecognitionHandler.loadGrammar((Grammar[])list.toArray(new Grammar[list.size()]));
-        this.logger.log(1078071040, "[%2#loadGrammars] '%1'", (Object)(bl ? "SUCCESSFUL" : "FAILED"), (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%2#loadGrammars] '%1'", (Object)(bl ? "SUCCESSFUL" : "FAILED"), (Object)LOGCLASS);
         this.dynamicHMILists.markAllSlotsAsLoaded(bl);
         return bl;
     }
 
     static void showIDSet(SortedSet sortedSet, String string, LogChannel logChannel) {
         if (sortedSet == null) {
-            logChannel.log(-2137614336, "[%1#showIDSet] [%2] No IDs available!", (Object)"CommandSetGrammarContext", (Object)string);
+            logChannel.log(10000000, "[%1#showIDSet] [%2] No IDs available!", (Object)LOGCLASS, (Object)string);
             return;
         }
         if (sortedSet.isEmpty()) {
-            logChannel.log(-2137614336, "[%1#showIDSet] [%2] Empty", (Object)"CommandSetGrammarContext", (Object)string);
+            logChannel.log(10000000, "[%1#showIDSet] [%2] Empty", (Object)LOGCLASS, (Object)string);
             return;
         }
         if (logChannel.isDebug()) {
@@ -241,43 +240,41 @@ extends AbstractSpeechCommand {
                 if (!iterator.hasNext()) continue;
                 buffer.append(", ");
             }
-            logChannel.log(-2137614336, "[%1#showIDSet] [%2] %3", (Object)"CommandSetGrammarContext", (Object)string, (Object)buffer);
+            logChannel.log(10000000, "[%1#showIDSet] [%2] %3", (Object)LOGCLASS, (Object)string, (Object)buffer);
         }
     }
 
-    @Override
     public void responseUnloadGrammar(int n, GrammarInfo[] grammarInfoArray) {
-        this.logger.log(-2137614336, "[%1#responseUnloadGrammar] replyCode=%3, info=%2", (Object)"CommandSetGrammarContext", (Object)SDSUtils.toString((Object[])grammarInfoArray, false), (long)n);
+        this.logger.log(10000000, "[%1#responseUnloadGrammar] replyCode=%3, info=%2", (Object)LOGCLASS, (Object)SDSUtils.toString((Object[])grammarInfoArray, false), (long)n);
         if (SDSUtils.checkReplyCodeForError(n, this.logger)) {
-            this.logger.log(-1601830656, "[%1#responseUnloadGrammar] Error from DSI, sending ERROR!", (Object)"CommandSetGrammarContext");
+            this.logger.log(100000, "[%1#responseUnloadGrammar] Error from DSI, sending ERROR!", (Object)LOGCLASS);
             this.sdsAdapter.sendSpeechSMEvent(3001, false, false);
             this.processingFinished();
             return;
         }
-        this.logger.log(1078071040, "[%1#responseUnloadGrammar] Change grammar state.", (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%1#responseUnloadGrammar] Change grammar state.", (Object)LOGCLASS);
         TreeSet treeSet = new TreeSet(this.currentGrammarState.getCurrentlyLoadedGrammarRuleIDs());
         treeSet.removeAll(this.grammarsToUnload);
         this.currentGrammarState.setCurrentlyLoadedGrammarRuleIDs(treeSet);
         if (this.startLoadGrammar()) {
-            this.logger.log(1078071040, "[%1#responseUnloadGrammar] Waiting for responseLoadGrammar", (Object)"CommandSetGrammarContext");
+            this.logger.log(1000000, "[%1#responseUnloadGrammar] Waiting for responseLoadGrammar", (Object)LOGCLASS);
             return;
         }
         this.processingFinished();
     }
 
-    @Override
     public void responseLoadGrammar(int n, GrammarInfo[] grammarInfoArray) {
         if (this.logger.isDebug()) {
-            this.logger.log(1078071040, "[%1#responseLoadGrammar] replyCode='%3', info='%2'", (Object)"CommandSetGrammarContext", (Object)SDSUtils.toString((Object[])grammarInfoArray, false), (long)n);
+            this.logger.log(1000000, "[%1#responseLoadGrammar] replyCode='%3', info='%2'", (Object)LOGCLASS, (Object)SDSUtils.toString((Object[])grammarInfoArray, false), (long)n);
         }
         if (SDSUtils.checkReplyCodeForError(n, this.logger)) {
-            this.logger.log(-1601830656, "[%1#responseLoadGrammar] Error from DSI, sending SDS_ERROR!", (Object)"CommandSetGrammarContext");
+            this.logger.log(100000, "[%1#responseLoadGrammar] Error from DSI, sending SDS_ERROR!", (Object)LOGCLASS);
             this.grammarState.setCurrentlyLoadedGrammarRuleIDs(new TreeSet());
             this.sdsAdapter.sendSpeechSMEvent(3001, false, false);
             this.processingFinished();
             return;
         }
-        this.logger.log(1078071040, "[%1#responseLoadGrammar] Change grammar state.", (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%1#responseLoadGrammar] Change grammar state.", (Object)LOGCLASS);
         TreeSet treeSet = new TreeSet(this.currentGrammarState.getCurrentlyLoadedGrammarRuleIDs());
         treeSet.addAll(this.grammarsToLoad);
         this.currentGrammarState.setCurrentlyLoadedGrammarRuleIDs(treeSet);
@@ -290,16 +287,15 @@ extends AbstractSpeechCommand {
         for (int i2 = 0; i2 < n; ++i2) {
             int n2 = (Integer)objectArray[i2];
             if (!this.dynamicHMILists.isSlotContentNew(n2)) continue;
-            this.logger.log(1078071040, "[%1#isSlotContentNew] New dynamic HMI slot content available.", (Object)"CommandSetGrammarContext");
+            this.logger.log(1000000, "[%1#isSlotContentNew] New dynamic HMI slot content available.", (Object)LOGCLASS);
             return true;
         }
-        this.logger.log(1078071040, "[%1#isSlotContentNew] No new dynamic HMI slot content available.", (Object)"CommandSetGrammarContext");
+        this.logger.log(1000000, "[%1#isSlotContentNew] No new dynamic HMI slot content available.", (Object)LOGCLASS);
         return false;
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append("CommandSetGrammarContext@").append(this.hashCode()).toString();
+        return "CommandSetGrammarContext@" + this.hashCode();
     }
 }
 

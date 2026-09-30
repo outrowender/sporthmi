@@ -49,10 +49,9 @@ extends AbstractOnlineEvoActivator {
     static /* synthetic */ Class class$org$dsi$ifc$online$DSIDestinationImport;
     static /* synthetic */ Class class$de$audi$atip$interapp$online$OnlineServiceProvider;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
-        this.logChannel.log(1078071040, "OnlineActivator#start() - starting AppOnline Bundle. RemoteHMI: %1", this.useRemoteHmi);
+        this.logChannel.log(1000000, "OnlineActivator#start() - starting AppOnline Bundle. RemoteHMI: %1", this.useRemoteHmi);
         this.initOnlineDestinationController();
         this.initOSRApplication();
         if (this.useRemoteHmi) {
@@ -95,7 +94,6 @@ extends AbstractOnlineEvoActivator {
         this.setOnlineDestinationController(onlineDestinationControllerEvo);
     }
 
-    @Override
     protected final void registerServicesVariant() {
         this.registerOnlineRegistrationService();
         this.registerDSIdestImportListener();
@@ -111,13 +109,13 @@ extends AbstractOnlineEvoActivator {
     private void createOperatorCall() {
         if (this.isOperatorCallCoded()) {
             Object object;
-            Online.getInstance().getOperatorCallLogChannel().log(1078071040, "OnlineActivator#createOperatorCall: called");
+            Online.getInstance().getOperatorCallLogChannel().log(1000000, "OnlineActivator#createOperatorCall: called");
             RemoteHMIService remoteHMIService = this.getRemoteHmiService();
             if (remoteHMIService != null) {
                 object = remoteHMIService.getOnlineOperatorCallService();
                 this.setOnlinePoiCall((OnlinePOICall)object);
                 if (object == null) {
-                    Online.getInstance().getOperatorCallLogChannel().log(-1601830656, "OnlineActivator#createOperatorCall: onlinePOICall is null!");
+                    Online.getInstance().getOperatorCallLogChannel().log(100000, "OnlineActivator#createOperatorCall: onlinePOICall is null!");
                 }
             } else {
                 Online.getInstance().getOperatorCallLogChannel().log(10000, "OnlineActivator#createOperatorCall: remoteHMIService is null!");
@@ -127,7 +125,6 @@ extends AbstractOnlineEvoActivator {
         }
     }
 
-    @Override
     protected final RemoteHMIService createRemoteHMIService() {
         this.remoteHMIServiceEvo = new RemoteHMIServiceEvo(Online.getInstance().getRemoteHMILogChannel(), Online.getInstance().getRemoteHMIInterpreterLogChannel(), this.framework, this.getModelBank());
         IStandardController iStandardController = this.getStandardController();
@@ -141,26 +138,22 @@ extends AbstractOnlineEvoActivator {
         this.registerService((class$de$audi$atip$interapp$online$OnlineServiceProvider == null ? (class$de$audi$atip$interapp$online$OnlineServiceProvider = OnlineActivator.class$("de.audi.atip.interapp.online.OnlineServiceProvider")) : class$de$audi$atip$interapp$online$OnlineServiceProvider).getName(), (Object)this.remoteHMIServiceEvo.getOnlineServiceProvider(), (Dictionary)OnlineActivator.createServiceProperties());
     }
 
-    @Override
     public final int getDrawerCategory() {
-        int n = this.framework.getHMIService().getChoiceModel(270344960).getValue();
+        int n = this.framework.getHMIService().getChoiceModel(2301200).getValue();
         if (n == 1) {
-            return 1551043203;
+            return -2096467108;
         }
-        return 1093657350;
+        return 115552065;
     }
 
-    @Override
     protected final IIDMapper createTextConstants() {
         return new OnlineTextConstantsImplEvo();
     }
 
-    @Override
     protected final IIDMapper createSmEventConstantsMapper() {
         return new OnlineSMEventConstantsImplEvo(this.logChannel);
     }
 
-    @Override
     protected final OnlineActionProxy createOnlineActionProxy() {
         OnlineBaseActionProxy onlineBaseActionProxy = null;
         if (this.useRemoteHmi) {
@@ -171,29 +164,26 @@ extends AbstractOnlineEvoActivator {
         return onlineBaseActionProxy;
     }
 
-    @Override
     protected final OnlineDiag createOnlineDiag() {
         EvoOnlineDiag evoOnlineDiag = new EvoOnlineDiag(this.framework, (AbstractOnlineActivator)this);
         evoOnlineDiag.setGreyServiceController(this.getStandardController());
         return evoOnlineDiag;
     }
 
-    @Override
     protected final IStandardController createStandardController(HMIService hMIService) {
         AbstractStandardController abstractStandardController = null;
         if (!this.useRemoteHmi) {
-            this.logChannel.log(1078071040, "OnlineActivator#start starting Online in Standard mode");
+            this.logChannel.log(1000000, "OnlineActivator#start starting Online in Standard mode");
             abstractStandardController = new OnlineEvoStandardController(this.logChannel, hMIService, this.getShutdownPopupId(), this.getTextConstantsConverter(), this.getFramework());
         } else {
-            this.logChannel.log(1078071040, "OnlineActivator#start starting Online in High mode");
+            this.logChannel.log(1000000, "OnlineActivator#start starting Online in High mode");
             abstractStandardController = new GreyServiceHighController(this.logChannel, hMIService, this.getShutdownPopupId(), this.getTextConstantsConverter(), this.getFramework());
         }
         return abstractStandardController;
     }
 
-    @Override
     protected final void initOSRApplicationVariant() {
-        this.getOnlineServiceRegistrationSubsystem().getAuthenticationController().setPopupIds(-1340595456, -1357372672);
+        this.getOnlineServiceRegistrationSubsystem().getAuthenticationController().setPopupIds(2300080, 2300079);
     }
 
     static /* synthetic */ Class class$(String string) {

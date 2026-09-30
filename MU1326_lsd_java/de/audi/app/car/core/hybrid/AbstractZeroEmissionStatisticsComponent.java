@@ -3,12 +3,11 @@
  */
 package de.audi.app.car.core.hybrid;
 
+import de.audi.app.car.common.adapter.AbstractDSICarHybridAdapter;
 import de.audi.app.car.common.adapter.AbstractDSICarKombiAdapter;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
-import de.audi.app.car.core.hybrid.AbstractZeroEmissionStatisticsComponent$1;
-import de.audi.app.car.core.hybrid.AbstractZeroEmissionStatisticsComponent$SDISInterface;
-import de.audi.app.car.core.hybrid.AbstractZeroEmissionStatisticsComponent$ZeroEmissionStatisticsSubComponentHybrid;
+import de.audi.app.car.common.sdis.interapp.ISDISZeroEmissionAccess;
 import de.audi.app.car.core.hybrid.IMemoryBuffer;
 import de.audi.app.car.core.hybrid.IMemoryBufferEntry;
 import de.audi.app.car.core.hybrid.StatisticsMemoryBuffer;
@@ -16,10 +15,11 @@ import de.audi.app.car.core.hybrid.StatisticsZeroEmissionEntry;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.MetricsModelApp;
-import de.audi.atip.interapp.car.Car2XObjectCollection$CarZeroEmissionEntry;
+import de.audi.atip.interapp.car.Car2XObjectCollection;
 import de.audi.atip.metrics.Consumption;
 import de.audi.atip.metrics.DateMetric;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,23 +29,24 @@ import org.dsi.ifc.carkombi.BCResetTimeStamp;
 import org.dsi.ifc.carkombi.BCViewOptions;
 import org.dsi.ifc.global.CarBCConsumption;
 import org.dsi.ifc.global.CarBCTime;
+import org.dsi.ifc.global.CarViewOption;
 
 public abstract class AbstractZeroEmissionStatisticsComponent
 extends AbstractDSICarKombiAdapter {
     public static final short[] CODING_IDS = new short[]{24, 41};
-    private static final String LOGCHANNEL_NAME;
-    private static final String BUFFER_NAME;
-    private static final long ZERO_EMISSION_UPDATE_RATE;
-    private static final long ZERO_EMISSION_INTERVAL_TIMEFRAME;
-    private static final int MIN_TIME;
-    private static final int MAX_TIME;
-    private static final float MIN_CONSUMPTION;
-    private static final float MAX_CONSUMPTION;
-    private static final int BARGRAPH_MODEL_COLUMN_VALUE;
-    private static final int BARGRAPH_MODEL_COLUMN_STATE;
-    private final AbstractZeroEmissionStatisticsComponent$ZeroEmissionStatisticsSubComponentHybrid subComponentHybrid;
+    private static final String LOGCHANNEL_NAME = "App.Car.Hybrid.Statistics";
+    private static final String BUFFER_NAME = "ZeroEmissionBuffer";
+    private static final long ZERO_EMISSION_UPDATE_RATE = 1000L;
+    private static final long ZERO_EMISSION_INTERVAL_TIMEFRAME = 300000L;
+    private static final int MIN_TIME = 0;
+    private static final int MAX_TIME = 600000;
+    private static final float MIN_CONSUMPTION = -3276.0f;
+    private static final float MAX_CONSUMPTION = 3276.0f;
+    private static final int BARGRAPH_MODEL_COLUMN_VALUE = 0;
+    private static final int BARGRAPH_MODEL_COLUMN_STATE = 1;
+    private final ZeroEmissionStatisticsSubComponentHybrid subComponentHybrid;
     protected final Object mutex = new Object();
-    protected AbstractZeroEmissionStatisticsComponent$SDISInterface sdisInterface;
+    protected SDISInterface sdisInterface;
     protected volatile BCViewOptions currentBCViewOptions;
     protected volatile HybridViewOptions currentHybridViewOptions;
     protected volatile HybridEnergyFlowState currentEnergyFlowState;
@@ -61,13 +62,47 @@ extends AbstractDSICarKombiAdapter {
     private MetricsModelApp hZESAverageConsumptionModel2;
     private MetricsModelApp hZESZeroEmissionTimeModel;
     private MetricsModelApp hZESResetTimeStampModel;
-    private final Timer zeroEmissionTimer = new Timer("ZeroEmissionStatisticsTmer", 0, false, new AbstractZeroEmissionStatisticsComponent$1(this));
+    private final Timer zeroEmissionTimer = new Timer("ZeroEmissionStatisticsTmer", 1000L, false, new TimerListener(){
+        private long intervalTimeCounter;
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void fireTimer(Timer timer) {
+            if (timer.equals(AbstractZeroEmissionStatisticsComponent.this.zeroEmissionTimer)) {
+                Object object = AbstractZeroEmissionStatisticsComponent.this.mutex;
+                synchronized (object) {
+                    this.intervalTimeCounter += 1000L;
+                    if (AbstractZeroEmissionStatisticsComponent.this.isEngineZeroEmission()) {
+                        double d2 = AbstractZeroEmissionStatisticsComponent.this.currentZeroEmissionInterval.getZeroEmissionValue() + 1000.0;
+                        AbstractZeroEmissionStatisticsComponent.this.updateStatisticsCurrentIntervalZE(d2);
+                    }
+                    if (300000L <= this.intervalTimeCounter) {
+                        AbstractZeroEmissionStatisticsComponent.this.swapStatisticsCurrentIntervalZE();
+                        this.intervalTimeCounter = 0L;
+                    }
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void cancelTimer(Timer timer) {
+            if (timer.equals(AbstractZeroEmissionStatisticsComponent.this.zeroEmissionTimer)) {
+                Object object = AbstractZeroEmissionStatisticsComponent.this.mutex;
+                synchronized (object) {
+                    this.intervalTimeCounter = 0L;
+                }
+            }
+        }
+    });
 
     public AbstractZeroEmissionStatisticsComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Hybrid.Statistics");
-        this.subComponentHybrid = new AbstractZeroEmissionStatisticsComponent$ZeroEmissionStatisticsSubComponentHybrid(this, iCarApplication);
+        super(iCarApplication, LOGCHANNEL_NAME);
+        this.subComponentHybrid = new ZeroEmissionStatisticsSubComponentHybrid(iCarApplication);
         this.currentZeroEmissionInterval = new StatisticsZeroEmissionEntry();
-        this.zeroEmissionHistoryBuffer = new StatisticsMemoryBuffer("ZeroEmissionBuffer");
+        this.zeroEmissionHistoryBuffer = new StatisticsMemoryBuffer(BUFFER_NAME);
     }
 
     private boolean isEnergyFlowStateAvailable() {
@@ -87,7 +122,7 @@ extends AbstractDSICarKombiAdapter {
      */
     private void resetZeroEmissionStatistics() {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractZeroEmissionStatisticsComponent#resetZeroEmissionStatistics] called.");
+            this.getLogChannel().log(1000000, "[AbstractZeroEmissionStatisticsComponent#resetZeroEmissionStatistics] called.");
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -107,7 +142,7 @@ extends AbstractDSICarKombiAdapter {
             if (!iMemoryBuffer.isInitialized()) {
                 bl = iMemoryBuffer.init(2, n);
             } else {
-                this.getLogChannel().log(-2137614336, "[AbstractZeroEmissionStatisticsComponent#initBuffer] Buffer (%1) already initialized!", (Object)iMemoryBuffer.getName());
+                this.getLogChannel().log(10000000, "[AbstractZeroEmissionStatisticsComponent#initBuffer] Buffer (%1) already initialized!", (Object)iMemoryBuffer.getName());
                 if (iMemoryBuffer.maxSize() == n) {
                     bl = iMemoryBuffer.reset();
                 } else {
@@ -117,13 +152,13 @@ extends AbstractDSICarKombiAdapter {
                 }
             }
         } else {
-            iMemoryBuffer = new StatisticsMemoryBuffer("ZeroEmissionBuffer");
+            iMemoryBuffer = new StatisticsMemoryBuffer(BUFFER_NAME);
             bl = iMemoryBuffer.init(2, n);
         }
         if (bl) {
-            this.getLogChannel().log(1078071040, "[AbstractZeroEmissionStatisticsComponent#initBuffer] Buffer (%1) initialized.", (Object)iMemoryBuffer.getName());
+            this.getLogChannel().log(1000000, "[AbstractZeroEmissionStatisticsComponent#initBuffer] Buffer (%1) initialized.", (Object)iMemoryBuffer.getName());
         } else {
-            this.getLogChannel().log(1078071040, "[AbstractZeroEmissionStatisticsComponent#initSTSBuffer] Buffer (%1) not initialized.", (Object)iMemoryBuffer.getName());
+            this.getLogChannel().log(1000000, "[AbstractZeroEmissionStatisticsComponent#initSTSBuffer] Buffer (%1) not initialized.", (Object)iMemoryBuffer.getName());
         }
         return iMemoryBuffer;
     }
@@ -209,34 +244,29 @@ extends AbstractDSICarKombiAdapter {
         return buffer.toString();
     }
 
-    @Override
     public String getName() {
         return "ZeroEmissionStatistics";
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return this.getViewOptions();
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{4}, new int[]{11, 12, 71, 77})};
     }
 
-    @Override
     public void init() {
         super.init();
         this.subComponentHybrid.init();
         this.zeroEmissionHistoryBuffer = this.initBuffer(this.zeroEmissionHistoryBuffer, this.getNumOfHistoricalIntervals());
         this.zeroEmissionTimer.restart();
         if (this.isSDISSupported()) {
-            this.sdisInterface = new AbstractZeroEmissionStatisticsComponent$SDISInterface(this);
+            this.sdisInterface = new SDISInterface();
             this.sendContentToSDIS(4200, this.sdisInterface);
         }
     }
 
-    @Override
     public void deinit() {
         this.sdisInterface = null;
         this.zeroEmissionTimer.cancel();
@@ -244,7 +274,6 @@ extends AbstractDSICarKombiAdapter {
         super.deinit();
     }
 
-    @Override
     protected void initModels() {
         this.subComponentHybrid.initModels();
         this.metricAverageConsumption1 = new Consumption(0.0f, Consumption.getSystemUnit());
@@ -261,38 +290,32 @@ extends AbstractDSICarKombiAdapter {
         this.metricZeroEmissionTime.setMetricValid(false);
         this.metricResetTimeStamp = new DateMetric(new Date(), 1);
         this.metricResetTimeStamp.setMetricValid(false);
-        this.hZEScBarGraphModel = this.getBaseListModel(-1104213760);
+        this.hZEScBarGraphModel = this.getBaseListModel(602046);
         this.hZEScBarGraphModel.setLength(1);
-        this.hZESxBarGraphModel = this.getBaseListModel(640747776);
+        this.hZESxBarGraphModel = this.getBaseListModel(602406);
         this.hZESxBarGraphModel.setLength(this.getNumOfHistoricalIntervals());
-        this.hZESAverageConsumptionModel1 = this.getMetricsModel(-986773248);
-        this.hZESAverageConsumptionModel2 = this.getMetricsModel(-63960832);
-        this.hZESZeroEmissionTimeModel = this.getMetricsModel(623970560);
-        this.hZESResetTimeStampModel = this.getMetricsModel(506530048);
+        this.hZESAverageConsumptionModel1 = this.getMetricsModel(602053);
+        this.hZESAverageConsumptionModel2 = this.getMetricsModel(602364);
+        this.hZESZeroEmissionTimeModel = this.getMetricsModel(602405);
+        this.hZESResetTimeStampModel = this.getMetricsModel(602398);
     }
 
-    @Override
     protected void deinitModels() {
         this.subComponentHybrid.deinitModels();
     }
 
-    protected abstract void updateMenuEntryVisibility() {
-    }
+    protected abstract void updateMenuEntryVisibility();
 
-    protected abstract int getNumOfHistoricalIntervals() {
-    }
+    protected abstract int getNumOfHistoricalIntervals();
 
-    protected abstract int getSubComponentHybridID() {
-    }
+    protected abstract int getSubComponentHybridID();
 
-    protected abstract boolean isSDISSupported() {
-    }
+    protected abstract boolean isSDISSupported();
 
-    @Override
     public void updateBCViewOptions(BCViewOptions bCViewOptions, int n) {
         if (n == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractZeroEmissionStatisticsComponent#updateBCViewOptions] viewOptions='%1', valid='%2'", (Object)(bCViewOptions != null ? this.formatViewOptionsLog(bCViewOptions.toString()) : "null"), (long)n);
+                this.getLogChannel().log(1000000, "[AbstractZeroEmissionStatisticsComponent#updateBCViewOptions] viewOptions='%1', valid='%2'", (Object)(bCViewOptions != null ? this.formatViewOptionsLog(bCViewOptions.toString()) : "null"), (long)n);
             }
             if (1 == n && bCViewOptions != null) {
                 this.currentBCViewOptions = bCViewOptions;
@@ -302,16 +325,15 @@ extends AbstractDSICarKombiAdapter {
         }
     }
 
-    @Override
     public void updateBCShortTermAverageConsumption1(CarBCConsumption carBCConsumption, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractZeroEmissionStatisticsComponent#updateBCShortTermAverageConsumption1] averageConsumption=%1, validFlag='%2'", (Object)(null == carBCConsumption ? "null" : carBCConsumption.toString()), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractZeroEmissionStatisticsComponent#updateBCShortTermAverageConsumption1] averageConsumption=%1, validFlag='%2'", (Object)(null == carBCConsumption ? "null" : carBCConsumption.toString()), (long)n);
         }
         if (1 == n && null != carBCConsumption) {
             float f2 = carBCConsumption.getConsumptionValue();
             int n2 = this.convertConsumptionUnit(carBCConsumption.getConsumptionUnit());
             this.metricAverageConsumption1 = new Consumption(f2, n2);
-            this.metricAverageConsumption1.setMetricValid(12602437 > f2 && 12602565 < f2);
+            this.metricAverageConsumption1.setMetricValid(3276.0f > f2 && -3276.0f < f2);
             this.metricAverageConsumption1.setZeroValueFormat(1);
             this.metricAverageConsumption1.setNumberOfMajorPlacesMax(2);
             this.metricAverageConsumption1.setUseInstanceUnit(true);
@@ -319,16 +341,15 @@ extends AbstractDSICarKombiAdapter {
         }
     }
 
-    @Override
     public void updateBCShortTermAverageConsumption2(CarBCConsumption carBCConsumption, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractZeroEmissionStatisticsComponent#updateBCShortTermAverageConsumption2] averageConsumption=%1, validFlag='%2'", (Object)(null == carBCConsumption ? "null" : carBCConsumption.toString()), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractZeroEmissionStatisticsComponent#updateBCShortTermAverageConsumption2] averageConsumption=%1, validFlag='%2'", (Object)(null == carBCConsumption ? "null" : carBCConsumption.toString()), (long)n);
         }
         if (1 == n && null != carBCConsumption) {
             float f2 = carBCConsumption.getConsumptionValue();
             int n2 = this.convertConsumptionUnit(carBCConsumption.getConsumptionUnit());
             this.metricAverageConsumption2 = new Consumption(f2, n2);
-            this.metricAverageConsumption2.setMetricValid(12602437 > f2 && 12602565 < f2);
+            this.metricAverageConsumption2.setMetricValid(3276.0f > f2 && -3276.0f < f2);
             this.metricAverageConsumption2.setZeroValueFormat(1);
             this.metricAverageConsumption2.setNumberOfMajorPlacesMax(2);
             this.metricAverageConsumption2.setUseInstanceUnit(true);
@@ -336,10 +357,9 @@ extends AbstractDSICarKombiAdapter {
         }
     }
 
-    @Override
     public void updateBCZeroEmissionTimeST(CarBCTime carBCTime, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractZeroEmissionStatisticsComponent#updateBCZeroEmissionTimeST] time=%1, validFlag='%2'", (Object)(null == carBCTime ? "null" : carBCTime.toString()), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractZeroEmissionStatisticsComponent#updateBCZeroEmissionTimeST] time=%1, validFlag='%2'", (Object)(null == carBCTime ? "null" : carBCTime.toString()), (long)n);
         }
         if (1 == n && null != carBCTime) {
             int n2 = carBCTime.getTimeValue();
@@ -347,15 +367,14 @@ extends AbstractDSICarKombiAdapter {
             long l = n2 * 60 * 1000;
             calendar.setTimeInMillis(l);
             this.metricZeroEmissionTime = new DateMetric(calendar.getTime(), 3);
-            this.metricZeroEmissionTime.setDateValid(-1071183616 > n2 && 0 < n2);
+            this.metricZeroEmissionTime.setDateValid(600000 > n2 && 0 < n2);
             this.hZESZeroEmissionTimeModel.setMetric(this.metricZeroEmissionTime);
         }
     }
 
-    @Override
     public void updateBCResetTimeStampST(BCResetTimeStamp bCResetTimeStamp, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractZeroEmissionStatisticsComponent#updateBCResetTimeStampST] timeStamp=%1, validFlag='%2'", (Object)(null == bCResetTimeStamp ? "null" : bCResetTimeStamp.toString()), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractZeroEmissionStatisticsComponent#updateBCResetTimeStampST] timeStamp=%1, validFlag='%2'", (Object)(null == bCResetTimeStamp ? "null" : bCResetTimeStamp.toString()), (long)n);
         }
         if (1 == n && null != bCResetTimeStamp) {
             this.resetZeroEmissionStatistics();
@@ -418,49 +437,100 @@ extends AbstractDSICarKombiAdapter {
         return 1;
     }
 
-    private Car2XObjectCollection$CarZeroEmissionEntry[] convertBarGraphModelToSDISEntry(BaseListModelApp baseListModelApp) {
+    private Car2XObjectCollection.CarZeroEmissionEntry[] convertBarGraphModelToSDISEntry(BaseListModelApp baseListModelApp) {
         int n = baseListModelApp.getLength();
-        Car2XObjectCollection$CarZeroEmissionEntry[] car2XObjectCollection$CarZeroEmissionEntryArray = new Car2XObjectCollection$CarZeroEmissionEntry[n];
+        Car2XObjectCollection.CarZeroEmissionEntry[] carZeroEmissionEntryArray = new Car2XObjectCollection.CarZeroEmissionEntry[n];
         for (int i2 = 0; i2 < n; ++i2) {
             long l = baseListModelApp.getRow(i2).getLong(0);
             int n2 = baseListModelApp.getRow(i2).getInteger(1);
-            car2XObjectCollection$CarZeroEmissionEntryArray[i2] = new Car2XObjectCollection$CarZeroEmissionEntry();
-            car2XObjectCollection$CarZeroEmissionEntryArray[i2].setValues(new short[]{(short)l});
-            car2XObjectCollection$CarZeroEmissionEntryArray[i2].setState((byte)n2);
+            carZeroEmissionEntryArray[i2] = new Car2XObjectCollection.CarZeroEmissionEntry();
+            carZeroEmissionEntryArray[i2].setValues(new short[]{(short)l});
+            carZeroEmissionEntryArray[i2].setState((byte)n2);
         }
-        return car2XObjectCollection$CarZeroEmissionEntryArray;
+        return carZeroEmissionEntryArray;
     }
 
-    static /* synthetic */ void access$000(AbstractZeroEmissionStatisticsComponent abstractZeroEmissionStatisticsComponent, int n, Object object) {
-        abstractZeroEmissionStatisticsComponent.sendContentToSDIS(n, object);
+    public class SDISInterface
+    implements ISDISZeroEmissionAccess {
+        public void sendVisibilityStates(CarViewOption carViewOption) {
+            if (null != carViewOption) {
+                AbstractZeroEmissionStatisticsComponent.this.sendContentToSDIS(102, carViewOption);
+            }
+        }
+
+        public void sendCurrentBarGraphUpdate(Car2XObjectCollection.CarZeroEmissionEntry carZeroEmissionEntry) {
+            if (null != carZeroEmissionEntry) {
+                AbstractZeroEmissionStatisticsComponent.this.sendContentToSDIS(4201, carZeroEmissionEntry);
+            }
+        }
+
+        public void sendHistoryBarGraphUpdate(Car2XObjectCollection.CarZeroEmissionEntry[] carZeroEmissionEntryArray) {
+            if (null != carZeroEmissionEntryArray) {
+                AbstractZeroEmissionStatisticsComponent.this.sendContentToSDIS(4202, carZeroEmissionEntryArray);
+            }
+        }
     }
 
-    static /* synthetic */ void access$100(AbstractZeroEmissionStatisticsComponent abstractZeroEmissionStatisticsComponent, int n, Object object) {
-        abstractZeroEmissionStatisticsComponent.sendContentToSDIS(n, object);
-    }
+    public class ZeroEmissionStatisticsSubComponentHybrid
+    extends AbstractDSICarHybridAdapter {
+        public ZeroEmissionStatisticsSubComponentHybrid(ICarApplication iCarApplication) {
+            super(iCarApplication, AbstractZeroEmissionStatisticsComponent.LOGCHANNEL_NAME);
+        }
 
-    static /* synthetic */ void access$200(AbstractZeroEmissionStatisticsComponent abstractZeroEmissionStatisticsComponent, int n, Object object) {
-        abstractZeroEmissionStatisticsComponent.sendContentToSDIS(n, object);
-    }
+        public String getName() {
+            return "ZeroEmissionStatistics | Hybrid";
+        }
 
-    static /* synthetic */ String access$300(AbstractZeroEmissionStatisticsComponent abstractZeroEmissionStatisticsComponent) {
-        return abstractZeroEmissionStatisticsComponent.getViewOptions();
-    }
+        public CarDSIAttributesSet[] getDSIAttributesSets() {
+            return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[]{3})};
+        }
 
-    static /* synthetic */ Timer access$400(AbstractZeroEmissionStatisticsComponent abstractZeroEmissionStatisticsComponent) {
-        return abstractZeroEmissionStatisticsComponent.zeroEmissionTimer;
-    }
+        public String getCurrentViewOptions() {
+            return AbstractZeroEmissionStatisticsComponent.this.getViewOptions();
+        }
 
-    static /* synthetic */ boolean access$500(AbstractZeroEmissionStatisticsComponent abstractZeroEmissionStatisticsComponent) {
-        return abstractZeroEmissionStatisticsComponent.isEngineZeroEmission();
-    }
+        protected void initModels() {
+        }
 
-    static /* synthetic */ void access$600(AbstractZeroEmissionStatisticsComponent abstractZeroEmissionStatisticsComponent, double d2) {
-        abstractZeroEmissionStatisticsComponent.updateStatisticsCurrentIntervalZE(d2);
-    }
+        protected void deinitModels() {
+        }
 
-    static /* synthetic */ void access$700(AbstractZeroEmissionStatisticsComponent abstractZeroEmissionStatisticsComponent) {
-        abstractZeroEmissionStatisticsComponent.swapStatisticsCurrentIntervalZE();
+        protected void initVisibility() {
+        }
+
+        protected void deinitVisibility() {
+        }
+
+        public int getID() {
+            return AbstractZeroEmissionStatisticsComponent.this.getSubComponentHybridID();
+        }
+
+        public void updateHybridViewOptions(HybridViewOptions hybridViewOptions, int n) {
+            if (this.getLogChannel().isInfo()) {
+                this.getLogChannel().log(1000000, "[ZeroEmissionStatisticsSubComponentHybrid#updateHybridViewOptions] viewOptions='%1', valid='%2'", (Object)(hybridViewOptions != null ? this.formatViewOptionsLog(hybridViewOptions.toString()) : "null"), (long)n);
+            }
+            if (1 == n && null != hybridViewOptions) {
+                AbstractZeroEmissionStatisticsComponent.this.currentHybridViewOptions = hybridViewOptions;
+                AbstractZeroEmissionStatisticsComponent.this.updateMenuEntryVisibility();
+                this.primaryAttributeFirstSetReceived();
+                if (AbstractZeroEmissionStatisticsComponent.this.isSDISSupported() && null != AbstractZeroEmissionStatisticsComponent.this.sdisInterface) {
+                    AbstractZeroEmissionStatisticsComponent.this.sdisInterface.sendVisibilityStates(AbstractZeroEmissionStatisticsComponent.this.currentHybridViewOptions.getHybridEnergyFlowState());
+                }
+            }
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateHybridEnergyFlowState(HybridEnergyFlowState hybridEnergyFlowState, int n) {
+            this.getLogChannel().log(1000000, "[ZeroEmissionStatisticsSubComponentHybrid#updateHybridEnergyFlowState] viewOptions='%1', valid='%2'", (Object)(hybridEnergyFlowState != null ? hybridEnergyFlowState.toString() : "null"), (long)n);
+            if (1 == n) {
+                Object object = AbstractZeroEmissionStatisticsComponent.this.mutex;
+                synchronized (object) {
+                    AbstractZeroEmissionStatisticsComponent.this.currentEnergyFlowState = hybridEnergyFlowState;
+                }
+            }
+        }
     }
 }
 

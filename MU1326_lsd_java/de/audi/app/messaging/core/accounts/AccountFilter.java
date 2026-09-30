@@ -3,20 +3,21 @@
  */
 package de.audi.app.messaging.core.accounts;
 
-import de.audi.app.messaging.core.accounts.AccountFilter$Builder;
 import de.audi.app.messaging.core.accounts.Accounts;
 import de.audi.app.messaging.core.accounts.IAccountFilter;
 import de.audi.app.messaging.core.util.Collections;
 import de.audi.atip.util.Util;
 import de.esolutions.fw.util.commons.Buffer;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import org.dsi.ifc.messaging.MessagingAccount;
 
 public final class AccountFilter
 implements IAccountFilter {
-    public static final AccountFilter ACCOUNT_FILTER_ALL = new AccountFilter$Builder().build();
-    public static final AccountFilter ACCOUNT_FILTER_EMAIL_ONLY = new AccountFilter$Builder().accountType(2).build();
-    public static final AccountFilter ACCOUNT_FILTER_SMS_ONLY = new AccountFilter$Builder().accountType(1).build();
+    public static final AccountFilter ACCOUNT_FILTER_ALL = new Builder().build();
+    public static final AccountFilter ACCOUNT_FILTER_EMAIL_ONLY = new Builder().accountType(2).build();
+    public static final AccountFilter ACCOUNT_FILTER_SMS_ONLY = new Builder().accountType(1).build();
     private final int accountType;
     private final boolean internalOrMergedOnly;
     private final boolean sendSupportOnly;
@@ -26,18 +27,17 @@ implements IAccountFilter {
     private final boolean newMessagesOnly;
     private final Set newMessageAccountSet;
 
-    private AccountFilter(AccountFilter$Builder accountFilter$Builder) {
-        this.accountType = AccountFilter$Builder.access$100(accountFilter$Builder);
-        this.internalOrMergedOnly = AccountFilter$Builder.access$200(accountFilter$Builder);
-        this.sendSupportOnly = AccountFilter$Builder.access$300(accountFilter$Builder);
-        this.mostRecentMsgOnly = AccountFilter$Builder.access$400(accountFilter$Builder);
-        this.mostRecentEmailAccId = AccountFilter$Builder.access$500(accountFilter$Builder);
-        this.mostRecentSmsAccId = AccountFilter$Builder.access$600(accountFilter$Builder);
-        this.newMessagesOnly = AccountFilter$Builder.access$700(accountFilter$Builder);
-        this.newMessageAccountSet = AccountFilter$Builder.access$800(accountFilter$Builder);
+    private AccountFilter(Builder builder) {
+        this.accountType = builder.accountType;
+        this.internalOrMergedOnly = builder.internalOrMergedOnly;
+        this.sendSupportOnly = builder.sendSupportOnly;
+        this.mostRecentMsgOnly = builder.mostRecentMsgOnly;
+        this.mostRecentEmailAccId = builder.mostRecentEmailAccId;
+        this.mostRecentSmsAccId = builder.mostRecentSmsAccId;
+        this.newMessagesOnly = builder.newMessagesOnly;
+        this.newMessageAccountSet = builder.newMessageAccountSet;
     }
 
-    @Override
     public boolean accept(MessagingAccount messagingAccount) {
         int n;
         boolean bl = true;
@@ -66,7 +66,6 @@ implements IAccountFilter {
         return bl;
     }
 
-    @Override
     public String getDescription() {
         Buffer buffer = new Buffer();
         buffer.append("AccountFilter {accType = ");
@@ -87,6 +86,57 @@ implements IAccountFilter {
         buffer.append(Collections.toString(this.newMessageAccountSet));
         buffer.append('}');
         return buffer.toString();
+    }
+
+    public static final class Builder {
+        private int accountType = 0;
+        private boolean internalOrMergedOnly = false;
+        private boolean sendSupportOnly = false;
+        private boolean mostRecentMsgOnly = false;
+        private int mostRecentEmailAccId = -1;
+        private int mostRecentSmsAccId = -1;
+        private boolean newMessagesOnly = false;
+        private Set newMessageAccountSet = java.util.Collections.EMPTY_SET;
+
+        public Builder accountType(int n) {
+            this.accountType = n;
+            return this;
+        }
+
+        public Builder internalOrMergedOnly(boolean bl) {
+            this.internalOrMergedOnly = bl;
+            return this;
+        }
+
+        public Builder sendSupportOnly(boolean bl) {
+            this.sendSupportOnly = bl;
+            return this;
+        }
+
+        public Builder mostRecentMsgOnly(boolean bl, int n, int n2) {
+            this.mostRecentMsgOnly = bl;
+            this.mostRecentEmailAccId = n;
+            this.mostRecentSmsAccId = n2;
+            return this;
+        }
+
+        public Builder newMessagesOnly(boolean bl, Set set) {
+            this.newMessagesOnly = bl;
+            if (bl && set != null) {
+                HashSet hashSet = new HashSet(set);
+                Iterator iterator = hashSet.iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next() instanceof Integer) continue;
+                    throw new IllegalArgumentException("newMessageAccountSet contains elements that are not of type Integer.");
+                }
+                this.newMessageAccountSet = hashSet;
+            }
+            return this;
+        }
+
+        public AccountFilter build() {
+            return new AccountFilter(this);
+        }
     }
 }
 

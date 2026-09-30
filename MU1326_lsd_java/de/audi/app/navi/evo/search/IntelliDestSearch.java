@@ -5,8 +5,8 @@ package de.audi.app.navi.evo.search;
 
 import de.audi.app.navi.evo.search.IntelliDestController;
 import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler;
-import de.audi.app.navi.evo.search.IntelliDestSearch$DidYouMeanButtonListener;
 import de.audi.atip.base.IFrameworkAccess;
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.i18n.Language;
 import de.audi.atip.interapp.NavigationUtilities;
 import de.audi.atip.log.LogChannel;
@@ -37,33 +37,32 @@ extends AbstractSearch {
     private boolean navDbSourceAvailable = true;
     protected boolean destinationAddedToContact = false;
     private boolean removeFromHistoryCalled = false;
-    public static final int HIDE_DIDYOUMEAN_BUTTON;
-    public static final int SHOW_DIDYOUMEAN_BUTTON_CITY;
-    public static final int SHOW_DIDYOUMEAN_BUTTON_INTERSECTION;
-    public static final int SHOW_DIDYOUMEAN_BUTTON_LABEL_ONLY;
+    public static final int HIDE_DIDYOUMEAN_BUTTON = 0;
+    public static final int SHOW_DIDYOUMEAN_BUTTON_CITY = 1;
+    public static final int SHOW_DIDYOUMEAN_BUTTON_INTERSECTION = 2;
+    public static final int SHOW_DIDYOUMEAN_BUTTON_LABEL_ONLY = 3;
     private SearchFilter adbAddressDataFilter = new SearchFilter(new int[]{5}, null, 240, null);
     private SearchFilter adbNameFilter = new SearchFilter(new int[]{5}, null, 0, null);
     private SearchFilter historyFilter = new SearchFilter(new int[]{5, 1, 3, 4, 2, 7, 17, 11, 12, 6, 22}, null, 0, null);
     private SearchFilter favoritesFilter = new SearchFilter(new int[]{5, 1, 3, 4, 2, 7, 12, 6, 18, 19}, null, 0, null);
-    private static final String LOGCLASS;
-    private static final int[] MAX_COUNT_PER_SOURCE_RESTRICTED;
-    private static final int[] MAX_COUNT_PER_SOURCE_UNRESTRICTED;
+    private static final String LOGCLASS = "IntelliDestSearch";
+    private static final int[] MAX_COUNT_PER_SOURCE_RESTRICTED = new int[]{Integer.MAX_VALUE, 2};
+    private static final int[] MAX_COUNT_PER_SOURCE_UNRESTRICTED = new int[0];
 
     public IntelliDestSearch(IntelliDestController intelliDestController, BundleContext bundleContext, IFrameworkAccess iFrameworkAccess, int n, IVehicle iVehicle, LogChannel logChannel, NavigationEnv navigationEnv, LastDestSearch lastDestSearch) {
         super(bundleContext, iFrameworkAccess, logChannel, n);
         this.lastDestSearch = lastDestSearch;
-        navigationEnv.getButtonModel(-819919360).setButtonListener(new IntelliDestSearch$DidYouMeanButtonListener(this, null));
+        navigationEnv.getButtonModel(401871).setButtonListener(new DidYouMeanButtonListener());
         this.searchController = intelliDestController;
         this.vehicle = iVehicle;
         this.env = navigationEnv;
         this.refreshCarPosition();
     }
 
-    @Override
     protected void initDSI() {
         super.initDSI();
         Util.logStartupEvent(this.env.getFramework(), "[Startup] IntelliDestSearch#setDSI()");
-        this.env.getChoiceModel(1629750784).setValue(TRUFFELS_NOT_AVAILABLE);
+        this.env.getChoiceModel(402529).setValue(TRUFFELS_NOT_AVAILABLE);
         this.setActiveProfile(0);
         this.setEnvironment();
         this.requestSupportedCountries();
@@ -73,7 +72,6 @@ extends AbstractSearch {
         this.setSearchFilterForSource(3);
     }
 
-    @Override
     protected Object getLock() {
         return super.getLock();
     }
@@ -94,7 +92,7 @@ extends AbstractSearch {
         } else if (n == 3) {
             this.setSearchFilter(3, this.adbAddressDataFilter);
         } else {
-            this.logChannel.log(-1601830656, "IntelliDestSearch#setSearchFilterForSource no filter for source %1", (long)n);
+            this.logChannel.log(100000, "IntelliDestSearch#setSearchFilterForSource no filter for source %1", (long)n);
         }
     }
 
@@ -102,7 +100,7 @@ extends AbstractSearch {
         if (this.vehicle != null) {
             NavLocation navLocation = this.vehicle.getVehicleLocation();
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "%1#refreshCarPosition # longitude=%2 # latitude=%3", (Object)"IntelliDestSearch", (long)navLocation.getLongitude(), (long)navLocation.getLatitude());
+                this.logChannel.log(100000000, "%1#refreshCarPosition # longitude=%2 # latitude=%3", (Object)LOGCLASS, (long)navLocation.getLongitude(), (long)navLocation.getLatitude());
             }
             float f2 = (float)NavigationUtilities.wgs84ToDegree(navLocation.getLongitude());
             float f3 = (float)NavigationUtilities.wgs84ToDegree(navLocation.getLatitude());
@@ -110,21 +108,18 @@ extends AbstractSearch {
         }
     }
 
-    @Override
     public void requestSupportedCountriesResult(int n, Country[] countryArray) {
-        this.logChannel.log(-2137614336, "%1#requestSupportedCountriesResult # success=%3, countries=%2", (Object)"IntelliDestSearch", (Object)Converter.array2String(countryArray), (long)n);
+        this.logChannel.log(10000000, "%1#requestSupportedCountriesResult # success=%3, countries=%2", (Object)LOGCLASS, (Object)Converter.array2String(countryArray), (long)n);
         this.searchController.updateCountries(countryArray);
         this.setActiveSearchCountries(this.searchController.getSelection());
     }
 
-    @Override
     public void setActiveSearchCountriesResult(int n) {
-        this.logChannel.log(-2137614336, "%1#setActiveSearchCountriesResult # success=%2", (Object)"IntelliDestSearch", (long)n);
+        this.logChannel.log(10000000, "%1#setActiveSearchCountriesResult # success=%2", (Object)LOGCLASS, (long)n);
         this.activeGuiSearchHandler.refreshQuery();
         this.lastDestSearch.refreshList();
     }
 
-    @Override
     public void sourceDataAvailabilityChanged(int n, boolean bl) {
         if (n == 16 && this.navDbSourceAvailable) {
             this.navDbSourceAvailable = bl;
@@ -136,9 +131,8 @@ extends AbstractSearch {
         }
     }
 
-    @Override
     public void invalidateData(int[] nArray) {
-        this.logChannel.log(-2137614336, "IntelliDestSearch#invalidateData # sources=%1", (Object)nArray);
+        this.logChannel.log(10000000, "IntelliDestSearch#invalidateData # sources=%1", (Object)nArray);
         if (this.removeFromHistoryCalled) {
             this.removeFromHistoryCalled = false;
             return;
@@ -160,15 +154,13 @@ extends AbstractSearch {
         }
     }
 
-    @Override
     public void removeFromHistory(long l) {
         super.removeFromHistory(l);
         this.removeFromHistoryCalled = true;
     }
 
-    @Override
     public void resetToFactorySettingsResult(int n) {
-        this.logChannel.log(-2137614336, "IntelliDestSearch#resetToFactorySettingsResult # success=%1", (long)n);
+        this.logChannel.log(10000000, "IntelliDestSearch#resetToFactorySettingsResult # success=%1", (long)n);
         ((IntelliDestGuiSearchHandler)this.activeGuiSearchHandler).loadInitialScreen();
     }
 
@@ -273,29 +265,28 @@ extends AbstractSearch {
         this.setEnvironment(new Environment("AU", string2, string, null));
     }
 
-    @Override
     public void updatePotentialConflict(int n, boolean bl, ConflictMatch conflictMatch, int n2) {
-        this.logChannel.log(-2137614336, "IntelliDestSearch#updatePotentialConflict conflictMatch=%1, conflictMode=%2, isConflict=%3, queryId=%4", (Object)conflictMatch, (long)(this.conflictMode ? 1 : 0), (long)(bl ? 1 : 0));
+        this.logChannel.log(10000000, "IntelliDestSearch#updatePotentialConflict conflictMatch=%1, conflictMode=%2, isConflict=%3, queryId=%4", (Object)conflictMatch, (long)(this.conflictMode ? 1 : 0), (long)(bl ? 1 : 0));
         int n3 = this.getLastQueryID();
         if (n != n3) {
-            this.logChannel.log(-2137614336, "IntelliDestSearch#updatePotentialConflict recveived conflict for queryId %1 but currentQuerryId is %2", (long)n, (long)n3);
+            this.logChannel.log(10000000, "IntelliDestSearch#updatePotentialConflict recveived conflict for queryId %1 but currentQuerryId is %2", (long)n, (long)n3);
             return;
         }
         if (bl) {
-            this.env.getLabelModel(-786364928).setText(this.getConflictButtonText(conflictMatch));
+            this.env.getLabelModel(401873).setText(this.getConflictButtonText(conflictMatch));
             if (!this.conflictMode) {
                 switch (conflictMatch.type) {
                     case 1: {
-                        this.env.getChoiceModel(-803142144).setValue(1);
+                        this.env.getChoiceModel(401872).setValue(1);
                         break;
                     }
                     case 2: {
-                        this.env.getChoiceModel(-803142144).setValue(2);
+                        this.env.getChoiceModel(401872).setValue(2);
                         break;
                     }
                     default: {
-                        this.logChannel.log(-1601830656, "IntelliDestSearch#updatePotentialConflict received unknown ConflictMatch#type %1", (long)conflictMatch.type);
-                        this.env.getChoiceModel(-803142144).setValue(3);
+                        this.logChannel.log(100000, "IntelliDestSearch#updatePotentialConflict received unknown ConflictMatch#type %1", (long)conflictMatch.type);
+                        this.env.getChoiceModel(401872).setValue(3);
                     }
                 }
             }
@@ -305,7 +296,7 @@ extends AbstractSearch {
             }
             this.lastConflictMatch = conflictMatch;
         } else {
-            this.env.getChoiceModel(-803142144).setValue(0);
+            this.env.getChoiceModel(401872).setValue(0);
             if (this.conflictMode) {
                 this.conflictMode = false;
                 this.restartSearch();
@@ -328,14 +319,14 @@ extends AbstractSearch {
     }
 
     private void onDidYouMeanPressed() {
-        this.logChannel.log(-2137614336, "IntelliDestSearch#onDidYouMeanPressed()");
+        this.logChannel.log(10000000, "IntelliDestSearch#onDidYouMeanPressed()");
         this.conflictMode = true;
         this.restartSearch();
-        this.env.getChoiceModel(-803142144).setValue(0);
+        this.env.getChoiceModel(401872).setValue(0);
     }
 
     protected void restartSearch() {
-        String string = Util.isHURegionKR() ? this.env.getSpellerModel(-886897152).getText() : this.env.getSpellerModel(-2094791168).getText();
+        String string = Util.isHURegionKR() ? this.env.getSpellerModel(402379).getText() : this.env.getSpellerModel(402563).getText();
         ((IntelliDestGuiSearchHandler)this.getActiveGuiSearchHandler()).performQuery(string, new String[0]);
     }
 
@@ -378,30 +369,29 @@ extends AbstractSearch {
         this.setMaxCountPerSource(MAX_COUNT_PER_SOURCE_UNRESTRICTED);
     }
 
-    @Override
     public void setLanguage(Language language) {
         super.setLanguage(language);
-        this.env.getChoiceModel(1629750784).setValue(TRUFFELS_NOT_AVAILABLE);
+        this.env.getChoiceModel(402529).setValue(TRUFFELS_NOT_AVAILABLE);
         this.activeGuiSearchHandler.textChanged(0, "", ' ', 0);
     }
 
-    @Override
     public void setLanguageResult(int n) {
         super.setLanguageResult(n);
-        this.env.getChoiceModel(1629750784).setValue(TRUFFELS_AVAILABLE);
+        this.env.getChoiceModel(402529).setValue(TRUFFELS_AVAILABLE);
     }
 
     public void setConflictMode(boolean bl) {
         this.conflictMode = bl;
     }
 
-    static /* synthetic */ void access$100(IntelliDestSearch intelliDestSearch) {
-        intelliDestSearch.onDidYouMeanPressed();
-    }
+    private class DidYouMeanButtonListener
+    extends DefaultButtonListener {
+        private DidYouMeanButtonListener() {
+        }
 
-    static {
-        MAX_COUNT_PER_SOURCE_RESTRICTED = new int[]{-129, 2};
-        MAX_COUNT_PER_SOURCE_UNRESTRICTED = new int[0];
+        public void keyPressed(int n, int n2, int n3) {
+            IntelliDestSearch.this.onDidYouMeanPressed();
+        }
     }
 }
 

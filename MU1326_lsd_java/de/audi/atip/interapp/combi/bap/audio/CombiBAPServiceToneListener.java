@@ -7,10 +7,8 @@ import de.audi.atip.interapp.combi.bap.CombiBAPServiceListener;
 
 public interface CombiBAPServiceToneListener
 extends CombiBAPServiceListener {
-    default public void setMuteState(boolean bl) {
-    }
+    public void setMuteState(boolean var1);
 
-    default public void setVolume(int n, int n2) {
-    }
+    public void setVolume(int var1, int var2);
 }
 

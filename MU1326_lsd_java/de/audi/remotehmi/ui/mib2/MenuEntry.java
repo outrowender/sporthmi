@@ -9,13 +9,10 @@ import java.util.List;
 
 public interface MenuEntry
 extends DeepCloneable {
-    default public List getRightDrawerEntries() {
-    }
+    public List getRightDrawerEntries();
 
-    default public DrawerEntryLeftDrawer getLeftDrawerEntry() {
-    }
+    public DrawerEntryLeftDrawer getLeftDrawerEntry();
 
-    default public List getLeftDrawerSubEntries() {
-    }
+    public List getLeftDrawerSubEntries();
 }
 

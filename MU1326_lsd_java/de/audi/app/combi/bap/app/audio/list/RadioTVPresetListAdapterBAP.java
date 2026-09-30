@@ -24,7 +24,6 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 33, radioTVPresetListHandler);
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[0] || blArray[1] || blArray[2];
         boolean bl2 = blArray[0] || blArray[1];
@@ -33,7 +32,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPPresetListEntry.getRecordAddress(false, bl, bl2, bl3, bl4);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         RadioTV_PresetList_Data radioTV_PresetList_Data = new RadioTV_PresetList_Data(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPPresetListEntry) {
@@ -49,24 +47,21 @@ extends AbstractListAdapterBAP {
             radioTV_PresetList_Data.attributes.ibocService = combiBAPPresetListEntry.hasAttribute(1);
             radioTV_PresetList_Data.name.setContent(combiBAPPresetListEntry.getName());
         } else {
-            this.logChannel.log(10000, "[RadioTVPresetListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPPresetListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPPresetListEntry = RadioTVPresetListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPPresetListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPPresetListEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[RadioTVPresetListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPPresetListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPPresetListEntry = RadioTVPresetListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPPresetListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPPresetListEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return radioTV_PresetList_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         RadioTV_PresetList_Data radioTV_PresetList_Data = new RadioTV_PresetList_Data(arrayHeader);
         radioTV_PresetList_Data.setPos(n);
         return radioTV_PresetList_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         return new RadioTV_PresetList_ChangedArray();
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new RadioTV_PresetList_StatusArray();
     }

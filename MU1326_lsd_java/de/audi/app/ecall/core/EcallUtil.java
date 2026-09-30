@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class EcallUtil {
-    public static final String STREET_CITY_SEPARATOR;
-    public static final String NEW_LINE;
-    private static final Map CLAZZ_MAP;
+    public static final String STREET_CITY_SEPARATOR = ", ";
+    public static final String NEW_LINE = "\n";
+    private static final Map CLAZZ_MAP = new HashMap();
 
     public static void logStructFieldForDbg(LogChannel logChannel, Class clazz, int n) {
         if (logChannel.isDebug()) {
             String string = EcallUtil.getFieldNameByValue(logChannel, clazz, n);
-            logChannel.log(-2137614336, "EcallUtil#logStructFieldForDbg(): structClazz %1, fieldName %2", (Object)clazz, (Object)string);
+            logChannel.log(10000000, "EcallUtil#logStructFieldForDbg(): structClazz %1, fieldName %2", (Object)clazz, (Object)string);
         }
     }
 
@@ -40,10 +40,10 @@ public final class EcallUtil {
             CLAZZ_MAP.put(clazz, simpleIntObjectMap);
         }
         catch (IllegalAccessException illegalAccessException) {
-            logChannel.log(-1601830656, illegalAccessException.toString());
+            logChannel.log(100000, illegalAccessException.toString());
         }
         catch (NumberFormatException numberFormatException) {
-            logChannel.log(-1601830656, numberFormatException.toString());
+            logChannel.log(100000, numberFormatException.toString());
         }
     }
 
@@ -61,10 +61,6 @@ public final class EcallUtil {
 
     public static boolean isStringNotNullOrEmpty(String string) {
         return string != null && string.length() > 0;
-    }
-
-    static {
-        CLAZZ_MAP = new HashMap();
     }
 }
 

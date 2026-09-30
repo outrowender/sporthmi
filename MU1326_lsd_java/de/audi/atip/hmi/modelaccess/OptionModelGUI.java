@@ -7,18 +7,14 @@ import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 
 public interface OptionModelGUI
 extends HMIModelGUI {
-    public static final int ACTION_SAVE_FAVORITE_DISABLED;
+    public static final int ACTION_SAVE_FAVORITE_DISABLED = 0;
 
-    default public void keyPressed(int n, int n2, int n3, int n4) {
-    }
+    public void keyPressed(int var1, int var2, int var3, int var4);
 
-    default public void keyReleased(int n, int n2, int n3, int n4) {
-    }
+    public void keyReleased(int var1, int var2, int var3, int var4);
 
-    default public void keyTyped(int n, int n2, int n3, int n4) {
-    }
+    public void keyTyped(int var1, int var2, int var3, int var4);
 
-    default public void customAction(int n, int n2, int n3, int n4) {
-    }
+    public void customAction(int var1, int var2, int var3, int var4);
 }
 

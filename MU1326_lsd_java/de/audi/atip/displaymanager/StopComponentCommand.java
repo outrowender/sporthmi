@@ -12,42 +12,39 @@ import de.audi.atip.log.LogChannel;
 
 public class StopComponentCommand
 extends AbstractComponentCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "StopComponentCommand";
     private final DisplayManagerServiceImpl displayManagerServiceImpl;
     private final IDSIDisplayManagerController displayManagerController;
     private final IDisplayManagerServiceListener listener;
     private final int displayableId;
 
     public StopComponentCommand(DisplayManagerServiceImpl displayManagerServiceImpl, LogChannel logChannel, IDSIDisplayManagerController iDSIDisplayManagerController, int n, IDisplayManagerServiceListener iDisplayManagerServiceListener) {
-        super(logChannel, "StopComponentCommand");
+        super(logChannel, LOGCLASS);
         this.displayManagerController = iDSIDisplayManagerController;
         this.displayManagerServiceImpl = displayManagerServiceImpl;
         this.displayableId = n;
         this.listener = iDisplayManagerServiceListener;
     }
 
-    @Override
     public void execute() {
         if (this.displayableId != this.displayManagerServiceImpl.getDisplayManagerState().getDisplayableId()) {
-            this.logger.log(1078071040, "[%1.execute] %2 not active, ignore.", (Object)"StopComponentCommand", (long)this.displayableId);
+            this.logger.log(1000000, "[%1.execute] %2 not active, ignore.", (Object)LOGCLASS, (long)this.displayableId);
             this.commandList.commandFinished();
             return;
         }
-        this.logger.log(14808325, "[%1.execute] %2", (Object)"StopComponentCommand", (long)this.displayableId);
+        this.logger.log(100000000, "[%1.execute] %2", (Object)LOGCLASS, (long)this.displayableId);
         this.displayManagerController.stopComponent(this.displayableId, 0, 0);
     }
 
-    @Override
     public void stopComponentResult(int n, int n2, int n3, int n4) {
-        this.logger.log(14808325, "[%1.stopComponentResult]", (Object)"StopComponentCommand");
+        this.logger.log(100000000, "[%1.stopComponentResult]", (Object)LOGCLASS);
         this.notifyListener(-1);
         this.displayManagerServiceImpl.setDisplayManagerState(new DisplayManagerState());
         this.commandList.commandFinished();
     }
 
-    @Override
     public void error() {
-        this.logger.log(1078071040, "[%1.error]", (Object)"StopComponentCommand");
+        this.logger.log(1000000, "[%1.error]", (Object)LOGCLASS);
         this.notifyListener(-1);
         this.displayManagerServiceImpl.setDisplayManagerState(new DisplayManagerState());
         this.commandList.commandFinished();

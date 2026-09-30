@@ -11,14 +11,14 @@ import de.audi.atip.log.LogChannel;
 
 public abstract class AbstractJobBrowseList
 extends AbstractQueueJob {
-    protected static final int BROWSE_JOB_NONE;
-    protected static final int BROWSE_JOB_SETMODE;
-    protected static final int BROWSE_JOB_CHANGEFOLDER;
-    protected static final int BROWSE_JOB_RESET_SELECTION;
-    protected static final int BROWSE_JOB_ADD_SELECTION;
-    protected static final int BROWSE_JOB_REQUESTLIST;
-    protected static final int BROWSE_JOB_REQUESTPICKLIST;
-    protected static final int BROWSE_JOB_RESET;
+    protected static final int BROWSE_JOB_NONE = 0;
+    protected static final int BROWSE_JOB_SETMODE = 1;
+    protected static final int BROWSE_JOB_CHANGEFOLDER = 2;
+    protected static final int BROWSE_JOB_RESET_SELECTION = 3;
+    protected static final int BROWSE_JOB_ADD_SELECTION = 4;
+    protected static final int BROWSE_JOB_REQUESTLIST = 5;
+    protected static final int BROWSE_JOB_REQUESTPICKLIST = 6;
+    protected static final int BROWSE_JOB_RESET = 7;
     protected final LogChannel logChannel;
     protected final IMediaDSIBrowserController dsiMediaBrowser;
     protected final BrowseListContextImpl browseListContext;
@@ -29,7 +29,6 @@ extends AbstractQueueJob {
         this.browseListContext = browseListContextImpl;
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 

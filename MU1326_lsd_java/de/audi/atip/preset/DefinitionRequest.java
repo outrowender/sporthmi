@@ -8,10 +8,10 @@ import de.audi.atip.preset.IPresetManager;
 import java.io.Serializable;
 
 public class DefinitionRequest {
-    public static final int RESULT_OK;
-    public static final int RESULT_ERROR;
-    public static final int RESULT_NOT_POSSIBLE;
-    public static final int RESULT_NOT_POSSIBLE_MAIN_ENTRY;
+    public static final int RESULT_OK = 0;
+    public static final int RESULT_ERROR = 1;
+    public static final int RESULT_NOT_POSSIBLE = 2;
+    public static final int RESULT_NOT_POSSIBLE_MAIN_ENTRY = 3;
     private final int type;
     private final int modelId;
     private final int rowId;
@@ -62,7 +62,7 @@ public class DefinitionRequest {
     }
 
     public String toString() {
-        return new StringBuffer().append("DefinitionRequest [type=").append(this.type).append(", modelId=").append(this.modelId).append(", rowId=").append(this.rowId).append(", smEvent=").append(this.smEvent).append(", preview=").append(this.preview).append("]").toString();
+        return "DefinitionRequest [type=" + this.type + ", modelId=" + this.modelId + ", rowId=" + this.rowId + ", smEvent=" + this.smEvent + ", preview=" + this.preview + "]";
     }
 }
 

@@ -38,41 +38,38 @@ implements KeyListener {
         this.models.remove(buttonModelGUI);
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (this.models != null) {
-            this.logButtonHandler.log(-2137614336, "VirtualButtonHandler.keyPressed(%1)", (Object)keyEvent);
+            this.logButtonHandler.log(10000000, "VirtualButtonHandler.keyPressed(%1)", (Object)keyEvent);
             Object[] objectArray = this.models.toArray();
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 ButtonModelGUI buttonModelGUI = (ButtonModelGUI)objectArray[i2];
-                this.logButtonHandler.log(1078071040, "VirtualButtonHandler.keyPressed: Inform listener! (id=%1)", (long)buttonModelGUI.getID());
+                this.logButtonHandler.log(1000000, "VirtualButtonHandler.keyPressed: Inform listener! (id=%1)", (long)buttonModelGUI.getID());
                 buttonModelGUI.keyPressed(keyEvent.getKeyCode(), keyEvent.getTerminalID());
                 buttonModelGUI.keyTyped(keyEvent.getKeyCode(), keyEvent.getTerminalID());
             }
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (this.models != null) {
-            this.logButtonHandler.log(-2137614336, "VirtualButtonHandler.keyReleased(%1)", (Object)keyEvent);
+            this.logButtonHandler.log(10000000, "VirtualButtonHandler.keyReleased(%1)", (Object)keyEvent);
             Object[] objectArray = this.models.toArray();
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 ButtonModelGUI buttonModelGUI = (ButtonModelGUI)objectArray[i2];
-                this.logButtonHandler.log(1078071040, "VirtualButtonHandler.keyReleased: Inform listener! (id=%1)", (long)buttonModelGUI.getID());
+                this.logButtonHandler.log(1000000, "VirtualButtonHandler.keyReleased: Inform listener! (id=%1)", (long)buttonModelGUI.getID());
                 buttonModelGUI.keyReleased(keyEvent.getKeyCode(), keyEvent.getTerminalID());
             }
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
         if (this.models != null) {
-            this.logButtonHandler.log(-2137614336, "VirtualButtonHandler.keyTurned(%1)", (Object)wheelButtonEvent);
+            this.logButtonHandler.log(10000000, "VirtualButtonHandler.keyTurned(%1)", (Object)wheelButtonEvent);
             Object[] objectArray = this.models.toArray();
             for (int i2 = 0; i2 < objectArray.length; ++i2) {
                 ButtonModelGUI buttonModelGUI = (ButtonModelGUI)objectArray[i2];
-                this.logButtonHandler.log(1078071040, "VirtualButtonHandler.keyTurned: Inform listener! (id=%1)", (long)buttonModelGUI.getID());
+                this.logButtonHandler.log(1000000, "VirtualButtonHandler.keyTurned: Inform listener! (id=%1)", (long)buttonModelGUI.getID());
                 if (!(buttonModelGUI instanceof RangeModelGUI)) continue;
                 if (wheelButtonEvent.getDirection() == 1) {
                     ((RangeModelGUI)buttonModelGUI).decrement(wheelButtonEvent.getClickCount(), wheelButtonEvent.getTerminalID());
@@ -83,7 +80,6 @@ implements KeyListener {
         }
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
     }
 }

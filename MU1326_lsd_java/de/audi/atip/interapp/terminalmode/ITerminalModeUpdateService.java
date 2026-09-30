@@ -6,25 +6,18 @@ package de.audi.atip.interapp.terminalmode;
 import de.audi.atip.interapp.terminalmode.TerminalModeDevice;
 
 public interface ITerminalModeUpdateService {
-    default public void activateDevice(TerminalModeDevice terminalModeDevice) {
-    }
+    public void activateDevice(TerminalModeDevice var1);
 
-    default public void deactivateDevice(TerminalModeDevice terminalModeDevice) {
-    }
+    public void deactivateDevice(TerminalModeDevice var1);
 
-    default public void enableTerminalModeForDevice(TerminalModeDevice terminalModeDevice) {
-    }
+    public void enableTerminalModeForDevice(TerminalModeDevice var1);
 
-    default public void disableTerminalModeForDevice(TerminalModeDevice terminalModeDevice) {
-    }
+    public void disableTerminalModeForDevice(TerminalModeDevice var1);
 
-    default public void deleteDeviceFromPersistence(TerminalModeDevice terminalModeDevice) {
-    }
+    public void deleteDeviceFromPersistence(TerminalModeDevice var1);
 
-    default public void callNumberViaTM(String string) {
-    }
+    public void callNumberViaTM(String var1);
 
-    default public void endCallViaTM() {
-    }
+    public void endCallViaTM();
 }
 

@@ -4,10 +4,10 @@
 package de.audi.atip.util;
 
 import de.audi.atip.base.IFrameworkAccess;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.storage.IStorageAccess;
-import de.audi.atip.util.NowPlayingScreenController$ChoiceListener;
 import org.osgi.util.tracker.ServiceTracker;
 
 public class NowPlayingScreenController {
@@ -25,14 +25,14 @@ public class NowPlayingScreenController {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[NowPlayingScreenController.init]");
-        this.model.setChoiceListener(new NowPlayingScreenController$ChoiceListener(this, null));
+        this.logger.log(1000000, "[NowPlayingScreenController.init]");
+        this.model.setChoiceListener(new ChoiceListener());
         this.checkEvaluation();
     }
 
     private void checkEvaluation() {
         boolean bl = this.storage.getBoolean(1002, 220, false);
-        this.logger.log(1078071040, "[NowPlayingScreenController.checkEvaluation] value from persistence: %1", bl);
+        this.logger.log(1000000, "[NowPlayingScreenController.checkEvaluation] value from persistence: %1", bl);
         int n = bl ? HMI_ENABLED : HMI_DISABLED;
         this.model.setValue(n);
     }
@@ -41,25 +41,22 @@ public class NowPlayingScreenController {
     }
 
     public void resetToFactorySettings() {
-        this.logger.log(-2137614336, "[NowPlayingScreenController.resetToFactorySettings]");
+        this.logger.log(10000000, "[NowPlayingScreenController.resetToFactorySettings]");
         this.model.setValue(HMI_ENABLED);
         this.storage.setBoolean(1002, 220, true);
     }
 
-    static /* synthetic */ LogChannel access$100(NowPlayingScreenController nowPlayingScreenController) {
-        return nowPlayingScreenController.logger;
-    }
+    private class ChoiceListener
+    extends DefaultChoiceListener {
+        private ChoiceListener() {
+        }
 
-    static /* synthetic */ ChoiceModelApp access$200(NowPlayingScreenController nowPlayingScreenController) {
-        return nowPlayingScreenController.model;
-    }
-
-    static /* synthetic */ int access$300() {
-        return HMI_ENABLED;
-    }
-
-    static /* synthetic */ IStorageAccess access$400(NowPlayingScreenController nowPlayingScreenController) {
-        return nowPlayingScreenController.storage;
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            NowPlayingScreenController.this.logger.log(10000000, "[NowPlayingScreenController.itemSelected] '%1'", (long)n2);
+            NowPlayingScreenController.this.model.setValue(n2);
+            boolean bl = n2 == HMI_ENABLED;
+            NowPlayingScreenController.this.storage.setBoolean(1002, 220, bl);
+        }
     }
 }
 

@@ -30,7 +30,7 @@ public class TargetImageInfo {
 
     public static int getImageType(int n) {
         try {
-            return imgTypes[n / -1601830656][n % -1601830656 - 0][0];
+            return imgTypes[n / 100000][n % 100000 - 0][0];
         }
         catch (Exception exception) {
             return -1;
@@ -39,7 +39,7 @@ public class TargetImageInfo {
 
     public static int getWidth(int n) {
         try {
-            return imgTypes[n / -1601830656][n % -1601830656 - 0][1];
+            return imgTypes[n / 100000][n % 100000 - 0][1];
         }
         catch (Exception exception) {
             return -1;
@@ -48,7 +48,7 @@ public class TargetImageInfo {
 
     public static int getHeight(int n) {
         try {
-            return imgTypes[n / -1601830656][n % -1601830656 - 0][2];
+            return imgTypes[n / 100000][n % 100000 - 0][2];
         }
         catch (Exception exception) {
             return -1;
@@ -57,7 +57,7 @@ public class TargetImageInfo {
 
     public static int getImageFlags(int n) {
         try {
-            return imgTypes[n / -1601830656][n % -1601830656 - 0][3];
+            return imgTypes[n / 100000][n % 100000 - 0][3];
         }
         catch (Exception exception) {
             return -1;

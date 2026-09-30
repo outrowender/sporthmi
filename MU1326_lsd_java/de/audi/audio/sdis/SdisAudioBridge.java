@@ -6,19 +6,19 @@ package de.audi.audio.sdis;
 import de.audi.atip.sdis.IHMISyncAudioReplies;
 import de.audi.atip.sdis.IHMISyncAudioRequests;
 import de.audi.audio.AudioEnv;
+import de.audi.audio.intra.DefaultAudioListener;
+import de.audi.audio.intra.DefaultSoundListener;
 import de.audi.audio.intra.IAudioListener;
 import de.audi.audio.intra.ISoundListener;
 import de.audi.audio.sdis.NullHMISyncAudioReplies;
-import de.audi.audio.sdis.SdisAudioBridge$AudioListener;
-import de.audi.audio.sdis.SdisAudioBridge$SoundListener;
 import de.audi.audio.store.ConnectionStore;
 import de.audi.audio.volume.VolumeMap;
 import org.dsi.ifc.audio.DSISound;
 
 public class SdisAudioBridge
 implements IHMISyncAudioRequests {
-    public final ISoundListener soundListener = new SdisAudioBridge$SoundListener(this, null);
-    public final IAudioListener audioListener = new SdisAudioBridge$AudioListener(this, null);
+    public final ISoundListener soundListener = new SoundListener();
+    public final IAudioListener audioListener = new AudioListener();
     private final AudioEnv env;
     private volatile IHMISyncAudioReplies audioReplies;
     private volatile boolean connected;
@@ -35,29 +35,27 @@ implements IHMISyncAudioRequests {
     }
 
     public void setDSISound(DSISound dSISound) {
-        this.env.lcSDIS.log(-2137614336, "[SDISAudioBridge.setDSISound] %1", (Object)dSISound);
+        this.env.lcSDIS.log(10000000, "[SDISAudioBridge.setDSISound] %1", (Object)dSISound);
         this.dsiSound = dSISound;
     }
 
-    @Override
     public void connectionStatus(boolean bl) {
-        this.env.lcSDIS.log(-2137614336, "[SDISAudioBridge.connectionStatus] connected:%1", bl);
+        this.env.lcSDIS.log(10000000, "[SDISAudioBridge.connectionStatus] connected:%1", bl);
         this.connected = bl;
         this.callUpdateCurrentVolume();
     }
 
-    @Override
     public void setVolume(int n) {
-        this.env.lcSDIS.log(-2137614336, "[SDISAudioBridge.setVolume] volume:%1", (long)n);
+        this.env.lcSDIS.log(10000000, "[SDISAudioBridge.setVolume] volume:%1", (long)n);
         this.dsiSound.setVolume(2, 1, (short)n);
     }
 
     private void callUpdateCurrentVolume() {
-        this.env.lcSDIS.log(-2137614336, "[SDISAudioBridge.callUpdateCurrentVolume] connected:%1", this.connected);
+        this.env.lcSDIS.log(10000000, "[SDISAudioBridge.callUpdateCurrentVolume] connected:%1", this.connected);
         if (this.connected) {
             int n = ConnectionStore.INSTANCE.getActiveEntertainmentConnection(1);
             int n2 = VolumeMap.INSTANCE.getVolume(1, n);
-            this.env.lcSDIS.log(-2137614336, "[SDISAudioBridge.callUpdateCurrentVolume] AEC:%1 volume:%2", (long)n, (long)this.currentEntertainmentVolume);
+            this.env.lcSDIS.log(10000000, "[SDISAudioBridge.callUpdateCurrentVolume] AEC:%1 volume:%2", (long)n, (long)this.currentEntertainmentVolume);
             if (n2 != -1 && n2 != this.currentEntertainmentVolume) {
                 this.currentEntertainmentVolume = n2;
                 this.audioReplies.updateCurrentVolume(n2);
@@ -65,8 +63,24 @@ implements IHMISyncAudioRequests {
         }
     }
 
-    static /* synthetic */ void access$200(SdisAudioBridge sdisAudioBridge) {
-        sdisAudioBridge.callUpdateCurrentVolume();
+    private class AudioListener
+    extends DefaultAudioListener {
+        private AudioListener() {
+        }
+
+        public void updateActiveEntertainmentConnection(int n, int n2) {
+            SdisAudioBridge.this.callUpdateCurrentVolume();
+        }
+    }
+
+    private class SoundListener
+    extends DefaultSoundListener {
+        private SoundListener() {
+        }
+
+        public void updateVolume(int n, int n2, int n3) {
+            SdisAudioBridge.this.callUpdateCurrentVolume();
+        }
     }
 }
 

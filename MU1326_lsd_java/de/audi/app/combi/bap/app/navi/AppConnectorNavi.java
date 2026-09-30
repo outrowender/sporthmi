@@ -67,27 +67,23 @@ implements CombiBAPServiceNavi {
         super(combiModuleNavi);
     }
 
-    @Override
     public void setAppServiceListener(BAPServiceListener bAPServiceListener) {
         super.setAppServiceListener(bAPServiceListener);
         this.moduleFsg.getInitializationManager().notifyAppServiceChanged(bAPServiceListener != null);
     }
 
-    @Override
     public void showInitializingScreen() {
-        this.logChannel.log(-2137614336, "[AppConnectorNavi#showInitializingScreen]");
+        this.logChannel.log(10000000, "[AppConnectorNavi#showInitializingScreen]");
         ((AbstractBAPModuleInitializationManagerFSG)this.moduleFsg.getInitializationManager()).setAppIsReady(false);
     }
 
-    @Override
     public void hideInitializingScreen() {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#hideInitializingScreen]");
+        this.logChannel.log(1000000, "[AppConnectorNavi#hideInitializingScreen]");
         ((AbstractBAPModuleInitializationManagerFSG)this.moduleFsg.getInitializationManager()).setAppIsReady(true);
     }
 
-    @Override
     public void updateCompassInfo(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateCompassInfo] called (directionAngle=%1, directionSymbolic=%2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateCompassInfo] called (directionAngle=%1, directionSymbolic=%2", (long)n, (long)n2);
         CompassInfo_Status compassInfo_Status = new CompassInfo_Status();
         compassInfo_Status.direction_Angle = n >= 0 && n <= 360 ? n : this.convertDirectionSymbolicToAngle(n2);
         compassInfo_Status.direction_Symbolic = n2 == 255 ? this.convertDirectionAngleToSymbolic(n) : n2;
@@ -95,14 +91,14 @@ implements CombiBAPServiceNavi {
     }
 
     private int convertDirectionSymbolicToAngle(int n) {
-        int n2 = n >= 0 && n < COMPASS_SYMBOLIC_2_ANGLE.length ? COMPASS_SYMBOLIC_2_ANGLE[n] : -65536;
-        this.logChannel.log(-2137614336, "[AppConnectorNavi#convertDirectionSymbolicToAngle] symbolic=%1 -> angle=%2", (long)n, (long)n2);
+        int n2 = n >= 0 && n < COMPASS_SYMBOLIC_2_ANGLE.length ? COMPASS_SYMBOLIC_2_ANGLE[n] : 65535;
+        this.logChannel.log(10000000, "[AppConnectorNavi#convertDirectionSymbolicToAngle] symbolic=%1 -> angle=%2", (long)n, (long)n2);
         return n2;
     }
 
     private int convertDirectionAngleToSymbolic(int n) {
         int n2;
-        int n3 = (int)(((float)n + 13377) % 46147 / 46145);
+        int n3 = (int)(((float)n + 11.25f) % 360.0f / 22.5f);
         switch (n3) {
             case 0: {
                 n2 = 0;
@@ -172,17 +168,16 @@ implements CombiBAPServiceNavi {
                 n2 = 255;
             }
         }
-        this.logChannel.log(-2137614336, "[AppConnectorNavi#convertDirectionAngleToSymbolic] angle=%1 -> symbolic=%2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "[AppConnectorNavi#convertDirectionAngleToSymbolic] angle=%1 -> symbolic=%2", (long)n, (long)n2);
         return n2;
     }
 
-    @Override
     public void updateRGStatus(int n) {
         Object object;
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateRGStatus] called (rgStatus=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateRGStatus] called (rgStatus=%1)", (long)n);
         RG_Status_Status rG_Status_Status = (RG_Status_Status)this.moduleFsg.getBAPFunctionPropertyFSG(17).getLastStatus();
         if (rG_Status_Status.rg_Status != n) {
-            this.logChannel.log(1078071040, "[AppConnectorNavi#updateRGStatus] changed -> trigger FctSync");
+            this.logChannel.log(1000000, "[AppConnectorNavi#updateRGStatus] changed -> trigger FctSync");
             object = this.moduleFsg.getFunctionSynchronizationHandler();
             object.startSync(0);
         }
@@ -191,19 +186,17 @@ implements CombiBAPServiceNavi {
         this.moduleFsg.getBAPFunctionPropertyFSG(17).sendStatusIfChanged((StatusProperty)object);
     }
 
-    @Override
     public void updateActiveRGType(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateActiveRGType] called (rgType=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateActiveRGType] called (rgType=%1)", (long)n);
         ActiveRgType_Status activeRgType_Status = new ActiveRgType_Status();
         activeRgType_Status.rgtype = n;
         this.moduleFsg.getBAPFunctionPropertyFSG(39).sendStatusIfChanged(activeRgType_Status);
     }
 
-    @Override
     public void updateDistanceToNextManeuver(int n, int n2, boolean bl, int n3) {
         int n4;
-        this.logChannelFrequent.log(-2137614336, "[AppConnectorNavi#updateDistanceToNextManeuver] called (distance=%1, unit=%2, ...", (long)n, (long)n2);
-        this.logChannelFrequent.log(-2137614336, "[AppConnectorNavi#updateDistanceToNextManeuver] ... BGEnabled=%1, BGValue=%2)", bl, (long)n3);
+        this.logChannelFrequent.log(10000000, "[AppConnectorNavi#updateDistanceToNextManeuver] called (distance=%1, unit=%2, ...", (long)n, (long)n2);
+        this.logChannelFrequent.log(10000000, "[AppConnectorNavi#updateDistanceToNextManeuver] ... BGEnabled=%1, BGValue=%2)", bl, (long)n3);
         DistanceToNextManeuver_Status distanceToNextManeuver_Status = new DistanceToNextManeuver_Status();
         int n5 = n4 = bl ? 1 : 0;
         if (n == -1) {
@@ -220,26 +213,23 @@ implements CombiBAPServiceNavi {
         this.moduleFsg.getBAPFunctionPropertyFSG(18).sendStatusIfChanged(distanceToNextManeuver_Status);
     }
 
-    @Override
     public void updateCurrentPositionInfo(String string) {
-        this.logChannel.log(-2137614336, "[AppConnectorNavi#updateCurrentPositionInfo] called (currentPositionInfo=%1)", (Object)string);
+        this.logChannel.log(10000000, "[AppConnectorNavi#updateCurrentPositionInfo] called (currentPositionInfo=%1)", (Object)string);
         CurrentPositionInfo_Status currentPositionInfo_Status = new CurrentPositionInfo_Status();
         currentPositionInfo_Status.positionInfo.setContent(string);
         this.moduleFsg.getBAPFunctionPropertyFSG(19).sendStatusIfChanged(currentPositionInfo_Status);
     }
 
-    @Override
     public void updateTurnToInfo(String string, String string2) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateTurnToInfo] called (turnToInfo=%1, signPost=%2)", (Object)string, (Object)string2);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateTurnToInfo] called (turnToInfo=%1, signPost=%2)", (Object)string, (Object)string2);
         TurnToInfo_Status turnToInfo_Status = new TurnToInfo_Status();
         turnToInfo_Status.turnToInfo.setContent(string);
         turnToInfo_Status.signPost.setContent(string2);
         this.moduleFsg.getBAPFunctionPropertyFSG(20).sendStatusIfChanged(turnToInfo_Status);
     }
 
-    @Override
     public void updateDistanceToDestination(int n, int n2, boolean bl) {
-        this.logChannelFrequent.log(-2137614336, "[AppConnectorNavi#updateDistanceToDestination] called (distance=%1, unit=%2, isDistanceToStopOver=%3)", (long)n, (long)n2, bl);
+        this.logChannelFrequent.log(10000000, "[AppConnectorNavi#updateDistanceToDestination] called (distance=%1, unit=%2, isDistanceToStopOver=%3)", (long)n, (long)n2, bl);
         DistanceToDestination_Status distanceToDestination_Status = new DistanceToDestination_Status();
         if (n == -1) {
             distanceToDestination_Status.distanceToDestination.distance = 0;
@@ -255,11 +245,10 @@ implements CombiBAPServiceNavi {
         this.moduleFsg.getBAPFunctionPropertyFSG(21).sendStatusIfChanged(distanceToDestination_Status);
     }
 
-    @Override
     public void updateTimeToDestination(int n, int n2, long l) {
         boolean bl;
-        this.logChannelFrequent.log(-2137614336, "[AppConnectorNavi#updateTimeToDestination] called (timeInfoType=%1, navigationTimeFormat=%2, ...", (long)n, (long)n2);
-        this.logChannelFrequent.log(-2137614336, "[AppConnectorNavi#updateTimeToDestination] ... time=%1)", l);
+        this.logChannelFrequent.log(10000000, "[AppConnectorNavi#updateTimeToDestination] called (timeInfoType=%1, navigationTimeFormat=%2, ...", (long)n, (long)n2);
+        this.logChannelFrequent.log(10000000, "[AppConnectorNavi#updateTimeToDestination] ... time=%1)", l);
         TimeToDestination_Status timeToDestination_Status = new TimeToDestination_Status();
         timeToDestination_Status.timeInfo.timeInfoType = n;
         timeToDestination_Status.timeInfo.navigationTimeFormat = n2;
@@ -268,7 +257,7 @@ implements CombiBAPServiceNavi {
             boolean bl3;
             boolean bl4 = bl3 = n == 1;
             if (bl3) {
-                Date date = new Date(l * 0);
+                Date date = new Date(l * 1000L);
                 GregorianCalendar gregorianCalendar = new GregorianCalendar();
                 gregorianCalendar.setTime(date);
                 timeToDestination_Status.timeInfo.year = gregorianCalendar.get(1) % 100;
@@ -277,7 +266,7 @@ implements CombiBAPServiceNavi {
                 timeToDestination_Status.timeInfo.hour = gregorianCalendar.get(11);
                 timeToDestination_Status.timeInfo.minute = gregorianCalendar.get(12);
             } else {
-                int n3 = (int)(l / 0);
+                int n3 = (int)(l / 60L);
                 timeToDestination_Status.timeInfo.hour = n3 / 60;
                 timeToDestination_Status.timeInfo.minute = n3 % 60;
             }
@@ -301,10 +290,9 @@ implements CombiBAPServiceNavi {
         this.moduleFsg.getBAPFunctionPropertyFSG(22).sendStatusIfChanged(timeToDestination_Status);
     }
 
-    @Override
     public void updateManeuverDescriptor(CombiBAPNaviManeuverDescriptor[] combiBAPNaviManeuverDescriptorArray) {
         IFunctionSynchronizationHandler iFunctionSynchronizationHandler;
-        this.logChannel.log(-2137614336, "[AppConnectorNavi#updateManeuverDescriptor] called");
+        this.logChannel.log(10000000, "[AppConnectorNavi#updateManeuverDescriptor] called");
         if (combiBAPNaviManeuverDescriptorArray == null) {
             this.logChannel.log(10000, "[AppConnectorNavi#updateManeuverDescriptor] maneuver descriptor is null");
             return;
@@ -323,39 +311,39 @@ implements CombiBAPServiceNavi {
     private ManeuverDescriptor_Status createManeuverDescriptorStatus(CombiBAPNaviManeuverDescriptor[] combiBAPNaviManeuverDescriptorArray) {
         ManeuverDescriptor_Status maneuverDescriptor_Status = new ManeuverDescriptor_Status();
         if (combiBAPNaviManeuverDescriptorArray.length > 0 && combiBAPNaviManeuverDescriptorArray[0] != null) {
-            this.logChannel.log(-2137614336, "[AppConnectorNavi#createManeuverDescriptorStatus] maneuver 1 = %1", (Object)combiBAPNaviManeuverDescriptorArray[0]);
+            this.logChannel.log(10000000, "[AppConnectorNavi#createManeuverDescriptorStatus] maneuver 1 = %1", (Object)combiBAPNaviManeuverDescriptorArray[0]);
             maneuverDescriptor_Status.maneuver_1.mainElement = AppConnectorNavi.getMappedManeuverMainElement(combiBAPNaviManeuverDescriptorArray[0].mainElement, combiBAPNaviManeuverDescriptorArray[0].direction);
             maneuverDescriptor_Status.maneuver_1.direction = combiBAPNaviManeuverDescriptorArray[0].direction;
             maneuverDescriptor_Status.maneuver_1.zLevelGuidance = combiBAPNaviManeuverDescriptorArray[0].zLevelGuidance;
             maneuverDescriptor_Status.maneuver_1.sidestreets.setContent(BAPStringUtilities.convertToRawString(combiBAPNaviManeuverDescriptorArray[0].sideStreets));
         } else {
-            this.logChannel.log(-2137614336, "[AppConnectorNavi#createManeuverDescriptorStatus] reset maneuver 1");
+            this.logChannel.log(10000000, "[AppConnectorNavi#createManeuverDescriptorStatus] reset maneuver 1");
             maneuverDescriptor_Status.maneuver_1.mainElement = 0;
             maneuverDescriptor_Status.maneuver_1.direction = 0;
             maneuverDescriptor_Status.maneuver_1.zLevelGuidance = 0;
             maneuverDescriptor_Status.maneuver_1.sidestreets.setContent("");
         }
         if (combiBAPNaviManeuverDescriptorArray.length > 1 && combiBAPNaviManeuverDescriptorArray[1] != null) {
-            this.logChannel.log(-2137614336, "[AppConnectorNavi#createManeuverDescriptorStatus] maneuver 2 = %1", (Object)combiBAPNaviManeuverDescriptorArray[1]);
+            this.logChannel.log(10000000, "[AppConnectorNavi#createManeuverDescriptorStatus] maneuver 2 = %1", (Object)combiBAPNaviManeuverDescriptorArray[1]);
             maneuverDescriptor_Status.maneuver_2.mainElement = AppConnectorNavi.getMappedManeuverMainElement(combiBAPNaviManeuverDescriptorArray[1].mainElement, combiBAPNaviManeuverDescriptorArray[1].direction);
             maneuverDescriptor_Status.maneuver_2.direction = combiBAPNaviManeuverDescriptorArray[1].direction;
             maneuverDescriptor_Status.maneuver_2.zLevelGuidance = combiBAPNaviManeuverDescriptorArray[1].zLevelGuidance;
             maneuverDescriptor_Status.maneuver_2.sidestreets.setContent(BAPStringUtilities.convertToRawString(combiBAPNaviManeuverDescriptorArray[1].sideStreets));
         } else {
-            this.logChannel.log(-2137614336, "[AppConnectorNavi#createManeuverDescriptorStatus] reset maneuver 2");
+            this.logChannel.log(10000000, "[AppConnectorNavi#createManeuverDescriptorStatus] reset maneuver 2");
             maneuverDescriptor_Status.maneuver_2.mainElement = 0;
             maneuverDescriptor_Status.maneuver_2.direction = 0;
             maneuverDescriptor_Status.maneuver_2.zLevelGuidance = 0;
             maneuverDescriptor_Status.maneuver_2.sidestreets.setContent("");
         }
         if (combiBAPNaviManeuverDescriptorArray.length > 2 && combiBAPNaviManeuverDescriptorArray[2] != null) {
-            this.logChannel.log(-2137614336, "[AppConnectorNavi#createManeuverDescriptorStatus] maneuver 3 = %1", (Object)combiBAPNaviManeuverDescriptorArray[2]);
+            this.logChannel.log(10000000, "[AppConnectorNavi#createManeuverDescriptorStatus] maneuver 3 = %1", (Object)combiBAPNaviManeuverDescriptorArray[2]);
             maneuverDescriptor_Status.maneuver_3.mainElement = AppConnectorNavi.getMappedManeuverMainElement(combiBAPNaviManeuverDescriptorArray[2].mainElement, combiBAPNaviManeuverDescriptorArray[2].direction);
             maneuverDescriptor_Status.maneuver_3.direction = combiBAPNaviManeuverDescriptorArray[2].direction;
             maneuverDescriptor_Status.maneuver_3.zLevelGuidance = combiBAPNaviManeuverDescriptorArray[2].zLevelGuidance;
             maneuverDescriptor_Status.maneuver_3.sidestreets.setContent(BAPStringUtilities.convertToRawString(combiBAPNaviManeuverDescriptorArray[2].sideStreets));
         } else {
-            this.logChannel.log(-2137614336, "[AppConnectorNavi#createManeuverDescriptorStatus] reset maneuver 3");
+            this.logChannel.log(10000000, "[AppConnectorNavi#createManeuverDescriptorStatus] reset maneuver 3");
             maneuverDescriptor_Status.maneuver_3.mainElement = 0;
             maneuverDescriptor_Status.maneuver_3.direction = 0;
             maneuverDescriptor_Status.maneuver_3.zLevelGuidance = 0;
@@ -372,9 +360,8 @@ implements CombiBAPServiceNavi {
         return n3;
     }
 
-    @Override
     public void updateLaneGuidance(boolean bl, CombiBAPNaviLaneGuidanceData[] combiBAPNaviLaneGuidanceDataArray) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateLaneGuidance] called (enableLaneGuidance=%1, dataSize=%2)", bl, combiBAPNaviLaneGuidanceDataArray == null ? 0L : (long)combiBAPNaviLaneGuidanceDataArray.length);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateLaneGuidance] called (enableLaneGuidance=%1, dataSize=%2)", bl, combiBAPNaviLaneGuidanceDataArray == null ? 0L : (long)combiBAPNaviLaneGuidanceDataArray.length);
         BAPFunctionArrayFSG bAPFunctionArrayFSG = this.moduleFsg.getBAPFunctionArrayFSG(24);
         LaneGuidanceHandler laneGuidanceHandler = (LaneGuidanceHandler)bAPFunctionArrayFSG.getArrayHandler();
         if (laneGuidanceHandler != null) {
@@ -383,54 +370,47 @@ implements CombiBAPServiceNavi {
         }
     }
 
-    @Override
     public void updateTMCInfoMessages(CombiBAPTMCInfoMessage[] combiBAPTMCInfoMessageArray) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateTMCInfoMessages] called (noOfMessages=%1)", combiBAPTMCInfoMessageArray == null ? 0L : (long)combiBAPTMCInfoMessageArray.length);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateTMCInfoMessages] called (noOfMessages=%1)", combiBAPTMCInfoMessageArray == null ? 0L : (long)combiBAPTMCInfoMessageArray.length);
         ((CombiModuleNavi)this.moduleFsg).getTMCInfoHandler().updateTMCInfoMessages(combiBAPTMCInfoMessageArray);
     }
 
-    @Override
     public void routeGuidanceActDeactResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#routeGuidanceActDeactResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#routeGuidanceActDeactResult] called (result=%1)", (long)n);
         ((CombiModuleNavi)this.moduleFsg).rgActDeactResultReceived(n);
     }
 
-    @Override
     public void repeatLastNavAnnouncementResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#repeatLastNavAnnouncementResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#repeatLastNavAnnouncementResult] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(35);
         RepeatLastNavAnnouncement_Result repeatLastNavAnnouncement_Result = (RepeatLastNavAnnouncement_Result)this.moduleFsg.createResultSerializer(35);
         repeatLastNavAnnouncement_Result.repeatLna_Result = n;
         bAPFunctionMethodFSG.resultREQ(repeatLastNavAnnouncement_Result);
     }
 
-    @Override
     public void updateVoiceGuidanceState(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateVoiceGuidanceState] called (state=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateVoiceGuidanceState] called (state=%1)", (long)n);
         VoiceGuidance_Status voiceGuidance_Status = new VoiceGuidance_Status();
         voiceGuidance_Status.voiceGuidance_State = n;
         this.moduleFsg.getBAPFunctionPropertyFSG(36).sendStatusIfChanged(voiceGuidance_Status);
     }
 
-    @Override
     public void updateInfoStates(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateInfoStates] called (states=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateInfoStates] called (states=%1)", (long)n);
         InfoStates_Status infoStates_Status = new InfoStates_Status();
         infoStates_Status.states = n;
         this.moduleFsg.getBAPFunctionPropertyFSG(38).sendStatusIfChanged(infoStates_Status);
     }
 
-    @Override
     public void updateTrafficBlockIndication(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateTrafficBlockIndication] called (tmcSymbol=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateTrafficBlockIndication] called (tmcSymbol=%1)", (long)n);
         TrafficBlock_Indication_Status trafficBlock_Indication_Status = new TrafficBlock_Indication_Status();
         trafficBlock_Indication_Status.tmc_Symbol = n;
         this.moduleFsg.getBAPFunctionPropertyFSG(40).sendStatusIfChanged(trafficBlock_Indication_Status);
     }
 
-    @Override
     public void updateLastDestinationsList(CombiBAPDestinationListEntry[] combiBAPDestinationListEntryArray) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateLastDestinationsList] called (dataSize=%1)", combiBAPDestinationListEntryArray == null ? 0L : (long)combiBAPDestinationListEntryArray.length);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateLastDestinationsList] called (dataSize=%1)", combiBAPDestinationListEntryArray == null ? 0L : (long)combiBAPDestinationListEntryArray.length);
         BAPFunctionArrayFSG bAPFunctionArrayFSG = this.moduleFsg.getBAPFunctionArrayFSG(29);
         LastDestinationsListHandler lastDestinationsListHandler = (LastDestinationsListHandler)bAPFunctionArrayFSG.getArrayHandler();
         if (lastDestinationsListHandler != null) {
@@ -440,9 +420,8 @@ implements CombiBAPServiceNavi {
         }
     }
 
-    @Override
     public void updateFavoriteDestinationsList(CombiBAPDestinationListEntry[] combiBAPDestinationListEntryArray) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateFavoriteDestinationsList] called (dataSize=%1)", combiBAPDestinationListEntryArray == null ? 0L : (long)combiBAPDestinationListEntryArray.length);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateFavoriteDestinationsList] called (dataSize=%1)", combiBAPDestinationListEntryArray == null ? 0L : (long)combiBAPDestinationListEntryArray.length);
         BAPFunctionArrayFSG bAPFunctionArrayFSG = this.moduleFsg.getBAPFunctionArrayFSG(30);
         FavoriteDestinationsListHandler favoriteDestinationsListHandler = (FavoriteDestinationsListHandler)bAPFunctionArrayFSG.getArrayHandler();
         if (favoriteDestinationsListHandler != null) {
@@ -452,16 +431,14 @@ implements CombiBAPServiceNavi {
         }
     }
 
-    @Override
     public void updateHomeAddress(CombiBAPNaviDestination combiBAPNaviDestination) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateHomeAddress] homeAddress=%1 ", (Object)(combiBAPNaviDestination != null ? combiBAPNaviDestination.toString() : "null!"));
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateHomeAddress] homeAddress=%1 ", (Object)(combiBAPNaviDestination != null ? combiBAPNaviDestination.toString() : "null!"));
         AddressListArrayHandler addressListArrayHandler = (AddressListArrayHandler)this.moduleFsg.getBAPFunctionArrayFSG(33).getArrayHandler();
         addressListArrayHandler.updateHomeAddress(combiBAPNaviDestination);
     }
 
-    @Override
     public void updateMapColor(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateMapColor] color=%1", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateMapColor] color=%1", (long)n);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(43);
         MapColorAndType_Status mapColorAndType_Status = (MapColorAndType_Status)bAPFunctionPropertyFSG.getLastStatus();
         MapColorAndType_Status mapColorAndType_Status2 = new MapColorAndType_Status();
@@ -477,9 +454,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(mapColorAndType_Status2);
     }
 
-    @Override
     public void updateMapType(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateMapType] activeMapType=%1, mainMapSetup=%2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateMapType] activeMapType=%1, mainMapSetup=%2", (long)n, (long)n2);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(43);
         MapColorAndType_Status mapColorAndType_Status = (MapColorAndType_Status)bAPFunctionPropertyFSG.getLastStatus();
         MapColorAndType_Status mapColorAndType_Status2 = new MapColorAndType_Status();
@@ -502,7 +478,7 @@ implements CombiBAPServiceNavi {
                     string = "NOT SUPPORTED OR INVALID VALUE";
                 }
             }
-            this.logChannel.log(1078071040, "[AppConnectorNavi#updateMapType] main map setup changed: %1", (Object)string);
+            this.logChannel.log(1000000, "[AppConnectorNavi#updateMapType] main map setup changed: %1", (Object)string);
         }
         mapColorAndType_Status2.colour = mapColorAndType_Status.colour;
         mapColorAndType_Status2.supportedMapTypes.rangeMapIsSupported = mapColorAndType_Status.supportedMapTypes.rangeMapIsSupported;
@@ -516,9 +492,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(mapColorAndType_Status2);
     }
 
-    @Override
     public void updateSupportedMapTypes(boolean bl, int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateSupportedMapTypes] mainMapSupported=%1, supportedMapTypes=%2", bl, (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateSupportedMapTypes] mainMapSupported=%1, supportedMapTypes=%2", bl, (long)n);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(43);
         MapColorAndType_Status mapColorAndType_Status = (MapColorAndType_Status)bAPFunctionPropertyFSG.getLastStatus();
         MapColorAndType_Status mapColorAndType_Status2 = new MapColorAndType_Status();
@@ -534,9 +509,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(mapColorAndType_Status2);
     }
 
-    @Override
     public void updateMapView(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateMapView] mapView=%1, supplementaryMapView=%2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateMapView] mapView=%1, supplementaryMapView=%2", (long)n, (long)n2);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(44);
         MapViewAndOrientation_Status mapViewAndOrientation_Status = (MapViewAndOrientation_Status)bAPFunctionPropertyFSG.getLastStatus();
         MapViewAndOrientation_Status mapViewAndOrientation_Status2 = AppConnectorNavi.cloneMapViewAndOrientationStatus(mapViewAndOrientation_Status);
@@ -545,9 +519,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(mapViewAndOrientation_Status2);
     }
 
-    @Override
     public void updateSupportedMapViews(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateSupportedMapViews] supportedMapViews=%1, supportedSupplementaryMapViews=%2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateSupportedMapViews] supportedMapViews=%1, supportedSupplementaryMapViews=%2", (long)n, (long)n2);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(44);
         MapViewAndOrientation_Status mapViewAndOrientation_Status = (MapViewAndOrientation_Status)bAPFunctionPropertyFSG.getLastStatus();
         MapViewAndOrientation_Status mapViewAndOrientation_Status2 = AppConnectorNavi.cloneMapViewAndOrientationStatus(mapViewAndOrientation_Status);
@@ -560,9 +533,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(mapViewAndOrientation_Status2);
     }
 
-    @Override
     public void updateMapVisibility(boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateMapVisibility] lvdsMapVisible=%1, supplementaryMapViewVisible=%2", bl, bl2);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateMapVisibility] lvdsMapVisible=%1, supplementaryMapViewVisible=%2", bl, bl2);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(44);
         MapViewAndOrientation_Status mapViewAndOrientation_Status = (MapViewAndOrientation_Status)bAPFunctionPropertyFSG.getLastStatus();
         MapViewAndOrientation_Status mapViewAndOrientation_Status2 = AppConnectorNavi.cloneMapViewAndOrientationStatus(mapViewAndOrientation_Status);
@@ -571,9 +543,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(mapViewAndOrientation_Status2);
     }
 
-    @Override
     public void updateMapOrientation(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateMapOrientation] orientation=%1", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateMapOrientation] orientation=%1", (long)n);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(44);
         MapViewAndOrientation_Status mapViewAndOrientation_Status = (MapViewAndOrientation_Status)bAPFunctionPropertyFSG.getLastStatus();
         MapViewAndOrientation_Status mapViewAndOrientation_Status2 = AppConnectorNavi.cloneMapViewAndOrientationStatus(mapViewAndOrientation_Status);
@@ -598,10 +569,9 @@ implements CombiBAPServiceNavi {
         return mapViewAndOrientation_Status2;
     }
 
-    @Override
     public void updateMapScale(int n, boolean bl, int n2, int n3, boolean bl2) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateMapScale] autoZoomSetting=%1, autoZoomEnabled=%3, zoomLevel=%2", (long)n, (long)n2, bl);
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateMapScale] unit=%2, intersectionAutoZoomSupported=%1", bl2, (long)n3);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateMapScale] autoZoomSetting=%1, autoZoomEnabled=%3, zoomLevel=%2", (long)n, (long)n2, bl);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateMapScale] unit=%2, intersectionAutoZoomSupported=%1", bl2, (long)n3);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(45);
         MapScale_Status mapScale_Status = new MapScale_Status();
         mapScale_Status.autoZoom = n;
@@ -612,13 +582,12 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(mapScale_Status);
     }
 
-    @Override
     public void updateDestinationInfo(CombiBAPDestinationInfo combiBAPDestinationInfo) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateDestinationInfo] destInfo=%1", (Object)combiBAPDestinationInfo);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateDestinationInfo] destInfo=%1", (Object)combiBAPDestinationInfo);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(46);
         DestinationInfo_Status destinationInfo_Status = new DestinationInfo_Status();
-        destinationInfo_Status.position.latitude = (int)(combiBAPDestinationInfo.getDestination().getLatitude() * 2389065);
-        destinationInfo_Status.position.longitude = (int)(combiBAPDestinationInfo.getDestination().getLongitude() * 2389065);
+        destinationInfo_Status.position.latitude = (int)(combiBAPDestinationInfo.getDestination().getLatitude() * 1000000.0f);
+        destinationInfo_Status.position.longitude = (int)(combiBAPDestinationInfo.getDestination().getLongitude() * 1000000.0f);
         destinationInfo_Status.totalNumOfStopovers = combiBAPDestinationInfo.getNoOfStopovers();
         destinationInfo_Status.stopover_Sn = combiBAPDestinationInfo.getNoOfNextStopover();
         destinationInfo_Status.poi_Type = combiBAPDestinationInfo.getDestination().getPOIType();
@@ -631,9 +600,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(destinationInfo_Status);
     }
 
-    @Override
     public void updateAltitude(int n, int n2) {
-        this.logChannelFrequent.log(1078071040, "[AppConnectorNavi#updateAltitude] altitude=%1, unit=%2", (long)n, (long)n2);
+        this.logChannelFrequent.log(1000000, "[AppConnectorNavi#updateAltitude] altitude=%1, unit=%2", (long)n, (long)n2);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(47);
         Altitude_Status altitude_Status = new Altitude_Status();
         altitude_Status.altitude = n;
@@ -641,9 +609,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(altitude_Status);
     }
 
-    @Override
     public void updateOnlineNavigationState(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateOnlineNavigationState] state=%1, bufferProgress=%2, onlineNavigationSystem=%3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateOnlineNavigationState] state=%1, bufferProgress=%2, onlineNavigationSystem=%3", (long)n, (long)n2, (long)n3);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(48);
         OnlineNavigationState_Status onlineNavigationState_Status = new OnlineNavigationState_Status();
         onlineNavigationState_Status.state = n;
@@ -652,9 +619,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(onlineNavigationState_Status);
     }
 
-    @Override
     public void updateExitView(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateExitView] variant=%1, exitviewID=%2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateExitView] variant=%1, exitviewID=%2", (long)n, (long)n2);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(49);
         bAPFunctionPropertyFSG.sendStatusIfChanged(AppConnectorNavi.createExitViewStatus(n, n2));
     }
@@ -666,9 +632,8 @@ implements CombiBAPServiceNavi {
         return exitview_Status;
     }
 
-    @Override
     public void updateSemidynamicRouteGuidance(CombiBAPSemiDynamicRouteInfo combiBAPSemiDynamicRouteInfo) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateSemidynamicRouteGuidance] routeInfo=%1", (Object)combiBAPSemiDynamicRouteInfo);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateSemidynamicRouteGuidance] routeInfo=%1", (Object)combiBAPSemiDynamicRouteInfo);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(50);
         SemidynamicRouteGuidance_Status semidynamicRouteGuidance_Status = new SemidynamicRouteGuidance_Status();
         semidynamicRouteGuidance_Status.trafficImpact.trafficImpactOnCurrentRoute = combiBAPSemiDynamicRouteInfo.isTrafficImpactOnCurrentRoute();
@@ -694,9 +659,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(semidynamicRouteGuidance_Status);
     }
 
-    @Override
     public void poiSearchResult(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#poiSearchResult] result=%1, amountOfFoundEntries=%2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorNavi#poiSearchResult] result=%1, amountOfFoundEntries=%2", (long)n, (long)n2);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(51);
         POI_Search_Result pOI_Search_Result = (POI_Search_Result)this.moduleFsg.createResultSerializer(51);
         pOI_Search_Result.poi_Search_Result = n;
@@ -704,14 +668,12 @@ implements CombiBAPServiceNavi {
         bAPFunctionMethodFSG.resultREQ(pOI_Search_Result);
     }
 
-    @Override
     public void updatePOIListSize(int n) {
-        this.logChannel.log(-1601830656, "[AppConnectorNavi#updatePOIListSize] listSize=%1 - NOT IMPLEMENTED YET", (long)n);
+        this.logChannel.log(100000, "[AppConnectorNavi#updatePOIListSize] listSize=%1 - NOT IMPLEMENTED YET", (long)n);
     }
 
-    @Override
     public void updateFSGSetup(int n, boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateFSGSetup] voiceGuidanceSetup=%1, poiSearchSupported", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateFSGSetup] voiceGuidanceSetup=%1, poiSearchSupported", (long)n);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(53);
         FSG_Setup_Status fSG_Setup_Status = new FSG_Setup_Status();
         fSG_Setup_Status.supported_Poi_Types.fuelStationAndParkingAreaSupported = bl;
@@ -721,9 +683,8 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(fSG_Setup_Status);
     }
 
-    @Override
     public void updateMapPresentation(boolean bl, boolean bl2, boolean bl3) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateMapPresentation] largeMapView=%1, leftSideMenuOpen=%2, rightSideMenuOpen=%3", bl, bl2, bl3);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateMapPresentation] largeMapView=%1, leftSideMenuOpen=%2, rightSideMenuOpen=%3", bl, bl2, bl3);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(54);
         Map_Presentation_Status map_Presentation_Status = new Map_Presentation_Status();
         map_Presentation_Status.asg_Hmi_State.largeMapView = bl;
@@ -732,18 +693,16 @@ implements CombiBAPServiceNavi {
         bAPFunctionPropertyFSG.sendStatusIfChanged(map_Presentation_Status);
     }
 
-    @Override
     public void updateManeuverState(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateManeuverState] state: %1", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateManeuverState] state: %1", (long)n);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(55);
         ManeuverState_Status maneuverState_Status = new ManeuverState_Status();
         maneuverState_Status.state = n;
         bAPFunctionPropertyFSG.sendStatusIfChanged(maneuverState_Status);
     }
 
-    @Override
     public void updateEtcStatus(EtcStatus etcStatus) {
-        this.logChannel.log(1078071040, "[AppConnectorNavi#updateEtcStatus] %1", (Object)etcStatus);
+        this.logChannel.log(1000000, "[AppConnectorNavi#updateEtcStatus] %1", (Object)etcStatus);
         ETC_Status_Status eTC_Status_Status = new ETC_Status_Status();
         eTC_Status_Status.cardStatus = etcStatus.getCardStatus();
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(56);

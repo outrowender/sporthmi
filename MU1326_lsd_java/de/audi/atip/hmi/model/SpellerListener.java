@@ -4,22 +4,16 @@
 package de.audi.atip.hmi.model;
 
 public interface SpellerListener {
-    default public void keyPressed(int n, int n2, int n3) {
-    }
+    public void keyPressed(int var1, int var2, int var3);
 
-    default public void keyReleased(int n, int n2, int n3) {
-    }
+    public void keyReleased(int var1, int var2, int var3);
 
-    default public void keyTyped(int n, int n2, int n3) {
-    }
+    public void keyTyped(int var1, int var2, int var3);
 
-    default public void textChanged(int n, String string, char c2, int n2) {
-    }
+    public void textChanged(int var1, String var2, char var3, int var4);
 
-    default public void focusedCharacter(int n, char c2, int n2) {
-    }
+    public void focusedCharacter(int var1, char var2, int var3);
 
-    default public void commandPressed(int n, int n2, int n3) {
-    }
+    public void commandPressed(int var1, int var2, int var3);
 }
 

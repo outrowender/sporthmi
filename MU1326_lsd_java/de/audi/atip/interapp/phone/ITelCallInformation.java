@@ -7,75 +7,56 @@ import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.telephoneng.CallInformationExt;
 
 public interface ITelCallInformation {
-    public static final int CALLTYPE_VOICE;
-    public static final int CALLTYPE_DATA;
-    public static final int CALLTYPE_FAX;
-    public static final int CALLTYPE_EMERGENCY;
-    public static final int CALLTYPE_CONFERENCE;
-    public static final int CALLTYPE_INFO;
-    public static final int CALLTYPE_BREAKDOWN;
-    public static final int CALLTYPE_OPERATOR;
-    public static final int CALLTYPE_MAILBOX;
-    public static final int CALLTYPE_NO_NUMBER;
-    public static final int CALLTYPE_P_CALL;
-    public static final int CALLTYPE_C_CALL;
-    public static final int CALLTYPE_B_CALL;
+    public static final int CALLTYPE_VOICE = 0;
+    public static final int CALLTYPE_DATA = 1;
+    public static final int CALLTYPE_FAX = 2;
+    public static final int CALLTYPE_EMERGENCY = 3;
+    public static final int CALLTYPE_CONFERENCE = 4;
+    public static final int CALLTYPE_INFO = 5;
+    public static final int CALLTYPE_BREAKDOWN = 6;
+    public static final int CALLTYPE_OPERATOR = 7;
+    public static final int CALLTYPE_MAILBOX = 8;
+    public static final int CALLTYPE_NO_NUMBER = 9;
+    public static final int CALLTYPE_P_CALL = 65536;
+    public static final int CALLTYPE_C_CALL = 131072;
+    public static final int CALLTYPE_B_CALL = 196608;
 
-    default public short getTelCallID() {
-    }
+    public short getTelCallID();
 
-    default public int getTelCallState() {
-    }
+    public int getTelCallState();
 
-    default public int getTelMpty() {
-    }
+    public int getTelMpty();
 
-    default public String getTelRemName() {
-    }
+    public String getTelRemName();
 
-    default public String getTelRemNumber() {
-    }
+    public String getTelRemNumber();
 
-    default public ResourceLocator getTelRemPictureId() {
-    }
+    public ResourceLocator getTelRemPictureId();
 
-    default public short getTelNumType() {
-    }
+    public short getTelNumType();
 
-    default public int getTelCallType() {
-    }
+    public int getTelCallType();
 
-    default public long getTelRemEntryId() {
-    }
+    public long getTelRemEntryId();
 
-    default public int getTelRemNumberType() {
-    }
+    public int getTelRemNumberType();
 
-    default public int getTelCallStartingTime() {
-    }
+    public int getTelCallStartingTime();
 
-    default public CallInformationExt getExtendedCallInformation() {
-    }
+    public CallInformationExt getExtendedCallInformation();
 
-    default public int getTelCallCarrier() {
-    }
+    public int getTelCallCarrier();
 
-    default public int getPreviousCallState() {
-    }
+    public int getPreviousCallState();
 
-    default public boolean isConferenceMember() {
-    }
+    public boolean isConferenceMember();
 
-    default public boolean isOutgoingCall() {
-    }
+    public boolean isOutgoingCall();
 
-    default public boolean callWasActive() {
-    }
+    public boolean callWasActive();
 
-    default public int getCallDuration() {
-    }
+    public int getCallDuration();
 
-    default public int getDisconnectReason() {
-    }
+    public int getDisconnectReason();
 }
 

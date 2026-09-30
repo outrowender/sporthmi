@@ -16,10 +16,10 @@ import de.audi.atip.power.PowerEventListener;
 public final class FocusManager
 implements ATIPEventListener,
 IFocusManager {
-    private static final int APP_INVALID;
-    private static final int APP_MENU;
-    private static final int STATUSBAR_FOCUS_LEFT;
-    private static final int STATUSBAR_FOCUS_RIGHT;
+    private static final int APP_INVALID = -1;
+    private static final int APP_MENU = 0;
+    private static final int STATUSBAR_FOCUS_LEFT = 0;
+    private static final int STATUSBAR_FOCUS_RIGHT = 1;
     private final IFrameworkAccess framework;
     private final LogChannel log;
     private HMITerminal terminalLeft;
@@ -39,19 +39,16 @@ IFocusManager {
         }
     }
 
-    @Override
     public int getFocusedTerminal() {
         return this.focusedTerminal;
     }
 
-    @Override
     public PowerEventListener getPowerEventListener() {
         return null;
     }
 
-    @Override
     public void setActiveApplication(int n, int n2) {
-        this.log.log(-2137614336, "PocusManger.setActiveApplication( %1, %2)", (long)n, (long)n2);
+        this.log.log(10000000, "PocusManger.setActiveApplication( %1, %2)", (long)n, (long)n2);
         if (this.getLastFocusedApp(n) == -1) {
             this.setLastFocusedApp(n, this.getValidApp(n2));
             this.switchLightingToFocusedTerminal();
@@ -60,9 +57,8 @@ IFocusManager {
         }
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
-        this.log.log(1078071040, "FocusManager.processEvent(%1)", (Object)aTIPEvent);
+        this.log.log(1000000, "FocusManager.processEvent(%1)", (Object)aTIPEvent);
         if (aTIPEvent instanceof SetFocusedScreenEvent) {
             this.switchLightingToFocusedTerminal();
             this.checkSKIlluminationChange();
@@ -70,39 +66,39 @@ IFocusManager {
     }
 
     public void setPowerState(int n, int n2) {
-        this.log.log(1078071040, "FocusManager.notifyPowerListenerOnEnterState(%1, %2)", (long)n, (long)n2);
+        this.log.log(1000000, "FocusManager.notifyPowerListenerOnEnterState(%1, %2)", (long)n, (long)n2);
         if (!this.isRSE) {
             return;
         }
         if (this.switchFocus(n, n2)) {
-            this.log.log(-2137614336, "FocusManager.notifyPowerListenerOnEnterState: Set focus to terminal %1!", (long)this.getOppositeTerminalID(n2));
+            this.log.log(10000000, "FocusManager.notifyPowerListenerOnEnterState: Set focus to terminal %1!", (long)this.getOppositeTerminalID(n2));
             this.assignFocus(this.getOppositeTerminalID(n2));
         } else if (this.obtainFocus(n, n2)) {
-            this.log.log(-2137614336, "FocusManager.notifyPowerListenerOnEnterState: Set focus to terminal %1!", (long)n2);
+            this.log.log(10000000, "FocusManager.notifyPowerListenerOnEnterState: Set focus to terminal %1!", (long)n2);
             this.assignFocus(n2);
         }
         this.setCurrentIntrinsicPowerState(n, n2);
     }
 
     public boolean focusAppChanged(KeyEvent keyEvent) {
-        this.log.log(1078071040, "FocusManager.focusAppChanged(%1)", (Object)keyEvent);
+        this.log.log(1000000, "FocusManager.focusAppChanged(%1)", (Object)keyEvent);
         if (!this.isRSE) {
             return true;
         }
         int n = keyEvent.getKeyCode();
         int n2 = keyEvent.getTerminalID();
         if (n != 1 && n != 2 && n != 30) {
-            this.log.log(-2137614336, "FocusManager.focusAppChanged: The key event is not supported! (event=%1)", (Object)keyEvent);
+            this.log.log(10000000, "FocusManager.focusAppChanged: The key event is not supported! (event=%1)", (Object)keyEvent);
             return true;
         }
         if (this.getFocusedTerminal() == this.getOppositeTerminalID(n2) || this.getFocusedTerminal() == -2) {
-            this.log.log(-2137614336, "FocusManager.focusAppChanged: Set focus to terminal %1!", (long)n2);
+            this.log.log(10000000, "FocusManager.focusAppChanged: Set focus to terminal %1!", (long)n2);
             this.setFocusedScreen = true;
             this.setFocusedTerminal(n2);
             this.broadcatsFocus();
             this.checkSKIlluminationChange();
             if (this.getLastFocusedApp(n2) == (n == 30 ? 0 : n)) {
-                this.log.log(-2137614336, "FocusManager.focusAppChanged: The focus has changed but the application of the new focused terminal has not chhanged.");
+                this.log.log(10000000, "FocusManager.focusAppChanged: The focus has changed but the application of the new focused terminal has not chhanged.");
                 return false;
             }
         }
@@ -111,7 +107,7 @@ IFocusManager {
     }
 
     public void postSetFocusedScreenEvent() {
-        this.log.log(1078071040, "FocusManager.postSetFocusedScreenEvent()");
+        this.log.log(1000000, "FocusManager.postSetFocusedScreenEvent()");
         if (!this.isRSE) {
             return;
         }
@@ -158,12 +154,12 @@ IFocusManager {
 
     private void switchLightingToFocusedTerminal() {
         if (this.getFocusedTerminal() != -2 && this.getLastFocusedApp(this.getFocusedTerminal()) != -1) {
-            this.log.log(1078071040, "FocusManager.switchLightingToFocusedTerminal: Change key board illumination!");
+            this.log.log(1000000, "FocusManager.switchLightingToFocusedTerminal: Change key board illumination!");
         }
     }
 
     private void broadcatsFocus() {
-        this.log.log(1078071040, "FocusManager.broadcatsFocus()");
+        this.log.log(1000000, "FocusManager.broadcatsFocus()");
         this.framework.getHMIService().getChoiceModel(384).setValue(this.getFocusIconValue(this.getFocusedTerminal()));
     }
 

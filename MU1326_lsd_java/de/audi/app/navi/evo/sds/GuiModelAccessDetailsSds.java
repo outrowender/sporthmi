@@ -20,13 +20,11 @@ extends GuiModelAccessDetailsLocationPoi {
         this.previewMap = iPreviewMap;
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation) {
         super.onUpdateLocation(navLocation);
         this.previewMap.setStoreFocusForEnterOnce(true);
     }
 
-    @Override
     public void onUpdateLocation(OperatorCallResult operatorCallResult) {
         super.onUpdateLocation(operatorCallResult);
         this.previewMap.setStoreFocusForEnterOnce(true);

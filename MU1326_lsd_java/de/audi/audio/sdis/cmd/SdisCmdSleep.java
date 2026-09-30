@@ -11,15 +11,14 @@ extends Command {
     private final long millis;
 
     public SdisCmdSleep(AudioEnv audioEnv, long l) {
-        super(audioEnv.lcSDIS, new StringBuffer().append("SdisCmdSleep: ").append(l).toString());
+        super(audioEnv.lcSDIS, "SdisCmdSleep: " + l);
         this.millis = l;
     }
 
-    @Override
     public void execute() {
         try {
             Thread.sleep(this.millis);
-            this.logger.log(1078071040, "[SdisCmdSleep.execute] finish commandlist now");
+            this.logger.log(1000000, "[SdisCmdSleep.execute] finish commandlist now");
             this.commandList.commandFinished();
         }
         catch (InterruptedException interruptedException) {

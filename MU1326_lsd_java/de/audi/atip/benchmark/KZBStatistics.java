@@ -6,8 +6,6 @@ package de.audi.atip.benchmark;
 import de.audi.atip.benchmark.IKZBStatistics;
 import de.audi.atip.benchmark.IScreenStatistics;
 import de.audi.atip.benchmark.IStatisticsManager;
-import de.audi.atip.benchmark.KZBStatistics$NullKZBStatistics;
-import de.audi.atip.benchmark.KZBStatistics$ResourceMetrics;
 import de.audi.atip.benchmark.ScreenStatistics;
 import de.audi.atip.benchmark.StatisticsManager;
 import de.esolutions.fw.util.commons.Buffer;
@@ -21,15 +19,15 @@ import java.util.Map;
 
 class KZBStatistics
 implements IKZBStatistics {
-    static final String HEADER;
-    static final String HEADER_AGGREGATE;
-    static final String NOT_MEASURED;
-    static final byte IN_CONNECT;
-    static final byte IN_PAINT;
-    static final byte UNDEF;
-    static final String[] TYPES;
-    public static final int HEADER_ID;
-    static final IKZBStatistics NULL_OBJECT;
+    static final String HEADER = "ScreenId;Screen Name;Type;KzbPath;Resource Info;Start(ms);End(ms);Time taken(ms);When;Error?";
+    static final String HEADER_AGGREGATE = ";# KZBs in Paint;KZBs in Paint Total Time(ms);# KZBs in Connect;KZBs in Connect Total Time(ms)";
+    static final String NOT_MEASURED = ";N/A;N/A;N/A;N/A";
+    static final byte IN_CONNECT = 1;
+    static final byte IN_PAINT = 2;
+    static final byte UNDEF = 0;
+    static final String[] TYPES = new String[]{"TYPE_TEMPLATE_NODE", "TYPE_MERGE_PROJECT", "TYPE_KZB_PATH", "TYPE_MATERIAL", "TYPE_MERGE_PROJECT_ASYNC", "TYPE_TEMPLATE_NODE_2D"};
+    public static final int HEADER_ID = -1;
+    static final IKZBStatistics NULL_OBJECT = IStatisticsManager.INSTRUMENTATION_ENABLED ? new NullKZBStatistics() : null;
     private long start;
     private int currentScreenId;
     private final ITimeSource timeSource;
@@ -40,55 +38,49 @@ implements IKZBStatistics {
         this.resLoadingStats = new HashMap(1000);
     }
 
-    @Override
     public void reset() {
         this.resLoadingStats.clear();
     }
 
-    @Override
     public String getName() {
         return "KZBStatistics.csv";
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         try {
             this.doDump(printStream);
         }
         catch (Exception exception) {
-            printStream.println(new StringBuffer().append("Exception while printing statistics: ").append(exception).toString());
+            printStream.println("Exception while printing statistics: " + exception);
         }
     }
 
-    @Override
     public void loadStart(int n) {
         this.start = this.timeSource.getCurrentTime();
         this.currentScreenId = n;
     }
 
-    @Override
     public void loadEnd(String string, Object object, int n, boolean bl) {
         ScreenStatistics screenStatistics;
         List list = this.getResourceStatsForScreen(this.currentScreenId);
-        KZBStatistics$ResourceMetrics kZBStatistics$ResourceMetrics = new KZBStatistics$ResourceMetrics(null);
-        list.add(kZBStatistics$ResourceMetrics);
-        kZBStatistics$ResourceMetrics.start = this.start;
-        kZBStatistics$ResourceMetrics.end = this.timeSource.getCurrentTime();
-        kZBStatistics$ResourceMetrics.type = n;
-        kZBStatistics$ResourceMetrics.kzbPath = string;
-        kZBStatistics$ResourceMetrics.resourceInfo = object;
-        kZBStatistics$ResourceMetrics.error = bl;
+        ResourceMetrics resourceMetrics = new ResourceMetrics();
+        list.add(resourceMetrics);
+        resourceMetrics.start = this.start;
+        resourceMetrics.end = this.timeSource.getCurrentTime();
+        resourceMetrics.type = n;
+        resourceMetrics.kzbPath = string;
+        resourceMetrics.resourceInfo = object;
+        resourceMetrics.error = bl;
         IScreenStatistics iScreenStatistics = StatisticsManager.instance().getScreenStatistics();
-        kZBStatistics$ResourceMetrics.when = iScreenStatistics instanceof ScreenStatistics ? ((screenStatistics = (ScreenStatistics)StatisticsManager.instance().getScreenStatistics()).isInConnect(this.currentScreenId) ? (byte)1 : (screenStatistics.isInPaint(this.currentScreenId) ? (byte)2 : (byte)0)) : (byte)0;
+        resourceMetrics.when = iScreenStatistics instanceof ScreenStatistics ? ((screenStatistics = (ScreenStatistics)StatisticsManager.instance().getScreenStatistics()).isInConnect(this.currentScreenId) ? (byte)1 : (screenStatistics.isInPaint(this.currentScreenId) ? (byte)2 : (byte)0)) : (byte)0;
     }
 
-    @Override
     public String getStatisticsForScreen(int n) {
         if (this.resLoadingStats == null || this.resLoadingStats.isEmpty()) {
             return "";
         }
         if (0 > n) {
-            return ";# KZBs in Paint;KZBs in Paint Total Time(ms);# KZBs in Connect;KZBs in Connect Total Time(ms)";
+            return HEADER_AGGREGATE;
         }
         List list = this.getResourceStatsForScreen(n);
         if (null != list && !list.isEmpty()) {
@@ -96,16 +88,16 @@ implements IKZBStatistics {
             long[] lArray = new long[2];
             Iterator iterator = list.iterator();
             while (iterator.hasNext()) {
-                KZBStatistics$ResourceMetrics kZBStatistics$ResourceMetrics = (KZBStatistics$ResourceMetrics)iterator.next();
-                if (kZBStatistics$ResourceMetrics.when <= 0) continue;
-                int n2 = kZBStatistics$ResourceMetrics.when - 1;
+                ResourceMetrics resourceMetrics = (ResourceMetrics)iterator.next();
+                if (resourceMetrics.when <= 0) continue;
+                int n2 = resourceMetrics.when - 1;
                 nArray[n2] = nArray[n2] + 1;
-                int n3 = kZBStatistics$ResourceMetrics.when - 1;
-                lArray[n3] = lArray[n3] + (kZBStatistics$ResourceMetrics.end - kZBStatistics$ResourceMetrics.start);
+                int n3 = resourceMetrics.when - 1;
+                lArray[n3] = lArray[n3] + (resourceMetrics.end - resourceMetrics.start);
             }
             return new Buffer(64).append(";").append(nArray[1]).append(";").append(lArray[1]).append(";").append(nArray[0]).append(";").append(lArray[0]).toString();
         }
-        return ";N/A;N/A;N/A;N/A";
+        return NOT_MEASURED;
     }
 
     private void doDump(PrintStream printStream) {
@@ -113,7 +105,7 @@ implements IKZBStatistics {
             printStream.println("No measurements have been collected");
             return;
         }
-        printStream.println("ScreenId;Screen Name;Type;KzbPath;Resource Info;Start(ms);End(ms);Time taken(ms);When;Error?");
+        printStream.println(HEADER);
         Iterator iterator = this.resLoadingStats.keySet().iterator();
         while (iterator.hasNext()) {
             Integer n = (Integer)iterator.next();
@@ -121,9 +113,9 @@ implements IKZBStatistics {
             if (null == list || list.isEmpty()) continue;
             Iterator iterator2 = list.iterator();
             while (iterator2.hasNext()) {
-                KZBStatistics$ResourceMetrics kZBStatistics$ResourceMetrics = (KZBStatistics$ResourceMetrics)iterator2.next();
+                ResourceMetrics resourceMetrics = (ResourceMetrics)iterator2.next();
                 Buffer buffer = new Buffer();
-                buffer.append(n).append(";").append(ScreenStatistics.getScreenName(n)).append(";").append(this.type2String(kZBStatistics$ResourceMetrics.type)).append(";").append(kZBStatistics$ResourceMetrics.kzbPath).append(";").append(this.res2String(kZBStatistics$ResourceMetrics.resourceInfo)).append(";").append(kZBStatistics$ResourceMetrics.start).append(";").append(kZBStatistics$ResourceMetrics.end).append(";").append(kZBStatistics$ResourceMetrics.end - kZBStatistics$ResourceMetrics.start).append(";").append(this.when2String(kZBStatistics$ResourceMetrics.when)).append(";").append(kZBStatistics$ResourceMetrics.error);
+                buffer.append(n).append(";").append(ScreenStatistics.getScreenName(n)).append(";").append(this.type2String(resourceMetrics.type)).append(";").append(resourceMetrics.kzbPath).append(";").append(this.res2String(resourceMetrics.resourceInfo)).append(";").append(resourceMetrics.start).append(";").append(resourceMetrics.end).append(";").append(resourceMetrics.end - resourceMetrics.start).append(";").append(this.when2String(resourceMetrics.when)).append(";").append(resourceMetrics.error);
                 printStream.println(buffer);
             }
         }
@@ -172,9 +164,43 @@ implements IKZBStatistics {
         return "undef";
     }
 
-    static {
-        TYPES = new String[]{"TYPE_TEMPLATE_NODE", "TYPE_MERGE_PROJECT", "TYPE_KZB_PATH", "TYPE_MATERIAL", "TYPE_MERGE_PROJECT_ASYNC", "TYPE_TEMPLATE_NODE_2D"};
-        NULL_OBJECT = IStatisticsManager.INSTRUMENTATION_ENABLED ? new KZBStatistics$NullKZBStatistics(null) : null;
+    private static class ResourceMetrics {
+        long start;
+        long end;
+        int type;
+        String kzbPath;
+        Object resourceInfo;
+        byte when;
+        boolean error;
+
+        private ResourceMetrics() {
+        }
+    }
+
+    private static final class NullKZBStatistics
+    implements IKZBStatistics {
+        private NullKZBStatistics() {
+        }
+
+        public void reset() {
+        }
+
+        public String getName() {
+            return "KZBStatistics.csv";
+        }
+
+        public void dump(PrintStream printStream, String string) {
+        }
+
+        public void loadStart(int n) {
+        }
+
+        public void loadEnd(String string, Object object, int n, boolean bl) {
+        }
+
+        public String getStatisticsForScreen(int n) {
+            return "";
+        }
     }
 }
 

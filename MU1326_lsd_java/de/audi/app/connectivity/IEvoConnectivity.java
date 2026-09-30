@@ -11,16 +11,12 @@ import de.audi.app.wlan.evo.IEvoWlanApplication;
 
 public interface IEvoConnectivity
 extends IConnectivity {
-    default public IEvoBluetoothApplication getBluetooth() {
-    }
+    public IEvoBluetoothApplication getBluetooth();
 
-    default public IConnectivityManager getConnectivityManager() {
-    }
+    public IConnectivityManager getConnectivityManager();
 
-    default public IDataApplication getData() {
-    }
+    public IDataApplication getData();
 
-    default public IEvoWlanApplication getWlan() {
-    }
+    public IEvoWlanApplication getWlan();
 }
 

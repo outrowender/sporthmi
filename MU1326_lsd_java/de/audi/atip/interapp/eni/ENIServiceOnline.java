@@ -6,49 +6,34 @@ package de.audi.atip.interapp.eni;
 import de.audi.atip.interapp.bap.eni.data.Service;
 
 public interface ENIServiceOnline {
-    default public void triggerUpdateUserList() {
-    }
+    public void triggerUpdateUserList();
 
-    default public boolean hasReceivedUserList() {
-    }
+    public boolean hasReceivedUserList();
 
-    default public void triggerPairMainUserUsingVehiclePIN(String string, String string2) {
-    }
+    public void triggerPairMainUserUsingVehiclePIN(String var1, String var2);
 
-    default public void triggerMainUserReset() {
-    }
+    public void triggerMainUserReset();
 
-    default public void enableService(Service service) {
-    }
+    public void enableService(Service var1);
 
-    default public void disableService(Service service) {
-    }
+    public void disableService(Service var1);
 
-    default public void triggerPrivacyMode(boolean bl) {
-    }
+    public void triggerPrivacyMode(boolean var1);
 
-    default public void triggerSubmitChangesToBackend() {
-    }
+    public void triggerSubmitChangesToBackend();
 
-    default public void startVTANAuthData() {
-    }
+    public void startVTANAuthData();
 
-    default public void remoteProcessGetVtan(String string) {
-    }
+    public void remoteProcessGetVtan(String var1);
 
-    default public void startVTANDecryption(String string) {
-    }
+    public void startVTANDecryption(String var1);
 
-    default public void enableMobileDeviceKey() {
-    }
+    public void enableMobileDeviceKey();
 
-    default public void disableMobileDeviceKey() {
-    }
+    public void disableMobileDeviceKey();
 
-    default public void requestMobileDeviceKeyCount() {
-    }
+    public void requestMobileDeviceKeyCount();
 
-    default public void setPrivacyModeFeatureAvailable(boolean bl) {
-    }
+    public void setPrivacyModeFeatureAvailable(boolean var1);
 }
 

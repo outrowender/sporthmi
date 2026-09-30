@@ -5,11 +5,11 @@ package de.audi.atip.data.exchange;
 
 public class KeyNotFoundException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -5155657051720597688L;
     private final int key;
 
     public KeyNotFoundException(int n) {
-        super(new StringBuffer().append("Key ").append(n).append(" not found!").toString());
+        super("Key " + n + " not found!");
         this.key = n;
     }
 

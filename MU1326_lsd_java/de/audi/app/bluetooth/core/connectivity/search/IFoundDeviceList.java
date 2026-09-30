@@ -7,13 +7,10 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import org.dsi.ifc.bluetooth.DiscoveredDevice;
 
 interface IFoundDeviceList {
-    default public void add(DiscoveredDevice discoveredDevice) {
-    }
+    public void add(DiscoveredDevice var1);
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public DiscoveredDevice getDevice(EvoListRow evoListRow) {
-    }
+    public DiscoveredDevice getDevice(EvoListRow var1);
 }
 

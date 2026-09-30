@@ -4,43 +4,32 @@
 package de.audi.atip.interapp.audio;
 
 public interface ToneService {
-    public static final int PHONE_RINGTONE_SCENARIO_NONE;
-    public static final int PHONE_RINGTONE_SCENARIO_HFP_INBAND;
-    public static final int PHONE_RINGTONE_SCENARIO_OUTBAND;
-    public static final int PHONE_RINGTONE_SCENARIO_INDIVIDUAL;
-    public static final int MEDIA_ONLINE_DEFAULT_INPUT_GAIN_OFFSET;
+    public static final int PHONE_RINGTONE_SCENARIO_NONE = 0;
+    public static final int PHONE_RINGTONE_SCENARIO_HFP_INBAND = 1;
+    public static final int PHONE_RINGTONE_SCENARIO_OUTBAND = 2;
+    public static final int PHONE_RINGTONE_SCENARIO_INDIVIDUAL = 3;
+    public static final int MEDIA_ONLINE_DEFAULT_INPUT_GAIN_OFFSET = 0;
 
-    default public void updateMicGainLevel(int n) {
-    }
+    public void updateMicGainLevel(int var1);
 
-    default public void updateMicGainRange(int n, int n2) {
-    }
+    public void updateMicGainRange(int var1, int var2);
 
-    default public void updatePhoneAudioScenario(int n) {
-    }
+    public void updatePhoneAudioScenario(int var1);
 
-    default public void updateBTLinkKeyAvailable(int n, boolean bl) {
-    }
+    public void updateBTLinkKeyAvailable(int var1, boolean var2);
 
-    default public void setMicGainLevel(int n) {
-    }
+    public void setMicGainLevel(int var1);
 
-    default public void updateUserDefinedRingtone(String string, String string2) {
-    }
+    public void updateUserDefinedRingtone(String var1, String var2);
 
-    default public void setDuration(int n, int n2) {
-    }
+    public void setDuration(int var1, int var2);
 
-    default public void setThreeDMode(int n) {
-    }
+    public void setThreeDMode(int var1);
 
-    default public void setSurround(boolean bl) {
-    }
+    public void setSurround(boolean var1);
 
-    default public void setSurroundForActiveEntertainment(boolean bl) {
-    }
+    public void setSurroundForActiveEntertainment(boolean var1);
 
-    default public void setInputGainOffSet(short s) {
-    }
+    public void setInputGainOffSet(short var1);
 }
 

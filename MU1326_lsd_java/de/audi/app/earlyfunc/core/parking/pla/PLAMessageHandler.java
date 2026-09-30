@@ -39,18 +39,15 @@ implements IPLAMessageHandler {
         this.startParkOutMessagePartialPopupID = n6;
     }
 
-    @Override
     public void init() {
     }
 
-    @Override
     public void deinit() {
     }
 
-    @Override
     public void showMessage(int n) {
         if (this.isMessageSupported(n)) {
-            this.logChannel.log(1078071040, "[PLAMessageHandler#showMessage] messageID='%1'", (long)n);
+            this.logChannel.log(1000000, "[PLAMessageHandler#showMessage] messageID='%1'", (long)n);
             this.currentMessageID = n;
             int n2 = this.getPartialPopupID(n);
             if (-1 != this.visiblePartialPopupId && (n == 0 || this.visiblePartialPopupId != n2)) {
@@ -58,14 +55,14 @@ implements IPLAMessageHandler {
                 this.visiblePartialPopupId = -1;
             }
             if (n != 0) {
-                this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(-469032960).setValue(n);
+                this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100196).setValue(n);
             }
             if (n > 0) {
                 this.visiblePartialPopupId = n2;
                 this.application.getFrameworkAccess().getHmiServiceApp().showPartialPopup(0, n2);
             }
         } else {
-            this.logChannel.log(1078071040, "[PLAMessageHandler#showMessage] messageID='%1' rejected - not supported", (long)n);
+            this.logChannel.log(1000000, "[PLAMessageHandler#showMessage] messageID='%1' rejected - not supported", (long)n);
             if (-1 != this.visiblePartialPopupId) {
                 this.application.getFrameworkAccess().getHmiServiceApp().removePartialPopup(0, this.visiblePartialPopupId);
                 this.visiblePartialPopupId = -1;
@@ -73,15 +70,13 @@ implements IPLAMessageHandler {
         }
     }
 
-    @Override
     public void updateMessage() {
-        this.logChannel.log(1078071040, "[PLAMessageHandler#updateMessage] called.");
+        this.logChannel.log(1000000, "[PLAMessageHandler#updateMessage] called.");
         if (0 != this.currentMessageID) {
             this.showMessage(this.currentMessageID);
         }
     }
 
-    @Override
     public void setPlaOpsStandaloneState(int n) {
         this.plaOpsStandaloneState = n;
     }

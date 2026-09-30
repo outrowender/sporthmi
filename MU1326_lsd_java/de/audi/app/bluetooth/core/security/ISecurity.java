@@ -4,22 +4,16 @@
 package de.audi.app.bluetooth.core.security;
 
 public interface ISecurity {
-    default public void inquiryActive(boolean bl) {
-    }
+    public void inquiryActive(boolean var1);
 
-    default public void connectionActive(boolean bl) {
-    }
+    public void connectionActive(boolean var1);
 
-    default public void serviceDiscoveryActive(boolean bl) {
-    }
+    public void serviceDiscoveryActive(boolean var1);
 
-    default public void securityExitAction() {
-    }
+    public void securityExitAction();
 
-    default public void securityEntryAction() {
-    }
+    public void securityEntryAction();
 
-    default public void speedDisclaimerEntered() {
-    }
+    public void speedDisclaimerEntered();
 }
 

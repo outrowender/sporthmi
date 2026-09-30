@@ -49,7 +49,7 @@ public abstract class AbstractFrameworkActionProxy {
     }
 
     public void activeApplication(int n, int n2) {
-        this.getLog().log(1078071040, "FrameworkActionProxy.activeApplication(%1,%2)", (long)n, (long)n2);
+        this.getLog().log(1000000, "FrameworkActionProxy.activeApplication(%1,%2)", (long)n, (long)n2);
         if (n2 != 0) {
             IFocusManager iFocusManager;
             this.getActiveAppChoice(0).setValue(n2);
@@ -67,17 +67,17 @@ public abstract class AbstractFrameworkActionProxy {
     }
 
     public void requestAppStart(int n, int n2) {
-        this.getLog().log(1078071040, "FrameworkActionProxy.requestAppStart(%1,%2)", (long)n, (long)n2);
+        this.getLog().log(1000000, "FrameworkActionProxy.requestAppStart(%1,%2)", (long)n, (long)n2);
         this.stm.requestAppStart(n2);
     }
 
     public void mainApplicationWizardLastApplication(int n, int n2) {
-        this.getLog().log(1078071040, "FrameworkActionProxy.mainApplicationWizardLastApplication(%1,%2)", (long)n, (long)n2);
+        this.getLog().log(1000000, "FrameworkActionProxy.mainApplicationWizardLastApplication(%1,%2)", (long)n, (long)n2);
         this.getWizardAppChoice(n).setValue(n2);
     }
 
     public void mediaDomainStartupFailed(int n) {
-        this.getLog().log(1078071040, "[FrameworkActionProxyImpl.mediaDomainStartupFailed] Called on terminal '%1'", (long)n);
+        this.getLog().log(1000000, "[FrameworkActionProxyImpl.mediaDomainStartupFailed] Called on terminal '%1'", (long)n);
         this.getLog().log(10000, "XXX! TODO! FIXME! mediaDomainStartupFailed(..) -> create and start mediaStartupController again!!!");
     }
 }

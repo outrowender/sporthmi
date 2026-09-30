@@ -15,31 +15,22 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 public interface IServiceManager {
     public static final Hashtable EMPTY_PARAMETERS = new Hashtable(0);
 
-    default public IServiceTracker createServiceTracker(Class clazz, ServiceTrackerCustomizer serviceTrackerCustomizer) {
-    }
+    public IServiceTracker createServiceTracker(Class var1, ServiceTrackerCustomizer var2);
 
-    default public ServiceReference[] getServiceReferences(Class clazz) {
-    }
+    public ServiceReference[] getServiceReferences(Class var1);
 
-    default public ServiceRegistration registerService(Class clazz, Object object, Dictionary dictionary) {
-    }
+    public ServiceRegistration registerService(Class var1, Object var2, Dictionary var3);
 
-    default public void unregisterService(ServiceRegistration serviceRegistration) {
-    }
+    public void unregisterService(ServiceRegistration var1);
 
-    default public ServiceRegistration registerDSIListener(int n, String string, DSIListener dSIListener) {
-    }
+    public ServiceRegistration registerDSIListener(int var1, String var2, DSIListener var3);
 
-    default public Object getService(ServiceReference serviceReference) {
-    }
+    public Object getService(ServiceReference var1);
 
-    default public void releaseService(ServiceReference serviceReference) {
-    }
+    public void releaseService(ServiceReference var1);
 
-    default public boolean startDSIService(String string, int n) {
-    }
+    public boolean startDSIService(String var1, int var2);
 
-    default public BundleContext getBundleContext() {
-    }
+    public BundleContext getBundleContext();
 }
 

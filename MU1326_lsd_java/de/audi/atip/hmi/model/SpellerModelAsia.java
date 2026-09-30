@@ -24,12 +24,10 @@ SpellerModelAsiaGUI {
         super(n, n2);
     }
 
-    @Override
     public int getModelType() {
         return 15;
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(200);
         buffer.append(super.dumpContent());
@@ -42,7 +40,6 @@ SpellerModelAsiaGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -58,12 +55,10 @@ SpellerModelAsiaGUI {
         }
     }
 
-    @Override
     public String getPhonetic() {
         return this.phonetic;
     }
 
-    @Override
     public void setText(String string, String string2) {
         this.phonetic = string2;
         super.setText(string);
@@ -72,9 +67,8 @@ SpellerModelAsiaGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void textChanged(String string, String string2, int n) {
-        this.lc.log(-2137614336, "(%3) SpellerModelAsia.textChanged(%1, %2) ", (Object)string, (Object)string2, (long)this.id);
+        this.lc.log(10000000, "(%3) SpellerModelAsia.textChanged(%1, %2) ", (Object)string, (Object)string2, (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             this.text = string;
@@ -92,10 +86,9 @@ SpellerModelAsiaGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void textChanged(String string, String string2, char c2, int n) {
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "(%4) SpellerModelAsia.textChanged(%1, %2, %3)", (Object)string, (Object)string2, (Object)Character.toString(c2), (long)this.id);
+            this.lc.log(10000000, "(%4) SpellerModelAsia.textChanged(%1, %2, %3)", (Object)string, (Object)string2, (Object)Character.toString(c2), (long)this.id);
         }
         Object object = this.mutex;
         synchronized (object) {

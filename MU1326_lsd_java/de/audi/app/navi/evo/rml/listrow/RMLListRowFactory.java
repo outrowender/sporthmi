@@ -19,7 +19,7 @@ import org.dsi.ifc.navigation.Route;
 
 public class RMLListRowFactory {
     private LogChannel logChannel;
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "RMLListRowFactory";
 
     public RMLListRowFactory(LogChannel logChannel) {
         this.logChannel = logChannel;
@@ -41,7 +41,7 @@ public class RMLListRowFactory {
         if (RMLUtil.isOffroad(combinedRouteListElement)) {
             return this.createRMLRoadSegmentListRow(combinedRouteListElement, iconHandler, l, navigationEnv);
         }
-        this.logChannel.log(-2137614336, "%1#createRMLListRow no Row created", (Object)"RMLListRowFactory");
+        this.logChannel.log(10000000, "%1#createRMLListRow no Row created", (Object)LOGCLASS);
         return null;
     }
 
@@ -55,7 +55,7 @@ public class RMLListRowFactory {
 
     private AbstractRMLListRow createRMLPOIListRow(CombinedRouteListElement combinedRouteListElement, IconHandler iconHandler, long l, NavigationEnv navigationEnv, IRouteManager iRouteManager) {
         if (combinedRouteListElement.getIcons().length > 1) {
-            this.logChannel.log(-2137614336, "%1#RMLEvoSapaListRow() with %2 icons", (Object)"RMLListRowFactory", (Object)new Integer(combinedRouteListElement.getIcons().length));
+            this.logChannel.log(10000000, "%1#RMLEvoSapaListRow() with %2 icons", (Object)LOGCLASS, (Object)new Integer(combinedRouteListElement.getIcons().length));
             return new RMLEvoSapaListRow(this.logChannel, combinedRouteListElement, this.figureOutChildState(combinedRouteListElement, l), iconHandler, navigationEnv, iRouteManager);
         }
         return new RMLEvoPOIListRow(this.logChannel, combinedRouteListElement, this.figureOutChildState(combinedRouteListElement, l), iconHandler, navigationEnv, iRouteManager);

@@ -14,67 +14,49 @@ public interface IPartialPopupManager
 extends TouchPadEventListener,
 GestureEventListener,
 I18NTarget {
-    public static final int SLOT_DEFAULT_POPUPS;
-    public static final int SLOT_POPINS_LEFT;
-    public static final int SLOT_POPINS_RIGHT;
-    public static final int SLOT_STATUSBAR;
-    public static final int SLOT_PARKING_POPUPS;
-    public static final int SLOT_DEBUG_INFOS;
-    public static final int SLOT_SMALL_STAGE_DECORATOR;
-    public static final int SLOT_SMALL_COMMAND_DISPlAY_ACTIVATOR;
-    public static final int SLOT_PARKING_POPUPS_2;
-    public static final int SLOT_PARKING_POPUPS_3;
-    public static final int SLOT_USER_HINTS;
-    public static final int SLOT_OSD;
-    public static final int SLOT_GREY_OUT_DUMMY_SLOT_G24;
-    public static final int SLOT_CONVERSION_MATRIX;
-    public static final int NUM_SLOTS;
-    public static final int[] SLOTS_ALL_POPINS;
+    public static final int SLOT_DEFAULT_POPUPS = 0;
+    public static final int SLOT_POPINS_LEFT = 1;
+    public static final int SLOT_POPINS_RIGHT = 2;
+    public static final int SLOT_STATUSBAR = 3;
+    public static final int SLOT_PARKING_POPUPS = 4;
+    public static final int SLOT_DEBUG_INFOS = 5;
+    public static final int SLOT_SMALL_STAGE_DECORATOR = 6;
+    public static final int SLOT_SMALL_COMMAND_DISPlAY_ACTIVATOR = 7;
+    public static final int SLOT_PARKING_POPUPS_2 = 8;
+    public static final int SLOT_PARKING_POPUPS_3 = 9;
+    public static final int SLOT_USER_HINTS = 10;
+    public static final int SLOT_OSD = 11;
+    public static final int SLOT_GREY_OUT_DUMMY_SLOT_G24 = 12;
+    public static final int SLOT_CONVERSION_MATRIX = 13;
+    public static final int NUM_SLOTS = 14;
+    public static final int[] SLOTS_ALL_POPINS = new int[]{1, 2};
 
-    default public int showPopup(int n) {
-    }
+    public int showPopup(int var1);
 
-    default public int hidePopup(int n) {
-    }
+    public int hidePopup(int var1);
 
-    default public IPartialPopupController getPartialPopup(int n) {
-    }
+    public IPartialPopupController getPartialPopup(int var1);
 
-    default public void setPartialPopupsEnabled(boolean bl) {
-    }
+    public void setPartialPopupsEnabled(boolean var1);
 
-    default public boolean hasVisiblePopupInSlot(int n) {
-    }
+    public boolean hasVisiblePopupInSlot(int var1);
 
-    default public IPartialPopupController getCurrentVisiblePopup(int n) {
-    }
+    public IPartialPopupController getCurrentVisiblePopup(int var1);
 
-    default public void oldScreenDisconnecting(Screen screen) {
-    }
+    public void oldScreenDisconnecting(Screen var1);
 
-    default public void processLanguageChangedEvent(LanguageChangedEvent languageChangedEvent) {
-    }
+    public void processLanguageChangedEvent(LanguageChangedEvent var1);
 
-    default public void hideAllPopupsAndRepaintScreen(int n) {
-    }
+    public void hideAllPopupsAndRepaintScreen(int var1);
 
-    default public int hidePopupAndRepaintScreen(int n) {
-    }
+    public int hidePopupAndRepaintScreen(int var1);
 
-    default public int showPopupAndRepaintScreen(int n) {
-    }
+    public int showPopupAndRepaintScreen(int var1);
 
-    default public String[] getRegisteredPopupsDebugOutput() {
-    }
+    public String[] getRegisteredPopupsDebugOutput();
 
-    default public String[] getVisiblePopupsDebugOutput() {
-    }
+    public String[] getVisiblePopupsDebugOutput();
 
-    default public void checkPriosAgainstFullScreenPopup() {
-    }
-
-    static {
-        SLOTS_ALL_POPINS = new int[]{1, 2};
-    }
+    public void checkPriosAgainstFullScreenPopup();
 }
 

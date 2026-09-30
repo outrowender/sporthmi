@@ -7,10 +7,8 @@ import de.audi.app.combi.bap.dsi.fastlist.IDSIFastListScrollingController;
 
 public interface IDSIFastListAudio
 extends IDSIFastListScrollingController {
-    default public void pushFunctionAvailabilityAudio(int n) {
-    }
+    public void pushFunctionAvailabilityAudio(int var1);
 
-    default public void responseNotifyCurrentListSizeAudio(boolean bl) {
-    }
+    public void responseNotifyCurrentListSizeAudio(boolean var1);
 }
 

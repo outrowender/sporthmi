@@ -1,21 +1,23 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.ecall.IEcallDiagnosisComponent
  */
 package de.audi.app.ecall.core.bap.sos;
 
 import de.audi.app.ecall.core.AbstractEcallComponent;
+import de.audi.app.ecall.core.EcallUtil;
 import de.audi.app.ecall.core.IEcallApplication;
 import de.audi.app.ecall.core.IEcallComponent;
 import de.audi.app.ecall.core.bap.sos.EcallBluetoothHandler;
-import de.audi.app.ecall.core.bap.sos.EmergencyCallServiceHandler$1;
-import de.audi.app.ecall.core.bap.sos.EmergencyCallServiceHandler$ScreenHandler;
-import de.audi.app.ecall.core.bap.sos.ScreenContext$Builder;
+import de.audi.app.ecall.core.bap.sos.ScreenContext;
 import de.audi.app.ecall.core.power.EcallPowerHandler;
 import de.audi.app.ecall.core.state.IEcallStateStruct;
 import de.audi.app.ecall.core.state.IGlobalEcallStateListener;
 import de.audi.atip.interapp.bap.ecall.data.PendingServiceRequests;
 import de.audi.atip.interapp.bap.ecall.data.PhoneCall;
-import de.audi.atip.log.LogChannel;
+import de.mib.swdiagnosis.ecall.IEcallDiagnosisComponent;
 
 public class EmergencyCallServiceHandler
 extends AbstractEcallComponent
@@ -24,8 +26,8 @@ implements IGlobalEcallStateListener {
     private final EcallBluetoothHandler ecallBluetoothHandler;
     private volatile boolean wasEmergencyCallPendingRequest;
     private final boolean[] IS_SERVICE_STATE_VALID_FOR_SREEN_SHOWING;
-    private final EmergencyCallServiceHandler$ScreenHandler mecScreenHandler;
-    private final EmergencyCallServiceHandler$ScreenHandler acnScreenHandler;
+    private final ScreenHandler mecScreenHandler;
+    private final ScreenHandler acnScreenHandler;
     static /* synthetic */ Class class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestState;
 
     EmergencyCallServiceHandler(IEcallApplication iEcallApplication) {
@@ -37,48 +39,58 @@ implements IGlobalEcallStateListener {
         this.IS_SERVICE_STATE_VALID_FOR_SREEN_SHOWING = blArray;
         this.ecallPowerHandling = new EcallPowerHandler(iEcallApplication, 164, 165);
         this.ecallBluetoothHandler = new EcallBluetoothHandler(iEcallApplication);
-        ScreenContext$Builder screenContext$Builder = new ScreenContext$Builder();
-        screenContext$Builder.setConnectingScreen(25);
-        screenContext$Builder.setConnectedScreen(27);
-        screenContext$Builder.setCallBackIncomingScreen(14);
-        screenContext$Builder.setSendingDataScreen(28);
-        screenContext$Builder.setAccomplishedScreen(29);
-        screenContext$Builder.setFailedScreen(31);
-        screenContext$Builder.setCanceledScreen(26);
-        screenContext$Builder.setRedialScreen(30);
-        this.mecScreenHandler = new EmergencyCallServiceHandler$ScreenHandler(this, screenContext$Builder.build());
-        ScreenContext$Builder screenContext$Builder2 = new ScreenContext$Builder();
-        screenContext$Builder2.setConnectingScreen(11);
-        screenContext$Builder2.setConnectedScreen(12);
-        screenContext$Builder2.setCallBackIncomingScreen(14);
-        screenContext$Builder2.setSendingDataScreen(13);
-        screenContext$Builder2.setAccomplishedScreen(20);
-        screenContext$Builder2.setFailedScreen(21);
-        screenContext$Builder2.setCanceledScreen(22);
-        screenContext$Builder2.setRedialScreen(32);
-        this.acnScreenHandler = new EmergencyCallServiceHandler$ScreenHandler(this, screenContext$Builder2.build());
-        this.getApplication().addDiagnosisComponent(new EmergencyCallServiceHandler$1(this));
+        ScreenContext.Builder builder = new ScreenContext.Builder();
+        builder.setConnectingScreen(25);
+        builder.setConnectedScreen(27);
+        builder.setCallBackIncomingScreen(14);
+        builder.setSendingDataScreen(28);
+        builder.setAccomplishedScreen(29);
+        builder.setFailedScreen(31);
+        builder.setCanceledScreen(26);
+        builder.setRedialScreen(30);
+        this.mecScreenHandler = new ScreenHandler(builder.build());
+        ScreenContext.Builder builder2 = new ScreenContext.Builder();
+        builder2.setConnectingScreen(11);
+        builder2.setConnectedScreen(12);
+        builder2.setCallBackIncomingScreen(14);
+        builder2.setSendingDataScreen(13);
+        builder2.setAccomplishedScreen(20);
+        builder2.setFailedScreen(21);
+        builder2.setCanceledScreen(22);
+        builder2.setRedialScreen(32);
+        this.acnScreenHandler = new ScreenHandler(builder2.build());
+        this.getApplication().addDiagnosisComponent(new IEcallDiagnosisComponent(){
+
+            public void cmdSOSActivatePopupSession() {
+                EmergencyCallServiceHandler.this.activateEcall();
+            }
+
+            public void cmdSOSDisactivatePopupSession() {
+                EmergencyCallServiceHandler.this.disactivateEcall();
+            }
+
+            public void cmdSOSShowScreen(int n) {
+                EmergencyCallServiceHandler.this.showScreen(n);
+            }
+        });
     }
 
-    @Override
     protected IEcallComponent[] getSubComponents() {
         return new IEcallComponent[]{this.ecallPowerHandling, this.ecallBluetoothHandler};
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getEcallStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getEcallStateManager().removeListener(this);
     }
 
     private void activateEcall() {
-        this.log.log(1078071040, "EmergencyCallServiceHandler#activateEcall(): called");
+        this.log.log(1000000, "EmergencyCallServiceHandler#activateEcall(): called");
         this.wasEmergencyCallPendingRequest = true;
         this.ecallPowerHandling.activatePowerState();
         this.getApplication().getSDSHandler().disablePTT();
@@ -89,10 +101,10 @@ implements IGlobalEcallStateListener {
 
     private void disactivateEcall() {
         if (!this.wasEmergencyCallPendingRequest) {
-            this.log.log(1078071040, "EmergencyCallServiceHandler#disactivateEcall(): emergency call is inactive. NOP");
+            this.log.log(1000000, "EmergencyCallServiceHandler#disactivateEcall(): emergency call is inactive. NOP");
             return;
         }
-        this.log.log(1078071040, "EmergencyCallServiceHandler#disactivateEcall(): called");
+        this.log.log(1000000, "EmergencyCallServiceHandler#disactivateEcall(): called");
         this.wasEmergencyCallPendingRequest = false;
         this.ecallBluetoothHandler.switchOnBluetooth();
         this.getApplication().getSDSHandler().enablePTT();
@@ -100,7 +112,6 @@ implements IGlobalEcallStateListener {
         this.ecallPowerHandling.disactivatePowerState();
     }
 
-    @Override
     public void updateGlobalEcallStateProperty(int n, IEcallStateStruct iEcallStateStruct) {
         if (n == 1) {
             PhoneCall phoneCall = iEcallStateStruct.getCurrentHighPriorityPhoneCall();
@@ -132,7 +143,7 @@ implements IGlobalEcallStateListener {
     private void onServiceState(IEcallStateStruct iEcallStateStruct) {
         int n = iEcallStateStruct.getServiceCallKind();
         int n2 = iEcallStateStruct.getServiceState();
-        this.log.log(-2137614336, "EmergencyCallServiceHandler#onServiceState(): start to handle service state serviceCallKind (%1), serviceState (%2)", (Object)String.valueOf(n), (Object)String.valueOf(n2));
+        this.log.log(10000000, "EmergencyCallServiceHandler#onServiceState(): start to handle service state serviceCallKind (%1), serviceState (%2)", (Object)String.valueOf(n), (Object)String.valueOf(n2));
         if (n == 5) {
             this.mecScreenHandler.onCallServiceStateChanged(iEcallStateStruct);
             this.mecScreenHandler.handleServiceState(n2);
@@ -148,7 +159,7 @@ implements IGlobalEcallStateListener {
         } else if (n == 0 && n2 == 0) {
             this.disactivateEcall();
         } else {
-            this.log.log(1078071040, "EmergencyCallServiceHandler#onServiceState(): unhandled serviceCallKind=%1 (%2)", (Object)String.valueOf(n), (Object)String.valueOf(iEcallStateStruct));
+            this.log.log(1000000, "EmergencyCallServiceHandler#onServiceState(): unhandled serviceCallKind=%1 (%2)", (Object)String.valueOf(n), (Object)String.valueOf(iEcallStateStruct));
         }
     }
 
@@ -171,48 +182,73 @@ implements IGlobalEcallStateListener {
         }
     }
 
-    static /* synthetic */ void access$000(EmergencyCallServiceHandler emergencyCallServiceHandler) {
-        emergencyCallServiceHandler.activateEcall();
-    }
-
-    static /* synthetic */ void access$100(EmergencyCallServiceHandler emergencyCallServiceHandler) {
-        emergencyCallServiceHandler.disactivateEcall();
-    }
-
-    static /* synthetic */ void access$200(EmergencyCallServiceHandler emergencyCallServiceHandler, int n) {
-        emergencyCallServiceHandler.showScreen(n);
-    }
-
-    static /* synthetic */ void access$300(EmergencyCallServiceHandler emergencyCallServiceHandler, int n) {
-        emergencyCallServiceHandler.showEmergencyConnectScreen(n);
-    }
-
-    static /* synthetic */ boolean[] access$400(EmergencyCallServiceHandler emergencyCallServiceHandler) {
-        return emergencyCallServiceHandler.IS_SERVICE_STATE_VALID_FOR_SREEN_SHOWING;
-    }
-
-    static /* synthetic */ void access$500(EmergencyCallServiceHandler emergencyCallServiceHandler) {
-        emergencyCallServiceHandler.forceActivationWithouPendingRequestIfNeed();
-    }
-
-    static /* synthetic */ IEcallApplication access$600(EmergencyCallServiceHandler emergencyCallServiceHandler) {
-        return emergencyCallServiceHandler.getApplication();
-    }
-
-    static /* synthetic */ LogChannel access$700(EmergencyCallServiceHandler emergencyCallServiceHandler) {
-        return emergencyCallServiceHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$800(EmergencyCallServiceHandler emergencyCallServiceHandler) {
-        return emergencyCallServiceHandler.log;
-    }
-
     static /* synthetic */ Class class$(String string) {
         try {
             return Class.forName(string);
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private final class ScreenHandler {
+        private final ScreenContext screenContext;
+
+        public ScreenHandler(ScreenContext screenContext) {
+            this.screenContext = screenContext;
+        }
+
+        public void onCallServiceStateChanged(IEcallStateStruct iEcallStateStruct) {
+            if (iEcallStateStruct.isEmergencyCallBackIncoming()) {
+                EmergencyCallServiceHandler.this.activateEcall();
+                EmergencyCallServiceHandler.this.showScreen(this.screenContext.callBackIncomingScreen);
+            } else if (iEcallStateStruct.isEmergencyConnecting()) {
+                EmergencyCallServiceHandler.this.showEmergencyConnectScreen(this.screenContext.connectingScreen);
+            } else if (iEcallStateStruct.isEmergencyConnected()) {
+                EmergencyCallServiceHandler.this.showEmergencyConnectScreen(this.screenContext.connectedScreen);
+            }
+        }
+
+        public void handleServiceState(int n) {
+            if (EcallUtil.isStateValidForScreenActivation(EmergencyCallServiceHandler.this.IS_SERVICE_STATE_VALID_FOR_SREEN_SHOWING, n)) {
+                EmergencyCallServiceHandler.this.forceActivationWithouPendingRequestIfNeed();
+            }
+            switch (n) {
+                case 8: {
+                    EmergencyCallServiceHandler.this.showScreen(this.screenContext.sendingDataScreen);
+                    break;
+                }
+                case 10: {
+                    EmergencyCallServiceHandler.this.showScreen(this.screenContext.accomplishedScreen);
+                    break;
+                }
+                case 12: 
+                case 21: {
+                    EmergencyCallServiceHandler.this.showScreen(this.screenContext.failedScreen);
+                    break;
+                }
+                case 13: {
+                    EmergencyCallServiceHandler.this.getApplication().getSOSPopupHandler().showLicencePopup();
+                    break;
+                }
+                case 9: 
+                case 14: {
+                    EmergencyCallServiceHandler.this.showScreen(this.screenContext.canceledScreen);
+                    break;
+                }
+                case 18: {
+                    EmergencyCallServiceHandler.this.showScreen(this.screenContext.redialScreen);
+                    break;
+                }
+                case 7: {
+                    EmergencyCallServiceHandler.this.showScreen(this.screenContext.redialScreen);
+                    break;
+                }
+                default: {
+                    EmergencyCallServiceHandler.this.log.log(10000000, "EmergencyCallServiceHandler#handleServiceState(): unhandled service call state for MEC/ACN %1 ", (long)n);
+                    EcallUtil.logStructFieldForDbg(EmergencyCallServiceHandler.this.log, class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestState == null ? (class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestState = EmergencyCallServiceHandler.class$("de.audi.atip.interapp.bap.ecall.data.ServiceRequestState")) : class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestState, n);
+                }
+            }
         }
     }
 }

@@ -26,7 +26,6 @@ import de.audi.app.combi.bap.app.audio.AppConnectorTuner;
 import de.audi.app.combi.bap.app.audio.AudioApplicationInFocusHandler;
 import de.audi.app.combi.bap.app.audio.BAPIndicationHandlerAudio;
 import de.audi.app.combi.bap.app.audio.BAPPropertyInfoStatesWithOverCurrentSupport;
-import de.audi.app.combi.bap.app.audio.CombiModuleAudio$1;
 import de.audi.app.combi.bap.app.audio.DedicatedAudioControlHandler;
 import de.audi.app.combi.bap.app.audio.InitializationManagerAudio;
 import de.audi.app.combi.bap.app.audio.ServiceManagerAudio;
@@ -52,9 +51,9 @@ import de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceToneListener;
 import de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceTuner;
 import de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceTunerListener;
 import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPAudioSource;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.msg.MsgListener;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.mib.swdiagnosis.combi.CombiDiagnosisConnectorAudio;
 import de.vw.mib.bap.generated.audiosd.serializer.InfoStates_Status;
 import de.vw.mib.bap.generated.audiosd.serializer.SDS_State_Status;
@@ -77,7 +76,7 @@ implements MsgListener {
     private final DedicatedAudioControlHandler dedicatedAudioControlHandler;
     private final AudioApplicationInFocusHandler activeAudioApplicationHandler;
     private ExternalKeyListener externKeyListener;
-    private static final int TIMEOUT_TEMP_SDS_STATE;
+    private static final int TIMEOUT_TEMP_SDS_STATE = 3000;
     private int tempSDSStateOldState;
     private final Timer tempSDSStateTimer;
     private final BAPPropertyInfoStatesWithOverCurrentSupport infoStatesFunctionWithOverCurrentSupport = new BAPPropertyInfoStatesWithOverCurrentSupport(this, this.getBAPFunctionPropertyFSG(30));
@@ -116,24 +115,32 @@ implements MsgListener {
         this.getBAPFunctionMethodFSG(24).setConcurrentOperationMode(1);
         this.listManager = new ListManagerAudio(this, abstractCombiBAPApplication.isMOSTListSupported());
         this.appConnectorSDS.updateSDSState(1);
-        this.tempSDSStateTimer = new Timer("tempSDSStateTimer", 5, this.logChannel, new CombiModuleAudio$1(this), 0, true);
+        this.tempSDSStateTimer = new Timer("tempSDSStateTimer", 5, this.logChannel, new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                if (timer.equals(CombiModuleAudio.this.tempSDSStateTimer)) {
+                    CombiModuleAudio.this.logChannel.log(10000000, "[CombiModuleAudio.CombiModuleAudio(...).new TimerListener() {...}#fireTimer] restore old SDS state=%1", (long)CombiModuleAudio.this.tempSDSStateOldState);
+                    CombiModuleAudio.this.appConnectorSDS.updateSDSState(CombiModuleAudio.this.tempSDSStateOldState);
+                }
+            }
+
+            public void cancelTimer(Timer timer) {
+            }
+        }, 3000L, true);
     }
 
-    @Override
     protected void initModuleComponents() {
-        this.logChannel.log(-2137614336, "[CombiModuleAudio#initModuleComponents]");
+        this.logChannel.log(10000000, "[CombiModuleAudio#initModuleComponents]");
         this.indicationHandler = new BAPIndicationHandlerAudio(this);
         this.functionRegistration = new FunctionRegistrationAudio(this);
         this.initializationManager = new InitializationManagerAudio(this, this.getBAPFunctionPropertyFSG(15), this.bapApplication.getDSIBAPController(), this.bapApplication.getPowerState());
         this.functionSyncHandler = new FunctionSynchronizationHandlerAudio(this);
     }
 
-    @Override
     protected void initServiceManager(BundleContext bundleContext) {
         this.serviceManager = new ServiceManagerAudio(this, bundleContext);
     }
 
-    @Override
     protected void initDiagnosisConnector() {
         this.diagnosisConnectorFsg = new CombiDiagnosisConnectorAudio((AbstractCombiBAPApplication)this.bapApplication, this);
     }
@@ -142,27 +149,22 @@ implements MsgListener {
         return this.previousActiveSource;
     }
 
-    @Override
     public String getLSGDescription() {
         return "0x31 (AUDIO)";
     }
 
-    @Override
     public IFunctionIDs getFunctionIDs() {
         return new FunctionIDsAudio();
     }
 
-    @Override
     public IErrorCodes getErrorIDs() {
         return new ErrorCodesAudio();
     }
 
-    @Override
     public int[] getErrorMapping() {
         return ERROR_MAPPING;
     }
 
-    @Override
     public IDataTypeMapping getDataTypeMapping() {
         return new DataTypeMappingAudio();
     }
@@ -243,7 +245,6 @@ implements MsgListener {
         return this.firstScreenShown;
     }
 
-    @Override
     protected boolean isRelevantForUpdateProperties(int n) {
         if (n == 43) {
             return false;
@@ -251,10 +252,9 @@ implements MsgListener {
         return super.isRelevantForUpdateProperties(n);
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 2 && !this.firstScreenShown) {
-            this.logChannel.log(-2137614336, "[CombiModuleAudio#processMsg] first screen shown");
+            this.logChannel.log(10000000, "[CombiModuleAudio#processMsg] first screen shown");
             this.firstScreenShown = true;
             this.initializationManager.updateOperationState();
         } else if (n == 58) {
@@ -296,16 +296,15 @@ implements MsgListener {
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.getBAPFunctionPropertyFSG(41);
         SDS_State_Status sDS_State_Status = (SDS_State_Status)bAPFunctionPropertyFSG.getLastStatus();
         if (sDS_State_Status.state == n) {
-            this.logChannel.log(-2137614336, "[CombiModuleAudio#setTempSDSState] temp SDS state=%1 already set -> ignore", (long)n);
+            this.logChannel.log(10000000, "[CombiModuleAudio#setTempSDSState] temp SDS state=%1 already set -> ignore", (long)n);
         } else {
-            this.logChannel.log(-2137614336, "[CombiModuleAudio#setTempSDSState] state=%1", (long)n);
+            this.logChannel.log(10000000, "[CombiModuleAudio#setTempSDSState] state=%1", (long)n);
             this.tempSDSStateOldState = sDS_State_Status.state;
             this.appConnectorSDS.updateSDSState(n);
         }
         this.tempSDSStateTimer.restart();
     }
 
-    @Override
     public void notifyPowerStateChanged() {
         super.notifyPowerStateChanged();
         if (!this.bapApplication.getPowerState().isPowerOn()) {
@@ -315,22 +314,6 @@ implements MsgListener {
             this.appConnectorMedia.restoreInfoState(26);
             this.appConnectorTuner.restoreInfoState(26);
         }
-    }
-
-    static /* synthetic */ Timer access$000(CombiModuleAudio combiModuleAudio) {
-        return combiModuleAudio.tempSDSStateTimer;
-    }
-
-    static /* synthetic */ int access$100(CombiModuleAudio combiModuleAudio) {
-        return combiModuleAudio.tempSDSStateOldState;
-    }
-
-    static /* synthetic */ LogChannel access$200(CombiModuleAudio combiModuleAudio) {
-        return combiModuleAudio.logChannel;
-    }
-
-    static /* synthetic */ AppConnectorSDS access$300(CombiModuleAudio combiModuleAudio) {
-        return combiModuleAudio.appConnectorSDS;
     }
 
     static {

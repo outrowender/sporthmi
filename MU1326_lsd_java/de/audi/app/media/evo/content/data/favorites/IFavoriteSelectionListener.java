@@ -7,7 +7,6 @@ import de.audi.app.media.evo.content.data.favorites.MediaFavorite;
 import de.audi.app.media.selection.IFavoritePlayerSelectionListener;
 
 public interface IFavoriteSelectionListener {
-    default public void playFavoriteSelection(MediaFavorite mediaFavorite, IFavoritePlayerSelectionListener iFavoritePlayerSelectionListener) {
-    }
+    public void playFavoriteSelection(MediaFavorite var1, IFavoritePlayerSelectionListener var2);
 }
 

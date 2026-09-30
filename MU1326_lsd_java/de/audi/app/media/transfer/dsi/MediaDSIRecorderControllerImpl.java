@@ -20,7 +20,7 @@ import org.dsi.ifc.media.DSIMediaRecorder;
 public class MediaDSIRecorderControllerImpl
 extends AbstractDSIController
 implements IMediaDSIRecorderController {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaDSIRecorderControllerImpl";
     private final MediaDSIRecorderListener dsiListener;
     private volatile DSIMediaRecorder dsiMediaRecorder = null;
     private volatile IMediaRecorderListener recorderListener;
@@ -33,38 +33,33 @@ implements IMediaDSIRecorderController {
         this.dsiListener = new MediaDSIRecorderListener(this, iSourceResolver, logChannel, dispatcherBase);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.logger.log(1078071040, "[%1.deinit] Deinit.", (Object)"MediaDSIRecorderControllerImpl");
+        this.logger.log(1000000, "[%1.deinit] Deinit.", (Object)LOGCLASS);
         this.clearAttributeNotification(this.dsiMediaRecorder);
         this.recorderListener = null;
     }
 
-    @Override
     public void setRecorderListener(IMediaRecorderListener iMediaRecorderListener) {
-        this.logger.log(-2137614336, "[%1.setRecorderListener] Set recorder listener '%2'.", (Object)"MediaDSIRecorderControllerImpl", (Object)iMediaRecorderListener);
+        this.logger.log(10000000, "[%1.setRecorderListener] Set recorder listener '%2'.", (Object)LOGCLASS, (Object)iMediaRecorderListener);
         if (iMediaRecorderListener == null) {
             throw new IllegalArgumentException();
         }
         this.recorderListener = iMediaRecorderListener;
     }
 
-    @Override
     public IMediaRecorderListener getRecorderListener() {
         return this.recorderListener;
     }
 
-    @Override
     public void addDSIService(DSIBase dSIBase) {
-        this.logger.log(1078071040, "[%1.addDSIService] '%2'.", (Object)"MediaDSIRecorderControllerImpl", (Object)dSIBase);
+        this.logger.log(1000000, "[%1.addDSIService] '%2'.", (Object)LOGCLASS, (Object)dSIBase);
         this.dsiMediaRecorder = (DSIMediaRecorder)dSIBase;
         this.registerAttributeNotifications(dSIBase);
     }
 
-    @Override
     protected void removeDSIService() {
-        this.logger.log(1078071040, "[%1.removeDSIService] DSI service removed.", (Object)"MediaDSIRecorderControllerImpl");
+        this.logger.log(1000000, "[%1.removeDSIService] DSI service removed.", (Object)LOGCLASS);
         this.dsiMediaRecorder = null;
         IMediaRecorderListener iMediaRecorderListener = this.getRecorderListener();
         if (null != iMediaRecorderListener) {
@@ -73,53 +68,47 @@ implements IMediaDSIRecorderController {
     }
 
     protected void registerAttributeNotifications(DSIBase dSIBase) {
-        this.logger.log(-2137614336, "[%1.registerAttributeNotifications]", (Object)"MediaDSIRecorderControllerImpl");
+        this.logger.log(10000000, "[%1.registerAttributeNotifications]", (Object)LOGCLASS);
         this.dsiMediaRecorder.setNotification(new int[]{1, 5, 4, 7, 3, 6, 2}, this.getDSIListener());
     }
 
-    @Override
     protected DSIListener getDSIListener() {
         return this.dsiListener;
     }
 
-    @Override
     protected Class getDSIServiceClass() {
         return class$org$dsi$ifc$media$DSIMediaRecorder == null ? (class$org$dsi$ifc$media$DSIMediaRecorder = MediaDSIRecorderControllerImpl.class$("org.dsi.ifc.media.DSIMediaRecorder")) : class$org$dsi$ifc$media$DSIMediaRecorder;
     }
 
-    @Override
     protected Class getDSIListenerClass() {
         return class$org$dsi$ifc$media$DSIMediaRecorderListener == null ? (class$org$dsi$ifc$media$DSIMediaRecorderListener = MediaDSIRecorderControllerImpl.class$("org.dsi.ifc.media.DSIMediaRecorderListener")) : class$org$dsi$ifc$media$DSIMediaRecorderListener;
     }
 
-    @Override
     public void abortDelete() {
-        this.logger.log(1078071040, "[%1.abortDelete]", (Object)"MediaDSIRecorderControllerImpl");
+        this.logger.log(1000000, "[%1.abortDelete]", (Object)LOGCLASS);
         DSIMediaRecorder dSIMediaRecorder = this.dsiMediaRecorder;
         if (dSIMediaRecorder == null) {
-            this.logger.log(-1601830656, "[%1.abortDelete] No DSIMediaRecorder service registered. Ignore.", (Object)"MediaDSIRecorderControllerImpl");
+            this.logger.log(100000, "[%1.abortDelete] No DSIMediaRecorder service registered. Ignore.", (Object)LOGCLASS);
             return;
         }
         dSIMediaRecorder.abortDelete();
     }
 
-    @Override
     public void abortImport() {
-        this.logger.log(1078071040, "[%1.abortImport]", (Object)"MediaDSIRecorderControllerImpl");
+        this.logger.log(1000000, "[%1.abortImport]", (Object)LOGCLASS);
         DSIMediaRecorder dSIMediaRecorder = this.dsiMediaRecorder;
         if (dSIMediaRecorder == null) {
-            this.logger.log(-1601830656, "[%1.abortImport] No DSIMediaRecorder service registered. Ignore.", (Object)"MediaDSIRecorderControllerImpl");
+            this.logger.log(100000, "[%1.abortImport] No DSIMediaRecorder service registered. Ignore.", (Object)LOGCLASS);
             return;
         }
         dSIMediaRecorder.abortImport();
     }
 
-    @Override
     public void setActiveMedia(MediaSourceSlot mediaSourceSlot) {
-        this.logger.log(1078071040, "[%1.setActiveMedia] slot='%2'", (Object)"MediaDSIRecorderControllerImpl", (Object)mediaSourceSlot);
+        this.logger.log(1000000, "[%1.setActiveMedia] slot='%2'", (Object)LOGCLASS, (Object)mediaSourceSlot);
         DSIMediaRecorder dSIMediaRecorder = this.dsiMediaRecorder;
         if (dSIMediaRecorder == null) {
-            this.logger.log(-1601830656, "[%1.setActiveMedia] No DSIMediaRecorder service registered. Ignore.", (Object)"MediaDSIRecorderControllerImpl");
+            this.logger.log(100000, "[%1.setActiveMedia] No DSIMediaRecorder service registered. Ignore.", (Object)LOGCLASS);
             return;
         }
         this.slotToActivate = mediaSourceSlot;
@@ -130,55 +119,51 @@ implements IMediaDSIRecorderController {
         return this.slotToActivate;
     }
 
-    @Override
     public void setSelection(int n) {
-        this.logger.log(1078071040, "[%1.setSelection] browserID='%2'", (Object)"MediaDSIRecorderControllerImpl", (long)n);
+        this.logger.log(1000000, "[%1.setSelection] browserID='%2'", (Object)LOGCLASS, (long)n);
         DSIMediaRecorder dSIMediaRecorder = this.dsiMediaRecorder;
         if (dSIMediaRecorder == null) {
-            this.logger.log(-1601830656, "[%1.setSelection] No DSIMediaRecorder service registered. Ignore.", (Object)"MediaDSIRecorderControllerImpl");
+            this.logger.log(100000, "[%1.setSelection] No DSIMediaRecorder service registered. Ignore.", (Object)LOGCLASS);
             return;
         }
         dSIMediaRecorder.setSelection(n);
     }
 
     public void setTargetMedia(long l, long l2) {
-        this.logger.log(1078071040, "[%1.setTargetMedia] deviceID='%2', mediaID='%3'", (Object)"MediaDSIRecorderControllerImpl", l, l2);
+        this.logger.log(1000000, "[%1.setTargetMedia] deviceID='%2', mediaID='%3'", (Object)LOGCLASS, l, l2);
         DSIMediaRecorder dSIMediaRecorder = this.dsiMediaRecorder;
         if (dSIMediaRecorder == null) {
-            this.logger.log(-1601830656, "[%1.setTargetMedia] No DSIMediaRecorder service registered. Ignore.", (Object)"MediaDSIRecorderControllerImpl");
+            this.logger.log(100000, "[%1.setTargetMedia] No DSIMediaRecorder service registered. Ignore.", (Object)LOGCLASS);
             return;
         }
         dSIMediaRecorder.setTargetMedia(l, l2);
     }
 
-    @Override
     public void startDelete() {
-        this.logger.log(1078071040, "[%1.startDelete]", (Object)"MediaDSIRecorderControllerImpl");
+        this.logger.log(1000000, "[%1.startDelete]", (Object)LOGCLASS);
         DSIMediaRecorder dSIMediaRecorder = this.dsiMediaRecorder;
         if (dSIMediaRecorder == null) {
-            this.logger.log(-1601830656, "[%1.startDelete] No DSIMediaRecorder service registered. Ignore.", (Object)"MediaDSIRecorderControllerImpl");
+            this.logger.log(100000, "[%1.startDelete] No DSIMediaRecorder service registered. Ignore.", (Object)LOGCLASS);
             return;
         }
         dSIMediaRecorder.startDelete();
     }
 
-    @Override
     public void startImport(boolean bl) {
-        this.logger.log(1078071040, "[%1.startImport] overwrite='%2'", (Object)"MediaDSIRecorderControllerImpl", (Object)String.valueOf(bl));
+        this.logger.log(1000000, "[%1.startImport] overwrite='%2'", (Object)LOGCLASS, (Object)String.valueOf(bl));
         DSIMediaRecorder dSIMediaRecorder = this.dsiMediaRecorder;
         if (dSIMediaRecorder == null) {
-            this.logger.log(-1601830656, "[%1.startImport] No DSIMediaRecorder service registered. Ignore.", (Object)"MediaDSIRecorderControllerImpl");
+            this.logger.log(100000, "[%1.startImport] No DSIMediaRecorder service registered. Ignore.", (Object)LOGCLASS);
             return;
         }
         dSIMediaRecorder.startImport(bl);
     }
 
-    @Override
     public void setEncodingQuality(int n) {
-        this.logger.log(1078071040, "[%1.setEncodingQuality] quality='%2'.", (Object)"MediaDSIRecorderControllerImpl", (long)n);
+        this.logger.log(1000000, "[%1.setEncodingQuality] quality='%2'.", (Object)LOGCLASS, (long)n);
         DSIMediaRecorder dSIMediaRecorder = this.dsiMediaRecorder;
         if (dSIMediaRecorder == null) {
-            this.logger.log(-1601830656, "[%1.setEncodingQuality] No DSIMediaRecorder service registered. Ignore.", (Object)"MediaDSIRecorderControllerImpl");
+            this.logger.log(100000, "[%1.setEncodingQuality] No DSIMediaRecorder service registered. Ignore.", (Object)LOGCLASS);
             return;
         }
         dSIMediaRecorder.setEncodingQuality(n);

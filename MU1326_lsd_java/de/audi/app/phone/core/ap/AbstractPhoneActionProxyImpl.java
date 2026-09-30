@@ -22,7 +22,7 @@ public abstract class AbstractPhoneActionProxyImpl {
     }
 
     public void init() {
-        this.getLogChannel().log(-2137614336, "[AbstractPhoneActionProxyImpl#init] called");
+        this.getLogChannel().log(10000000, "[AbstractPhoneActionProxyImpl#init] called");
         Hashtable hashtable = new Hashtable(1);
         hashtable.put("moduleID", new Integer(this.getActionProxyInterfaceID()));
         this.apServiceProvider.setServiceClazz(this.getActionProxyInterfaceName());
@@ -31,15 +31,13 @@ public abstract class AbstractPhoneActionProxyImpl {
     }
 
     public void deinit() {
-        this.getLogChannel().log(-2137614336, "[AbstractPhoneActionProxyImpl#deinit] called");
+        this.getLogChannel().log(10000000, "[AbstractPhoneActionProxyImpl#deinit] called");
         this.apServiceProvider.stopService();
     }
 
-    public abstract String getActionProxyInterfaceName() {
-    }
+    public abstract String getActionProxyInterfaceName();
 
-    public abstract int getActionProxyInterfaceID() {
-    }
+    public abstract int getActionProxyInterfaceID();
 
     public LogChannel getLogChannel() {
         return this.logChannel;

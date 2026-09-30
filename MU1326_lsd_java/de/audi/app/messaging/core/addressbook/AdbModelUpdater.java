@@ -4,7 +4,6 @@
 package de.audi.app.messaging.core.addressbook;
 
 import de.audi.app.addressbook.core.common.ADBModelUtils;
-import de.audi.app.messaging.core.addressbook.AdbModelUpdater$DiagPlugIn;
 import de.audi.app.messaging.core.addressbook.AddressSelectionListRow;
 import de.audi.app.messaging.core.addressbook.NavigationLocationListRow;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
@@ -19,6 +18,7 @@ import org.dsi.ifc.messaging.MatchedAddress;
 import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.organizer.AddressData;
 import org.dsi.ifc.organizer.EmailData;
+import org.dsi.ifc.organizer.PersonalData;
 import org.dsi.ifc.organizer.PhoneData;
 
 public final class AdbModelUpdater
@@ -28,21 +28,20 @@ implements IDiagProvider {
         super(messagingBundleContext, string);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
     }
 
     public void updateRecipientSelection(AdbEntry adbEntry, int n, int n2) {
-        this.log.log(-2137614336, "AdbModelUpdater#updateRecipientSelection(): updating models for entry \"%1\" with id %2...", (Object)(adbEntry != null ? adbEntry.getCombinedName() : ""), adbEntry != null ? adbEntry.getEntryId() : -1L);
-        BaseListModelApp baseListModelApp = this.framework.getHMIService().getBaseListModel(-124641024);
+        this.log.log(10000000, "AdbModelUpdater#updateRecipientSelection(): updating models for entry \"%1\" with id %2...", (Object)(adbEntry != null ? adbEntry.getCombinedName() : ""), adbEntry != null ? adbEntry.getEntryId() : -1L);
+        BaseListModelApp baseListModelApp = this.framework.getHMIService().getBaseListModel(2200312);
         if (n2 == 0) {
             AdbModelUpdater.fillWithNumber(adbEntry, baseListModelApp, n);
         } else if (n2 == 1) {
             AdbModelUpdater.fillWithEmail(adbEntry, baseListModelApp, n);
         } else {
-            this.log.log(-1601830656, "AdbModelUpdater#updateRecipientSelection(): msgType %1 not supported", (long)n2);
+            this.log.log(100000, "AdbModelUpdater#updateRecipientSelection(): msgType %1 not supported", (long)n2);
         }
         if (baseListModelApp.getLength() == 1) {
             this.msgApp.getNewMessage().getSelectedRecipientList().addRecipientsTo(new MatchedAddress[]{((AddressSelectionListRow)baseListModelApp.getRow(0)).getMatchedAddress()});
@@ -50,8 +49,8 @@ implements IDiagProvider {
     }
 
     public void updateRecipientSelection(int n, String string) {
-        this.log.log(-2137614336, "AdbModelUpdater#updateRecipientSelection(): updating models for address \"%1\"", (Object)string);
-        BaseListModelApp baseListModelApp = this.framework.getHMIService().getBaseListModel(-124641024);
+        this.log.log(10000000, "AdbModelUpdater#updateRecipientSelection(): updating models for address \"%1\"", (Object)string);
+        BaseListModelApp baseListModelApp = this.framework.getHMIService().getBaseListModel(2200312);
         baseListModelApp.removeAll();
         if (!Strings.isNullOrEmpty(string.trim())) {
             int n2 = ADBModelUtils.getIconTypeForPhoneNumber(0);
@@ -91,30 +90,50 @@ implements IDiagProvider {
         if (adbEntry != null && adbEntry.getAddressData() != null) {
             for (int i2 = 0; i2 < adbEntry.getAddressData().length; ++i2) {
                 AddressData addressData = adbEntry.getAddressData()[i2];
-                this.log.log(-2137614336, "AdbModelUpdater#fillWithNavLoc: data: %1", (Object)addressData);
+                this.log.log(10000000, "AdbModelUpdater#fillWithNavLoc: data: %1", (Object)addressData);
                 NaviADBService naviADBService = this.msgApp.getMessagingAdbHandler().getADBNaviService();
                 if (naviADBService == null || addressData == null || addressData.navLocation == null || addressData.navLocation.length == 0) continue;
                 String[] stringArray = naviADBService.getLocationName(addressData.navLocation);
-                this.log.log(-2137614336, "AdbModelUpdater#fillWithNavLoc: name: %1", (Object)stringArray);
+                this.log.log(10000000, "AdbModelUpdater#fillWithNavLoc: name: %1", (Object)stringArray);
                 baseListModelApp.append(new NavigationLocationListRow(i2 == 0 ? 2 : 3, stringArray, addressData));
             }
         }
     }
 
     void updateMessageOptions(AdbEntry adbEntry) {
-        this.log.log(-2137614336, "AdbModelUpdater#updateMessageOptions(): adbEntry: %1", (Object)adbEntry);
+        this.log.log(10000000, "AdbModelUpdater#updateMessageOptions(): adbEntry: %1", (Object)adbEntry);
         this.msgApp.getMessageOptionsManager().responseGetAdbEntry(adbEntry);
-        this.fillWithNavLoc(adbEntry, this.framework.getHMIService().getBaseListModel(-57532160));
+        this.fillWithNavLoc(adbEntry, this.framework.getHMIService().getBaseListModel(2200316));
     }
 
     public void clearNavDestinations() {
-        this.log.log(-2137614336, "[AdbModelUpdater#clearNavDestinations]");
-        this.framework.getHMIService().getBaseListModel(-57532160).removeAll();
+        this.log.log(10000000, "[AdbModelUpdater#clearNavDestinations]");
+        this.framework.getHMIService().getBaseListModel(2200316).removeAll();
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
-        return new IDiagPlugIn[]{new AdbModelUpdater$DiagPlugIn(this)};
+        return new IDiagPlugIn[]{new DiagPlugIn()};
+    }
+
+    final class DiagPlugIn
+    implements IDiagPlugIn {
+        DiagPlugIn() {
+        }
+
+        public void cmdSetMessageAdbContact() {
+            AdbEntry adbEntry = new AdbEntry();
+            adbEntry.entryId = 4711L;
+            adbEntry.entryType = 1;
+            adbEntry.combinedName = "William Shakespeare";
+            adbEntry.preferredNumberIdx = 1;
+            adbEntry.voiceTagId = -1;
+            adbEntry.phoneData = new PhoneData[]{new PhoneData("0815 47 11 58", 4, -1), new PhoneData("0199 4711 4711", 64, -1)};
+            adbEntry.addressData = new AddressData[0];
+            adbEntry.emailData = new EmailData[0];
+            adbEntry.urlData = new String[0];
+            adbEntry.personalData = new PersonalData();
+            AdbModelUpdater.this.updateMessageOptions(adbEntry);
+        }
     }
 }
 

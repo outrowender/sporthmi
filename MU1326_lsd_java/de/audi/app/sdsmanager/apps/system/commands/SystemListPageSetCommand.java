@@ -13,10 +13,10 @@ import de.audi.atip.log.LogChannel;
 
 public class SystemListPageSetCommand
 extends AbstractSystemCallCommand {
-    private static final int SYSTEM_LIST_PAGE_DOWN;
-    private static final int SYSTEM_LIST_PAGE_UP;
-    private static final int SYSTEM_LIST_PAGE_FIRST;
-    private static final int SYSTEM_LIST_PAGE_LAST;
+    private static final int SYSTEM_LIST_PAGE_DOWN = 0;
+    private static final int SYSTEM_LIST_PAGE_UP = 1;
+    private static final int SYSTEM_LIST_PAGE_FIRST = 2;
+    private static final int SYSTEM_LIST_PAGE_LAST = 3;
     private final HMIService hmiService;
     private final int pageType;
     private ISDSPopupHelper sdsPopupHelper;
@@ -28,16 +28,15 @@ extends AbstractSystemCallCommand {
         this.sdsPopupHelper = iSDSPopupHelper;
     }
 
-    @Override
     public void execute() {
         if (this.pageType == -1) {
-            this.logger.log(-1601830656, "%1#execute: Invalid page type!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: Invalid page type!", (Object)this.getName());
             this.sendResult(3001);
             return;
         }
         int n = SystemListPageSetCommand.getPageEvent(this.pageType);
         if (n == -1) {
-            this.logger.log(-1601830656, "%1#execute: Invalid page event!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: Invalid page event!", (Object)this.getName());
             this.sendResult(3001);
             return;
         }
@@ -47,7 +46,7 @@ extends AbstractSystemCallCommand {
         if (this.sdsPopupHelper.getCurrentHelpScreenPopupMappingID() != -1 && (n == 4 || n == 3)) {
             n2 = 11;
         }
-        this.logger.log(-2137614336, "%1#execute: Setting pageEvent %2 with generic answers for OK/INVALID/ERROR and value=%3!", (Object)this.getName(), (long)n, (long)n2);
+        this.logger.log(10000000, "%1#execute: Setting pageEvent %2 with generic answers for OK/INVALID/ERROR and value=%3!", (Object)this.getName(), (long)n, (long)n2);
         this.hmiService.fireSDSEvent(2, n, n2, nArray);
     }
 

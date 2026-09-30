@@ -18,7 +18,6 @@ extends AbstractTelEvent {
         this.value = n;
     }
 
-    @Override
     public void run() {
         this.model.setValue(this.value);
     }

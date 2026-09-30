@@ -18,13 +18,11 @@ implements ITelMuteMicService {
         super(iTelApplication, "App.Phone.Audio");
     }
 
-    @Override
     public void init() {
         this.telMuteMicServiceProvider = new PhoneServiceProvider((class$de$audi$atip$interapp$phone$ITelMuteMicService == null ? (class$de$audi$atip$interapp$phone$ITelMuteMicService = TelMuteMicServiceImpl.class$("de.audi.atip.interapp.phone.ITelMuteMicService")) : class$de$audi$atip$interapp$phone$ITelMuteMicService).getName(), this, null, this.getApplication().getBundleContext(), this.log);
         this.telMuteMicServiceProvider.startService();
     }
 
-    @Override
     public void deinit() {
         if (this.telMuteMicServiceProvider != null) {
             this.telMuteMicServiceProvider.stopService();
@@ -32,9 +30,8 @@ implements ITelMuteMicService {
         }
     }
 
-    @Override
     public void toggleMuteMicrophone(boolean bl) {
-        this.log.log(1078071040, "[TelMuteMicServiceImpl#toggleMuteMicrophone] muteMicrophone=%1", bl);
+        this.log.log(1000000, "[TelMuteMicServiceImpl#toggleMuteMicrophone] muteMicrophone=%1", bl);
         this.getApplication().getAudio().toggelMicMuteState(0);
     }
 

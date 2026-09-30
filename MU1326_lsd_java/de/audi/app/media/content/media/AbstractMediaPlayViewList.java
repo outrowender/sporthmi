@@ -5,11 +5,10 @@ package de.audi.app.media.content.media;
 
 import de.audi.app.media.AbstractMediaTerminalComponent;
 import de.audi.app.media.IMediaTerminal;
-import de.audi.app.media.content.media.AbstractMediaPlayViewList$PlayViewListDelayJob;
-import de.audi.app.media.content.media.AbstractMediaPlayViewList$PlayerViewListenerProxy;
 import de.audi.app.media.content.media.AbstractMediaPlayViewListRow;
 import de.audi.app.media.content.media.IPlayViewList;
 import de.audi.app.media.content.media.IPlayer;
+import de.audi.app.media.content.media.IPlayerViewListener;
 import de.audi.app.media.content.media.IProgressIndication;
 import de.audi.app.media.content.media.MediaDetailInfo;
 import de.audi.app.media.content.media.NullPlayViewListRequest;
@@ -39,8 +38,8 @@ public abstract class AbstractMediaPlayViewList
 extends AbstractMediaTerminalComponent
 implements IPlayViewList,
 TiledListModelListener {
-    private static final String LOGCLASS;
-    static final long REQUEST_DELAY;
+    private static final String LOGCLASS = "AbstractMediaPlayViewList";
+    static final long REQUEST_DELAY = 100L;
     protected LogChannel logger;
     protected final IPlayer player;
     private final Object listUpdateMutex = new Object();
@@ -58,9 +57,9 @@ TiledListModelListener {
     private MediaDetailInfo currentDetailInfo;
     protected volatile ResourceLocator currentCover;
     private volatile boolean listInvalid;
-    private static final int CURSOR_MERGED;
-    private static final int CURSOR_NOT_MERGED;
-    protected volatile AbstractMediaPlayViewList$PlayerViewListenerProxy playerViewListenerProxy;
+    private static final int CURSOR_MERGED = 0;
+    private static final int CURSOR_NOT_MERGED = 1;
+    protected volatile PlayerViewListenerProxy playerViewListenerProxy;
     boolean active;
     private boolean initialListReceived;
     private MediaListEntry[] lastList;
@@ -78,44 +77,36 @@ TiledListModelListener {
         this.listRequestQueue = queue;
         this.listRequestDelayDispatcher = dispatcherBase;
         iDiagnosisManager.addDataProvider(iMediaTerminal.getTerminalID(), this.listRequestQueue);
-        this.playerViewListenerProxy = new AbstractMediaPlayViewList$PlayerViewListenerProxy(this);
+        this.playerViewListenerProxy = new PlayerViewListenerProxy(this);
     }
 
-    protected abstract void listStartupComplete() {
-    }
+    protected abstract void listStartupComplete();
 
-    protected abstract boolean isRequestFullList() {
-    }
+    protected abstract boolean isRequestFullList();
 
-    protected abstract TiledListModelApp getPlayViewListModel() {
-    }
+    protected abstract TiledListModelApp getPlayViewListModel();
 
-    protected abstract ChoiceModelApp getPlayableFilesAvailableModel() {
-    }
+    protected abstract ChoiceModelApp getPlayableFilesAvailableModel();
 
-    protected abstract AbstractMediaPlayViewListRow createRow(MediaListEntry mediaListEntry) {
-    }
+    protected abstract AbstractMediaPlayViewListRow createRow(MediaListEntry var1);
 
-    protected abstract IProgressIndication getListProgressIndicator() {
-    }
+    protected abstract IProgressIndication getListProgressIndicator();
 
-    protected abstract int getListRequestClientID() {
-    }
+    protected abstract int getListRequestClientID();
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void activate() {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.active = true;
         this.currentListSize = -1;
         this.setCursorMergeModeFlag(false);
@@ -141,9 +132,8 @@ TiledListModelListener {
         this.player.addTrackListener(this);
     }
 
-    @Override
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.active = false;
         if (this.isBlocked()) {
             this.unblockList();
@@ -159,7 +149,6 @@ TiledListModelListener {
         return 24;
     }
 
-    @Override
     public int getListSize() {
         return this.currentListSize;
     }
@@ -180,14 +169,13 @@ TiledListModelListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setAutomaticCursorMerge(boolean bl) {
         Object object = this.listUpdateMutex;
         synchronized (object) {
             if (this.isAutomaticCursorMerge() == bl) {
-                this.logger.log(1078071040, "[%1.setAutomaticCursorMerge] Already '%2'", (Object)"AbstractMediaPlayViewList", (Object)(bl ? "ON" : "OFF"));
+                this.logger.log(1000000, "[%1.setAutomaticCursorMerge] Already '%2'", (Object)LOGCLASS, (Object)(bl ? "ON" : "OFF"));
             }
-            this.logger.log(1078071040, "[%1.setAutomaticCursorMerge] '%2'", (Object)"AbstractMediaPlayViewList", (Object)(bl ? "ON" : "OFF"));
+            this.logger.log(1000000, "[%1.setAutomaticCursorMerge] '%2'", (Object)LOGCLASS, (Object)(bl ? "ON" : "OFF"));
             this.setCursorMergeModeFlag(bl);
             if (bl) {
                 this.triggerCursorMerge(this.getPlayViewListModel(), false);
@@ -195,25 +183,24 @@ TiledListModelListener {
         }
     }
 
-    @Override
     public void notifySameTrackSelected(MediaDetailInfo mediaDetailInfo, ResourceLocator resourceLocator) {
-        this.logger.log(1078071040, "[%1.notifySameTrackSelected]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.notifySameTrackSelected]", (Object)LOGCLASS);
         this.detailInfoChanged(mediaDetailInfo);
         this.coverArtChanged(resourceLocator);
     }
 
     private void triggerCursorMerge(BaseListModelApp baseListModelApp, boolean bl) {
         if (bl) {
-            this.logger.log(1078071040, "[%1.triggerCursorMerge] Forced.", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(1000000, "[%1.triggerCursorMerge] Forced.", (Object)LOGCLASS);
             baseListModelApp.trigger(ModelTrigger.JOIN_CURSOR);
         } else {
-            this.logger.log(1078071040, "[%1.triggerCursorMerge] if no scrolling", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(1000000, "[%1.triggerCursorMerge] if no scrolling", (Object)LOGCLASS);
             baseListModelApp.trigger(ModelTrigger.JOIN_CURSOR_NO_SCROLLING);
         }
     }
 
     protected final void triggerFullScreen() {
-        this.logger.log(1078071040, "[%1.triggerFullScreen]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.triggerFullScreen]", (Object)LOGCLASS);
         this.getPlayViewListModel().fireEvent(this.getTerminal().getTerminalID());
     }
 
@@ -227,7 +214,7 @@ TiledListModelListener {
             if (bl) {
                 this.currentFocusedRow = null;
             }
-            this.getChoiceModel(940442368).setValue(bl ? 1 : 0);
+            this.getChoiceModel(200248).setValue(bl ? 1 : 0);
         }
     }
 
@@ -235,7 +222,7 @@ TiledListModelListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void setCursorMergeModeFlagOnly(boolean bl) {
-        this.logger.log(14808325, "[%1.setCursorMergeModeFlagOnly] '%2'", (Object)"AbstractMediaPlayViewList", (Object)bl);
+        this.logger.log(100000000, "[%1.setCursorMergeModeFlagOnly] '%2'", (Object)LOGCLASS, (Object)bl);
         Object object = this.listUpdateMutex;
         synchronized (object) {
             this.automaticCursorMerge = bl;
@@ -255,24 +242,24 @@ TiledListModelListener {
     private void jumpToCurrentTrack() {
         AbstractMediaPlayViewListRow abstractMediaPlayViewListRow = this.getMediaPlayListRow(this.currentPlayingTrack.getEntryID());
         if (abstractMediaPlayViewListRow != null) {
-            this.logger.log(1078071040, "[%1.jumpToCurrentTrack] Playing row found (rowID='%2').", (Object)"AbstractMediaPlayViewList", abstractMediaPlayViewListRow.getUniqueID());
+            this.logger.log(1000000, "[%1.jumpToCurrentTrack] Playing row found (rowID='%2').", (Object)LOGCLASS, abstractMediaPlayViewListRow.getUniqueID());
             AbstractMediaPlayViewListRow abstractMediaPlayViewListRow2 = abstractMediaPlayViewListRow;
             if (abstractMediaPlayViewListRow2.equals(this.currentFocusedRow)) {
-                this.logger.log(1078071040, "[%1.jumpToCurrentTrack] Focus already set.", (Object)"AbstractMediaPlayViewList");
+                this.logger.log(1000000, "[%1.jumpToCurrentTrack] Focus already set.", (Object)LOGCLASS);
                 return;
             }
             this.currentFocusedRow = abstractMediaPlayViewListRow2;
             this.triggerCursorMerge(this.getPlayViewListModel(), false);
             return;
         }
-        this.logger.log(1078071040, "[%1.jumpToCurrentTrack] Playing row not found.", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.jumpToCurrentTrack] Playing row not found.", (Object)LOGCLASS);
         if (this.getListSize() == 0) {
-            this.logger.log(1078071040, "[%1.jumpToCurrentTrack] List is empty. Ignore.", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(1000000, "[%1.jumpToCurrentTrack] List is empty. Ignore.", (Object)LOGCLASS);
             return;
         }
         long l = this.currentPlayingTrack.getEntryID();
         if (l == -1L) {
-            this.logger.log(1078071040, "[%1.jumpToCurrentTrack] Track ID invalid. Request list from beginning.", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(1000000, "[%1.jumpToCurrentTrack] Track ID invalid. Request list from beginning.", (Object)LOGCLASS);
             this.listRequestQueue.enqueue(new PlayViewListRequest(this.logger, this, this.player, 0, this.getWindowRequestSize()));
             return;
         }
@@ -284,7 +271,7 @@ TiledListModelListener {
             this.listRequestQueue.abort();
             this.listRequestQueue.enqueue(new PlayViewListRequest(this.logger, this, this.player, l));
         } else {
-            this.logger.log(-2137614336, "[%1.jumpToCurrentTrack] No play view request. Request for '%2' already running.", (Object)"AbstractMediaPlayViewList", l);
+            this.logger.log(10000000, "[%1.jumpToCurrentTrack] No play view request. Request for '%2' already running.", (Object)LOGCLASS, l);
         }
     }
 
@@ -296,11 +283,10 @@ TiledListModelListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void clear() {
         Object object = this.listUpdateMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.clear]", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(1000000, "[%1.clear]", (Object)LOGCLASS);
             this.currentFocusedRow = null;
             this.clearList = true;
         }
@@ -314,11 +300,11 @@ TiledListModelListener {
         synchronized (object) {
             AbstractMediaPlayViewListRow abstractMediaPlayViewListRow = this.getMediaPlayListRow(l);
             if (abstractMediaPlayViewListRow != null) {
-                this.logger.log(1078071040, "[%1.setSelectedEntry] Entry to select found (rowID='%2').", (Object)"AbstractMediaPlayViewList", abstractMediaPlayViewListRow.getUniqueID());
+                this.logger.log(1000000, "[%1.setSelectedEntry] Entry to select found (rowID='%2').", (Object)LOGCLASS, abstractMediaPlayViewListRow.getUniqueID());
                 BaseListModelApp baseListModelApp = this.getPlayViewListModel().getCopy();
                 AbstractMediaPlayViewListRow abstractMediaPlayViewListRow2 = this.getCurrentSelectedRow();
                 if (abstractMediaPlayViewListRow2 != null) {
-                    this.logger.log(1078071040, "[%1.setSelectedEntry] Remove tracktime for '%2'", (Object)"AbstractMediaPlayViewList", abstractMediaPlayViewListRow2.getEntryID());
+                    this.logger.log(1000000, "[%1.setSelectedEntry] Remove tracktime for '%2'", (Object)LOGCLASS, abstractMediaPlayViewListRow2.getEntryID());
                     this.setTrackTime(null, baseListModelApp);
                     this.setPlaying(false, baseListModelApp);
                     baseListModelApp.setSelectedUniqueID(abstractMediaPlayViewListRow.getUniqueID());
@@ -326,9 +312,9 @@ TiledListModelListener {
                     boolean bl2 = this.getTerminal().getSourceController().getSelectedSlot().getMediaType() == 24;
                     int n = this.getTerminal().getSourceController().getSelectedSlot().getMediaType();
                     boolean bl3 = this.player.getPlaybackModeHandler().isRepeatTrack();
-                    this.logger.log(1078071040, new StringBuffer().append("[%1.setSelectedEntry] iAP2='%2', iPod='%3', repeatTrack='%4' activeMediaType ='").append(n).append("'.").toString(), (Object)"AbstractMediaPlayViewList", (Object)Boolean.toString(bl), (Object)Boolean.toString(bl2), (Object)Boolean.toString(bl3));
+                    this.logger.log(1000000, new StringBuffer().append("[%1.setSelectedEntry] iAP2='%2', iPod='%3', repeatTrack='%4' activeMediaType ='").append(n).append("'.").toString(), (Object)LOGCLASS, (Object)Boolean.toString(bl), (Object)Boolean.toString(bl2), (Object)Boolean.toString(bl3));
                     if (bl && bl2 && bl3) {
-                        this.logger.log(1078071040, "[%1.setSelectedEntry] iPod iAP2 with repeatTrack -> Set the playing flag. Don't wait for track change.", (Object)"AbstractMediaPlayViewList");
+                        this.logger.log(1000000, "[%1.setSelectedEntry] iPod iAP2 with repeatTrack -> Set the playing flag. Don't wait for track change.", (Object)LOGCLASS);
                         this.setPlaying(true, baseListModelApp);
                     }
                     this.getPlayViewListModel().update(baseListModelApp);
@@ -365,9 +351,8 @@ TiledListModelListener {
         }
     }
 
-    @Override
     public final void blockList() {
-        this.logger.log(1078071040, "[%1.blockList]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.blockList]", (Object)LOGCLASS);
         this.getPlayViewListModel().setStatus(0);
     }
 
@@ -375,18 +360,16 @@ TiledListModelListener {
         return this.getPlayViewListModel().getStatus() == 0;
     }
 
-    @Override
     public final void unblockList() {
-        this.logger.log(1078071040, "[%1.unblockList]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.unblockList]", (Object)LOGCLASS);
         this.getPlayViewListModel().setStatus(1);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void trackChanged(boolean bl, boolean bl2, PlayingTrack playingTrack, PlayTime playTime) {
-        this.logger.log(1078071040, "[%1.trackChanged] track changed=%2 tracktime=%3", (Object)"AbstractMediaPlayViewList", (Object)Boolean.toString(bl), (long)playTime.getPlayTime());
+        this.logger.log(1000000, "[%1.trackChanged] track changed=%2 tracktime=%3", (Object)LOGCLASS, (Object)Boolean.toString(bl), (long)playTime.getPlayTime());
         Object object = this.listUpdateMutex;
         synchronized (object) {
             this.currentTrackTime = playTime;
@@ -400,9 +383,9 @@ TiledListModelListener {
                 BaseListModelApp baseListModelApp = this.getPlayViewListModel().getCopy();
                 AbstractMediaPlayViewListRow abstractMediaPlayViewListRow2 = this.getMediaPlayListRow(this.currentPlayingTrack.getEntryID());
                 if (abstractMediaPlayViewListRow2 != null) {
-                    this.logger.log(1078071040, "[%1.trackChanged] Playing row found.", (Object)"AbstractMediaPlayViewList");
+                    this.logger.log(1000000, "[%1.trackChanged] Playing row found.", (Object)LOGCLASS);
                     if (abstractMediaPlayViewListRow != null) {
-                        this.logger.log(1078071040, "[%1.trackChanged] Remove tracktime for '%2'", (Object)"AbstractMediaPlayViewList", abstractMediaPlayViewListRow.getEntryID());
+                        this.logger.log(1000000, "[%1.trackChanged] Remove tracktime for '%2'", (Object)LOGCLASS, abstractMediaPlayViewListRow.getEntryID());
                         this.removePlayingTrack(baseListModelApp);
                     }
                     baseListModelApp.setSelectedUniqueID(abstractMediaPlayViewListRow2.getUniqueID());
@@ -411,7 +394,7 @@ TiledListModelListener {
                     }
                     this.setPlaying(true, baseListModelApp);
                     if (bl2) {
-                        this.logger.log(1078071040, "[%1.trackChanged] Skipped.", (Object)"AbstractMediaPlayViewList");
+                        this.logger.log(1000000, "[%1.trackChanged] Skipped.", (Object)LOGCLASS);
                         this.setCursorMergeModeFlag(true);
                     }
                     if (this.isAutomaticCursorMerge()) {
@@ -420,10 +403,10 @@ TiledListModelListener {
                     }
                     this.getPlayViewListModel().update(baseListModelApp);
                 } else {
-                    this.logger.log(1078071040, "[%1.trackChanged] Playing row not found.", (Object)"AbstractMediaPlayViewList");
+                    this.logger.log(1000000, "[%1.trackChanged] Playing row not found.", (Object)LOGCLASS);
                     this.getPlayViewListModel().update(baseListModelApp);
                     if (this.currentListSize != -1) {
-                        this.logger.log(1078071040, "[%1.trackChanged] Jump to current track.", (Object)"AbstractMediaPlayViewList");
+                        this.logger.log(1000000, "[%1.trackChanged] Jump to current track.", (Object)LOGCLASS);
                         this.jumpToCurrentTrack();
                     }
                 }
@@ -434,7 +417,7 @@ TiledListModelListener {
     }
 
     protected void removePlayingTrack(BaseListModelApp baseListModelApp) {
-        this.logger.log(1078071040, "[%1.removePlayingTrack]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.removePlayingTrack]", (Object)LOGCLASS);
         if (this.player.supportsPlaytime()) {
             this.setTrackTime(null, baseListModelApp);
         }
@@ -444,13 +427,13 @@ TiledListModelListener {
     }
 
     private boolean setFocusedCursorPosition(AbstractMediaPlayViewListRow abstractMediaPlayViewListRow) {
-        this.logger.log(1078071040, "[%1.setFocusedCursorPosition] uId='%2' entryId='%3'", (Object)"AbstractMediaPlayViewList", abstractMediaPlayViewListRow.getUniqueID(), abstractMediaPlayViewListRow.getEntryID());
+        this.logger.log(1000000, "[%1.setFocusedCursorPosition] uId='%2' entryId='%3'", (Object)LOGCLASS, abstractMediaPlayViewListRow.getUniqueID(), abstractMediaPlayViewListRow.getEntryID());
         this.getPlayViewListModel().getMenu().setFocusedItem(this.getPlayViewListModel().getID(), FocusAdvice.KEEP_POSITION, abstractMediaPlayViewListRow.getUniqueID());
         return true;
     }
 
     private AbstractMediaPlayViewListRow getMediaPlayListRow(long l) {
-        this.logger.log(1078071040, "[%1.getMediaPlayListRow] eId='%2'", (Object)"AbstractMediaPlayViewList", l);
+        this.logger.log(1000000, "[%1.getMediaPlayListRow] eId='%2'", (Object)LOGCLASS, l);
         Iterator iterator = this.getPlayViewListModel().asList().iterator();
         while (iterator.hasNext()) {
             AbstractMediaPlayViewListRow abstractMediaPlayViewListRow = (AbstractMediaPlayViewListRow)iterator.next();
@@ -485,11 +468,10 @@ TiledListModelListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void detailInfoChanged(MediaDetailInfo mediaDetailInfo) {
         Object object = this.listUpdateMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.detailInfoChanged] aCh='%2' tCh='%3'", (Object)"AbstractMediaPlayViewList", (long)mediaDetailInfo.getActiveChapter(), (long)mediaDetailInfo.getNumChapters());
+            this.logger.log(1000000, "[%1.detailInfoChanged] aCh='%2' tCh='%3'", (Object)LOGCLASS, (long)mediaDetailInfo.getActiveChapter(), (long)mediaDetailInfo.getNumChapters());
             this.currentDetailInfo = mediaDetailInfo;
             this.setDetailInfoInList();
         }
@@ -501,14 +483,14 @@ TiledListModelListener {
     private void setDetailInfoInList() {
         Object object = this.listUpdateMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.setDetailInfoInList]", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(1000000, "[%1.setDetailInfoInList]", (Object)LOGCLASS);
             AbstractMediaPlayViewListRow abstractMediaPlayViewListRow = this.getCurrentSelectedRow();
             if (null != abstractMediaPlayViewListRow && null != this.currentDetailInfo) {
                 abstractMediaPlayViewListRow.setDetailInfos(this.currentDetailInfo);
                 if (this.currentCover != null) {
                     abstractMediaPlayViewListRow.setCoverArt(this.currentCover);
                 } else {
-                    this.logger.log(1078071040, "[%1.setDetailInfoInList] cover: 'null'.", (Object)"AbstractMediaPlayViewList");
+                    this.logger.log(1000000, "[%1.setDetailInfoInList] cover: 'null'.", (Object)LOGCLASS);
                 }
                 TiledListModelApp tiledListModelApp = this.getPlayViewListModel();
                 if (tiledListModelApp.getSelected() != null) {
@@ -521,19 +503,18 @@ TiledListModelListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void coverArtChanged(ResourceLocator resourceLocator) {
         Object object = this.listUpdateMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.coverArtChanged] cover: '%2'.", (Object)"AbstractMediaPlayViewList", (Object)resourceLocator);
+            this.logger.log(1000000, "[%1.coverArtChanged] cover: '%2'.", (Object)LOGCLASS, (Object)resourceLocator);
             this.currentCover = resourceLocator;
             AbstractMediaPlayViewListRow abstractMediaPlayViewListRow = this.getCurrentSelectedRow();
             if (null != abstractMediaPlayViewListRow) {
-                this.logger.log(1078071040, "[%1.coverArtChanged] set cover: '%2' for entry: '%3'.", (Object)"AbstractMediaPlayViewList", (Object)resourceLocator, abstractMediaPlayViewListRow.getEntryID());
+                this.logger.log(1000000, "[%1.coverArtChanged] set cover: '%2' for entry: '%3'.", (Object)LOGCLASS, (Object)resourceLocator, abstractMediaPlayViewListRow.getEntryID());
                 abstractMediaPlayViewListRow.setCoverArt(resourceLocator);
                 TiledListModelApp tiledListModelApp = this.getPlayViewListModel();
                 if (tiledListModelApp.getSelected() != null) {
-                    this.logger.log(1078071040, "[%1.coverArtChanged] update row after cover change.", (Object)"AbstractMediaPlayViewList");
+                    this.logger.log(1000000, "[%1.coverArtChanged] update row after cover change.", (Object)LOGCLASS);
                     tiledListModelApp.setRow(tiledListModelApp.getSelected().getIndex(), abstractMediaPlayViewListRow);
                 }
             }
@@ -544,7 +525,7 @@ TiledListModelListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void updateTotalPlaytimeCapability(boolean bl) {
-        this.logger.log(1078071040, "[%1.updatePlaytimeCapability] '%2'", (Object)"AbstractMediaPlayViewList", (Object)bl);
+        this.logger.log(1000000, "[%1.updatePlaytimeCapability] '%2'", (Object)LOGCLASS, (Object)bl);
         Object object = this.listUpdateMutex;
         synchronized (object) {
             BaseListModelApp baseListModelApp = this.getPlayViewListModel().getCopy();
@@ -562,7 +543,7 @@ TiledListModelListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void updateList(MediaListEntry[] mediaListEntryArray, int n, int n2, int n3) {
-        this.logger.log(1078071040, "[%1.updateList] index='%2'", (Object)"AbstractMediaPlayViewList", (long)n);
+        this.logger.log(1000000, "[%1.updateList] index='%2'", (Object)LOGCLASS, (long)n);
         this.lastList = mediaListEntryArray;
         this.lastIndex = n;
         EvoListRow[] evoListRowArray = new AbstractMediaPlayViewListRow[mediaListEntryArray.length];
@@ -583,29 +564,29 @@ TiledListModelListener {
                 evoListRowArray[i2] = abstractMediaPlayViewListRow3;
                 if (!this.listInvalid && abstractMediaPlayViewListRow2 != null && abstractMediaPlayViewListRow2.getEntryID() != this.currentPlayingTrack.getEntryID()) {
                     if (abstractMediaPlayViewListRow2.getEntryID() == ((MediaListEntry)object2).getEntryID()) {
-                        this.logger.log(-2137614336, "[%1.updateList] Selected row with entryID '%2' is not the currentPlaying entryID '%3', a track change is in progress. Set current row to selected row.", (Object)"AbstractMediaPlayViewList", abstractMediaPlayViewListRow2.getEntryID(), this.currentPlayingTrack.getEntryID());
+                        this.logger.log(10000000, "[%1.updateList] Selected row with entryID '%2' is not the currentPlaying entryID '%3', a track change is in progress. Set current row to selected row.", (Object)LOGCLASS, abstractMediaPlayViewListRow2.getEntryID(), this.currentPlayingTrack.getEntryID());
                         evoListRow = abstractMediaPlayViewListRow3;
                         bl = true;
                     }
                 } else if (this.currentPlayingTrack.getEntryID() == ((MediaListEntry)object2).getEntryID()) {
-                    this.logger.log(-2137614336, "[%1.updateList] Playing row found.", (Object)"AbstractMediaPlayViewList");
+                    this.logger.log(10000000, "[%1.updateList] Playing row found.", (Object)LOGCLASS);
                     evoListRow = abstractMediaPlayViewListRow3;
                 }
                 if (this.currentFocusedRow == null || this.currentFocusedRow.getEntryID() != ((MediaListEntry)object2).getEntryID()) continue;
-                this.logger.log(-2137614336, "[%1.updateList] Focused row found.", (Object)"AbstractMediaPlayViewList");
+                this.logger.log(10000000, "[%1.updateList] Focused row found.", (Object)LOGCLASS);
                 abstractMediaPlayViewListRow = abstractMediaPlayViewListRow3;
             }
             TiledListModelApp tiledListModelApp = this.getPlayViewListModel();
-            this.logger.log(-2137614336, "[%1.updateList] Update list model.", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(10000000, "[%1.updateList] Update list model.", (Object)LOGCLASS);
             object2 = tiledListModelApp.getCopy();
             if (this.clearList) {
-                this.logger.log(-2137614336, "[%1.updateList] clear List.", (Object)"AbstractMediaPlayViewList");
+                this.logger.log(10000000, "[%1.updateList] clear List.", (Object)LOGCLASS);
                 tiledListModelApp.getMenu().resetFocusedItem();
                 object2.clearAll();
                 this.clearList = false;
             }
             if (this.isJumpToCurrentListRequestRunning && null != abstractMediaPlayViewListRow2) {
-                this.logger.log(-2137614336, "[%1.updateList] jump to current request is running and current selected row is found.", (Object)"AbstractMediaPlayViewList");
+                this.logger.log(10000000, "[%1.updateList] jump to current request is running and current selected row is found.", (Object)LOGCLASS);
                 this.removePlayingTrack((BaseListModelApp)object2);
                 if (this.player.supportsPlaytime()) {
                     abstractMediaPlayViewListRow2.setTime(this.currentTrackTime);
@@ -620,7 +601,7 @@ TiledListModelListener {
                     if (!bl) {
                         this.setTrackTime(this.currentTrackTime, (BaseListModelApp)object2);
                     } else {
-                        this.logger.log(-2137614336, "[%1.updateList] Track change in progress, track time not written to selected row.", (Object)"AbstractMediaPlayViewList");
+                        this.logger.log(10000000, "[%1.updateList] Track change in progress, track time not written to selected row.", (Object)LOGCLASS);
                     }
                 }
                 if (this.player.isReadyToPlay()) {
@@ -631,28 +612,28 @@ TiledListModelListener {
             boolean bl3 = n3 < 0 && !this.listInvalid;
             this.listInvalid = false;
             if (this.isJumpToCurrentListRequestRunning) {
-                this.logger.log(-2137614336, "[%1.updateList] Merge C1/C2 cursor.", (Object)"AbstractMediaPlayViewList");
+                this.logger.log(10000000, "[%1.updateList] Merge C1/C2 cursor.", (Object)LOGCLASS);
                 if (abstractMediaPlayViewListRow2 != null) {
                     this.setAutomaticCursorMerge(true);
                     this.currentFocusedRow = abstractMediaPlayViewListRow2;
                     this.isJumpToCurrentListRequestRunning = false;
                 } else {
-                    this.logger.log(-2137614336, "[%1.updateList] No current selected row.", (Object)"AbstractMediaPlayViewList");
+                    this.logger.log(10000000, "[%1.updateList] No current selected row.", (Object)LOGCLASS);
                 }
             } else if (bl3) {
                 if (abstractMediaPlayViewListRow != null && abstractMediaPlayViewListRow2 != null && abstractMediaPlayViewListRow.getEntryID() == abstractMediaPlayViewListRow2.getEntryID()) {
-                    this.logger.log(-2137614336, "[%1.updateList] Merge cursor.", (Object)"AbstractMediaPlayViewList");
+                    this.logger.log(10000000, "[%1.updateList] Merge cursor.", (Object)LOGCLASS);
                     this.setAutomaticCursorMerge(true);
                 } else if (abstractMediaPlayViewListRow != null && this.automaticCursorMerge) {
                     this.setFocusedCursorPosition(abstractMediaPlayViewListRow);
                 } else {
-                    this.logger.log(-2137614336, "[%1.updateList] No focused row.", (Object)"AbstractMediaPlayViewList");
+                    this.logger.log(10000000, "[%1.updateList] No focused row.", (Object)LOGCLASS);
                     this.currentFocusedRow = null;
                 }
             }
             this.setDetailInfoInList();
             if (bl2 && this.currentPlayingTrack != null && this.currentPlayingTrack.getEntryID() != -1L) {
-                this.logger.log(1078071040, "[%1.updateList] simulating track change to initialize playview", (Object)"AbstractMediaPlayViewList");
+                this.logger.log(1000000, "[%1.updateList] simulating track change to initialize playview", (Object)LOGCLASS);
                 this.trackChanged(true, false, this.currentPlayingTrack, this.currentTrackTime);
                 this.coverArtChanged(this.currentCover);
             }
@@ -662,9 +643,8 @@ TiledListModelListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void listChanged(boolean bl, long l, int n, int n2) {
-        this.logger.log(1078071040, "[%1.listChanged] eId='%2' size='%3'", (Object)"AbstractMediaPlayViewList", (Object)Long.toString(l), (Object)Integer.toString(n));
+        this.logger.log(1000000, "[%1.listChanged] eId='%2' size='%3'", (Object)LOGCLASS, (Object)Long.toString(l), (Object)Integer.toString(n));
         this.setListSize(n, (n2 & 0x1000) == 0);
         ChoiceModelApp choiceModelApp = this.getPlayableFilesAvailableModel();
         if (choiceModelApp != null) {
@@ -679,7 +659,7 @@ TiledListModelListener {
         if (bl) {
             Object object = this.listUpdateMutex;
             synchronized (object) {
-                this.logger.log(1078071040, "[%1.listChanged] Complete list change. Wait for list update", (Object)"AbstractMediaPlayViewList");
+                this.logger.log(1000000, "[%1.listChanged] Complete list change. Wait for list update", (Object)LOGCLASS);
                 this.blockList();
                 this.listRequestQueue.abort();
                 this.clear();
@@ -687,7 +667,7 @@ TiledListModelListener {
                 this.listRequestQueue.enqueue(new PlayViewListRequest(this.logger, this, this.player, l));
             }
         }
-        this.logger.log(1078071040, "[%1.listChanged] Update play view size.", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.listChanged] Update play view size.", (Object)LOGCLASS);
         Object object = this.listUpdateMutex;
         synchronized (object) {
             AbstractMediaPlayViewListRow abstractMediaPlayViewListRow = this.currentFocusedRow;
@@ -697,26 +677,25 @@ TiledListModelListener {
             }
             if (abstractMediaPlayViewListRow == null) {
                 if (l == -1L) {
-                    this.logger.log(1078071040, "[%1.listChanged] No focused row. Update list from the beginning.", (Object)"AbstractMediaPlayViewList");
+                    this.logger.log(1000000, "[%1.listChanged] No focused row. Update list from the beginning.", (Object)LOGCLASS);
                     this.listRequestQueue.enqueue(new PlayViewListRequest(this.logger, this, this.player, 0, this.getWindowRequestSize()));
                     return;
                 }
-                this.logger.log(1078071040, "[%1.listChanged] No focused row. Update list from actual track. entryID = '%2' (wait for jump to current track...)", (Object)"AbstractMediaPlayViewList", l);
+                this.logger.log(1000000, "[%1.listChanged] No focused row. Update list from actual track. entryID = '%2' (wait for jump to current track...)", (Object)LOGCLASS, l);
                 return;
             }
-            this.logger.log(1078071040, "[%1.listChanged] Update list arround focused row.", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(1000000, "[%1.listChanged] Update list arround focused row.", (Object)LOGCLASS);
             PlayViewListRequest playViewListRequest = (PlayViewListRequest)this.listRequestQueue.getRunningJob();
             if (null == playViewListRequest || abstractMediaPlayViewListRow.getEntryID() != playViewListRequest.getEntryId()) {
                 this.listRequestQueue.enqueue(new PlayViewListRequest(this.logger, this, this.player, abstractMediaPlayViewListRow.getEntryID()));
             } else {
-                this.logger.log(-2137614336, "[%1.listChanged] No play view request. Request for '%2' already running.", (Object)"AbstractMediaPlayViewList", abstractMediaPlayViewListRow.getEntryID());
+                this.logger.log(10000000, "[%1.listChanged] No play view request. Request for '%2' already running.", (Object)LOGCLASS, abstractMediaPlayViewListRow.getEntryID());
             }
         }
     }
 
-    @Override
     public void listInvalidated() {
-        this.logger.log(1078071040, "[%1.listInvalidated]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.listInvalidated]", (Object)LOGCLASS);
         this.blockList();
         this.clear();
         this.listInvalid = true;
@@ -727,9 +706,8 @@ TiledListModelListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void listChangeOnSelection(boolean bl) {
-        this.logger.log(1078071040, "[%1.listChangeOnSelection]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.listChangeOnSelection]", (Object)LOGCLASS);
         this.blockList();
         this.setCursorMergeModeFlag(true);
         if (!bl) {
@@ -741,24 +719,22 @@ TiledListModelListener {
         }
     }
 
-    @Override
     public final int getClientID() {
         return this.getListRequestClientID();
     }
 
-    @Override
     public void responsePlayView(int n, MediaListEntry[] mediaListEntryArray, int n2) {
-        this.logger.log(1078071040, "[%1.responsePlayView]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.responsePlayView]", (Object)LOGCLASS);
         this.initialListReceived = true;
         if (this.getListSize() > 0) {
             try {
                 this.getRunningJob().responsePlayView(n, mediaListEntryArray, n2);
             }
             catch (Exception exception) {
-                this.logger.log(-1601830656, "[%1.responsePlayView] Error on update list occurred.", (Object)"AbstractMediaPlayViewList", (Throwable)exception);
+                this.logger.log(100000, "[%1.responsePlayView] Error on update list occurred.", (Object)LOGCLASS, (Throwable)exception);
             }
         } else {
-            this.logger.log(1078071040, "[%1.responsePlayView] List size changed to 0. Ignore response.", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(1000000, "[%1.responsePlayView] List size changed to 0. Ignore response.", (Object)LOGCLASS);
         }
         this.unblockList();
         if (this.getListProgressIndicator() != null) {
@@ -767,14 +743,13 @@ TiledListModelListener {
         this.finishListStartup();
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted] Request aborted.", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.errorListRequestAborted] Request aborted.", (Object)LOGCLASS);
         this.getRunningJob().errorListRequestAborted();
     }
 
     public void errorForJumpToTrackListRequest() {
-        this.logger.log(1078071040, "[%1.errorForJumpToTrackListRequest]", (Object)"AbstractMediaPlayViewList");
+        this.logger.log(1000000, "[%1.errorForJumpToTrackListRequest]", (Object)LOGCLASS);
         this.unblockList();
         this.isJumpToCurrentListRequestRunning = false;
         this.finishListStartup();
@@ -788,12 +763,11 @@ TiledListModelListener {
         }
     }
 
-    @Override
     public void requestItems(int n, int n2, int n3, int n4, int n5) {
-        this.logger.log(1078071040, "[%1.requestItems] startIdx='%2' len='%3'", (Object)"AbstractMediaPlayViewList", (long)n, (long)n2);
+        this.logger.log(1000000, "[%1.requestItems] startIdx='%2' len='%3'", (Object)LOGCLASS, (long)n, (long)n2);
         if (this.currentListSize == -1 || !this.initialListReceived) {
-            this.logger.log(1078071040, "[%1.requestItems] invalid playview size or no initial data - delaying request [%2, %3]", (Object)"AbstractMediaPlayViewList", (Object)Integer.toString(this.currentListSize), (Object)Boolean.toString(this.initialListReceived));
-            this.listRequestDelayDispatcher.execute(new AbstractMediaPlayViewList$PlayViewListDelayJob(this, new PlayViewListRequest(this.logger, this, this.player, n, n2, n3)), 0);
+            this.logger.log(1000000, "[%1.requestItems] invalid playview size or no initial data - delaying request [%2, %3]", (Object)LOGCLASS, (Object)Integer.toString(this.currentListSize), (Object)Boolean.toString(this.initialListReceived));
+            this.listRequestDelayDispatcher.execute(new PlayViewListDelayJob(new PlayViewListRequest(this.logger, this, this.player, n, n2, n3)), 100L);
             return;
         }
         this.listRequestQueue.enqueue(new PlayViewListRequest(this.logger, this, this.player, n, n2, n3));
@@ -802,11 +776,10 @@ TiledListModelListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
         Object object = this.listUpdateMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.unrequestItems] startIdx='%2' len='%3'", (Object)"AbstractMediaPlayViewList", (long)n, (long)n2);
+            this.logger.log(1000000, "[%1.unrequestItems] startIdx='%2' len='%3'", (Object)LOGCLASS, (long)n, (long)n2);
             int n5 = n + n2;
             int n6 = -1;
             if (this.getPlayViewListModel().getSelected() != null) {
@@ -825,7 +798,7 @@ TiledListModelListener {
                 if (this.logger.isInfo()) {
                     object2 = new Buffer(70);
                     ((Buffer)object2).append("remove startIdx='").append(n).append("' len='").append(n9).append("' and startIdx='").append(n8 - 1).append("' len='").append(n10).append("'");
-                    this.logger.log(1078071040, "[%1.unrequestItems] %2", (Object)"AbstractMediaPlayViewList", (Object)((Buffer)object2).toString());
+                    this.logger.log(1000000, "[%1.unrequestItems] %2", (Object)LOGCLASS, (Object)((Buffer)object2).toString());
                 }
                 object2 = this.getPlayViewListModel().getCopy();
                 object2.clearRows(n, n9);
@@ -840,17 +813,15 @@ TiledListModelListener {
                 n = n8 + 1;
             }
             if (n < n5) {
-                this.logger.log(1078071040, "[%1.unrequestItems] remove startIdx='%2' len='%3'", (Object)"AbstractMediaPlayViewList", (long)n, (long)(n5 - n));
+                this.logger.log(1000000, "[%1.unrequestItems] remove startIdx='%2' len='%3'", (Object)LOGCLASS, (long)n, (long)(n5 - n));
                 this.getPlayViewListModel().clearRows(n, n5 - n);
             }
         }
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         this.setCursorMergeModeFlagOnly(true);
     }
@@ -858,17 +829,16 @@ TiledListModelListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logger.log(1078071040, "[%1.itemFocused] '%2' (vIdx='%3').", (Object)"AbstractMediaPlayViewList", (Object)evoListRow, (long)n3);
+        this.logger.log(1000000, "[%1.itemFocused] '%2' (vIdx='%3').", (Object)LOGCLASS, (Object)evoListRow, (long)n3);
         if (this.isBlocked()) {
-            this.logger.log(-1601830656, "[%1.itemFocused] List blocked. Ignore.", (Object)"AbstractMediaPlayViewList");
+            this.logger.log(100000, "[%1.itemFocused] List blocked. Ignore.", (Object)LOGCLASS);
             return;
         }
         Object object = this.listUpdateMutex;
         synchronized (object) {
             if (evoListRow == null) {
-                this.logger.log(-1601830656, "[%1.itemFocused] Focused row is null. Ignore.", (Object)"AbstractMediaPlayViewList");
+                this.logger.log(100000, "[%1.itemFocused] Focused row is null. Ignore.", (Object)LOGCLASS);
                 this.currentFocusedRow = null;
                 return;
             }
@@ -876,19 +846,19 @@ TiledListModelListener {
             this.getBaseListModel(n).getMenu().resetFocusedItem();
             AbstractMediaPlayViewListRow abstractMediaPlayViewListRow = this.getCurrentSelectedRow();
             if (abstractMediaPlayViewListRow == null) {
-                this.logger.log(1078071040, "[%1.itemFocused] No playing row.", (Object)"AbstractMediaPlayViewList");
+                this.logger.log(1000000, "[%1.itemFocused] No playing row.", (Object)LOGCLASS);
                 return;
             }
             if (this.currentFocusedRow.equals(abstractMediaPlayViewListRow)) {
-                this.logger.log(1078071040, "[%1.itemFocused] Playing row.", (Object)"AbstractMediaPlayViewList");
-                this.getChoiceModel(-1794112768).setValue(0);
+                this.logger.log(1000000, "[%1.itemFocused] Playing row.", (Object)LOGCLASS);
+                this.getChoiceModel(200853).setValue(0);
                 if (!this.isAutomaticCursorMerge()) {
                     this.setAutomaticCursorMerge(true);
                 }
                 return;
             }
             this.setCursorMergeModeFlagOnly(false);
-            this.getChoiceModel(-1794112768).setValue(1);
+            this.getChoiceModel(200853).setValue(1);
         }
     }
 
@@ -898,24 +868,83 @@ TiledListModelListener {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("AbstractMediaPlayViewList").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 
-    static /* synthetic */ int access$000(AbstractMediaPlayViewList abstractMediaPlayViewList) {
-        return abstractMediaPlayViewList.currentListSize;
+    class PlayViewListDelayJob
+    implements Runnable {
+        PlayViewListRequest request;
+
+        PlayViewListDelayJob(PlayViewListRequest playViewListRequest) {
+            this.request = playViewListRequest;
+        }
+
+        public void run() {
+            if (!AbstractMediaPlayViewList.this.active) {
+                return;
+            }
+            if (AbstractMediaPlayViewList.this.currentListSize == -1 || !AbstractMediaPlayViewList.this.initialListReceived) {
+                AbstractMediaPlayViewList.this.logger.log(1000000, "[PlayViewListDelayJob.run] delay play view request %1]", (long)this.request.getRequestId());
+                AbstractMediaPlayViewList.this.listRequestDelayDispatcher.execute(new PlayViewListDelayJob(this.request), 100L);
+                return;
+            }
+            AbstractMediaPlayViewListRow abstractMediaPlayViewListRow = AbstractMediaPlayViewList.this.getCurrentFocusedRow();
+            MediaListEntry mediaListEntry = null;
+            int n = -1;
+            if (abstractMediaPlayViewListRow != null && AbstractMediaPlayViewList.this.lastList != null && AbstractMediaPlayViewList.this.lastList.length != 0) {
+                for (int i2 = 0; i2 < AbstractMediaPlayViewList.this.lastList.length; ++i2) {
+                    if (AbstractMediaPlayViewList.this.lastList[i2].getEntryID() != abstractMediaPlayViewListRow.getEntryID()) continue;
+                    mediaListEntry = AbstractMediaPlayViewList.this.lastList[i2];
+                    n = AbstractMediaPlayViewList.this.lastIndex + i2;
+                    break;
+                }
+            }
+            if (mediaListEntry != null) {
+                AbstractMediaPlayViewList.this.logger.log(1000000, "[PlayViewListDelayJob.run] return playview with focused entry as error reply %1]", (long)this.request.getRequestId());
+                AbstractMediaPlayViewList.this.updateList(new MediaListEntry[]{mediaListEntry}, n, 0, this.request.getRequestId());
+            } else {
+                AbstractMediaPlayViewList.this.logger.log(1000000, "[PlayViewListDelayJob.run] return empty playview as error reply %1]", (long)this.request.getRequestId());
+                AbstractMediaPlayViewList.this.updateList(new MediaListEntry[0], 0, 0, this.request.getRequestId());
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$100(AbstractMediaPlayViewList abstractMediaPlayViewList) {
-        return abstractMediaPlayViewList.initialListReceived;
-    }
+    protected static class PlayerViewListenerProxy
+    implements IPlayerViewListener {
+        protected final IPlayerViewListener listener;
 
-    static /* synthetic */ MediaListEntry[] access$200(AbstractMediaPlayViewList abstractMediaPlayViewList) {
-        return abstractMediaPlayViewList.lastList;
-    }
+        public PlayerViewListenerProxy(IPlayerViewListener iPlayerViewListener) {
+            this.listener = iPlayerViewListener;
+        }
 
-    static /* synthetic */ int access$300(AbstractMediaPlayViewList abstractMediaPlayViewList) {
-        return abstractMediaPlayViewList.lastIndex;
+        public void listInvalidated() {
+            this.listener.listInvalidated();
+        }
+
+        public void listChangeOnSelection(boolean bl) {
+            this.listener.listChangeOnSelection(bl);
+        }
+
+        public void listChanged(boolean bl, long l, int n, int n2) {
+            this.listener.listChanged(bl, l, n, n2);
+        }
+
+        public int getClientID() {
+            return this.listener.getClientID();
+        }
+
+        public void responsePlayView(int n, MediaListEntry[] mediaListEntryArray, int n2) {
+            this.listener.responsePlayView(n, mediaListEntryArray, n2);
+        }
+
+        public void errorListRequestAborted() {
+            this.listener.errorListRequestAborted();
+        }
+
+        public void notifySameTrackSelected(MediaDetailInfo mediaDetailInfo, ResourceLocator resourceLocator) {
+            this.listener.notifySameTrackSelected(mediaDetailInfo, resourceLocator);
+        }
     }
 }
 

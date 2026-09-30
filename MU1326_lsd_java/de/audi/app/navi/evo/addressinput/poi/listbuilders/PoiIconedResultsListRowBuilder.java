@@ -59,7 +59,6 @@ implements IEvoListRowBuilder {
         return posPosition;
     }
 
-    @Override
     public EvoListRow buildListRow(LIValueListElement lIValueListElement, int n) {
         return new PoiIconedResultsListRow(this.iconHandler, lIValueListElement, n, this.rrdInitialPoisitionHandler.getInitialPosition(), this.env);
     }

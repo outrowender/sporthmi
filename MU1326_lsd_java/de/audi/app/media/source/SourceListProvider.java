@@ -18,7 +18,7 @@ import java.util.List;
 
 public class SourceListProvider
 implements IMultipleSourceSlotListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "SourceListProvider";
     private final LogChannel logger;
     private final Object sourceListListenerMutx = new Object();
     private volatile HashMap completeSourceListMap = new HashMap(14);
@@ -29,7 +29,7 @@ implements IMultipleSourceSlotListener {
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"SourceListProvider");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.sourceListListener.clear();
         this.completeSourceListMap.clear();
     }
@@ -38,7 +38,7 @@ implements IMultipleSourceSlotListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void addSourceListListener(ISourceListListener iSourceListListener) {
-        this.logger.log(1078071040, "[%1.addSourceListListener] '%2'", (Object)"SourceListProvider", (Object)iSourceListListener);
+        this.logger.log(1000000, "[%1.addSourceListListener] '%2'", (Object)LOGCLASS, (Object)iSourceListListener);
         Object object = this.sourceListListenerMutx;
         synchronized (object) {
             if (this.sourceListListener.contains(iSourceListListener)) {
@@ -56,21 +56,20 @@ implements IMultipleSourceSlotListener {
     }
 
     private void notifySourceListListener() {
-        this.logger.log(-2137614336, "[%1.notifySourceListListener]", (Object)"SourceListProvider");
+        this.logger.log(10000000, "[%1.notifySourceListListener]", (Object)LOGCLASS);
         Iterator iterator = this.sourceListListener.iterator();
         while (iterator.hasNext()) {
             try {
                 ((ISourceListListener)iterator.next()).sourceListChanged(this.completeSourceListMap);
             }
             catch (Exception exception) {
-                this.logger.log(-1601830656, "[%1.notifySourceListListener] %2", (Object)"SourceListProvider", (Throwable)exception);
+                this.logger.log(100000, "[%1.notifySourceListListener] %2", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public void slotsChanged(ISource[] iSourceArray) {
-        this.logger.log(-2137614336, "[%1.slotsChanged]", (Object)"SourceListProvider");
+        this.logger.log(10000000, "[%1.slotsChanged]", (Object)LOGCLASS);
         for (int i2 = 0; i2 < iSourceArray.length; ++i2) {
             ISource iSource = iSourceArray[i2];
             if (MediaUtils.isInternalSource(iSource.getType())) continue;
@@ -87,7 +86,7 @@ implements IMultipleSourceSlotListener {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("SourceListProvider").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 }

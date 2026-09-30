@@ -16,17 +16,14 @@ implements IOperatorCallSDSService {
         super(logChannel, "OperatorCallSDSService");
     }
 
-    @Override
     public void startCallcenterCallBySDS(int n, IOperatorCallSDSServiceListener iOperatorCallSDSServiceListener, boolean bl) {
         super.log();
     }
 
-    @Override
     public int getNumberOfPoisOfHistoryCallForSDS(int n, int n2) {
         return 0;
     }
 
-    @Override
     public OperatorCallResult getPoiOfIndexForSDS(int n, int n2) {
         return null;
     }

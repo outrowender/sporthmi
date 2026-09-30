@@ -11,11 +11,11 @@ import java.util.NoSuchElementException;
 
 public abstract class AbstractEventMediator
 implements EventMediator {
-    protected static final int CRITICAL_DATA_ERROR;
-    protected static final int DATA_ERROR;
-    public static final int EVENT_TRACE;
-    public static final long DELAY_DEFAULT;
-    public static final long DELAY_MIN;
+    protected static final int CRITICAL_DATA_ERROR = 10000;
+    protected static final int DATA_ERROR = 10000;
+    public static final int EVENT_TRACE = 1000000;
+    public static final long DELAY_DEFAULT = 3000L;
+    public static final long DELAY_MIN = 1L;
     protected volatile boolean active;
     protected volatile boolean started = false;
     private int postponedAction = -1;
@@ -40,58 +40,52 @@ implements EventMediator {
         this.id = l;
     }
 
-    @Override
     public boolean isActive() {
         return this.active;
     }
 
-    @Override
     public boolean isStarted() {
         return this.started;
     }
 
-    @Override
     public int activate(boolean bl) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[AbstractEventMediator#activate] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[AbstractEventMediator#activate] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         this.active = true;
         return -1;
     }
 
-    @Override
     public int reactivate(boolean bl) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[AbstractEventMediator#reactivate] (MEDID#%1), postponedAction: (EVENTID#2)", (Object)Long.toString(this.getID()), (long)this.getPostponedActionWithoutReset());
+            this.manager.getLogChannel().log(100000000, "[AbstractEventMediator#reactivate] (MEDID#%1), postponedAction: (EVENTID#2)", (Object)Long.toString(this.getID()), (long)this.getPostponedActionWithoutReset());
         }
         this.active = true;
         return this.getPostponedAction();
     }
 
-    @Override
     public void deactivate() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[AbstractEventMediator#deactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[AbstractEventMediator#deactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         this.active = false;
     }
 
-    @Override
     public boolean locksScreen() {
         return false;
     }
 
     protected void triggerAction(int n) {
         if (this.active) {
-            this.manager.getEventLogChannel().log(1078071040, "[AbstractEventMediator#triggerAction] mediator (MEDID#%2) fires state machine event (EVENTID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+            this.manager.getEventLogChannel().log(1000000, "[AbstractEventMediator#triggerAction] mediator (MEDID#%2) fires state machine event (EVENTID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
             if (this.manager.getLogChannel().isDebug2()) {
-                this.manager.getLogChannel().log(14808325, "[AbstractEventMediator#triggerAction] mediator (MEDID#%2) fires state machine event (EVENTID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+                this.manager.getLogChannel().log(100000000, "[AbstractEventMediator#triggerAction] mediator (MEDID#%2) fires state machine event (EVENTID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
             }
             this.manager.fireEvent(n);
         } else {
-            this.manager.getEventLogChannel().log(1078071040, "[AbstractEventMediator#triggerAction] inactive mediator (MEDID#%2) postpones state machine event (EVENTID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+            this.manager.getEventLogChannel().log(1000000, "[AbstractEventMediator#triggerAction] inactive mediator (MEDID#%2) postpones state machine event (EVENTID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
             if (this.manager.getLogChannel().isDebug2()) {
-                this.manager.getLogChannel().log(14808325, "[AbstractEventMediator#triggerAction] inactive mediator (MEDID#%2) postpones state machine event (EVENTID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
+                this.manager.getLogChannel().log(100000000, "[AbstractEventMediator#triggerAction] inactive mediator (MEDID#%2) postpones state machine event (EVENTID#%1)", (Object)Integer.toString(n), (Object)Long.toString(this.getID()));
             }
             this.postponedAction = n;
         }
@@ -117,7 +111,7 @@ implements EventMediator {
 
     protected void startListening() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[AbstractEventMediator#startListeing] (MEDID#%1), currently listening=%2", (Object)Long.toString(this.getID()), (Object)Boolean.toString(this.listening));
+            this.manager.getLogChannel().log(100000000, "[AbstractEventMediator#startListeing] (MEDID#%1), currently listening=%2", (Object)Long.toString(this.getID()), (Object)Boolean.toString(this.listening));
         }
         if (this.listening || this.triggerModelIDList == null) {
             return;
@@ -138,7 +132,7 @@ implements EventMediator {
 
     protected void stopListening() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[AbstractEventMediator#stopListeing] (MEDID#%1), currently listening=%2", (Object)Long.toString(this.getID()), (Object)Boolean.toString(this.listening));
+            this.manager.getLogChannel().log(100000000, "[AbstractEventMediator#stopListeing] (MEDID#%1), currently listening=%2", (Object)Long.toString(this.getID()), (Object)Boolean.toString(this.listening));
         }
         if (!this.listening) {
             return;
@@ -151,11 +145,11 @@ implements EventMediator {
                     hMIModel.removeReference();
                     continue;
                 }
-                this.manager.getLogChannel().log(-1601830656, "[AbstractEventMediator#stopListening] mediator unable to retreive model (MODELID#%1) in order to remove reference", (long)this.triggerModelIDList[i2]);
+                this.manager.getLogChannel().log(100000, "[AbstractEventMediator#stopListening] mediator unable to retreive model (MODELID#%1) in order to remove reference", (long)this.triggerModelIDList[i2]);
                 continue;
             }
             catch (NoSuchElementException noSuchElementException) {
-                this.manager.getLogChannel().log(-1601830656, "[AbstractEventMediator#stopListening] mediator unable to retrieve model (MODELID#%1) in order to remove reference ", (long)this.triggerModelIDList[i2], (Throwable)noSuchElementException);
+                this.manager.getLogChannel().log(100000, "[AbstractEventMediator#stopListening] mediator unable to retrieve model (MODELID#%1) in order to remove reference ", (long)this.triggerModelIDList[i2], (Throwable)noSuchElementException);
             }
         }
         this.listening = false;
@@ -172,9 +166,7 @@ implements EventMediator {
     public void createErrorLog(String string, Exception exception) {
     }
 
-    @Override
-    public abstract int getType() {
-    }
+    public abstract int getType();
 
     public long getID() {
         return this.id;

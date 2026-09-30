@@ -23,16 +23,16 @@ extends AbstractBAPFunction
 implements IBAPMethodFSGIND,
 IBAPMethodFSGREQ,
 TimerListener {
-    private static final int NO_RESULT_WAITING;
+    private static final int NO_RESULT_WAITING = -1;
     private StartResultMethod startResultSerializer = null;
     private final IBAPIndicationHandlerMethodFSG indicationHandler;
     private volatile boolean methodProcessing = false;
     private volatile int resultWaiting = -1;
     private volatile boolean abortPending = false;
-    protected static final int NO_RESPONSE_TIMEOUT_START_RESULT;
-    private final Timer noResponseTimer = new Timer("NoResponseTimer", 0, true, new TimerSyncer(this));
-    public static final int CONCURRENT_OPERATION_MODE_NOT_ALLOWED;
-    public static final int CONCURRENT_OPERATION_MODE_LAST_WINS;
+    protected static final int NO_RESPONSE_TIMEOUT_START_RESULT = 130000;
+    private final Timer noResponseTimer = new Timer("NoResponseTimer", 130000L, true, new TimerSyncer(this));
+    public static final int CONCURRENT_OPERATION_MODE_NOT_ALLOWED = 0;
+    public static final int CONCURRENT_OPERATION_MODE_LAST_WINS = 1;
     private int concurrentOperationMode = 0;
 
     public BAPFunctionMethodFSG(AbstractBAPModuleFSG abstractBAPModuleFSG, int n) {
@@ -40,7 +40,6 @@ TimerListener {
         this.indicationHandler = abstractBAPModuleFSG.getIndicationHandler();
     }
 
-    @Override
     public BAPEntity getIndicationSerializer(int n) {
         switch (n) {
             case 3: 
@@ -60,9 +59,8 @@ TimerListener {
         this.concurrentOperationMode = n;
     }
 
-    @Override
     public void reset() {
-        this.logChannel.log(14808325, "[BAPFunctionMethodFSG#reset] called");
+        this.logChannel.log(100000000, "[BAPFunctionMethodFSG#reset] called");
         this.resetIndication();
     }
 
@@ -73,12 +71,10 @@ TimerListener {
         this.resultWaiting = -1;
     }
 
-    @Override
     protected boolean isIndicationTypeSupported(int n) {
         return n == 5 || n == 3 || n == 4 || n == 6;
     }
 
-    @Override
     protected synchronized void doProcessIndication(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 5: {
@@ -104,21 +100,18 @@ TimerListener {
         }
     }
 
-    @Override
     protected void doProcessError(int n) {
-        this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
+        this.logChannel.log(10000000, "[BAPFunctionMethodFSG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
     }
 
-    @Override
     public void abortIND() {
-        this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#abortIND]");
+        this.logChannel.log(10000000, "[BAPFunctionMethodFSG#abortIND]");
         this.abortIND(null);
     }
 
-    @Override
     public void abortIND(AbortResultMethod abortResultMethod) {
         if (this.methodProcessing) {
-            this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#abortIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+            this.logChannel.log(10000000, "[BAPFunctionMethodFSG#abortIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         } else {
             this.logChannel.log(10000, "[BAPFunctionMethodFSG#abortIND] lsgID=%1, fctID=%2, can't abort a method that hasn't been started!", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         }
@@ -127,15 +120,13 @@ TimerListener {
         this.indicationHandler.processIndicationAbort(this);
     }
 
-    @Override
     public void startIND(StartResultMethod startResultMethod) {
-        this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#startIND] lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionMethodFSG#startIND] lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.indicationHandler.processIndicationStartResult(this, startResultMethod);
     }
 
-    @Override
     public void startResultIND(StartResultMethod startResultMethod) {
-        this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#startResultIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionMethodFSG#startResultIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         if (this.methodProcessing && this.concurrentOperationMode == 0) {
             this.logChannel.log(10000, "[BAPFunctionMethodFSG#startResultIND] The method was already started. Waiting for result (The new request will be dismissed).");
         } else {
@@ -145,9 +136,8 @@ TimerListener {
         }
     }
 
-    @Override
     public void processingCNF() {
-        this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#processingCNF] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionMethodFSG#processingCNF] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         if (this.methodProcessing) {
             this.processingREQ();
         }
@@ -163,19 +153,18 @@ TimerListener {
         this.resetIndication();
     }
 
-    @Override
     public void resultREQ(ResultMethod resultMethod) {
-        this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#resultREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionMethodFSG#resultREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         if (this.methodProcessing) {
             this.sendRequest(9, resultMethod);
         } else {
-            this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#resultREQ] No result was requested by the ASG -> dismiss result (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+            this.logChannel.log(10000000, "[BAPFunctionMethodFSG#resultREQ] No result was requested by the ASG -> dismiss result (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         }
         this.resetIndication();
     }
 
     public void resultAbortNotSuccessfulREQ(ResultMethod resultMethod) {
-        this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#resultAbortNotSuccessfulREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionMethodFSG#resultAbortNotSuccessfulREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         if (this.abortPending) {
             this.sendRequest(9, resultMethod);
             this.resetIndication();
@@ -184,9 +173,8 @@ TimerListener {
         }
     }
 
-    @Override
     public void processingREQ() {
-        this.logChannel.log(-2137614336, "[BAPFunctionMethodFSG#processingREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionMethodFSG#processingREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.sendRequest(8);
     }
 
@@ -210,11 +198,9 @@ TimerListener {
         return this.abortPending;
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer.equals(this.noResponseTimer)) {
             this.logChannel.log(10000, "[BAPFunctionMethodFSG#fireTimer] lsgID=%1, fctID=%2, Timeout - no response receveived - abort method", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);

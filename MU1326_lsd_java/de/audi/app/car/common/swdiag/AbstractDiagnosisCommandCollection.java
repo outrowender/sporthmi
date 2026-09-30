@@ -17,7 +17,6 @@ implements IDiagnosisCommandCollection {
         this.commands.put(iDiagnosisCommand.getCommandString(), iDiagnosisCommand);
     }
 
-    @Override
     public Collection getDiagnosisCommands() {
         return this.commands.values();
     }

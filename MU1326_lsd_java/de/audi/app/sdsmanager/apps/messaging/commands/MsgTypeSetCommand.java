@@ -21,20 +21,19 @@ extends AbstractSystemCallCommand {
         this.messageType = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: started", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: started", (Object)this.getName());
         this.messagingService.requestEndDialog();
     }
 
     public void responseEndDialog(int n) {
-        this.logger.log(-2137614336, "%1#responseEndDialog: result=%2 messageType=%3", (Object)this.getName(), (long)n, (long)this.messageType);
+        this.logger.log(10000000, "%1#responseEndDialog: result=%2 messageType=%3", (Object)this.getName(), (long)n, (long)this.messageType);
         this.messagingService.requestBeginLastSelectedEntry();
     }
 
     public void responseBeginDialog(int n) {
-        this.logger.log(-2137614336, "%1#responseBeginDialog: result=%2", (Object)this.getName(), (long)n);
-        this.sendResult(n == 0 ? -131858176 : -115080960);
+        this.logger.log(10000000, "%1#responseBeginDialog: result=%2", (Object)this.getName(), (long)n);
+        this.sendResult(n == 0 ? 75000 : 75001);
     }
 }
 

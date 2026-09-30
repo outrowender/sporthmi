@@ -11,7 +11,6 @@ import de.audi.app.combi.bap.app.mfl.CombiModuleMFL;
 import de.audi.atip.interapp.combi.bap.PartialPopupBAPService;
 import de.audi.atip.interapp.combi.bap.PartialPopupBAPServiceListener;
 import de.audi.atip.interapp.combi.bap.data.PartialPopupBAPContent;
-import de.audi.atip.interapp.combi.bap.data.PartialPopupBAPContent$SelectionOption;
 import de.audi.atip.log.LogChannel;
 import de.vw.mib.bap.generated.mfl.serializer.PU_Action_Result;
 import de.vw.mib.bap.generated.mfl.serializer.PU_Content_Status;
@@ -19,8 +18,8 @@ import de.vw.mib.bap.generated.mfl.serializer.PU_Content_Status;
 public class PartialPopupHandler
 implements PartialPopupBAPService,
 IAcknowledgeListener {
-    private static final int INITIAL_TRANSACTION_ID;
-    private static final int MAX_TRANSACTION_ID;
+    private static final int INITIAL_TRANSACTION_ID = 1;
+    private static final int MAX_TRANSACTION_ID = 255;
     private final LogChannel logChannel;
     private final CombiModuleMFL module;
     private final BAPFunctionPropertyFSG puContent;
@@ -38,16 +37,14 @@ IAcknowledgeListener {
         this.puAction = combiModuleMFL.getBAPFunctionMethodFSG(20);
     }
 
-    @Override
     public void showPartialPopup(int n, PartialPopupBAPContent partialPopupBAPContent) {
-        this.logChannel.log(1078071040, "[PartialPopupHandler#showPartialPopup] id=%2, content=%1", (Object)partialPopupBAPContent, (long)n);
+        this.logChannel.log(1000000, "[PartialPopupHandler#showPartialPopup] id=%2, content=%1", (Object)partialPopupBAPContent, (long)n);
         this.currentPopupID = n;
         this.requestPartialPopupContent(this.taID.getAndIncrement(), partialPopupBAPContent);
     }
 
-    @Override
     public void hidePartialPopup(int n) {
-        this.logChannel.log(1078071040, "[PartialPopupHandler#hidePartialPopup]");
+        this.logChannel.log(1000000, "[PartialPopupHandler#hidePartialPopup]");
         if (this.currentPopupID == n) {
             this.currentPopupID = -1;
             this.requestPartialPopupContent(this.taID.expectedValue(), new PartialPopupBAPContent());
@@ -79,31 +76,31 @@ IAcknowledgeListener {
     }
 
     public void popupActionPerformed(int n, int n2) {
-        this.logChannel.log(1078071040, "[PartialPopupHandler#popupActionPerformed] actionTAID=%1, selectedOption=%2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[PartialPopupHandler#popupActionPerformed] actionTAID=%1, selectedOption=%2", (long)n, (long)n2);
         if (this.partialPopupListener != null) {
             if (n == this.taID.expectedValue()) {
-                PartialPopupBAPContent$SelectionOption partialPopupBAPContent$SelectionOption;
+                PartialPopupBAPContent.SelectionOption selectionOption;
                 switch (n2) {
                     case 0: {
-                        this.logChannel.log(-2137614336, "[PartialPopupHandler#popupActionPerformed] call partialPopupListener.cancelPopup()");
+                        this.logChannel.log(10000000, "[PartialPopupHandler#popupActionPerformed] call partialPopupListener.cancelPopup()");
                         this.sendPUActionResult(0);
                         this.partialPopupListener.cancelPopup(this.currentPopupID);
                         return;
                     }
                     case 1: {
-                        partialPopupBAPContent$SelectionOption = this.currentContent.getSelectionOption1();
+                        selectionOption = this.currentContent.getSelectionOption1();
                         break;
                     }
                     case 2: {
-                        partialPopupBAPContent$SelectionOption = this.currentContent.getSelectionOption2();
+                        selectionOption = this.currentContent.getSelectionOption2();
                         break;
                     }
                     case 3: {
-                        partialPopupBAPContent$SelectionOption = this.currentContent.getSelectionOption3();
+                        selectionOption = this.currentContent.getSelectionOption3();
                         break;
                     }
                     case 4: {
-                        partialPopupBAPContent$SelectionOption = this.currentContent.getSelectionOption4();
+                        selectionOption = this.currentContent.getSelectionOption4();
                         break;
                     }
                     default: {
@@ -112,8 +109,8 @@ IAcknowledgeListener {
                         return;
                     }
                 }
-                if (partialPopupBAPContent$SelectionOption.isAvailable()) {
-                    this.partialPopupListener.optionSelected(this.currentPopupID, partialPopupBAPContent$SelectionOption.getOptionID());
+                if (selectionOption.isAvailable()) {
+                    this.partialPopupListener.optionSelected(this.currentPopupID, selectionOption.getOptionID());
                     this.sendPUActionResult(0);
                 } else {
                     this.logChannel.log(10000, "[PartialPopupHandler#popupActionPerformed] selected option is not available: option=%1", (long)n2);
@@ -135,10 +132,9 @@ IAcknowledgeListener {
         this.puAction.resultREQ(pU_Action_Result);
     }
 
-    @Override
     public void processAcknowledge(int n, int n2) {
         if (n == this.puContent.getFctID() && n2 == 0) {
-            this.logChannel.log(-2137614336, "[PartialPopupHandler#processAcknowledge]");
+            this.logChannel.log(10000000, "[PartialPopupHandler#processAcknowledge]");
             if (this.requestedContent != null) {
                 this.currentContent = this.requestedContent;
                 this.requestedContent = null;

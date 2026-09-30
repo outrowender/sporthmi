@@ -3,36 +3,37 @@
  */
 package de.audi.app.terminalmode;
 
+import de.audi.app.terminalmode.util.Enum;
 import de.audi.atip.log.LogChannel;
 
 public interface ITerminalLogger {
-    public static final String TM_LOG_CHANNEL_ROOT;
+    public static final String TM_LOG_CHANNEL_ROOT = "App.TerminalMode";
 
-    default public LogChannel dsi() {
-    }
+    public LogChannel dsi();
 
-    default public LogChannel osgi() {
-    }
+    public LogChannel osgi();
 
-    default public LogChannel main() {
-    }
+    public LogChannel main();
 
-    default public LogChannel audio() {
-    }
+    public LogChannel audio();
 
-    default public LogChannel keypanel() {
-    }
+    public LogChannel keypanel();
 
-    default public LogChannel hmi() {
-    }
+    public LogChannel hmi();
 
-    default public LogChannel state() {
-    }
+    public LogChannel state();
 
-    default public LogChannel commandList() {
-    }
+    public LogChannel commandList();
 
-    default public LogChannel dispatcher() {
+    public LogChannel dispatcher();
+
+    public static class LogScope
+    extends Enum {
+        public static final LogScope HMI = new LogScope("HMI");
+
+        private LogScope(String string) {
+            super(string);
+        }
     }
 }
 

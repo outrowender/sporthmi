@@ -3,15 +3,16 @@
  */
 package de.audi.app.bap;
 
-import de.audi.app.bap.AbstractBAPActivator$1;
 import de.audi.app.bap.AbstractBAPApplication;
 import de.audi.app.bap.dsi.DSIServiceTracker;
 import de.audi.app.bap.fw.AbstractBAPModule;
 import de.audi.atip.activator.AbstractActivator;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.diag.sw.AbstractSwDiagnosis;
+import de.audi.atip.diag.sw.SwDiagnosisManager;
 import de.audi.atip.log.LogChannel;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -26,7 +27,6 @@ extends AbstractActivator {
     static /* synthetic */ Class class$org$dsi$ifc$bap$DSIBAP;
     static /* synthetic */ Class class$de$audi$atip$diag$sw$SwDiagnosisManager;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.init();
@@ -39,7 +39,7 @@ extends AbstractActivator {
         this.bapApplication.activate(this);
         this.startDSIBAP();
         this.startSwDiagnosis();
-        this.logChannel.log(-2137614336, "[AbstractBAPActivator#start] %1 has been started.", (Object)this.getApplicationName());
+        this.logChannel.log(10000000, "[AbstractBAPActivator#start] %1 has been started.", (Object)this.getApplicationName());
     }
 
     protected void init() {
@@ -53,13 +53,37 @@ extends AbstractActivator {
     }
 
     private void startSwDiagnosis() {
-        this.swDiagnosisServiceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = AbstractBAPActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), (ServiceTrackerCustomizer)new AbstractBAPActivator$1(this));
+        this.swDiagnosisServiceTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = AbstractBAPActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                if (object instanceof SwDiagnosisManager) {
+                    ((SwDiagnosisManager)object).removeDiagGateway(AbstractBAPActivator.this.diagnosis);
+                    AbstractBAPActivator.this.bundleContext.ungetService(serviceReference);
+                }
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = AbstractBAPActivator.this.bundleContext.getService(serviceReference);
+                if (object instanceof SwDiagnosisManager) {
+                    AbstractBAPActivator.this.diagnosis = AbstractBAPActivator.this.createDiagnosis(AbstractBAPActivator.this.bapApplication);
+                    if (AbstractBAPActivator.this.diagnosis != null) {
+                        ((SwDiagnosisManager)object).addDiagGateway(AbstractBAPActivator.this.diagnosis);
+                    } else {
+                        AbstractBAPActivator.this.logChannel.log(10000000, "[AbstractBAPActivator.startSwDiagnosis().new ServiceTrackerCustomizer() {...}#addingService] diagnosis not available for %1", (Object)AbstractBAPActivator.this.bapApplication.getClass().getName());
+                    }
+                    return object;
+                }
+                return null;
+            }
+        });
         this.swDiagnosisServiceTracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
-        this.logChannel.log(-2137614336, "[AbstractBAPActivator#stop] %1 has been stopped. Shutting down...", (Object)this.getApplicationName());
+        this.logChannel.log(10000000, "[AbstractBAPActivator#stop] %1 has been stopped. Shutting down...", (Object)this.getApplicationName());
         this.dsiBAPServiceTracker.stop();
         this.swDiagnosisServiceTracker = this.closeTracker(this.swDiagnosisServiceTracker);
         this.bapApplication.deactivate();
@@ -67,17 +91,13 @@ extends AbstractActivator {
         super.stop(bundleContext);
     }
 
-    protected abstract String getApplicationName() {
-    }
+    protected abstract String getApplicationName();
 
-    protected abstract AbstractBAPApplication createApplication(IFrameworkAccess iFrameworkAccess) {
-    }
+    protected abstract AbstractBAPApplication createApplication(IFrameworkAccess var1);
 
-    protected abstract AbstractBAPModule[] createModules(AbstractBAPApplication abstractBAPApplication) {
-    }
+    protected abstract AbstractBAPModule[] createModules(AbstractBAPApplication var1);
 
-    protected abstract AbstractSwDiagnosis createDiagnosis(AbstractBAPApplication abstractBAPApplication) {
-    }
+    protected abstract AbstractSwDiagnosis createDiagnosis(AbstractBAPApplication var1);
 
     static /* synthetic */ Class class$(String string) {
         try {
@@ -86,23 +106,6 @@ extends AbstractActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ AbstractSwDiagnosis access$000(AbstractBAPActivator abstractBAPActivator) {
-        return abstractBAPActivator.diagnosis;
-    }
-
-    static /* synthetic */ BundleContext access$100(AbstractBAPActivator abstractBAPActivator) {
-        return abstractBAPActivator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$200(AbstractBAPActivator abstractBAPActivator) {
-        return abstractBAPActivator.bundleContext;
-    }
-
-    static /* synthetic */ AbstractSwDiagnosis access$002(AbstractBAPActivator abstractBAPActivator, AbstractSwDiagnosis abstractSwDiagnosis) {
-        abstractBAPActivator.diagnosis = abstractSwDiagnosis;
-        return abstractBAPActivator.diagnosis;
     }
 }
 

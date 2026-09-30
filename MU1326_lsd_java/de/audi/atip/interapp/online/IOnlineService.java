@@ -8,39 +8,35 @@ import de.audi.atip.interapp.online.OnlineServiceListState;
 import org.dsi.ifc.online.OSRServiceState;
 
 public interface IOnlineService {
-    public static final String OSGI_ONLINE_SERVICE_IDENTIFIER;
-    public static final int LICENSE_EXPIRES_REMINDER_OFF;
-    public static final int LICENSE_EXPIRES_REMINDER_ON;
-    public static final String SERVICE_ID_PICNAV;
+    public static final String OSGI_ONLINE_SERVICE_IDENTIFIER = "ONLINE_APP_ID";
+    public static final int LICENSE_EXPIRES_REMINDER_OFF = 0;
+    public static final int LICENSE_EXPIRES_REMINDER_ON = 1;
+    public static final String SERVICE_ID_PICNAV = "service_picnav";
 
-    default public void setOnlineApplicationState(int n, IOnlineServiceListener iOnlineServiceListener) {
-    }
+    public void setOnlineApplicationState(int var1, IOnlineServiceListener var2);
 
-    default public void getLicenseInformation(IOnlineServiceListener iOnlineServiceListener) {
-    }
+    public void getLicenseInformation(IOnlineServiceListener var1);
 
-    default public void getReminderStatus(IOnlineServiceListener iOnlineServiceListener) {
-    }
+    public void getReminderStatus(IOnlineServiceListener var1);
 
-    default public void activateLicense(IOnlineServiceListener iOnlineServiceListener) {
-    }
+    public void activateLicense(IOnlineServiceListener var1);
 
-    default public void setReminderState(int n, IOnlineServiceListener iOnlineServiceListener) {
-    }
+    public void setReminderState(int var1, IOnlineServiceListener var2);
 
-    default public boolean addCallBackListener(IOnlineServiceListener iOnlineServiceListener) {
-    }
+    public boolean addCallBackListener(IOnlineServiceListener var1);
 
-    default public boolean removeCallBackListener(IOnlineServiceListener iOnlineServiceListener) {
-    }
+    public boolean removeCallBackListener(IOnlineServiceListener var1);
 
-    default public void getOnlineApplicationPreCheck(IOnlineServiceListener iOnlineServiceListener, String string) {
-    }
+    public void getOnlineApplicationPreCheck(IOnlineServiceListener var1, String var2);
 
-    default public void getOnlineApplicationPreCheckResult(String string, OSRServiceState oSRServiceState, IOnlineServiceListener iOnlineServiceListener) {
-    }
+    public void getOnlineApplicationPreCheckResult(String var1, OSRServiceState var2, IOnlineServiceListener var3);
 
-    default public void updateServiceState(OnlineServiceListState onlineServiceListState) {
+    public void updateServiceState(OnlineServiceListState var1);
+
+    public static interface ORSPropertiesConstants {
+        public static final String LICENSE_EXPIRES_REMINDER_STATE = "ONLINE_TRAFFIC_LICENCE_EXPIRES_REMINDER_STATE";
+        public static final String LICENSE_EXPIRES_REMINDER_ON = "ONLINE_TRAFFIC_LICENCE_EXPIRES_REMINDER_ON";
+        public static final String LICENSE_EXPIRES_REMINDER_OFF = "ONLINE_TRAFFIC_LICENCE_EXPIRES_REMINDER_OFF";
     }
 }
 

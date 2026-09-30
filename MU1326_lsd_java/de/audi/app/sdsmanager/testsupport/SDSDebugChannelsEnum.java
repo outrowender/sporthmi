@@ -17,7 +17,7 @@ public final class SDSDebugChannelsEnum {
     public static final SDSDebugChannelsEnum MEDIA = new SDSDebugChannelsEnum("MEDIA", true);
     public static final SDSDebugChannelsEnum ONLINE = new SDSDebugChannelsEnum("ONLINE", true);
     public static final SDSDebugChannelsEnum CAR = new SDSDebugChannelsEnum("CAR", true);
-    private static final String BASE_NAME;
+    private static final String BASE_NAME = "SDSDebugChannel-";
     private static Map indexToEnumMap;
     private final String name;
     private volatile boolean activationStatus;
@@ -62,7 +62,7 @@ public final class SDSDebugChannelsEnum {
     }
 
     public String toString() {
-        return new Buffer().append("SDSDebugChannel-").append(this.name).toString();
+        return new Buffer().append(BASE_NAME).append(this.name).toString();
     }
 }
 

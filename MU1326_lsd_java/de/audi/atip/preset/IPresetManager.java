@@ -9,13 +9,10 @@ import de.audi.atip.preset.ExecuteRequest;
 import java.io.Serializable;
 
 public interface IPresetManager {
-    default public void responseDefine(DefinitionRequest definitionRequest, int n, Serializable serializable, PresetListRow presetListRow, int n2) {
-    }
+    public void responseDefine(DefinitionRequest var1, int var2, Serializable var3, PresetListRow var4, int var5);
 
-    default public void responseExecute(ExecuteRequest executeRequest, int n) {
-    }
+    public void responseExecute(ExecuteRequest var1, int var2);
 
-    default public void favoriteDefinitionChanged(DefinitionRequest definitionRequest, int n, Serializable serializable, PresetListRow presetListRow, int n2) {
-    }
+    public void favoriteDefinitionChanged(DefinitionRequest var1, int var2, Serializable var3, PresetListRow var4, int var5);
 }
 

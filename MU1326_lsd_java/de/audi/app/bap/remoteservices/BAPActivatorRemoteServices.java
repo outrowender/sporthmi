@@ -17,26 +17,22 @@ public final class BAPActivatorRemoteServices
 extends AbstractBAPActivator {
     private AbstractBAPModuleASG remoteServicesModule;
 
-    @Override
     protected String getApplicationName() {
         return "AppBapRemoteServices";
     }
 
-    @Override
     protected AbstractBAPApplication createApplication(IFrameworkAccess iFrameworkAccess) {
         return new BAPApplicationRemoteServices(iFrameworkAccess);
     }
 
-    @Override
     protected AbstractBAPModule[] createModules(AbstractBAPApplication abstractBAPApplication) {
-        this.logChannel.log(-2137614336, "[BAPActivatorRemoteServices#createModules] application: %1", (Object)abstractBAPApplication);
+        this.logChannel.log(10000000, "[BAPActivatorRemoteServices#createModules] application: %1", (Object)abstractBAPApplication);
         this.remoteServicesModule = new BAPModuleRemoteServices(abstractBAPApplication);
         return new AbstractBAPModule[]{this.remoteServicesModule};
     }
 
-    @Override
     protected AbstractSwDiagnosis createDiagnosis(AbstractBAPApplication abstractBAPApplication) {
-        this.logChannel.log(-2137614336, "[BAPActivatorRemoteServices#createDiagnosis] application: %1", (Object)abstractBAPApplication);
+        this.logChannel.log(10000000, "[BAPActivatorRemoteServices#createDiagnosis] application: %1", (Object)abstractBAPApplication);
         return new BAPDiagnosisConnectorRemoteServices(abstractBAPApplication, this.remoteServicesModule);
     }
 }

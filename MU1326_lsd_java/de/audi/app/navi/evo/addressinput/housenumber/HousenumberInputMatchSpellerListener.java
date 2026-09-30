@@ -23,7 +23,6 @@ extends AbstractEvoInputSequenceMatchspellerListener {
         this.inputSequence = housenumberMatchspellerInputSequence;
     }
 
-    @Override
     public IMatchspellerInputSequence getInputSequence() {
         return this.inputSequence;
     }

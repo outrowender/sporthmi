@@ -22,17 +22,14 @@ import de.audi.atip.base.IFrameworkAccess;
 
 public class CombiActivator
 extends AbstractCombiActivator {
-    @Override
     protected String getApplicationName() {
         return "AppCombiBAPEvo";
     }
 
-    @Override
     protected AbstractBAPApplication createApplication(IFrameworkAccess iFrameworkAccess) {
         return new CombiBAPApplicationEvo(iFrameworkAccess);
     }
 
-    @Override
     protected AbstractBAPModule[] createModules(AbstractBAPApplication abstractBAPApplication) {
         AbstractCombiBAPApplication abstractCombiBAPApplication = (AbstractCombiBAPApplication)abstractBAPApplication;
         AbstractBAPModule[] abstractBAPModuleArray = new AbstractBAPModule[]{new CombiModuleAudio(abstractCombiBAPApplication, new FunctionListAudioEvo()), new CombiModuleNavi(abstractCombiBAPApplication, new FunctionListNaviEvo()), new CombiModulePhone(abstractCombiBAPApplication, new FunctionListPhoneEvo()), new CombiModulePhone2(abstractCombiBAPApplication, new FunctionListPhone2Evo()), new CombiModuleMFL(abstractCombiBAPApplication, new FunctionListMFLEvo())};

@@ -4,15 +4,13 @@
 package de.audi.app.bluetooth.core.accessibility;
 
 public interface IAccessibility {
-    public static final int ACCESSIBILITY_VISIBLE;
-    public static final int ACCESSIBILITY_INVISIBLE;
-    public static final int ACCESSIBILITY_BT_OFF;
-    public static final int ACCESSIBILITY_BT_ON;
+    public static final int ACCESSIBILITY_VISIBLE = 0;
+    public static final int ACCESSIBILITY_INVISIBLE = 1;
+    public static final int ACCESSIBILITY_BT_OFF = 2;
+    public static final int ACCESSIBILITY_BT_ON = 3;
 
-    default public void activateBluetooth() {
-    }
+    public void activateBluetooth();
 
-    default public void setAccessibleMode(int n) {
-    }
+    public void setAccessibleMode(int var1);
 }
 

@@ -34,12 +34,10 @@ implements IWirelessChargingComponent {
         this.log = iWirelessChargingApplication.getFrameworkAccess().getLogChannel(string);
     }
 
-    @Override
     public void init() {
         this.initSubComponents();
     }
 
-    @Override
     public void deinit() {
         this.deinitSubComponents();
     }

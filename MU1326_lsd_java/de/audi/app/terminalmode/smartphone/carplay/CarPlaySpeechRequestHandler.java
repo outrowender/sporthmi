@@ -16,28 +16,23 @@ implements ISpeechRequestHandler {
         this.dioDSIController = iCarplayDSIController;
     }
 
-    @Override
     public void prewarm() {
         this.dioDSIController.requestSIRIAction(SiriAction.SIRIACTION_PREWARM);
     }
 
-    @Override
     public void cancelPrewarm() {
         this.dioDSIController.requestSIRIAction(SiriAction.SIRIACTION_STOP);
     }
 
-    @Override
     public void startSpeechSession() {
         this.dioDSIController.requestSIRIAction(SiriAction.SIRIACTION_START);
     }
 
-    @Override
     public void abortActiveSpeechSession() {
         this.dioDSIController.requestSIRIAction(SiriAction.SIRIACTION_START);
         this.dioDSIController.requestSIRIAction(SiriAction.SIRIACTION_STOP);
     }
 
-    @Override
     public void pttReleasedAfterLongPress() {
         this.dioDSIController.requestSIRIAction(SiriAction.SIRIACTION_STOP);
     }

@@ -8,7 +8,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class HybridStatisticsConfigLTS
 implements IHybridStatisticsConfig {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private int distanceUnit;
     private float intervalValue;
 
@@ -38,12 +38,10 @@ implements IHybridStatisticsConfig {
         this.intervalValue = f2;
     }
 
-    @Override
     public String[] getFields() {
         return new String[]{"distanceUnit", "intervalValue"};
     }
 
-    @Override
     public String[] getValuesAsString() {
         return new String[]{Integer.toHexString(this.distanceUnit), Float.toString(this.intervalValue)};
     }

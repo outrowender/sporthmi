@@ -17,9 +17,8 @@ extends DefaultButtonListener {
         this.poiService = iPoiService;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "ParkingAlongRouteMapListener#keyPressed, modelID %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
+        this.env.getLogChannel().log(10000000, "ParkingAlongRouteMapListener#keyPressed, modelID %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
         this.env.getChoiceModel(170).setValue(0);
         this.poiService.getParkingAlongTheRouteSequence().execute("ParkingAlongRouteMapListener#ParkingAlongTheRoute");
         this.env.fireModelEvent(n, n3);

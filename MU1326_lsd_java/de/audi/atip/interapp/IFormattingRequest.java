@@ -4,43 +4,30 @@
 package de.audi.atip.interapp;
 
 public interface IFormattingRequest {
-    default public void setCountry(String string) {
-    }
+    public void setCountry(String var1);
 
-    default public void setStreet(String string) {
-    }
+    public void setStreet(String var1);
 
-    default public void setState(String string) {
-    }
+    public void setState(String var1);
 
-    default public void setStateAbbreviation(String string) {
-    }
+    public void setStateAbbreviation(String var1);
 
-    default public void setCity(String string) {
-    }
+    public void setCity(String var1);
 
-    default public void setCityPart(String string) {
-    }
+    public void setCityPart(String var1);
 
-    default public void setDistrict(String string) {
-    }
+    public void setDistrict(String var1);
 
-    default public void setWard(String string) {
-    }
+    public void setWard(String var1);
 
-    default public void setZip(String string) {
-    }
+    public void setZip(String var1);
 
-    default public void setHouseNumber(String string) {
-    }
+    public void setHouseNumber(String var1);
 
-    default public void setPoiName(String string) {
-    }
+    public void setPoiName(String var1);
 
-    default public void setContactOrFavoriteName(String string) {
-    }
+    public void setContactOrFavoriteName(String var1);
 
-    default public String toString() {
-    }
+    public String toString();
 }
 

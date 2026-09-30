@@ -17,9 +17,8 @@ extends AbstractSystemCallCommand {
         this.naviService = naviService;
     }
 
-    @Override
     public void execute() {
-        this.sendResult(this.naviService.isCurrentMapCodeNavigable() ? 1083965440 : 1184628736);
+        this.sendResult(this.naviService.isCurrentMapCodeNavigable() ? 40000 : 40006);
     }
 }
 

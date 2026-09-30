@@ -4,9 +4,8 @@
 package de.audi.app.sdsmanager.dictation.dsiadapter;
 
 import de.audi.app.sdsmanager.dictation.DictationComponentManager;
+import de.audi.app.sdsmanager.dictation.command.AbstractCommand;
 import de.audi.app.sdsmanager.dictation.dsi.AbstractDsiOnlineDictationCommand;
-import de.audi.app.sdsmanager.dictation.dsiadapter.ProcessVoiceDataCommand$1;
-import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.Command;
 import de.audi.tghu.command.Monitor;
 import org.dsi.ifc.online.DictationValueSentence;
@@ -24,10 +23,9 @@ extends AbstractDsiOnlineDictationCommand {
         processVoiceDataCommand.schedule(monitor);
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[ProcessVoiceDataCommand#execute]");
+            this.logger.log(10000000, "[ProcessVoiceDataCommand#execute]");
             this.dsiOnlineDictationAccess.rawVoiceDataAvailable(AUDIO_DATA_PATH, 0);
         }
         catch (Exception exception) {
@@ -36,25 +34,22 @@ extends AbstractDsiOnlineDictationCommand {
         }
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 300000L;
     }
 
-    @Override
     public void dictationResult(int n) {
-        this.logger.log(-2137614336, "[ProcessVoiceDataCommand#dictationResult] returnCode = %1", (long)n);
+        this.logger.log(10000000, "[ProcessVoiceDataCommand#dictationResult] returnCode = %1", (long)n);
         if (n == 11) {
-            this.logger.log(-2137614336, "[ProcessVoiceDataCommand#dictationResult] Result OK_DICTATION_COMPLETE, waiting for dictation content.");
+            this.logger.log(10000000, "[ProcessVoiceDataCommand#dictationResult] Result OK_DICTATION_COMPLETE, waiting for dictation content.");
         } else {
-            this.logger.log(-2137614336, "[ProcessVoiceDataCommand#dictationResult] Result NOK, finishing command.");
+            this.logger.log(10000000, "[ProcessVoiceDataCommand#dictationResult] Result NOK, finishing command.");
             this.signalResult(AbstractDsiOnlineDictationCommand.mapDsiErrorCode(n), null);
         }
     }
 
-    @Override
     public void dictationValueList(DictationValueSentence dictationValueSentence) {
-        this.logger.log(-2137614336, "[ProcessVoiceDataCommand#dictationValueList]");
+        this.logger.log(10000000, "[ProcessVoiceDataCommand#dictationValueList]");
         if (dictationValueSentence != null) {
             this.signalResult(0, dictationValueSentence);
         } else {
@@ -72,7 +67,7 @@ extends AbstractDsiOnlineDictationCommand {
      */
     private void signalResult(int n, DictationValueSentence dictationValueSentence) {
         try {
-            this.logger.log(-2137614336, "[ProcessVoiceDataCommand#signalResult] result = %1", (long)n);
+            this.logger.log(10000000, "[ProcessVoiceDataCommand#signalResult] result = %1", (long)n);
             this.dictationComponentManager.getDsiDictationAdapter().handleProcessVoiceDataResult(n, dictationValueSentence);
         }
         catch (Exception exception) {
@@ -83,17 +78,14 @@ extends AbstractDsiOnlineDictationCommand {
         }
     }
 
-    @Override
     protected Command getErrorCommand() {
-        return new ProcessVoiceDataCommand$1(this, this.dictationComponentManager);
-    }
+        return new AbstractCommand(this.dictationComponentManager){
 
-    static /* synthetic */ LogChannel access$001(ProcessVoiceDataCommand processVoiceDataCommand) {
-        return processVoiceDataCommand.logger;
-    }
-
-    static /* synthetic */ void access$100(ProcessVoiceDataCommand processVoiceDataCommand, int n, DictationValueSentence dictationValueSentence) {
-        processVoiceDataCommand.signalResult(n, dictationValueSentence);
+            public void execute() {
+                ProcessVoiceDataCommand.this.logger.log(10000000, "[ProcessVoiceDataErrorCommand#execute]");
+                ProcessVoiceDataCommand.this.signalResult(1, null);
+            }
+        };
     }
 }
 

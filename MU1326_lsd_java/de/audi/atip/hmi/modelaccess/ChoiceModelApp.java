@@ -8,16 +8,12 @@ import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 
 public interface ChoiceModelApp
 extends ButtonModelApp {
-    default public void setChoiceListener(ChoiceListener choiceListener) {
-    }
+    public void setChoiceListener(ChoiceListener var1);
 
-    default public void setValue(int n) {
-    }
+    public void setValue(int var1);
 
-    default public int getValue() {
-    }
+    public int getValue();
 
-    default public void forceUpdate(boolean bl) {
-    }
+    public void forceUpdate(boolean var1);
 }
 

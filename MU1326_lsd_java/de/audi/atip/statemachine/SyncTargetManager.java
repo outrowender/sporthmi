@@ -7,13 +7,10 @@ import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.log.LogChannel;
 
 public interface SyncTargetManager {
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public LogChannel getEventLogChannel() {
-    }
+    public LogChannel getEventLogChannel();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 }
 

@@ -25,14 +25,12 @@ implements ITpegPOICategoryListModelAccess {
         this.dataAvailableChoice = navigationEnv.getChoiceModel(n2);
     }
 
-    @Override
     public void onStart() {
         this.baseList.removeAll();
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#updateResultList with valueList = %2", (Object)this.CLASS_NAME, (Object)lIValueList);
+        this.logChannel.log(10000000, "%1#updateResultList with valueList = %2", (Object)this.CLASS_NAME, (Object)lIValueList);
         this.updateDataAvailableModelValue(l);
         LIValueListElement[] lIValueListElementArray = Util.isListValid(lIValueList) ? lIValueList.getList() : new LIValueListElement[]{};
         EvoListRow[] evoListRowArray = new EvoListRow[lIValueListElementArray.length];
@@ -44,7 +42,7 @@ implements ITpegPOICategoryListModelAccess {
     }
 
     private void updateDataAvailableModelValue(long l) {
-        this.logChannel.log(-2137614336, "%1#updateDataAvailableModelValue with resultCount = %2", (Object)this.CLASS_NAME, l);
+        this.logChannel.log(10000000, "%1#updateDataAvailableModelValue with resultCount = %2", (Object)this.CLASS_NAME, l);
         if (l > 0L) {
             this.dataAvailableChoice.setValue(1);
         } else {

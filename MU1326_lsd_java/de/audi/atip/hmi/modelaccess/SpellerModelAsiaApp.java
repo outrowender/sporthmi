@@ -7,10 +7,8 @@ import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 
 public interface SpellerModelAsiaApp
 extends SpellerModelApp {
-    default public String getPhonetic() {
-    }
+    public String getPhonetic();
 
-    default public void setText(String string, String string2) {
-    }
+    public void setText(String var1, String var2);
 }
 

@@ -13,7 +13,7 @@ import de.audi.atip.log.LogChannel;
 public class MediaVideoFormatDVDChanger
 implements IMediaVideoFormat,
 IDisplayManagerServiceListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaVideoFormatDVDChanger";
     protected final LogChannel logger;
     private final AbstractMediaPlayer dvdPlayer;
     private final IMediaTerminal terminal;
@@ -36,7 +36,7 @@ IDisplayManagerServiceListener {
     }
 
     public int getRatioToVideoFormat(int n) {
-        this.logger.log(1078071040, "[%1.getRatioToVideoFormat] HMI video format=%2", (Object)"MediaVideoFormatDVDChanger", (long)n);
+        this.logger.log(1000000, "[%1.getRatioToVideoFormat] HMI video format=%2", (Object)LOGCLASS, (long)n);
         switch (n) {
             case 0: {
                 return 1;
@@ -57,16 +57,15 @@ IDisplayManagerServiceListener {
         return 0;
     }
 
-    @Override
     public boolean setVideoFormat(int n) {
-        this.logger.log(1078071040, "[%1.setVideoFormat] mgr: '%2'", (Object)"MediaVideoFormatDVDChanger", (Object)this.displayManagerService);
+        this.logger.log(1000000, "[%1.setVideoFormat] mgr: '%2'", (Object)LOGCLASS, (Object)this.displayManagerService);
         if (this.displayManagerService != null) {
             this.setFormat(n);
-            this.logger.log(1078071040, "[%1.setVideoFormat] displayableID=: '%2'", (Object)"MediaVideoFormatDVDChanger", (long)this.displayManagerService.getCurrentDisplayable());
+            this.logger.log(1000000, "[%1.setVideoFormat] displayableID=: '%2'", (Object)LOGCLASS, (long)this.displayManagerService.getCurrentDisplayable());
             this.videoComponentStarted = this.displayManagerService.getCurrentDisplayable() == 34;
-            this.logger.log(10000, "[%2.setVideoFormat] videoComponentStarted=: '%1'", this.videoComponentStarted, (Object)"MediaVideoFormatDVDChanger");
+            this.logger.log(10000, "[%2.setVideoFormat] videoComponentStarted=: '%1'", this.videoComponentStarted, (Object)LOGCLASS);
             if (this.videoComponentStarted) {
-                this.logger.log(1078071040, "[%1.setVideoFormat] component started", (Object)"MediaVideoFormatDVDChanger");
+                this.logger.log(1000000, "[%1.setVideoFormat] component started", (Object)LOGCLASS);
                 this.displayManagerService.setCropping(34, this.getRatioToVideoFormat(n), this.srcX, this.srcY, this.srcWidth, this.srcHeight, this);
             }
             this.requestedFormat = n;
@@ -75,14 +74,12 @@ IDisplayManagerServiceListener {
         return false;
     }
 
-    @Override
     public void setCroppingResult(int n) {
         if (n == 1) {
             this.dvdPlayer.updateVideoFormat(this.requestedFormat);
         }
     }
 
-    @Override
     public int getHMIVideoFormatID(int n) {
         return n;
     }
@@ -182,17 +179,16 @@ IDisplayManagerServiceListener {
         }
     }
 
-    @Override
     public void activeComponentChanged(int n) {
-        this.logger.log(1078071040, "[%1.activeComponentChanged] displayableID=: '%2'", (Object)"MediaVideoFormatDVDChanger", (long)n);
+        this.logger.log(1000000, "[%1.activeComponentChanged] displayableID=: '%2'", (Object)LOGCLASS, (long)n);
         if (n == 34) {
             if (!this.videoComponentStarted) {
-                this.logger.log(1078071040, "[%1.activeComponentChanged] videoComponentStarted set Cropping", (Object)"MediaVideoFormatDVDChanger");
+                this.logger.log(1000000, "[%1.activeComponentChanged] videoComponentStarted set Cropping", (Object)LOGCLASS);
                 this.displayManagerService.setCropping(34, this.getRatioToVideoFormat(this.requestedFormat), this.srcX, this.srcY, this.srcWidth, this.srcHeight, this);
                 this.videoComponentStarted = true;
             }
         } else {
-            this.logger.log(1078071040, "[%1.activeComponentChanged] videoComponent not started", (Object)"MediaVideoFormatDVDChanger");
+            this.logger.log(1000000, "[%1.activeComponentChanged] videoComponent not started", (Object)LOGCLASS);
             this.videoComponentStarted = false;
         }
     }

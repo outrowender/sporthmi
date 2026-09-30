@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.common;
 
 public interface SDS {
-    default public boolean sendEvent(int n, boolean bl) {
-    }
+    public boolean sendEvent(int var1, boolean var2);
 }
 

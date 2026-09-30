@@ -4,6 +4,7 @@
 package com.ibm.oti.vm;
 
 import com.ibm.oti.vm.VM;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Locale;
@@ -53,7 +54,7 @@ public final class MsgHelp {
         return stringBuffer.toString();
     }
 
-    public static Hashtable loadMessages(String string) {
+    public static Hashtable loadMessages(String string) throws IOException {
         String string2;
         String string3;
         InputStream inputStream = null;
@@ -68,23 +69,23 @@ public final class MsgHelp {
         }
         String string5 = locale.getVariant();
         ClassLoader classLoader = VM.getStackClassLoader(1);
-        if (string5.length() > 0 && (inputStream = classLoader.getResourceAsStream(string2 = new StringBuffer(String.valueOf(string)).append("_").append(string4).append("_").append(string3).append("_").append(string5).append(".properties").toString())) != null) {
+        if (string5.length() > 0 && (inputStream = classLoader.getResourceAsStream(string2 = String.valueOf(string) + "_" + string4 + "_" + string3 + "_" + string5 + ".properties")) != null) {
             properties.load(inputStream);
             return properties;
         }
-        string2 = new StringBuffer(String.valueOf(string)).append("_").append(string4).append("_").append(string3).append(".properties").toString();
+        string2 = String.valueOf(string) + "_" + string4 + "_" + string3 + ".properties";
         inputStream = classLoader.getResourceAsStream(string2);
         if (inputStream != null) {
             properties.load(inputStream);
             return properties;
         }
-        string2 = new StringBuffer(String.valueOf(string)).append("_").append(string4).append(".properties").toString();
+        string2 = String.valueOf(string) + "_" + string4 + ".properties";
         inputStream = classLoader.getResourceAsStream(string2);
         if (inputStream != null) {
             properties.load(inputStream);
             return properties;
         }
-        inputStream = classLoader.getResourceAsStream(new StringBuffer(String.valueOf(string)).append(".properties").toString());
+        inputStream = classLoader.getResourceAsStream(String.valueOf(string) + ".properties");
         if (inputStream != null) {
             properties.load(inputStream);
             return properties;

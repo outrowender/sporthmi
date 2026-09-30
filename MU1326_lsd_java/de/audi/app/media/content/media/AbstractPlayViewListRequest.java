@@ -19,22 +19,18 @@ implements IPlayViewListRequest {
         this.size = n3;
     }
 
-    @Override
     public int getClientID() {
         return this.clientID;
     }
 
-    @Override
     public int getIndex() {
         return this.index;
     }
 
-    @Override
     public long getId() {
         return this.entryID;
     }
 
-    @Override
     public int getSize() {
         return this.size;
     }

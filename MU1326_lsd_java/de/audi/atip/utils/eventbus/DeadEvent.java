@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.atip.utils.Preconditions
  */
 package de.audi.atip.utils.eventbus;
 
@@ -15,8 +12,8 @@ implements EventMarker {
     private final Object event;
 
     public DeadEvent(Object object, Object object2) {
-        Preconditions.checkNotNull((Object)object);
-        Preconditions.checkNotNull((Object)object2);
+        Preconditions.checkNotNull(object);
+        Preconditions.checkNotNull(object2);
         this.source = object;
         this.event = object2;
     }

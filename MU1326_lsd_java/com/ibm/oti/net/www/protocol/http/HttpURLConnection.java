@@ -4,17 +4,12 @@
 package com.ibm.oti.net.www.protocol.http;
 
 import com.ibm.oti.net.www.protocol.http.Header;
-import com.ibm.oti.net.www.protocol.http.HttpURLConnection$1;
-import com.ibm.oti.net.www.protocol.http.HttpURLConnection$2;
-import com.ibm.oti.net.www.protocol.http.HttpURLConnection$CacheEntry;
-import com.ibm.oti.net.www.protocol.http.HttpURLConnection$ChunkedInputStream;
-import com.ibm.oti.net.www.protocol.http.HttpURLConnection$HttpOutputStream;
-import com.ibm.oti.net.www.protocol.http.HttpURLConnection$LimitedInputStream;
 import com.ibm.oti.util.BASE64Encoder;
 import com.ibm.oti.util.Msg;
 import com.ibm.oti.util.PriviAction;
 import com.ibm.oti.vm.VM;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,11 +23,13 @@ import java.net.SocketPermission;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.Permission;
+import java.security.PrivilegedAction;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.Timer;
@@ -45,7 +42,7 @@ extends java.net.HttpURLConnection {
     InputStream is;
     private InputStream uis;
     OutputStream socketOut;
-    private HttpURLConnection$HttpOutputStream os;
+    private HttpOutputStream os;
     private boolean sentRequest = false;
     boolean sendChunked = false;
     String proxyName;
@@ -70,8 +67,7 @@ extends java.net.HttpURLConnection {
         this.reqHeader = (Header)defaultReqHeader.clone();
     }
 
-    @Override
-    public void connect() {
+    public void connect() throws IOException {
         if (this.connected) {
             return;
         }
@@ -96,7 +92,7 @@ extends java.net.HttpURLConnection {
         this.is = new BufferedInputStream(socket.getInputStream());
     }
 
-    protected Socket openSocket() {
+    protected Socket openSocket() throws IOException {
         this.currentSocket = HttpURLConnection.getSocketFromCache(this.getHostName(), this.getHostPort());
         if (this.currentSocket == null) {
             this.reusingSocket = false;
@@ -124,10 +120,10 @@ extends java.net.HttpURLConnection {
         if (socketCache == null) {
             return null;
         }
-        HttpURLConnection$CacheEntry httpURLConnection$CacheEntry = (HttpURLConnection$CacheEntry)socketCache.remove(HttpURLConnection.getSockDescriptor(string, n));
-        if (httpURLConnection$CacheEntry != null) {
-            httpURLConnection$CacheEntry.cancelTimerTask();
-            return httpURLConnection$CacheEntry.getSocket();
+        CacheEntry cacheEntry = (CacheEntry)socketCache.remove(HttpURLConnection.getSockDescriptor(string, n));
+        if (cacheEntry != null) {
+            cacheEntry.cancelTimerTask();
+            return cacheEntry.getSocket();
         }
         return null;
     }
@@ -135,8 +131,8 @@ extends java.net.HttpURLConnection {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private static void addSocketToCache(String string, int n, int n2, Socket socket) {
-        HttpURLConnection$CacheEntry httpURLConnection$CacheEntry;
+    private static void addSocketToCache(final String string, final int n, int n2, final Socket socket) {
+        CacheEntry cacheEntry;
         String string2;
         if (socketCache == null) {
             socketCache = new Hashtable();
@@ -163,15 +159,36 @@ extends java.net.HttpURLConnection {
         Object object = socketCache;
         synchronized (object) {
             if (socketCache.size() >= n3) {
-                httpURLConnection$CacheEntry = (HttpURLConnection$CacheEntry)socketCache.remove(socketCache.keys().nextElement());
-                httpURLConnection$CacheEntry.closeSocket();
+                cacheEntry = (CacheEntry)socketCache.remove(socketCache.keys().nextElement());
+                cacheEntry.closeSocket();
             }
         }
-        object = new HttpURLConnection$1(string, n, socket);
+        object = new TimerTask(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                boolean bl = false;
+                CacheEntry cacheEntry = null;
+                String string2 = HttpURLConnection.getSockDescriptor(string, n);
+                Hashtable hashtable = socketCache;
+                synchronized (hashtable) {
+                    cacheEntry = (CacheEntry)socketCache.get(string2);
+                    if (cacheEntry != null && cacheEntry.getSocket() == socket) {
+                        bl = true;
+                        socketCache.remove(string2);
+                    }
+                }
+                if (bl) {
+                    cacheEntry.closeSocket();
+                }
+            }
+        };
         cacheTimer.schedule((TimerTask)object, n4);
-        httpURLConnection$CacheEntry = (HttpURLConnection$CacheEntry)socketCache.put(HttpURLConnection.getSockDescriptor(string, n), new HttpURLConnection$CacheEntry(socket, (TimerTask)object));
-        if (httpURLConnection$CacheEntry != null) {
-            httpURLConnection$CacheEntry.closeSocket();
+        cacheEntry = (CacheEntry)socketCache.put(HttpURLConnection.getSockDescriptor(string, n), new CacheEntry(socket, (TimerTask)object));
+        if (cacheEntry != null) {
+            cacheEntry.closeSocket();
         }
     }
 
@@ -208,13 +225,21 @@ extends java.net.HttpURLConnection {
         String string = HttpURLConnection.getSystemProperty("http.proxyHost");
         String string2 = HttpURLConnection.getSystemProperty("http.proxyPort");
         if (string == null || string2 == null) {
-            String[] stringArray = VM.getHttpProxyParms();
+            final String[] stringArray = VM.getHttpProxyParms();
             if (stringArray == null) {
                 return;
             }
             this.proxyName = stringArray[0];
             this.hostPort = Integer.parseInt(stringArray[1]);
-            AccessController.doPrivileged(new HttpURLConnection$2(this, stringArray));
+            AccessController.doPrivileged(new PrivilegedAction(){
+
+                public Object run() {
+                    Properties properties = System.getProperties();
+                    properties.setProperty("http.proxyHost", HttpURLConnection.this.proxyName);
+                    properties.setProperty("http.proxyPort", stringArray[1]);
+                    return null;
+                }
+            });
         }
     }
 
@@ -225,7 +250,6 @@ extends java.net.HttpURLConnection {
         this.readTimeout = n;
     }
 
-    @Override
     public void disconnect() {
         try {
             this.closeSocket();
@@ -251,7 +275,7 @@ extends java.net.HttpURLConnection {
         return n;
     }
 
-    void closeSocket() {
+    void closeSocket() throws IOException {
         if (this.canReuseSocket()) {
             HttpURLConnection.addSocketToCache(this.getHostName(), this.getHostPort(), this.getKeepAliveTimeoutFromResponse(), this.currentSocket);
         } else if (this.is != null) {
@@ -259,7 +283,7 @@ extends java.net.HttpURLConnection {
         }
     }
 
-    void endRequest() {
+    void endRequest() throws IOException {
         if (this.os != null) {
             this.os.close();
         }
@@ -270,7 +294,6 @@ extends java.net.HttpURLConnection {
         return defaultReqHeader.get(string);
     }
 
-    @Override
     public InputStream getErrorStream() {
         if (this.connected && this.method != "HEAD" && this.responseCode >= 400) {
             return this.uis;
@@ -278,7 +301,6 @@ extends java.net.HttpURLConnection {
         return null;
     }
 
-    @Override
     public String getHeaderField(int n) {
         try {
             this.getInputStream();
@@ -292,7 +314,6 @@ extends java.net.HttpURLConnection {
         }
     }
 
-    @Override
     public String getHeaderField(String string) {
         try {
             this.getInputStream();
@@ -306,7 +327,6 @@ extends java.net.HttpURLConnection {
         }
     }
 
-    @Override
     public String getHeaderFieldKey(int n) {
         try {
             this.getInputStream();
@@ -320,18 +340,15 @@ extends java.net.HttpURLConnection {
         }
     }
 
-    @Override
     public Map getHeaderFields() {
         return this.resHeader.getFieldMap();
     }
 
-    @Override
     public Map getRequestProperties() {
         return this.reqHeader.getFieldMap();
     }
 
-    @Override
-    public InputStream getInputStream() {
+    public InputStream getInputStream() throws IOException {
         if (!this.doInput) {
             throw new ProtocolException(Msg.getString("K008d"));
         }
@@ -342,20 +359,20 @@ extends java.net.HttpURLConnection {
         return this.uis;
     }
 
-    private InputStream getContentStream() {
+    private InputStream getContentStream() throws IOException {
         if (this.uis != null) {
             return this.uis;
         }
         String string = this.resHeader.get("Transfer-Encoding");
         if (string != null && string.toLowerCase().equals("chunked")) {
-            this.uis = new HttpURLConnection$ChunkedInputStream(this);
+            this.uis = new ChunkedInputStream();
             return this.uis;
         }
         String string2 = this.resHeader.get("Content-Length");
         if (string2 != null) {
             try {
                 int n = Integer.parseInt(string2);
-                this.uis = new HttpURLConnection$LimitedInputStream(this, n);
+                this.uis = new LimitedInputStream(n);
                 return this.uis;
             }
             catch (NumberFormatException numberFormatException) {}
@@ -364,8 +381,7 @@ extends java.net.HttpURLConnection {
         return this.uis;
     }
 
-    @Override
-    public OutputStream getOutputStream() {
+    public OutputStream getOutputStream() throws IOException {
         if (!this.doOutput) {
             throw new ProtocolException(Msg.getString("K008e"));
         }
@@ -392,20 +408,18 @@ extends java.net.HttpURLConnection {
             n = -1;
         }
         if (this.httpVersion > 0 && this.sendChunked || n >= 0) {
-            this.os = new HttpURLConnection$HttpOutputStream(this, n);
+            this.os = new HttpOutputStream(n);
             this.doRequest();
             return this.os;
         }
-        this.os = new HttpURLConnection$HttpOutputStream(this);
+        this.os = new HttpOutputStream();
         return this.os;
     }
 
-    @Override
-    public Permission getPermission() {
+    public Permission getPermission() throws IOException {
         return new SocketPermission(new StringBuffer(String.valueOf(this.getHostName())).append(":").append(this.getHostPort()).toString(), "connect, resolve");
     }
 
-    @Override
     public String getRequestProperty(String string) {
         if (this.connected) {
             throw new IllegalAccessError(Msg.getString("K0091"));
@@ -416,7 +430,7 @@ extends java.net.HttpURLConnection {
     /*
      * Unable to fully structure code
      */
-    String readln() {
+    String readln() throws IOException {
         var1_1 = false;
         var2_2 = new StringBuffer(80);
         var3_3 = this.is.read();
@@ -459,7 +473,7 @@ lbl18:
         return string;
     }
 
-    private boolean sendRequest() {
+    private boolean sendRequest() throws IOException {
         byte[] byArray = this.createRequest();
         while (true) {
             try {
@@ -492,7 +506,7 @@ lbl18:
         }
     }
 
-    void readServerResponse() {
+    void readServerResponse() throws IOException {
         this.socketOut.flush();
         do {
             this.responseCode = -1;
@@ -512,12 +526,11 @@ lbl18:
         } while (this.getResponseCode() == 100);
         if (this.method == "HEAD" || this.responseCode >= 100 && this.responseCode < 200 || this.responseCode == 204 || this.responseCode == 304) {
             this.closeSocket();
-            this.uis = new HttpURLConnection$LimitedInputStream(this, 0);
+            this.uis = new LimitedInputStream(0);
         }
     }
 
-    @Override
-    public int getResponseCode() {
+    public int getResponseCode() throws IOException {
         int n;
         this.doRequest();
         if (this.responseCode != -1) {
@@ -545,7 +558,7 @@ lbl18:
         return this.responseCode;
     }
 
-    void readHeaders() {
+    void readHeaders() throws IOException {
         String string;
         while ((string = this.readln()) != null && string.length() > 1) {
             int n = string.indexOf(":");
@@ -557,7 +570,7 @@ lbl18:
         }
     }
 
-    private byte[] createRequest() {
+    private byte[] createRequest() throws IOException {
         this.openNetworkInterfaceAndUpdateProxyInformation();
         StringBuffer stringBuffer = new StringBuffer(256);
         stringBuffer.append(this.method);
@@ -634,8 +647,7 @@ lbl18:
         defaultReqHeader.add(string, string2);
     }
 
-    @Override
-    public void setIfModifiedSince(long l) {
+    public void setIfModifiedSince(long l) throws IllegalAccessError {
         super.setIfModifiedSince(l);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US);
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -643,7 +655,6 @@ lbl18:
         this.reqHeader.add("If-Modified-Since", string);
     }
 
-    @Override
     public void setRequestProperty(String string, String string2) {
         if (this.connected) {
             throw new IllegalAccessError(Msg.getString("K0092"));
@@ -654,7 +665,6 @@ lbl18:
         this.reqHeader.set(string, string2);
     }
 
-    @Override
     public void addRequestProperty(String string, String string2) {
         if (this.connected) {
             throw new IllegalAccessError(Msg.getString("K0092"));
@@ -701,7 +711,6 @@ lbl18:
         return string2;
     }
 
-    @Override
     public boolean usingProxy() {
         String string = HttpURLConnection.getSystemProperty("http.proxySet");
         if (string != null) {
@@ -717,7 +726,7 @@ lbl18:
         return HttpURLConnection.getSystemProperty("proxyHost") != null;
     }
 
-    void doRequest() {
+    void doRequest() throws IOException {
         if (this.sentRequest) {
             if (this.resHeader == null && this.os != null) {
                 this.os.close();
@@ -796,18 +805,324 @@ lbl18:
             catch (NumberFormatException numberFormatException) {
                 throw new IllegalArgumentException(Msg.getString("K00af", string2));
             }
-            if (this.hostPort < 0 || this.hostPort > -65536) {
+            if (this.hostPort < 0 || this.hostPort > 65535) {
                 throw new IllegalArgumentException(Msg.getString("K00b0"));
             }
         }
     }
 
-    static /* synthetic */ String access$0(String string, int n) {
-        return HttpURLConnection.getSockDescriptor(string, n);
+    private static class CacheEntry {
+        private Socket socket;
+        private TimerTask timerTask;
+
+        public CacheEntry(Socket socket, TimerTask timerTask) {
+            this.socket = socket;
+            this.timerTask = timerTask;
+        }
+
+        public Socket getSocket() {
+            return this.socket;
+        }
+
+        public void closeSocket() {
+            try {
+                this.socket.close();
+            }
+            catch (IOException iOException) {}
+            this.timerTask.cancel();
+        }
+
+        public void cancelTimerTask() {
+            this.timerTask.cancel();
+        }
     }
 
-    static /* synthetic */ Hashtable access$1() {
-        return socketCache;
+    private class HttpOutputStream
+    extends OutputStream {
+        static final int MAX = 1024;
+        ByteArrayOutputStream cache = new ByteArrayOutputStream(1031);
+        boolean writeToSocket;
+        boolean closed = false;
+        int limit;
+
+        public HttpOutputStream() {
+            this.limit = -1;
+        }
+
+        public HttpOutputStream(int n) {
+            this.writeToSocket = true;
+            this.limit = n;
+        }
+
+        private void output(String string) throws IOException {
+            HttpURLConnection.this.socketOut.write(string.getBytes("ISO8859_1"));
+        }
+
+        private void sendCache(boolean bl) throws IOException {
+            int n = this.cache.size();
+            if (n > 0 || bl) {
+                if (this.limit < 0) {
+                    if (n > 0) {
+                        this.output(new StringBuffer(String.valueOf(Integer.toHexString(n))).append("\r\n").toString());
+                        this.cache.write(13);
+                        this.cache.write(10);
+                    }
+                    if (bl) {
+                        this.cache.write(48);
+                        this.cache.write(13);
+                        this.cache.write(10);
+                        this.cache.write(13);
+                        this.cache.write(10);
+                    }
+                }
+                HttpURLConnection.this.socketOut.write(this.cache.toByteArray());
+                this.cache.reset();
+            }
+        }
+
+        public synchronized void flush() throws IOException {
+            if (this.closed) {
+                throw new IOException(Msg.getString("K0059"));
+            }
+            if (this.writeToSocket) {
+                this.sendCache(false);
+                HttpURLConnection.this.socketOut.flush();
+            }
+        }
+
+        public synchronized void close() throws IOException {
+            if (this.closed) {
+                return;
+            }
+            this.closed = true;
+            if (this.writeToSocket) {
+                if (this.limit > 0) {
+                    throw new IOException(Msg.getString("K00a4"));
+                }
+                this.sendCache(this.closed);
+            }
+        }
+
+        public synchronized void write(int n) throws IOException {
+            if (this.closed) {
+                throw new IOException(Msg.getString("K0059"));
+            }
+            if (this.limit >= 0) {
+                if (this.limit == 0) {
+                    throw new IOException(Msg.getString("K00b2"));
+                }
+                --this.limit;
+            }
+            this.cache.write(n);
+            if (this.writeToSocket && this.cache.size() >= 1024) {
+                this.sendCache(false);
+            }
+        }
+
+        public synchronized void write(byte[] byArray, int n, int n2) throws IOException {
+            if (this.closed) {
+                throw new IOException(Msg.getString("K0059"));
+            }
+            if (byArray == null) {
+                throw new NullPointerException();
+            }
+            if (n < 0 || n2 < 0 || n > byArray.length || byArray.length - n < n2) {
+                throw new ArrayIndexOutOfBoundsException(Msg.getString("K002f"));
+            }
+            if (this.limit >= 0) {
+                if (n2 > this.limit) {
+                    throw new IOException(Msg.getString("K00b2"));
+                }
+                this.limit -= n2;
+            }
+            if (!this.writeToSocket || this.cache.size() + n2 < 1024) {
+                this.cache.write(byArray, n, n2);
+            } else {
+                if (this.limit < 0) {
+                    this.output(new StringBuffer(String.valueOf(Integer.toHexString(n2 + this.cache.size()))).append("\r\n").toString());
+                }
+                HttpURLConnection.this.socketOut.write(this.cache.toByteArray());
+                this.cache.reset();
+                HttpURLConnection.this.socketOut.write(byArray, n, n2);
+                if (this.limit < 0) {
+                    this.output("\r\n");
+                }
+            }
+        }
+
+        synchronized int size() {
+            return this.cache.size();
+        }
+
+        synchronized byte[] toByteArray() {
+            return this.cache.toByteArray();
+        }
+
+        boolean isCached() {
+            return !this.writeToSocket;
+        }
+
+        boolean isChunked() {
+            return this.writeToSocket && this.limit == -1;
+        }
+    }
+
+    private class ChunkedInputStream
+    extends InputStream {
+        int bytesRemaining = -1;
+        boolean atEnd = false;
+
+        public ChunkedInputStream() throws IOException {
+            this.readChunkSize();
+        }
+
+        public void close() throws IOException {
+            HttpURLConnection.this.closeSocket();
+            this.atEnd = true;
+        }
+
+        public int available() throws IOException {
+            int n = HttpURLConnection.this.is.available();
+            if (n > this.bytesRemaining) {
+                return this.bytesRemaining;
+            }
+            return n;
+        }
+
+        private void readChunkSize() throws IOException {
+            String string;
+            int n;
+            if (this.atEnd) {
+                return;
+            }
+            if (this.bytesRemaining == 0) {
+                HttpURLConnection.this.readln();
+            }
+            if ((n = (string = HttpURLConnection.this.readln()).indexOf(59)) >= 0) {
+                string = string.substring(0, n);
+            }
+            this.bytesRemaining = Integer.parseInt(string.trim(), 16);
+            if (this.bytesRemaining == 0) {
+                this.atEnd = true;
+                HttpURLConnection.this.readHeaders();
+            }
+        }
+
+        public int read() throws IOException {
+            if (this.bytesRemaining <= 0) {
+                this.readChunkSize();
+            }
+            if (this.atEnd) {
+                return -1;
+            }
+            --this.bytesRemaining;
+            return HttpURLConnection.this.is.read();
+        }
+
+        public int read(byte[] byArray, int n, int n2) throws IOException {
+            int n3;
+            if (byArray == null) {
+                throw new NullPointerException();
+            }
+            if (n < 0 || n2 < 0 || n > byArray.length || byArray.length - n < n2) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
+            if (this.bytesRemaining <= 0) {
+                this.readChunkSize();
+            }
+            if (this.atEnd) {
+                return -1;
+            }
+            if (n2 > this.bytesRemaining) {
+                n2 = this.bytesRemaining;
+            }
+            if ((n3 = HttpURLConnection.this.is.read(byArray, n, n2)) > 0) {
+                this.bytesRemaining -= n3;
+            }
+            return n3;
+        }
+
+        public long skip(int n) throws IOException {
+            long l;
+            if (this.atEnd) {
+                return -1L;
+            }
+            if (this.bytesRemaining <= 0) {
+                this.readChunkSize();
+            }
+            if (n > this.bytesRemaining) {
+                n = this.bytesRemaining;
+            }
+            if ((l = HttpURLConnection.this.is.skip(n)) > 0L) {
+                this.bytesRemaining = (int)((long)this.bytesRemaining - l);
+            }
+            return l;
+        }
+    }
+
+    private class LimitedInputStream
+    extends InputStream {
+        int bytesRemaining;
+
+        public LimitedInputStream(int n) {
+            this.bytesRemaining = n;
+        }
+
+        public void close() throws IOException {
+            HttpURLConnection.this.closeSocket();
+            this.bytesRemaining = 0;
+        }
+
+        public int available() throws IOException {
+            int n = HttpURLConnection.this.is.available();
+            if (n > this.bytesRemaining) {
+                return this.bytesRemaining;
+            }
+            return n;
+        }
+
+        public int read() throws IOException {
+            if (this.bytesRemaining <= 0) {
+                return -1;
+            }
+            int n = HttpURLConnection.this.is.read();
+            --this.bytesRemaining;
+            return n;
+        }
+
+        public int read(byte[] byArray, int n, int n2) throws IOException {
+            int n3;
+            if (byArray == null) {
+                throw new NullPointerException();
+            }
+            if (n < 0 || n2 < 0 || n > byArray.length || byArray.length - n < n2) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
+            if (this.bytesRemaining <= 0) {
+                return -1;
+            }
+            if (n2 > this.bytesRemaining) {
+                n2 = this.bytesRemaining;
+            }
+            if ((n3 = HttpURLConnection.this.is.read(byArray, n, n2)) > 0) {
+                this.bytesRemaining -= n3;
+            }
+            return n3;
+        }
+
+        public long skip(int n) throws IOException {
+            long l;
+            if (this.bytesRemaining <= 0) {
+                return -1L;
+            }
+            if (n > this.bytesRemaining) {
+                n = this.bytesRemaining;
+            }
+            if ((l = HttpURLConnection.this.is.skip(n)) > 0L) {
+                this.bytesRemaining = (int)((long)this.bytesRemaining - l);
+            }
+            return l;
+        }
     }
 }
 

@@ -13,22 +13,18 @@ extends AbstractMKEComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(MKEViewOptions mKEViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1322776320, this.getMenuEntryVisibilityState(mKEViewOptions.getSystemOnOff()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600241, this.getMenuEntryVisibilityState(mKEViewOptions.getSystemOnOff()));
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1322776320, (short)35);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600241, (short)35);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1322776320);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600241);
     }
 
-    @Override
     public int getID() {
         return 14;
     }

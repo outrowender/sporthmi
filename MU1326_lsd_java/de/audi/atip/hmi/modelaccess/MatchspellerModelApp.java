@@ -8,61 +8,43 @@ import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 
 public interface MatchspellerModelApp
 extends SpellerModelApp {
-    public static final int INPUT_MODE_SPELLER;
-    public static final int INPUT_MODE_HANDWRITTEN;
+    public static final int INPUT_MODE_SPELLER = 0;
+    public static final int INPUT_MODE_HANDWRITTEN = 1;
 
-    default public int getMatchCount() {
-    }
+    public int getMatchCount();
 
-    default public void setValidChars(String string) {
-    }
+    public void setValidChars(String var1);
 
-    default public void setValidChars(String string, int n) {
-    }
+    public void setValidChars(String var1, int var2);
 
-    default public void setValidChars(String string, int n, int n2) {
-    }
+    public void setValidChars(String var1, int var2, int var3);
 
-    default public String getValidChars() {
-    }
+    public String getValidChars();
 
-    default public void setZIPFlag(boolean bl) {
-    }
+    public void setZIPFlag(boolean var1);
 
-    default public boolean isZIP() {
-    }
+    public boolean isZIP();
 
-    default public void setUniqueMatch(boolean bl) {
-    }
+    public void setUniqueMatch(boolean var1);
 
-    default public void setMatchCount(int n) {
-    }
+    public void setMatchCount(int var1);
 
-    default public void setMatchCount(int n, int n2) {
-    }
+    public void setMatchCount(int var1, int var2);
 
-    default public void setFullMatch(boolean bl) {
-    }
+    public void setFullMatch(boolean var1);
 
-    default public void setLanguage(int n) {
-    }
+    public void setLanguage(int var1);
 
-    default public void setPhonemeText(String string, String string2) {
-    }
+    public void setPhonemeText(String var1, String var2);
 
-    default public void setValidNonAlphaNumTPCharacters(String string) {
-    }
+    public void setValidNonAlphaNumTPCharacters(String var1);
 
-    default public void setInitialInputMode(int n) {
-    }
+    public void setInitialInputMode(int var1);
 
-    default public void setAllowNonAlphaNumInput(boolean bl) {
-    }
+    public void setAllowNonAlphaNumInput(boolean var1);
 
-    default public void setSpellerListenerAsia(MatchspellerListenerAsia matchspellerListenerAsia) {
-    }
+    public void setSpellerListenerAsia(MatchspellerListenerAsia var1);
 
-    default public void setValidHanziChars(String string, int n) {
-    }
+    public void setValidHanziChars(String var1, int var2);
 }
 

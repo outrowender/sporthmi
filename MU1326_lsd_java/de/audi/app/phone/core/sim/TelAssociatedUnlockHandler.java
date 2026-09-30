@@ -11,12 +11,11 @@ import org.dsi.ifc.telephoneng.LockStateStruct;
 public class TelAssociatedUnlockHandler
 extends AbstractTelUnlockPresentationHandler {
     public TelAssociatedUnlockHandler(ITelApplication iTelApplication) {
-        super(iTelApplication, "TelAssociatedUnlockHandler", -1617492992, -1550384128, -1483275264, -1432943616, -1734933504, -1600715776, -1281948672, -1332280320, -1583938560, -1533606912, -1500052480, -1449720832, -1365834752, -1315503104, -1265171456, -1516829696, -1013513216);
+        super(iTelApplication, "TelAssociatedUnlockHandler", 300959, 300963, 300967, 300970, 300952, 300960, 300979, 300976, 300961, 300964, 300966, 300969, 300974, 300977, 300980, 300965, 300995);
     }
 
-    @Override
     protected boolean processLockStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return (n == 0xF000200 || n == 0x3000200) && this.lockHandlingRequired();
+        return (n == 131087 || n == 131075) && this.lockHandlingRequired();
     }
 
     protected boolean lockHandlingRequired() {
@@ -25,13 +24,11 @@ extends AbstractTelUnlockPresentationHandler {
         return n == 5;
     }
 
-    @Override
     protected boolean getAutomaticPinEntryActiveSetting() {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         return iGlobalTelephoneStateStruct != null ? iGlobalTelephoneStateStruct.isAutomaticPinEntryActiveAssoicated() : false;
     }
 
-    @Override
     protected LockStateStruct getLockStateStruct(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null ? iGlobalTelephoneStateStruct.getLockStateAssociated() : null;
     }

@@ -10,17 +10,16 @@ import org.dsi.ifc.search.SearchResult;
 
 public class FavoriteSearchResultLayouter
 extends AbstractSearchResultLayouter {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "FavoriteSearchResultLayouter";
 
     public FavoriteSearchResultLayouter(LogChannel logChannel) {
         super(logChannel, 1);
     }
 
-    @Override
     public TextListCellHighlightText getTextCell(SearchResult searchResult, int n) {
         if (this.isLineRelevant(n)) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "[%1.getTextCell] line='%2'", (Object)"FavoriteSearchResultLayouter", (long)n);
+                this.logger.log(100000000, "[%1.getTextCell] line='%2'", (Object)LOGCLASS, (long)n);
             }
             if (1 == n) {
                 return this.getListCellForWordtype(searchResult, 5);
@@ -30,11 +29,10 @@ extends AbstractSearchResultLayouter {
         return null;
     }
 
-    @Override
     public int getI18NValue(SearchResult searchResult, int n) {
         if (this.isLineRelevant(n)) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "[%1.getI18NCell] line='%2'", (Object)"FavoriteSearchResultLayouter", (long)n);
+                this.logger.log(100000000, "[%1.getI18NCell] line='%2'", (Object)LOGCLASS, (long)n);
             }
             switch (searchResult.getEntryType()) {
                 case 5: {
@@ -55,10 +53,9 @@ extends AbstractSearchResultLayouter {
         return 99;
     }
 
-    @Override
     public int getSymbol(int n) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.getI18NCell] entryType='%2'", (Object)"FavoriteSearchResultLayouter", (long)n);
+            this.logger.log(100000000, "[%1.getI18NCell] entryType='%2'", (Object)LOGCLASS, (long)n);
         }
         switch (n) {
             case 5: {

@@ -4,7 +4,6 @@
 package de.audi.app.bap.fw.functiontypes.queuing;
 
 public interface Request {
-    default public boolean send() {
-    }
+    public boolean send();
 }
 

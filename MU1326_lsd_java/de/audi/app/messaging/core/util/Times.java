@@ -10,9 +10,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public final class Times {
-    public static final int TIMESTAMP_TODAY;
-    public static final int TIMESTAMP_THIS_YEAR;
-    public static final int TIMESTAMP_NOT_THIS_YEAR;
+    public static final int TIMESTAMP_TODAY = 0;
+    public static final int TIMESTAMP_THIS_YEAR = 1;
+    public static final int TIMESTAMP_NOT_THIS_YEAR = 2;
 
     public static long getCurrentTime(IFrameworkAccess iFrameworkAccess) {
         return iFrameworkAccess.getKombiTime();

@@ -15,7 +15,6 @@ extends DefaultFavoriteLocationFormat {
         super(navigationEnv);
     }
 
-    @Override
     public String getDefaultName(NavLocation navLocation) {
         if (navLocation == null) {
             return "";

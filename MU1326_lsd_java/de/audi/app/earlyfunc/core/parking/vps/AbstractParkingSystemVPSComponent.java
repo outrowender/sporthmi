@@ -6,11 +6,12 @@ package de.audi.app.earlyfunc.core.parking.vps;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
 import de.audi.app.car.common.service.CarServiceTracker;
+import de.audi.app.car.common.service.CarServiceTrackerListener;
 import de.audi.app.earlyfunc.core.parking.AbstractParkingSystemComponent;
 import de.audi.app.earlyfunc.core.parking.IParkingSystemController;
-import de.audi.app.earlyfunc.core.parking.vps.AbstractParkingSystemVPSComponent$DisplayManagerServiceTrackerListener;
-import de.audi.app.earlyfunc.core.parking.vps.AbstractParkingSystemVPSComponent$VPSCameraCleaningButtonListener;
+import de.audi.atip.hmi.event.DrawerEvent;
 import de.audi.atip.hmi.model.ChoiceListener;
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.displaymanager.IDisplayManagerService;
 import org.dsi.ifc.carparkingsystem.DisplayContent;
@@ -24,30 +25,30 @@ import org.dsi.ifc.carparkingsystem.VPSSupportedViews;
 public abstract class AbstractParkingSystemVPSComponent
 extends AbstractParkingSystemComponent
 implements ChoiceListener {
-    private static final int VPS_TYPE_NO_VPS;
-    private static final int VPS_TYPE_RVC_ONLY;
-    private static final int VPS_TYPE_VPS;
-    protected static final int PARK_MODE_INVALID;
-    protected static final int PARK_MODE_NOMODE;
-    protected static final int PARK_MODE_PARALLEL;
-    protected static final int PARK_MODE_PARKBOX;
-    protected static final int PARK_MODE_TRAILER_ASSIST;
-    protected static final int PARK_MODE_LEFT_RIGHT_SIDEVIEW;
-    public static final int VPS_VIEW_INVALID;
-    public static final int VPS_VIEW_FRONTVIEW;
-    public static final int VPS_VIEW_REARVIEW;
-    public static final int VPS_VIEW_CORNERVIEW_FRONT;
-    public static final int VPS_VIEW_CORNERVIEW_REAR;
-    public static final int VPS_VIEW_TOPVIEW;
-    public static final int VPS_VIEW_SIDEVIEW;
-    protected static final int VPS_SCREEN_INVALID;
-    protected static final int VPS_SCREEN_FULLSCREEN;
-    protected static final int VPS_SCREEN_SPLITSCREEN;
-    private static final int VPS_CAMERA_STATE_SIDEVIEW_FUNCTIONAL;
-    private static final int VPS_CAMERA_STATE_SIDEVIEW_FOLDED_MIRROR;
-    private static final int VPS_CAMERA_STATE_SIDEVIEW_OPEN_DOOR;
-    private static final int VPS_CAMERA_STATE_FRONT_REAR_VIEW_FUNCTIONAL;
-    private static final int VPS_CAMERA_STATE_FRONT_REAR_VIEW_OPEN_HOOD_OR_TRUNK;
+    private static final int VPS_TYPE_NO_VPS = 0;
+    private static final int VPS_TYPE_RVC_ONLY = 1;
+    private static final int VPS_TYPE_VPS = 2;
+    protected static final int PARK_MODE_INVALID = -1;
+    protected static final int PARK_MODE_NOMODE = 0;
+    protected static final int PARK_MODE_PARALLEL = 1;
+    protected static final int PARK_MODE_PARKBOX = 2;
+    protected static final int PARK_MODE_TRAILER_ASSIST = 3;
+    protected static final int PARK_MODE_LEFT_RIGHT_SIDEVIEW = 4;
+    public static final int VPS_VIEW_INVALID = -1;
+    public static final int VPS_VIEW_FRONTVIEW = 0;
+    public static final int VPS_VIEW_REARVIEW = 1;
+    public static final int VPS_VIEW_CORNERVIEW_FRONT = 2;
+    public static final int VPS_VIEW_CORNERVIEW_REAR = 3;
+    public static final int VPS_VIEW_TOPVIEW = 4;
+    public static final int VPS_VIEW_SIDEVIEW = 5;
+    protected static final int VPS_SCREEN_INVALID = -1;
+    protected static final int VPS_SCREEN_FULLSCREEN = 0;
+    protected static final int VPS_SCREEN_SPLITSCREEN = 1;
+    private static final int VPS_CAMERA_STATE_SIDEVIEW_FUNCTIONAL = 0;
+    private static final int VPS_CAMERA_STATE_SIDEVIEW_FOLDED_MIRROR = 1;
+    private static final int VPS_CAMERA_STATE_SIDEVIEW_OPEN_DOOR = 2;
+    private static final int VPS_CAMERA_STATE_FRONT_REAR_VIEW_FUNCTIONAL = 0;
+    private static final int VPS_CAMERA_STATE_FRONT_REAR_VIEW_OPEN_HOOD_OR_TRUNK = 1;
     private CarServiceTracker displayManagerServiceTracker;
     private IDisplayManagerService displayManagerService;
     protected volatile boolean guidingLinesEnabled = true;
@@ -58,62 +59,55 @@ implements ChoiceListener {
 
     public AbstractParkingSystemVPSComponent(ICarApplication iCarApplication, IParkingSystemController iParkingSystemController) {
         super(iCarApplication, iParkingSystemController, "App.EarlyFunc.Parking.VPS");
-        this.displayManagerServiceTracker = new CarServiceTracker(new AbstractParkingSystemVPSComponent$DisplayManagerServiceTrackerListener(this, null), iCarApplication.getBundleContext(), this.getLogChannel());
-        this.currentVPSScreenChoiceModel = this.getChoiceModel(2030837760);
+        this.displayManagerServiceTracker = new CarServiceTracker(new DisplayManagerServiceTrackerListener(), iCarApplication.getBundleContext(), this.getLogChannel());
+        this.currentVPSScreenChoiceModel = this.getChoiceModel(2100345);
     }
 
-    @Override
     public void init() {
-        this.getChoiceModel(-435478528).setValue(3);
+        this.getChoiceModel(2100198).setValue(3);
         this.controller.getOPSViewModeHandler().updateVPSView(-1);
         super.init();
         this.displayManagerServiceTracker.startTracking();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.displayManagerServiceTracker.stopTracking();
     }
 
-    @Override
     public String getName() {
         return "Parking system VPS";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[]{44, 70, 79})};
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(-754245632).setValue(-1);
-        this.getChoiceModel(1896620032).setChoiceListener(this);
-        this.getChoiceModel(-1207230464).setChoiceListener(this);
-        this.getChoiceModel(-754245632).setChoiceListener(this);
-        this.getButtonModel(1309483008).setButtonListener(new AbstractParkingSystemVPSComponent$VPSCameraCleaningButtonListener(this));
+        this.getChoiceModel(2100179).setValue(-1);
+        this.getChoiceModel(2100337).setChoiceListener(this);
+        this.getChoiceModel(2100152).setChoiceListener(this);
+        this.getChoiceModel(2100179).setChoiceListener(this);
+        this.getButtonModel(2100558).setButtonListener(new VPSCameraCleaningButtonListener());
         this.getCurrentVPSScreenChoiceModel().setChoiceListener(this);
     }
 
-    @Override
     protected void deinitModels() {
-        this.getChoiceModel(1896620032).resetListener();
-        this.getChoiceModel(-1207230464).resetListener();
-        this.getChoiceModel(-754245632).resetListener();
-        this.getChoiceModel(1208819712).resetListener();
-        this.getButtonModel(1309483008).resetListener();
+        this.getChoiceModel(2100337).resetListener();
+        this.getChoiceModel(2100152).resetListener();
+        this.getChoiceModel(2100179).resetListener();
+        this.getChoiceModel(2100552).resetListener();
+        this.getButtonModel(2100558).resetListener();
         this.getCurrentVPSScreenChoiceModel().resetListener();
     }
 
-    @Override
     public void setActive(boolean bl, DisplayContent displayContent) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#setActive] active=%1, displayContent=%2", bl, (Object)displayContent);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#setActive] active=%1, displayContent=%2", bl, (Object)displayContent);
         if (bl) {
             this.updateVPSScreen(displayContent.screen, displayContent.view, displayContent.mode);
             this.updateParkMode(displayContent.mode);
             this.updateVPSView(displayContent.view, displayContent.mode);
-            this.getChoiceModel(2047614976).setValue(0);
+            this.getChoiceModel(2100346).setValue(0);
             this.setDisplayManagerComponentActive(true);
             this.controller.addPopupRequest(this.getHMIPopupID(displayContent.getPopup()), this);
             this.getApplication().getFrameworkAccess().getStartupMgr().setRVCActive(true);
@@ -131,28 +125,25 @@ implements ChoiceListener {
     private void setDisplayManagerComponentActive(boolean bl) {
         if (this.displayManagerService != null) {
             if (bl) {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#setDisplayManagerComponentActive] displayManagerService.activateComponent()");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#setDisplayManagerComponentActive] displayManagerService.activateComponent()");
                 this.displayManagerService.activateComponentRVC(17);
             } else {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#setDisplayManagerComponentActive] displayManagerService.deactivateComponent()");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#setDisplayManagerComponentActive] displayManagerService.deactivateComponent()");
                 this.displayManagerService.deactivateComponentRVC(17);
             }
         } else {
-            this.getLogChannel().log(-1601830656, "[AbstractParkingSystemVPSComponent#setDisplayManagerComponentActive] displayManagerService is null");
+            this.getLogChannel().log(100000, "[AbstractParkingSystemVPSComponent#setDisplayManagerComponentActive] displayManagerService is null");
         }
     }
 
-    @Override
     public int[] getSupportedDSIPopupIDs() {
         return new int[]{2, 3, 8, 12, 13, 14, 16, 18};
     }
 
-    @Override
     public int getParkingSystemID() {
         return 4;
     }
 
-    @Override
     public void updateParkingSystemViewOptions(ParkingSystemViewOptions parkingSystemViewOptions, int n) {
         super.updateParkingSystemViewOptions(parkingSystemViewOptions, n);
         if (n == 1 && parkingSystemViewOptions != null) {
@@ -168,69 +159,63 @@ implements ChoiceListener {
                     boolean bl5 = vPSSupportedViews.isFrontview() && vPSConfiguration.getSupportedFVModes() != null && vPSConfiguration.getSupportedFVModes().isCrossing();
                     boolean bl6 = vPSSupportedViews.isBirdview();
                     boolean bl7 = vPSSupportedViews.isLeftsideview() && vPSSupportedViews.isRightsideview();
-                    this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] rearViewAvailable=%1", bl2);
-                    this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] frontViewAvailable=%1", bl3);
-                    this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] cornerViewRearAvailable=%1", bl4);
-                    this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] cornerViewFrontAvailable=%1", bl5);
-                    this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] topViewAvailable=%1", bl6);
-                    this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] sideViewAvailable=%1", bl7);
+                    this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] rearViewAvailable=%1", bl2);
+                    this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] frontViewAvailable=%1", bl3);
+                    this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] cornerViewRearAvailable=%1", bl4);
+                    this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] cornerViewFrontAvailable=%1", bl5);
+                    this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] topViewAvailable=%1", bl6);
+                    this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#updateParkingSystemViewOptions] sideViewAvailable=%1", bl7);
                     if (bl2 || bl3 || bl6 || bl7) {
                         bl = true;
-                        this.getChoiceModel(-737468416).setValue(!bl3 && !bl6 && !bl7 ? 1 : 2);
+                        this.getChoiceModel(2100180).setValue(!bl3 && !bl6 && !bl7 ? 1 : 2);
                     }
-                    this.getChoiceModel(-787800064).setValue(bl2 ? 0 : 1);
-                    this.getChoiceModel(-804577280).setValue(bl3 ? 0 : 1);
-                    this.getChoiceModel(-821354496).setValue(bl4 ? 0 : 1);
-                    this.getChoiceModel(-838131712).setValue(bl5 ? 0 : 1);
-                    this.getChoiceModel(-771022848).setValue(bl6 ? 0 : 1);
-                    this.getChoiceModel(1846288384).setValue(bl6 ? 0 : 1);
+                    this.getChoiceModel(2100177).setValue(bl2 ? 0 : 1);
+                    this.getChoiceModel(2100176).setValue(bl3 ? 0 : 1);
+                    this.getChoiceModel(2100175).setValue(bl4 ? 0 : 1);
+                    this.getChoiceModel(2100174).setValue(bl5 ? 0 : 1);
+                    this.getChoiceModel(2100178).setValue(bl6 ? 0 : 1);
+                    this.getChoiceModel(2100334).setValue(bl6 ? 0 : 1);
                 }
                 if ((vPSSupportedRVModes = vPSConfiguration.getSupportedRVModes()) != null) {
-                    this.getChoiceModel(1863065600).setValue(vPSSupportedRVModes.trailerAssist ? 0 : 1);
-                    this.getChoiceModel(-1240719360).setValue(vPSSupportedRVModes.trailerAssistARA ? 0 : 1);
+                    this.getChoiceModel(2100335).setValue(vPSSupportedRVModes.trailerAssist ? 0 : 1);
+                    this.getChoiceModel(2100406).setValue(vPSSupportedRVModes.trailerAssistARA ? 0 : 1);
                 }
                 this.updateMenuEntryVisibility(parkingSystemViewOptions);
             }
             if (bl) {
                 this.controller.registerParkingSystemComponent(this);
             } else {
-                this.getChoiceModel(-737468416).setValue(0);
+                this.getChoiceModel(2100180).setValue(0);
                 this.controller.unregisterParkingSystemComponent(this);
             }
             this.primaryAttributeFirstSetReceived();
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        if (n == 1896620032) {
+        if (n == 2100337) {
             this.switchParkMode(n2 == 1 ? 3 : 2);
-        } else if (n == -1207230464) {
+        } else if (n == 2100152) {
             this.switchParkMode(n2);
-        } else if (n == -754245632) {
+        } else if (n == 2100179) {
             this.switchVPSView(n2);
         } else if (n == this.getCurrentVPSScreenChoiceModel().getID()) {
             this.switchVPSScreen(n2);
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
@@ -242,7 +227,7 @@ implements ChoiceListener {
     }
 
     private void switchParkMode(int n) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#switchParkMode] parkMode=%1", (long)n);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#switchParkMode] parkMode=%1", (long)n);
         boolean bl = this.currentViewOptions.getVpsConfiguration().getSupportedRVModes().isParallelToRoad();
         boolean bl2 = this.currentViewOptions.getVpsConfiguration().getSupportedRVModes().isParkbox();
         boolean bl3 = this.currentViewOptions.getVpsConfiguration().getSupportedRVModes().isTrailerAssist();
@@ -278,13 +263,13 @@ implements ChoiceListener {
         DisplayContent displayContent = new DisplayContent();
         DisplayContent displayContent2 = this.controller.getCurrentDisplayContent();
         if (displayContent2.mode == n2) {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#switchParkMode] park mode already active");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#switchParkMode] park mode already active");
         } else {
             displayContent.popup = displayContent2.popup;
             displayContent.view = 8 == n2 ? 1 : displayContent2.view;
             displayContent.screen = displayContent2.screen;
             displayContent.mode = n2;
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemVPSComponent#switchParkMode] switch park mode", (Object)displayContent);
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemVPSComponent#switchParkMode] switch park mode", (Object)displayContent);
             this.controller.changeDisplayContent(displayContent, false);
         }
     }
@@ -312,14 +297,14 @@ implements ChoiceListener {
                 n2 = -1;
             }
         }
-        this.getChoiceModel(-1207230464).setValue(n2);
-        this.getChoiceModel(1896620032).setValue(n2 == 3 ? 1 : 0);
+        this.getChoiceModel(2100152).setValue(n2);
+        this.getChoiceModel(2100337).setValue(n2 == 3 ? 1 : 0);
     }
 
     protected void switchVPSView(int n) {
         int n2;
         int n3;
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#switchVPSView] view=%1", (long)n);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#switchVPSView] view=%1", (long)n);
         switch (n) {
             case 0: {
                 n3 = 2;
@@ -359,13 +344,13 @@ implements ChoiceListener {
         DisplayContent displayContent = new DisplayContent();
         DisplayContent displayContent2 = this.controller.getCurrentDisplayContent();
         if (displayContent2.view == n3 && displayContent2.mode == n2) {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemVPSComponent#switchVPSView] view already active");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent#switchVPSView] view already active");
         } else {
             displayContent.popup = displayContent2.popup;
             displayContent.screen = displayContent2.screen;
             displayContent.view = n3;
             displayContent.mode = n2;
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemVPSComponent#switchVPSView] switch vps view", (Object)displayContent);
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemVPSComponent#switchVPSView] switch vps view", (Object)displayContent);
             this.controller.changeDisplayContent(displayContent);
         }
     }
@@ -406,7 +391,7 @@ implements ChoiceListener {
                 return;
             }
         }
-        this.getChoiceModel(-754245632).setValue(n3);
+        this.getChoiceModel(2100179).setValue(n3);
         this.controller.getOPSViewModeHandler().updateVPSView(n3);
     }
 
@@ -416,14 +401,13 @@ implements ChoiceListener {
     protected void updateVPSScreen(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateVPSCameraStates(VPSCameraStates vPSCameraStates, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemVPSComponent#updateVPSCameraStates] cameraStates=%1, valid=%2", (Object)vPSCameraStates, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemVPSComponent#updateVPSCameraStates] cameraStates=%1, valid=%2", (Object)vPSCameraStates, (long)n);
         if (n == 1) {
-            this.updateSideViewCameraState(vPSCameraStates.getLeftCamera(), 1342971904);
-            this.updateSideViewCameraState(vPSCameraStates.getRightCamera(), 1376526336);
-            this.updateFrontRearViewCameraState(vPSCameraStates.getRearCamera(), 1359749120);
-            this.updateFrontRearViewCameraState(vPSCameraStates.getFrontCamera(), 1393303552);
+            this.updateSideViewCameraState(vPSCameraStates.getLeftCamera(), 2100304);
+            this.updateSideViewCameraState(vPSCameraStates.getRightCamera(), 2100306);
+            this.updateFrontRearViewCameraState(vPSCameraStates.getRearCamera(), 2100305);
+            this.updateFrontRearViewCameraState(vPSCameraStates.getFrontCamera(), 2100307);
         }
     }
 
@@ -439,7 +423,7 @@ implements ChoiceListener {
 
     private void updateFrontRearViewCameraState(int n, int n2) {
         int n3 = 0;
-        if (n2 == 1359749120 ? n == 7 : n == 8) {
+        if (n2 == 2100305 ? n == 7 : n == 8) {
             n3 = 1;
         }
         this.setCameraStateIconChoice(n, n2, n3);
@@ -447,7 +431,7 @@ implements ChoiceListener {
 
     private void setCameraStateIconChoice(int n, int n2, int n3) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemVPSComponent#setCameraStateIconChoice] set model value to select VPS camera state icon and to decide whether camera display is substituted by a gray area: modelID='%1', iconChoiceValue='%2', cameraState='%3'", (long)n2, (long)n3, (long)n);
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemVPSComponent#setCameraStateIconChoice] set model value to select VPS camera state icon and to decide whether camera display is substituted by a gray area: modelID='%1', iconChoiceValue='%2', cameraState='%3'", (long)n2, (long)n3, (long)n);
         }
         this.getChoiceModel(n2).setValue(n3);
     }
@@ -457,31 +441,24 @@ implements ChoiceListener {
     }
 
     public int getCurrentVPSView() {
-        return this.getChoiceModel(-754245632).getValue();
+        return this.getChoiceModel(2100179).getValue();
     }
 
     public boolean isTrailerAssistActive() {
-        return this.getChoiceModel(-1207230464).getValue() == 3;
+        return this.getChoiceModel(2100152).getValue() == 3;
     }
 
     protected ChoiceModelApp getCurrentVPSScreenChoiceModel() {
         return this.currentVPSScreenChoiceModel;
     }
 
-    protected abstract void updateMenuEntryVisibility(ParkingSystemViewOptions parkingSystemViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(ParkingSystemViewOptions var1);
 
-    @Override
     public void updateVPSCameraCleaning(VPSCameraCleaning vPSCameraCleaning, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemVPSComponent#updateVPSCameraCleaning] cameraStates=%1, valid=%2", (Object)vPSCameraCleaning, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemVPSComponent#updateVPSCameraCleaning] cameraStates=%1, valid=%2", (Object)vPSCameraCleaning, (long)n);
         if (n == 1 && vPSCameraCleaning != null) {
             this.cameraCleaningActive = vPSCameraCleaning.isRearCamera();
         }
-    }
-
-    static /* synthetic */ IDisplayManagerService access$002(AbstractParkingSystemVPSComponent abstractParkingSystemVPSComponent, IDisplayManagerService iDisplayManagerService) {
-        abstractParkingSystemVPSComponent.displayManagerService = iDisplayManagerService;
-        return abstractParkingSystemVPSComponent.displayManagerService;
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -493,12 +470,39 @@ implements ChoiceListener {
         }
     }
 
-    static /* synthetic */ boolean access$100(AbstractParkingSystemVPSComponent abstractParkingSystemVPSComponent) {
-        return abstractParkingSystemVPSComponent.cameraCleaningActive;
+    private class VPSCameraCleaningButtonListener
+    extends DefaultButtonListener {
+        public void keyPressed(int n, int n2, int n3) {
+            Object object;
+            if (AbstractParkingSystemVPSComponent.this.cameraCleaningActive) {
+                AbstractParkingSystemVPSComponent.this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent.VPSCameraCleaningButtonListener#keyPressed] Cleaning already active - ignoring");
+            } else {
+                AbstractParkingSystemVPSComponent.this.getLogChannel().log(10000000, "[AbstractParkingSystemVPSComponent.VPSCameraCleaningButtonListener#keyPressed] Activating cleaning: getDSI().setVPSCameraCleaning ");
+                object = new VPSCameraCleaning(true);
+                AbstractParkingSystemVPSComponent.this.getDSI().setVPSCameraCleaning((VPSCameraCleaning)object);
+            }
+            object = AbstractParkingSystemVPSComponent.this.getApplication().getFrameworkAccess().getHMIService();
+            DrawerEvent drawerEvent = new DrawerEvent(object.getRootWindow(0), 2);
+            object.getEventDispatcher().postEvent(drawerEvent);
+        }
     }
 
-    static /* synthetic */ ICarApplication access$200(AbstractParkingSystemVPSComponent abstractParkingSystemVPSComponent) {
-        return abstractParkingSystemVPSComponent.getApplication();
+    private class DisplayManagerServiceTrackerListener
+    implements CarServiceTrackerListener {
+        private DisplayManagerServiceTrackerListener() {
+        }
+
+        public void serviceAvailable(Object object) {
+            AbstractParkingSystemVPSComponent.this.displayManagerService = (IDisplayManagerService)object;
+        }
+
+        public void serviceRemoved() {
+            AbstractParkingSystemVPSComponent.this.displayManagerService = null;
+        }
+
+        public String[] getTrackedServiceClazzName() {
+            return new String[]{(class$de$audi$atip$interapp$displaymanager$IDisplayManagerService == null ? (class$de$audi$atip$interapp$displaymanager$IDisplayManagerService = AbstractParkingSystemVPSComponent.class$("de.audi.atip.interapp.displaymanager.IDisplayManagerService")) : class$de$audi$atip$interapp$displaymanager$IDisplayManagerService).getName()};
+        }
     }
 }
 

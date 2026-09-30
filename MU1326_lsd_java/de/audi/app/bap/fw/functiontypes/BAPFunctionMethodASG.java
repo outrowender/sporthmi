@@ -38,9 +38,8 @@ IBAPMethodASGREQ {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void reset() {
-        this.logChannel.log(14808325, "[BAPFunctionMethodASG#reset] called");
+        this.logChannel.log(100000000, "[BAPFunctionMethodASG#reset] called");
         List list = this.requestsQueue;
         synchronized (list) {
             this.requestsQueue.clear();
@@ -48,11 +47,10 @@ IBAPMethodASGREQ {
         }
     }
 
-    @Override
     public BAPEntity getIndicationSerializer(int n) {
         switch (n) {
             case 10: {
-                this.logChannel.log(14808325, "[BAPFunctionMethodASG#getIndicationSerializer] Processing");
+                this.logChannel.log(100000000, "[BAPFunctionMethodASG#getIndicationSerializer] Processing");
                 return null;
             }
             case 11: {
@@ -63,12 +61,10 @@ IBAPMethodASGREQ {
         return null;
     }
 
-    @Override
     protected boolean isIndicationTypeSupported(int n) {
         return n == 10 || n == 11;
     }
 
-    @Override
     protected void doProcessIndication(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 10: {
@@ -86,9 +82,8 @@ IBAPMethodASGREQ {
         }
     }
 
-    @Override
     protected void doProcessError(int n) {
-        this.logChannel.log(1078071040, "[BAPFunctionMethodASG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
+        this.logChannel.log(1000000, "[BAPFunctionMethodASG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
         switch (n) {
             case 34: {
                 this.handleNextRequestInQueue();
@@ -100,38 +95,32 @@ IBAPMethodASGREQ {
         }
     }
 
-    @Override
     public void processingIND() {
     }
 
-    @Override
     public void resultIND(ResultMethod resultMethod) {
-        this.logChannel.log(-2137614336, "[BAPFunctionMethodASG#resultIND]");
+        this.logChannel.log(10000000, "[BAPFunctionMethodASG#resultIND]");
         if (this.lsgID != 55) {
             this.handleNextRequestInQueue();
         }
         this.indicationHandler.processIndicationResult(this, resultMethod);
     }
 
-    @Override
     public void startREQ() {
         RequestMethodStart requestMethodStart = new RequestMethodStart(this);
         this.addRequestToQueue(requestMethodStart);
     }
 
-    @Override
     public void startREQ(StartResultMethod startResultMethod) {
         RequestMethodStart requestMethodStart = new RequestMethodStart((AbstractBAPFunction)this, startResultMethod);
         this.addRequestToQueue(requestMethodStart);
     }
 
-    @Override
     public void startResultREQ() {
         RequestMethodStartResult requestMethodStartResult = new RequestMethodStartResult(this);
         this.addRequestToQueue(requestMethodStartResult);
     }
 
-    @Override
     public void startResultREQ(StartResultMethod startResultMethod) {
         RequestMethodStartResult requestMethodStartResult = new RequestMethodStartResult((AbstractBAPFunction)this, startResultMethod);
         this.addRequestToQueue(requestMethodStartResult);
@@ -144,21 +133,19 @@ IBAPMethodASGREQ {
         List list = this.requestsQueue;
         synchronized (list) {
             if (this.requestsQueue.contains(request)) {
-                this.logChannel.log(1078071040, "[BAPFunctionMethodASG#addRequestToQueue] duplicate request=%1 not added", (Object)request);
+                this.logChannel.log(1000000, "[BAPFunctionMethodASG#addRequestToQueue] duplicate request=%1 not added", (Object)request);
             } else {
-                this.logChannel.log(1078071040, "[BAPFunctionMethodASG#addRequestToQueue] add request=%1", (Object)request);
+                this.logChannel.log(1000000, "[BAPFunctionMethodASG#addRequestToQueue] add request=%1", (Object)request);
                 this.requestsQueue.add(request);
                 this.processQueue();
             }
         }
     }
 
-    @Override
     public void abortREQ() {
         this.sendRequest(5);
     }
 
-    @Override
     public void abortREQ(AbortResultMethod abortResultMethod) {
         this.sendRequest(5, abortResultMethod);
     }
@@ -168,18 +155,18 @@ IBAPMethodASGREQ {
     }
 
     private void processQueue() {
-        this.logChannel.log(14808325, "[BAPFunctionMethodASG#processQueue]");
+        this.logChannel.log(100000000, "[BAPFunctionMethodASG#processQueue]");
         if (this.requestInFlight) {
             return;
         }
         Request request = (Request)this.requestsQueue.get(0);
         boolean bl = request.send();
         if (!bl) {
-            this.logChannel.log(-1601830656, "[BAPFunctionMethodASG#processQueue] could not send request");
+            this.logChannel.log(100000, "[BAPFunctionMethodASG#processQueue] could not send request");
             this.requestsQueue.remove(0);
             return;
         }
-        this.logChannel.log(14808325, "[BAPFunctionMethodASG#processQueue] request sent");
+        this.logChannel.log(100000000, "[BAPFunctionMethodASG#processQueue] request sent");
         this.requestInFlight = true;
     }
 
@@ -190,7 +177,7 @@ IBAPMethodASGREQ {
         List list = this.requestsQueue;
         synchronized (list) {
             if (this.requestsQueue.isEmpty()) {
-                this.logChannel.log(-1601830656, "[BAPFunctionMethodASG#resultIND] Unexpected result indication received.");
+                this.logChannel.log(100000, "[BAPFunctionMethodASG#resultIND] Unexpected result indication received.");
                 return;
             }
             this.requestsQueue.remove(0);
@@ -198,12 +185,11 @@ IBAPMethodASGREQ {
                 this.requestInFlight = false;
             } else {
                 ((Request)this.requestsQueue.get(0)).send();
-                this.logChannel.log(14808325, "[BAPFunctionMethodASG#handleNextRequestInQueue] request sent");
+                this.logChannel.log(100000000, "[BAPFunctionMethodASG#handleNextRequestInQueue] request sent");
             }
         }
     }
 
-    @Override
     public void onRemoteProcessState(RemoteProcessState remoteProcessState) {
         super.onRemoteProcessState(remoteProcessState);
         if (this.lsgID != 55) {

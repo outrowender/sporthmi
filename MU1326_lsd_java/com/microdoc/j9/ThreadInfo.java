@@ -7,11 +7,11 @@ import com.microdoc.j9.StackFrameInfo;
 
 public class ThreadInfo {
     Thread fThread = null;
-    public static final int RUNNING;
-    public static final int BLOCKED;
-    public static final int WAITING;
-    public static final int TIMED_WAITING;
-    public static final int SLEEPING;
+    public static final int RUNNING = 0;
+    public static final int BLOCKED = 1;
+    public static final int WAITING = 2;
+    public static final int TIMED_WAITING = 3;
+    public static final int SLEEPING = 4;
     int fStatus;
     int fOSId;
     Object fMonitorObject = null;
@@ -22,7 +22,7 @@ public class ThreadInfo {
         if (thread == null) {
             return "";
         }
-        return new StringBuffer(String.valueOf(thread.getName())).append(", ").append(thread.getPriority()).toString();
+        return String.valueOf(thread.getName()) + ", " + thread.getPriority();
     }
 
     String describeObject(Object object) {
@@ -36,7 +36,7 @@ public class ThreadInfo {
         catch (Throwable throwable) {
             string = "";
         }
-        return new StringBuffer("\"").append(string).append("\" (").append(object.getClass().getName()).append(")").toString();
+        return "\"" + string + "\" (" + object.getClass().getName() + ")";
     }
 
     public String toString() {

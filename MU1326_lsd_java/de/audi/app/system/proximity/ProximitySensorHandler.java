@@ -21,7 +21,6 @@ ChoiceListener {
         this.log = this.framework.getLogChannel("App.System.Proximity");
     }
 
-    @Override
     public void processMsg(int n) {
         switch (n) {
             case 101: {
@@ -29,38 +28,33 @@ ChoiceListener {
                 this.proximityChoiceModel = this.framework.getHmiServiceApp().getChoiceModel(4125);
                 if (n2 == 0) {
                     this.proximityChoiceModel.setValue(0);
-                    this.log.log(1078071040, "No proximity sensor available");
+                    this.log.log(1000000, "No proximity sensor available");
                 } else {
                     this.proximityChoiceModel.setValue(this.framework.getStorageMgr().getInt(1011, 45, 1));
                     this.proximityChoiceModel.setChoiceListener(this);
                 }
-                this.log.log(1078071040, "Initializing proximity sensor value to %1", (long)this.proximityChoiceModel.getValue());
+                this.log.log(1000000, "Initializing proximity sensor value to %1", (long)this.proximityChoiceModel.getValue());
                 break;
             }
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         switch (n) {
             case 4125: {
-                this.log.log(1078071040, "Proximity sensor setting %1 is pressed", (long)n2);
+                this.log.log(1000000, "Proximity sensor setting %1 is pressed", (long)n2);
                 if (this.proximityChoiceModel == null) break;
                 this.proximityChoiceModel.setValue(n2);
                 this.framework.getStorageMgr().setInt(1011, 45, this.proximityChoiceModel.getValue());
@@ -69,7 +63,6 @@ ChoiceListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 }

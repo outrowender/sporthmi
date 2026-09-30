@@ -4,9 +4,8 @@
 package de.audi.app.media.dsi.media;
 
 public interface IMediaParentalManagementListener {
-    public static final int MAX_PML_LEVEL;
+    public static final int MAX_PML_LEVEL = 8;
 
-    default public void updateParentalML(int n) {
-    }
+    public void updateParentalML(int var1);
 }
 

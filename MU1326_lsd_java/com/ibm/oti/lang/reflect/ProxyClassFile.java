@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package com.ibm.oti.lang.reflect;
 
@@ -24,9 +21,9 @@ implements ProxyConstants {
     private int contentsOffset;
     private int constantPoolOffset;
     private ProxyMethod[] proxyMethods;
-    private static final int INITIAL_CONTENTS_SIZE;
-    private static final int INITIAL_HEADER_SIZE;
-    private static final int INCREMENT_SIZE;
+    private static final int INITIAL_CONTENTS_SIZE = 1000;
+    private static final int INITIAL_HEADER_SIZE = 500;
+    private static final int INCREMENT_SIZE = 250;
     private static Method ObjectEqualsMethod;
     private static Method ObjectHashCodeMethod;
     private static Method ObjectToStringMethod;

@@ -28,13 +28,12 @@ implements ISDSScreenFadedOutUpdatable {
         this.listMode = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] listMode=%2", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "[%1#execute] listMode=%2", (Object)this.getName(), (long)this.listMode);
         int n = SDSUtils.translate((int)this.listMode, NaviSDSUtils.listMode2PopupMappingID);
-        this.logger.log(-2137614336, "[%1#execute] popupMappingID=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#execute] popupMappingID=%2!", (Object)this.getName(), (long)n);
         boolean bl = false;
-        if (n != 128) {
+        if (n != Integer.MIN_VALUE) {
             switch (n) {
                 case 47: 
                 case 48: 
@@ -50,13 +49,12 @@ implements ISDSScreenFadedOutUpdatable {
             }
         }
         if (bl) {
-            this.logger.log(-2137614336, "[%1#execute] wait until current popup is removed!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#execute] wait until current popup is removed!", (Object)this.getName());
         } else {
             this.processingFinished();
         }
     }
 
-    @Override
     public void updateSDSScreenFadedOut(int n) {
         this.processingFinished();
     }

@@ -11,102 +11,75 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ISource {
-    public static final int SOURCES;
-    public static final int SOURCE_UNDEFINED;
-    public static final int CD_DRIVE;
-    public static final int CD_CHANGER;
-    public static final int DVD_DRIVE;
-    public static final int DVD_CHANGER;
-    public static final int FILEPLAYER;
-    public static final int SDCARD;
-    public static final int HDD;
-    public static final int TVTUNER;
-    public static final int AVIN;
-    public static final int AUX;
-    public static final int USB;
-    public static final int BLUETOOTH;
-    public static final int WLAN;
-    public static final int ONLINEPLAYER;
+    public static final int SOURCES = 14;
+    public static final int SOURCE_UNDEFINED = -1;
+    public static final int CD_DRIVE = 0;
+    public static final int CD_CHANGER = 1;
+    public static final int DVD_DRIVE = 2;
+    public static final int DVD_CHANGER = 3;
+    public static final int FILEPLAYER = 4;
+    public static final int SDCARD = 5;
+    public static final int HDD = 6;
+    public static final int TVTUNER = 7;
+    public static final int AVIN = 8;
+    public static final int AUX = 9;
+    public static final int USB = 10;
+    public static final int BLUETOOTH = 11;
+    public static final int WLAN = 12;
+    public static final int ONLINEPLAYER = 13;
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public int getType() {
-    }
+    public int getType();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public boolean isActive() {
-    }
+    public boolean isActive();
 
-    default public boolean isDeviceActivated() {
-    }
+    public boolean isDeviceActivated();
 
-    default public boolean isActivateable(ISourceSlot iSourceSlot) {
-    }
+    public boolean isActivateable(ISourceSlot var1);
 
-    default public void activate(ISourceSlot iSourceSlot) {
-    }
+    public void activate(ISourceSlot var1);
 
-    default public void deactivate(boolean bl) {
-    }
+    public void deactivate(boolean var1);
 
-    default public void deactivateSourceDevice() {
-    }
+    public void deactivateSourceDevice();
 
-    default public void sourceActivated(ISourceSlot iSourceSlot) {
-    }
+    public void sourceActivated(ISourceSlot var1);
 
-    default public boolean pausePlaybackOnDeactivation() {
-    }
+    public boolean pausePlaybackOnDeactivation();
 
-    default public boolean isAvailable() {
-    }
+    public boolean isAvailable();
 
-    default public int getAudioConnection(ISourceSlot iSourceSlot) {
-    }
+    public int getAudioConnection(ISourceSlot var1);
 
-    default public List getSlots() {
-    }
+    public List getSlots();
 
-    default public ISourceSlot getSlot(int n) {
-    }
+    public ISourceSlot getSlot(int var1);
 
-    default public ISourceSlot getSlot(ISourceSlot iSourceSlot) {
-    }
+    public ISourceSlot getSlot(ISourceSlot var1);
 
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    default public void addSourceListener(ISourceListener iSourceListener) {
-    }
+    public void addSourceListener(ISourceListener var1);
 
-    default public void removeSourceListener(ISourceListener iSourceListener) {
-    }
+    public void removeSourceListener(ISourceListener var1);
 
-    default public void addSlotListener(ISourceSlotListener iSourceSlotListener, boolean bl) {
-    }
+    public void addSlotListener(ISourceSlotListener var1, boolean var2);
 
-    default public void removeSlotListener(ISourceSlotListener iSourceSlotListener) {
-    }
+    public void removeSlotListener(ISourceSlotListener var1);
 
-    default public boolean processSourceStateUpdate(SourceStateUpdate sourceStateUpdate) {
-    }
+    public boolean processSourceStateUpdate(SourceStateUpdate var1);
 
-    default public Collection getUpdateTypes() {
-    }
+    public Collection getUpdateTypes();
 
-    default public int getSlotNumberByPartition(int n, int n2) {
-    }
+    public int getSlotNumberByPartition(int var1, int var2);
 
-    default public ISourceSlot getActivatableSlot(ISourceSlot iSourceSlot) {
-    }
+    public ISourceSlot getActivatableSlot(ISourceSlot var1);
 
-    default public boolean isLastSelectedSlot(ISourceSlot iSourceSlot) {
-    }
+    public boolean isLastSelectedSlot(ISourceSlot var1);
 
-    default public int getNumberOfSlots() {
-    }
+    public int getNumberOfSlots();
 }
 

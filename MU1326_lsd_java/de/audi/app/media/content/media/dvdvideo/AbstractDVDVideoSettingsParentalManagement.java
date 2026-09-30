@@ -14,11 +14,11 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 public abstract class AbstractDVDVideoSettingsParentalManagement
 extends AbstractSettingsList
 implements IMediaParentalManagementListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DVDVideoSettingsParentalManagement";
     private final IMediaDSIBaseController dsiBaseController;
     protected final BaseListModelApp pmList;
     private final ChoiceModelApp settingPreview;
-    private static final int PMLIST_LEVEL_COUNT;
+    private static final int PMLIST_LEVEL_COUNT = 9;
 
     public AbstractDVDVideoSettingsParentalManagement(IMediaTerminal iMediaTerminal, BaseListModelApp baseListModelApp, ChoiceModelApp choiceModelApp) {
         super(iMediaTerminal);
@@ -28,7 +28,7 @@ implements IMediaParentalManagementListener {
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"DVDVideoSettingsParentalManagement");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.dsiBaseController.addParentalManagementListener(this);
         this.pmList.removeAll();
         this.pmList.setListener(this);
@@ -51,24 +51,18 @@ implements IMediaParentalManagementListener {
         this.dsiBaseController.setParentalML(n);
     }
 
-    @Override
-    protected abstract int getCheckboxColumn() {
-    }
+    protected abstract int getCheckboxColumn();
 
-    @Override
     protected BaseListModelApp getListModel() {
         return this.pmList;
     }
 
-    @Override
-    protected abstract void entrySelected(int n) {
-    }
+    protected abstract void entrySelected(int var1);
 
-    @Override
     public void updateParentalML(int n) {
-        this.logger.hmi().log(1078071040, "[%1.updateParentalML] '%2'", (Object)"DVDVideoSettingsParentalManagement", (long)n);
+        this.logger.hmi().log(1000000, "[%1.updateParentalML] '%2'", (Object)LOGCLASS, (long)n);
         if (n < 0 || n > 8) {
-            this.logger.dsi().log(-1601830656, "[%1.updateParentalML] unsupported pmLevel '%2', ignoring.", (Object)"DVDVideoSettingsParentalManagement", (long)n);
+            this.logger.dsi().log(100000, "[%1.updateParentalML] unsupported pmLevel '%2', ignoring.", (Object)LOGCLASS, (long)n);
         }
         this.updateActiveEntry(n);
         this.settingPreview.setValue(n);
@@ -77,12 +71,12 @@ implements IMediaParentalManagementListener {
 
     private int getPMLevel() {
         int n = this.getTerminal().getMediaPersistence().getGlobalIntProperty("GLOBAL_KEY_DVDV_PM_LEVEL");
-        this.logger.main().log(1078071040, "[%1.getPMLevel] getting current pm-level from persistence: '%2'.", (Object)"DVDVideoSettingsParentalManagement", (long)n);
+        this.logger.main().log(1000000, "[%1.getPMLevel] getting current pm-level from persistence: '%2'.", (Object)LOGCLASS, (long)n);
         return n;
     }
 
     private void setPMLevel(int n) {
-        this.logger.main().log(1078071040, "[%1.setPMLevel] storing new pm level ('%2') in persistence.", (Object)"DVDVideoSettingsParentalManagement", (long)n);
+        this.logger.main().log(1000000, "[%1.setPMLevel] storing new pm level ('%2') in persistence.", (Object)LOGCLASS, (long)n);
         this.getTerminal().getMediaPersistence().setGlobalIntProperty("GLOBAL_KEY_DVDV_PM_LEVEL", n);
     }
 
@@ -95,7 +89,6 @@ implements IMediaParentalManagementListener {
         this.pmList.update(baseListModelApp);
     }
 
-    protected abstract EvoListRow createRow(int n) {
-    }
+    protected abstract EvoListRow createRow(int var1);
 }
 

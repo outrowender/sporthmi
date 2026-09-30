@@ -12,11 +12,11 @@ import de.vw.mib.bap.requests.StatusProperty;
 
 public final class BAPPropertyInfoStatesWithOverCurrentSupport
 implements TimerListener {
-    private static final int OVER_CURRENT_MIN_DISPLAY_TIME_MILLI_SECONDS;
+    private static final int OVER_CURRENT_MIN_DISPLAY_TIME_MILLI_SECONDS = 3000;
     private final CombiModuleAudio combiModuleAudio;
     private final BAPFunctionPropertyFSG infoStateProperty;
     private final Object mutex = new Object();
-    private final Timer infoStateMediatorTimer = new Timer("infoStateTimer", 0, true, this);
+    private final Timer infoStateMediatorTimer = new Timer("infoStateTimer", 3000L, true, this);
     private volatile StatusProperty statusPending = null;
 
     public BAPPropertyInfoStatesWithOverCurrentSupport(CombiModuleAudio combiModuleAudio, BAPFunctionPropertyFSG bAPFunctionPropertyFSG) {
@@ -41,9 +41,8 @@ implements TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fireTimer(Timer timer) {
-        this.combiModuleAudio.getLogChannel().log(-2137614336, "[BAPPropertyInfoStatesWithOverCurrentSupport#fireTimer] restoring InfoStates before Overcurrent");
+        this.combiModuleAudio.getLogChannel().log(10000000, "[BAPPropertyInfoStatesWithOverCurrentSupport#fireTimer] restoring InfoStates before Overcurrent");
         StatusProperty statusProperty = null;
         Object object = this.mutex;
         synchronized (object) {
@@ -57,13 +56,12 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
     private void statusREQAndStartTimerIfNeeded(StatusProperty statusProperty) {
         if (((InfoStates_Status)statusProperty).states == 53) {
-            this.combiModuleAudio.getLogChannel().log(-2137614336, "[BAPPropertyInfoStatesWithOverCurrentSupport#statusREQAndStartTimerIfNeeded] Sending Overcurrent InfoStates");
+            this.combiModuleAudio.getLogChannel().log(10000000, "[BAPPropertyInfoStatesWithOverCurrentSupport#statusREQAndStartTimerIfNeeded] Sending Overcurrent InfoStates");
             this.infoStateMediatorTimer.restart();
         }
         this.infoStateProperty.sendStatusIfChanged(statusProperty);

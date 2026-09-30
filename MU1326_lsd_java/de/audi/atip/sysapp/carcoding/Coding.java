@@ -4,343 +4,272 @@
 package de.audi.atip.sysapp.carcoding;
 
 public interface Coding {
-    public static final int COUNTRY_NO_COUNTRY;
-    public static final int COUNTRY_EU;
-    public static final int COUNTRY_NAR;
-    public static final int COUNTRY_MSA;
-    public static final int COUNTRY_KOREA;
-    public static final int COUNTRY_CHINA;
-    public static final int COUNTRY_JAPAN;
-    public static final int COUNTRY_ASIA_PACIFIC;
-    public static final int COUNTRY_AUSTRALIA;
-    public static final int COUNTRY_SOUTH_AFRIKA;
-    public static final int COUNTRY_NEAST;
-    public static final int COUNTRY_NM_AFRICA;
-    public static final int COUNTRY_MEAST;
-    public static final int COUNTRY_CENTRAL_ASIA;
-    public static final int COUNTRY_INDIA;
-    public static final int COUNTRY_ISRAEL;
-    public static final int COUNTRY_TAIWAN;
-    public static final int COUNTRY_MSA2;
-    public static final int MAX_SPEAKER_CHANNELS;
-    public static final int CODING_DATA_LENGTH;
-    public static final int CAR_BRAND_NO_BRAND;
-    public static final int CAR_BRAND_AUDI;
-    public static final int CAR_BRAND_VW;
-    public static final int CAR_BRAND_SKODA;
-    public static final int CAR_BRAND_SEAT;
-    public static final int CAR_BRAND_BENTLEY;
-    public static final int CAR_BRAND_VW_NFZ;
-    public static final int CAR_CLASS_A000;
-    public static final int CAR_CLASS_A00;
-    public static final int CAR_CLASS_A0;
-    public static final int CAR_CLASS_A;
-    public static final int CAR_CLASS_B;
-    public static final int CAR_CLASS_C;
-    public static final int CAR_CLASS_D;
-    public static final int CAR_CLASS_E_MINUS;
-    public static final int CAR_CLASS_E_PLUS;
-    public static final int CAR_CLASS_SONSTIGE;
-    public static final int CAR_DERIVATE_KURZHECK;
-    public static final int CAR_DERIVATE_STUFENHECK;
-    public static final int CAR_DERIVATE_KOMBI;
-    public static final int CAR_DERIVATE_FLIESSHECK_SPORTSBACK;
-    public static final int CAR_DERIVATE_COUPE;
-    public static final int CAR_DERIVATE_CABRIO_ROADSTER_SPIDER_TARGA;
-    public static final int CAR_DERIVATE_SUV;
-    public static final int CAR_DERIVATE_PICK_UP;
-    public static final int CAR_DERIVATE_RAUMKONZEPT;
-    public static final int CAR_DERIVATE_SONSTIGE;
-    public static final int CAR_DERIVATE_SUPP_KURZER_RADSTAND;
-    public static final int CAR_DERIVATE_SUPP_LANGER_RADSTAND;
-    public static final int CAR_DERIVATE_SUPP_GEAENDERT_FRONT_HECK;
-    public static final int CAR_DERIVATE_SUPP_AUFBAU_DACHVAR;
-    public static final int CAR_DERIVATE_SUPP_CROSS_ALLROAD;
-    public static final int CAR_DERIVATE_SUPP_LEISTUNGVARI_1;
-    public static final int CAR_DERIVATE_SUPP_LEISTUNGSVARI_2;
-    public static final int CAR_DERIVATE_SUPP_ALTERN_ANTRIEB;
-    public static final int CAR_DERIVATE_SUPP_SONST;
-    public static final int CAR_DERIVATE_SUPP_SONSTIGE;
-    public static final int MICROPHONE_1;
-    public static final int MICROPHONE_2;
-    public static final int HEADPHONE_OUTPUT_1;
-    public static final int HEADPHONE_OUTPUT_2;
-    public static final int BAND_FM_NO_SETTING;
-    public static final int BAND_FM_EU_RDW;
-    public static final int BAND_FM_NAR;
-    public static final int BAND_FM_JP;
-    public static final int BAND_FM_KOR;
-    public static final int BAND_FM_CN;
-    public static final int BAND_FM_JP_2;
-    public static final int BAND_AM_NO_SETTING;
-    public static final int BAND_AM_EU_RDW;
-    public static final int BAND_AM_NAR;
-    public static final int BAND_AM_JP;
-    public static final int BAND_AM_EU;
-    public static final int BAND_AM_AUS;
-    public static final int BAND_DAB1_OFF;
-    public static final int BAND_DAB1_EU_BAND_III_N;
-    public static final int BAND_DAB1_EU_BAND_III;
-    public static final int BAND_DAB1_CANADA_L_BAND;
-    public static final int BAND_DAB1_KOREA_BAND_III;
-    public static final int BAND_DAB1_CHINA_BAND_III;
-    public static final int BAND_DAB1_NEW_ZEALAND_BAND_III;
-    public static final int BAND_DAB1_DOWNLOAD_TABLE_1;
-    public static final int BAND_DAB2_OFF;
-    public static final int BAND_DAB2_L_BAND;
-    public static final int BAND_DAB2_DOWNLOAD_TABLE_2;
-    public static final int SOUND_NO_ALLOC;
-    public static final int SOUND_INTERN;
-    public static final int SOUND_EXTERN;
-    public static final int SOUND_EXTERN_BAP;
-    public static final int ANTENNA_DIAGNOSTICS_1;
-    public static final int ANTENNA_DIAGNOSTICS_2;
-    public static final int AF_PERSISTENT;
-    public static final int AF_TEMPORARY;
-    public static final int BWS_NO;
-    public static final int BWS_RESTRICTED;
-    public static final int BWS_UNRESTRICTED;
-    public static final int BWS_RESTRICTED_UNRESTRICTED;
-    public static final int BT_VISIBILITY_OFF;
-    public static final int BT_VISIBILITY_AUTO;
-    public static final int BT_VISIBILITY_ON;
-    public static final int SKIN_NO_SKIN;
-    public static final int SKIN_1;
-    public static final int SKIN_2;
-    public static final int SKIN_3;
-    public static final int SCREEN_NO_SCREEN;
-    public static final int SCREEN_1;
-    public static final int SCREEN_2;
-    public static final int SCREEN_3;
-    public static final int SCREEN_4;
-    public static final int SCREEN_5;
-    public static final int SCREEN_6;
-    public static final int SCREEN_7;
-    public static final int SCREEN_8;
-    public static final int SCREEN_N;
-    public static final int SAS_LEFT_HAND_DRIVE;
-    public static final int SAS_RIGHT_HAND_DRIVE;
-    public static final int KTS_INFO_NOT_AVAILABLE;
-    public static final int KTS_INFO_LONG_INFO;
-    public static final int KTS_INFO_SHORT_INFO;
-    public static final int USB_OFF;
-    public static final int USB_CHARGE;
-    public static final int USB_FULL;
-    public static final int USB_IPOD;
-    public static final int DGV_MOST;
-    public static final int DGV_CAN;
+    public static final int COUNTRY_NO_COUNTRY = 0;
+    public static final int COUNTRY_EU = 1;
+    public static final int COUNTRY_NAR = 2;
+    public static final int COUNTRY_MSA = 3;
+    public static final int COUNTRY_KOREA = 4;
+    public static final int COUNTRY_CHINA = 5;
+    public static final int COUNTRY_JAPAN = 6;
+    public static final int COUNTRY_ASIA_PACIFIC = 7;
+    public static final int COUNTRY_AUSTRALIA = 8;
+    public static final int COUNTRY_SOUTH_AFRIKA = 9;
+    public static final int COUNTRY_NEAST = 10;
+    public static final int COUNTRY_NM_AFRICA = 11;
+    public static final int COUNTRY_MEAST = 12;
+    public static final int COUNTRY_CENTRAL_ASIA = 13;
+    public static final int COUNTRY_INDIA = 14;
+    public static final int COUNTRY_ISRAEL = 15;
+    public static final int COUNTRY_TAIWAN = 16;
+    public static final int COUNTRY_MSA2 = 17;
+    public static final int MAX_SPEAKER_CHANNELS = 16;
+    public static final int CODING_DATA_LENGTH = 25;
+    public static final int CAR_BRAND_NO_BRAND = 0;
+    public static final int CAR_BRAND_AUDI = 1;
+    public static final int CAR_BRAND_VW = 2;
+    public static final int CAR_BRAND_SKODA = 3;
+    public static final int CAR_BRAND_SEAT = 4;
+    public static final int CAR_BRAND_BENTLEY = 5;
+    public static final int CAR_BRAND_VW_NFZ = 6;
+    public static final int CAR_CLASS_A000 = 0;
+    public static final int CAR_CLASS_A00 = 1;
+    public static final int CAR_CLASS_A0 = 2;
+    public static final int CAR_CLASS_A = 3;
+    public static final int CAR_CLASS_B = 4;
+    public static final int CAR_CLASS_C = 5;
+    public static final int CAR_CLASS_D = 6;
+    public static final int CAR_CLASS_E_MINUS = 7;
+    public static final int CAR_CLASS_E_PLUS = 8;
+    public static final int CAR_CLASS_SONSTIGE = 9;
+    public static final int CAR_DERIVATE_KURZHECK = 0;
+    public static final int CAR_DERIVATE_STUFENHECK = 1;
+    public static final int CAR_DERIVATE_KOMBI = 2;
+    public static final int CAR_DERIVATE_FLIESSHECK_SPORTSBACK = 3;
+    public static final int CAR_DERIVATE_COUPE = 4;
+    public static final int CAR_DERIVATE_CABRIO_ROADSTER_SPIDER_TARGA = 5;
+    public static final int CAR_DERIVATE_SUV = 6;
+    public static final int CAR_DERIVATE_PICK_UP = 7;
+    public static final int CAR_DERIVATE_RAUMKONZEPT = 8;
+    public static final int CAR_DERIVATE_SONSTIGE = 9;
+    public static final int CAR_DERIVATE_SUPP_KURZER_RADSTAND = 0;
+    public static final int CAR_DERIVATE_SUPP_LANGER_RADSTAND = 1;
+    public static final int CAR_DERIVATE_SUPP_GEAENDERT_FRONT_HECK = 2;
+    public static final int CAR_DERIVATE_SUPP_AUFBAU_DACHVAR = 3;
+    public static final int CAR_DERIVATE_SUPP_CROSS_ALLROAD = 4;
+    public static final int CAR_DERIVATE_SUPP_LEISTUNGVARI_1 = 5;
+    public static final int CAR_DERIVATE_SUPP_LEISTUNGSVARI_2 = 6;
+    public static final int CAR_DERIVATE_SUPP_ALTERN_ANTRIEB = 7;
+    public static final int CAR_DERIVATE_SUPP_SONST = 8;
+    public static final int CAR_DERIVATE_SUPP_SONSTIGE = 9;
+    public static final int MICROPHONE_1 = 0;
+    public static final int MICROPHONE_2 = 1;
+    public static final int HEADPHONE_OUTPUT_1 = 0;
+    public static final int HEADPHONE_OUTPUT_2 = 1;
+    public static final int BAND_FM_NO_SETTING = 0;
+    public static final int BAND_FM_EU_RDW = 1;
+    public static final int BAND_FM_NAR = 2;
+    public static final int BAND_FM_JP = 3;
+    public static final int BAND_FM_KOR = 4;
+    public static final int BAND_FM_CN = 5;
+    public static final int BAND_FM_JP_2 = 8;
+    public static final int BAND_AM_NO_SETTING = 0;
+    public static final int BAND_AM_EU_RDW = 1;
+    public static final int BAND_AM_NAR = 2;
+    public static final int BAND_AM_JP = 3;
+    public static final int BAND_AM_EU = 4;
+    public static final int BAND_AM_AUS = 5;
+    public static final int BAND_DAB1_OFF = 0;
+    public static final int BAND_DAB1_EU_BAND_III_N = 1;
+    public static final int BAND_DAB1_EU_BAND_III = 2;
+    public static final int BAND_DAB1_CANADA_L_BAND = 3;
+    public static final int BAND_DAB1_KOREA_BAND_III = 4;
+    public static final int BAND_DAB1_CHINA_BAND_III = 5;
+    public static final int BAND_DAB1_NEW_ZEALAND_BAND_III = 7;
+    public static final int BAND_DAB1_DOWNLOAD_TABLE_1 = 6;
+    public static final int BAND_DAB2_OFF = 0;
+    public static final int BAND_DAB2_L_BAND = 1;
+    public static final int BAND_DAB2_DOWNLOAD_TABLE_2 = 2;
+    public static final int SOUND_NO_ALLOC = 0;
+    public static final int SOUND_INTERN = 1;
+    public static final int SOUND_EXTERN = 2;
+    public static final int SOUND_EXTERN_BAP = 3;
+    public static final int ANTENNA_DIAGNOSTICS_1 = 0;
+    public static final int ANTENNA_DIAGNOSTICS_2 = 1;
+    public static final int AF_PERSISTENT = 0;
+    public static final int AF_TEMPORARY = 1;
+    public static final int BWS_NO = 0;
+    public static final int BWS_RESTRICTED = 1;
+    public static final int BWS_UNRESTRICTED = 2;
+    public static final int BWS_RESTRICTED_UNRESTRICTED = 3;
+    public static final int BT_VISIBILITY_OFF = 0;
+    public static final int BT_VISIBILITY_AUTO = 1;
+    public static final int BT_VISIBILITY_ON = 2;
+    public static final int SKIN_NO_SKIN = 0;
+    public static final int SKIN_1 = 1;
+    public static final int SKIN_2 = 2;
+    public static final int SKIN_3 = 3;
+    public static final int SCREEN_NO_SCREEN = 0;
+    public static final int SCREEN_1 = 1;
+    public static final int SCREEN_2 = 2;
+    public static final int SCREEN_3 = 3;
+    public static final int SCREEN_4 = 4;
+    public static final int SCREEN_5 = 5;
+    public static final int SCREEN_6 = 6;
+    public static final int SCREEN_7 = 7;
+    public static final int SCREEN_8 = 8;
+    public static final int SCREEN_N = 9;
+    public static final int SAS_LEFT_HAND_DRIVE = 0;
+    public static final int SAS_RIGHT_HAND_DRIVE = 1;
+    public static final int KTS_INFO_NOT_AVAILABLE = 0;
+    public static final int KTS_INFO_LONG_INFO = 1;
+    public static final int KTS_INFO_SHORT_INFO = 2;
+    public static final int USB_OFF = 0;
+    public static final int USB_CHARGE = 1;
+    public static final int USB_FULL = 2;
+    public static final int USB_IPOD = 3;
+    public static final int DGV_MOST = 0;
+    public static final int DGV_CAN = 1;
 
-    default public byte getCarBrand() {
-    }
+    public byte getCarBrand();
 
-    default public byte getCarClass() {
-    }
+    public byte getCarClass();
 
-    default public byte getCarGeneration() {
-    }
+    public byte getCarGeneration();
 
-    default public byte getCarDerivate() {
-    }
+    public byte getCarDerivate();
 
-    default public byte getCarDerivateSupplement() {
-    }
+    public byte getCarDerivateSupplement();
 
-    default public int getCountry() {
-    }
+    public int getCountry();
 
-    default public boolean isSpeakerChannelInstalledHT(int n) {
-    }
+    public boolean isSpeakerChannelInstalledHT(int var1);
 
-    default public boolean isSpeakerChannelInstalledTT(int n) {
-    }
+    public boolean isSpeakerChannelInstalledTT(int var1);
 
-    default public boolean isMicrophoneConnected(int n) {
-    }
+    public boolean isMicrophoneConnected(int var1);
 
-    default public boolean isHeadphoneOutputActive(int n) {
-    }
+    public boolean isHeadphoneOutputActive(int var1);
 
-    default public boolean isAuxInOn() {
-    }
+    public boolean isAuxInOn();
 
-    default public boolean isAmiOn() {
-    }
+    public boolean isAmiOn();
 
-    default public boolean isVdaNfInOn() {
-    }
+    public boolean isVdaNfInOn();
 
-    default public byte getFmBandsetting() {
-    }
+    public byte getFmBandsetting();
 
-    default public byte getAmBandsetting() {
-    }
+    public byte getAmBandsetting();
 
-    default public byte getDab1Bandsetting() {
-    }
+    public byte getDab1Bandsetting();
 
-    default public byte getDab2Bandsetting() {
-    }
+    public byte getDab2Bandsetting();
 
-    default public int getSoundSystem() {
-    }
+    public int getSoundSystem();
 
-    default public boolean isSecondFmAntennaAvailable() {
-    }
+    public boolean isSecondFmAntennaAvailable();
 
-    default public int getExtendedAntennaDiagnosticsFmDab() {
-    }
+    public int getExtendedAntennaDiagnosticsFmDab();
 
-    default public boolean isRdsOverHmiActivated() {
-    }
+    public boolean isRdsOverHmiActivated();
 
-    default public int getAfMode() {
-    }
+    public int getAfMode();
 
-    default public boolean isHdActivated() {
-    }
+    public boolean isHdActivated();
 
-    default public boolean isRadioTextPlusActivated() {
-    }
+    public boolean isRadioTextPlusActivated();
 
-    default public boolean isPiActivated() {
-    }
+    public boolean isPiActivated();
 
-    default public byte getBwsProfile() {
-    }
+    public byte getBwsProfile();
 
-    default public boolean isDabAlarmAnnouncementActivated() {
-    }
+    public boolean isDabAlarmAnnouncementActivated();
 
-    default public boolean isFmPty31AlarmOn() {
-    }
+    public boolean isFmPty31AlarmOn();
 
-    default public boolean isAmDisabled() {
-    }
+    public boolean isAmDisabled();
 
-    default public boolean isMultiChannelReception() {
-    }
+    public boolean isMultiChannelReception();
 
-    default public boolean isMultipleEntry() {
-    }
+    public boolean isMultipleEntry();
 
-    default public boolean isRdsDeactivated() {
-    }
+    public boolean isRdsDeactivated();
 
-    default public boolean isAfDeactivated() {
-    }
+    public boolean isAfDeactivated();
 
-    default public boolean isDiagnosticBaseplateInstalled() {
-    }
+    public boolean isDiagnosticBaseplateInstalled();
 
-    default public boolean isAntennaAtBaseplateInstalled() {
-    }
+    public boolean isAntennaAtBaseplateInstalled();
 
-    default public boolean isCradleForce() {
-    }
+    public boolean isCradleForce();
 
-    default public boolean isHandyCradleForce() {
-    }
+    public boolean isHandyCradleForce();
 
-    default public boolean isPhoneNadOn() {
-    }
+    public boolean isPhoneNadOn();
 
-    default public boolean isBluetoothAvailable() {
-    }
+    public boolean isBluetoothAvailable();
 
-    default public boolean isBluetoothMultimediaFuncAvailable() {
-    }
+    public boolean isBluetoothMultimediaFuncAvailable();
 
-    default public boolean isBluetoothPhoneAvailable() {
-    }
+    public boolean isBluetoothPhoneAvailable();
 
-    default public boolean isBluetoothAudioAvailable() {
-    }
+    public boolean isBluetoothAudioAvailable();
 
-    default public byte getBluetoothVisibility() {
-    }
+    public byte getBluetoothVisibility();
 
-    default public boolean isMessagingAvailable() {
-    }
+    public boolean isMessagingAvailable();
 
-    default public int getSkin() {
-    }
+    public int getSkin();
 
-    default public int getScreen() {
-    }
+    public int getScreen();
 
-    default public boolean isLogBookDisplayed() {
-    }
+    public boolean isLogBookDisplayed();
 
-    default public byte getDriverSide() {
-    }
+    public byte getDriverSide();
 
-    default public byte getKombiTrackStationInfo() {
-    }
+    public byte getKombiTrackStationInfo();
 
-    default public boolean isRearViewLowActive() {
-    }
+    public boolean isRearViewLowActive();
 
-    default public boolean isMostOn() {
-    }
+    public boolean isMostOn();
 
-    default public int getUsbConfiguration() {
-    }
+    public int getUsbConfiguration();
 
-    default public boolean isDisplayConnected(int n) {
-    }
+    public boolean isDisplayConnected(int var1);
 
-    default public int getBusHandling() {
-    }
+    public int getBusHandling();
 
-    default public boolean isScrollingActivated() {
-    }
+    public boolean isScrollingActivated();
 
-    default public boolean isMessagingViaMapActivated() {
-    }
+    public boolean isMessagingViaMapActivated();
 
-    default public boolean isPagewiseScrollingActivated() {
-    }
+    public boolean isPagewiseScrollingActivated();
 
-    default public int getDashboardGraphicVariant() {
-    }
+    public int getDashboardGraphicVariant();
 
-    default public boolean isDashboardTextReplacementActivated() {
-    }
+    public boolean isDashboardTextReplacementActivated();
 
-    default public boolean isSpellerOn() {
-    }
+    public boolean isSpellerOn();
 
-    default public boolean isInitialDisclaimerOn() {
-    }
+    public boolean isInitialDisclaimerOn();
 
-    default public boolean isLegalDisclaimerOn() {
-    }
+    public boolean isLegalDisclaimerOn();
 
-    default public boolean isEmergencyCallOn() {
-    }
+    public boolean isEmergencyCallOn();
 
-    default public boolean isVoiceControlSystemActive() {
-    }
+    public boolean isVoiceControlSystemActive();
 
-    default public boolean isNavigationActive() {
-    }
+    public boolean isNavigationActive();
 
-    default public boolean isWlanModuleActive() {
-    }
+    public boolean isWlanModuleActive();
 
-    default public boolean isImportMediaDataActive() {
-    }
+    public boolean isImportMediaDataActive();
 
-    default public boolean isRippingMediaDataActive() {
-    }
+    public boolean isRippingMediaDataActive();
 
-    default public boolean isTrafficSignDisplayActive() {
-    }
+    public boolean isTrafficSignDisplayActive();
 
-    default public boolean isPsdActive() {
-    }
+    public boolean isPsdActive();
 
-    default public boolean isBaseplateErrorFlag() {
-    }
+    public boolean isBaseplateErrorFlag();
 }
 

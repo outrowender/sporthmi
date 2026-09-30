@@ -12,23 +12,20 @@ import org.dsi.ifc.global.CarBCTemperature;
 
 public abstract class AbstractBCComponent
 extends AbstractDSICarKombiAdapter {
-    private static final String LOGCHANNEL_NAME;
+    private static final String LOGCHANNEL_NAME = "App.Car.BC";
 
     public AbstractBCComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.BC");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     public String getName() {
         return "Boardcomputer";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{65}, new int[0])};
     }
 
-    @Override
     public void updateBCOutsideTemperature(CarBCTemperature carBCTemperature, int n) {
         if (n == 1) {
             Temperature temperature = new Temperature(carBCTemperature.getTemperatureValue(), carBCTemperature.getTemperatureUnit() == 0 ? 1 : 2);
@@ -40,24 +37,19 @@ extends AbstractDSICarKombiAdapter {
         return (MetricsModel)this.getMetricsModel(406);
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return null;
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 }

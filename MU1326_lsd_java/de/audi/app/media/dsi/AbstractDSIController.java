@@ -20,7 +20,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 public abstract class AbstractDSIController
 implements IDSIController,
 ServiceTrackerCustomizer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractDSIController";
     private final IServiceManager serviceManager;
     private final DispatcherBase dispatcher;
     protected final LogChannel logger;
@@ -47,26 +47,21 @@ ServiceTrackerCustomizer {
         this.logDSIClassName = this.getDSIServiceClass().getName().substring(this.getDSIServiceClass().getName().lastIndexOf(".") + 1);
     }
 
-    protected abstract Class getDSIServiceClass() {
-    }
+    protected abstract Class getDSIServiceClass();
 
-    protected abstract DSIListener getDSIListener() {
-    }
+    protected abstract DSIListener getDSIListener();
 
-    protected abstract Class getDSIListenerClass() {
-    }
+    protected abstract Class getDSIListenerClass();
 
-    protected abstract void addDSIService(DSIBase dSIBase) {
-    }
+    protected abstract void addDSIService(DSIBase var1);
 
-    protected abstract void removeDSIService() {
-    }
+    protected abstract void removeDSIService();
 
     protected final void clearAttributeNotification(DSIBase dSIBase) {
         if (dSIBase == null) {
             return;
         }
-        this.logger.log(1078071040, "[%1.clearAttributeNotification] Clear notifications.", (Object)"AbstractDSIController");
+        this.logger.log(1000000, "[%1.clearAttributeNotification] Clear notifications.", (Object)LOGCLASS);
         dSIBase.clearNotification(this.getDSIListener());
     }
 
@@ -78,21 +73,18 @@ ServiceTrackerCustomizer {
         return this.serviceManager;
     }
 
-    @Override
     public final int getInstanceID() {
         return this.instanceID;
     }
 
-    @Override
     public void init() {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit] [%2,%3]", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (long)this.instanceID);
+        this.logger.log(1000000, "[%1.deinit] [%2,%3]", (Object)LOGCLASS, (Object)this.logDSIClassName, (long)this.instanceID);
         Object object = this.startupMutex;
         synchronized (object) {
             this.isServiceStartupTriggered = false;
@@ -111,15 +103,14 @@ ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void startDSI() {
         if (this.logger.isInfo()) {
-            this.logger.log(1078071040, "[%1.startDSI] [%2,%3] listenerOnly='%4'.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (Object)String.valueOf(this.instanceID), (Object)String.valueOf(!this.startDSIService));
+            this.logger.log(1000000, "[%1.startDSI] [%2,%3] listenerOnly='%4'.", (Object)LOGCLASS, (Object)this.logDSIClassName, (Object)String.valueOf(this.instanceID), (Object)String.valueOf(!this.startDSIService));
         }
         Object object = this.startupMutex;
         synchronized (object) {
             if (this.isServiceStartupTriggered) {
-                this.logger.log(1078071040, "[%1.startDSI] [%2,%3] Already started.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (long)this.instanceID);
+                this.logger.log(1000000, "[%1.startDSI] [%2,%3] Already started.", (Object)LOGCLASS, (Object)this.logDSIClassName, (long)this.instanceID);
                 return;
             }
             this.dsiServiceTracker = this.getServiceManager().createServiceTracker(this.getDSIServiceClass(), this);
@@ -129,9 +120,9 @@ ServiceTrackerCustomizer {
             }
             if (this.startDSIService) {
                 this.isServiceStartupTriggered = this.serviceManager.startDSIService(this.getDSIServiceClass().getName(), this.instanceID);
-                this.logger.log(1078071040, "[%1.startDSI] [%2,%3] isServiceStartupTriggered: %4.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (Object)new Integer(this.instanceID), (Object)this.isServiceStartupTriggered);
+                this.logger.log(1000000, "[%1.startDSI] [%2,%3] isServiceStartupTriggered: %4.", (Object)LOGCLASS, (Object)this.logDSIClassName, (Object)new Integer(this.instanceID), (Object)this.isServiceStartupTriggered);
             } else {
-                this.logger.log(1078071040, "[%1.startDSI] [%2,%3] Listner only active.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (long)this.instanceID);
+                this.logger.log(1000000, "[%1.startDSI] [%2,%3] Listner only active.", (Object)LOGCLASS, (Object)this.logDSIClassName, (long)this.instanceID);
                 this.isServiceStartupTriggered = true;
             }
         }
@@ -140,7 +131,6 @@ ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isStarted() {
         Object object = this.startupMutex;
         synchronized (object) {
@@ -151,11 +141,10 @@ ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setStateListener(IDSIControllerStateListener iDSIControllerStateListener) {
         Object object = this.dsiStateChangeMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.setStateListener] [%2,%3] '%4'", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (Object)new Integer(this.instanceID), (Object)iDSIControllerStateListener);
+            this.logger.log(1000000, "[%1.setStateListener] [%2,%3] '%4'", (Object)LOGCLASS, (Object)this.logDSIClassName, (Object)new Integer(this.instanceID), (Object)iDSIControllerStateListener);
             this.stateListener = iDSIControllerStateListener;
             if (this.stateListener == null) {
                 return;
@@ -184,9 +173,9 @@ ServiceTrackerCustomizer {
     }
 
     private void notifyAvailabilityState(boolean bl) {
-        this.logger.log(1078071040, "[%1.notifyAvailabilityState] [%2,%3] '%4'", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (Object)new Integer(this.instanceID), (Object)String.valueOf(bl));
+        this.logger.log(1000000, "[%1.notifyAvailabilityState] [%2,%3] '%4'", (Object)LOGCLASS, (Object)this.logDSIClassName, (Object)new Integer(this.instanceID), (Object)String.valueOf(bl));
         if (this.stateListener == null) {
-            this.logger.log(1078071040, "[%1.notifyAvailabilityState] [%2,%3] No listener", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (Object)new Integer(this.instanceID));
+            this.logger.log(1000000, "[%1.notifyAvailabilityState] [%2,%3] No listener", (Object)LOGCLASS, (Object)this.logDSIClassName, (Object)new Integer(this.instanceID));
             return;
         }
         this.dispatcher.execute(new JobNotifyDSIState(this, bl));
@@ -195,23 +184,22 @@ ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final Object addingService(ServiceReference serviceReference) {
         Integer n = (Integer)serviceReference.getProperty("DEVICE_INSTANCE");
         if (n == null) {
-            this.logger.log(10000, "[%1.addingService] [%2,%3] No DEVICE_INSTANCE property. Ignore.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (long)this.instanceID);
+            this.logger.log(10000, "[%1.addingService] [%2,%3] No DEVICE_INSTANCE property. Ignore.", (Object)LOGCLASS, (Object)this.logDSIClassName, (long)this.instanceID);
             return null;
         }
         if (n != this.instanceID) {
-            this.logger.log(-2137614336, "[%1.addingService] [%2,%3] Wrong instance '%4'. Ignore.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (Object)String.valueOf(this.instanceID), (Object)String.valueOf(n));
+            this.logger.log(10000000, "[%1.addingService] [%2,%3] Wrong instance '%4'. Ignore.", (Object)LOGCLASS, (Object)this.logDSIClassName, (Object)String.valueOf(this.instanceID), (Object)String.valueOf(n));
             return null;
         }
         String string = (String)serviceReference.getProperty("DEVICE_NAME");
         if (!this.getDSIServiceClass().getName().equals(string)) {
-            this.logger.log(-2137614336, "[%1.addingService] [%2,%3] Wrong DEVICE_NAME '%4'. Ignore.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (Object)String.valueOf(this.instanceID), (Object)string);
+            this.logger.log(10000000, "[%1.addingService] [%2,%3] Wrong DEVICE_NAME '%4'. Ignore.", (Object)LOGCLASS, (Object)this.logDSIClassName, (Object)String.valueOf(this.instanceID), (Object)string);
             return null;
         }
-        this.logger.log(1078071040, "[%1.addingService] [%2,%3] Service found.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (long)this.instanceID);
+        this.logger.log(1000000, "[%1.addingService] [%2,%3] Service found.", (Object)LOGCLASS, (Object)this.logDSIClassName, (long)this.instanceID);
         Object object = this.getServiceManager().getService(serviceReference);
         this.addDSIService((DSIBase)object);
         Object object2 = this.dsiStateChangeMutex;
@@ -224,23 +212,22 @@ ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void removedService(ServiceReference serviceReference, Object object) {
         Integer n = (Integer)serviceReference.getProperty("DEVICE_INSTANCE");
         if (n == null) {
-            this.logger.log(10000, "[%1.removedService] [%2,%3] No DEVICE_INSTANCE property. Ignore.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (long)this.instanceID);
+            this.logger.log(10000, "[%1.removedService] [%2,%3] No DEVICE_INSTANCE property. Ignore.", (Object)LOGCLASS, (Object)this.logDSIClassName, (long)this.instanceID);
             return;
         }
         if (n != this.instanceID) {
-            this.logger.log(-2137614336, "[%1.removedService] [%2,%3] Wrong instance '%4'. Ignore.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (Object)String.valueOf(this.instanceID), (Object)String.valueOf(n));
+            this.logger.log(10000000, "[%1.removedService] [%2,%3] Wrong instance '%4'. Ignore.", (Object)LOGCLASS, (Object)this.logDSIClassName, (Object)String.valueOf(this.instanceID), (Object)String.valueOf(n));
             return;
         }
         String string = (String)serviceReference.getProperty("DEVICE_NAME");
         if (!this.getDSIServiceClass().getName().equals(string)) {
-            this.logger.log(-2137614336, "[%1.removedService] [%2,%3] Wrong DEVICE_NAME. Ignore.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (long)this.instanceID);
+            this.logger.log(10000000, "[%1.removedService] [%2,%3] Wrong DEVICE_NAME. Ignore.", (Object)LOGCLASS, (Object)this.logDSIClassName, (long)this.instanceID);
             return;
         }
-        this.logger.log(1078071040, "[%1.removedService] [%2,%3] Service removed.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (long)this.instanceID);
+        this.logger.log(1000000, "[%1.removedService] [%2,%3] Service removed.", (Object)LOGCLASS, (Object)this.logDSIClassName, (long)this.instanceID);
         this.serviceManager.releaseService(serviceReference);
         this.removeDSIService();
         Object object2 = this.dsiStateChangeMutex;
@@ -249,9 +236,8 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public final void modifiedService(ServiceReference serviceReference, Object object) {
-        this.logger.log(1078071040, "[%1.modifiedService] [%2,%3] Service modified.", (Object)"AbstractDSIController", (Object)this.logDSIClassName, (long)this.instanceID);
+        this.logger.log(1000000, "[%1.modifiedService] [%2,%3] Service modified.", (Object)LOGCLASS, (Object)this.logDSIClassName, (long)this.instanceID);
     }
 }
 

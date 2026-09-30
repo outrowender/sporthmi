@@ -25,65 +25,60 @@ extends AbstractCombiPlayViewJob {
         this.entry = combiBAPMediaEntry;
     }
 
-    @Override
     public int getType() {
         return 1;
     }
 
-    @Override
     public String getName() {
         return "GETNEXTLISTPOS";
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort]", (Object)"CombiJobGetNextListPos");
+        this.logger.log(1000000, "[%1.abort]", (Object)"CombiJobGetNextListPos");
         this.sendGetNextListPosResult(false, this.entry, null, 0);
     }
 
-    @Override
     public void start() {
         if (!this.getCombiAdapter().getPlayer().requestPlayViewListEntryBased(this.getCombiAdapter().getClientID(), this.entry.getEntryID(), 1)) {
-            this.logger.log(1078071040, "[%1.start] List request failed.", (Object)"CombiJobGetNextListPos");
+            this.logger.log(1000000, "[%1.start] List request failed.", (Object)"CombiJobGetNextListPos");
             this.sendGetNextListPosResult(false, this.entry, null, 0);
             this.getExecutionContext().jobFinished();
             return;
         }
     }
 
-    @Override
     public void responsePlayViewList(int n, MediaListEntry[] mediaListEntryArray) {
         if (this.destIndex == -1) {
-            this.logger.log(14808325, "[%1.responsePlayViewList] Receive response (index).", (Object)"CombiJobGetNextListPos");
+            this.logger.log(100000000, "[%1.responsePlayViewList] Receive response (index).", (Object)"CombiJobGetNextListPos");
             int n2 = CombiBAPUtils.getAbsolutePosition(this.entry.getEntryID(), this.entry.getEntryContentType(), mediaListEntryArray, n);
-            this.logger.log(14808325, "[%1.responsePlayViewList] absolutePosition='%2' (currentEntryID='%3').", (Object)"CombiJobGetNextListPos", (long)n2, this.entry.getEntryID());
+            this.logger.log(100000000, "[%1.responsePlayViewList] absolutePosition='%2' (currentEntryID='%3').", (Object)"CombiJobGetNextListPos", (long)n2, this.entry.getEntryID());
             if (n2 == 0) {
-                this.logger.log(-1601830656, "[%1.responsePlayViewList] Found no absolute position.", (Object)"CombiJobGetNextListPos");
+                this.logger.log(100000, "[%1.responsePlayViewList] Found no absolute position.", (Object)"CombiJobGetNextListPos");
                 this.sendGetNextListPosResult(false, this.entry, null, 0);
                 this.getExecutionContext().jobFinished();
                 return;
             }
             this.destIndex = n2 + this.offset - 1;
             if (!this.getCombiAdapter().getPlayer().requestPlayViewListIndexBased(this.getCombiAdapter().getClientID(), this.destIndex, 1)) {
-                this.logger.log(1078071040, "[%1.responsePlayViewList] List request failed.", (Object)"CombiJobGetNextListPos");
+                this.logger.log(1000000, "[%1.responsePlayViewList] List request failed.", (Object)"CombiJobGetNextListPos");
                 this.sendGetNextListPosResult(false, this.entry, null, 0);
                 this.getExecutionContext().jobFinished();
                 return;
             }
         } else {
             MediaListEntry mediaListEntry;
-            this.logger.log(14808325, "[%1.responsePlayViewList] Receive response (pos).", (Object)"CombiJobGetNextListPos");
+            this.logger.log(100000000, "[%1.responsePlayViewList] Receive response (pos).", (Object)"CombiJobGetNextListPos");
             try {
                 mediaListEntry = mediaListEntryArray[this.destIndex - n];
             }
             catch (Exception exception) {
-                this.logger.log(1078071040, "[%1.responseList] Element not found in list (destIndex='%2').", (Object)"CombiJobGetNextListPos", (long)this.destIndex);
+                this.logger.log(1000000, "[%1.responseList] Element not found in list (destIndex='%2').", (Object)"CombiJobGetNextListPos", (long)this.destIndex);
                 this.sendGetNextListPosResult(false, this.entry, null, 0);
                 this.getExecutionContext().jobFinished();
                 return;
             }
             if (mediaListEntry == null) {
-                this.logger.log(-1601830656, "[%1.responsePlayViewList] No dest entry found.", (Object)"CombiJobGetNextListPos");
+                this.logger.log(100000, "[%1.responsePlayViewList] No dest entry found.", (Object)"CombiJobGetNextListPos");
                 this.sendGetNextListPosResult(false, this.entry, null, 0);
                 this.getExecutionContext().jobFinished();
                 return;
@@ -93,15 +88,14 @@ extends AbstractCombiPlayViewJob {
         }
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted] List request aborted ('%2').", (Object)"CombiJobGetNextListPos", (Object)this);
+        this.logger.log(1000000, "[%1.errorListRequestAborted] List request aborted ('%2').", (Object)"CombiJobGetNextListPos", (Object)this);
         this.sendGetNextListPosResult(false, this.entry, null, 0);
         this.getExecutionContext().jobFinished();
     }
 
     private void sendGetNextListPosResult(boolean bl, CombiBAPMediaEntry combiBAPMediaEntry, CombiBAPMediaEntry combiBAPMediaEntry2, int n) {
-        this.logger.log(14808325, "[%2.sendGetNextListPosResult] ok='%1'", bl, (Object)"CombiJobGetNextListPos");
+        this.logger.log(100000000, "[%2.sendGetNextListPosResult] ok='%1'", bl, (Object)"CombiJobGetNextListPos");
         this.getCombiAdapter().getCombiAccessor().getNextListPosResult(bl, combiBAPMediaEntry, combiBAPMediaEntry2, n);
     }
 

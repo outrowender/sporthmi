@@ -6,7 +6,6 @@ package de.audi.app.navi.evo.di.jp;
 import de.audi.app.navi.evo.addressinput.AddressInputFormOnlineModelAccess;
 import de.audi.app.navi.evo.di.AbstractAddressInputManagerEvo;
 import de.audi.app.navi.evo.di.DIScreensEvo;
-import de.audi.app.navi.evo.di.jp.AddressInputManagerJP$1;
 import de.audi.app.navi.evo.di.jp.listeners.AddressInputChomeScreenListenerJP;
 import de.audi.app.navi.evo.di.jp.listeners.AddressInputCityScreenListenerJP;
 import de.audi.app.navi.evo.di.jp.listeners.AddressInputHouseNumberListenerJP;
@@ -33,9 +32,11 @@ import de.audi.tghu.navi.app.HomeAddressHandler;
 import de.audi.tghu.navi.app.LocationSerializer;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.adb.NaviADBHandler;
+import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.IAddressInputFormModelAccessHelper;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.LIRestoreStateCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputMainScreenListener;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.IAddressInputWorkFlowManager;
@@ -49,7 +50,6 @@ import de.audi.tghu.navi.app.di.sequences.nospeller.AddressInputMainScreenSequen
 import de.audi.tghu.navi.app.favorite.INaviFavoriteHandler;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import de.audi.tghu.navi.app.li.SpellerStack;
-import de.audi.tghu.navi.app.li.SpellerStack$StackElement;
 import de.audi.tghu.navi.app.map.MapInterface;
 import de.audi.tghu.navi.app.navlocationextractor.AsyncNavLocationExtractor;
 import de.audi.tghu.navi.app.routeguidance.IRouteManager;
@@ -60,7 +60,7 @@ import org.dsi.ifc.global.NavLocation;
 
 public class AddressInputManagerJP
 extends AbstractAddressInputManagerEvo {
-    private static final int DESTINATION_TYPE_FOR_CCP_LOCATION_STRIPPING;
+    private static final int DESTINATION_TYPE_FOR_CCP_LOCATION_STRIPPING = 25;
     private AddressInputMainScreenListenerJP mainScreenListener;
     private AddressInputRightDrawerListenerJP rightDrawerListener;
     private AddressInputPrefectureScreenListenerJP prefectureScreenListener;
@@ -76,7 +76,6 @@ extends AbstractAddressInputManagerEvo {
         this.prefectureNationwideSelectedChoice = navigationEnv.getChoiceModel(DIScreensEvo.getDiJpPrefectureNationwideButtonSelectedChoiceModel());
     }
 
-    @Override
     protected void initListeners() {
         this.mainScreenListener = this.initMainScreenListener();
         this.rightDrawerListener = this.initRightDrawerListener();
@@ -88,73 +87,84 @@ extends AbstractAddressInputManagerEvo {
         this.houseNumberScreenListener = this.intiHouseNumberScreenListener();
     }
 
-    @Override
     public void start(NavLocation navLocation) {
         if (!this.addressInputCommandListMonitor.isActive()) {
-            this.logChannel.log(-2137614336, "%1#start with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.logChannel.log(10000000, "%1#start with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
             CommandList commandList = this.commandListFactory.createCommandList();
             commandList.addMonitor(this.addressInputCommandListMonitor);
             this.mainScreenListener.resetPreviousLocation();
             if (navLocation != null) {
-                this.logChannel.log(-2137614336, "%1#start() with navLocation: %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+                this.logChannel.log(10000000, "%1#start() with navLocation: %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
                 commandList.put("startMainScreenNavLocation", navLocation);
             } else {
-                this.logChannel.log(-2137614336, "%1#start() with CCP", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#start() with CCP", (Object)this.CLASS_NAME);
                 this.addStripLocationForCcpCommands(commandList, 25);
             }
             this.enterSearchAreaFromPoiContext();
             this.executeAddressInputEvent(commandList, 20012);
         } else {
-            this.logChannel.log(-2137614336, "%1#start - the command list to start address input is still running - ignoring further calls.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#start - the command list to start address input is still running - ignoring further calls.", (Object)this.CLASS_NAME);
         }
     }
 
-    @Override
     public void startWithoutStrip(NavLocation navLocation) {
         this.start(navLocation);
     }
 
-    @Override
     public void startForOnline() {
-        this.logChannel.log(-2137614336, "%1#startForOnline", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#startForOnline", (Object)this.CLASS_NAME);
         this.enterSearchAreaFromOnlinePoiContext();
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addStripLocationForCcpCommands(commandList, 25);
         this.startForOnline(commandList);
     }
 
-    @Override
     public void startForRemoteHMI() {
-        this.logChannel.log(-2137614336, "%1#startForRemoteHMI", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#startForRemoteHMI", (Object)this.CLASS_NAME);
         this.enterSearchAreaFromRemoteHmi();
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addStripLocationForCcpCommands(commandList, 25);
         super.startForRemoteHMI(commandList);
     }
 
-    @Override
     public void addAddressToFavorites(NavLocation navLocation) {
         this.naviFavoriteHandler.addToFavorites(navLocation);
     }
 
-    @Override
     public void destAddressInputHKReturn(int n, int n2, Command command, Command command2) {
-        this.logChannel.log(-2137614336, "%1#destAddressInputHKReturn called with removeHandler=%2", (Object)this.CLASS_NAME, (long)n2);
-        SpellerStack$StackElement spellerStack$StackElement = null;
+        this.logChannel.log(10000000, "%1#destAddressInputHKReturn called with removeHandler=%2", (Object)this.CLASS_NAME, (long)n2);
+        SpellerStack.StackElement stackElement = null;
         switch (n2) {
             default: 
         }
-        spellerStack$StackElement = this.spellerStack.pop();
-        if (spellerStack$StackElement != null) {
-            this.logChannel.log(-2137614336, "%1#destAddressInputHKReturn element popped from speller stack=%2", (Object)this.CLASS_NAME, (Object)spellerStack$StackElement);
+        stackElement = this.spellerStack.pop();
+        if (stackElement != null) {
+            this.logChannel.log(10000000, "%1#destAddressInputHKReturn element popped from speller stack=%2", (Object)this.CLASS_NAME, (Object)stackElement);
             CommandList commandList = this.commandListFactory.createCommandList();
-            commandList.add(new LIRestoreStateCommand(spellerStack$StackElement));
+            commandList.add(new LIRestoreStateCommand(stackElement));
             NavLocation navLocation = this.env.getContainer().getLiCurrentLD();
-            String string = Util.getLocationAccessor(navLocation).getState();
-            String string2 = Util.getLocationAccessor(navLocation).getTown();
-            String string3 = Util.getLocationAccessor(navLocation).getPlaceName();
-            this.logChannel.log(-2137614336, "%1#destAddressInputHKReturn with liCurrentLD = %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
-            commandList.add(new AddressInputManagerJP$1(this, new StringBuffer().append(this.CLASS_NAME).append("#destAddressInputHKReturn - Show or Hide Preview Map").toString(), string, string2, string3));
+            final String string = Util.getLocationAccessor(navLocation).getState();
+            final String string2 = Util.getLocationAccessor(navLocation).getTown();
+            final String string3 = Util.getLocationAccessor(navLocation).getPlaceName();
+            this.logChannel.log(10000000, "%1#destAddressInputHKReturn with liCurrentLD = %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+            commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#destAddressInputHKReturn - Show or Hide Preview Map").toString()){
+
+                public void execute() {
+                    if (!Util.isEmpty(string)) {
+                        boolean bl = false;
+                        if (!Util.isEmpty(string2) && Util.isEmpty(string3)) {
+                            bl = true;
+                        }
+                        this.getCommandList().commandFinishedWithPostCommand(new CmdNaviPreviewMapUpdate(AddressInputManagerJP.this.previewMap, bl, 1, null, null));
+                    } else if (AddressInputManagerJP.this.prefectureNationwideSelectedChoice.getValue() == 1) {
+                        AddressInputManagerJP.this.previewMap.setPreviewAreaAroundCCP(1);
+                        this.getCommandList().commandFinished();
+                    } else {
+                        AddressInputManagerJP.this.previewMap.hidePreviewMap();
+                        this.getCommandList().commandFinished();
+                    }
+                }
+            });
             if (this.env.getInputModeManager().isSdsActive()) {
                 commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccessHelper));
             }
@@ -166,7 +176,7 @@ extends AbstractAddressInputManagerEvo {
             }
             commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#destAddressInputHKReturn").toString());
         } else {
-            this.logChannel.log(-1601830656, "%1#destAddressInputHKReturn - popped element from SpellerStack but element is null!", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000, "%1#destAddressInputHKReturn - popped element from SpellerStack but element is null!", (Object)this.CLASS_NAME);
         }
     }
 
@@ -243,7 +253,6 @@ extends AbstractAddressInputManagerEvo {
         return addressInputHouseNumberListenerJP;
     }
 
-    @Override
     public IAddressInputMainScreenListener getMainScreenListener() {
         return this.mainScreenListener;
     }
@@ -276,50 +285,28 @@ extends AbstractAddressInputManagerEvo {
         return this.houseNumberScreenListener;
     }
 
-    @Override
     public int getAutoSelectLeftElementEventId() {
         return 20204;
     }
 
-    @Override
     public int getStreetScreenAmbiguousListElementSelecteEventId() {
         return 20504;
     }
 
-    @Override
     public int getStreetScreenNonAmbiguousListElementSelectedEventId() {
         return 20503;
     }
 
-    @Override
     public int getStartForOnlineEventId() {
         return 20013;
     }
 
-    @Override
     public int getStartForRemoteHMIEventId() {
         return 20014;
     }
 
-    @Override
     public int getStartCityInputFromMainScreenEventId() {
         return 20003;
-    }
-
-    static /* synthetic */ IPreviewMap access$000(AddressInputManagerJP addressInputManagerJP) {
-        return addressInputManagerJP.previewMap;
-    }
-
-    static /* synthetic */ ChoiceModelApp access$100(AddressInputManagerJP addressInputManagerJP) {
-        return addressInputManagerJP.prefectureNationwideSelectedChoice;
-    }
-
-    static /* synthetic */ IPreviewMap access$200(AddressInputManagerJP addressInputManagerJP) {
-        return addressInputManagerJP.previewMap;
-    }
-
-    static /* synthetic */ IPreviewMap access$300(AddressInputManagerJP addressInputManagerJP) {
-        return addressInputManagerJP.previewMap;
     }
 }
 

@@ -4,24 +4,19 @@
 package de.audi.atip.testsupport;
 
 public interface ITestSupportSession {
-    public static final int STATUS_UNREGISTERED;
-    public static final int STATUS_REGISTERED;
-    public static final int STATUS_VISIBLE;
-    public static final int STATUS_OSO_VISIBLE;
+    public static final int STATUS_UNREGISTERED = 0;
+    public static final int STATUS_REGISTERED = 1;
+    public static final int STATUS_VISIBLE = 2;
+    public static final int STATUS_OSO_VISIBLE = 3;
 
-    default public void activateMenuEntry(boolean bl) {
-    }
+    public void activateMenuEntry(boolean var1);
 
-    default public void flashText(String string, long l) {
-    }
+    public void flashText(String var1, long var2);
 
-    default public void flashScreen() {
-    }
+    public void flashScreen();
 
-    default public void updateData(String[] stringArray) {
-    }
+    public void updateData(String[] var1);
 
-    default public int getStatus() {
-    }
+    public int getStatus();
 }
 

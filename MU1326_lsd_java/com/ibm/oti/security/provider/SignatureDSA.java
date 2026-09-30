@@ -4,7 +4,6 @@
 package com.ibm.oti.security.provider;
 
 import com.ibm.oti.util.ASN1Decoder;
-import com.ibm.oti.util.ASN1Decoder$Node;
 import com.ibm.oti.util.ASN1Encoder;
 import com.ibm.oti.util.ASN1Exception;
 import com.ibm.oti.util.Msg;
@@ -25,25 +24,20 @@ import java.security.interfaces.DSAPublicKey;
 
 public class SignatureDSA
 extends Signature {
-    private static final int STATE_UNINITIALIZED;
-    private static final int STATE_SIGN;
-    private static final int STATE_VERIFY;
+    private static final int STATE_UNINITIALIZED = 0;
+    private static final int STATE_SIGN = 1;
+    private static final int STATE_VERIFY = 2;
     private int state = 0;
     private DSAPrivateKey privateKey;
     private DSAPublicKey publicKey;
     private SHAOutputStream sha = new SHAOutputStream();
-    private static final String[] STATE_DESCRIPTION;
-
-    static {
-        STATE_DESCRIPTION = new String[]{"UNINITIALIZED", "SIGN", "VERIFY"};
-    }
+    private static final String[] STATE_DESCRIPTION = new String[]{"UNINITIALIZED", "SIGN", "VERIFY"};
 
     public SignatureDSA() {
         super("SHA1withDSA");
     }
 
-    @Override
-    protected void engineInitSign(PrivateKey privateKey) {
+    protected void engineInitSign(PrivateKey privateKey) throws InvalidKeyException {
         boolean bl = privateKey != null;
         try {
             this.privateKey = (DSAPrivateKey)privateKey;
@@ -58,8 +52,7 @@ extends Signature {
         this.sha.reset();
     }
 
-    @Override
-    protected void engineInitVerify(PublicKey publicKey) {
+    protected void engineInitVerify(PublicKey publicKey) throws InvalidKeyException {
         boolean bl = publicKey != null;
         try {
             this.publicKey = (DSAPublicKey)publicKey;
@@ -92,8 +85,7 @@ extends Signature {
         return bigInteger5.mod(bigInteger2);
     }
 
-    @Override
-    protected byte[] engineSign() {
+    protected byte[] engineSign() throws SignatureException {
         int n;
         BigInteger bigInteger;
         BigInteger bigInteger2 = this.privateKey.getX();
@@ -124,35 +116,32 @@ extends Signature {
         return byteArrayOutputStream.toByteArray();
     }
 
-    @Override
-    protected void engineUpdate(byte by) {
+    protected void engineUpdate(byte by) throws SignatureException {
         this.sha.write(by);
     }
 
-    @Override
-    protected void engineUpdate(byte[] byArray, int n, int n2) {
+    protected void engineUpdate(byte[] byArray, int n, int n2) throws SignatureException {
         this.sha.write(byArray, n, n2);
     }
 
-    @Override
-    protected boolean engineVerify(byte[] byArray) {
+    protected boolean engineVerify(byte[] byArray) throws SignatureException {
         BigInteger bigInteger;
         BigInteger bigInteger2;
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray;
+        ASN1Decoder.Node[] nodeArray;
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byArray);
         ASN1Decoder aSN1Decoder = new ASN1Decoder(byteArrayInputStream);
         try {
-            aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder.readContents().data;
+            nodeArray = (ASN1Decoder.Node[])aSN1Decoder.readContents().data;
         }
         catch (ASN1Exception aSN1Exception) {
             throw new SignatureException(aSN1Exception.toString());
         }
-        if (aSN1Decoder$NodeArray.length != 2) {
+        if (nodeArray.length != 2) {
             throw new SignatureException();
         }
         try {
-            bigInteger2 = (BigInteger)aSN1Decoder$NodeArray[0].data;
-            bigInteger = (BigInteger)aSN1Decoder$NodeArray[1].data;
+            bigInteger2 = (BigInteger)nodeArray[0].data;
+            bigInteger = (BigInteger)nodeArray[1].data;
         }
         catch (ClassCastException classCastException) {
             throw new SignatureException(classCastException.toString());
@@ -182,7 +171,6 @@ extends Signature {
         return bigInteger11.compareTo(bigInteger2) == 0;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(128);
         stringBuffer.append(" DSA Signature (");

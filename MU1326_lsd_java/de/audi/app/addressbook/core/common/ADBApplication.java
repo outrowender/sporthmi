@@ -16,55 +16,38 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandListManager;
 
 public interface ADBApplication {
-    default public int getInitStartupCompleteMask() {
-    }
+    public int getInitStartupCompleteMask();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 
-    default public ADBDSIAccess getADBDSIAccess() {
-    }
+    public ADBDSIAccess getADBDSIAccess();
 
-    default public LogChannel getLog() {
-    }
+    public LogChannel getLog();
 
-    default public CommandListManager getCommandListManager() {
-    }
+    public CommandListManager getCommandListManager();
 
-    default public ADBDSIListener getADBDSIListener() {
-    }
+    public ADBDSIListener getADBDSIListener();
 
-    default public ADBDSIDefaultListener getADBDSIDefaultListener() {
-    }
+    public ADBDSIDefaultListener getADBDSIDefaultListener();
 
-    default public void handleInvalidData(int n, boolean bl) {
-    }
+    public void handleInvalidData(int var1, boolean var2);
 
-    default public ADBStateHandler getAdbStateHandler() {
-    }
+    public ADBStateHandler getAdbStateHandler();
 
-    default public ADBOrganizerSearch getADBOrganizerSearch() {
-    }
+    public ADBOrganizerSearch getADBOrganizerSearch();
 
-    default public void setFocusedEntryId(long l) {
-    }
+    public void setFocusedEntryId(long var1);
 
-    default public long getFocusedEntryId() {
-    }
+    public long getFocusedEntryId();
 
-    default public void setFocusedEntryType(int n) {
-    }
+    public void setFocusedEntryType(int var1);
 
-    default public int getFocusedEntryType() {
-    }
+    public int getFocusedEntryType();
 
-    default public int getAdbMode() {
-    }
+    public int getAdbMode();
 
-    default public void entrySelected(ADBSearch aDBSearch, ADBSearchListRow aDBSearchListRow, int n, int n2) {
-    }
+    public void entrySelected(ADBSearch var1, ADBSearchListRow var2, int var3, int var4);
 
-    default public void detailsSelected(ADBEntryDetailsListRow aDBEntryDetailsListRow, int n, int n2) {
-    }
+    public void detailsSelected(ADBEntryDetailsListRow var1, int var2, int var3);
 }
 

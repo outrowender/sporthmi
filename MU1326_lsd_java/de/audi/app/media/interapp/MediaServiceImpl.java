@@ -3,6 +3,7 @@
  */
 package de.audi.app.media.interapp;
 
+import de.audi.app.media.AbstractDispatcherRunnable;
 import de.audi.app.media.AbstractMediaTerminalComponent;
 import de.audi.app.media.IMediaTerminal;
 import de.audi.app.media.content.IContent;
@@ -11,11 +12,11 @@ import de.audi.app.media.content.IContentMedia;
 import de.audi.app.media.content.media.IPlayer;
 import de.audi.app.media.content.media.IPlayerListener;
 import de.audi.app.media.content.media.utils.Integers;
-import de.audi.app.media.interapp.MediaServiceImpl$1;
-import de.audi.app.media.interapp.MediaServiceImpl$2;
 import de.audi.app.media.interapp.MediaSlotInfoImpl;
 import de.audi.app.media.osgi.AbstractMediaServiceListenerTracker;
+import de.audi.app.media.source.ActivationContext;
 import de.audi.app.media.source.ActiveSourceState;
+import de.audi.app.media.source.IActivationContext;
 import de.audi.app.media.source.IActiveSourceListener;
 import de.audi.app.media.source.ISource;
 import de.audi.app.media.source.ISourceController;
@@ -42,8 +43,49 @@ ISourceListListener,
 IActiveSourceListener,
 IContentListener,
 IPlayerListener {
-    private static final String LOGCLASS;
-    private final AbstractMediaServiceListenerTracker mediaServiceListenerTracker = new MediaServiceImpl$1(this, this.getTerminal());
+    private static final String LOGCLASS = "MediaServiceImpl";
+    private final AbstractMediaServiceListenerTracker mediaServiceListenerTracker = new AbstractMediaServiceListenerTracker(this.getTerminal()){
+
+        protected void mediaServiceListenerAdded(IMediaServiceListener iMediaServiceListener) {
+            int n;
+            Object object;
+            this.logger.main().log(10000000, "[%1.mediaServiceListenerAdded] '%2'", (Object)MediaServiceImpl.LOGCLASS, (Object)iMediaServiceListener);
+            HashMap hashMap = new HashMap();
+            for (int i2 = 0; i2 < 14; ++i2) {
+                object = this.getTerminal().getSourceController().getSource(i2);
+                if (object == null || object.getType() == 4) continue;
+                n = MediaServiceImpl.getMediaSourceIDOfISourceID(object.getType());
+                if (object.isAvailable()) {
+                    try {
+                        iMediaServiceListener.sourceAvailable(n, object.isAvailable());
+                    }
+                    catch (Exception exception) {
+                        this.logger.main().log(100000, "[%1.mediaServiceListenerAdded] %2", (Object)MediaServiceImpl.LOGCLASS, (Throwable)exception);
+                    }
+                }
+                if (object.isEmpty()) continue;
+                LinkedList linkedList = new LinkedList();
+                hashMap.put(new Integer(n), linkedList);
+                Iterator iterator = object.getSlots().iterator();
+                while (iterator.hasNext()) {
+                    ISourceSlot iSourceSlot = (ISourceSlot)iterator.next();
+                    if (!iSourceSlot.isLoaded()) continue;
+                    linkedList.add(new MediaSlotInfoImpl(iSourceSlot));
+                }
+            }
+            try {
+                iMediaServiceListener.sourceListChanged(hashMap);
+                IActivationContext iActivationContext = this.getTerminal().getSourceController().getActivationContext();
+                if (iActivationContext != null && (object = iActivationContext.getSlot()) != null) {
+                    n = object.getState() == 1 ? 1 : 0;
+                    iMediaServiceListener.updateActiveSource(new MediaSlotInfoImpl((ISourceSlot)object), n != 0);
+                }
+            }
+            catch (Exception exception) {
+                this.logger.main().log(100000, "[%1.mediaServiceListenerAdded] %2", (Object)MediaServiceImpl.LOGCLASS, (Throwable)exception);
+            }
+        }
+    };
     private volatile ServiceRegistration mediaServiceRegistration;
     private volatile IPlayer player;
     static /* synthetic */ Class class$de$audi$atip$interapp$media$IMediaService;
@@ -53,7 +95,7 @@ IPlayerListener {
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"MediaServiceImpl");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.mediaServiceRegistration = this.getTerminal().getServiceManager().registerService(class$de$audi$atip$interapp$media$IMediaService == null ? (class$de$audi$atip$interapp$media$IMediaService = MediaServiceImpl.class$("de.audi.atip.interapp.media.IMediaService")) : class$de$audi$atip$interapp$media$IMediaService, this, new Hashtable(0));
         this.mediaServiceListenerTracker.init();
         this.getTerminal().getSourceController().addSourceListener(this);
@@ -63,31 +105,34 @@ IPlayerListener {
     }
 
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"MediaServiceImpl");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.mediaServiceListenerTracker.deinit();
         this.mediaServiceRegistration.unregister();
     }
 
-    @Override
     public int getTerminalID() {
         return this.getTerminal().getTerminalID();
     }
 
-    @Override
-    public void activateSource(int n, int n2) {
-        this.logger.main().log(1078071040, "[%1.activateSource] '%2' (slotIdx='%3').", (Object)"MediaServiceImpl", (long)n, (long)n2);
+    public void activateSource(int n, final int n2) {
+        this.logger.main().log(1000000, "[%1.activateSource] '%2' (slotIdx='%3').", (Object)LOGCLASS, (long)n, (long)n2);
         int n3 = MediaServiceImpl.getISourceIDFromMediaSourceID(n);
         if (n3 == -1) {
-            this.logger.main().log(-1601830656, "[%1.activateSource] SourceID '%2' is invalid. Ignore.", (Object)"MediaServiceImpl", (long)n);
+            this.logger.main().log(100000, "[%1.activateSource] SourceID '%2' is invalid. Ignore.", (Object)LOGCLASS, (long)n);
             return;
         }
-        ISourceController iSourceController = this.getTerminal().getSourceController();
-        ISource iSource = iSourceController.getSource(n3);
+        final ISourceController iSourceController = this.getTerminal().getSourceController();
+        final ISource iSource = iSourceController.getSource(n3);
         if (iSource == null) {
-            this.logger.main().log(1078071040, "[%1.activateSource] Source '%2' not found. Ignore.", (Object)"MediaServiceImpl", (long)n3);
+            this.logger.main().log(1000000, "[%1.activateSource] Source '%2' not found. Ignore.", (Object)LOGCLASS, (long)n3);
             return;
         }
-        this.getTerminal().getDispatcher().execute(new MediaServiceImpl$2(this, "MediaService.activateSource", iSourceController, iSource, n2));
+        this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("MediaService.activateSource"){
+
+            public void run() {
+                iSourceController.activateSource(new ActivationContext(iSource.getSlot(n2)));
+            }
+        });
     }
 
     public static int getMediaSourceIDOfISourceID(int n) {
@@ -180,10 +225,9 @@ IPlayerListener {
         return -1;
     }
 
-    @Override
     public void sourceAvailable(ISource iSource, boolean bl) {
         if (this.logger.main().isInfo()) {
-            this.logger.main().log(1078071040, "[%1.sourceAvailable] [%2] %3", (Object)"MediaServiceImpl", (Object)iSource, (Object)(bl ? "AVAILABLE" : "NOT AVAILABLE"));
+            this.logger.main().log(1000000, "[%1.sourceAvailable] [%2] %3", (Object)LOGCLASS, (Object)iSource, (Object)(bl ? "AVAILABLE" : "NOT AVAILABLE"));
         }
         if (iSource.getType() == 4 || iSource.getType() == 13) {
             return;
@@ -195,15 +239,14 @@ IPlayerListener {
                 iMediaServiceListener.sourceAvailable(MediaServiceImpl.getMediaSourceIDOfISourceID(iSource.getType()), bl);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.sourceAvailable] Exception occured: %2", (Object)"MediaServiceImpl", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.sourceAvailable] Exception occured: %2", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public void sourceListChanged(Map map) {
         Object object;
-        this.logger.main().log(1078071040, "[%1.sourceListChanged]", (Object)"MediaServiceImpl");
+        this.logger.main().log(1000000, "[%1.sourceListChanged]", (Object)LOGCLASS);
         List list = this.mediaServiceListenerTracker.getMediaServiceListener();
         if (list.isEmpty()) {
             return;
@@ -230,14 +273,13 @@ IPlayerListener {
                 object.sourceListChanged(hashMap);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.sourceListChanged] %2", (Object)"MediaServiceImpl", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.sourceListChanged] %2", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public void activeSourceChanged(boolean bl, ActiveSourceState activeSourceState) {
-        this.logger.main().log(1078071040, "[%1.activeSourceChanged]", (Object)"MediaServiceImpl");
+        this.logger.main().log(1000000, "[%1.activeSourceChanged]", (Object)LOGCLASS);
         List list = this.mediaServiceListenerTracker.getMediaServiceListener();
         if (list.isEmpty() || activeSourceState.getSlot() == null || activeSourceState.getSlot().getSource().getType() == 4) {
             return;
@@ -251,14 +293,13 @@ IPlayerListener {
                 iMediaServiceListener.updateActiveSource(mediaSlotInfoImpl, bl2);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.activeSourceChanged] %2", (Object)"MediaServiceImpl", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.activeSourceChanged] %2", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public void contentActivated(IContent iContent, ISourceSlot iSourceSlot) {
-        this.logger.main().log(1078071040, "[%1.contentActivated]", (Object)"MediaServiceImpl");
+        this.logger.main().log(1000000, "[%1.contentActivated]", (Object)LOGCLASS);
         if (iContent instanceof IContentMedia) {
             this.player = ((IContentMedia)iContent).getPlayer();
             this.notifyPlaybackStateChanged(0);
@@ -268,13 +309,11 @@ IPlayerListener {
         }
     }
 
-    @Override
     public void contentActivationFinished(IContent iContent) {
     }
 
-    @Override
     public void contentDeactivated(IContent iContent) {
-        this.logger.main().log(1078071040, "[%1.contentDeactivated]", (Object)"MediaServiceImpl");
+        this.logger.main().log(1000000, "[%1.contentDeactivated]", (Object)LOGCLASS);
         if (this.player != null) {
             this.player.removePlayerListener(this);
             this.notifyPlaybackStateChanged(0);
@@ -282,33 +321,28 @@ IPlayerListener {
         }
     }
 
-    @Override
     public void playerStartupComplete() {
     }
 
-    @Override
     public void repeatScopeChanged(int n, boolean bl) {
     }
 
-    @Override
     public void repeatModeChanged(int n) {
     }
 
-    @Override
     public void playbackStateChanged(int n) {
-        this.logger.main().log(1078071040, "[%1.playbackStateChanged]", (Object)"MediaServiceImpl");
+        this.logger.main().log(1000000, "[%1.playbackStateChanged]", (Object)LOGCLASS);
         this.notifyPlaybackStateChanged(MediaServiceImpl.getMediaPlaybackStateOfPlaybackStateId(n));
     }
 
-    @Override
     public void capabilitiesChanged(Capabilities capabilities) {
     }
 
     public void notifyPlaybackStateChanged(int n) {
-        this.logger.main().log(14808325, "[%1.notifyPlaybackStateChanged]", (Object)"MediaServiceImpl");
+        this.logger.main().log(100000000, "[%1.notifyPlaybackStateChanged]", (Object)LOGCLASS);
         List list = this.mediaServiceListenerTracker.getMediaServiceListener();
         if (list.isEmpty() || this.player == null) {
-            this.logger.main().log(1078071040, "[%1.notifyPlaybackStateChanged] no listeners or no player", (Object)"MediaServiceImpl");
+            this.logger.main().log(1000000, "[%1.notifyPlaybackStateChanged] no listeners or no player", (Object)LOGCLASS);
             return;
         }
         Iterator iterator = list.iterator();
@@ -318,7 +352,7 @@ IPlayerListener {
                 iMediaServiceListener.updatePlaybackState(n);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.notifyPlaybackStateChanged] %2", (Object)"MediaServiceImpl", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.notifyPlaybackStateChanged] %2", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
@@ -347,32 +381,29 @@ IPlayerListener {
         return 0;
     }
 
-    @Override
     public void commandBlocked() {
     }
 
-    @Override
     public void currentPMLevelChanged(int n) {
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("MediaServiceImpl").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 
-    @Override
     public void sourceDeactivated() {
         List list = this.mediaServiceListenerTracker.getMediaServiceListener();
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
             IMediaServiceListener iMediaServiceListener = (IMediaServiceListener)iterator.next();
             try {
-                this.logger.main().log(-1601830656, "[%1.sourceDeactivated] %2", (Object)"MediaServiceImpl", (Object)iMediaServiceListener);
+                this.logger.main().log(100000, "[%1.sourceDeactivated] %2", (Object)LOGCLASS, (Object)iMediaServiceListener);
                 iMediaServiceListener.sourceDeactivated();
             }
             catch (Exception exception) {
-                this.logger.main().log(10000, "[%1.sourceDeactivated] %2 %3", (Object)"MediaServiceImpl", (Object)iMediaServiceListener, (Object)exception);
+                this.logger.main().log(10000, "[%1.sourceDeactivated] %2 %3", (Object)LOGCLASS, (Object)iMediaServiceListener, (Object)exception);
             }
         }
     }

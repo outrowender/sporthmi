@@ -5,6 +5,7 @@ package com.ibm.oti.connection;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.microedition.io.InputConnection;
@@ -13,25 +14,17 @@ import javax.microedition.io.OutputConnection;
 public abstract class DataConnection
 implements InputConnection,
 OutputConnection {
-    @Override
-    public abstract void close() {
-    }
+    public abstract void close() throws IOException;
 
-    @Override
-    public abstract InputStream openInputStream() {
-    }
+    public abstract InputStream openInputStream() throws IOException;
 
-    @Override
-    public abstract OutputStream openOutputStream() {
-    }
+    public abstract OutputStream openOutputStream() throws IOException;
 
-    @Override
-    public DataInputStream openDataInputStream() {
+    public DataInputStream openDataInputStream() throws IOException {
         return new DataInputStream(this.openInputStream());
     }
 
-    @Override
-    public DataOutputStream openDataOutputStream() {
+    public DataOutputStream openDataOutputStream() throws IOException {
         return new DataOutputStream(this.openOutputStream());
     }
 }

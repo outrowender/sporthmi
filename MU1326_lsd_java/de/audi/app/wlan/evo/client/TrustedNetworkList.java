@@ -24,7 +24,6 @@ extends AbstractTrustedNetworkList {
         this.tracker = new ServiceTracker(this.bundleContext, (class$de$audi$app$data$core$online$IOnline == null ? (class$de$audi$app$data$core$online$IOnline = TrustedNetworkList.class$("de.audi.app.data.core.online.IOnline")) : class$de$audi$app$data$core$online$IOnline).getName(), (ServiceTrackerCustomizer)this);
     }
 
-    @Override
     protected void updateTrustedNetworks(Network[] networkArray) {
         IConnectivityManager iConnectivityManager = ((IEvoWlanApplication)this.wlanApplication).getConnectivity().getConnectivityManager();
         if (iConnectivityManager != null) {
@@ -35,7 +34,6 @@ extends AbstractTrustedNetworkList {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IOnline) {
@@ -45,7 +43,6 @@ extends AbstractTrustedNetworkList {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IOnline) {
             this.iOnline = null;
@@ -54,7 +51,6 @@ extends AbstractTrustedNetworkList {
         super.removedService(serviceReference, object);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IOnline) {
             this.iOnline = (IOnline)object;
@@ -62,13 +58,11 @@ extends AbstractTrustedNetworkList {
         super.modifiedService(serviceReference, object);
     }
 
-    @Override
     public void init() {
         super.init();
         this.tracker.open();
     }
 
-    @Override
     public void deinit() {
         this.tracker.close();
         super.deinit();

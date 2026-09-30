@@ -4,13 +4,10 @@
 package de.audi.app.bap.fw.functiontypes;
 
 public interface BAPFunctionDataListener {
-    default public void notifyDataValidChanged(int n, boolean bl) {
-    }
+    public void notifyDataValidChanged(int var1, boolean var2);
 
-    default public void notifyDataChanged(int n) {
-    }
+    public void notifyDataChanged(int var1);
 
-    default public void notifyDataUpdatedNoChange(int n) {
-    }
+    public void notifyDataUpdatedNoChange(int var1);
 }
 

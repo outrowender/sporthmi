@@ -17,36 +17,31 @@ extends AbstractBAPFunction {
         super(abstractBAPModule, n);
     }
 
-    @Override
     public BAPEntity getIndicationSerializer(int n) {
         return null;
     }
 
-    @Override
     public void reset() {
-        this.logChannel.log(14808325, "[BAPFunctionGetAll#reset] called; do nothing");
+        this.logChannel.log(100000000, "[BAPFunctionGetAll#reset] called; do nothing");
     }
 
-    @Override
     protected boolean isIndicationTypeSupported(int n) {
         return n == 9;
     }
 
-    @Override
     protected void doProcessIndication(int n, BAPEntity bAPEntity) {
         if (n == 9) {
             this.statusAllIND();
         }
     }
 
-    @Override
     protected void doProcessError(int n) {
-        this.logChannel.log(-2137614336, "[BAPFunctionGetAll#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
+        this.logChannel.log(10000000, "[BAPFunctionGetAll#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
     }
 
     public void setStatusAllListener(IBAPFunctionStatusAllListener iBAPFunctionStatusAllListener) {
         this.listener = iBAPFunctionStatusAllListener;
-        this.logChannel.log(-2137614336, "[BAPFunctionGetAll#setStatusAllListener] listener=%1", (Object)iBAPFunctionStatusAllListener);
+        this.logChannel.log(10000000, "[BAPFunctionGetAll#setStatusAllListener] listener=%1", (Object)iBAPFunctionStatusAllListener);
     }
 
     public void resetStatusAllListener() {
@@ -54,12 +49,12 @@ extends AbstractBAPFunction {
     }
 
     public void getAllREQ() {
-        this.logChannel.log(-2137614336, "[BAPFunctionGetAll#getAllREQ] lsgID=%1, send GetAll request", (Object)this.lsgIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionGetAll#getAllREQ] lsgID=%1, send GetAll request", (Object)this.lsgIDDesc);
         this.sendRequest(2);
     }
 
     private void statusAllIND() {
-        this.logChannel.log(-2137614336, "[BAPFunctionGetAll#statusAllIND] lsgID=%1, StatusAll received", (Object)this.lsgIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionGetAll#statusAllIND] lsgID=%1, StatusAll received", (Object)this.lsgIDDesc);
         if (this.listener != null) {
             this.listener.notifyStatusAllIndicationReceived(this.fctID);
         }

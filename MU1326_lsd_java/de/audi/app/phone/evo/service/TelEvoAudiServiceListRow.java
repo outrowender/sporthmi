@@ -7,7 +7,7 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 public class TelEvoAudiServiceListRow
 extends EvoListRow {
-    static final int MAX_COLUMNS;
+    static final int MAX_COLUMNS = 1;
     private final int serviceType;
 
     public TelEvoAudiServiceListRow(long l, int n) {
@@ -16,7 +16,6 @@ extends EvoListRow {
         this.setInteger(0, n);
     }
 
-    @Override
     public EvoListRow copy() {
         return new TelEvoAudiServiceListRow(this.getUniqueID(), this.serviceType);
     }

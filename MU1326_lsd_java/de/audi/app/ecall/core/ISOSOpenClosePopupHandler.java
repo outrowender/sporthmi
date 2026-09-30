@@ -7,10 +7,8 @@ import de.audi.app.ecall.core.IOpenClosePopupHandler;
 
 public interface ISOSOpenClosePopupHandler
 extends IOpenClosePopupHandler {
-    default public void forceSOSScreenShowing(int n) {
-    }
+    public void forceSOSScreenShowing(int var1);
 
-    default public void showLicencePopup() {
-    }
+    public void showLicencePopup();
 }
 

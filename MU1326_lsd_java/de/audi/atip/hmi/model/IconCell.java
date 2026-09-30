@@ -9,10 +9,10 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class IconCell
 implements ListCell {
-    public static final int TYPE_ICON_SIMPLE;
-    public static final int TYPE_ICON_TEXT;
-    public static final int FONT_SIZE_IN_POINTS;
-    public static final int FONT_SIZE_IN_PIXELS;
+    public static final int TYPE_ICON_SIMPLE = 0;
+    public static final int TYPE_ICON_TEXT = 1;
+    public static final int FONT_SIZE_IN_POINTS = 0;
+    public static final int FONT_SIZE_IN_PIXELS = 1;
     private int type;
     private int resourceId;
     private String resourcePath;

@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.app.sdsmanager.apps.tuner.commands;
 
@@ -18,7 +15,7 @@ import de.audi.atip.log.LogChannel;
 
 public class TunerFrequencySetCommand
 extends AbstractSystemCallCommand {
-    private static final int FREQUENCY_THRESHOLD;
+    private static final int FREQUENCY_THRESHOLD = 200;
     private final NBestStorageAccess nBestHandler;
     private final TunerService tunerService;
     private final byte[][] tagToHDSubchannelMapping = new byte[][]{{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}, {8, 8}};
@@ -29,10 +26,9 @@ extends AbstractSystemCallCommand {
         this.tunerService = tunerService;
     }
 
-    @Override
     public void execute() {
         long l = this.getKHzFormattedFrequency();
-        this.logger.log(-2137614336, "%1#execute: frequency=%2", (Object)this.getName(), l);
+        this.logger.log(10000000, "%1#execute: frequency=%2", (Object)this.getName(), l);
         if (l == -1L) {
             this.sendResult(10005);
             return;
@@ -46,7 +42,7 @@ extends AbstractSystemCallCommand {
     }
 
     private long getKHzFormattedFrequency() {
-        this.logger.log(-2137614336, "%1#getKHzFormattedFrequency: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#getKHzFormattedFrequency: called", (Object)this.getName());
         IPicklistSlot iPicklistSlot = this.nBestHandler.getSlotForPicklistElement(0, 0, (byte)0, true);
         if (iPicklistSlot == null) {
             return -1L;
@@ -60,13 +56,12 @@ extends AbstractSystemCallCommand {
             string = stringBuffer.toString();
             SDSModelAccess.setSlotModel(0, string.replace('.', ','));
         }
-        this.logger.log(-2137614336, "%1#getKHzFormattedFrequency: freqStr=%2", (Object)this.getName(), (Object)string);
-        double d2 = Double.parseDouble((String)string);
+        this.logger.log(10000000, "%1#getKHzFormattedFrequency: freqStr=%2", (Object)this.getName(), (Object)string);
+        double d2 = Double.parseDouble(string);
         double d3 = d2 < 200.0 ? d2 * 1000.0 : d2;
         return (long)d3;
     }
 
-    @Override
     protected void handleSDSLineNumbering() {
         SDSUtils.updateSDSNumbers(false);
     }

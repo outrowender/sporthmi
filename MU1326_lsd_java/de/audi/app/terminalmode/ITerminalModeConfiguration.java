@@ -4,100 +4,68 @@
 package de.audi.app.terminalmode;
 
 public interface ITerminalModeConfiguration {
-    default public boolean isTerminalMode() {
-    }
+    public boolean isTerminalMode();
 
-    default public boolean hasKnob() {
-    }
+    public boolean hasKnob();
 
-    default public boolean hasTouchpad() {
-    }
+    public boolean hasTouchpad();
 
-    default public boolean hasTouchscreenHigh() {
-    }
+    public boolean hasTouchscreenHigh();
 
-    default public boolean hasTouchscreenLow() {
-    }
+    public boolean hasTouchscreenLow();
 
-    default public boolean hasTouchscreen() {
-    }
+    public boolean hasTouchscreen();
 
-    default public boolean isRightHandDrive() {
-    }
+    public boolean isRightHandDrive();
 
-    default public String getScreenName() {
-    }
+    public String getScreenName();
 
-    default public int getScreenResolutionX() {
-    }
+    public int getScreenResolutionX();
 
-    default public int getScreenResolutionY() {
-    }
+    public int getScreenResolutionY();
 
-    default public int getWindowResolutionX() {
-    }
+    public int getWindowResolutionX();
 
-    default public int getWindowResolutionY() {
-    }
+    public int getWindowResolutionY();
 
-    default public int getTouchPadResolutionX() {
-    }
+    public int getTouchPadResolutionX();
 
-    default public int getTouchPadResolutionY() {
-    }
+    public int getTouchPadResolutionY();
 
-    default public int getPhysicalDisplayHeight() {
-    }
+    public int getPhysicalDisplayHeight();
 
-    default public int getPhysicalDisplayWidth() {
-    }
+    public int getPhysicalDisplayWidth();
 
-    default public int getDSICarPlayScreenResolution() {
-    }
+    public int getDSICarPlayScreenResolution();
 
-    default public int getCarPlayPhysicalDisplayHeight() {
-    }
+    public int getCarPlayPhysicalDisplayHeight();
 
-    default public int getCarPlayPhysicalDisplayWidth() {
-    }
+    public int getCarPlayPhysicalDisplayWidth();
 
-    default public boolean isAutoConnect() {
-    }
+    public boolean isAutoConnect();
 
-    default public boolean shouldShowDisclaimerAtLeastOnce() {
-    }
+    public boolean shouldShowDisclaimerAtLeastOnce();
 
-    default public boolean getStoreUserAcceptState() {
-    }
+    public boolean getStoreUserAcceptState();
 
-    default public boolean isKnobDirectionInverted() {
-    }
+    public boolean isKnobDirectionInverted();
 
-    default public int getScreenOffsetX() {
-    }
+    public int getScreenOffsetX();
 
-    default public int getScreenOffsetY() {
-    }
+    public int getScreenOffsetY();
 
-    default public boolean isTouchScreenInputWidget() {
-    }
+    public boolean isTouchScreenInputWidget();
 
-    default public boolean hasTwoVirtualButtonModels() {
-    }
+    public boolean hasTwoVirtualButtonModels();
 
-    default public boolean supportsDeletionOfConnectedDevices() {
-    }
+    public boolean supportsDeletionOfConnectedDevices();
 
-    default public boolean hasBothPhoneMFLKeys() {
-    }
+    public boolean hasBothPhoneMFLKeys();
 
-    default public boolean usesOldMediaConnector() {
-    }
+    public boolean usesOldMediaConnector();
 
-    default public int applicationOffset() {
-    }
+    public int applicationOffset();
 
-    default public boolean isOnHoldWhenPhoneCallActive() {
-    }
+    public boolean isOnHoldWhenPhoneCallActive();
 }
 

@@ -10,16 +10,12 @@ import de.audi.app.media.dsi.media.MediaListEntry;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface IPlayerTrackListener {
-    default public void trackChanged(boolean bl, boolean bl2, PlayingTrack playingTrack, PlayTime playTime) {
-    }
+    public void trackChanged(boolean var1, boolean var2, PlayingTrack var3, PlayTime var4);
 
-    default public void detailInfoChanged(MediaDetailInfo mediaDetailInfo) {
-    }
+    public void detailInfoChanged(MediaDetailInfo var1);
 
-    default public void playbackFolderChanged(MediaListEntry[] mediaListEntryArray) {
-    }
+    public void playbackFolderChanged(MediaListEntry[] var1);
 
-    default public void coverArtChanged(ResourceLocator resourceLocator) {
-    }
+    public void coverArtChanged(ResourceLocator var1);
 }
 

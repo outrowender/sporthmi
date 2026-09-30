@@ -5,9 +5,6 @@ package de.audi.app.tuner.truffles;
 
 import de.audi.app.tuner.truffles.ISearchGUI;
 import de.audi.app.tuner.truffles.NullDSISearchDataProvider;
-import de.audi.app.tuner.truffles.RadioSearchDataProvider$InvalidationTruffleCmd;
-import de.audi.app.tuner.truffles.RadioSearchDataProvider$RadioUpdates;
-import de.audi.app.tuner.truffles.RadioSearchDataProvider$SearchBreakListener;
 import de.audi.app.tuner.truffles.SearchUtil;
 import de.audi.app.tuner.truffles.TrufflesCommandHandler;
 import de.audi.atip.hmi.IHMIServiceApp;
@@ -25,6 +22,7 @@ import de.audi.tuner.app.sdars.StationInfoExt;
 import de.audi.tuner.app.uni.UnifiedStationExt;
 import de.audi.tuner.ifc.ISearchBreak;
 import de.audi.tuner.ifc.listener.IUpdateListener;
+import de.audi.tuner.sds.DefaultUpdateListener;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 import java.util.ArrayList;
 import org.dsi.ifc.base.DSIBase;
@@ -35,8 +33,8 @@ import org.dsi.ifc.search.Searchable;
 
 public class RadioSearchDataProvider
 implements DSISearchDataProviderListener {
-    public final IUpdateListener updateListener = new RadioSearchDataProvider$RadioUpdates(this, null);
-    public final ISearchBreak searchListener = new RadioSearchDataProvider$SearchBreakListener(this, null);
+    public final IUpdateListener updateListener = new RadioUpdates();
+    public final ISearchBreak searchListener = new SearchBreakListener();
     private final Logger logger;
     private final MemoryListHandler memory;
     private DSISearchDataProvider dsi;
@@ -67,30 +65,25 @@ implements DSISearchDataProviderListener {
         this.dsi.registerProviderSource(20017);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logger.truffles.log(-2137614336, "[RadioSearchDataProvider.asyncException] %1", (Object)string);
+        this.logger.truffles.log(10000000, "[RadioSearchDataProvider.asyncException] %1", (Object)string);
     }
 
-    @Override
     public void registerProviderSourceResult(int n, int n2) {
-        this.logger.truffles.log(-2137614336, "[RadioSearchDataProvider.registerProviderSourceResult] success:%1 source:%2", (long)n, (long)n2);
+        this.logger.truffles.log(10000000, "[RadioSearchDataProvider.registerProviderSourceResult] success:%1 source:%2", (long)n, (long)n2);
     }
 
-    @Override
     public void activateProviderSource(int n) {
-        this.logger.truffles.log(-2137614336, "[RadioSearchDataProvider.activateProviderSource] %1", (long)n);
+        this.logger.truffles.log(10000000, "[RadioSearchDataProvider.activateProviderSource] %1", (long)n);
     }
 
-    @Override
     public void invalidateAllDataResult(int n, int n2) {
-        this.logger.truffles.log(-2137614336, "[RadioSearchDataProvider.invalidateAllDataResult] success:%1 source:%2", (long)n, (long)n2);
+        this.logger.truffles.log(10000000, "[RadioSearchDataProvider.invalidateAllDataResult] success:%1 source:%2", (long)n, (long)n2);
     }
 
-    @Override
     public void provideData(int n, int n2, int n3) {
         try {
-            this.logger.truffles.log(-2137614336, "[RadioSearchDataProvider.provideData] source:%1 offset:%2 count:%3", (long)n, (long)n2, (long)n3);
+            this.logger.truffles.log(10000000, "[RadioSearchDataProvider.provideData] source:%1 offset:%2 count:%3", (long)n, (long)n2, (long)n3);
             int n4 = SearchUtil.getBandBySource(n);
             DataSet[] dataSetArray = new DataSet[]{};
             switch (n4) {
@@ -122,7 +115,7 @@ implements DSISearchDataProviderListener {
             if (n5 > 0) {
                 System.arraycopy((Object)dataSetArray, n2, (Object)dataSetArray2, 0, n5);
             }
-            this.logger.truffles.log(-2137614336, "[RadioSearchDataProvider.provideData] source:%1 count:%2", (long)n, (long)dataSetArray2.length);
+            this.logger.truffles.log(10000000, "[RadioSearchDataProvider.provideData] source:%1 count:%2", (long)n, (long)dataSetArray2.length);
             this.dsi.storeDataSets(n, dataSetArray2, dataSetArray2.length);
         }
         catch (Exception exception) {
@@ -157,7 +150,7 @@ implements DSISearchDataProviderListener {
                 }
             }
             if (dataSet == null) continue;
-            long l = dataSet.id & 0;
+            long l = dataSet.id & 0xFFL;
             dataSet.id = (long)tunerObjectContainer.getPresetPos() << 8 | l;
             arrayList.add(dataSet);
         }
@@ -236,44 +229,98 @@ implements DSISearchDataProviderListener {
         return new DataSet(l, 4096, 0, new Searchable[]{new Searchable(22, stationInfoExt.shortLabel, 0), new Searchable(23, stationInfoExt.getShortCategory(), 0), new Searchable(24, Utilities.getFormatedStationNumber(stationInfoExt.stationNumber), 0)});
     }
 
-    @Override
     public void storeDataSetsResult(int n, int n2) {
-        this.logger.truffles.log(-2137614336, "[RadioSearchDataProvider.storeDataSetsResult] success:%1 source:%2", (long)n, (long)n2);
+        this.logger.truffles.log(10000000, "[RadioSearchDataProvider.storeDataSetsResult] success:%1 source:%2", (long)n, (long)n2);
     }
 
-    @Override
     public void deleteDataSetResult(int n, int n2, long l) {
-        this.logger.truffles.log(-2137614336, "[RadioSearchDataProvider.deleteDataSetResult] success:%1 source:%2 dataSetId%3", (long)n, (long)n2, l);
+        this.logger.truffles.log(10000000, "[RadioSearchDataProvider.deleteDataSetResult] success:%1 source:%2 dataSetId%3", (long)n, (long)n2, l);
     }
 
     private void invalidateData(int n) {
-        this.cmdHandler.add(new RadioSearchDataProvider$InvalidationTruffleCmd(this, n));
+        this.cmdHandler.add(new InvalidationTruffleCmd(n));
         this.searchGUI.runCommands();
     }
 
-    static /* synthetic */ DSISearchDataProvider access$200(RadioSearchDataProvider radioSearchDataProvider) {
-        return radioSearchDataProvider.dsi;
+    private class RadioUpdates
+    extends DefaultUpdateListener
+    implements IUpdateListener {
+        private RadioUpdates() {
+        }
+
+        public void updatedBandList(int[] nArray) {
+            for (int i2 = 0; i2 < nArray.length; ++i2) {
+                RadioSearchDataProvider.this.dsi.registerProviderSource(SearchUtil.getSourceByBand(nArray[i2]));
+            }
+        }
+
+        public void updatedMemoryList() {
+            ((RadioSearchDataProvider)RadioSearchDataProvider.this).logger.truffles.log(10000000, "[RadioSearchDataProvider.updatedMemoryList] invalidate data for favorites]");
+            this.invalidate(20017);
+        }
+
+        public void updatedStationList(int n) {
+            ((RadioSearchDataProvider)RadioSearchDataProvider.this).logger.truffles.log(10000000, "[RadioSearchDataProvider.updatedStationList] invalidate data for band %1]", (long)n);
+            this.invalidate(SearchUtil.getSourceByBand(n));
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        private void invalidate(int n) {
+            SimpleIntIntMap simpleIntIntMap = RadioSearchDataProvider.this.waitingInvalids;
+            synchronized (simpleIntIntMap) {
+                if (RadioSearchDataProvider.this.searchIsBlocked) {
+                    RadioSearchDataProvider.this.waitingInvalids.add(n, n);
+                } else {
+                    RadioSearchDataProvider.this.invalidateData(n);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ Logger access$300(RadioSearchDataProvider radioSearchDataProvider) {
-        return radioSearchDataProvider.logger;
+    private class SearchBreakListener
+    implements ISearchBreak {
+        private SearchBreakListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void cursorInSearchResult(boolean bl) {
+            if (bl) {
+                SimpleIntIntMap simpleIntIntMap = RadioSearchDataProvider.this.waitingInvalids;
+                synchronized (simpleIntIntMap) {
+                    RadioSearchDataProvider.this.searchIsBlocked = true;
+                }
+            }
+            SimpleIntIntMap simpleIntIntMap = RadioSearchDataProvider.this.waitingInvalids;
+            synchronized (simpleIntIntMap) {
+                int[] nArray = RadioSearchDataProvider.this.waitingInvalids.getKeys();
+                RadioSearchDataProvider.this.waitingInvalids.clear();
+                for (int i2 = 0; i2 < nArray.length; ++i2) {
+                    RadioSearchDataProvider.this.invalidateData(nArray[i2]);
+                }
+                RadioSearchDataProvider.this.searchIsBlocked = false;
+            }
+        }
     }
 
-    static /* synthetic */ SimpleIntIntMap access$400(RadioSearchDataProvider radioSearchDataProvider) {
-        return radioSearchDataProvider.waitingInvalids;
-    }
+    private class InvalidationTruffleCmd
+    implements TrufflesCommandHandler.ITrufflesCommand {
+        private int id;
 
-    static /* synthetic */ boolean access$500(RadioSearchDataProvider radioSearchDataProvider) {
-        return radioSearchDataProvider.searchIsBlocked;
-    }
+        public InvalidationTruffleCmd(int n) {
+            this.id = n;
+        }
 
-    static /* synthetic */ void access$600(RadioSearchDataProvider radioSearchDataProvider, int n) {
-        radioSearchDataProvider.invalidateData(n);
-    }
+        public int getPriority() {
+            return 0;
+        }
 
-    static /* synthetic */ boolean access$502(RadioSearchDataProvider radioSearchDataProvider, boolean bl) {
-        radioSearchDataProvider.searchIsBlocked = bl;
-        return radioSearchDataProvider.searchIsBlocked;
+        public void execute() {
+            RadioSearchDataProvider.this.dsi.invalidateAllData(this.id);
+        }
     }
 }
 

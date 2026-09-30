@@ -1,13 +1,11 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.atip.util;
 
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +30,11 @@ public class MethodCall {
             this.obj.getClass().getMethod(this.method, this.getTypes()).invoke(this.obj, this.getValues());
         }
         catch (Exception exception) {
-            logChannel.log(-1601830656, "Calling %1 failed!", (Object)this, (Throwable)exception);
+            logChannel.log(100000, "Calling %1 failed!", (Object)this, (Throwable)exception);
         }
     }
 
-    public void call() {
+    public void call() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         this.obj.getClass().getMethod(this.method, this.getTypes()).invoke(this.obj, this.getValues());
     }
 

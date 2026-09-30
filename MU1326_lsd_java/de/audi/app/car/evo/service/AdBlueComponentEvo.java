@@ -13,22 +13,18 @@ extends AbstractAdBlueComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1177028864, (short)53);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600134, (short)53);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1177028864);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600134);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(CarViewOption carViewOption) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1177028864, this.getMenuEntryVisibilityState(carViewOption));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600134, this.getMenuEntryVisibilityState(carViewOption));
     }
 
-    @Override
     public int getID() {
         return 36;
     }

@@ -22,49 +22,41 @@ implements DSICarlife {
         this.wrappee = dSICarlife;
     }
 
-    @Override
     public void startService(ServiceConfiguration serviceConfiguration) {
         this.lc.log(this.level, "-> [DSICarlife.startService] %1", (Object)serviceConfiguration);
         this.wrappee.startService(serviceConfiguration);
     }
 
-    @Override
     public void postButtonEvent(int n, int n2) {
         this.lc.log(this.level, "-> [DSICarlife.postButtonEvent] button %1 buttonstate %2", (long)n, (long)n2);
         this.wrappee.postButtonEvent(n, n2);
     }
 
-    @Override
     public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2) {
         this.lc.log(this.level, "-> [DSICarlife.postTouchEvent] touchSource %1, %2, gesture %3", (Object)Integer.toString(n), (Object)Arrays2.toString(touchEventArray), (Object)Integer.toString(n2));
         this.wrappee.postTouchEvent(n, touchEventArray, n2);
     }
 
-    @Override
     public void postRotaryEvent(int n) {
         this.lc.log(this.level, "-> [DSICarlife.postRotaryEvent] ticks %1", (Object)Integer.toString(n));
         this.wrappee.postRotaryEvent(n);
     }
 
-    @Override
     public void postCharacterEvent(int n, String[] stringArray) {
         this.lc.log(this.level, "-> [DSICarlife.postCharacterEvent] alternatives %1 characters %2", (Object)Integer.toString(n), (Object)Arrays2.toString(stringArray));
         this.wrappee.postCharacterEvent(n, stringArray);
     }
 
-    @Override
     public void setMode(Resource[] resourceArray, AppState[] appStateArray) {
         this.lc.log(this.level, "-> [DSICarlife.setMode] resources %1 appstates %2", (Object)Arrays2.toString(resourceArray), (Object)Arrays2.toString(appStateArray));
         this.wrappee.setMode(resourceArray, appStateArray);
     }
 
-    @Override
     public void requestNightMode(boolean bl) {
         this.lc.log(this.level, "-> [DSICarlife.requestNightMode] nightMode %1", (Object)Boolean.toString(bl));
         this.wrappee.requestNightMode(bl);
     }
 
-    @Override
     public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray) {
         this.lc.log(this.level, "-> [DSICarlife.responseModeChange] resources %1 appstates %2", (Object)Arrays2.toString(resourceArray), (Object)Arrays2.toString(appStateArray));
         this.wrappee.responseModeChange(resourceArray, appStateArray);

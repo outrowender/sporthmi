@@ -9,19 +9,19 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class SperrFlagImpl
 implements SperrFlags {
-    public static final int EXPECTED_SIZE;
-    private static final int TUNER_OFFSET;
-    private static final int MEDIA_OFFSET;
-    private static final int PHONE_OFFSET;
-    private static final int NAV_OFFSET;
-    private static final int CAR_OFFSET;
-    private static final int MISC_OFFSET;
-    private static final int TUNER_LIMIT;
-    private static final int MEDIA_LIMIT;
-    private static final int PHONE_LIMIT;
-    private static final int NAV_LIMIT;
-    private static final int CAR_LIMIT;
-    private static final int MISC_LIMIT;
+    public static final int EXPECTED_SIZE = 21;
+    private static final int TUNER_OFFSET = 0;
+    private static final int MEDIA_OFFSET = 2;
+    private static final int PHONE_OFFSET = 5;
+    private static final int NAV_OFFSET = 7;
+    private static final int CAR_OFFSET = 12;
+    private static final int MISC_OFFSET = 15;
+    private static final int TUNER_LIMIT = 2;
+    private static final int MEDIA_LIMIT = 3;
+    private static final int PHONE_LIMIT = 2;
+    private static final int NAV_LIMIT = 5;
+    private static final int CAR_LIMIT = 3;
+    private static final int MISC_LIMIT = 6;
     private final byte[] flagData;
 
     public SperrFlagImpl(byte[] byArray) {
@@ -37,32 +37,26 @@ implements SperrFlags {
         return false;
     }
 
-    @Override
     public boolean getTunerSperrFlag(int n) {
         return this.getBit(n, 0, 2);
     }
 
-    @Override
     public boolean getMediaSperrFlag(int n) {
         return this.getBit(n, 2, 3);
     }
 
-    @Override
     public boolean getPhoneSperrFlag(int n) {
         return this.getBit(n, 5, 2);
     }
 
-    @Override
     public boolean getNavSperrFlag(int n) {
         return this.getBit(n, 7, 5);
     }
 
-    @Override
     public boolean getCarSperrFlag(int n) {
         return this.getBit(n, 12, 3);
     }
 
-    @Override
     public boolean getMiscSperrFlag(int n) {
         return this.getBit(n, 15, 6);
     }

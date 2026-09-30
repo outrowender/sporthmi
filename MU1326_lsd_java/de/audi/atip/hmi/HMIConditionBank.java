@@ -6,7 +6,6 @@ package de.audi.atip.hmi;
 import de.audi.atip.hmi.model.AbstractCondition;
 
 public interface HMIConditionBank {
-    default public AbstractCondition getCondition(int n) {
-    }
+    public AbstractCondition getCondition(int var1);
 }
 

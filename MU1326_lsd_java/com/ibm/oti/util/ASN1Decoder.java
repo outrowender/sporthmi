@@ -3,22 +3,17 @@
  */
 package com.ibm.oti.util;
 
-import com.ibm.oti.util.ASN1Decoder$BMPString;
-import com.ibm.oti.util.ASN1Decoder$BitString;
-import com.ibm.oti.util.ASN1Decoder$GeneralizedTime;
-import com.ibm.oti.util.ASN1Decoder$Node;
-import com.ibm.oti.util.ASN1Decoder$Set;
-import com.ibm.oti.util.ASN1Decoder$TypeMapper;
-import com.ibm.oti.util.ASN1Decoder$UTCTime;
 import com.ibm.oti.util.ASN1Exception;
 import com.ibm.oti.util.Msg;
 import com.ibm.oti.util.PositionedInputStream;
+import com.ibm.oti.util.PriviAction;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.security.AccessController;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -28,30 +23,30 @@ public class ASN1Decoder {
     private PositionedInputStream input;
     private int nesting = 0;
     private int sequenceItem = 0;
-    private ASN1Decoder$TypeMapper[] tagConfiguration;
+    private TypeMapper[] tagConfiguration;
     private boolean collectBytes;
     private ByteArrayOutputStream bytesCollected;
-    public static final int END_OF_BER_CONTENTS;
-    public static final int BOOLEAN;
-    public static final int INTEGER;
-    public static final int BIT_STRING;
-    public static final int OCTET_STRING;
-    public static final int NULL;
-    public static final int OBJECT_IDENTIFIER;
-    public static final int SEQUENCE;
-    public static final int SET;
-    public static final int BMP_STRING;
-    public static final int NUMERIC_STRING;
-    public static final int PRINTABLE_STRING;
-    public static final int T61_STRING;
-    public static final int VIDEOTEXT_STRING;
-    public static final int IA5_STRING;
-    public static final int UTF_STRING;
-    public static final int UTC_TIME;
-    public static final int GENERALIZED_TIME;
-    public static final int CLASS_UNIVERSAL;
-    public static final int EXPLICIT;
-    public static final int LENGTH_UNKNOWN;
+    public static final int END_OF_BER_CONTENTS = 0;
+    public static final int BOOLEAN = 1;
+    public static final int INTEGER = 2;
+    public static final int BIT_STRING = 3;
+    public static final int OCTET_STRING = 4;
+    public static final int NULL = 5;
+    public static final int OBJECT_IDENTIFIER = 6;
+    public static final int SEQUENCE = 16;
+    public static final int SET = 17;
+    public static final int BMP_STRING = 30;
+    public static final int NUMERIC_STRING = 18;
+    public static final int PRINTABLE_STRING = 19;
+    public static final int T61_STRING = 20;
+    public static final int VIDEOTEXT_STRING = 21;
+    public static final int IA5_STRING = 22;
+    public static final int UTF_STRING = 12;
+    public static final int UTC_TIME = 23;
+    public static final int GENERALIZED_TIME = 24;
+    public static final int CLASS_UNIVERSAL = 0;
+    public static final int EXPLICIT = 160;
+    public static final int LENGTH_UNKNOWN = -1;
 
     public ASN1Decoder(InputStream inputStream) {
         this.input = new PositionedInputStream(inputStream);
@@ -61,7 +56,7 @@ public class ASN1Decoder {
         this.input = new PositionedInputStream(inputStream);
     }
 
-    private int readByte() {
+    private int readByte() throws ASN1Exception {
         try {
             int n = this.input.read();
             if (n < 0) {
@@ -117,7 +112,7 @@ public class ASN1Decoder {
         String string2 = "GMT";
         char c2 = string.charAt(string.length() - 1);
         if (c2 != 'Z') {
-            string2 = new StringBuffer(String.valueOf(string2)).append(string.substring(string.length() - 5, string.length())).toString();
+            string2 = String.valueOf(string2) + string.substring(string.length() - 5, string.length());
         }
         return string2;
     }
@@ -134,26 +129,26 @@ public class ASN1Decoder {
         return null;
     }
 
-    public ASN1Decoder$Node readContents() {
-        ASN1Decoder$Node aSN1Decoder$Node = new ASN1Decoder$Node();
-        aSN1Decoder$Node.startPosition = this.input.currentPosition();
-        this.readTag(aSN1Decoder$Node);
-        this.computeTypeRedirection(aSN1Decoder$Node);
-        switch (aSN1Decoder$Node.type) {
+    public Node readContents() throws ASN1Exception {
+        Node node = new Node();
+        node.startPosition = this.input.currentPosition();
+        this.readTag(node);
+        this.computeTypeRedirection(node);
+        switch (node.type) {
             case 16: {
-                aSN1Decoder$Node.data = this.readSequence();
+                node.data = this.readSequence();
                 break;
             }
             case 17: {
-                aSN1Decoder$Node.data = this.readSet();
+                node.data = this.readSet();
                 break;
             }
             case 1: {
-                aSN1Decoder$Node.data = this.readBoolean();
+                node.data = this.readBoolean();
                 break;
             }
             case 2: {
-                aSN1Decoder$Node.data = this.readInteger();
+                node.data = this.readInteger();
                 break;
             }
             case 5: {
@@ -162,51 +157,51 @@ public class ASN1Decoder {
                 break;
             }
             case 6: {
-                aSN1Decoder$Node.data = this.readObjectIdentifier();
+                node.data = this.readObjectIdentifier();
                 break;
             }
             case 4: {
-                aSN1Decoder$Node.data = this.readOctetString();
+                node.data = this.readOctetString();
                 break;
             }
             case 18: {
-                aSN1Decoder$Node.data = this.readNumericString();
+                node.data = this.readNumericString();
                 break;
             }
             case 19: {
-                aSN1Decoder$Node.data = this.readPrintableString();
+                node.data = this.readPrintableString();
                 break;
             }
             case 30: {
-                aSN1Decoder$Node.data = this.readBMPString();
+                node.data = this.readBMPString();
                 break;
             }
             case 22: {
-                aSN1Decoder$Node.data = this.readIA5String();
+                node.data = this.readIA5String();
                 break;
             }
             case 12: {
-                aSN1Decoder$Node.data = this.readUTFString();
+                node.data = this.readUTFString();
                 break;
             }
             case 20: {
-                aSN1Decoder$Node.data = this.readT61String();
+                node.data = this.readT61String();
                 break;
             }
             case 21: {
-                aSN1Decoder$Node.data = this.readVideotextString();
+                node.data = this.readVideotextString();
                 break;
             }
             case 3: {
-                aSN1Decoder$Node.data = this.readBitString();
+                node.data = this.readBitString();
                 break;
             }
             case 23: {
-                aSN1Decoder$Node.data = this.readUTCTime();
+                node.data = this.readUTCTime();
                 break;
             }
             case 24: {
-                aSN1Decoder$Node.data = this.readGeneralizedTime();
+                node.data = this.readGeneralizedTime();
                 break;
             }
             case 0: {
@@ -217,33 +212,33 @@ public class ASN1Decoder {
                 return null;
             }
             default: {
-                throw new ASN1Exception(Msg.getString("K0089", aSN1Decoder$Node.type));
+                throw new ASN1Exception(Msg.getString("K0089", node.type));
             }
         }
-        aSN1Decoder$Node.endPosition = this.input.currentPosition() - 1;
-        return aSN1Decoder$Node;
+        node.endPosition = this.input.currentPosition() - 1;
+        return node;
     }
 
-    public Object readContentsToObject() {
-        ASN1Decoder$Node aSN1Decoder$Node = new ASN1Decoder$Node();
-        aSN1Decoder$Node.startPosition = this.input.currentPosition();
-        this.readTag(aSN1Decoder$Node);
-        this.computeTypeRedirection(aSN1Decoder$Node);
-        switch (aSN1Decoder$Node.type) {
+    public Object readContentsToObject() throws ASN1Exception {
+        Node node = new Node();
+        node.startPosition = this.input.currentPosition();
+        this.readTag(node);
+        this.computeTypeRedirection(node);
+        switch (node.type) {
             case 16: {
-                aSN1Decoder$Node.data = this.readSequenceToObject();
+                node.data = this.readSequenceToObject();
                 break;
             }
             case 17: {
-                aSN1Decoder$Node.data = this.readSetToObject();
+                node.data = this.readSetToObject();
                 break;
             }
             case 1: {
-                aSN1Decoder$Node.data = this.readBoolean();
+                node.data = this.readBoolean();
                 break;
             }
             case 2: {
-                aSN1Decoder$Node.data = this.readInteger();
+                node.data = this.readInteger();
                 break;
             }
             case 5: {
@@ -252,51 +247,51 @@ public class ASN1Decoder {
                 break;
             }
             case 6: {
-                aSN1Decoder$Node.data = this.readObjectIdentifier();
+                node.data = this.readObjectIdentifier();
                 break;
             }
             case 4: {
-                aSN1Decoder$Node.data = this.readOctetString();
+                node.data = this.readOctetString();
                 break;
             }
             case 18: {
-                aSN1Decoder$Node.data = this.readNumericString();
+                node.data = this.readNumericString();
                 break;
             }
             case 19: {
-                aSN1Decoder$Node.data = this.readPrintableString();
+                node.data = this.readPrintableString();
                 break;
             }
             case 30: {
-                aSN1Decoder$Node.data = this.readBMPString();
+                node.data = this.readBMPString();
                 break;
             }
             case 22: {
-                aSN1Decoder$Node.data = this.readIA5String();
+                node.data = this.readIA5String();
                 break;
             }
             case 12: {
-                aSN1Decoder$Node.data = this.readUTFString();
+                node.data = this.readUTFString();
                 break;
             }
             case 20: {
-                aSN1Decoder$Node.data = this.readT61String();
+                node.data = this.readT61String();
                 break;
             }
             case 21: {
-                aSN1Decoder$Node.data = this.readVideotextString();
+                node.data = this.readVideotextString();
                 break;
             }
             case 3: {
-                aSN1Decoder$Node.data = this.readBitString();
+                node.data = this.readBitString();
                 break;
             }
             case 23: {
-                aSN1Decoder$Node.data = this.readUTCTimeToObject();
+                node.data = this.readUTCTimeToObject();
                 break;
             }
             case 24: {
-                aSN1Decoder$Node.data = this.readGeneralizedTimeToObject();
+                node.data = this.readGeneralizedTimeToObject();
                 break;
             }
             case 0: {
@@ -307,14 +302,14 @@ public class ASN1Decoder {
                 return null;
             }
             default: {
-                throw new ASN1Exception(Msg.getString("K0089", aSN1Decoder$Node.type));
+                throw new ASN1Exception(Msg.getString("K0089", node.type));
             }
         }
-        aSN1Decoder$Node.endPosition = this.input.currentPosition() - 1;
-        return aSN1Decoder$Node.data;
+        node.endPosition = this.input.currentPosition() - 1;
+        return node.data;
     }
 
-    private void readFully(InputStream inputStream, byte[] byArray) {
+    private void readFully(InputStream inputStream, byte[] byArray) throws ASN1Exception {
         try {
             this.readFully(inputStream, byArray, 0, byArray.length);
         }
@@ -323,7 +318,7 @@ public class ASN1Decoder {
         }
     }
 
-    private void readFully(InputStream inputStream, byte[] byArray, int n, int n2) {
+    private void readFully(InputStream inputStream, byte[] byArray, int n, int n2) throws IOException {
         int n3 = 0;
         int n4 = n2;
         while (n3 < n2) {
@@ -339,34 +334,34 @@ public class ASN1Decoder {
         }
     }
 
-    protected Date readUTCTime() {
+    protected Date readUTCTime() throws ASN1Exception {
         String string = ASN1Decoder.convertToString(this.readOctetString());
         return this.parseUTCDate(string);
     }
 
-    protected ASN1Decoder$UTCTime readUTCTimeToObject() {
+    protected UTCTime readUTCTimeToObject() throws ASN1Exception {
         String string = ASN1Decoder.convertToString(this.readOctetString());
-        return new ASN1Decoder$UTCTime(this.parseUTCDate(string));
+        return new UTCTime(this.parseUTCDate(string));
     }
 
-    protected Date readGeneralizedTime() {
+    protected Date readGeneralizedTime() throws ASN1Exception {
         String string = ASN1Decoder.convertToString(this.readOctetString());
         return this.parseGeneralizedDate(string);
     }
 
-    protected ASN1Decoder$GeneralizedTime readGeneralizedTimeToObject() {
+    protected GeneralizedTime readGeneralizedTimeToObject() throws ASN1Exception {
         String string = ASN1Decoder.convertToString(this.readOctetString());
-        return new ASN1Decoder$GeneralizedTime(this.parseGeneralizedDate(string));
+        return new GeneralizedTime(this.parseGeneralizedDate(string));
     }
 
-    protected BigInteger readInteger() {
+    protected BigInteger readInteger() throws ASN1Exception {
         int n = this.readLength();
         byte[] byArray = new byte[n];
         this.readFully(this.input, byArray);
         return new BigInteger(1, byArray);
     }
 
-    protected Boolean readBoolean() {
+    protected Boolean readBoolean() throws ASN1Exception {
         int n;
         int n2 = this.readLength();
         if (n2 != 1) {
@@ -378,7 +373,7 @@ public class ASN1Decoder {
         return Boolean.TRUE;
     }
 
-    protected int readLength() {
+    protected int readLength() throws ASN1Exception {
         int n = this.readByte();
         if (n < 128) {
             return n;
@@ -399,7 +394,7 @@ public class ASN1Decoder {
         return n;
     }
 
-    protected int[] readObjectIdentifier() {
+    protected int[] readObjectIdentifier() throws ASN1Exception {
         int n = this.readLength();
         int[] nArray = new int[n];
         int n2 = 0;
@@ -435,26 +430,26 @@ public class ASN1Decoder {
         return nArray2;
     }
 
-    protected byte[] readOctetString() {
+    protected byte[] readOctetString() throws ASN1Exception {
         int n = this.readLength();
         byte[] byArray = new byte[n];
         this.readFully(this.input, byArray);
         return byArray;
     }
 
-    protected String readNumericString() {
+    protected String readNumericString() throws ASN1Exception {
         return ASN1Decoder.convertToString(this.readOctetString());
     }
 
-    protected String readPrintableString() {
+    protected String readPrintableString() throws ASN1Exception {
         return ASN1Decoder.convertToString(this.readOctetString());
     }
 
-    protected String readIA5String() {
+    protected String readIA5String() throws ASN1Exception {
         return ASN1Decoder.convertToString(this.readOctetString());
     }
 
-    protected String readUTFString() {
+    protected String readUTFString() throws ASN1Exception {
         String string = null;
         try {
             string = new String(this.readOctetString(), "UTF8");
@@ -465,23 +460,23 @@ public class ASN1Decoder {
         return string;
     }
 
-    protected String readT61String() {
+    protected String readT61String() throws ASN1Exception {
         return ASN1Decoder.convertToString(this.readOctetString());
     }
 
-    protected String readVideotextString() {
+    protected String readVideotextString() throws ASN1Exception {
         return ASN1Decoder.convertToString(this.readOctetString());
     }
 
-    protected ASN1Decoder$BitString readBitString() {
+    protected BitString readBitString() throws ASN1Exception {
         int n = this.readLength();
         int n2 = this.readByte();
         byte[] byArray = new byte[n - 1];
         this.readFully(this.input, byArray);
-        return new ASN1Decoder$BitString(n2, byArray);
+        return new BitString(n2, byArray);
     }
 
-    protected ASN1Decoder$Node[] readSequence() {
+    protected Node[] readSequence() throws ASN1Exception {
         int n = this.readLength();
         int n2 = 0;
         Vector vector = new Vector();
@@ -490,9 +485,9 @@ public class ASN1Decoder {
         while (n2 < n || n == -1) {
             int n4 = this.input.currentPosition();
             this.sequenceItem = n3;
-            ASN1Decoder$Node aSN1Decoder$Node = this.readContents();
-            if (n == -1 && aSN1Decoder$Node == null) break;
-            vector.addElement(aSN1Decoder$Node);
+            Node node = this.readContents();
+            if (n == -1 && node == null) break;
+            vector.addElement(node);
             int n5 = this.input.currentPosition();
             int n6 = n5 - n4;
             n2 += n6;
@@ -502,12 +497,12 @@ public class ASN1Decoder {
         if (n != -1 && n2 != n) {
             this.throwASN1Exception();
         }
-        Object[] objectArray = new ASN1Decoder$Node[vector.size()];
+        Object[] objectArray = new Node[vector.size()];
         vector.copyInto(objectArray);
         return objectArray;
     }
 
-    protected Object[] readSequenceToObject() {
+    protected Object[] readSequenceToObject() throws ASN1Exception {
         int n = this.readLength();
         int n2 = 0;
         Vector vector = new Vector();
@@ -533,15 +528,15 @@ public class ASN1Decoder {
         return objectArray;
     }
 
-    protected ASN1Decoder$Node[] readSet() {
+    protected Node[] readSet() throws ASN1Exception {
         return this.readSequence();
     }
 
-    protected ASN1Decoder$Set readSetToObject() {
-        return new ASN1Decoder$Set(this.readSequenceToObject());
+    protected Set readSetToObject() throws ASN1Exception {
+        return new Set(this.readSequenceToObject());
     }
 
-    protected ASN1Decoder$BMPString readBMPString() {
+    protected BMPString readBMPString() throws ASN1Exception {
         int n = this.readLength();
         byte[] byArray = new byte[n];
         this.readFully(this.input, byArray);
@@ -552,17 +547,17 @@ public class ASN1Decoder {
         catch (UnsupportedEncodingException unsupportedEncodingException) {
             throw new ASN1Exception(Msg.getString("K018f", unsupportedEncodingException));
         }
-        return new ASN1Decoder$BMPString(string);
+        return new BMPString(string);
     }
 
-    protected ASN1Decoder$Node[] readConstructed() {
+    protected Node[] readConstructed() throws ASN1Exception {
         return this.readSequence();
     }
 
-    protected void readTag(ASN1Decoder$Node aSN1Decoder$Node) {
+    protected void readTag(Node node) throws ASN1Exception {
         int n = this.readByte();
-        aSN1Decoder$Node.elementClass = n >> 6;
-        aSN1Decoder$Node.isPrimitive = (n & 0x20) == 0;
+        node.elementClass = n >> 6;
+        node.isPrimitive = (n & 0x20) == 0;
         int n2 = n & 0x1F;
         if (n2 == 31) {
             int n3;
@@ -572,17 +567,17 @@ public class ASN1Decoder {
                 n2 = n2 * 128 + (n3 & 0x7F);
             } while ((n3 & 0x80) != 0);
         }
-        aSN1Decoder$Node.originalType = n2;
-        aSN1Decoder$Node.type = n2;
+        node.originalType = n2;
+        node.type = n2;
     }
 
-    public void configureTypeRedirection(int n, ASN1Decoder$TypeMapper typeMapper) {
+    public void configureTypeRedirection(int n, TypeMapper typeMapper) {
         if (this.tagConfiguration == null) {
-            this.tagConfiguration = new ASN1Decoder$TypeMapper[n + 5];
+            this.tagConfiguration = new TypeMapper[n + 5];
         }
         if (this.tagConfiguration.length <= n) {
-            ASN1Decoder$TypeMapper[] typeMapperArray = this.tagConfiguration;
-            this.tagConfiguration = new ASN1Decoder$TypeMapper[n + 5];
+            TypeMapper[] typeMapperArray = this.tagConfiguration;
+            this.tagConfiguration = new TypeMapper[n + 5];
             int n2 = 0;
             while (n2 < typeMapperArray.length) {
                 this.tagConfiguration[n2] = typeMapperArray[n2];
@@ -592,15 +587,15 @@ public class ASN1Decoder {
         this.tagConfiguration[n] = typeMapper;
     }
 
-    private void computeTypeRedirection(ASN1Decoder$Node aSN1Decoder$Node) {
-        if (aSN1Decoder$Node.elementClass == 0 && this.nesting == 0) {
+    private void computeTypeRedirection(Node node) {
+        if (node.elementClass == 0 && this.nesting == 0) {
             return;
         }
         if (this.tagConfiguration == null) {
-            if (aSN1Decoder$Node.type == 0) {
+            if (node.type == 0) {
                 try {
                     this.readLength();
-                    this.readTag(aSN1Decoder$Node);
+                    this.readTag(node);
                 }
                 catch (ASN1Exception aSN1Exception) {}
             }
@@ -609,18 +604,18 @@ public class ASN1Decoder {
         if (this.nesting >= this.tagConfiguration.length) {
             return;
         }
-        ASN1Decoder$TypeMapper aSN1Decoder$TypeMapper = this.tagConfiguration[this.nesting];
-        if (aSN1Decoder$TypeMapper == null) {
+        TypeMapper typeMapper = this.tagConfiguration[this.nesting];
+        if (typeMapper == null) {
             return;
         }
-        aSN1Decoder$Node.type = aSN1Decoder$TypeMapper.map(aSN1Decoder$Node.originalType, this.nesting, this.sequenceItem);
+        node.type = typeMapper.map(node.originalType, this.nesting, this.sequenceItem);
     }
 
-    private void throwASN1Exception() {
+    private void throwASN1Exception() throws ASN1Exception {
         throw new ASN1Exception(Msg.getString("K008b", this.input.currentPosition()));
     }
 
-    public static Object getDecoded(byte[] byArray) {
+    public static Object getDecoded(byte[] byArray) throws ASN1Exception {
         if (byArray == null) {
             throw new ASN1Exception(Msg.getString("K0190"));
         }
@@ -635,6 +630,247 @@ public class ASN1Decoder {
         }
         catch (UnsupportedEncodingException unsupportedEncodingException) {
             throw new RuntimeException(unsupportedEncodingException.toString());
+        }
+    }
+
+    public static class Set {
+        public Object[] sequence = null;
+
+        public Set(Object[] objectArray) {
+            this.sequence = objectArray;
+        }
+    }
+
+    public static class Data {
+        public byte[] data = null;
+
+        public Data(byte[] byArray) {
+            this.data = byArray;
+        }
+    }
+
+    public static class Node {
+        public static final int TAG_IMPLICIT = 1;
+        public static final int TAG_EXPLICIT = 2;
+        public static final int LAST = Integer.MAX_VALUE;
+        public Object data;
+        public int originalType = -1;
+        public int tagtype = 1;
+        public int type;
+        public boolean isPrimitive;
+        int elementClass;
+        public int startPosition;
+        public int endPosition;
+        private static String lineTerminator = null;
+
+        static {
+            lineTerminator = (String)AccessController.doPrivileged(new PriviAction("line.separator"));
+        }
+
+        public boolean isUniversal() {
+            return this.elementClass == 0;
+        }
+
+        public boolean isApplication() {
+            return this.elementClass == 1;
+        }
+
+        public boolean isContextSpecific() {
+            return this.elementClass == 2;
+        }
+
+        public boolean isPrivate() {
+            return this.elementClass == 3;
+        }
+
+        public Node subnode(int n) {
+            try {
+                int n2 = ((Node[])this.data).length;
+                if (n >= n2) {
+                    n = n2 - 1 - (Integer.MAX_VALUE - n);
+                }
+                return ((Node[])this.data)[n];
+            }
+            catch (Exception exception) {
+                return null;
+            }
+        }
+
+        public Node subnodeWithOriginalType(int n) {
+            try {
+                Node[] nodeArray = (Node[])this.data;
+                int n2 = 0;
+                while (n2 < nodeArray.length) {
+                    Node node = nodeArray[n2];
+                    if (node.originalType == n) {
+                        return node;
+                    }
+                    ++n2;
+                }
+            }
+            catch (Exception exception) {}
+            return null;
+        }
+
+        public Object subnode(int[] nArray) {
+            try {
+                Node node = ((Node[])this.data)[nArray[0]];
+                int n = 1;
+                while (n < nArray.length) {
+                    node = ((Node[])node.data)[nArray[n]];
+                    ++n;
+                }
+                return node;
+            }
+            catch (Exception exception) {
+                return null;
+            }
+        }
+
+        public String toString() {
+            return this.toString(0);
+        }
+
+        private String toString(int n) {
+            if (this.type == 16 || this.type == 17) {
+                StringBuffer stringBuffer = new StringBuffer();
+                Node[] nodeArray = (Node[])this.data;
+                if (this.type == 16) {
+                    stringBuffer.append("[SEQUENCE]");
+                } else {
+                    stringBuffer.append("[SET]");
+                }
+                stringBuffer.append("(" + nodeArray.length + ") ... " + (this.endPosition - this.startPosition + 1));
+                int n2 = 0;
+                while (n2 < nodeArray.length) {
+                    stringBuffer.append(lineTerminator);
+                    int n3 = 0;
+                    while (n3 < n + 2) {
+                        stringBuffer.append(" ");
+                        ++n3;
+                    }
+                    stringBuffer.append(nodeArray[n2].toString(n + 2));
+                    ++n2;
+                }
+                return stringBuffer.toString();
+            }
+            if (this.data == null) {
+                return "NULL";
+            }
+            if (this.data instanceof BitString) {
+                return "[BIT_STRING] " + Node.getStringForByteArray(((BitString)this.data).data);
+            }
+            if (this.data instanceof byte[]) {
+                return "[BIT_STRING] " + Node.getStringForByteArray((byte[])this.data);
+            }
+            if (this.data instanceof int[]) {
+                StringBuffer stringBuffer = new StringBuffer();
+                stringBuffer.append("OID ");
+                int[] nArray = (int[])this.data;
+                stringBuffer.append(nArray[0]);
+                int n4 = 1;
+                while (n4 < nArray.length) {
+                    stringBuffer.append("." + nArray[n4]);
+                    ++n4;
+                }
+                return stringBuffer.toString();
+            }
+            return this.data.toString();
+        }
+
+        private static String getStringForByteArray(byte[] byArray) {
+            StringBuffer stringBuffer = new StringBuffer();
+            int n = 0;
+            while (n < byArray.length) {
+                stringBuffer.append(Integer.toHexString(byArray[n] >> 4 & 0xF));
+                stringBuffer.append(Integer.toHexString(byArray[n] & 0xF));
+                stringBuffer.append(" ");
+                ++n;
+            }
+            return stringBuffer.toString().toUpperCase();
+        }
+    }
+
+    public static class Set2 {
+        public Object[] sequence = null;
+
+        public Set2(Object[] objectArray) {
+            this.sequence = objectArray;
+        }
+    }
+
+    public static class UTCTime {
+        public Date utcTime = null;
+
+        public UTCTime(Date date) {
+            this.utcTime = date;
+        }
+    }
+
+    public static class Explicit {
+        public Object type = null;
+
+        public Explicit(Object object) {
+            this.type = object;
+        }
+    }
+
+    public static class BMPString {
+        public String bmpString = null;
+
+        public BMPString(String string) {
+            this.bmpString = string;
+        }
+    }
+
+    public static class BitString {
+        public int unusedBits;
+        public byte[] data;
+
+        public BitString(int n, byte[] byArray) {
+            this.unusedBits = n;
+            this.data = byArray;
+        }
+
+        public int bitLength() {
+            return this.data.length * 8 - this.unusedBits;
+        }
+
+        public boolean bitAt(int n) {
+            int n2 = n / 8;
+            int n3 = this.data[n2] & 0xFF;
+            int n4 = n % 8;
+            return (n3 >>> 7 - n4 & 1) == 1;
+        }
+    }
+
+    public static interface TypeMapper {
+        public int map(int var1, int var2, int var3);
+    }
+
+    public static class ImplicitSet {
+        public Set2 set = null;
+        public int tag = 0;
+
+        public ImplicitSet(Set2 set2, int n) {
+            this.set = set2;
+            this.tag = n;
+        }
+    }
+
+    public static class CertificateSet {
+        public Object[] sequence = null;
+
+        public CertificateSet(Object[] objectArray) {
+            this.sequence = objectArray;
+        }
+    }
+
+    public static class GeneralizedTime {
+        public Date generalizedTime = null;
+
+        public GeneralizedTime(Date date) {
+            this.generalizedTime = date;
         }
     }
 }

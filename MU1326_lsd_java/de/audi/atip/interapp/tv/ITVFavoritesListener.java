@@ -6,21 +6,16 @@ package de.audi.atip.interapp.tv;
 import de.audi.atip.interapp.tv.TVStation;
 
 public interface ITVFavoritesListener {
-    public static final int NO_VALID_POSITION;
+    public static final int NO_VALID_POSITION = -1;
 
-    default public void selectFavorite(TVStation tVStation) {
-    }
+    public void selectFavorite(TVStation var1);
 
-    default public void stationAddedToFavorites(TVStation tVStation, int n) {
-    }
+    public void stationAddedToFavorites(TVStation var1, int var2);
 
-    default public void stationRemovedFromFavorites(TVStation tVStation, int n) {
-    }
+    public void stationRemovedFromFavorites(TVStation var1, int var2);
 
-    default public void allStationsRemovedFromFavorites() {
-    }
+    public void allStationsRemovedFromFavorites();
 
-    default public void initializeFavorites(TVStation[] tVStationArray) {
-    }
+    public void initializeFavorites(TVStation[] var1);
 }
 

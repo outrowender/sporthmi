@@ -10,7 +10,6 @@ import de.vw.mib.bap.generated.telephone.serializer.FunctionList_Status;
 
 public class FunctionListPhoneEvo
 extends AbstractFunctionListPhone {
-    @Override
     protected void initFunctionListStatusWithVariantAndRegion(int n, int n2) {
         this.functionSupported = new boolean[this.getMaxFctID() + 1];
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(this.getFctListBAPFctID());
@@ -168,32 +167,26 @@ extends AbstractFunctionListPhone {
         this.functionSupported[60] = false;
     }
 
-    @Override
     protected int getMinModuleSpecificFctID() {
         return 16;
     }
 
-    @Override
     protected int getMaxFctID() {
         return 60;
     }
 
-    @Override
     public int getGetAllFctID() {
         return 1;
     }
 
-    @Override
     public int getBAPConfigBAPFctID() {
         return 2;
     }
 
-    @Override
     public int getFctListBAPFctID() {
         return 3;
     }
 
-    @Override
     public int getOperationStateBAPFctID() {
         return 15;
     }

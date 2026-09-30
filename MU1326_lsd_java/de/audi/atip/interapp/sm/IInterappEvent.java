@@ -4,16 +4,12 @@
 package de.audi.atip.interapp.sm;
 
 public interface IInterappEvent {
-    default public int getSmComponent() {
-    }
+    public int getSmComponent();
 
-    default public int getId() {
-    }
+    public int getId();
 
-    default public int getData() {
-    }
+    public int getData();
 
-    default public String getName() {
-    }
+    public String getName();
 }
 

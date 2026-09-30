@@ -17,10 +17,9 @@ extends AbstractSystemCallCommand {
         this.hmiService = hMIService;
     }
 
-    @Override
     public void execute() {
         int[] nArray = new int[]{3000, 3004, 3001};
-        this.logger.log(-2137614336, "%1.execute: Setting line nr. %2 with generic answers for OK/INVALID/ERROR!", (Object)this.getName(), 1L);
+        this.logger.log(10000000, "%1.execute: Setting line nr. %2 with generic answers for OK/INVALID/ERROR!", (Object)this.getName(), 1L);
         this.hmiService.fireSDSEvent(0, 5, 1, nArray);
         this.processingFinished();
     }

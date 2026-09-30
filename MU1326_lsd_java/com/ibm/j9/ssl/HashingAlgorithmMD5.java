@@ -24,27 +24,22 @@ extends HashingAlgorithm {
         return hash.getHashAsBytes();
     }
 
-    @Override
     public int getHashSize() {
         return 16;
     }
 
-    @Override
     public byte[] getPad1() {
         return PAD_1;
     }
 
-    @Override
     public byte[] getPad2() {
         return PAD_2;
     }
 
-    @Override
     public byte[] hashSSL(byte[] byArray) {
         return HashingAlgorithmMD5.hashMD5(byArray);
     }
 
-    @Override
     public byte[] hashTLS(byte[] byArray, byte[] byArray2) {
         byte[] byArray3 = new byte[16];
         CL3State cL3State = HMAC.hmacInit(null, 2, byArray, 0, byArray.length);

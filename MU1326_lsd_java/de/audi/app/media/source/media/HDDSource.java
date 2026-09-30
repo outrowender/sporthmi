@@ -26,7 +26,6 @@ extends AbstractMediaSource {
         }
     }
 
-    @Override
     public int getAudioConnection(ISourceSlot iSourceSlot) {
         return this.AUDIO_CONNECTION;
     }

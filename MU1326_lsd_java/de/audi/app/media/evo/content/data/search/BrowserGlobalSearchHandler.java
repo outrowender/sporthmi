@@ -29,7 +29,7 @@ import org.dsi.ifc.search.SearchResult;
 public class BrowserGlobalSearchHandler
 extends AbstractSearchHandlerEvo
 implements IDataBrowserListChangeListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "BrowserGlobalSearchHandler";
     private final IDataBrowserList dataBrowserList;
     private final ChoiceModelApp searchResultSelectedModel;
     private final ChoiceModelApp entryTypeOfSelectedSearchResultModel;
@@ -45,10 +45,9 @@ implements IDataBrowserListChangeListener {
         this.mediaTerminal = iMediaTerminal;
     }
 
-    @Override
     public void init() {
         super.init();
-        this.lc.log(1078071040, "[%1.init]", (Object)"BrowserGlobalSearchHandler");
+        this.lc.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.registryFormatter.put(new Integer(11), this.globalSearchResultFormatter);
         this.registryFormatter.put(new Integer(13), this.globalSearchResultFormatter);
         this.registryFormatter.put(new Integer(12), this.globalSearchResultFormatter);
@@ -59,17 +58,15 @@ implements IDataBrowserListChangeListener {
         this.setSearchResultSelected(0);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"BrowserGlobalSearchHandler");
+        this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
         this.dataBrowserList.removeBrowseListChangeListener(this);
         this.setSearchResultSelected(0);
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
-        this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"BrowserGlobalSearchHandler");
+        this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
         SearchResult searchResult = searchResultListRow.getSearchResult();
         this.appSearch.addToHistory(new SearchResult(searchResult.getQueryId(), 11, searchResult.getListPosition(), searchResult.getEntryType(), searchResult.getEntryFlags(), searchResult.getPoiType(), searchResult.getIconID(), searchResult.getPosition(), searchResult.getDistanceMeters(), searchResult.getDataId(), searchResult.getTokens(), searchResult.getSuggestion(), searchResult.getCountry(), searchResult.getApplicationData()));
         this.setEntryTypeOfSelectedSearchResult(searchResultListRow.getSearchResult().getEntryType());
@@ -80,16 +77,16 @@ implements IDataBrowserListChangeListener {
                 break;
             }
             case 6: {
-                this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"BrowserGlobalSearchHandler");
+                this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
                 this.dataBrowserList.selectBrowseListPath(new DataBrowserListLocator(3, 2).add(DataBrowserListElement.createDirectoryElement(searchResult.getDataId(), 14)));
                 break;
             }
             case 7: {
-                this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"BrowserGlobalSearchHandler");
+                this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
                 ISourceSlot iSourceSlot = this.mediaTerminal.getSourceController().getSelectedSlot();
                 if (this.mediaTerminal.getConfiguration().isIAP2Supported() && iSourceSlot.getMediaType() == 24) {
                     long l = searchResult.getDataId();
-                    this.lc.log(1078071040, "[%1.searchResultSelected] iPod with iAP2 -> play the track. entryId='%2'", (Object)"BrowserGlobalSearchHandler", l);
+                    this.lc.log(1000000, "[%1.searchResultSelected] iPod with iAP2 -> play the track. entryId='%2'", (Object)LOGCLASS, l);
                     MediaListEntry mediaListEntry = new MediaListEntry(l, 1, "");
                     DataSelectionContainer dataSelectionContainer = new DataSelectionContainer(iSourceSlot, mediaListEntry, 2, new MediaListEntry[0]);
                     SelectionBrowser selectionBrowser = this.mediaTerminal.getSelectionBrowser();
@@ -125,49 +122,42 @@ implements IDataBrowserListChangeListener {
         this.mdlListSearchResults.fireEvent(n);
     }
 
-    @Override
     public void refreshQuery() {
-        this.lc.log(1078071040, "[%1.refreshQuery]", (Object)"BrowserGlobalSearchHandler");
+        this.lc.log(1000000, "[%1.refreshQuery]", (Object)LOGCLASS);
         if (0 == this.searchResultSelectedModel.getValue()) {
             super.refreshQuery();
         }
     }
 
-    @Override
     public void browseListTypeChanged(int n) {
     }
 
-    @Override
     public void browseListLayoutChanged(int n) {
     }
 
-    @Override
     protected void searchEntered() {
-        this.lc.log(1078071040, "[%1.searchEntered] reset model", (Object)"BrowserGlobalSearchHandler");
+        this.lc.log(1000000, "[%1.searchEntered] reset model", (Object)LOGCLASS);
         this.setSearchResultSelected(0);
     }
 
-    @Override
     public void browseListCategorySelected(int n) {
     }
 
-    @Override
     public void lastBrowseListCategoryChanged(int n) {
     }
 
     private void setSearchResultSelected(int n) {
-        this.lc.log(1078071040, "[%1.setSearchResultSelected] value=%2", (Object)"BrowserGlobalSearchHandler", (long)n);
+        this.lc.log(1000000, "[%1.setSearchResultSelected] value=%2", (Object)LOGCLASS, (long)n);
         this.searchResultSelectedModel.setValue(n);
     }
 
     private void setEntryTypeOfSelectedSearchResult(int n) {
-        this.lc.log(1078071040, "[%1.setEntryTypeOfSelectedSearchResult] entryType='%2'", (Object)"BrowserGlobalSearchHandler", (long)n);
+        this.lc.log(1000000, "[%1.setEntryTypeOfSelectedSearchResult] entryType='%2'", (Object)LOGCLASS, (long)n);
         this.entryTypeOfSelectedSearchResultModel.setValue(n);
     }
 
-    @Override
     protected String getLogClass() {
-        return "BrowserGlobalSearchHandler";
+        return LOGCLASS;
     }
 }
 

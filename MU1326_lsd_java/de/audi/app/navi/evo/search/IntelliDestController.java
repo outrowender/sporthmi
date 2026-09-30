@@ -53,7 +53,7 @@ import de.audi.tghu.navi.app.navlocationextractor.SearchResultAsyncNavLocationEx
 import de.audi.tghu.navi.app.navlocationextractor.SearchResultNavLocationExtractor;
 import de.audi.tghu.navi.app.routeguidance.IRouteGuidanceListener;
 import de.audi.tghu.navi.app.routeguidance.IStartGuidanceManager;
-import de.audi.tghu.navi.app.rp.TripHandler$TripData;
+import de.audi.tghu.navi.app.rp.TripHandler;
 import de.audi.tghu.navi.app.search.ICountrySelection;
 import de.audi.tghu.navi.app.search.ILastDestHandler;
 import de.audi.tghu.navi.app.search.IntelliDestAccess;
@@ -96,18 +96,18 @@ IntelliDestAccess {
     private final IntelliDestPressRoutesDataProvider pressRoutesDataProvider;
     private final LogChannel logger;
     private final NavigationEnv env;
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "IntelliDestController";
     private boolean downTransitionCalled;
-    public static final int INTELLI_DEST_HANDLER;
-    public static final int DEMO_MODE_HANDLER;
-    public static final int FAVORITES_HANDLER;
-    public static final int DEST_OPT_SELECTION_HANDLER;
-    public static final int DEST_OPT_CONTACTS_HANDLER;
-    public static final int LAST_DEST_HANDLER;
-    public static final int DEST_OPT_CONTACTS_ADD_ADDRESS_HANDLER;
-    public static final int DEST_OPT_FAVORITES_HANDLER;
-    public static final int INTELLI_DEST_EXTERNAL_HANDLER;
-    public static final int HIDE;
+    public static final int INTELLI_DEST_HANDLER = 0;
+    public static final int DEMO_MODE_HANDLER = 1;
+    public static final int FAVORITES_HANDLER = 2;
+    public static final int DEST_OPT_SELECTION_HANDLER = 3;
+    public static final int DEST_OPT_CONTACTS_HANDLER = 4;
+    public static final int LAST_DEST_HANDLER = 5;
+    public static final int DEST_OPT_CONTACTS_ADD_ADDRESS_HANDLER = 6;
+    public static final int DEST_OPT_FAVORITES_HANDLER = 7;
+    public static final int INTELLI_DEST_EXTERNAL_HANDLER = 8;
+    public static final int HIDE = 0;
 
     public IntelliDestController(BundleContext bundleContext, NavigationEnv navigationEnv, IVehicle iVehicle, OnlineSearchControllerEvo onlineSearchControllerEvo, HomeAddressHandler homeAddressHandler, IPreviewMap iPreviewMap, NaviADBHandler naviADBHandler, ADBInterAppService aDBInterAppService, IStartGuidanceManager iStartGuidanceManager, CombiBAPListener combiBAPListener, InterAppService interAppService, IconHandler iconHandler, ICommandListFactory iCommandListFactory, NaviFavoriteHandlerEvo naviFavoriteHandlerEvo, IPoiService iPoiService, NaviServiceListener naviServiceListener, IAddressInputForm iAddressInputForm, MapInterface mapInterface, DispatcherBase dispatcherBase, ITelService iTelService, SearchResultAsyncNavLocationExtractor searchResultAsyncNavLocationExtractor, ICarKombiService iCarKombiService, IDestinationHandler iDestinationHandler) {
         this.env = navigationEnv;
@@ -118,22 +118,22 @@ IntelliDestAccess {
         this.lastDestProducer = new LastDestProducer(this.logger, iCommandListFactory, navigationEnv);
         this.lastDestSearch = new LastDestSearch(bundleContext, navigationEnv, 7, this.logger, combiBAPListener, naviServiceListener, new SearchResultNavLocationExtractor(searchResultAsyncNavLocationExtractor));
         this.destSearch = Util.isHURegionAsia() ? new IntelliDestSearchAsia(this, bundleContext, navigationEnv.getFramework(), 0, iVehicle, this.logger, navigationEnv, this.lastDestSearch) : new IntelliDestSearch(this, bundleContext, navigationEnv.getFramework(), 0, iVehicle, this.logger, navigationEnv, this.lastDestSearch);
-        this.distanceCalculator = new TrufflesDistanceCalculator(iVehicle, this.logger, navigationEnv.getBaseListModel(-1541470720), this.destSearch.getLock(), iCommandListFactory);
-        this.intelliDestGuiHandler = new IntelliDestGuiSearchHandler(new int[]{14, 4, 5, 15, 3, 16}, navigationEnv.getBaseListModel(-1541470720), navigationEnv.getSpellerModel(Util.isHURegionKR() ? -886897152 : -2094791168), navigationEnv.getChoiceModel(-65206784), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, this.intelliDestSearchTimer, iCarKombiService, iDestinationHandler);
+        this.distanceCalculator = new TrufflesDistanceCalculator(iVehicle, this.logger, navigationEnv.getBaseListModel(401316), this.destSearch.getLock(), iCommandListFactory);
+        this.intelliDestGuiHandler = new IntelliDestGuiSearchHandler(new int[]{14, 4, 5, 15, 3, 16}, navigationEnv.getBaseListModel(401316), navigationEnv.getSpellerModel(Util.isHURegionKR() ? 402379 : 402563), navigationEnv.getChoiceModel(400892), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, this.intelliDestSearchTimer, iCarKombiService, iDestinationHandler);
         this.intelliDestGuiHandler.setDistanceCalculator(this.distanceCalculator);
         this.pickHelpPersistanceHelper = new PickHelpPersistanceHelper(navigationEnv, 975);
         this.pickHelpManager = new PickHelpManager(navigationEnv, this.pickHelpPersistanceHelper);
         this.intelliDestHMIListener = new IntelliDestHMIListener(navigationEnv, this.intelliDestGuiHandler, onlineSearchControllerEvo, this.activeDestionationsManager, this, dispatcherBase, iTelService, iCommandListFactory, homeAddressHandler, this.countrySelection, iPoiService);
-        this.demoModeGuiHandler = new DemoModeSearchGuiHandler(new int[]{4, 5, 16}, navigationEnv.getBaseListModel(0x200600), navigationEnv.getSpellerModel(18875904), navigationEnv.getChoiceModel(0x2200600), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
+        this.demoModeGuiHandler = new DemoModeSearchGuiHandler(new int[]{4, 5, 16}, navigationEnv.getBaseListModel(401408), navigationEnv.getSpellerModel(401409), navigationEnv.getChoiceModel(401410), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
         SearchResultFormatterNavDb searchResultFormatterNavDb = new SearchResultFormatterNavDb(interAppService, iconHandler, this.logger, naviFavoriteHandlerEvo, navigationEnv);
-        this.lastDestCache = new LastDestCacheSearchHandler(new int[]{4}, navigationEnv.getBaseListModel(2065958400), navigationEnv.getSpellerModel(-501283328), navigationEnv.getChoiceModel(-484506112), this.logger, this.lastDestSearch, dispatcherBase, searchResultFormatterNavDb);
-        this.lastDestGuiHandler = new LastDestGuiSearchHandler(new int[]{4}, navigationEnv.getBaseListModel(-518060544), navigationEnv.getSpellerModel(-501283328), navigationEnv.getChoiceModel(-484506112), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
-        this.favoritesGuiHandler = new FavoriteGuiSearchHandler(new int[]{5}, navigationEnv.getBaseListModel(220202496), navigationEnv.getSpellerModel(-1222703616), navigationEnv.getChoiceModel(169870848), this.logger, (AbstractSearch)this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, (INaviFavoriteHandler)naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, new FavoriteSearchFormatter(interAppService, iconHandler, this.logger, naviFavoriteHandlerEvo, navigationEnv), naviServiceListener, new IntellDestSearchTimerDummy());
-        this.destOptFavoritesGuiHandler = new FavoriteGuiSearchHandler(new int[]{5}, navigationEnv.getBaseListModel(-937359872), navigationEnv.getSpellerModel(-903805440), navigationEnv.getChoiceModel(-920582656), this.logger, (AbstractSearch)this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, (INaviFavoriteHandler)naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, new NoPropertyFormatterFavorites(interAppService, iconHandler, this.logger, naviFavoriteHandlerEvo, navigationEnv), naviServiceListener, new IntellDestSearchTimerDummy());
-        this.destOptSelectionGuiHandler = new IntelliDestOptSelection(new int[]{16}, navigationEnv.getBaseListModel(-870316544), navigationEnv.getSpellerModel(-853539328), navigationEnv.getChoiceModel(-836762112), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
-        this.destOptContactsWithAddressGuiHandler = new AdbContactsWithAddressGuiSearchHandler(new int[]{3}, navigationEnv.getBaseListModel(1310721536), navigationEnv.getSpellerModel(1327498752), navigationEnv.getChoiceModel(-887093760), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
-        this.destOptAddAddressToContactGuiSearchHandler = new AdbContactsGuiSearchHandler(new int[]{3}, navigationEnv.getBaseListModel(1310721536), navigationEnv.getSpellerModel(1327498752), navigationEnv.getChoiceModel(-887093760), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
-        this.intelliDestGuiExternalHandler = new IntelliDestGuiSearchHandler(new int[]{14, 4, 5, 15, 16}, navigationEnv.getBaseListModel(-1541470720), navigationEnv.getSpellerModel(Util.isHURegionKR() ? -886897152 : -2094791168), navigationEnv.getChoiceModel(-65206784), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, this.intelliDestSearchTimer, iCarKombiService, iDestinationHandler);
+        this.lastDestCache = new LastDestCacheSearchHandler(new int[]{4}, navigationEnv.getBaseListModel(402555), navigationEnv.getSpellerModel(401378), navigationEnv.getChoiceModel(401379), this.logger, this.lastDestSearch, dispatcherBase, searchResultFormatterNavDb);
+        this.lastDestGuiHandler = new LastDestGuiSearchHandler(new int[]{4}, navigationEnv.getBaseListModel(401377), navigationEnv.getSpellerModel(401378), navigationEnv.getChoiceModel(401379), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
+        this.favoritesGuiHandler = new FavoriteGuiSearchHandler(new int[]{5}, navigationEnv.getBaseListModel(401421), navigationEnv.getSpellerModel(401335), navigationEnv.getChoiceModel(401418), this.logger, (AbstractSearch)this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, (INaviFavoriteHandler)naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, new FavoriteSearchFormatter(interAppService, iconHandler, this.logger, naviFavoriteHandlerEvo, navigationEnv), naviServiceListener, new IntellDestSearchTimerDummy());
+        this.destOptFavoritesGuiHandler = new FavoriteGuiSearchHandler(new int[]{5}, navigationEnv.getBaseListModel(401864), navigationEnv.getSpellerModel(401866), navigationEnv.getChoiceModel(401865), this.logger, (AbstractSearch)this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, (INaviFavoriteHandler)naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, new NoPropertyFormatterFavorites(interAppService, iconHandler, this.logger, naviFavoriteHandlerEvo, navigationEnv), naviServiceListener, new IntellDestSearchTimerDummy());
+        this.destOptSelectionGuiHandler = new IntelliDestOptSelection(new int[]{16}, navigationEnv.getBaseListModel(401612), navigationEnv.getSpellerModel(401613), navigationEnv.getChoiceModel(401614), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
+        this.destOptContactsWithAddressGuiHandler = new AdbContactsWithAddressGuiSearchHandler(new int[]{3}, navigationEnv.getBaseListModel(401486), navigationEnv.getSpellerModel(401487), navigationEnv.getChoiceModel(401611), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
+        this.destOptAddAddressToContactGuiSearchHandler = new AdbContactsGuiSearchHandler(new int[]{3}, navigationEnv.getBaseListModel(401486), navigationEnv.getSpellerModel(401487), navigationEnv.getChoiceModel(401611), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, new IntellDestSearchTimerDummy());
+        this.intelliDestGuiExternalHandler = new IntelliDestGuiSearchHandler(new int[]{14, 4, 5, 15, 16}, navigationEnv.getBaseListModel(401316), navigationEnv.getSpellerModel(Util.isHURegionKR() ? 402379 : 402563), navigationEnv.getChoiceModel(400892), this.logger, this.destSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, this.intelliDestSearchTimer, iCarKombiService, iDestinationHandler);
         this.intelliDestGuiHandler.setDistanceCalculator(this.distanceCalculator);
         this.destSearch.setActiveGuiSearchHandler(this.intelliDestGuiHandler);
         this.destSearch.startDSI();
@@ -147,9 +147,8 @@ IntelliDestAccess {
         this.pressRoutesDataProvider.start();
     }
 
-    @Override
     public void enterDestinationContext(int n) {
-        this.logger.log(-2137614336, "%1#enterDestinationContext - %2", (Object)"IntelliDestController", (long)n);
+        this.logger.log(10000000, "%1#enterDestinationContext - %2", (Object)LOGCLASS, (long)n);
         IntelliDestGuiSearchHandler intelliDestGuiSearchHandler = null;
         switch (n) {
             case 0: {
@@ -194,7 +193,7 @@ IntelliDestAccess {
         }
         intelliDestGuiSearchHandler.setCurrentTrufflesContext(n);
         if (intelliDestGuiSearchHandler.equals(this.currentGuiHandler)) {
-            this.logger.log(-2137614336, "[%1#enterDestinationContext()] Search handler is already active.", (Object)"IntelliDestController");
+            this.logger.log(10000000, "[%1#enterDestinationContext()] Search handler is already active.", (Object)LOGCLASS);
         } else {
             if (null != this.currentGuiHandler) {
                 this.currentGuiHandler.deactivate();
@@ -231,43 +230,39 @@ IntelliDestAccess {
         }
     }
 
-    @Override
     public void enterDestinationContextDownTransition(int n) {
-        this.logger.log(-2137614336, "%1#enterDestinationContextDownTransition - %2", (Object)"IntelliDestController", (long)n);
+        this.logger.log(10000000, "%1#enterDestinationContextDownTransition - %2", (Object)LOGCLASS, (long)n);
         this.downTransitionCalled = true;
     }
 
-    @Override
     public void exitDestinationContext(int n) {
-        this.logger.log(-2137614336, "%1#exitDestinationContext - %2", (Object)"IntelliDestController", (long)n);
+        this.logger.log(10000000, "%1#exitDestinationContext - %2", (Object)LOGCLASS, (long)n);
         this.currentGuiHandler.setIsActive(false);
         this.getMainSearch().cancelQuery();
-        this.env.getChoiceModel(-1306327552).setValue(0);
+        this.env.getChoiceModel(402354).setValue(0);
         if (n == 0) {
             this.stopDistanceCalculator();
         }
     }
 
     public void startDistanceCalculator() {
-        this.logger.log(-2137614336, "%1#startDistanceCalculator()", (Object)"IntelliDestController");
+        this.logger.log(10000000, "%1#startDistanceCalculator()", (Object)LOGCLASS);
         if (this.distanceCalculator != null) {
             this.distanceCalculator.startCalculation();
         }
     }
 
     public void stopDistanceCalculator() {
-        this.logger.log(-2137614336, "%1#stopDistanceCalculator()", (Object)"IntelliDestController");
+        this.logger.log(10000000, "%1#stopDistanceCalculator()", (Object)LOGCLASS);
         if (this.distanceCalculator != null) {
             this.distanceCalculator.stopCalculation();
         }
     }
 
-    @Override
     public AbstractSearch getMainSearch() {
         return this.destSearch;
     }
 
-    @Override
     public ILastDestHandler getLastDestHandler() {
         return this.lastDestSearch;
     }
@@ -277,23 +272,20 @@ IntelliDestAccess {
     }
 
     public String[] getSelection() {
-        this.logger.log(-2137614336, "%1#getSelection()", (Object)"IntelliDestController");
+        this.logger.log(10000000, "%1#getSelection()", (Object)LOGCLASS);
         return this.countrySelection.getActiveCountries();
     }
 
-    @Override
     public void exitTrufflesRangeSelect() {
-        this.logger.log(-2137614336, "%1#exitTrufflesRangeSelect()", (Object)"IntelliDestController");
+        this.logger.log(10000000, "%1#exitTrufflesRangeSelect()", (Object)LOGCLASS);
         this.countrySelection.savePersistentState();
         this.destSearch.setActiveSearchCountries(this.countrySelection.getActiveCountries());
     }
 
-    @Override
-    public void updateRouteInfo(Route route, TripHandler$TripData tripHandler$TripData) {
-        this.activeDestionationsManager.updateRouteInfo(route, tripHandler$TripData);
+    public void updateRouteInfo(Route route, TripHandler.TripData tripData) {
+        this.activeDestionationsManager.updateRouteInfo(route, tripData);
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         this.activeDestionationsManager.updateRgActive(bl);
     }
@@ -317,7 +309,6 @@ IntelliDestAccess {
         this.intelliDestHMIListener = null;
     }
 
-    @Override
     public void routeGuidanceRequested(Route route, NavLocation navLocation) {
         this.activeDestionationsManager.routeGuidanceToDestinationRequested();
         this.getMainSearch().cancelQuery();
@@ -326,31 +317,27 @@ IntelliDestAccess {
         this.lastDestProducer.createAndSaveLastDestination(navLocation, this.getMainSearch());
     }
 
-    @Override
     public void cancelStartRouteCalculation() {
         this.activeDestionationsManager.cancelStartRouteCalculation();
     }
 
-    @Override
     public NavLocation getNavLocationByIndex(int n) {
-        EvoListRow evoListRow = this.env.getBaseListModel(-1541470720).getRow(n);
+        EvoListRow evoListRow = this.env.getBaseListModel(401316).getRow(n);
         return this.intelliDestGuiHandler.extractNavLocationFromRow(evoListRow);
     }
 
-    @Override
     public int startTrufflesSearch(String string, String[] stringArray) {
         this.enterDestinationContext(8);
         if (Util.isHURegionKR()) {
-            this.env.getSpellerModel(-886897152).setText(string);
+            this.env.getSpellerModel(402379).setText(string);
         } else {
-            this.env.getSpellerModel(-2094791168).setText(string);
+            this.env.getSpellerModel(402563).setText(string);
         }
         this.currentGuiHandler.performQuery(string, stringArray);
         this.currentGuiHandler.cacheQueryIDForSDSSearch();
         return this.destSearch.getLastQueryID();
     }
 
-    @Override
     public void cancelSDSTrufflesSearch(boolean bl) {
         this.getMainSearch().cancelQuery();
         if (bl) {
@@ -358,12 +345,10 @@ IntelliDestAccess {
         }
     }
 
-    @Override
     public void updateRrdCalculationInfo(RrdCalculationInfo[] rrdCalculationInfoArray) {
         this.distanceCalculator.updateRrdCalculationInfo(rrdCalculationInfoArray);
     }
 
-    @Override
     public void resetSettings() {
         if (this.pickHelpManager != null) {
             this.pickHelpManager.resetSettings();
@@ -372,7 +357,6 @@ IntelliDestAccess {
         this.destSearch.setActiveSearchCountries(this.countrySelection.getActiveCountries());
     }
 
-    @Override
     public void setADBHMIAppService(ADBHMIAppService aDBHMIAppService) {
         this.intelliDestGuiHandler.setADBHMIAppService(aDBHMIAppService);
     }
@@ -381,23 +365,20 @@ IntelliDestAccess {
         return this.activeDestionationsManager;
     }
 
-    @Override
     public void updateRmRoutesPress() {
         this.pressRoutesDataProvider.updateRmRoutesPress();
     }
 
-    @Override
     public boolean isTrufflesConflictmodeAvailable() {
-        return this.currentGuiHandler.equals(this.intelliDestGuiExternalHandler) && this.env.getChoiceModel(-803142144).getValue() != 0;
+        return this.currentGuiHandler.equals(this.intelliDestGuiExternalHandler) && this.env.getChoiceModel(401872).getValue() != 0;
     }
 
-    @Override
     public int triggerTrufflesConflictmode(String string, String[] stringArray) {
         if (!this.isTrufflesConflictmodeAvailable()) {
-            this.logger.log(-1601830656, "%1#triggerTrufflesConflictmode was called but conflict mode was currently not available", (Object)"IntelliDestController");
+            this.logger.log(100000, "%1#triggerTrufflesConflictmode was called but conflict mode was currently not available", (Object)LOGCLASS);
         }
         this.destSearch.setConflictMode(true);
-        this.env.getChoiceModel(-803142144).setValue(0);
+        this.env.getChoiceModel(401872).setValue(0);
         return this.startTrufflesSearch(string, stringArray);
     }
 }

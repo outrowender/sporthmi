@@ -10,16 +10,16 @@ public final class Transition
 implements Cloneable {
     private static final int[] EMPTY_INT_LIST = new int[0];
     private static final String[] EMPTY_STRING_LIST = new String[0];
-    public static final int INTER_MODULE_FLAG;
-    public static final int MEDIATOR_START_FLAG;
-    public static final int GUARD_FLAG;
-    public static final int LEADS_TO_HISTORY_FLAG;
-    public static final int LEADS_TO_FINAL_STATE_FLAG;
-    public static final int REINITS_SCREEN_FLAG;
-    public static final int ANIMATION_FLAG;
-    public static final int ACTION_FLAG;
-    public static final int INCLUDE_JUMP_FLAG;
-    private static List objPool;
+    public static final int INTER_MODULE_FLAG = 1;
+    public static final int MEDIATOR_START_FLAG = 2;
+    public static final int GUARD_FLAG = 4;
+    public static final int LEADS_TO_HISTORY_FLAG = 16;
+    public static final int LEADS_TO_FINAL_STATE_FLAG = 32;
+    public static final int REINITS_SCREEN_FLAG = 64;
+    public static final int ANIMATION_FLAG = 128;
+    public static final int ACTION_FLAG = 8;
+    public static final int INCLUDE_JUMP_FLAG = 256;
+    private static List objPool = new ArrayList(8);
     private int transitionID = -1;
     private int flags = 0;
     private int[] trgtStateList = EMPTY_INT_LIST;
@@ -164,10 +164,6 @@ implements Cloneable {
 
     public void dispose() {
         objPool.add(this);
-    }
-
-    static {
-        objPool = new ArrayList(8);
     }
 }
 

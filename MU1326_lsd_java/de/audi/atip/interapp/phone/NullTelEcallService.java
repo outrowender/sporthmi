@@ -14,17 +14,14 @@ implements ITelEcallService {
         super(logChannel, "ITelEcallService");
     }
 
-    @Override
     public void hangupServiceCall() {
         this.log();
     }
 
-    @Override
     public void hangupLowPrioritySOSCall() {
         this.log();
     }
 
-    @Override
     public void dialLowPrioritySOSCall(String string) {
         this.log();
     }

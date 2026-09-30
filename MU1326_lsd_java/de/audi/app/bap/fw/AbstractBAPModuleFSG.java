@@ -46,7 +46,6 @@ extends AbstractBAPModule {
         super(n, abstractBAPApplication, iBAPFunctionFactoryFSG);
     }
 
-    @Override
     public IBAPIndicationListener getIndicationListener() {
         return this.indicationHandler;
     }
@@ -59,10 +58,8 @@ extends AbstractBAPModule {
         return this.functionRegistration;
     }
 
-    protected abstract boolean isRelevantForUpdateProperties(int n) {
-    }
+    protected abstract boolean isRelevantForUpdateProperties(int var1);
 
-    @Override
     protected IBAPFunctionFactory createBAPFunctionFactory() {
         return new BAPFunctionFactoryFSG();
     }
@@ -99,7 +96,6 @@ extends AbstractBAPModule {
         return this.functionRegistration.createStatusAckForPropertyFSG(n);
     }
 
-    @Override
     public IBAPFunction getBAPFunction(int n) {
         return this.functionRegistration.getBAPFunction(n);
     }
@@ -124,12 +120,10 @@ extends AbstractBAPModule {
         return this.functionSyncHandler;
     }
 
-    @Override
     public void resetBAPFunctions() {
         this.functionRegistration.resetBAPFunctions();
     }
 
-    @Override
     public void destroy() {
         super.destroy();
         if (this.diagnosisConnectorFsg != null) {
@@ -141,7 +135,6 @@ extends AbstractBAPModule {
         this.functionRegistration = null;
     }
 
-    @Override
     protected AbstractSwDiagnosis getDiagnosisGateway(boolean bl) {
         if (this.diagnosisConnectorFsg == null && bl) {
             this.initDiagnosisConnector();
@@ -149,7 +142,6 @@ extends AbstractBAPModule {
         return this.diagnosisConnectorFsg;
     }
 
-    @Override
     public AbstractFunctionList getFunctionList() {
         return this.functionListFsg;
     }

@@ -4,10 +4,8 @@
 package de.audi.app.media.transfer;
 
 public interface ITransferLockListener {
-    default public void blockImportFunctionality() {
-    }
+    public void blockImportFunctionality();
 
-    default public void unblockImportFunctionality() {
-    }
+    public void unblockImportFunctionality();
 }
 

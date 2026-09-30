@@ -6,23 +6,18 @@ package de.audi.atip.hmi.view;
 import de.audi.atip.hmi.view.IScreenData;
 
 public interface IScreenChangeAnimationManager {
-    public static final int SCREENCHANGE_STATE_INIT;
-    public static final int SCREENCHANGE_STATE_SCREEN_EXIT;
-    public static final int SCREENCHANGE_STATE_SCREEN_ENTER;
+    public static final int SCREENCHANGE_STATE_INIT = 0;
+    public static final int SCREENCHANGE_STATE_SCREEN_EXIT = 1;
+    public static final int SCREENCHANGE_STATE_SCREEN_ENTER = 2;
 
-    default public boolean startScreenChangeAnimation(IScreenData iScreenData, IScreenData iScreenData2) {
-    }
+    public boolean startScreenChangeAnimation(IScreenData var1, IScreenData var2);
 
-    default public boolean wasPopupFadedOut() {
-    }
+    public boolean wasPopupFadedOut();
 
-    default public int getScreenChangeState() {
-    }
+    public int getScreenChangeState();
 
-    default public void rollBackEnterAnimation(boolean bl) {
-    }
+    public void rollBackEnterAnimation(boolean var1);
 
-    default public void setFocus(int n) {
-    }
+    public void setFocus(int var1);
 }
 

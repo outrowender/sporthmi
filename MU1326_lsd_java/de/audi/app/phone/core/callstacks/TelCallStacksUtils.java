@@ -3,8 +3,8 @@
  */
 package de.audi.app.phone.core.callstacks;
 
-import de.audi.app.phone.core.callstacks.TelCallStacksUtils$1;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import org.dsi.ifc.telephoneng.CallStackEntry;
@@ -29,8 +29,30 @@ public class TelCallStacksUtils {
             if (n3 >= callStackEntryArray6.length) continue;
             objectArray[n4++] = callStackEntryArray6[n3++];
         }
-        TelCallStacksUtils$1 telCallStacksUtils$1 = new TelCallStacksUtils$1();
-        Arrays.sort(objectArray, telCallStacksUtils$1);
+        Comparator comparator = new Comparator(){
+            private static final int NO_TIMESTAMP_AVAILABLE = 0;
+            private static final int SORT_GREATER = 1;
+            private static final int SORT_LESS = -1;
+            private static final int SORT_EQUAL = 0;
+
+            public int compare(Object object, Object object2) {
+                CallStackEntry callStackEntry = (CallStackEntry)object;
+                CallStackEntry callStackEntry2 = (CallStackEntry)object2;
+                long l = this.getTimestamp(callStackEntry);
+                long l2 = this.getTimestamp(callStackEntry2);
+                int n = 0;
+                n = l == l2 ? 0 : (l2 == 0L ? -1 : (l == 0L ? 1 : (l > l2 ? -1 : 1)));
+                return n;
+            }
+
+            private long getTimestamp(CallStackEntry callStackEntry) {
+                if (!TelCallStacksUtils.hasValidTimestamp(callStackEntry)) {
+                    return 0L;
+                }
+                return TelCallStacksUtils.getDate(callStackEntry).getTime();
+            }
+        };
+        Arrays.sort(objectArray, comparator);
         return objectArray;
     }
 

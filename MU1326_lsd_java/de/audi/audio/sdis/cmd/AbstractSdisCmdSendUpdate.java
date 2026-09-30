@@ -16,8 +16,6 @@ extends Command {
         this.sdisAudioListener = sdisAudioListener;
     }
 
-    @Override
-    public abstract void execute() {
-    }
+    public abstract void execute();
 }
 

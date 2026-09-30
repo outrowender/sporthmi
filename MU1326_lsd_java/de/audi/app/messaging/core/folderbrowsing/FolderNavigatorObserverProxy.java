@@ -21,7 +21,7 @@ implements IFolderNavigatorObserver {
     }
 
     void addObserver(IFolderNavigatorObserver iFolderNavigatorObserver) {
-        this.log.log(-2137614336, "[FolderNavigatorObserverProxy#addObserver] observer = %1", (Object)iFolderNavigatorObserver);
+        this.log.log(10000000, "[FolderNavigatorObserverProxy#addObserver] observer = %1", (Object)iFolderNavigatorObserver);
         this.observers.add(iFolderNavigatorObserver);
         try {
             iFolderNavigatorObserver.updateCurrentFolder(this.currentFolder);
@@ -32,13 +32,12 @@ implements IFolderNavigatorObserver {
     }
 
     void removeObserver(IFolderNavigatorObserver iFolderNavigatorObserver) {
-        this.log.log(-2137614336, "[FolderNavigatorObserverProxy#removeObserver] observer = %1", (Object)iFolderNavigatorObserver);
+        this.log.log(10000000, "[FolderNavigatorObserverProxy#removeObserver] observer = %1", (Object)iFolderNavigatorObserver);
         this.observers.remove(iFolderNavigatorObserver);
     }
 
-    @Override
     public void updateCurrentFolder(Folder folder) {
-        this.log.log(-2137614336, "[FolderNavigatorObserverProxy#updateCurrentFolder] currentFolder = %1", (Object)folder);
+        this.log.log(10000000, "[FolderNavigatorObserverProxy#updateCurrentFolder] currentFolder = %1", (Object)folder);
         if (!this.currentFolder.equals(folder)) {
             this.currentFolder = folder;
             Iterator iterator = this.observers.iterator();
@@ -53,9 +52,8 @@ implements IFolderNavigatorObserver {
         }
     }
 
-    @Override
     public void indicateFolderChange(boolean bl) {
-        this.log.log(-2137614336, "[FolderNavigatorObserverProxy#indicateFolderChange] inProgress = %1", bl);
+        this.log.log(10000000, "[FolderNavigatorObserverProxy#indicateFolderChange] inProgress = %1", bl);
         Iterator iterator = this.observers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -67,9 +65,8 @@ implements IFolderNavigatorObserver {
         }
     }
 
-    @Override
     public void indicateFolderChangeFailed(int n) {
-        this.log.log(-2137614336, "[FolderNavigatorObserverProxy#indicateFolderChangeFailed] hmiFolderType = %1", (long)n);
+        this.log.log(10000000, "[FolderNavigatorObserverProxy#indicateFolderChangeFailed] hmiFolderType = %1", (long)n);
         Iterator iterator = this.observers.iterator();
         while (iterator.hasNext()) {
             try {

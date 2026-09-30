@@ -28,12 +28,11 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$app$car$common$sdis$interapp$ISDISCarInfoDistributor;
     static /* synthetic */ Class class$de$audi$atip$diag$sw$SwDiagnosisManager;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.log = this.getFramework().getLogChannel("App.CarSDIS.Main");
         if (!this.getFramework().isSDISEnabled()) {
-            this.log.log(1078071040, "SDIS is not enabled, do not start bundle.");
+            this.log.log(1000000, "SDIS is not enabled, do not start bundle.");
             return;
         }
         this.carMainProvider = new CarMainASIProvider(this.log);
@@ -44,10 +43,9 @@ implements ServiceTrackerCustomizer {
         this.updater = new InterAppSDISDistributor(this.log, this.carDataManager);
         this.registerService((class$de$audi$app$car$common$sdis$interapp$ISDISCarInfoDistributor == null ? (class$de$audi$app$car$common$sdis$interapp$ISDISCarInfoDistributor = CarSDISActivator.class$("de.audi.app.car.common.sdis.interapp.ISDISCarInfoDistributor")) : class$de$audi$app$car$common$sdis$interapp$ISDISCarInfoDistributor).getName(), (Object)this.updater, null);
         this.carMainProvider.registerServices(this);
-        this.log.log(1078071040, "AppCarSDIS bundle started");
+        this.log.log(1000000, "AppCarSDIS bundle started");
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.tracker != null) {
             this.tracker.close();
@@ -56,14 +54,13 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
         this.carDataManager.deinit();
         this.carMainProvider = null;
-        this.log.log(1078071040, "AppCarSDIS bundle stopped");
+        this.log.log(1000000, "AppCarSDIS bundle stopped");
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object != null) {
-            this.log.log(1078071040, "CarSDISActivator#addingService( %1 )", object);
+            this.log.log(1000000, "CarSDISActivator#addingService( %1 )", object);
             if (object instanceof InterAppSDISDistributor) {
                 this.updater = (InterAppSDISDistributor)object;
                 this.updater.serviceAvailable(this.updater);
@@ -78,7 +75,7 @@ implements ServiceTrackerCustomizer {
                     this.sdisCarDiag.init(this.updater);
                     this.sdisCarDiag.setCarManager(this.carDataManager);
                 }
-                this.log.log(1078071040, "CarSDISActivator#addingService( %1 )", object);
+                this.log.log(1000000, "CarSDISActivator#addingService( %1 )", object);
                 ((SwDiagnosisManager)object).addDiagGateway(this.sdisCarDiag);
             } else {
                 this.bundleContext.ungetService(serviceReference);
@@ -88,11 +85,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof InterAppSDISDistributor) {
             this.updater.deinit();

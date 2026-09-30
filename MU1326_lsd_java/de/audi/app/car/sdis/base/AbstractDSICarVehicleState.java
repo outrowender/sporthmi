@@ -27,82 +27,66 @@ implements DSICarVehicleStatesListener {
         this.logger = logChannel;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateOilLevelViewOption(CarViewOption carViewOption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateOilLevelData(OilLevelData oilLevelData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVINViewOption(CarViewOption carViewOption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVINData(String string, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateKeyViewOption(CarViewOption carViewOption, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateKeyData(KeyData keyData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDrvSchoolSystem(boolean bl, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateVehicleInfoViewOptions(VehicleInfoViewOptions vehicleInfoViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions dynamicVehicleInfoMidFrequentViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateSemiStaticVehicleDataViewOptions(SemiStaticDataViewOptions semiStaticDataViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateSemiStaticVehicleData(SemiStaticVehicleData semiStaticVehicleData, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateDynamicVehicleInfoSCR(DynamicVehicleInfoSCR dynamicVehicleInfoSCR, int n) {
         this.logStub();
     }
@@ -119,7 +103,7 @@ implements DSICarVehicleStatesListener {
                 StackTraceElement stackTraceElement = stackTraceElementArray[1];
                 string = new StringBuffer().append(stackTraceElement.getClassName()).append(".").append(stackTraceElementArray[1].getMethodName()).toString();
             }
-            this.logger.log(1078071040, "%1 not implemented", (Object)string);
+            this.logger.log(1000000, "%1 not implemented", (Object)string);
         }
         catch (Exception exception) {
             this.logger.log(10000, "Exception: ", (Throwable)exception);

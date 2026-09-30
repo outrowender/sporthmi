@@ -24,7 +24,6 @@ ITerminalModeComponent {
         this.logger = iContext.getLogger().main();
     }
 
-    @Override
     public void init() {
         Hashtable hashtable = new Hashtable(3);
         hashtable.put("moduleID", new Integer(this.getId()));
@@ -32,39 +31,37 @@ ITerminalModeComponent {
         this.registration = this.context.getServiceManager().registerService(class$de$audi$atip$hmi$HMIApplication == null ? (class$de$audi$atip$hmi$HMIApplication = AbstractTerminalModeHMIApplication.class$("de.audi.atip.hmi.HMIApplication")) : class$de$audi$atip$hmi$HMIApplication, this, hashtable);
     }
 
-    @Override
     public void deinit() {
         if (this.registration != null) {
             this.context.getServiceManager().unregisterService(this.registration);
         }
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         ButtonModelApp buttonModelApp;
         switch (n) {
             case 1: {
-                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(533999616);
+                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(3200031);
                 break;
             }
             case 53: {
-                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(886321152);
+                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(3200052);
                 break;
             }
             case 0: {
-                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(668217344);
+                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(3200039);
                 break;
             }
             case 52: {
-                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(869543936);
+                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(3200051);
                 break;
             }
             case 14: {
-                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(802435072);
+                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(3200047);
                 break;
             }
             case 44: {
-                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(819212288);
+                buttonModelApp = this.context.getFramework().getHmiServiceApp().getButtonModel(3200048);
                 break;
             }
             case 34: {
@@ -72,7 +69,7 @@ ITerminalModeComponent {
                     buttonModelApp = null;
                     break;
                 }
-                buttonModelApp = this.context.getButtonModel(1087647744);
+                buttonModelApp = this.context.getButtonModel(3200064);
                 break;
             }
             case 35: {
@@ -80,7 +77,7 @@ ITerminalModeComponent {
                     buttonModelApp = null;
                     break;
                 }
-                buttonModelApp = this.context.getButtonModel(1070870528);
+                buttonModelApp = this.context.getButtonModel(3200063);
                 break;
             }
             default: {
@@ -90,49 +87,40 @@ ITerminalModeComponent {
         return buttonModelApp;
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
-        this.logger.log(1078071040, "<<- [%1.screenVisible] %2", (Object)this.getLogClass(), (long)n);
+        this.logger.log(1000000, "<<- [%1.screenVisible] %2", (Object)this.getLogClass(), (long)n);
         if (n == this.getTerminalModeScreenId()) {
             this.context.getActionProxyDispatcher().notifyActionProxyCall(1001, n2, new Hashtable());
         }
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
-        this.logger.log(1078071040, "<<- [%1.screenHidden] %2", (Object)this.getLogClass(), (long)n);
+        this.logger.log(1000000, "<<- [%1.screenHidden] %2", (Object)this.getLogClass(), (long)n);
         if (n == this.getTerminalModeScreenId()) {
             this.context.getActionProxyDispatcher().notifyActionProxyCall(1002, n2, new Hashtable());
         }
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
-        this.logger.log(1078071040, "<<- [%1.screenFadedOut] %2", (Object)this.getLogClass(), (long)n);
+        this.logger.log(1000000, "<<- [%1.screenFadedOut] %2", (Object)this.getLogClass(), (long)n);
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
-        this.logger.log(1078071040, "<<- [%1.screenConnected] %2", (Object)this.getLogClass(), (long)n);
+        this.logger.log(1000000, "<<- [%1.screenConnected] %2", (Object)this.getLogClass(), (long)n);
     }
 
-    protected abstract String getLogClass() {
-    }
+    protected abstract String getLogClass();
 
-    protected abstract int getTerminalModeScreenId() {
-    }
+    protected abstract int getTerminalModeScreenId();
 
     static /* synthetic */ Class class$(String string) {
         try {

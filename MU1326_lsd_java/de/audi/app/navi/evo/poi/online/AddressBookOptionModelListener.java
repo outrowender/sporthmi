@@ -18,12 +18,11 @@ extends AbstractOnlineSearchOptionModelListener {
     public AddressBookOptionModelListener(LogChannel logChannel, NavigationEnv navigationEnv, OnlineSearchSequence onlineSearchSequence, IOnlineSearchForm iOnlineSearchForm, NaviADBHandler naviADBHandler) {
         super(logChannel, navigationEnv, onlineSearchSequence, iOnlineSearchForm);
         this.naviAdbHandler = naviADBHandler;
-        navigationEnv.getHMIService().getOptionModel(1293944320).setListener(this, -367262208);
+        navigationEnv.getHMIService().getOptionModel(401485).setListener(this, 400618);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(1078071040, "AddressBookOptionModelListener#keyPressed(NAV_DEST_ADD_TO_CONTACT_OPTION): entering map screen");
+        this.logChannel.log(1000000, "AddressBookOptionModelListener#keyPressed(NAV_DEST_ADD_TO_CONTACT_OPTION): entering map screen");
         NavLocation navLocation = this.sequence.getSearchContext().getResultList().getTransformedLocationAt(n3);
         if (navLocation == null) {
             this.logChannel.log(10000, "AddressBookOptionModelListener#keyPressed: location is null, probably was not resolved");

@@ -7,25 +7,18 @@ import de.audi.atip.interapp.online.TransitionCallback;
 import org.dsi.ifc.global.NavLocation;
 
 public interface OnlineServiceProvider {
-    default public void startMediaApp(String string, boolean bl) {
-    }
+    public void startMediaApp(String var1, boolean var2);
 
-    default public void stopMediaApp(String string) {
-    }
+    public void stopMediaApp(String var1);
 
-    default public void startDestinationApp(NavLocation navLocation, String string, TransitionCallback transitionCallback) {
-    }
+    public void startDestinationApp(NavLocation var1, String var2, TransitionCallback var3);
 
-    default public void startMapApp(NavLocation navLocation, String string, TransitionCallback transitionCallback) {
-    }
+    public void startMapApp(NavLocation var1, String var2, TransitionCallback var3);
 
-    default public void downloadAppListForNavi() {
-    }
+    public void downloadAppListForNavi();
 
-    default public void startPhoneApp(String string, boolean bl) {
-    }
+    public void startPhoneApp(String var1, boolean var2);
 
-    default public void stopPhoneApp(String string) {
-    }
+    public void stopPhoneApp(String var1);
 }
 

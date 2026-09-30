@@ -12,8 +12,8 @@ import de.audi.atip.log.LogChannel;
 
 public class NaviFurtherInputPossibleCommand
 extends AbstractSystemCallCommand {
-    private static final int INPUT_TYPE_MAPCODE;
-    private static final int INPUT_TYPE_PHONENUMBER;
+    private static final int INPUT_TYPE_MAPCODE = 0;
+    private static final int INPUT_TYPE_PHONENUMBER = 1;
     private final NaviService naviService;
     private final byte inputType;
 
@@ -23,20 +23,19 @@ extends AbstractSystemCallCommand {
         this.inputType = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] inputType=%2", (Object)this.getName(), (long)this.inputType);
+        this.logger.log(10000000, "[%1#execute] inputType=%2", (Object)this.getName(), (long)this.inputType);
         switch (this.inputType) {
             case 0: {
-                this.sendResult(this.naviService.isFurtherMapCodeInputPossible() ? 1083965440 : 1184628736);
+                this.sendResult(this.naviService.isFurtherMapCodeInputPossible() ? 40000 : 40006);
                 break;
             }
             case 1: {
-                this.sendResult(this.naviService.isFurtherTelephonenumberInputPossible() ? 1083965440 : 1184628736);
+                this.sendResult(this.naviService.isFurtherTelephonenumberInputPossible() ? 40000 : 40006);
                 break;
             }
             default: {
-                this.sendResult(1100742656);
+                this.sendResult(40001);
             }
         }
     }

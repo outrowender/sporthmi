@@ -12,57 +12,41 @@ import de.audi.atip.hmi.modelaccess.HMIModelBase;
 
 public interface HMIModelApp
 extends HMIModelBase {
-    public static final int STATUS_WAITING;
-    public static final int STATUS_OK;
-    public static final int STATUS_ERROR;
-    public static final int STATUS_VALUE_NOT_APPLICABLE;
+    public static final int STATUS_WAITING = 0;
+    public static final int STATUS_OK = 1;
+    public static final int STATUS_ERROR = 2;
+    public static final int STATUS_VALUE_NOT_APPLICABLE = 3;
 
-    default public void setStatus(int n) {
-    }
+    public void setStatus(int var1);
 
-    default public void addHint(int n) {
-    }
+    public void addHint(int var1);
 
-    default public void removeHint(int n) {
-    }
+    public void removeHint(int var1);
 
-    default public void resetHints() {
-    }
+    public void resetHints();
 
-    default public void publishHints() {
-    }
+    public void publishHints();
 
-    default public void abortTransaction() {
-    }
+    public void abortTransaction() throws IllegalStateException;
 
-    default public void beginTransaction() {
-    }
+    public void beginTransaction() throws IllegalStateException;
 
-    default public void endTransaction() {
-    }
+    public void endTransaction() throws IllegalStateException;
 
-    default public boolean isTransactionRunning() {
-    }
+    public boolean isTransactionRunning();
 
-    default public boolean fireEvent(int n) {
-    }
+    public boolean fireEvent(int var1);
 
-    default public boolean fireEvent(int n, AdditionalScreenData additionalScreenData) {
-    }
+    public boolean fireEvent(int var1, AdditionalScreenData var2);
 
-    default public void resetListener() {
-    }
+    public void resetListener();
 
-    default public void setDragAndDropHandler(IDragAndDropHandler iDragAndDropHandler) {
-    }
+    public void setDragAndDropHandler(IDragAndDropHandler var1);
 
-    default public void setDragAndDropListener(DragAndDropListener dragAndDropListener) {
-    }
+    public void setDragAndDropListener(DragAndDropListener var1);
 
-    default public void trigger(ModelTrigger modelTrigger, int n) {
-    }
+    public void trigger(ModelTrigger var1, int var2);
 
-    default public void setModelGroup(ModelGroup modelGroup) {
-    }
+    public void setModelGroup(ModelGroup var1);
 }
 

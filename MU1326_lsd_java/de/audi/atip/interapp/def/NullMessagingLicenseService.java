@@ -16,12 +16,10 @@ implements IMessagingLicenseService {
         super(logChannel, class$de$audi$atip$interapp$IMessagingLicenseService == null ? (class$de$audi$atip$interapp$IMessagingLicenseService = NullMessagingLicenseService.class$("de.audi.atip.interapp.IMessagingLicenseService")) : class$de$audi$atip$interapp$IMessagingLicenseService);
     }
 
-    @Override
     public void requestOnlineDictationLicenseInfo() {
         super.log();
     }
 
-    @Override
     public void setExpirationWarning(boolean bl) {
         super.log();
     }

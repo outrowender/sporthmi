@@ -12,7 +12,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class JobBrowseListRequestList
 extends AbstractJobBrowseList {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobBrowseListRequestList";
     private final long entryId;
     private final int contentType;
     private final int index;
@@ -28,25 +28,21 @@ extends AbstractJobBrowseList {
         this.clientId = n4;
     }
 
-    @Override
     public int getType() {
         return 5;
     }
 
-    @Override
     public String getName() {
         return "requestList";
     }
 
-    @Override
     public void start() {
-        this.logChannel.log(1078071040, "[%1.start]", (Object)"JobBrowseListRequestList");
+        this.logChannel.log(1000000, "[%1.start]", (Object)LOGCLASS);
         this.dsiMediaBrowser.requestList(this.entryId, this.contentType, this.index, this.size, this.clientId);
     }
 
-    @Override
     public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-        this.logChannel.log(1078071040, "[%1.responseList]", (Object)"JobBrowseListRequestList");
+        this.logChannel.log(1000000, "[%1.responseList]", (Object)LOGCLASS);
         this.getExecutionContext().jobFinished();
     }
 
@@ -54,16 +50,14 @@ extends AbstractJobBrowseList {
         return this.clientId;
     }
 
-    @Override
     public void abort(boolean bl) {
         if (bl) {
             this.getExecutionContext().jobFinished();
         }
     }
 
-    @Override
     public void updateListSize(int n, int n2) {
-        this.logChannel.log(14808325, "[%1.updateListSize]", (Object)"JobBrowseListRequestList");
+        this.logChannel.log(100000000, "[%1.updateListSize]", (Object)LOGCLASS);
         this.browseListContext.getState().setCurrentListSize(n);
         this.browseListContext.notifyListUpdated(n);
     }

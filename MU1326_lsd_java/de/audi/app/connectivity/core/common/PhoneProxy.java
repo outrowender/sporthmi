@@ -41,7 +41,7 @@ ITelServiceConnectivityListener {
             this.operationInProgress = true;
             this.phone.setNadMode(bl ? 1 : 2, this);
         } else {
-            this.log.log(-1601830656, "PhoneProxy#setNadMode(): Phone not available!");
+            this.log.log(100000, "PhoneProxy#setNadMode(): Phone not available!");
         }
     }
 
@@ -55,7 +55,7 @@ ITelServiceConnectivityListener {
             this.operationInProgress = true;
             this.phone.changePhoneModulePowerState(true, this);
         } else {
-            this.log.log(-1601830656, "PhoneProxy#activateNadModule(): Phone not available!");
+            this.log.log(100000, "PhoneProxy#activateNadModule(): Phone not available!");
         }
     }
 
@@ -69,7 +69,7 @@ ITelServiceConnectivityListener {
             this.operationInProgress = true;
             this.phone.togglePhones(this);
         } else {
-            this.log.log(-1601830656, "PhoneProxy#togglePhones(): Phone not available!");
+            this.log.log(100000, "PhoneProxy#togglePhones(): Phone not available!");
         }
     }
 
@@ -83,29 +83,25 @@ ITelServiceConnectivityListener {
             this.operationInProgress = true;
             this.phone.setNadRole(n, this);
         } else {
-            this.log.log(-1601830656, "PhoneProxy#setNadRole(): Phone not available!");
+            this.log.log(100000, "PhoneProxy#setNadRole(): Phone not available!");
         }
     }
 
-    @Override
     public void responseSetNadMode(int n) {
         this.setIdle();
         this.caller.responseSetNadMode(n);
     }
 
-    @Override
     public void responseChangePhoneModulePowerState(int n) {
         this.setIdle();
         this.caller.responseChangePhoneModulePowerState(n);
     }
 
-    @Override
     public void responseTogglePhones(int n) {
         this.setIdle();
         this.caller.responseTogglePhones(n);
     }
 
-    @Override
     public void responseSetNadRole(int n) {
         this.setIdle();
         this.caller.responseSetNadRole(n);
@@ -115,7 +111,6 @@ ITelServiceConnectivityListener {
         this.operationInProgress = false;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof ITelServiceConnectivity) {
@@ -125,7 +120,6 @@ ITelServiceConnectivityListener {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof ITelServiceConnectivity) {
             this.phone = null;
@@ -133,7 +127,6 @@ ITelServiceConnectivityListener {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof ITelServiceConnectivity) {
             this.phone = (ITelServiceConnectivity)object;

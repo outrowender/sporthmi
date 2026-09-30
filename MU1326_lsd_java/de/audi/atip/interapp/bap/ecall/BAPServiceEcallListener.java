@@ -17,52 +17,36 @@ import de.audi.atip.interapp.bap.ecall.data.SupportedServices;
 
 public interface BAPServiceEcallListener
 extends BAPServiceListener {
-    default public void onCommunicationUp() {
-    }
+    public void onCommunicationUp();
 
-    default public void onAudioSourceRequested(int n) {
-    }
+    public void onAudioSourceRequested(int var1);
 
-    default public void onCallState(PhoneCall[] phoneCallArray) {
-    }
+    public void onCallState(PhoneCall[] var1);
 
-    default public void onHangupCallResult(boolean bl) {
-    }
+    public void onHangupCallResult(boolean var1);
 
-    default public void onAcceptCallResult(boolean bl) {
-    }
+    public void onAcceptCallResult(boolean var1);
 
-    default public void onDisconnectReason(int n) {
-    }
+    public void onDisconnectReason(int var1);
 
-    default public void onNetworkRegistrationState(NetworkRegistrationVoice networkRegistrationVoice, NetworkRegistrationData networkRegistrationData) {
-    }
+    public void onNetworkRegistrationState(NetworkRegistrationVoice var1, NetworkRegistrationData var2);
 
-    default public void onNetworkProviderInfo(EcallProvider ecallProvider, EcallProvider ecallProvider2) {
-    }
+    public void onNetworkProviderInfo(EcallProvider var1, EcallProvider var2);
 
-    default public void onSignalQuality(SignalQuality signalQuality) {
-    }
+    public void onSignalQuality(SignalQuality var1);
 
-    default public void onServiceRequests(PendingServiceRequests pendingServiceRequests) {
-    }
+    public void onServiceRequests(PendingServiceRequests var1);
 
-    default public void onServiceRequestResult(int n) {
-    }
+    public void onServiceRequestResult(int var1);
 
-    default public void onServiceState(int n, int n2, MdsTransmissionResult mdsTransmissionResult) {
-    }
+    public void onServiceState(int var1, int var2, MdsTransmissionResult var3);
 
-    default public void onSupportedServices(SupportedServices supportedServices) {
-    }
+    public void onSupportedServices(SupportedServices var1);
 
-    default public void onFunctionalState(FunctionalState functionalState) {
-    }
+    public void onFunctionalState(FunctionalState var1);
 
-    default public void onDialNumberResult(int n) {
-    }
+    public void onDialNumberResult(int var1);
 
-    default public void onAllowedEmergencyNumbers(EmergencyNumber[] emergencyNumberArray) {
-    }
+    public void onAllowedEmergencyNumbers(EmergencyNumber[] var1);
 }
 

@@ -10,7 +10,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class NaviFavoriteStorageEvo
 implements IFavoriteStorage {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 0L;
     protected final long uniqueID;
     protected final byte[] navLocation;
     protected final String favoriteName;
@@ -51,7 +51,6 @@ implements IFavoriteStorage {
         this.ward = string9;
     }
 
-    @Override
     public FavoriteListRow getFavoriteListRow() {
         return new NaviFavoriteEvoRow(this);
     }

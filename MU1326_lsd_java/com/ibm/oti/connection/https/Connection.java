@@ -4,11 +4,9 @@
 package com.ibm.oti.connection.https;
 
 import com.ibm.j9.ssl.Util;
-import com.ibm.oti.connection.https.Connection$1;
 import com.ibm.oti.security.provider.X500Principal;
 import com.ibm.oti.security.provider.X509Certificate;
 import com.ibm.oti.util.ASN1Decoder;
-import com.ibm.oti.util.ASN1Decoder$Node;
 import com.ibm.oti.util.ASN1Exception;
 import com.ibm.oti.util.Msg;
 import java.io.ByteArrayInputStream;
@@ -22,8 +20,7 @@ extends com.ibm.oti.connection.http.Connection
 implements HttpsConnection {
     private com.ibm.oti.connection.ssl.Connection sslConnection = null;
 
-    @Override
-    public SecurityInfo getSecurityInfo() {
+    public SecurityInfo getSecurityInfo() throws IOException {
         if (this.isClosed()) {
             throw new IOException();
         }
@@ -33,22 +30,19 @@ implements HttpsConnection {
         return this.sslConnection.getSecurityInfo();
     }
 
-    @Override
     public String getProtocol() {
         return "https";
     }
 
-    @Override
     protected int getDefaultPort() {
         return 443;
     }
 
-    @Override
-    protected StreamConnection openSocket(boolean bl, String string) {
+    protected StreamConnection openSocket(boolean bl, String string) throws IOException {
         if (this.sslConnection != null) {
             return this.sslConnection;
         }
-        String string2 = new StringBuffer("//").append(this.getHostName()).append(":").append(this.getHostPort()).append(string).toString();
+        String string2 = "//" + this.getHostName() + ":" + this.getHostPort() + string;
         com.ibm.oti.connection.socket.Connection connection = new com.ibm.oti.connection.socket.Connection();
         connection.setParameters2(string2, 3, bl);
         try {
@@ -62,7 +56,7 @@ implements HttpsConnection {
         return this.sslConnection;
     }
 
-    protected void verifyHostname() {
+    protected void verifyHostname() throws IOException {
         String string = this.getSubjectCN(this.sslConnection.getServerCertSubject());
         if (string == null) {
             throw new IOException(Msg.getString("K0201", null, null));
@@ -100,27 +94,35 @@ implements HttpsConnection {
                 return null;
             }
             ASN1Decoder aSN1Decoder = new ASN1Decoder(new ByteArrayInputStream(byArray));
-            ASN1Decoder$Node aSN1Decoder$Node = aSN1Decoder.readContents();
-            if (aSN1Decoder$Node.type != 4) {
+            ASN1Decoder.Node node = aSN1Decoder.readContents();
+            if (node.type != 4) {
                 return null;
             }
-            aSN1Decoder = new ASN1Decoder(new ByteArrayInputStream((byte[])aSN1Decoder$Node.data));
-            ASN1Decoder$Node aSN1Decoder$Node2 = aSN1Decoder.readContents();
-            if (aSN1Decoder$Node2.type != 16) {
+            aSN1Decoder = new ASN1Decoder(new ByteArrayInputStream((byte[])node.data));
+            ASN1Decoder.Node node2 = aSN1Decoder.readContents();
+            if (node2.type != 16) {
                 return null;
             }
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node2.data;
+            ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])node2.data;
             int n = 0;
-            while (n < aSN1Decoder$NodeArray.length) {
-                if (aSN1Decoder$NodeArray[n].type == 2) {
-                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream((byte[])aSN1Decoder$Node.data, aSN1Decoder$NodeArray[n].startPosition, aSN1Decoder$NodeArray[n].endPosition);
+            while (n < nodeArray.length) {
+                if (nodeArray[n].type == 2) {
+                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream((byte[])node.data, nodeArray[n].startPosition, nodeArray[n].endPosition);
                     aSN1Decoder = new ASN1Decoder(byteArrayInputStream);
-                    aSN1Decoder.configureTypeRedirection(0, new Connection$1(this));
-                    ASN1Decoder$Node aSN1Decoder$Node3 = aSN1Decoder.readContents();
-                    if (aSN1Decoder$Node3.type != 22) {
+                    aSN1Decoder.configureTypeRedirection(0, new ASN1Decoder.TypeMapper(){
+
+                        public int map(int n, int n2, int n3) {
+                            if (n == 2) {
+                                return 22;
+                            }
+                            return n;
+                        }
+                    });
+                    ASN1Decoder.Node node3 = aSN1Decoder.readContents();
+                    if (node3.type != 22) {
                         return null;
                     }
-                    return (String)aSN1Decoder$Node3.data;
+                    return (String)node3.data;
                 }
                 ++n;
             }

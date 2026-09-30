@@ -22,26 +22,24 @@ extends RangeModelEventBusinessAdapter {
         this.profileMode = bl;
     }
 
-    @Override
     public boolean processAdjustment(int n, RangeModelHandler rangeModelHandler) {
         if (this.colorData != null) {
             int n2 = rangeModelHandler.getRangeModel().getValue() + n;
             if (n2 > 0 && n2 <= this.colorData.length) {
                 IntLightRGBValues intLightRGBValues = this.colorData[n2 - 1].getValues();
-                this.getLogChannel().log(1078071040, "[dsi.setIntLightAmbientLightColor: %1 (%2)", (Object)intLightRGBValues.toString(), (long)n2);
+                this.getLogChannel().log(1000000, "[dsi.setIntLightAmbientLightColor: %1 (%2)", (Object)intLightRGBValues.toString(), (long)n2);
                 this.getDSICarLight().setIntLightAmbientLightColor(intLightRGBValues);
                 return true;
             }
         } else {
-            this.getLogChannel().log(1078071040, "[IntLightAmbientColorRangeModelEventBusiness#processAdjustment] rotary changed: %1 for modelID = %2", (long)n, (long)rangeModelHandler.getHandledModelID());
+            this.getLogChannel().log(1000000, "[IntLightAmbientColorRangeModelEventBusiness#processAdjustment] rotary changed: %1 for modelID = %2", (long)n, (long)rangeModelHandler.getHandledModelID());
         }
         return false;
     }
 
-    @Override
     public boolean processKeyPressed(int n, ButtonModelHandler buttonModelHandler) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[IntLightAmbientColorRangeModelEventBusiness#processKeyPressed] Key has been pressd for modelID = %1", (long)buttonModelHandler.getHandledModelID());
+            this.getLogChannel().log(1000000, "[IntLightAmbientColorRangeModelEventBusiness#processKeyPressed] Key has been pressd for modelID = %1", (long)buttonModelHandler.getHandledModelID());
         }
         if (this.profileMode) {
             this.getDSICarLight().setIntLightActiveProfile(1);

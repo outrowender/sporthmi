@@ -4,25 +4,18 @@
 package de.audi.atip.sysapp.carcoding;
 
 public interface IVariantInfo {
-    default public String getRegion() {
-    }
+    public String getRegion();
 
-    default public boolean isMMIRadio() {
-    }
+    public boolean isMMIRadio();
 
-    default public String getHeadUnit() {
-    }
+    public String getHeadUnit();
 
-    default public String getType() {
-    }
+    public String getType();
 
-    default public String getFeatures() {
-    }
+    public String getFeatures();
 
-    default public String getBrand() {
-    }
+    public String getBrand();
 
-    default public String getTopology() {
-    }
+    public String getTopology();
 }
 

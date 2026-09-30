@@ -23,7 +23,7 @@ import org.dsi.ifc.search.Token;
 
 public class MediaSearchResultFormatter
 extends AbstractMediaSearchResultFormatter {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaSearchResultFormatter";
     private final IMediaSearchResultLayouter[] layouter = new IMediaSearchResultLayouter[11];
 
     public MediaSearchResultFormatter(LogChannel logChannel, int n, int n2) {
@@ -44,23 +44,21 @@ extends AbstractMediaSearchResultFormatter {
         }
     }
 
-    @Override
     public void setLayout(int n) {
-        this.logger.log(1078071040, "[%1.setLayout]", (Object)"MediaSearchResultFormatter");
+        this.logger.log(1000000, "[%1.setLayout]", (Object)LOGCLASS);
         for (int i2 = 0; i2 < 11; ++i2) {
             this.layouter[i2].setLayout(n);
         }
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
-        this.logger.log(1078071040, "[%1.formatResult] '%2'", (Object)"MediaSearchResultFormatter", (Object)searchResult);
+        this.logger.log(1000000, "[%1.formatResult] '%2'", (Object)LOGCLASS, (Object)searchResult);
         return new MediaSearchListRow(searchResult, this.layouter[this.getFormatterType()], this.getCoverArtResource(searchResult));
     }
 
     protected void setLayoutForFormatType(int n, int n2) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.setLayoutForFormatType]", (Object)"MediaSearchResultFormatter");
+            this.logger.log(100000000, "[%1.setLayoutForFormatType]", (Object)LOGCLASS);
         }
         this.layouter[n].setLayout(n2);
     }
@@ -69,7 +67,7 @@ extends AbstractMediaSearchResultFormatter {
         Token[] tokenArray;
         Token token;
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.getCoverArtResource]", (Object)"MediaSearchResultFormatter");
+            this.logger.log(100000000, "[%1.getCoverArtResource]", (Object)LOGCLASS);
         }
         if (null == (token = MediaSearchResultFormatter.getTokenForType(tokenArray = searchResult.getTokens(), 22))) {
             return null;

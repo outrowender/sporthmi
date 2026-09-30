@@ -6,19 +6,14 @@ package de.audi.app.bap.utils;
 import de.audi.atip.log.LogChannel;
 
 public interface IBAPLogger {
-    default public LogChannel getMainLog() {
-    }
+    public LogChannel getMainLog();
 
-    default public LogChannel getDSILog() {
-    }
+    public LogChannel getDSILog();
 
-    default public LogChannel getDiagLog() {
-    }
+    public LogChannel getDiagLog();
 
-    default public LogChannel getLog(int n) {
-    }
+    public LogChannel getLog(int var1);
 
-    default public LogChannel getLogBAPData(int n) {
-    }
+    public LogChannel getLogBAPData(int var1);
 }
 

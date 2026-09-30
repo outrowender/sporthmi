@@ -30,7 +30,6 @@ implements FactResetService {
         return this.audiConnectResetBlocked;
     }
 
-    @Override
     public synchronized void setPhoneStateBlockReset(boolean bl, boolean bl2) {
         if (bl != this.blockPhoneReset || this.blockBluetoothReset != bl2) {
             this.blockPhoneReset = bl;
@@ -39,7 +38,6 @@ implements FactResetService {
         }
     }
 
-    @Override
     public void setAudiConnectResetBlocked(boolean bl) {
         if (this.audiConnectResetBlocked != bl) {
             this.audiConnectResetBlocked = bl;

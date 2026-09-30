@@ -7,54 +7,44 @@ import de.audi.tghu.navi.app.map.IMapPropertyProvider;
 
 public class MapPropertyProviderEvo
 implements IMapPropertyProvider {
-    @Override
     public int getDrawerCategoryNaviMapView() {
-        return 481285613;
+        return -304763108;
     }
 
-    @Override
     public int getDestCoordinate() {
-        return 372000130;
+        return -2109395946;
     }
 
-    @Override
     public int getDestOnBoardPOI() {
-        return 2034231441;
+        return -1847050375;
     }
 
-    @Override
     public int getDestGoogle() {
-        return -878434415;
+        return -1859672885;
     }
 
-    @Override
     public int getDestAddress() {
-        return 1313821830;
+        return -2041295026;
     }
 
-    @Override
     public int getDestPicNav() {
-        return -1524903426;
+        return -19850331;
     }
 
-    @Override
     public int getDestPOIStack() {
-        return 126826571;
+        return 1261997831;
     }
 
-    @Override
     public int getDestParkingAtThisLocation() {
-        return 961952885;
+        return 1966888505;
     }
 
-    @Override
     public int getPrefferedDelayFormat() {
         return 7;
     }
 
-    @Override
     public int getDestTMCEvent() {
-        return 723000794;
+        return -635627477;
     }
 }
 

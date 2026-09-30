@@ -8,20 +8,17 @@ import de.esolutions.fw.util.commons.SimpleIntIntMap;
 
 public interface FolderListModelApp
 extends ListModelApp {
-    public static final int INDEX_ROW_ID;
-    public static final int INDEX_FOLDER_ID;
-    public static final int INDEX_IS_FOLDER;
-    public static final int FOLDERSTATE_OPEN;
-    public static final int FOLDERSTATE_CLOSED;
-    public static final int FOLDERSTATE_UNKNOWN;
+    public static final int INDEX_ROW_ID = 0;
+    public static final int INDEX_FOLDER_ID = 1;
+    public static final int INDEX_IS_FOLDER = 2;
+    public static final int FOLDERSTATE_OPEN = 1;
+    public static final int FOLDERSTATE_CLOSED = 0;
+    public static final int FOLDERSTATE_UNKNOWN = -1;
 
-    default public SimpleIntIntMap getFolderStates() {
-    }
+    public SimpleIntIntMap getFolderStates();
 
-    default public void setFolderStates(SimpleIntIntMap simpleIntIntMap) {
-    }
+    public void setFolderStates(SimpleIntIntMap var1);
 
-    default public boolean isOpen(int n) {
-    }
+    public boolean isOpen(int var1);
 }
 

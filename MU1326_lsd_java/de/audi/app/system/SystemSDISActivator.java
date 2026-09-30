@@ -9,14 +9,18 @@ package de.audi.app.system;
 import de.audi.app.system.HeadUnitASIProvider;
 import de.audi.app.system.InstanceASIProvider;
 import de.audi.app.system.MasterControlASIProvider;
-import de.audi.app.system.SystemSDISActivator$1;
 import de.audi.app.system.SystemSDISEnv;
 import de.audi.atip.activator.AbstractActivator;
+import de.audi.atip.diag.sw.AbstractSwDiagnosis;
+import de.audi.atip.diag.sw.SwDiagnosisManager;
+import de.audi.atip.interapp.SDISConnectionStateListener;
+import de.audi.atip.interapp.sdis.ISDISBlockingListener;
 import de.audi.mib.jdsi.DSIActivator;
 import de.mib.swdiagnosis.SDISSystemDiag;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -51,13 +55,12 @@ extends AbstractActivator {
             Class.forName(string);
         }
         catch (ClassNotFoundException classNotFoundException) {
-            this.env.getLog().log(-1601830656, "isClassAvailable() - class '%1' not found!", (Object)string);
+            this.env.getLog().log(100000, "isClassAvailable() - class '%1' not found!", (Object)string);
             bl = false;
         }
         return bl;
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.env = new SystemSDISEnv(this.getFramework());
@@ -79,11 +82,44 @@ extends AbstractActivator {
         this.registerService(new String[]{(class$de$audi$atip$interapp$sdis$ISDISHeadUnitService == null ? (class$de$audi$atip$interapp$sdis$ISDISHeadUnitService = SystemSDISActivator.class$("de.audi.atip.interapp.sdis.ISDISHeadUnitService")) : class$de$audi$atip$interapp$sdis$ISDISHeadUnitService).getName(), (class$de$audi$atip$agent$IASIProvider == null ? (class$de$audi$atip$agent$IASIProvider = SystemSDISActivator.class$("de.audi.atip.agent.IASIProvider")) : class$de$audi$atip$agent$IASIProvider).getName(), (class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = SystemSDISActivator.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName()}, (Object)this.headUnitASIProvider, (Dictionary)hashtable);
         this.carTimeActivator = new DSIActivator(this.getFramework(), (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage == null ? (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage = SystemSDISActivator.class$("org.dsi.ifc.cartimeunitslanguage.DSICarTimeUnitsLanguage")) : class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage).getName(), (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguageListener == null ? (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguageListener = SystemSDISActivator.class$("org.dsi.ifc.cartimeunitslanguage.DSICarTimeUnitsLanguageListener")) : class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguageListener).getName(), new Integer(0), this.headUnitASIProvider, this.headUnitASIProvider);
         this.carTimeActivator.start(bundleContext);
-        this.tracker = new ServiceTracker(this.bundleContext, new String[]{(class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage == null ? (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage = SystemSDISActivator.class$("org.dsi.ifc.cartimeunitslanguage.DSICarTimeUnitsLanguage")) : class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage).getName(), (class$de$audi$atip$interapp$sdis$ISDISBlockingListener == null ? (class$de$audi$atip$interapp$sdis$ISDISBlockingListener = SystemSDISActivator.class$("de.audi.atip.interapp.sdis.ISDISBlockingListener")) : class$de$audi$atip$interapp$sdis$ISDISBlockingListener).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = SystemSDISActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), (class$de$audi$atip$interapp$SDISConnectionStateListener == null ? (class$de$audi$atip$interapp$SDISConnectionStateListener = SystemSDISActivator.class$("de.audi.atip.interapp.SDISConnectionStateListener")) : class$de$audi$atip$interapp$SDISConnectionStateListener).getName()}, (ServiceTrackerCustomizer)new SystemSDISActivator$1(this));
+        this.tracker = new ServiceTracker(this.bundleContext, new String[]{(class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage == null ? (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage = SystemSDISActivator.class$("org.dsi.ifc.cartimeunitslanguage.DSICarTimeUnitsLanguage")) : class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage).getName(), (class$de$audi$atip$interapp$sdis$ISDISBlockingListener == null ? (class$de$audi$atip$interapp$sdis$ISDISBlockingListener = SystemSDISActivator.class$("de.audi.atip.interapp.sdis.ISDISBlockingListener")) : class$de$audi$atip$interapp$sdis$ISDISBlockingListener).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = SystemSDISActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), (class$de$audi$atip$interapp$SDISConnectionStateListener == null ? (class$de$audi$atip$interapp$SDISConnectionStateListener = SystemSDISActivator.class$("de.audi.atip.interapp.SDISConnectionStateListener")) : class$de$audi$atip$interapp$SDISConnectionStateListener).getName()}, new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = SystemSDISActivator.this.bundleContext.getService(serviceReference);
+                if (object != null) {
+                    if (object instanceof ISDISBlockingListener) {
+                        SystemSDISActivator.this.masterControlASIProvider.addBlockingListener((ISDISBlockingListener)object);
+                    } else if (object instanceof SwDiagnosisManager) {
+                        SystemSDISActivator.this.sdisSystemDiag = new SDISSystemDiag(SystemSDISActivator.this.getEnv(), SystemSDISActivator.this.masterControlASIProvider, SystemSDISActivator.this.headUnitASIProvider, SystemSDISActivator.this.instanceASIProvider);
+                        ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)SystemSDISActivator.this.sdisSystemDiag);
+                    } else if (object instanceof SDISConnectionStateListener) {
+                        SystemSDISActivator.this.getEnv().addSDISConnectionStateListener((SDISConnectionStateListener)object);
+                    } else {
+                        SystemSDISActivator.this.bundleContext.ungetService(serviceReference);
+                        return null;
+                    }
+                }
+                return object;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                if (object instanceof ISDISBlockingListener) {
+                    SystemSDISActivator.this.masterControlASIProvider.addBlockingListener((ISDISBlockingListener)object);
+                } else if (object instanceof SwDiagnosisManager) {
+                    ((SwDiagnosisManager)object).removeDiagGateway((AbstractSwDiagnosis)SystemSDISActivator.this.sdisSystemDiag);
+                    SystemSDISActivator.this.sdisSystemDiag = null;
+                } else if (object instanceof SDISConnectionStateListener) {
+                    SystemSDISActivator.this.getEnv().removeSDISConnectionStateListener(object);
+                }
+                SystemSDISActivator.this.bundleContext.ungetService(serviceReference);
+            }
+        });
         this.tracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.tracker != null) {
             this.tracker.close();
@@ -111,43 +147,6 @@ extends AbstractActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ BundleContext access$000(SystemSDISActivator systemSDISActivator) {
-        return systemSDISActivator.bundleContext;
-    }
-
-    static /* synthetic */ MasterControlASIProvider access$100(SystemSDISActivator systemSDISActivator) {
-        return systemSDISActivator.masterControlASIProvider;
-    }
-
-    static /* synthetic */ SDISSystemDiag access$202(SystemSDISActivator systemSDISActivator, SDISSystemDiag sDISSystemDiag) {
-        systemSDISActivator.sdisSystemDiag = sDISSystemDiag;
-        return systemSDISActivator.sdisSystemDiag;
-    }
-
-    static /* synthetic */ SystemSDISEnv access$300(SystemSDISActivator systemSDISActivator) {
-        return systemSDISActivator.getEnv();
-    }
-
-    static /* synthetic */ HeadUnitASIProvider access$400(SystemSDISActivator systemSDISActivator) {
-        return systemSDISActivator.headUnitASIProvider;
-    }
-
-    static /* synthetic */ InstanceASIProvider access$500(SystemSDISActivator systemSDISActivator) {
-        return systemSDISActivator.instanceASIProvider;
-    }
-
-    static /* synthetic */ SDISSystemDiag access$200(SystemSDISActivator systemSDISActivator) {
-        return systemSDISActivator.sdisSystemDiag;
-    }
-
-    static /* synthetic */ BundleContext access$600(SystemSDISActivator systemSDISActivator) {
-        return systemSDISActivator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$700(SystemSDISActivator systemSDISActivator) {
-        return systemSDISActivator.bundleContext;
     }
 }
 

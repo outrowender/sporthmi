@@ -7,10 +7,8 @@ import de.vw.mib.bap.requests.ChangedArray;
 import de.vw.mib.bap.requests.StatusArray;
 
 public interface IBAPArrayASGIND {
-    default public void statusArrayIND(StatusArray statusArray) {
-    }
+    public void statusArrayIND(StatusArray var1);
 
-    default public void changedArrayIND(ChangedArray changedArray) {
-    }
+    public void changedArrayIND(ChangedArray var1);
 }
 

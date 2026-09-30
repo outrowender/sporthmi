@@ -26,24 +26,20 @@ implements IEntryListRow {
         abstractEntryListRowData.setColumns(this, abstractEntryListRowData, null);
     }
 
-    @Override
     public EvoListRow copy() {
         EntryListRow entryListRow = new EntryListRow(this.getUniqueID(), this.entryListRowData);
         this.entryListRowData.setColumns(entryListRow, this.entryListRowData, null);
         return entryListRow;
     }
 
-    @Override
     public ListEntry getListEntry() {
         return this.entryListRowData.getListEntry();
     }
 
-    @Override
     public int getItemOffset() {
         return this.entryListRowData.getItemOffset();
     }
 
-    @Override
     public int getIconId() {
         return this.entryListRowData.getIconId();
     }

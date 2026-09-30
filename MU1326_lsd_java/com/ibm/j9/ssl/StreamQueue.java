@@ -3,8 +3,7 @@
  */
 package com.ibm.j9.ssl;
 
-import com.ibm.j9.ssl.StreamQueue$1;
-import com.ibm.j9.ssl.StreamQueue$2;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -12,8 +11,64 @@ public class StreamQueue {
     private byte[] buffer = new byte[1024];
     private int posRead = 0;
     private int posWrite = 0;
-    private InputStream queueRead = new StreamQueue$1(this);
-    private OutputStream queueWrite = new StreamQueue$2(this);
+    private InputStream queueRead = new InputStream(){
+
+        public int available() throws IOException {
+            return StreamQueue.this.getSize();
+        }
+
+        public int read() throws IOException {
+            byte[] byArray = new byte[1];
+            this.read(byArray, 0, 1);
+            return byArray[0] & 0xFF;
+        }
+
+        public int read(byte[] byArray, int n, int n2) throws IOException {
+            if (n2 > this.available()) {
+                n2 = this.available();
+            }
+            int n3 = n2 > StreamQueue.this.buffer.length - StreamQueue.this.posRead ? StreamQueue.this.buffer.length - StreamQueue.this.posRead : n2;
+            System.arraycopy((Object)StreamQueue.this.buffer, StreamQueue.this.posRead, (Object)byArray, n, n3);
+            if (n3 < n2) {
+                System.arraycopy((Object)StreamQueue.this.buffer, 0, (Object)byArray, n + n3, n2 - n3);
+                StreamQueue.this.posRead = n2 - n3;
+            } else {
+                StreamQueue streamQueue = StreamQueue.this;
+                streamQueue.posRead = streamQueue.posRead + n2;
+            }
+            return n2;
+        }
+
+        public int read(byte[] byArray) throws IOException {
+            return this.read(byArray, 0, byArray.length);
+        }
+    };
+    private OutputStream queueWrite = new OutputStream(){
+
+        public void write(byte[] byArray, int n, int n2) throws IOException {
+            if (StreamQueue.this.getUnusedCapacity() < n2) {
+                StreamQueue.this.grow(n2 - StreamQueue.this.getUnusedCapacity());
+            }
+            int n3 = n2 > StreamQueue.this.buffer.length - StreamQueue.this.posWrite ? StreamQueue.this.buffer.length - StreamQueue.this.posWrite : n2;
+            System.arraycopy((Object)byArray, n, (Object)StreamQueue.this.buffer, StreamQueue.this.posWrite, n3);
+            if (n3 < n2) {
+                System.arraycopy((Object)byArray, n + n3, (Object)StreamQueue.this.buffer, 0, n2 - n3);
+                StreamQueue.this.posWrite = n2 - n3;
+            } else {
+                StreamQueue streamQueue = StreamQueue.this;
+                streamQueue.posWrite = streamQueue.posWrite + n2;
+            }
+        }
+
+        public void write(byte[] byArray) throws IOException {
+            this.write(byArray, 0, byArray.length);
+        }
+
+        public void write(int n) throws IOException {
+            byte[] byArray = new byte[]{(byte)n};
+            this.write(byArray, 0, 1);
+        }
+    };
 
     public InputStream getReadStream() {
         return this.queueRead;
@@ -41,7 +96,7 @@ public class StreamQueue {
         return this.getCapacity() - this.getSize();
     }
 
-    private int grow(int n) {
+    private int grow(int n) throws IOException {
         n = n < this.buffer.length / 8 ? this.buffer.length / 8 : n;
         byte[] byArray = new byte[this.buffer.length + n];
         int n2 = this.getSize();
@@ -50,30 +105,6 @@ public class StreamQueue {
         this.posWrite = n2;
         this.buffer = byArray;
         return n;
-    }
-
-    static /* synthetic */ byte[] access$0(StreamQueue streamQueue) {
-        return streamQueue.buffer;
-    }
-
-    static /* synthetic */ int access$1(StreamQueue streamQueue) {
-        return streamQueue.posRead;
-    }
-
-    static /* synthetic */ void access$2(StreamQueue streamQueue, int n) {
-        streamQueue.posRead = n;
-    }
-
-    static /* synthetic */ int access$3(StreamQueue streamQueue, int n) {
-        return streamQueue.grow(n);
-    }
-
-    static /* synthetic */ int access$4(StreamQueue streamQueue) {
-        return streamQueue.posWrite;
-    }
-
-    static /* synthetic */ void access$5(StreamQueue streamQueue, int n) {
-        streamQueue.posWrite = n;
     }
 }
 

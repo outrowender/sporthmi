@@ -9,15 +9,12 @@ import de.audi.app.media.source.ISourceSlot;
 
 public class DefaultContentListener
 implements IContentListener {
-    @Override
     public void contentActivated(IContent iContent, ISourceSlot iSourceSlot) {
     }
 
-    @Override
     public void contentActivationFinished(IContent iContent) {
     }
 
-    @Override
     public void contentDeactivated(IContent iContent) {
     }
 }

@@ -13,14 +13,14 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public class AddressInputLIValueListElementListRow
 extends LiValueListRow {
-    public static final int COLUMN_BEAUTIFIED_TEXT;
-    public static final int COLUMN_IS_VALID_DEST;
-    public static final int COLUMN_IS_TO_REFINE;
-    public static final int COLUMN_IS_HISTORY_ELEMENT;
-    public static final int COLUMN_PROPERTY;
-    public static final int MAX_COLUMNS;
-    public static final int FOCUSED_ITEM_IS_INVALID_PROPERTY;
-    public static final int FOCUSED_DUMMY_PROPERTY;
+    public static final int COLUMN_BEAUTIFIED_TEXT = 0;
+    public static final int COLUMN_IS_VALID_DEST = 1;
+    public static final int COLUMN_IS_TO_REFINE = 2;
+    public static final int COLUMN_IS_HISTORY_ELEMENT = 3;
+    public static final int COLUMN_PROPERTY = 4;
+    public static final int MAX_COLUMNS = 5;
+    public static final int FOCUSED_ITEM_IS_INVALID_PROPERTY = -1515095522;
+    public static final int FOCUSED_DUMMY_PROPERTY = -1112037785;
 
     public AddressInputLIValueListElementListRow(LIValueListElement lIValueListElement, int n, int[] nArray) {
         super(lIValueListElement.getListIndex(), 5, lIValueListElement);
@@ -38,10 +38,9 @@ extends LiValueListRow {
     }
 
     public AddressInputLIValueListElementListRow(LIValueListElement lIValueListElement, int n) {
-        this(lIValueListElement, n, new int[]{511357349});
+        this(lIValueListElement, n, new int[]{-1515095522});
     }
 
-    @Override
     public EvoListRow copy() {
         return new AddressInputLIValueListElementListRow(this);
     }

@@ -14,7 +14,6 @@ implements ITelMuteMicService {
         super(logChannel, string);
     }
 
-    @Override
     public void toggleMuteMicrophone(boolean bl) {
         this.log("toggleMuteMicrophone");
     }

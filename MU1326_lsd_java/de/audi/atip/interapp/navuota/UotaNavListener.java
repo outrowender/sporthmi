@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.navuota;
 
 public interface UotaNavListener {
-    default public void startNewGuidance(int n, int n2, boolean bl) {
-    }
+    public void startNewGuidance(int var1, int var2, boolean var3);
 
-    default public void cancelLastGuidance() {
-    }
+    public void cancelLastGuidance();
 }
 

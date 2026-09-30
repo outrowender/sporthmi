@@ -10,9 +10,6 @@ import de.audi.app.navi.evo.addressinput.poi.listbuilders.PoiIconedParentCategor
 import de.audi.app.navi.evo.addressinput.poi.listbuilders.PoiIconedParentCategoriesParentListRow;
 import de.audi.app.navi.evo.addressinput.poi.listbuilders.PoiIconedResultsListRow;
 import de.audi.app.navi.evo.addressinput.poi.listener.AbstractPoiRightDrawerHmiListener;
-import de.audi.app.navi.evo.addressinput.poi.listener.PoiRightDrawerHmiListener$1;
-import de.audi.app.navi.evo.addressinput.poi.listener.PoiRightDrawerHmiListener$2;
-import de.audi.app.navi.evo.addressinput.poi.listener.PoiRightDrawerHmiListener$3;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.OptionModelApp;
@@ -23,6 +20,7 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.adb.NaviADBHandler;
 import de.audi.tghu.navi.app.addressinput.commands.LISPGetLocationFromLIValueListElementCommand;
 import de.audi.tghu.navi.app.addressinput.poi.PoiUtil;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.favorite.INaviFavoriteHandler;
 import de.audi.tghu.navi.app.map.MapInterface;
@@ -38,12 +36,12 @@ extends AbstractPoiRightDrawerHmiListener {
         super(navigationEnv, iCommandListFactory, iNaviFavoriteHandler, mapInterface, naviADBHandler, iTelService);
         this.poiManager = poiManager;
         this.detailsScreen = iDetailsScreen;
-        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(-1826748928));
-        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(1964901888));
-        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(1830684160));
-        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(1948124672));
-        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(-467728896));
-        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(1293944320));
+        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(401043));
+        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(401013));
+        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(401005));
+        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(401012));
+        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(401380));
+        this.registerAsOptionListenerForAllLists(navigationEnv.getHMIService().getOptionModel(401485));
     }
 
     protected void registerAsOptionListenerForAllLists(OptionModelApp optionModelApp) {
@@ -58,21 +56,20 @@ extends AbstractPoiRightDrawerHmiListener {
         optionModelApp.setListener(this, PoiScreensEvo.getMapViewStackMenuModel());
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#keyTyped. modelId: %1, targetModelId: %2, targetRow: %3").toString(), (long)n, (long)n2, (long)n3);
+        this.logChannel.log(10000000, new StringBuffer().append(this.CLASS_NAME).append("#keyTyped. modelId: %1, targetModelId: %2, targetRow: %3").toString(), (long)n, (long)n2, (long)n3);
         BaseListModelApp baseListModelApp = this.env.getBaseListModel(n2);
         EvoListRow evoListRow = baseListModelApp.getRow(n3);
         LIValueListElement lIValueListElement = PoiScreensEvo.getLiValueListElementFromRow(evoListRow, n2);
         if (lIValueListElement == null) {
-            this.logChannel.log(-1601830656, "%1#keyTyped: liValueListElement is null", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000, "%1#keyTyped: liValueListElement is null", (Object)this.CLASS_NAME);
             return;
         }
         NavLocation navLocation = null;
         if (evoListRow instanceof PoiIconedParentCategoriesParentListRow) {
             navLocation = this.env.getContainer().getLiCurrentLD();
         }
-        if (n == 1964901888) {
+        if (n == 401013) {
             String string;
             if (evoListRow instanceof PoiIconedParentCategoriesParentListRow || evoListRow instanceof PoiIconedParentCategoriesListRow) {
                 string = (String)evoListRow.getCell(2);
@@ -85,47 +82,61 @@ extends AbstractPoiRightDrawerHmiListener {
                 this.logChannel.log(10000, "%1#keyTyped - Unknown type of row for extracting favorite name.", (Object)this.CLASS_NAME);
             }
             this.saveAsFavorite(lIValueListElement, string, navLocation);
-        } else if (n == 1830684160) {
+        } else if (n == 401005) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "%1#keyTyped --> NAV_ONLINE_INPUT_COMPLETED_CALL_NUMBER_OPTION will be executed with liValueListElement = %2", (Object)this.CLASS_NAME, (Object)lIValueListElement);
+                this.logChannel.log(100000000, "%1#keyTyped --> NAV_ONLINE_INPUT_COMPLETED_CALL_NUMBER_OPTION will be executed with liValueListElement = %2", (Object)this.CLASS_NAME, (Object)lIValueListElement);
             }
             PoiUtil.callPoi(lIValueListElement, this.env, this.commandListFactory, this.telService);
-        } else if (n == -467728896) {
+        } else if (n == 401380) {
             this.parkingNearDestination(lIValueListElement, navLocation);
-        } else if (n == 1948124672) {
+        } else if (n == 401012) {
             this.showInMap(lIValueListElement, navLocation);
-        } else if (n == 1293944320) {
+        } else if (n == 401485) {
             this.addToContact(lIValueListElement, navLocation);
-        } else if (n == -1826748928) {
+        } else if (n == 401043) {
             this.showDetails(lIValueListElement, navLocation);
         }
         this.env.fireModelEvent(n, n5);
     }
 
-    protected void parkingNearDestination(LIValueListElement lIValueListElement, NavLocation navLocation) {
+    protected void parkingNearDestination(LIValueListElement lIValueListElement, final NavLocation navLocation) {
         CommandList commandList = this.commandListFactory.createCommandList();
         commandList.put("CurrentSelection", lIValueListElement);
         if (navLocation == null) {
             commandList.add(new LISPGetLocationFromLIValueListElementCommand(lIValueListElement));
         } else {
-            commandList.add(new PoiRightDrawerHmiListener$1(this, "SetLocation As SelectedLocation", navLocation));
+            commandList.add(new NavCommand("SetLocation As SelectedLocation"){
+
+                public void execute() {
+                    this.dsiResponseContainer.setSelectedLocation(navLocation);
+                    this.getCommandList().commandFinished();
+                }
+            });
         }
         this.poiManager.executePoiSelectionEvent(commandList, 1204);
     }
 
-    protected void showDetails(LIValueListElement lIValueListElement, NavLocation navLocation) {
+    protected void showDetails(LIValueListElement lIValueListElement, final NavLocation navLocation) {
         CommandList commandList = this.commandListFactory.createCommandList();
         if (navLocation == null) {
             commandList.add(new LISPGetLocationFromLIValueListElementCommand(lIValueListElement));
         } else {
-            commandList.add(new PoiRightDrawerHmiListener$2(this, "SetLocation As SelectedLocation", navLocation));
-        }
-        commandList.add(new PoiRightDrawerHmiListener$3(this, "get location from response container"));
-        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#showDetails").toString());
-    }
+            commandList.add(new NavCommand("SetLocation As SelectedLocation"){
 
-    static /* synthetic */ IDetailsScreen access$000(PoiRightDrawerHmiListener poiRightDrawerHmiListener) {
-        return poiRightDrawerHmiListener.detailsScreen;
+                public void execute() {
+                    this.dsiResponseContainer.setSelectedLocation(navLocation);
+                    this.getCommandList().commandFinished();
+                }
+            });
+        }
+        commandList.add(new NavCommand("get location from response container"){
+
+            public void execute() {
+                PoiRightDrawerHmiListener.this.detailsScreen.enterDetailsScreen(this.dsiResponseContainer.getSelectedLocation());
+                this.getCommandList().commandFinished();
+            }
+        });
+        commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#showDetails").toString());
     }
 }
 

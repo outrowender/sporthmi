@@ -4,7 +4,6 @@
 package de.audi.app.messaging.core.dsi;
 
 public interface IDsiAccessClient {
-    default public void updateDsiAvailability(boolean bl) {
-    }
+    public void updateDsiAvailability(boolean var1);
 }
 

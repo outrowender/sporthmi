@@ -132,7 +132,7 @@ public class MediaSlot {
                 return "RELOAD";
             }
         }
-        return new StringBuffer().append("UNKNOWN (").append(n).append(")").toString();
+        return "UNKNOWN (" + n + ")";
     }
 
     public int hashCode() {
@@ -156,7 +156,7 @@ public class MediaSlot {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         MediaSlot mediaSlot = (MediaSlot)object;

@@ -4,13 +4,10 @@
 package de.audi.atip.hmi;
 
 public interface IAppKeyListener {
-    default public void keyPressed(int n, int n2) {
-    }
+    public void keyPressed(int var1, int var2);
 
-    default public void keyReleased(int n, int n2) {
-    }
+    public void keyReleased(int var1, int var2);
 
-    default public void keyTurned(int n, int n2, int n3, boolean bl) {
-    }
+    public void keyTurned(int var1, int var2, int var3, boolean var4);
 }
 

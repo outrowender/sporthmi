@@ -4,16 +4,12 @@
 package de.audi.atip.utils.dispatching;
 
 public interface ITimer {
-    default public void start() {
-    }
+    public void start();
 
-    default public void restart() {
-    }
+    public void restart();
 
-    default public boolean cancel() {
-    }
+    public boolean cancel();
 
-    default public boolean isRunning() {
-    }
+    public boolean isRunning();
 }
 

@@ -7,93 +7,69 @@ import de.audi.atip.hmi.view.IDisplayListener;
 import org.osgi.framework.BundleContext;
 
 public interface IDisplayManager {
-    public static final int INDEX_DISPLAYABLE_HMI;
-    public static final int INDEX_DISPLAYABLE_REAR_VIEW_CAM;
-    public static final int INDEX_DISPLAYABLE_BROWSER;
-    public static final int INDEX_DISPLAYABLE_MAPVIEWER;
-    public static final int INDEX_DISPLAYABLE_MAP_ROUTE_GUIDANCE;
-    public static final int INDEX_DISPLAYABLE_MAP_INTERSECTION_VIEW;
-    public static final int INDEX_DISPLAYABLE_MAP_JUNCTION_VIEW;
-    public static final int INDEX_DISPLAYABLE_DVD_VIDEO;
-    public static final int INDEX_DISPLAYABLE_TV_TUNER;
-    public static final int INDEX_DISPLAYABLE_AMI;
-    public static final int INDEX_DISPLAYABLE_OPS;
-    public static final int INDEX_DISPLAYABLE_MAP_INTERSECTION_VIEW_3D;
-    public static final int INDEX_DISPLAYABLE_MAP_LANDMARK_VIEW;
-    public static final int INDEX_DISPLAYABLE_EXTERNAL_DVD_VIDEO;
-    public static final int INDEX_DISPLAYABLE_HMI2;
-    public static final int INDEX_DISPLAYABLE_3D;
-    public static final int INDEX_DISPLAYABLE_MAP_IN_MAP;
-    public static final int INDEX_DISPLAYABLE_GOOGLE_EARTH;
-    public static final int MAX_DISPLAYABLES;
-    public static final int[] displayableMapping;
-    public static final int FRAME_DROP_EVERY_FRAME;
-    public static final int FRAME_DROP_EVERY_OTHER_FRAME;
-    public static final int FRAME_DROP_EVERY_THIRD_FRAME;
-    public static final int FRAME_DROP_EVERY_FOURTH_FRAME;
+    public static final int INDEX_DISPLAYABLE_HMI = 0;
+    public static final int INDEX_DISPLAYABLE_REAR_VIEW_CAM = 1;
+    public static final int INDEX_DISPLAYABLE_BROWSER = 2;
+    public static final int INDEX_DISPLAYABLE_MAPVIEWER = 3;
+    public static final int INDEX_DISPLAYABLE_MAP_ROUTE_GUIDANCE = 4;
+    public static final int INDEX_DISPLAYABLE_MAP_INTERSECTION_VIEW = 5;
+    public static final int INDEX_DISPLAYABLE_MAP_JUNCTION_VIEW = 7;
+    public static final int INDEX_DISPLAYABLE_DVD_VIDEO = 8;
+    public static final int INDEX_DISPLAYABLE_TV_TUNER = 9;
+    public static final int INDEX_DISPLAYABLE_AMI = 10;
+    public static final int INDEX_DISPLAYABLE_OPS = 11;
+    public static final int INDEX_DISPLAYABLE_MAP_INTERSECTION_VIEW_3D = 12;
+    public static final int INDEX_DISPLAYABLE_MAP_LANDMARK_VIEW = 13;
+    public static final int INDEX_DISPLAYABLE_EXTERNAL_DVD_VIDEO = 14;
+    public static final int INDEX_DISPLAYABLE_HMI2 = 15;
+    public static final int INDEX_DISPLAYABLE_3D = 16;
+    public static final int INDEX_DISPLAYABLE_MAP_IN_MAP = 17;
+    public static final int INDEX_DISPLAYABLE_GOOGLE_EARTH = 18;
+    public static final int MAX_DISPLAYABLES = 19;
+    public static final int[] displayableMapping = new int[19];
+    public static final int FRAME_DROP_EVERY_FRAME = 1;
+    public static final int FRAME_DROP_EVERY_OTHER_FRAME = 2;
+    public static final int FRAME_DROP_EVERY_THIRD_FRAME = 3;
+    public static final int FRAME_DROP_EVERY_FOURTH_FRAME = 4;
 
-    default public void switchContext(int n, int n2, IDisplayListener iDisplayListener) {
-    }
+    public void switchContext(int var1, int var2, IDisplayListener var3);
 
-    default public int getCurrentContextID(int n) {
-    }
+    public int getCurrentContextID(int var1);
 
-    default public void setOpacity(int n, int n2, int n3) {
-    }
+    public void setOpacity(int var1, int var2, int var3);
 
-    default public void fadeToOpacity(int n, int n2, int n3, int n4) {
-    }
+    public void fadeToOpacity(int var1, int var2, int var3, int var4);
 
-    default public int[] getDisplayables(int n) {
-    }
+    public int[] getDisplayables(int var1);
 
-    default public void setPosition(int n, int n2, int n3, int n4) {
-    }
+    public void setPosition(int var1, int var2, int var3, int var4);
 
-    default public void setCropping(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10) {
-    }
+    public void setCropping(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10);
 
-    default public void setDisplayBrightness(int n, int n2) {
-    }
+    public void setDisplayBrightness(int var1, int var2);
 
-    default public void lockDisplay(int n) {
-    }
+    public void lockDisplay(int var1);
 
-    default public void lockDisplayAndWait(int n) {
-    }
+    public void lockDisplayAndWait(int var1);
 
-    default public void unlockDisplay(int n) {
-    }
+    public void unlockDisplay(int var1);
 
-    default public void unlockDisplayAndWait(int n) {
-    }
+    public void unlockDisplayAndWait(int var1);
 
-    default public void takeScreenshot(int n, String string) {
-    }
+    public void takeScreenshot(int var1, String var2);
 
-    default public void stop(BundleContext bundleContext) {
-    }
+    public void stop(BundleContext var1);
 
-    default public void start(BundleContext bundleContext) {
-    }
+    public void start(BundleContext var1);
 
-    default public int getOpacity(int n, int n2) {
-    }
+    public int getOpacity(int var1, int var2);
 
-    default public int[] getPosition(int n, int n2) {
-    }
+    public int[] getPosition(int var1, int var2);
 
-    default public void setDisplayType(int n, int n2) {
-    }
+    public void setDisplayType(int var1, int var2);
 
-    default public void setUpdateRate(int n, int n2) {
-    }
+    public void setUpdateRate(int var1, int var2);
 
-    default public int[] getExtends(int n) {
-    }
-
-    static {
-        displayableMapping = new int[19];
-    }
+    public int[] getExtends(int var1);
 }
 

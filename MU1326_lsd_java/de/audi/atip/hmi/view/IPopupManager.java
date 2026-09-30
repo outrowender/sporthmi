@@ -9,73 +9,50 @@ import de.audi.atip.hmi.view.IScreenData;
 import java.io.PrintStream;
 
 public interface IPopupManager {
-    default public void showPopup(int n) {
-    }
+    public void showPopup(int var1);
 
-    default public void removePopup(int n) {
-    }
+    public void removePopup(int var1);
 
-    default public void setPopupKeyConsuptionStrategy(IPopupKeyConsuptionStrategy iPopupKeyConsuptionStrategy) {
-    }
+    public void setPopupKeyConsuptionStrategy(IPopupKeyConsuptionStrategy var1);
 
-    default public boolean removeCurrentPopup() {
-    }
+    public boolean removeCurrentPopup();
 
-    default public int getCurrentPopupID() {
-    }
+    public int getCurrentPopupID();
 
-    default public int getCurrentPopupPriority() {
-    }
+    public int getCurrentPopupPriority();
 
-    default public void enablePopups() {
-    }
+    public void enablePopups();
 
-    default public void disablePopups(int n) {
-    }
+    public void disablePopups(int var1);
 
-    default public boolean isPopupVisible() {
-    }
+    public boolean isPopupVisible();
 
-    default public boolean popupAvailable() {
-    }
+    public boolean popupAvailable();
 
-    default public void showPopupScreen(IScreenData iScreenData) {
-    }
+    public void showPopupScreen(IScreenData var1);
 
-    default public void removePopupScreen(int n, boolean bl, boolean bl2) {
-    }
+    public void removePopupScreen(int var1, boolean var2, boolean var3);
 
-    default public void showPartialPopupsForPopup(int n, int n2, int[] nArray) {
-    }
+    public void showPartialPopupsForPopup(int var1, int var2, int[] var3);
 
-    default public void removePartialPopupsFromPopup(int n, int n2, int[] nArray) {
-    }
+    public void removePartialPopupsFromPopup(int var1, int var2, int[] var3);
 
-    default public void replacePopupScreen(int n, IScreenData iScreenData) {
-    }
+    public void replacePopupScreen(int var1, IScreenData var2);
 
-    default public void dump(PrintStream printStream, String string) {
-    }
+    public void dump(PrintStream var1, String var2);
 
-    default public IScreenData getCurrentPopup() {
-    }
+    public IScreenData getCurrentPopup();
 
-    default public IPartialPopupManager getPPManager() {
-    }
+    public IPartialPopupManager getPPManager();
 
-    default public boolean isLogicalPopup(IScreenData iScreenData) {
-    }
+    public boolean isLogicalPopup(IScreenData var1);
 
-    default public void callBackPopupHidden(IScreenData iScreenData) {
-    }
+    public void callBackPopupHidden(IScreenData var1);
 
-    default public void callbackPopupRemoved(int n, int n2) {
-    }
+    public void callbackPopupRemoved(int var1, int var2);
 
-    default public boolean isInPopupList(int n) {
-    }
+    public boolean isInPopupList(int var1);
 
-    default public void processPopupQuit(int n) {
-    }
+    public void processPopupQuit(int var1);
 }
 

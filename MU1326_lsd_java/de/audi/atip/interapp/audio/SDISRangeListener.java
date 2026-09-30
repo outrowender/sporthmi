@@ -4,13 +4,10 @@
 package de.audi.atip.interapp.audio;
 
 public interface SDISRangeListener {
-    default public void decrement(int n, int n2, int n3) {
-    }
+    public void decrement(int var1, int var2, int var3);
 
-    default public void increment(int n, int n2, int n3) {
-    }
+    public void increment(int var1, int var2, int var3);
 
-    default public void changeVolume(int n) {
-    }
+    public void changeVolume(int var1);
 }
 

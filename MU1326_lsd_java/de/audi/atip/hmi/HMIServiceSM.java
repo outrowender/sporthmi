@@ -6,46 +6,32 @@ package de.audi.atip.hmi;
 import de.audi.atip.hmi.view.IScreenData;
 
 public interface HMIServiceSM {
-    default public void showScreen(int n, int n2, IScreenData iScreenData) {
-    }
+    public void showScreen(int var1, int var2, IScreenData var3);
 
-    default public void showPopupScreen(int n, IScreenData iScreenData) {
-    }
+    public void showPopupScreen(int var1, IScreenData var2);
 
-    default public void removePopupScreen(int n, int n2, int n3, boolean bl) {
-    }
+    public void removePopupScreen(int var1, int var2, int var3, boolean var4);
 
-    default public void replacePopupScreen(int n, int n2, int n3, IScreenData iScreenData) {
-    }
+    public void replacePopupScreen(int var1, int var2, int var3, IScreenData var4);
 
-    default public void showPartialPopupsForPopup(int n, int n2, int n3, int[] nArray) {
-    }
+    public void showPartialPopupsForPopup(int var1, int var2, int var3, int[] var4);
 
-    default public void showPartialPopups(int n, int n2, int[] nArray) {
-    }
+    public void showPartialPopups(int var1, int var2, int[] var3);
 
-    default public void removePartialPopupsFromPopup(int n, int n2, int n3, int[] nArray) {
-    }
+    public void removePartialPopupsFromPopup(int var1, int var2, int var3, int[] var4);
 
-    default public void removePartialPopups(int n, int n2, int[] nArray) {
-    }
+    public void removePartialPopups(int var1, int var2, int[] var3);
 
-    default public void fireSMEvent(int n, int n2) {
-    }
+    public void fireSMEvent(int var1, int var2);
 
-    default public void fireSMEventDirectlyInEventDispatchThread(int n, int n2) {
-    }
+    public void fireSMEventDirectlyInEventDispatchThread(int var1, int var2);
 
-    default public void sMActionRequiresNoScreenChange(int n) {
-    }
+    public void sMActionRequiresNoScreenChange(int var1);
 
-    default public int getFocusedTerminal() {
-    }
+    public int getFocusedTerminal();
 
-    default public int getCurrentPopupID(int n) {
-    }
+    public int getCurrentPopupID(int var1);
 
-    default public void setActiveSubterminal(int n, int n2) {
-    }
+    public void setActiveSubterminal(int var1, int var2);
 }
 

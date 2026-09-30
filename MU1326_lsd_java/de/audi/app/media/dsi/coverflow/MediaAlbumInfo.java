@@ -8,7 +8,7 @@ import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.albumbrowser.AlbumEntryInfo;
 
 public class MediaAlbumInfo {
-    public static final int INVALID_ALBUM_IDX;
+    public static final int INVALID_ALBUM_IDX = -1;
     private final I18NString album;
     private final I18NString artist;
     private final long albumIdx;

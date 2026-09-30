@@ -7,27 +7,27 @@ import de.audi.atip.hmi.model.PropertyListCell;
 import de.esolutions.fw.util.commons.Buffer;
 
 public abstract class AbstractCoMaDevice {
-    public static final int TYPE_SIM;
-    public static final int TYPE_BLUE;
-    public static final int TYPE_WLAN;
-    public static final int TYPE_UPNP;
-    public static final int TYPE_RHMI;
-    public static final int TYPE_SMARTPHONE;
-    public static final int SERVICE_TELEPHONY_SLOT1;
-    public static final int SERVICE_TELEPHONY_SLOT2;
-    public static final int SERVICE_TELEPHONY;
-    public static final int SERVICE_DATA;
-    public static final int SERVICE_AUDI_CONNECT;
-    public static final int SERVICE_MEDIA;
-    public static final int SERVICE_OFFICE;
-    public static final int SERVICE_SMARTPHONE;
-    public static final int SERVICE_MEDIA_WLAN;
-    public static final int SERVICE_NONE;
-    public static final int SERVICE_ALL;
-    public static final int SMARTPHONE_INTEGRATIONTYPE_NONE;
-    public static final int SMARTPHONE_INTEGRATIONTYPE_APPLE;
-    public static final int SMARTPHONE_INTEGRATIONTYPE_ANDROID;
-    public static final int SMARTPHONE_INTEGRATIONTYPE_CARLIFE;
+    public static final int TYPE_SIM = 0;
+    public static final int TYPE_BLUE = 1;
+    public static final int TYPE_WLAN = 2;
+    public static final int TYPE_UPNP = 3;
+    public static final int TYPE_RHMI = 4;
+    public static final int TYPE_SMARTPHONE = 7;
+    public static final int SERVICE_TELEPHONY_SLOT1 = 1;
+    public static final int SERVICE_TELEPHONY_SLOT2 = 2;
+    public static final int SERVICE_TELEPHONY = 3;
+    public static final int SERVICE_DATA = 4;
+    public static final int SERVICE_AUDI_CONNECT = 8;
+    public static final int SERVICE_MEDIA = 16;
+    public static final int SERVICE_OFFICE = 32;
+    public static final int SERVICE_SMARTPHONE = 64;
+    public static final int SERVICE_MEDIA_WLAN = 128;
+    public static final int SERVICE_NONE = 0;
+    public static final int SERVICE_ALL = 255;
+    public static final int SMARTPHONE_INTEGRATIONTYPE_NONE = 0;
+    public static final int SMARTPHONE_INTEGRATIONTYPE_APPLE = 1;
+    public static final int SMARTPHONE_INTEGRATIONTYPE_ANDROID = 2;
+    public static final int SMARTPHONE_INTEGRATIONTYPE_CARLIFE = 3;
     private final int type;
     private final int supportedServices;
     private int connectedServices;
@@ -74,13 +74,12 @@ public abstract class AbstractCoMaDevice {
         return this.name;
     }
 
-    abstract PropertyListCell getProperties() {
-    }
+    abstract PropertyListCell getProperties();
 
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append(super.toString());
-        buffer.append(new StringBuffer().append(" ").append(this.identifier).append(" connected: ").toString());
+        buffer.append(" " + this.identifier + " connected: ");
         if (this.isConnected(1)) {
             buffer.append("VOICE(PRIMARY)");
         }
@@ -93,7 +92,7 @@ public abstract class AbstractCoMaDevice {
         if (this.isConnected(16)) {
             buffer.append("&MEDIA");
         }
-        buffer.append(new StringBuffer().append(" all: ").append(this.connectedServices).toString());
+        buffer.append(" all: " + this.connectedServices);
         return buffer.toString();
     }
 }

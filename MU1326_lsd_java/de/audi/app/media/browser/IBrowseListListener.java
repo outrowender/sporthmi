@@ -7,40 +7,28 @@ import de.audi.app.media.dsi.media.MediaListEntry;
 import org.dsi.ifc.global.CharacterInfo;
 
 public interface IBrowseListListener {
-    default public void browseModeChanged(boolean bl, int n) {
-    }
+    public void browseModeChanged(boolean var1, int var2);
 
-    default public void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-    }
+    public void browseFolderChanged(boolean var1, MediaListEntry[] var2, int var3);
 
-    default public void listUpdated(int n) {
-    }
+    public void listUpdated(int var1);
 
-    default public int getClientId() {
-    }
+    public int getClientId();
 
-    default public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-    }
+    public void responseList(boolean var1, MediaListEntry[] var2, int var3);
 
-    default public void responsePickList(boolean bl, MediaListEntry[] mediaListEntryArray) {
-    }
+    public void responsePickList(boolean var1, MediaListEntry[] var2);
 
-    default public void addSelectionResult(boolean bl, int n, int n2, boolean bl2, long l, long l2, long l3, long l4, long l5) {
-    }
+    public void addSelectionResult(boolean var1, int var2, int var3, boolean var4, long var5, long var7, long var9, long var11, long var13);
 
-    default public void resetSelectionResult(boolean bl, int n) {
-    }
+    public void resetSelectionResult(boolean var1, int var2);
 
-    default public void notifyMetadataEntryAvailable(boolean bl) {
-    }
+    public void notifyMetadataEntryAvailable(boolean var1);
 
-    default public void notifyFilesystemEntryAvailable(boolean bl) {
-    }
+    public void notifyFilesystemEntryAvailable(boolean var1);
 
-    default public void notifyCoverartsAvailable(boolean bl) {
-    }
+    public void notifyCoverartsAvailable(boolean var1);
 
-    default public void notifyUpdateAlphabeticalIndex(CharacterInfo[] characterInfoArray) {
-    }
+    public void notifyUpdateAlphabeticalIndex(CharacterInfo[] var1);
 }
 

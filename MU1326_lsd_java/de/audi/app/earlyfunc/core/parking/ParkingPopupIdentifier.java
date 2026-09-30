@@ -6,8 +6,8 @@ package de.audi.app.earlyfunc.core.parking;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class ParkingPopupIdentifier {
-    public static final int POPUP_TYPE_FULLSCREEN;
-    public static final int POPUP_TYPE_PARTIAL;
+    public static final int POPUP_TYPE_FULLSCREEN = 0;
+    public static final int POPUP_TYPE_PARTIAL = 1;
     private int popupType;
     private int hmiPopupID;
 

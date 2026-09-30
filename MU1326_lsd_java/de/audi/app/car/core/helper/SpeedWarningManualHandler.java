@@ -30,7 +30,7 @@ public class SpeedWarningManualHandler {
 
     public void setCurrentValues(boolean bl, int n, int n2) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[SpeedWarningHandler#setCurrentValues] received values: state='%1', speedWarningValue='%2', speedWarningUnit='%3'", (Object)Boolean.toString(bl), (long)n, (long)n2);
+            this.logChannel.log(1000000, "[SpeedWarningHandler#setCurrentValues] received values: state='%1', speedWarningValue='%2', speedWarningUnit='%3'", (Object)Boolean.toString(bl), (long)n, (long)n2);
         }
         if (n2 != this.currentSpeedWarningUnit) {
             this.unitChanged = true;
@@ -54,7 +54,7 @@ public class SpeedWarningManualHandler {
             this.currentState = true;
         }
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[SpeedWarningHandler#setCurrentValues] calculated values: state='%1', speedWarningValue='%2', speedWarningUnit='%3'", (Object)Boolean.toString(this.currentState), (long)this.currentSpeedWarningValue, (long)this.currentSpeedWarningUnit);
+            this.logChannel.log(1000000, "[SpeedWarningHandler#setCurrentValues] calculated values: state='%1', speedWarningValue='%2', speedWarningUnit='%3'", (Object)Boolean.toString(this.currentState), (long)this.currentSpeedWarningValue, (long)this.currentSpeedWarningUnit);
         }
     }
 
@@ -107,7 +107,7 @@ public class SpeedWarningManualHandler {
 
     private int roundSpeedWarningValue(int n, int n2) {
         int n3;
-        this.logChannel.log(1078071040, "roundSpeedWarningValue BEFORE rounding (%1)", (long)n);
+        this.logChannel.log(1000000, "roundSpeedWarningValue BEFORE rounding (%1)", (long)n);
         int n4 = n;
         if (n2 == 1) {
             int n5 = n % this.stepMPH;
@@ -117,7 +117,7 @@ public class SpeedWarningManualHandler {
         } else if (n2 == 0 && (n3 = n % this.stepKMH) != 0) {
             n4 = n3 <= 4 ? n - n3 : n + (this.stepKMH - n3);
         }
-        this.logChannel.log(1078071040, "roundSpeedWarningValue AFTER rounding (%1)", (long)n4);
+        this.logChannel.log(1000000, "roundSpeedWarningValue AFTER rounding (%1)", (long)n4);
         return n4;
     }
 }

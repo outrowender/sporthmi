@@ -15,13 +15,11 @@ import de.audi.app.phone.core.state.CallStateStruct;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.util.PhoneUtils;
-import de.audi.app.phone.evo.entertainmentdrawer.EntertainmentDrawerControllerImplNew$1;
 import de.audi.app.phone.evo.entertainmentdrawer.IEntertainmentDrawerControllerNew;
 import de.audi.atip.hmi.model.ModelGroup;
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
-import de.audi.atip.interapp.audio.drawer.AudioDrawerContext$SourceAudioState;
+import de.audi.atip.interapp.audio.drawer.AudioDrawerContextListener;
 import de.audi.atip.interapp.phone.IEcallState;
-import de.audi.atip.log.LogChannel;
 import java.util.HashMap;
 import java.util.Map;
 import org.osgi.framework.ServiceReference;
@@ -61,27 +59,44 @@ ServiceTrackerCustomizer {
         this.DRW_OPENED = 0;
         this.DRW_CLOSED = 1;
         this.DRW_UNKNOWN = -2;
-        this.audioDrawerContextListenerProvider = new PhoneServiceProvider((class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener = EntertainmentDrawerControllerImplNew.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContextListener")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener).getName(), new EntertainmentDrawerControllerImplNew$1(this), null, iTelApplication.getBundleContext(), this.log);
+        this.audioDrawerContextListenerProvider = new PhoneServiceProvider((class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener = EntertainmentDrawerControllerImplNew.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContextListener")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContextListener).getName(), new AudioDrawerContextListener(){
+
+            public void updateActiveContext(AudioDrawerContext.Source source, int n) {
+                EntertainmentDrawerControllerImplNew.this.log.log(1000000, "[EntertainmentDrawerControllerImplNew.AudioDrawerContextListener#updateActiveContext] source=%1, drawerState=%2", (Object)source, (long)n);
+                if (EntertainmentDrawerControllerImplNew.this.currentPhoneAudioDrawerContext == 2) {
+                    EntertainmentDrawerControllerImplNew.this.flushIncomingCallModels();
+                }
+            }
+
+            public void entertainmentDrawerOpened() {
+                EntertainmentDrawerControllerImplNew.this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#entertainmentDrawerOpened]");
+                EntertainmentDrawerControllerImplNew.this.setDrawerState(0);
+            }
+
+            public void entertainmentDrawerClosed() {
+                EntertainmentDrawerControllerImplNew.this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#entertainmentDrawerClosed]");
+                EntertainmentDrawerControllerImplNew.this.setDrawerState(1);
+                EntertainmentDrawerControllerImplNew.this.flushModelGroupAndChangeAudioContext();
+            }
+        }, null, iTelApplication.getBundleContext(), this.log);
         this.isStandardSystem = this.getApplication().getFrameworkAccess().getSysConst(523) == 0;
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(7, this);
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(8, this);
-        this.getApplication().getGlobalTelephoneStateManager().registerListenerForSpecificAttributeUpdate(0xC000400, (IGlobalTelephoneStateListener)this);
+        this.getApplication().getGlobalTelephoneStateManager().registerListenerForSpecificAttributeUpdate(262156, (IGlobalTelephoneStateListener)this);
         this.audioDrawerContextListenerProvider.startService();
         this.audioDrawerServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext = EntertainmentDrawerControllerImplNew.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContext")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.audioDrawerServiceTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(7, this);
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(8, this);
-        this.getApplication().getGlobalTelephoneStateManager().removeListenerForSpecificAttributeUpdate(0xC000400, (IGlobalTelephoneStateListener)this);
+        this.getApplication().getGlobalTelephoneStateManager().removeListenerForSpecificAttributeUpdate(262156, (IGlobalTelephoneStateListener)this);
         this.audioDrawerContextListenerProvider.stopService();
         if (this.audioDrawerServiceTracker != null) {
             this.audioDrawerServiceTracker.closeTracker();
@@ -89,13 +104,12 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (n == 0xC000400 && iGlobalTelephoneStateStruct != null) {
+        if (n == 262156 && iGlobalTelephoneStateStruct != null) {
             boolean bl;
             IEcallState iEcallState = iGlobalTelephoneStateStruct.getConnectedGatewayState();
             if (iEcallState.isLowPrioritySOSEmergencyCallType() && iEcallState.getCall().getState() != 0) {
-                this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#updateGlobalTelephoneStateProperty] set AudioDrawerContext#SOURCE_PHONE_STATE_ACTIVE_CALL because of low priority SOS call");
+                this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#updateGlobalTelephoneStateProperty] set AudioDrawerContext#SOURCE_PHONE_STATE_ACTIVE_CALL because of low priority SOS call");
                 this.changeEntDrawerContext(AudioDrawerContext.SOURCE_PHONE_STATE_ACTIVE_CALL, 2);
                 return;
             }
@@ -111,7 +125,6 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof AudioDrawerContext) {
@@ -122,11 +135,9 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof AudioDrawerContext) {
             this.getApplication().getBundleContext().ungetService(serviceReference);
@@ -134,72 +145,64 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void showEntertainmentDrawer() {
-        this.log.log(-2137614336, "[EntertainmentDrawerControllerImplNew#showEntertainmentDrawer] try to show ED");
+        this.log.log(10000000, "[EntertainmentDrawerControllerImplNew#showEntertainmentDrawer] try to show ED");
         if (this.getDrawerState() != 0) {
-            this.log.log(-2137614336, "[EntertainmentDrawerControllerImplNew#showEntertainmentDrawer] ED will be showed");
-            this.getApplication().getFrameworkAccess().getHmiServiceApp().showPopup(-527236096);
+            this.log.log(10000000, "[EntertainmentDrawerControllerImplNew#showEntertainmentDrawer] ED will be showed");
+            this.getApplication().getFrameworkAccess().getHmiServiceApp().showPopup(300000);
         }
     }
 
-    @Override
     public void closeEntertainmentDrawer() {
-        this.log.log(-2137614336, "[EntertainmentDrawerControllerImplNew#closeEntertainmentDrawer] will try to remove ED");
+        this.log.log(10000000, "[EntertainmentDrawerControllerImplNew#closeEntertainmentDrawer] will try to remove ED");
         if (this.getDrawerState() == 0) {
-            this.log.log(-2137614336, "[EntertainmentDrawerControllerImplNew#closeEntertainmentDrawer] removing ED");
-            this.getApplication().getFrameworkAccess().getHmiServiceApp().removePopup(-527236096);
+            this.log.log(10000000, "[EntertainmentDrawerControllerImplNew#closeEntertainmentDrawer] removing ED");
+            this.getApplication().getFrameworkAccess().getHmiServiceApp().removePopup(300000);
         }
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (n == 7) {
             this.telAppEntered = true;
         } else if (n == 8) {
             this.telAppEntered = false;
         } else {
-            this.log.log(-1601830656, "[EntertainmentDrawerControllerImplNew#actionProxyCallPerformed] unhandled methodID=%1", (long)n);
+            this.log.log(100000, "[EntertainmentDrawerControllerImplNew#actionProxyCallPerformed] unhandled methodID=%1", (long)n);
         }
     }
 
-    @Override
     public void onIncomingCallMute() {
-        this.log.log(-2137614336, "EntertainmentDrawerControllerImplNew#onIncomingCallMute(): called");
+        this.log.log(10000000, "EntertainmentDrawerControllerImplNew#onIncomingCallMute(): called");
         if (this.hasJoystik() || !this.isInTelefoneContext()) {
             this.closeEntertainmentDrawer();
         }
     }
 
-    @Override
     public void onTelAppEntered(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         if (this.hasIncomingCall(iGlobalTelephoneStateStruct) && !this.callAcceptedFromMUStdSystemOngoing) {
-            this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#actionProxyCallPerformed] TEL_APP_ENTERED --> showing ED for incoming call");
-            this.log.log(-2137614336, "[EntertainmentDrawerControllerImplNew#showEntertainmentDrawer] ED will be showed");
-            this.getApplication().getFrameworkAccess().getHmiServiceApp().showPopup(-527236096);
+            this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#actionProxyCallPerformed] TEL_APP_ENTERED --> showing ED for incoming call");
+            this.log.log(10000000, "[EntertainmentDrawerControllerImplNew#showEntertainmentDrawer] ED will be showed");
+            this.getApplication().getFrameworkAccess().getHmiServiceApp().showPopup(300000);
         }
         this.callAcceptedFromMUStdSystemOngoing = false;
     }
 
-    @Override
     public void onTelAppLeft(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         boolean bl = this.hasActiveCall(iGlobalTelephoneStateStruct);
-        this.log.log(1078071040, "EntertainmentDrawerControllerImplNew#onTelAppLeft(): hasActiveCall: %1", bl);
+        this.log.log(1000000, "EntertainmentDrawerControllerImplNew#onTelAppLeft(): hasActiveCall: %1", bl);
         if (bl) {
             this.closeEntertainmentDrawer();
         }
     }
 
-    @Override
     public void callAcceptedOnCluster() {
-        this.log.log(-2137614336, "EntertainmentDrawerControllerImplNew#callAcceptedOnCluster()");
+        this.log.log(10000000, "EntertainmentDrawerControllerImplNew#callAcceptedOnCluster()");
         this.setCallAcceptedFromCluster(true);
         this.closeEntertainmentDrawer();
     }
 
-    @Override
     public void callAcceptedOnMU() {
-        this.log.log(-2137614336, "EntertainmentDrawerControllerImplNew#callAcceptedOnMU()");
+        this.log.log(10000000, "EntertainmentDrawerControllerImplNew#callAcceptedOnMU()");
         this.setCallAcceptedFromMU(true);
         if (this.isStandardSystem) {
             this.acceptIncomingCallOnStdSystemOnMU();
@@ -208,12 +211,10 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void acceptOnNCLDOngoing(boolean bl) {
         this.acceptOnNCLDOngoing = bl;
     }
 
-    @Override
     public void computeNewDrawerState(ModelGroup[] modelGroupArray, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         int n = this.computeNewDrawerState(iGlobalTelephoneStateStruct);
         if (this.mg != null) {
@@ -226,7 +227,7 @@ ServiceTrackerCustomizer {
         }
         this.mg = modelGroupArray;
         this.stateStruct = iGlobalTelephoneStateStruct;
-        this.log.log(1078071040, "EntertainmentDrawerControllerImplNew#computeNewDrawerState() newDrawerState=%1", (Object)EntertainmentDrawerControllerImplNew.getDrawerStateName(n));
+        this.log.log(1000000, "EntertainmentDrawerControllerImplNew#computeNewDrawerState() newDrawerState=%1", (Object)EntertainmentDrawerControllerImplNew.getDrawerStateName(n));
         switch (n) {
             case 0: {
                 this.flushModelGroupAndChangeAudioContext();
@@ -242,28 +243,25 @@ ServiceTrackerCustomizer {
                 break;
             }
             default: {
-                this.log.log(-1601830656, "EntertainmentDrawerControllerImplNew#computeNewDrawerState(): invalid drawer state %1", (long)n);
+                this.log.log(100000, "EntertainmentDrawerControllerImplNew#computeNewDrawerState(): invalid drawer state %1", (long)n);
                 this.flushModelGroupAndChangeAudioContext();
             }
         }
     }
 
-    @Override
     public void deactivateTerminalModeDrawer() {
-        this.log.log(1078071040, "EntertainmentDrawerControllerImplNew#deactivateTerminalModeDrawer(): deactivating of TM audio drawer");
+        this.log.log(1000000, "EntertainmentDrawerControllerImplNew#deactivateTerminalModeDrawer(): deactivating of TM audio drawer");
         if (this.audioDrawerContextService != null) {
             this.audioDrawerContextService.setContext(AudioDrawerContext.SOURCE_TERMINAL_MODE_PHONE, AudioDrawerContext.SOURCE_AUDIO_STATE_INACTIVE);
         } else {
-            this.log.log(-1601830656, "EntertainmentDrawerControllerImplNew#deactivateTerminalModeDrawer(): audioDrawerContextService is NULL");
+            this.log.log(100000, "EntertainmentDrawerControllerImplNew#deactivateTerminalModeDrawer(): audioDrawerContextService is NULL");
         }
     }
 
-    @Override
     public void dialingNumberJumpToPhoneWillOccur() {
         this.dialingNumberJumpToPhoneWillOccur = true;
     }
 
-    @Override
     public void resetdialingNumberJumpToPhoneFlag() {
         this.dialingNumberJumpToPhoneWillOccur = false;
     }
@@ -291,7 +289,7 @@ ServiceTrackerCustomizer {
     }
 
     protected synchronized void flushModelGroupAndChangeAudioContext() {
-        this.log.log(1078071040, "EntertainmentDrawerControllerImplNew#flushModelGroup()");
+        this.log.log(1000000, "EntertainmentDrawerControllerImplNew#flushModelGroup()");
         this.updateAudioDrawerContext();
     }
 
@@ -300,18 +298,18 @@ ServiceTrackerCustomizer {
             CallStateStruct callStateStruct;
             CallStateStruct callStateStruct2 = callStateStruct = this.stateStruct.getCallLeadingDevice() != null ? this.stateStruct.getCallLeadingDevice().getCallState() : null;
             if (this.stateStruct.getConnectedGatewayState().isCustomerCallNotAllowed() && this.stateStruct.getConnectedGatewayState().isLowPrioritySOSEmergencyCallType() && this.stateStruct.getConnectedGatewayState().getCall().getState() != 0) {
-                this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] active SOS call");
+                this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] active SOS call");
                 this.changeEntDrawerContext(AudioDrawerContext.SOURCE_PHONE_STATE_ACTIVE_CALL, 2);
                 this.flushActiveCallModels();
                 this.flushIncomingCallModels();
             } else if (this.hasIncomingCall(this.stateStruct)) {
                 if (this.currentPhoneAudioDrawerContext != 1) {
-                    this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] AudioDrawerContext#SOURCE_PHONE_STATE_INCOMING_CALL");
+                    this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] AudioDrawerContext#SOURCE_PHONE_STATE_INCOMING_CALL");
                     this.flushIncomingCallModels();
                     this.changeEntDrawerContext(AudioDrawerContext.SOURCE_PHONE_STATE_INCOMING_CALL, 1);
                     this.flushActiveCallModels();
                 } else {
-                    this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] context is already AudioDrawerContext#SOURCE_PHONE_STATE_INCOMING_CALL");
+                    this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] context is already AudioDrawerContext#SOURCE_PHONE_STATE_INCOMING_CALL");
                     this.flushIncomingCallModels();
                     this.flushActiveCallModels();
                 }
@@ -319,24 +317,24 @@ ServiceTrackerCustomizer {
                 if (this.currentPhoneAudioDrawerContext != 2) {
                     this.flushActiveCallModels();
                     try {
-                        Thread.sleep(0);
+                        Thread.sleep(150L);
                     }
                     catch (InterruptedException interruptedException) {
                         interruptedException.printStackTrace();
                     }
-                    this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] AudioDrawerContext#SOURCE_PHONE_STATE_ACTIVE_CALL");
+                    this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] AudioDrawerContext#SOURCE_PHONE_STATE_ACTIVE_CALL");
                     this.changeEntDrawerContext(AudioDrawerContext.SOURCE_PHONE_STATE_ACTIVE_CALL, 2);
                 } else {
-                    this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] context is already AudioDrawerContext#SOURCE_PHONE_STATE_ACTIVE_CALL");
+                    this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] context is already AudioDrawerContext#SOURCE_PHONE_STATE_ACTIVE_CALL");
                     this.flushActiveCallModels();
                     this.flushIncomingCallModels();
                 }
             } else {
                 if (callStateStruct != null && callStateStruct.isIdle() && this.currentPhoneAudioDrawerContext != 0) {
-                    this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] AudioDrawerContext#SOURCE_PHONE_STATE_IDLE");
+                    this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] AudioDrawerContext#SOURCE_PHONE_STATE_IDLE");
                     this.changeEntDrawerContext(AudioDrawerContext.SOURCE_PHONE_STATE_IDLE, 0);
                 } else {
-                    this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] context is already AudioDrawerContext#SOURCE_PHONE_STATE_IDLE");
+                    this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#updateAudioDrawerContext] context is already AudioDrawerContext#SOURCE_PHONE_STATE_IDLE");
                 }
                 this.flushActiveCallModels();
                 this.flushIncomingCallModels();
@@ -350,15 +348,15 @@ ServiceTrackerCustomizer {
     private int computeNewDrawerState(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         CallStateStruct callStateStruct;
         int n = 2;
-        this.log.log(1078071040, "EntertainmentDrawerControllerImplNew#computeNewDrawerState()");
+        this.log.log(1000000, "EntertainmentDrawerControllerImplNew#computeNewDrawerState()");
         if (iGlobalTelephoneStateStruct == null) {
-            this.log.log(-1601830656, "EntertainmentDrawerControllerImplNew#computeNewDrawerState(): stateStruct is NULL");
+            this.log.log(100000, "EntertainmentDrawerControllerImplNew#computeNewDrawerState(): stateStruct is NULL");
             return 2;
         }
         CallStateStruct callStateStruct2 = iGlobalTelephoneStateStruct.getCallLeadingDevice() != null ? iGlobalTelephoneStateStruct.getCallLeadingDevice().getCallState() : null;
         CallStateStruct callStateStruct3 = callStateStruct = iGlobalTelephoneStateStruct.getNonCallLeadingDevice() != null ? iGlobalTelephoneStateStruct.getNonCallLeadingDevice().getCallState() : null;
         if (callStateStruct2 == null) {
-            this.log.log(-1601830656, "EntertainmentDrawerControllerImplNew#computeNewDrawerState(): callLeadingCallState is NULL");
+            this.log.log(100000, "EntertainmentDrawerControllerImplNew#computeNewDrawerState(): callLeadingCallState is NULL");
             return 2;
         }
         if (this.hasIncomingCall(iGlobalTelephoneStateStruct) && !callStateStruct2.isHasDisconnectingCall() && !this.isAcceptDuringActiveCallOrConferenceOngoing(callStateStruct2) && !this.acceptOnNCLDOngoing) {
@@ -417,8 +415,8 @@ ServiceTrackerCustomizer {
         this.disconnectingList.clear();
     }
 
-    private void changeEntDrawerContext(AudioDrawerContext$SourceAudioState audioDrawerContext$SourceAudioState, int n) {
-        this.audioDrawerContextService.setContext(AudioDrawerContext.SOURCE_PHONE, audioDrawerContext$SourceAudioState);
+    private void changeEntDrawerContext(AudioDrawerContext.SourceAudioState sourceAudioState, int n) {
+        this.audioDrawerContextService.setContext(AudioDrawerContext.SOURCE_PHONE, sourceAudioState);
         this.currentPhoneAudioDrawerContext = n;
     }
 
@@ -434,7 +432,7 @@ ServiceTrackerCustomizer {
                 // ** MonitorExit[var1_1] (shouldn't be in output)
             }
         } else {
-            this.log.log(-1601830656, "EntertainmentDrawerControllerImplNew#flushIncomingCallModels(): modelGroup is NULL");
+            this.log.log(100000, "EntertainmentDrawerControllerImplNew#flushIncomingCallModels(): modelGroup is NULL");
         }
     }
 
@@ -450,7 +448,7 @@ ServiceTrackerCustomizer {
                 // ** MonitorExit[var1_1] (shouldn't be in output)
             }
         } else {
-            this.log.log(-1601830656, "EntertainmentDrawerControllerImplNew#flushActiveCallModels(): modelGroup is NULL");
+            this.log.log(100000, "EntertainmentDrawerControllerImplNew#flushActiveCallModels(): modelGroup is NULL");
         }
     }
 
@@ -481,7 +479,7 @@ ServiceTrackerCustomizer {
     }
 
     private int recoverDrawerState() {
-        this.log.log(1078071040, "EntertainmentDrawerControllerImplNew#recoverDrawerState(): drawerStateAtDisconnectingCall=%1, drawerStateAtIncomingCall=%2", (long)this.drawerStateAtDisconnectingCall, (long)this.drawerStateAtIncomingCall);
+        this.log.log(1000000, "EntertainmentDrawerControllerImplNew#recoverDrawerState(): drawerStateAtDisconnectingCall=%1, drawerStateAtIncomingCall=%2", (long)this.drawerStateAtDisconnectingCall, (long)this.drawerStateAtIncomingCall);
         int n = this.computeNewDrawerStateAtDisconnectingCall();
         this.drawerStateAtDisconnectingCall = -2;
         this.drawerStateAtIncomingCall = -2;
@@ -501,26 +499,26 @@ ServiceTrackerCustomizer {
 
     protected int onOutgoingCall(int n) {
         boolean bl = n == 0 || n == 6 || n == 4 || n == 3 || n == 5 || n == 8 || n == 9;
-        this.log.log(-2137614336, "EntertainmentDrawerControllerImplNew#onOutgoingCall(): callType=%1", (long)n);
+        this.log.log(10000000, "EntertainmentDrawerControllerImplNew#onOutgoingCall(): callType=%1", (long)n);
         if (bl) {
             if (!(this.hasJoystik() || this.isInTelefoneContext() || this.dialingNumberJumpToPhoneWillOccur)) {
                 return this.computeNewDrawerState(0);
             }
         } else {
-            this.log.log(1078071040, "[EntertainmentDrawerControllerImplNew#onOutgoingCall] not showing ED for callType %1", (long)n);
+            this.log.log(1000000, "[EntertainmentDrawerControllerImplNew#onOutgoingCall] not showing ED for callType %1", (long)n);
         }
         return this.computeNewDrawerState(2);
     }
 
     protected int onAcceptIncomingCall() {
-        this.log.log(-2137614336, "EntertainmentDrawerControllerImplNew#onAcceptIncomingCall(): called");
+        this.log.log(10000000, "EntertainmentDrawerControllerImplNew#onAcceptIncomingCall(): called");
         if (!this.isInTelefoneContext() && this.hasJoystik() && this.isCallAcceptedFromCluster()) {
-            this.log.log(-2137614336, "EntertainmentDrawerControllerImplNew#onAcceptIncomingCall(): call was accepted by Cluster.");
+            this.log.log(10000000, "EntertainmentDrawerControllerImplNew#onAcceptIncomingCall(): call was accepted by Cluster.");
             this.setCallAcceptedFromCluster(false);
             return this.computeNewDrawerState(1);
         }
         if (!this.isInTelefoneContext() && this.hasJoystik() && this.isCallAcceptedFromMU()) {
-            this.log.log(-2137614336, "EntertainmentDrawerControllerImplNew#onAcceptIncomingCall(): call was accepted by Main Unit.");
+            this.log.log(10000000, "EntertainmentDrawerControllerImplNew#onAcceptIncomingCall(): call was accepted by Main Unit.");
             this.setCallAcceptedFromMU(false);
             this.showEntertainmentDrawer();
             return this.computeNewDrawerState(0);
@@ -542,7 +540,7 @@ ServiceTrackerCustomizer {
 
     private void acceptIncomingCallOnStdSystemOnMU() {
         if (!this.isInTelefoneContext() && !this.hasJoystik()) {
-            this.log.log(-2137614336, "EntertainmentDrawerControllerImplNew#acceptIncomingCallOnStdSystem(): change to phone");
+            this.log.log(10000000, "EntertainmentDrawerControllerImplNew#acceptIncomingCallOnStdSystem(): change to phone");
             this.callAcceptedFromMUStdSystemOngoing = true;
             this.closeEntertainmentDrawer();
             PhoneUtils.triggerJumpToPhone(this.getApplication().getFrameworkAccess().getHmiServiceApp());
@@ -624,24 +622,22 @@ ServiceTrackerCustomizer {
         }
     }
 
-    static /* synthetic */ LogChannel access$000(EntertainmentDrawerControllerImplNew entertainmentDrawerControllerImplNew) {
-        return entertainmentDrawerControllerImplNew.log;
+    static final class NewDrawerState {
+        public static final int OPEN = 0;
+        public static final int CLOSE = 1;
+        public static final int NO_CHANGE = 2;
+
+        NewDrawerState() {
+        }
     }
 
-    static /* synthetic */ int access$100(EntertainmentDrawerControllerImplNew entertainmentDrawerControllerImplNew) {
-        return entertainmentDrawerControllerImplNew.currentPhoneAudioDrawerContext;
-    }
+    static final class AudioDrawerContextPhone {
+        public static final int IDLE = 0;
+        public static final int INCOMING_CALL = 1;
+        public static final int ACTIVE_CALL = 2;
 
-    static /* synthetic */ void access$200(EntertainmentDrawerControllerImplNew entertainmentDrawerControllerImplNew) {
-        entertainmentDrawerControllerImplNew.flushIncomingCallModels();
-    }
-
-    static /* synthetic */ LogChannel access$300(EntertainmentDrawerControllerImplNew entertainmentDrawerControllerImplNew) {
-        return entertainmentDrawerControllerImplNew.log;
-    }
-
-    static /* synthetic */ LogChannel access$400(EntertainmentDrawerControllerImplNew entertainmentDrawerControllerImplNew) {
-        return entertainmentDrawerControllerImplNew.log;
+        AudioDrawerContextPhone() {
+        }
     }
 }
 

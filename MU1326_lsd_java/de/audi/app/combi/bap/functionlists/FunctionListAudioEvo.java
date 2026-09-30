@@ -9,7 +9,6 @@ import de.vw.mib.bap.generated.audiosd.serializer.FunctionList_Status;
 
 public class FunctionListAudioEvo
 extends AbstractFunctionListAudio {
-    @Override
     protected void initFunctionListStatusWithVariantAndRegion(int n, int n2) {
         this.functionSupported = new boolean[this.getMaxFctID() + 1];
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(this.getFctListBAPFctID());
@@ -178,32 +177,26 @@ extends AbstractFunctionListAudio {
         this.functionSupported[49] = true;
     }
 
-    @Override
     protected int getMinModuleSpecificFctID() {
         return 16;
     }
 
-    @Override
     protected int getMaxFctID() {
         return 52;
     }
 
-    @Override
     public int getGetAllFctID() {
         return 1;
     }
 
-    @Override
     public int getBAPConfigBAPFctID() {
         return 2;
     }
 
-    @Override
     public int getFctListBAPFctID() {
         return 3;
     }
 
-    @Override
     public int getOperationStateBAPFctID() {
         return 15;
     }

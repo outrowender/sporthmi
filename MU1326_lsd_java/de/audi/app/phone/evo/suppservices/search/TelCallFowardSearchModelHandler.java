@@ -4,6 +4,7 @@
 package de.audi.app.phone.evo.suppservices.search;
 
 import de.audi.app.phone.core.ITelApplication;
+import de.audi.app.phone.core.ap.AbstractTelActionProxyListener;
 import de.audi.app.phone.core.search.cmd.ITelDSISearchAccess;
 import de.audi.app.phone.core.suppservices.AbstractTelCallForwardingHandler;
 import de.audi.app.phone.evo.intellicall.search.AbstractIntellicallSearchResultRow;
@@ -11,7 +12,6 @@ import de.audi.app.phone.evo.intellicall.search.AbstractTelIntellicallSearchMode
 import de.audi.app.phone.evo.intellicall.search.IntellicallADBEntryDetailsResultRow;
 import de.audi.app.phone.evo.intellicall.search.IntellicallCallStackSearchResultRow;
 import de.audi.app.phone.evo.intellicall.search.IntellicallFavoriteSearchResultRow;
-import de.audi.app.phone.evo.suppservices.search.TelCallFowardSearchModelHandler$CallFowardingLeftListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
@@ -21,6 +21,7 @@ import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.search.util.SearchResultListRow;
 import de.audi.atip.util.StringUtilities;
+import java.util.Map;
 
 public class TelCallFowardSearchModelHandler
 extends AbstractTelIntellicallSearchModelHandler {
@@ -29,57 +30,47 @@ extends AbstractTelIntellicallSearchModelHandler {
     public TelCallFowardSearchModelHandler(ITelApplication iTelApplication, ITelDSISearchAccess iTelDSISearchAccess, AbstractTelCallForwardingHandler abstractTelCallForwardingHandler) {
         super(iTelApplication, iTelDSISearchAccess, "App.Phone.Search");
         this.callForwardingHandler = abstractTelCallForwardingHandler;
-        this.addSubPhoneComponent(new TelCallFowardSearchModelHandler$CallFowardingLeftListener(this, iTelApplication));
+        this.addSubPhoneComponent(new CallFowardingLeftListener(iTelApplication));
     }
 
-    @Override
     protected SpellerModelApp getSearchSpellerModel() {
-        return this.getSpellerModel(-577371136);
+        return this.getSpellerModel(300765);
     }
 
-    @Override
     protected BaseListModelApp getSearchResultListModel() {
-        return this.getBaseListModel(-560593920);
+        return this.getBaseListModel(300766);
     }
 
-    @Override
     protected ChoiceModelApp getSearchIsActiveChoiceModel() {
-        return this.getChoiceModel(-543816704);
+        return this.getChoiceModel(300767);
     }
 
-    @Override
     protected void showCombinedCallStacks() {
-        this.getChoiceModel(-510262272).setValue(0);
+        this.getChoiceModel(300769).setValue(0);
     }
 
-    @Override
     protected void showSearchResultList() {
-        this.getChoiceModel(-510262272).setValue(1);
+        this.getChoiceModel(300769).setValue(1);
     }
 
-    @Override
     protected ChoiceModelApp getTelephoneNumberRecognizedChoice() {
-        return this.getChoiceModel(-493485056);
+        return this.getChoiceModel(300770);
     }
 
-    @Override
     protected LabelModelApp getSpellerContentLabel() {
-        return this.getLabelModel(-476707840);
+        return this.getLabelModel(300771);
     }
 
-    @Override
     protected ButtonModelApp getSpellerContentButton() {
-        return this.getButtonModel(-342490112);
+        return this.getButtonModel(300779);
     }
 
-    @Override
     protected MenuModelApp getMenu() {
-        return this.getMenuModel(144114688);
+        return this.getMenuModel(300808);
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
-        this.log.log(1078071040, "[TelCallFowardSearchModelHandler#searchResultSelected] listRow=%1", (Object)searchResultListRow);
+        this.log.log(1000000, "[TelCallFowardSearchModelHandler#searchResultSelected] listRow=%1", (Object)searchResultListRow);
         String string = null;
         if (searchResultListRow instanceof IntellicallCallStackSearchResultRow) {
             AbstractIntellicallSearchResultRow abstractIntellicallSearchResultRow = (AbstractIntellicallSearchResultRow)searchResultListRow;
@@ -91,42 +82,46 @@ extends AbstractTelIntellicallSearchModelHandler {
         this.activateCallForwarding(string, n);
     }
 
-    @Override
     public void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
         if (evoListRow instanceof IntellicallADBEntryDetailsResultRow) {
             IntellicallADBEntryDetailsResultRow intellicallADBEntryDetailsResultRow = (IntellicallADBEntryDetailsResultRow)evoListRow;
             String string = intellicallADBEntryDetailsResultRow.getNumber();
-            this.log.log(1078071040, "[TelCallFowardSearchModelHandler#childNodeSelected] number %1", (Object)string);
+            this.log.log(1000000, "[TelCallFowardSearchModelHandler#childNodeSelected] number %1", (Object)string);
             this.activateCallForwarding(string, n);
         }
     }
 
     private void activateCallForwarding(String string, int n) {
         if (!StringUtilities.isNullOrEmpty(string)) {
-            this.log.log(1078071040, "[TelCallForwardSearchGuiHandler#activateCallForwarding] number %1", (Object)string);
+            this.log.log(1000000, "[TelCallForwardSearchGuiHandler#activateCallForwarding] number %1", (Object)string);
             this.callForwardingHandler.activateCallForwarding(string, n);
             this.getSearchSpellerModel().fireEvent(n);
             this.clearSearchSpeller();
         } else {
-            this.log.log(1078071040, "[TelCallForwardSearchGuiHandler#activateCallForwarding] number is empty --> NOP!");
+            this.log.log(1000000, "[TelCallForwardSearchGuiHandler#activateCallForwarding] number is empty --> NOP!");
         }
     }
 
-    @Override
     protected void spellerSelectedUnique(String string, int n) {
-        this.log.log(1078071040, "[TelCallFowardSearchModelHandler#spellerSelectedUnique] number=%1", (Object)string);
+        this.log.log(1000000, "[TelCallFowardSearchModelHandler#spellerSelectedUnique] number=%1", (Object)string);
         this.activateCallForwarding(string, n);
     }
 
-    @Override
     protected void spellerContentButtonSelected(int n) {
-        this.log.log(1078071040, "[TelCallFowardSearchModelHandler#spellerContentButtonSelected]");
+        this.log.log(1000000, "[TelCallFowardSearchModelHandler#spellerContentButtonSelected]");
         String string = this.getSpellerContentLabel().getText();
         this.activateCallForwarding(string, n);
     }
 
-    static /* synthetic */ void access$000(TelCallFowardSearchModelHandler telCallFowardSearchModelHandler) {
-        telCallFowardSearchModelHandler.clearSearchSpeller();
+    private class CallFowardingLeftListener
+    extends AbstractTelActionProxyListener {
+        public CallFowardingLeftListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Search", 16);
+        }
+
+        protected void actionProxyCalled(Map map) {
+            TelCallFowardSearchModelHandler.this.clearSearchSpeller();
+        }
     }
 }
 

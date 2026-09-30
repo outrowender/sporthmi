@@ -18,7 +18,7 @@ import org.dsi.ifc.navigation.PoiExtendedInfo;
 
 public class TpegPoiAdditionInfoScreenModelAccess
 implements IPoiDetailScreenModelAccess {
-    private static final int NO_ID_FOUND;
+    private static final int NO_ID_FOUND = -1;
     private final NavigationEnv env;
     private LabelModelApp title;
     private MetricsModelApp timeStamp;
@@ -28,19 +28,17 @@ implements IPoiDetailScreenModelAccess {
 
     public TpegPoiAdditionInfoScreenModelAccess(NavigationEnv navigationEnv) {
         this.env = navigationEnv;
-        this.title = navigationEnv.getLabelModel(-1910307328);
-        this.timeStamp = navigationEnv.getMetricsModel(-1943861760);
-        this.address = navigationEnv.getLabelModel(1713636864);
-        this.text = navigationEnv.getLabelModel(-1893530112);
-        this.picture = navigationEnv.getChoiceModel(-1859975680);
+        this.title = navigationEnv.getLabelModel(402318);
+        this.timeStamp = navigationEnv.getMetricsModel(402316);
+        this.address = navigationEnv.getLabelModel(402534);
+        this.text = navigationEnv.getLabelModel(402319);
+        this.picture = navigationEnv.getChoiceModel(402321);
     }
 
-    @Override
     public void onStart() {
         this.timeStamp.setMetric(null);
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation) {
         PoiExtendedInfo poiExtendedInfo = this.env.getContainer().getPoiExtendedInfo();
         if (poiExtendedInfo != null) {

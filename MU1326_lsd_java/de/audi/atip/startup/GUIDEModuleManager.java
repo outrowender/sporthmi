@@ -9,7 +9,7 @@ import de.audi.atip.statemachine.SMListener;
 
 public class GUIDEModuleManager
 implements SMListener {
-    private static final int MAX_MODULE_ID;
+    private static final int MAX_MODULE_ID = 35;
     private AppStateManager appStateManager;
     private GUIDEModuleState[] moduleStates;
 
@@ -31,10 +31,9 @@ implements SMListener {
         }
     }
 
-    @Override
     public void smModuleRegistered(int n, int n2, int n3) {
         if (n >= 0 && n < 8 && n3 >= 0 && n3 < 35) {
-            this.appStateManager.getLog().log(-2137614336, "GUIDEModuleManager.smModuleRegistered( %1, %2 )", (long)n, (long)n3);
+            this.appStateManager.getLog().log(10000000, "GUIDEModuleManager.smModuleRegistered( %1, %2 )", (long)n, (long)n3);
             GUIDEModuleState gUIDEModuleState = this.getStateByModuleId(n, n3);
             if (null != gUIDEModuleState) {
                 gUIDEModuleState.setSMState(2);
@@ -42,10 +41,9 @@ implements SMListener {
         }
     }
 
-    @Override
     public void smModuleUnregistered(int n, int n2, int n3) {
         if (n == 0 && n3 >= 0 && n3 < 35) {
-            this.appStateManager.getLog().log(-2137614336, "GUIDEModuleManager.smModuleUnregistered( %1, %2 )", (long)n, (long)n3);
+            this.appStateManager.getLog().log(10000000, "GUIDEModuleManager.smModuleUnregistered( %1, %2 )", (long)n, (long)n3);
             GUIDEModuleState gUIDEModuleState = this.getStateByModuleId(n, n3);
             if (null != gUIDEModuleState) {
                 gUIDEModuleState.setSMState(0);

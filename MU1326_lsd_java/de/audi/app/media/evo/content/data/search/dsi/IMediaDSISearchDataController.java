@@ -9,22 +9,16 @@ import org.dsi.ifc.search.DataSet;
 
 public interface IMediaDSISearchDataController
 extends IDSIController {
-    default public void setMediaSearchDataProviderListener(IMediaSearchDataProviderListener iMediaSearchDataProviderListener) {
-    }
+    public void setMediaSearchDataProviderListener(IMediaSearchDataProviderListener var1);
 
-    default public void registerProviderSource(int n) {
-    }
+    public void registerProviderSource(int var1);
 
-    default public void sourceDataAvailabilityChanged(int n, boolean bl) {
-    }
+    public void sourceDataAvailabilityChanged(int var1, boolean var2);
 
-    default public void invalidateAllData(int n) {
-    }
+    public void invalidateAllData(int var1);
 
-    default public void storeDataSets(int n, DataSet[] dataSetArray, int n2) {
-    }
+    public void storeDataSets(int var1, DataSet[] var2, int var3);
 
-    default public void deleteDataSet(int n, long l) {
-    }
+    public void deleteDataSet(int var1, long var2);
 }
 

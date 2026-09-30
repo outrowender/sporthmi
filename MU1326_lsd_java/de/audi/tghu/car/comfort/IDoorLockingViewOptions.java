@@ -10,127 +10,86 @@ import org.dsi.ifc.global.CarViewOption;
 public interface IDoorLockingViewOptions {
     public static final CarViewOption defVO = new CarViewOption(1, 1);
 
-    default public CarViewOption getMessage() {
-    }
+    public CarViewOption getMessage();
 
-    default public CarViewOption getLockStatus() {
-    }
+    public CarViewOption getLockStatus();
 
-    default public CarViewOption getWindowStatus() {
-    }
+    public CarViewOption getWindowStatus();
 
-    default public CarViewOption getUnlockingMode() {
-    }
+    public CarViewOption getUnlockingMode();
 
-    default public CarViewOption getAutoLock() {
-    }
+    public CarViewOption getAutoLock();
 
-    default public CarViewOption getClBootLock() {
-    }
+    public CarViewOption getClBootLock();
 
-    default public CarViewOption getMirrorProtection() {
-    }
+    public CarViewOption getMirrorProtection();
 
-    default public CarViewOption getLockingConfirmation() {
-    }
+    public CarViewOption getLockingConfirmation();
 
-    default public CarViewOption getComfortOpen() {
-    }
+    public CarViewOption getComfortOpen();
 
-    default public CarViewOption getComfortOpenFrontDoors() {
-    }
+    public CarViewOption getComfortOpenFrontDoors();
 
-    default public CarViewOption getComfortOpenRearDoors() {
-    }
+    public CarViewOption getComfortOpenRearDoors();
 
-    default public CarViewOption getComfortOpenSunRoof() {
-    }
+    public CarViewOption getComfortOpenSunRoof();
 
-    default public CarViewOption getComfortOpenRearBlind() {
-    }
+    public CarViewOption getComfortOpenRearBlind();
 
-    default public CarViewOption getRainClosing() {
-    }
+    public CarViewOption getRainClosing();
 
-    default public CarViewOption getRearBlind() {
-    }
+    public CarViewOption getRearBlind();
 
-    default public CarViewOption getTheftWarning() {
-    }
+    public CarViewOption getTheftWarning();
 
-    default public CarViewOption getAutoUnlock() {
-    }
+    public CarViewOption getAutoUnlock();
 
-    default public CarViewOption getDoorLockingSetFactoryDefault() {
-    }
+    public CarViewOption getDoorLockingSetFactoryDefault();
 
-    default public DoorLockingConfiguration getConfiguration() {
-    }
+    public DoorLockingConfiguration getConfiguration();
 
-    default public String toString() {
-    }
+    public String toString();
 
-    default public void setLockStatus(CarViewOption carViewOption) {
-    }
+    public void setLockStatus(CarViewOption var1);
 
-    default public void setWindowStatus(CarViewOption carViewOption) {
-    }
+    public void setWindowStatus(CarViewOption var1);
 
-    default public void setUnlockingMode(CarViewOption carViewOption) {
-    }
+    public void setUnlockingMode(CarViewOption var1);
 
-    default public void setAutoLock(CarViewOption carViewOption) {
-    }
+    public void setAutoLock(CarViewOption var1);
 
-    default public void setMirrorProtection(CarViewOption carViewOption) {
-    }
+    public void setMirrorProtection(CarViewOption var1);
 
-    default public void setBootLock(CarViewOption carViewOption) {
-    }
+    public void setBootLock(CarViewOption var1);
 
-    default public void setLockingConfirmation(CarViewOption carViewOption) {
-    }
+    public void setLockingConfirmation(CarViewOption var1);
 
-    default public void setComfortOpenFrontDoors(CarViewOption carViewOption) {
-    }
+    public void setComfortOpenFrontDoors(CarViewOption var1);
 
-    default public void setComfortOpenRearDoors(CarViewOption carViewOption) {
-    }
+    public void setComfortOpenRearDoors(CarViewOption var1);
 
-    default public void setComfortOpenSunRoof(CarViewOption carViewOption) {
-    }
+    public void setComfortOpenSunRoof(CarViewOption var1);
 
-    default public void setComfortOpenRearBlind(CarViewOption carViewOption) {
-    }
+    public void setComfortOpenRearBlind(CarViewOption var1);
 
-    default public void setRainClosing(CarViewOption carViewOption) {
-    }
+    public void setRainClosing(CarViewOption var1);
 
-    default public void setRearBlind(CarViewOption carViewOption) {
-    }
+    public void setRearBlind(CarViewOption var1);
 
-    default public void setTheftWarning(CarViewOption carViewOption) {
-    }
+    public void setTheftWarning(CarViewOption var1);
 
-    default public void setAutoUnlock(CarViewOption carViewOption) {
-    }
+    public void setAutoUnlock(CarViewOption var1);
 
-    default public void setDoorLockingSetFactoryDefault(CarViewOption carViewOption) {
-    }
+    public void setDoorLockingSetFactoryDefault(CarViewOption var1);
 
-    default public void setBootOpen(CarViewOption carViewOption) {
-    }
+    public void setBootOpen(CarViewOption var1);
 
-    default public void setMessage(CarViewOption carViewOption) {
-    }
+    public void setMessage(CarViewOption var1);
 
-    default public void setAutoBootOpen(CarViewOption carViewOption) {
-    }
+    public void setAutoBootOpen(CarViewOption var1);
 
-    default public void setConfiguration(DoorLockingConfiguration doorLockingConfiguration) {
-    }
+    public void setConfiguration(DoorLockingConfiguration var1);
 
-    default public void copy(DoorLockingViewOptions doorLockingViewOptions) {
-    }
+    public void copy(DoorLockingViewOptions var1);
 }
 

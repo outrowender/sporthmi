@@ -87,7 +87,7 @@ public class AudioConnectionState {
     }
 
     public boolean isAudible() {
-        return this.state.is(new AudioState[]{AudioState.FADEDIN, AudioState.STARTED});
+        return this.state.is((T[])new AudioState[]{AudioState.FADEDIN, AudioState.STARTED});
     }
 
     public boolean isAtAMActive() {

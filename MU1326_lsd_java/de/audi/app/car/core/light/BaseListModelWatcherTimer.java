@@ -24,18 +24,18 @@ implements TimerListener {
     }
 
     public synchronized void setTempValue(int n) {
-        this.logChannel.log(-2137614336, "BaseListModelWatcherTimer[%1]#start: setting model value to newTempValue=%2 and restarting timer.", (Object)this.name, (long)n);
+        this.logChannel.log(10000000, "BaseListModelWatcherTimer[%1]#start: setting model value to newTempValue=%2 and restarting timer.", (Object)this.name, (long)n);
         this.watchedModel.setSelectedIndex(n);
         this.timer.restart();
     }
 
     public synchronized void setValidValue(int n) {
-        this.logChannel.log(-2137614336, "BaseListModelWatcherTimer[%1]#updateWatchedRangeModel: newValidValue=%2", (Object)this.name, (long)n);
+        this.logChannel.log(10000000, "BaseListModelWatcherTimer[%1]#updateWatchedRangeModel: newValidValue=%2", (Object)this.name, (long)n);
         this.lastValidValue = n;
         if (this.timer.isRunning()) {
-            this.logChannel.log(-2137614336, "BaseListModelWatcherTimer[%1]#updateWatchedRangeModel: Timer is still running, not yet setting model value to %2", (Object)this.name, (long)this.lastValidValue);
+            this.logChannel.log(10000000, "BaseListModelWatcherTimer[%1]#updateWatchedRangeModel: Timer is still running, not yet setting model value to %2", (Object)this.name, (long)this.lastValidValue);
         } else {
-            this.logChannel.log(-2137614336, "BaseListModelWatcherTimer[%1]#updateWatchedRangeModel: Timer is not running, setting model value to %2", (Object)this.name, (long)this.lastValidValue);
+            this.logChannel.log(10000000, "BaseListModelWatcherTimer[%1]#updateWatchedRangeModel: Timer is not running, setting model value to %2", (Object)this.name, (long)this.lastValidValue);
             this.watchedModel.setSelectedIndex(this.lastValidValue);
         }
     }
@@ -44,13 +44,11 @@ implements TimerListener {
         return this.lastValidValue;
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public synchronized void fireTimer(Timer timer) {
-        this.logChannel.log(-2137614336, "BaseListModelWatcherTimer[%1]#fireTimer:  setting value to %2", (Object)this.name, (long)this.lastValidValue);
+        this.logChannel.log(10000000, "BaseListModelWatcherTimer[%1]#fireTimer:  setting value to %2", (Object)this.name, (long)this.lastValidValue);
         this.watchedModel.setSelectedIndex(this.lastValidValue);
     }
 }

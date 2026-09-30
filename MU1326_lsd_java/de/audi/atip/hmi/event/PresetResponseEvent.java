@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public class PresetResponseEvent
 extends ATIPEvent {
-    private static final int EVENT_ID;
+    private static final int EVENT_ID = 19001;
     private ExecuteRequest executeRequest = null;
     private DefinitionRequest definitionRequestRequest = null;
     private int result = 0;

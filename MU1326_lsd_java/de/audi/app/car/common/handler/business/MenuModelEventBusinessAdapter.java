@@ -19,22 +19,18 @@ implements MenuModelEventBusiness {
         this.dsi = dSIBase;
     }
 
-    @Override
     public boolean processItemFocused(int n, MenuModelHandler menuModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processItemFocused(HandlerTransactionData handlerTransactionData, MenuModelHandler menuModelHandler) {
         return false;
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logChannel;
     }
 
-    @Override
     public DSIBase getDSI() {
         return this.dsi;
     }

@@ -4,10 +4,8 @@
 package de.audi.atip.interapp;
 
 public interface NavAsiaToneConnector {
-    default public void navAsiaAnnouncementVolumeEntered(int n) {
-    }
+    public void navAsiaAnnouncementVolumeEntered(int var1);
 
-    default public void navAsiaAnnouncementVolumeLeft(int n) {
-    }
+    public void navAsiaAnnouncementVolumeLeft(int var1);
 }
 

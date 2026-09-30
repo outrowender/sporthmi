@@ -16,7 +16,7 @@ public class AddressBookTTSUtils {
             AddressBookTTSUtils.appendText(buffer, string);
             AddressBookTTSUtils.closeTag(buffer, "say-as");
         }
-        logChannel.log(-2137614336, "AddressBookTTSUtils#getSSMLMessage(): returning ssmlMessage: %1", (Object)buffer);
+        logChannel.log(10000000, "AddressBookTTSUtils#getSSMLMessage(): returning ssmlMessage: %1", (Object)buffer);
         return buffer.toString();
     }
 

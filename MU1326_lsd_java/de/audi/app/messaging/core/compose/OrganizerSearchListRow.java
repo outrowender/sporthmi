@@ -18,7 +18,6 @@ extends ADBOrganizerSearchListRow {
         this.setInteger(0, ADBUtils.hasRelevantData(dataSet, n) ? 1 : 0);
     }
 
-    @Override
     public EvoListRow copy() {
         return new OrganizerSearchListRow(this.dataSet, this.adbMode);
     }

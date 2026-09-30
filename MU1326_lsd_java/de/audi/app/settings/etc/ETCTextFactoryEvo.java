@@ -7,80 +7,76 @@ import de.audi.app.settings.etc.AbstractETCTextFactory;
 
 public class ETCTextFactoryEvo
 extends AbstractETCTextFactory {
-    @Override
     public String getYenSymbol() {
-        return this.getI18nText(-120778752);
+        return this.getI18nText(1101304);
     }
 
-    @Override
     public String getErrorMessageText(int n) {
         switch (n) {
             case 0: {
-                return this.getI18nText(953028608);
+                return this.getI18nText(1101368);
             }
             case 2: {
-                return this.getI18nText(969805824);
+                return this.getI18nText(1101369);
             }
             case 3: {
-                return this.getI18nText(986583040);
+                return this.getI18nText(1101370);
             }
             case 4: {
-                return this.getI18nText(1003360256);
+                return this.getI18nText(1101371);
             }
             case 5: {
-                return this.getI18nText(1020137472);
+                return this.getI18nText(1101372);
             }
             case 6: {
-                return this.getI18nText(1036914688);
+                return this.getI18nText(1101373);
             }
             case 7: {
-                return this.getI18nText(1053691904);
+                return this.getI18nText(1101374);
             }
             case 8: {
-                return this.getI18nText(1070469120);
+                return this.getI18nText(1101375);
             }
             case 9: {
-                return this.getI18nText(1087246336);
+                return this.getI18nText(1101376);
             }
             case 10: {
-                return this.getI18nText(1104023552);
+                return this.getI18nText(1101377);
             }
             case 11: {
-                return this.getI18nText(1120800768);
+                return this.getI18nText(1101378);
             }
             case 12: {
-                return this.getI18nText(1137577984);
+                return this.getI18nText(1101379);
             }
             case 13: {
-                return this.getI18nText(1154355200);
+                return this.getI18nText(1101380);
             }
             case 14: {
-                return this.getI18nText(1171132416);
+                return this.getI18nText(1101381);
             }
         }
         return "";
     }
 
-    @Override
     public String getWarningMessageCardInsertedText(boolean bl) {
         if (bl) {
-            return this.getI18nText(1020137472);
+            return this.getI18nText(1101372);
         }
-        return this.getI18nText(1187909632);
+        return this.getI18nText(1101382);
     }
 
-    @Override
     public String getTollInfoText(boolean bl, boolean bl2) {
         if (bl) {
             if (bl2) {
-                return this.getI18nText(1255018496);
+                return this.getI18nText(1101386);
             }
-            return this.getI18nText(1238241280);
+            return this.getI18nText(1101385);
         }
         if (bl2) {
-            return this.getI18nText(1221464064);
+            return this.getI18nText(1101384);
         }
-        return this.getI18nText(1204686848);
+        return this.getI18nText(1101383);
     }
 }
 

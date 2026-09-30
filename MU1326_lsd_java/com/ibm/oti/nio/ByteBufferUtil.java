@@ -4,10 +4,8 @@
 package com.ibm.oti.nio;
 
 public interface ByteBufferUtil {
-    default public byte getMaxOfArray(int n) {
-    }
+    public byte getMaxOfArray(int var1);
 
-    default public boolean isNoNegativeArray(int n) {
-    }
+    public boolean isNoNegativeArray(int var1);
 }
 

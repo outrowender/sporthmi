@@ -4,13 +4,11 @@
 package de.audi.atip.interapp.phone;
 
 public interface ITelServiceMessaging {
-    public static final int CONTEXT_TYPE_SMS;
-    public static final int CONTEXT_TYPE_EMAIL;
+    public static final int CONTEXT_TYPE_SMS = 0;
+    public static final int CONTEXT_TYPE_EMAIL = 1;
 
-    default public void notifyNewMessagesAvailable(boolean bl, boolean bl2) {
-    }
+    public void notifyNewMessagesAvailable(boolean var1, boolean var2);
 
-    default public void notifyActiveContextMessaging(int n) {
-    }
+    public void notifyActiveContextMessaging(int var1);
 }
 

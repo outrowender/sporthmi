@@ -45,27 +45,22 @@ implements ICodingReader {
         this.variantInfo = new VariantInfo(this.readVariantInfostring());
     }
 
-    @Override
     public CarFuncAdap getCarFuncAdaptation() {
         return this.carFuncAdaptation;
     }
 
-    @Override
     public Coding getCarCoding() {
         return this.carCoding;
     }
 
-    @Override
     public Adaptation getAdaptationANP() {
         return this.adaptationANP;
     }
 
-    @Override
     public LoadSpeedThreshold getSpeedThresholdUPDL() {
         return this.speedThr;
     }
 
-    @Override
     public synchronized SperrFlags getSperrFlags() {
         if (this.sperrFlags == null) {
             this.sperrFlags = new SperrFlagImpl(this.readSperrFlagData());
@@ -73,7 +68,6 @@ implements ICodingReader {
         return this.sperrFlags;
     }
 
-    @Override
     public IVariantInfo getVariantInfo() {
         return this.variantInfo;
     }
@@ -84,7 +78,7 @@ implements ICodingReader {
 
     byte[] readCarCodingData() {
         byte[] byArray;
-        byte[] byArray2 = this.getByteArray(-687821311, 1);
+        byte[] byArray2 = this.getByteArray(28180695, 1);
         if ((byArray2 == null || byArray2.length != 25) && (byArray = this.getByteArray(257, 100)) != null && byArray.length == 25) {
             byArray2 = byArray;
         }
@@ -94,39 +88,39 @@ implements ICodingReader {
             this.lc.log(10000, "use default carCoding data=%1", (Object)Converter.array2String(byArray2));
         }
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "Init CodingImpl with carData[]=%1", (Object)Converter.array2String(byArray2));
+            this.lc.log(10000000, "Init CodingImpl with carData[]=%1", (Object)Converter.array2String(byArray2));
         }
         return byArray2;
     }
 
     private byte[] readAdaptationData() {
-        byte[] byArray = this.getByteArray(-536825343, 100);
+        byte[] byArray = this.getByteArray(28442848, 100);
         if (byArray == null || byArray.length < 15) {
-            this.lc.log(10000, "Read AdaptationANP data: %1 Wrong Size! expected > %2", (Object)Converter.array2String(byArray), (long)0);
+            this.lc.log(10000, "Read AdaptationANP data: %1 Wrong Size! expected > %2", (Object)Converter.array2String(byArray), 15L);
             byArray = new byte[]{0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0};
             this.lc.log(10000, "use default AdaptationANP data=%1", (Object)Converter.array2String(byArray));
         }
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "Init AdaptationImpl with adaptationData[]=%1", (Object)Converter.array2String(byArray));
+            this.lc.log(10000000, "Init AdaptationImpl with adaptationData[]=%1", (Object)Converter.array2String(byArray));
         }
         return byArray;
     }
 
     private byte[] readAdaptation2Data() {
-        byte[] byArray = this.getByteArray(-536825343, 113);
+        byte[] byArray = this.getByteArray(28442848, 113);
         if (byArray == null || byArray.length < 15) {
-            this.lc.log(10000, "Read AdaptationANP2 data: %1 Wrong Size! expected > %2", (Object)Converter.array2String(byArray), (long)0);
+            this.lc.log(10000, "Read AdaptationANP2 data: %1 Wrong Size! expected > %2", (Object)Converter.array2String(byArray), 15L);
             byArray = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             this.lc.log(10000, "use default AdaptationANP2 data=%1", (Object)Converter.array2String(byArray));
         }
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "Init AdaptationImpl with adaptation2Data[]=%1", (Object)Converter.array2String(byArray));
+            this.lc.log(10000000, "Init AdaptationImpl with adaptation2Data[]=%1", (Object)Converter.array2String(byArray));
         }
         return byArray;
     }
 
     private byte[] readCarMenuFlags() {
-        byte[] byArray = this.getByteArray(-536825343, 101);
+        byte[] byArray = this.getByteArray(28442848, 101);
         if (byArray == null || byArray.length == 0) {
             byArray = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             this.lc.log(10000, "getCarMenuFlags(): persistence does not contain carMenuFlags!!! Use default");
@@ -135,42 +129,41 @@ implements ICodingReader {
             byArray[2] = 0;
         }
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "getCarMenuFlags(): carMenuFlags=%1", (Object)Converter.array2String(byArray));
+            this.lc.log(10000000, "getCarMenuFlags(): carMenuFlags=%1", (Object)Converter.array2String(byArray));
         }
         return byArray;
     }
 
     private byte[] readSpeedThresholdData() {
-        byte[] byArray = this.getByteArray(906042371, 200);
+        byte[] byArray = this.getByteArray(52166966, 200);
         if (byArray == null || byArray.length != 30) {
             this.lc.log(10000, "Error in LoadSpeedThreshold data=%1", (Object)Converter.array2String(byArray));
             byArray = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             this.lc.log(10000, "use default LoadSpeedThreshold data=%1", (Object)Converter.array2String(byArray));
         }
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "Init LoadSpeedThreshold with speedThresholdData[]=%1", (Object)Converter.array2String(byArray));
+            this.lc.log(10000000, "Init LoadSpeedThreshold with speedThresholdData[]=%1", (Object)Converter.array2String(byArray));
         }
         return byArray;
     }
 
     private byte[] readSperrFlagData() {
-        byte[] byArray = this.getByteArray(-536825343, 105);
+        byte[] byArray = this.getByteArray(28442848, 105);
         if (byArray == null || byArray.length < 21) {
             this.lc.log(10000, "Error in SperrFlags data=%1", (Object)Converter.array2String(byArray));
             byArray = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             this.lc.log(10000, "use default SperrFlags data=%1", (Object)Converter.array2String(byArray));
         }
         if (this.lc.isDebug()) {
-            this.lc.log(-2137614336, "Init SperrFlags with SperrFlags[]=%1", (Object)Converter.array2String(byArray));
+            this.lc.log(10000000, "Init SperrFlags with SperrFlags[]=%1", (Object)Converter.array2String(byArray));
         }
         return byArray;
     }
 
     private String readVariantInfostring() {
-        return this.fw.getStorageMgr().getString(-1945800920, 12, "unknown");
+        return this.fw.getStorageMgr().getString(678364556, 12, "unknown");
     }
 
-    @Override
     public String dumpCarData() {
         Buffer buffer = new Buffer();
         buffer.append(this.carCoding);
@@ -188,12 +181,10 @@ implements ICodingReader {
         this.fw.getStorageMgr().setByteArray(n, n2, byArray);
     }
 
-    @Override
     public void storeSwdlCopy() {
         this.setByteArray(257, 100, this.codingData);
     }
 
-    @Override
     public void clearSwdlCopy() {
         this.setByteArray(257, 100, new byte[0]);
     }

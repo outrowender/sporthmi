@@ -16,13 +16,13 @@ public class PrivacySettingsStorageAccess {
     }
 
     public void setPersistedPrivacyMode(boolean bl) {
-        this.log.log(-2137614336, "PrivacySettingsStorageAccess#setPersistedPrivacyMode: %1", bl);
+        this.log.log(10000000, "PrivacySettingsStorageAccess#setPersistedPrivacyMode: %1", bl);
         this.storageAccess.setBoolean(1023, 40, bl);
     }
 
     public boolean getPersistedPrivacyMode() {
         boolean bl = this.storageAccess.getBoolean(1023, 40, false);
-        this.log.log(-2137614336, "PrivacySettingsStorageAccess#getPersistedPrivacyMode: %1", bl);
+        this.log.log(10000000, "PrivacySettingsStorageAccess#getPersistedPrivacyMode: %1", bl);
         return bl;
     }
 }

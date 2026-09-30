@@ -7,10 +7,8 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface SysConstModelApp
 extends HMIModelApp {
-    default public int getValue() {
-    }
+    public int getValue();
 
-    default public void setValue(int n) {
-    }
+    public void setValue(int var1);
 }
 

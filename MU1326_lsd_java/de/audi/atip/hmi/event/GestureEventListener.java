@@ -6,7 +6,6 @@ package de.audi.atip.hmi.event;
 import de.audi.atip.hmi.event.GestureEvent;
 
 public interface GestureEventListener {
-    default public void triggerGestureEvent(GestureEvent gestureEvent) {
-    }
+    public void triggerGestureEvent(GestureEvent var1);
 }
 

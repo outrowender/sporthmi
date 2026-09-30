@@ -42,8 +42,7 @@ implements IASIProvider {
         return this.sportChrono != null;
     }
 
-    @Override
-    public void requestRecordData(long l, long l2, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
+    public void requestRecordData(long l, long l2, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) throws MethodException {
         if (this.isSportChronoAvailable()) {
             SCData[] sCDataArray = this.sportChrono.requestRecordData(l, l2);
             aSIHMISyncCarSportChronoReply.responseRecordData(sCDataArray, 0);
@@ -54,15 +53,13 @@ implements IASIProvider {
         }
     }
 
-    @Override
-    public void setRecord(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
+    public void setRecord(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) throws MethodException {
         if (this.isSportChronoAvailable()) {
             this.sportChrono.setRecord(n);
         }
     }
 
-    @Override
-    public void requestTrackData(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
+    public void requestTrackData(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) throws MethodException {
         if (this.isSportChronoAvailable()) {
             SCData[] sCDataArray = this.sportChrono.requestTrackData(n);
             if (sCDataArray != null) {
@@ -73,44 +70,36 @@ implements IASIProvider {
         }
     }
 
-    @Override
-    public void initTrackTransfer(SCHeader sCHeader, String string, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
+    public void initTrackTransfer(SCHeader sCHeader, String string, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) throws MethodException {
         if (this.isSportChronoAvailable()) {
             int n = this.sportChrono.initTrackTransfer(sCHeader, string);
             aSIHMISyncCarSportChronoReply.responseInitTrackTransfer(sCHeader.getUid(), n);
         }
     }
 
-    @Override
-    public void setTrackData(int n, SCData[] sCDataArray, int n2, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
+    public void setTrackData(int n, SCData[] sCDataArray, int n2, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) throws MethodException {
         if (this.isSportChronoAvailable()) {
             int n3 = this.sportChrono.setTrackData(n, sCDataArray, n2);
             aSIHMISyncCarSportChronoReply.responseSetTrackData(n, n3);
         }
     }
 
-    @Override
-    public void setReferenceLap(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
+    public void setReferenceLap(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) throws MethodException {
     }
 
-    @Override
-    public void requestReferenceLapData(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
+    public void requestReferenceLapData(int n, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) throws MethodException {
     }
 
-    @Override
-    public void saveReferenceLap(int n, short s, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) {
+    public void saveReferenceLap(int n, short s, ASIHMISyncCarSportChronoReply aSIHMISyncCarSportChronoReply) throws MethodException {
     }
 
-    @Override
     public IService getService() {
         return this.asiService;
     }
 
-    @Override
     public void attachStub(IStub iStub) {
     }
 
-    @Override
     public void detachStub(IStub iStub) {
     }
 }

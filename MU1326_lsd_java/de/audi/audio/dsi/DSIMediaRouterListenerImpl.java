@@ -24,28 +24,23 @@ implements DSIMediaRouterListener {
         this.listMutex = new Object();
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void responseConfiguration(int n, int n2) {
     }
 
-    @Override
     public void responseClientStatus(int n, int n2) {
     }
 
-    @Override
     public void updateStreamingStatus(int n, int n2, int n3) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateActiveAudioRoutes(AudioRoute[] audioRouteArray, int n) {
-        this.env.lcDSI.log(1078071040, "[DSIMediaRouterListenerImpl.updateActiveAudioRoutes] validFlag: %1", (long)n);
+        this.env.lcDSI.log(1000000, "[DSIMediaRouterListenerImpl.updateActiveAudioRoutes] validFlag: %1", (long)n);
         if (n == 1) {
             Object object;
             ATIPAudioRoute[] aTIPAudioRouteArray = new ATIPAudioRoute[audioRouteArray.length];

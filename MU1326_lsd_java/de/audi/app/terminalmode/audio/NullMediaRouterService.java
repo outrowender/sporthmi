@@ -10,21 +10,19 @@ import org.dsi.ifc.media.DSIMediaRouter;
 
 public class NullMediaRouterService
 implements ATIPMediaRouterService {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NullMediaRouterService";
     private final LogChannel logger;
 
     public NullMediaRouterService(LogChannel logChannel) {
         this.logger = logChannel;
     }
 
-    @Override
     public void setAudioRoutes(ATIPAudioRoute[] aTIPAudioRouteArray) {
-        this.logger.log(1078071040, "[%1.setAudioRoutes]", (Object)"NullMediaRouterService");
+        this.logger.log(1000000, "[%1.setAudioRoutes]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setDSIMediaRouter(DSIMediaRouter dSIMediaRouter) {
-        this.logger.log(1078071040, "[%1.setDSIMediaRouter]", (Object)"NullMediaRouterService");
+        this.logger.log(1000000, "[%1.setDSIMediaRouter]", (Object)LOGCLASS);
     }
 }
 

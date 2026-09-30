@@ -7,97 +7,66 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface SpeechRecActionProxy
 extends ActionProxy {
-    default public void preloadGrammarAdb() {
-    }
+    public void preloadGrammarAdb();
 
-    default public void loadGrammarCountry(String string, int n, int n2, int n3, int n4, int n5) {
-    }
+    public void loadGrammarCountry(String var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void loadGrammarCountry() {
-    }
+    public void loadGrammarCountry();
 
-    default public void loadGrammarCountrySpelling() {
-    }
+    public void loadGrammarCountrySpelling();
 
-    default public void loadGrammarAreaCode() {
-    }
+    public void loadGrammarAreaCode();
 
-    default public void loadGrammarCity(String string) {
-    }
+    public void loadGrammarCity(String var1);
 
-    default public void loadGrammarCitySpelling(String string) {
-    }
+    public void loadGrammarCitySpelling(String var1);
 
-    default public void loadGrammarHouseNumber() {
-    }
+    public void loadGrammarHouseNumber();
 
-    default public void unloadGrammars() {
-    }
+    public void unloadGrammars();
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1);
 
-    default public void setTimeout(int n, int n2) {
-    }
+    public void setTimeout(int var1, int var2);
 
-    default public void startRecognition() {
-    }
+    public void startRecognition();
 
-    default public void waitForResults() {
-    }
+    public void waitForResults();
 
-    default public void storeRecognitionResult(int n) {
-    }
+    public void storeRecognitionResult(int var1);
 
-    default public void storeRecognitionResultNBest(int n) {
-    }
+    public void storeRecognitionResultNBest(int var1);
 
-    default public void storeRecognitionResultNBest(int n, int n2) {
-    }
+    public void storeRecognitionResultNBest(int var1, int var2);
 
-    default public void getRecognizedAdbList(int n, int n2) {
-    }
+    public void getRecognizedAdbList(int var1, int var2);
 
-    default public void getRecognizedString(int n) {
-    }
+    public void getRecognizedString(int var1);
 
-    default public void getRecognizedIntFromWordList(int n) {
-    }
+    public void getRecognizedIntFromWordList(int var1);
 
-    default public void abort() {
-    }
+    public void abort();
 
-    default public boolean init() {
-    }
+    public boolean init();
 
-    default public void shutdown() {
-    }
+    public void shutdown();
 
-    default public void startPostTraining(int n) {
-    }
+    public void startPostTraining(int var1);
 
-    default public void stopPostTraining() {
-    }
+    public void stopPostTraining();
 
-    default public void loadProfile(int n) {
-    }
+    public void loadProfile(int var1);
 
-    default public void unloadProfile() {
-    }
+    public void unloadProfile();
 
-    default public void deleteProfile(int n) {
-    }
+    public void deleteProfile(int var1);
 
-    default public void setPromptNotAbortable(boolean bl) {
-    }
+    public void setPromptNotAbortable(boolean var1);
 
-    default public void copyListModel(int n, int n2) {
-    }
+    public void copyListModel(int var1, int var2);
 
-    default public void formatZIPCode(int n) {
-    }
+    public void formatZIPCode(int var1);
 
-    default public void showList(int n) {
-    }
+    public void showList(int var1);
 }
 

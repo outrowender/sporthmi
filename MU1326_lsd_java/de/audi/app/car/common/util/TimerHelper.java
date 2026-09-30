@@ -26,14 +26,14 @@ public class TimerHelper {
     }
 
     public static boolean isDateEarlierThan(Date date, Date date2) {
-        long l = date.getTime() - date2.getTime() / 0 * 0;
+        long l = date.getTime() - date2.getTime() / 60000L * 60000L;
         return l < 0L;
     }
 
     public boolean isDateInThePast(Date date, String string) {
         Date date2 = ((DateMetric)this.application.getFrameworkAccess().getSysApp().getClock().getMetric()).getDate();
         if (TimerHelper.isDateEarlierThan(date, date2)) {
-            this.logChannel.log(1078071040, "[TimerHelper#isDateInThePast] Date in the past detected from method %1", (Object)string);
+            this.logChannel.log(1000000, "[TimerHelper#isDateInThePast] Date in the past detected from method %1", (Object)string);
             return true;
         }
         return false;
@@ -51,7 +51,7 @@ public class TimerHelper {
     public void setTimerMetric(TimerObject timerObject, MetricsModelApp metricsModelApp, String string) {
         Date date = TimerHelper.getCorrectDateFromTimer(timerObject);
         Date date2 = ((DateMetric)this.application.getFrameworkAccess().getSysApp().getClock().getMetric()).getDate();
-        this.logChannel.log(1078071040, "%1 update timer model (ID:VALUE) %2 -> ", (Object)string, (Object)new StringBuffer().append("(").append(metricsModelApp.getID()).append(":").append(date).append(")").toString());
+        this.logChannel.log(1000000, "%1 update timer model (ID:VALUE) %2 -> ", (Object)string, (Object)("(" + metricsModelApp.getID() + ":" + date + ")"));
         DateMetric dateMetric = (DateMetric)metricsModelApp.getMetric();
         if (dateMetric == null) {
             dateMetric = new DateMetric(date, 2);

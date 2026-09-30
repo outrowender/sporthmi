@@ -4,13 +4,10 @@
 package de.audi.atip.interapp.messaging;
 
 public interface IMultipleMessageReadoutServiceListener {
-    default public void responseBeginDialog(int n) {
-    }
+    public void responseBeginDialog(int var1);
 
-    default public void responseNextMessage(int n, String string) {
-    }
+    public void responseNextMessage(int var1, String var2);
 
-    default public void responseEndDialog(int n) {
-    }
+    public void responseEndDialog(int var1);
 }
 

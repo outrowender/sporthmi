@@ -22,7 +22,7 @@ public final class Archive {
         return this.fFilename;
     }
 
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         if (this.fHandle != 0L || this.fZip != 0L) {
             XIPClassLoader.unloadArchive(this);
         }

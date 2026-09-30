@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.remotehmi;
 
@@ -14,30 +11,30 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map$Entry;
+import java.util.Map;
 import java.util.Set;
 
 public class HMIProperties {
-    public static final int SKEY_NE;
-    public static final int SKEY_NW;
-    public static final int SKEY_SE;
-    public static final int SKEY_SW;
-    public static final int SKEY_NONE;
-    public static final int UPDATING_DISABLED;
-    public static final int UPDATING_ENABLED_A;
-    public static final int SCROLL_MODE_6_LINES;
-    public static final int SCROLL_MODE_5_LINES;
-    public static final int SCROLL_MODE_NEXT_LINK;
-    public static final int SCROLL_MODE_6_STEPS;
-    public static final int SCROLL_MODE_5_STEPS;
-    public static final int ITEMTYPE_EDITFIELD;
-    public static final int ITEMTYPE_CHECKBOX;
-    public static final int ITEMTYPE_ACTION;
-    public static final int ITEMTYPE_PULLDOWN;
-    public static final String PREFIX_ORIGINAL_PROPERTIES;
+    public static final int SKEY_NE = 2;
+    public static final int SKEY_NW = 1;
+    public static final int SKEY_SE = 3;
+    public static final int SKEY_SW = 4;
+    public static final int SKEY_NONE = 0;
+    public static final int UPDATING_DISABLED = 0;
+    public static final int UPDATING_ENABLED_A = 1;
+    public static final int SCROLL_MODE_6_LINES = 0;
+    public static final int SCROLL_MODE_5_LINES = 1;
+    public static final int SCROLL_MODE_NEXT_LINK = 2;
+    public static final int SCROLL_MODE_6_STEPS = 3;
+    public static final int SCROLL_MODE_5_STEPS = 4;
+    public static final int ITEMTYPE_EDITFIELD = 0;
+    public static final int ITEMTYPE_CHECKBOX = 1;
+    public static final int ITEMTYPE_ACTION = 2;
+    public static final int ITEMTYPE_PULLDOWN = 3;
+    public static final String PREFIX_ORIGINAL_PROPERTIES = "original_";
     private Hashtable myProps;
-    private static final List RESOURCE_PROPERTIES;
-    public static final String PROP_NAVLOCATION_INITIAL;
+    private static final List RESOURCE_PROPERTIES = Collections.unmodifiableList(Arrays.asList(new String[]{"providerLogo", "titleIcon", "decoratorUrl", "mapOverlayPath"}));
+    public static final String PROP_NAVLOCATION_INITIAL = "propNavLocationInitialText";
 
     public HMIProperties() {
         this.myProps = new Hashtable(20);
@@ -246,11 +243,11 @@ public class HMIProperties {
         Iterator iterator = this.myProps.entrySet().iterator();
         while (iterator.hasNext()) {
             int n;
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            buffer.append("\"").append(map$Entry.getKey().toString()).append("\"");
+            Map.Entry entry = (Map.Entry)iterator.next();
+            buffer.append("\"").append(entry.getKey().toString()).append("\"");
             buffer.append("=");
-            if (map$Entry.getValue() instanceof String[]) {
-                String[] stringArray = this.getStringArray(map$Entry.getKey().toString());
+            if (entry.getValue() instanceof String[]) {
+                String[] stringArray = this.getStringArray(entry.getKey().toString());
                 buffer.append("[");
                 for (n = 0; n < stringArray.length; ++n) {
                     buffer.append(stringArray[n]);
@@ -259,8 +256,8 @@ public class HMIProperties {
                 buffer.append("] ");
                 continue;
             }
-            if (map$Entry.getValue() instanceof Integer[]) {
-                int[] nArray = this.getIntArray(map$Entry.getKey().toString());
+            if (entry.getValue() instanceof Integer[]) {
+                int[] nArray = this.getIntArray(entry.getKey().toString());
                 buffer.append("[");
                 for (n = 0; n < nArray.length; ++n) {
                     buffer.append(nArray[n]);
@@ -269,8 +266,8 @@ public class HMIProperties {
                 buffer.append("] ");
                 continue;
             }
-            if (map$Entry.getValue() instanceof Boolean[]) {
-                boolean[] blArray = this.getBooleanArray(map$Entry.getKey().toString());
+            if (entry.getValue() instanceof Boolean[]) {
+                boolean[] blArray = this.getBooleanArray(entry.getKey().toString());
                 buffer.append("[");
                 for (n = 0; n < blArray.length; ++n) {
                     buffer.append(blArray[n]);
@@ -279,36 +276,36 @@ public class HMIProperties {
                 buffer.append("] ");
                 continue;
             }
-            if (map$Entry.getValue() instanceof Double[]) {
-                double[] dArray = this.getDoubleArray(map$Entry.getKey().toString());
+            if (entry.getValue() instanceof Double[]) {
+                double[] dArray = this.getDoubleArray(entry.getKey().toString());
                 buffer.append("[");
                 for (n = 0; n < dArray.length; ++n) {
-                    buffer.append(Double.toString((double)dArray[n]));
+                    buffer.append(Double.toString(dArray[n]));
                     buffer.append(",");
                 }
                 buffer.append("] ");
                 continue;
             }
-            if (map$Entry.getValue() instanceof Boolean) {
-                boolean bl = this.getBoolean(map$Entry.getKey().toString());
+            if (entry.getValue() instanceof Boolean) {
+                boolean bl = this.getBoolean(entry.getKey().toString());
                 buffer.append(Boolean.toString(bl));
                 buffer.append(" ");
                 continue;
             }
-            if (map$Entry.getValue() instanceof Double) {
-                double d2 = this.getDouble(map$Entry.getKey().toString());
-                buffer.append(Double.toString((double)d2));
+            if (entry.getValue() instanceof Double) {
+                double d2 = this.getDouble(entry.getKey().toString());
+                buffer.append(Double.toString(d2));
                 buffer.append(" ");
                 continue;
             }
-            if (map$Entry.getValue() instanceof Integer) {
-                int n2 = this.getInt(map$Entry.getKey().toString());
+            if (entry.getValue() instanceof Integer) {
+                int n2 = this.getInt(entry.getKey().toString());
                 buffer.append(n2);
                 buffer.append(" ");
                 continue;
             }
             buffer.append("\"");
-            buffer.append(map$Entry.getValue().toString());
+            buffer.append(entry.getValue().toString());
             buffer.append("\" ");
         }
         buffer.append("]");
@@ -333,7 +330,7 @@ public class HMIProperties {
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
             String string2 = (String)iterator.next();
-            if (!this.containsStringValue(new StringBuffer().append("original_").append(string2).toString(), string)) continue;
+            if (!this.containsStringValue(PREFIX_ORIGINAL_PROPERTIES + string2, string)) continue;
             return true;
         }
         return false;
@@ -341,7 +338,7 @@ public class HMIProperties {
 
     public boolean containsStringValue(String string, String string2) {
         if (string == null || string2 == null) {
-            throw new NullPointerException(new StringBuffer().append("HMIProperties#containsStringValue: null given for propertyName ='").append(string).append("', stringValue='").append(string2).append("'").toString());
+            throw new NullPointerException("HMIProperties#containsStringValue: null given for propertyName ='" + string + "', stringValue='" + string2 + "'");
         }
         Object object = this.get(string);
         if (object instanceof String) {
@@ -374,7 +371,7 @@ public class HMIProperties {
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
             String string2 = (String)iterator.next();
-            if (!this.replaceStringValue(string2, new StringBuffer().append("original_").append(string2).toString(), string)) continue;
+            if (!this.replaceStringValue(string2, PREFIX_ORIGINAL_PROPERTIES + string2, string)) continue;
             hashSet.add(string2);
         }
         return hashSet;
@@ -382,7 +379,7 @@ public class HMIProperties {
 
     public boolean replaceStringValue(String string, String string2, String string3) {
         if (string == null || string2 == null || string3 == null) {
-            throw new NullPointerException(new StringBuffer().append("HMIProperties#containsStringValue: null given for currentName ='").append(string).append("', originalName='").append(string2).append("', replacement='").append(string3).append("'").toString());
+            throw new NullPointerException("HMIProperties#containsStringValue: null given for currentName ='" + string + "', originalName='" + string2 + "', replacement='" + string3 + "'");
         }
         Object object = this.get(string2);
         Object object2 = this.get(string);
@@ -425,12 +422,8 @@ public class HMIProperties {
             System.arraycopy((Object)stringArray, 0, (Object)stringArray2, 0, stringArray.length);
             this.put(string2, stringArray2);
         } else {
-            throw new UnsupportedOperationException(new StringBuffer().append("deep copy not yet implemented for class").append(object.getClass().getName()).toString());
+            throw new UnsupportedOperationException("deep copy not yet implemented for class" + object.getClass().getName());
         }
-    }
-
-    static {
-        RESOURCE_PROPERTIES = Collections.unmodifiableList(Arrays.asList(new String[]{"providerLogo", "titleIcon", "decoratorUrl", "mapOverlayPath"}));
     }
 }
 

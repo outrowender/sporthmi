@@ -15,9 +15,9 @@ import de.esolutions.fw.util.commons.Buffer;
 public final class CombiElementBankDDP2 {
     private static CombiElementBankDDP2 instance;
     private static volatile int numListElements;
-    public static final int NUM_LIST_ELEMENTS_MAX;
-    private static final int NUM_LIST_FRAMES;
-    private static final int WINDOW_CACHING_NUM_WINDOWS;
+    public static final int NUM_LIST_ELEMENTS_MAX = 12;
+    private static final int NUM_LIST_FRAMES = 19;
+    private static final int WINDOW_CACHING_NUM_WINDOWS = 3;
     private static volatile boolean windowCachingEnabled;
     private static volatile int windowCachingNumEntriesMenu;
     private static volatile int windowCachingNumEntriesSubmenu;
@@ -256,7 +256,7 @@ public final class CombiElementBankDDP2 {
                 return this.listElements[11][n2];
             }
         }
-        System.err.println(new StringBuffer().append("CombiElementBank.getTextElementAt - Invalid logical ID: ").append(n).toString());
+        System.err.println("CombiElementBank.getTextElementAt - Invalid logical ID: " + n);
         return null;
     }
 
@@ -291,7 +291,7 @@ public final class CombiElementBankDDP2 {
                 return this.listOffsets[n2];
             }
         }
-        System.err.println(new StringBuffer().append("CombiElementBank.getIntegerElementAt - Invalid logical ID: ").append(n).toString());
+        System.err.println("CombiElementBank.getIntegerElementAt - Invalid logical ID: " + n);
         return null;
     }
 

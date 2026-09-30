@@ -18,43 +18,42 @@ import de.audi.tghu.online.app.remotehmi.RemoteHMIContext;
 
 public class HMIViewBrowserFullscreenListener
 extends AbstractHMIViewBrowserListener {
-    private static final int DEFAULT_PAGE_HEIGHT;
+    private static final int DEFAULT_PAGE_HEIGHT = 367;
     private OnlineModelBankAccess modelBank;
-    private static final int[] BROWSER_BUTTON_MODELS;
+    private static final int[] BROWSER_BUTTON_MODELS = new int[]{2300038, 2300037, 2300039, 2300040};
 
     public HMIViewBrowserFullscreenListener(LogChannel logChannel, ModelGroup modelGroup, OnlineModelBankAccess onlineModelBankAccess, HMIService hMIService, RemoteHMIServiceEvo remoteHMIServiceEvo) {
-        super(logChannel, modelGroup, onlineModelBankAccess, hMIService, remoteHMIServiceEvo, (RangeModelApp)onlineModelBankAccess.getModelApp(-1994906880));
+        super(logChannel, modelGroup, onlineModelBankAccess, hMIService, remoteHMIServiceEvo, (RangeModelApp)onlineModelBankAccess.getModelApp(2300041));
         this.modelBank = onlineModelBankAccess;
-        this.mainModelGroup.add(onlineModelBankAccess.getModelApp(-1961352448));
-        VirtualButtonModelApp virtualButtonModelApp = (VirtualButtonModelApp)onlineModelBankAccess.getModelApp(2115511040);
+        this.mainModelGroup.add(onlineModelBankAccess.getModelApp(2300043));
+        VirtualButtonModelApp virtualButtonModelApp = (VirtualButtonModelApp)onlineModelBankAccess.getModelApp(2300030);
         virtualButtonModelApp.setButtonListener(this);
     }
 
     private void toggleSidebar() {
-        this.logChannel.log(-2137614336, "HMIViewBrowserFullscreenListener#toggleSidebar: buttonMenu");
-        ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(-1978129664);
+        this.logChannel.log(10000000, "HMIViewBrowserFullscreenListener#toggleSidebar: buttonMenu");
+        ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(2300042);
         int n = choiceModelApp.getValue();
         switch (n) {
             case 0: 
             case 3: {
-                this.logChannel.log(-2137614336, "HMIViewBrowserFullscreenListener#toggleSidebar: opening sidebar");
+                this.logChannel.log(10000000, "HMIViewBrowserFullscreenListener#toggleSidebar: opening sidebar");
                 choiceModelApp.setValue(1);
                 break;
             }
             case 1: 
             case 2: {
-                this.logChannel.log(-2137614336, "HMIViewBrowserFullscreenListener#toggleSidebar: closing sidebar");
+                this.logChannel.log(10000000, "HMIViewBrowserFullscreenListener#toggleSidebar: closing sidebar");
                 choiceModelApp.setValue(3);
                 break;
             }
         }
     }
 
-    @Override
     public synchronized void updateViewProperties(HMIProperties hMIProperties, boolean bl, RemoteHMIContext remoteHMIContext) {
         super.updateViewProperties(hMIProperties, bl, remoteHMIContext);
-        this.setTitles(-1961352448, -1944575232, 0, 0, hMIProperties);
-        this.setSoftkeys(null, -1894243584, hMIProperties);
+        this.setTitles(2300043, 2300044, 0, 0, hMIProperties);
+        this.setSoftkeys(null, 2300047, hMIProperties);
         boolean[] blArray = hMIProperties.getBooleanArray("softkeyEnabled");
         for (int i2 = 0; i2 < BROWSER_BUTTON_MODELS.length; ++i2) {
             ButtonModelApp buttonModelApp = this.modelBank.getButtonModel(BROWSER_BUTTON_MODELS[i2]);
@@ -66,7 +65,6 @@ extends AbstractHMIViewBrowserListener {
         }
     }
 
-    @Override
     protected int getDefaultPageHeight() {
         return 367;
     }
@@ -75,12 +73,11 @@ extends AbstractHMIViewBrowserListener {
         return 3100;
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        if (n == 2115511040) {
-            this.logChannel.log(-2137614336, "HMIViewBrowserFullscreenListener#keyTyped(REMOTE_HMI_BROWSER_FULLSCREEN_VIRTUAL_BUTTON): %1", (long)n2);
+        if (n == 2300030) {
+            this.logChannel.log(10000000, "HMIViewBrowserFullscreenListener#keyTyped(REMOTE_HMI_BROWSER_FULLSCREEN_VIRTUAL_BUTTON): %1", (long)n2);
             if (n2 == 11) {
-                ButtonModelApp buttonModelApp = this.modelBank.getButtonModel(-2062015744);
+                ButtonModelApp buttonModelApp = this.modelBank.getButtonModel(2300037);
                 if (buttonModelApp.getStatus() == 1) {
                     this.toggleSidebar();
                 }
@@ -104,17 +101,11 @@ extends AbstractHMIViewBrowserListener {
         }
     }
 
-    @Override
     public String getSelectedSkID(int n) {
         return this.skIds[n];
     }
 
-    @Override
     public void indicateBoardbookAvailable(boolean bl) {
-    }
-
-    static {
-        BROWSER_BUTTON_MODELS = new int[]{-2045238528, -2062015744, -2028461312, -2011684096};
     }
 }
 

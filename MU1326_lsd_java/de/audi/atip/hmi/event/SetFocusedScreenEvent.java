@@ -20,7 +20,7 @@ extends ATIPEvent {
     }
 
     public String toString() {
-        return new StringBuffer().append("SetFocusedScreenEvent [screen=").append(this.screen).append("]").toString();
+        return "SetFocusedScreenEvent [screen=" + this.screen + "]";
     }
 }
 

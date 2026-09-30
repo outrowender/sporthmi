@@ -3,7 +3,6 @@
  */
 package de.audi.app.car.common.swdiag;
 
-import de.audi.app.car.common.swdiag.AbstractDiagnosisCommand$Parameter;
 import de.audi.app.car.common.swdiag.IDiagnosisCommand;
 import de.audi.app.car.common.swdiag.InvalidCommandParameterException;
 import de.esolutions.fw.util.commons.Buffer;
@@ -16,10 +15,10 @@ import java.util.StringTokenizer;
 
 public abstract class AbstractDiagnosisCommand
 implements IDiagnosisCommand {
-    private static final int PARAMETER_TYPE_STRING;
-    private static final int PARAMETER_TYPE_BOOL;
-    private static final int PARAMETER_TYPE_INT;
-    public static final int NUMBER_OF_VALUES_UNLIMITED;
+    private static final int PARAMETER_TYPE_STRING = 0;
+    private static final int PARAMETER_TYPE_BOOL = 1;
+    private static final int PARAMETER_TYPE_INT = 2;
+    public static final int NUMBER_OF_VALUES_UNLIMITED = 65535;
     private Buffer commandString;
     private Map params;
     private List anonymousParams;
@@ -44,7 +43,7 @@ implements IDiagnosisCommand {
             if (bl) {
                 this.commandString.append("]");
             }
-            this.params.put(string.toLowerCase(), new AbstractDiagnosisCommand$Parameter(this, null, n, n2, bl));
+            this.params.put(string.toLowerCase(), new Parameter(null, n, n2, bl));
         } else {
             System.out.println("Give a valid parameter name!");
         }
@@ -63,7 +62,7 @@ implements IDiagnosisCommand {
             if (bl) {
                 this.commandString.append("]");
             }
-            this.params.put(string.toLowerCase(), new AbstractDiagnosisCommand$Parameter(this, stringArray, n, n2, bl));
+            this.params.put(string.toLowerCase(), new Parameter(stringArray, n, n2, bl));
         } else {
             System.out.println("Give a valid parameter name and valid possible values!");
         }
@@ -95,10 +94,10 @@ implements IDiagnosisCommand {
             if (bl) {
                 this.commandString.append("]");
             }
-            AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter = new AbstractDiagnosisCommand$Parameter(this, null, n3, 2, bl);
-            abstractDiagnosisCommand$Parameter.min = n;
-            abstractDiagnosisCommand$Parameter.max = n2;
-            this.params.put(string.toLowerCase(), abstractDiagnosisCommand$Parameter);
+            Parameter parameter = new Parameter(null, n3, 2, bl);
+            parameter.min = n;
+            parameter.max = n2;
+            this.params.put(string.toLowerCase(), parameter);
         } else {
             System.out.println("Give a valid parameter name!");
         }
@@ -117,7 +116,7 @@ implements IDiagnosisCommand {
             if (bl) {
                 this.commandString.append("]");
             }
-            this.anonymousParams.add(new AbstractDiagnosisCommand$Parameter(this, stringArray, 1, n, bl));
+            this.anonymousParams.add(new Parameter(stringArray, 1, n, bl));
         } else {
             System.out.println("Give valid possible values!");
         }
@@ -133,9 +132,9 @@ implements IDiagnosisCommand {
             if (bl) {
                 this.commandString.append("]");
             }
-            AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter = new AbstractDiagnosisCommand$Parameter(this, null, 1, 2, bl);
-            this.params.put(string.toLowerCase(), new AbstractDiagnosisCommand$Parameter(this, null, 1, 2, bl));
-            this.intParams.add(abstractDiagnosisCommand$Parameter);
+            Parameter parameter = new Parameter(null, 1, 2, bl);
+            this.params.put(string.toLowerCase(), new Parameter(null, 1, 2, bl));
+            this.intParams.add(parameter);
         } else {
             System.out.println("Give a valid parameter name!");
         }
@@ -143,9 +142,9 @@ implements IDiagnosisCommand {
 
     public void addIntValue(String string, int n, int n2, boolean bl) {
         this.addIntValue(string, bl);
-        AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter = (AbstractDiagnosisCommand$Parameter)this.params.get(string);
-        abstractDiagnosisCommand$Parameter.min = n;
-        abstractDiagnosisCommand$Parameter.max = n2;
+        Parameter parameter = (Parameter)this.params.get(string);
+        parameter.min = n;
+        parameter.max = n2;
     }
 
     public void addIntValue(int n, int n2, boolean bl) {
@@ -157,10 +156,10 @@ implements IDiagnosisCommand {
         if (bl) {
             this.commandString.append("]");
         }
-        AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter = new AbstractDiagnosisCommand$Parameter(this, null, 1, 2, bl);
-        abstractDiagnosisCommand$Parameter.min = n;
-        abstractDiagnosisCommand$Parameter.max = n2;
-        this.anonymousParams.add(abstractDiagnosisCommand$Parameter);
+        Parameter parameter = new Parameter(null, 1, 2, bl);
+        parameter.min = n;
+        parameter.max = n2;
+        this.anonymousParams.add(parameter);
     }
 
     public void addBooleanValue(String string, boolean bl) {
@@ -173,9 +172,9 @@ implements IDiagnosisCommand {
             if (bl) {
                 this.commandString.append("]");
             }
-            AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter = new AbstractDiagnosisCommand$Parameter(this, new String[]{"true", "false"}, 1, 1, bl);
-            this.params.put(string.toLowerCase(), abstractDiagnosisCommand$Parameter);
-            this.boolParams.add(abstractDiagnosisCommand$Parameter);
+            Parameter parameter = new Parameter(new String[]{"true", "false"}, 1, 1, bl);
+            this.params.put(string.toLowerCase(), parameter);
+            this.boolParams.add(parameter);
         } else {
             System.out.println("Give a valid parameter name!");
         }
@@ -190,13 +189,12 @@ implements IDiagnosisCommand {
         if (bl) {
             this.commandString.append("]");
         }
-        AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter = new AbstractDiagnosisCommand$Parameter(this, new String[]{"true", "false"}, 1, 1, bl);
-        this.anonymousParams.add(abstractDiagnosisCommand$Parameter);
+        Parameter parameter = new Parameter(new String[]{"true", "false"}, 1, 1, bl);
+        this.anonymousParams.add(parameter);
     }
 
-    @Override
-    public void parseParameters(String string) {
-        AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter;
+    public void parseParameters(String string) throws InvalidCommandParameterException {
+        Parameter parameter;
         this.resetNonOptionalParameters();
         Buffer buffer = new Buffer();
         StringTokenizer stringTokenizer = new StringTokenizer(string);
@@ -209,85 +207,85 @@ implements IDiagnosisCommand {
         Iterator iterator = this.params.keySet().iterator();
         while (iterator.hasNext()) {
             String string2 = (String)iterator.next();
-            abstractDiagnosisCommand$Parameter = (AbstractDiagnosisCommand$Parameter)this.params.get(string2);
-            if (abstractDiagnosisCommand$Parameter.parsedValues.isEmpty() && !abstractDiagnosisCommand$Parameter.optional) {
+            parameter = (Parameter)this.params.get(string2);
+            if (parameter.parsedValues.isEmpty() && !parameter.optional) {
                 buffer.append("missing value for non-optional parameter ").append(string2);
                 throw new InvalidCommandParameterException(buffer.toString());
             }
-            if (abstractDiagnosisCommand$Parameter.parsedValues.size() <= abstractDiagnosisCommand$Parameter.maxNumberOfValues) continue;
-            buffer.append("Give maximal ").append(abstractDiagnosisCommand$Parameter.maxNumberOfValues).append(" value(s) for parameter ").append(string2);
+            if (parameter.parsedValues.size() <= parameter.maxNumberOfValues) continue;
+            buffer.append("Give maximal ").append(parameter.maxNumberOfValues).append(" value(s) for parameter ").append(string2);
             throw new InvalidCommandParameterException(buffer.toString());
         }
         for (int i2 = 0; i2 < this.anonymousParams.size(); ++i2) {
-            abstractDiagnosisCommand$Parameter = (AbstractDiagnosisCommand$Parameter)this.anonymousParams.get(i2);
-            if (!abstractDiagnosisCommand$Parameter.parsedValues.isEmpty() || abstractDiagnosisCommand$Parameter.optional) continue;
+            parameter = (Parameter)this.anonymousParams.get(i2);
+            if (!parameter.parsedValues.isEmpty() || parameter.optional) continue;
             throw new InvalidCommandParameterException(buffer.toString());
         }
     }
 
     private void resetNonOptionalParameters() {
-        AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter;
+        Parameter parameter;
         Iterator iterator = this.params.keySet().iterator();
         while (iterator.hasNext()) {
-            abstractDiagnosisCommand$Parameter = (AbstractDiagnosisCommand$Parameter)this.params.get(iterator.next());
-            if (abstractDiagnosisCommand$Parameter.optional) continue;
-            abstractDiagnosisCommand$Parameter.parsedValues = new ArrayList();
+            parameter = (Parameter)this.params.get(iterator.next());
+            if (parameter.optional) continue;
+            parameter.parsedValues = new ArrayList();
         }
         for (int i2 = 0; i2 < this.anonymousParams.size(); ++i2) {
-            abstractDiagnosisCommand$Parameter = (AbstractDiagnosisCommand$Parameter)this.params.get(iterator.next());
-            if (abstractDiagnosisCommand$Parameter.optional) continue;
-            abstractDiagnosisCommand$Parameter.parsedValues = new ArrayList();
+            parameter = (Parameter)this.params.get(iterator.next());
+            if (parameter.optional) continue;
+            parameter.parsedValues = new ArrayList();
         }
     }
 
-    private String parseParameters(String string, StringTokenizer stringTokenizer) {
-        AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter;
+    private String parseParameters(String string, StringTokenizer stringTokenizer) throws InvalidCommandParameterException {
+        Parameter parameter;
         int n;
         Buffer buffer = new Buffer();
         if (this.params.containsKey(string.toLowerCase())) {
             String string2 = string.toLowerCase();
-            AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter2 = (AbstractDiagnosisCommand$Parameter)this.params.get(string2);
+            Parameter parameter2 = (Parameter)this.params.get(string2);
             if (!stringTokenizer.hasMoreTokens()) {
                 buffer.append("Missing value for parameter ").append(string2);
                 throw new InvalidCommandParameterException(buffer.toString());
             }
             string = stringTokenizer.nextToken();
-            abstractDiagnosisCommand$Parameter2.parsedValues = new ArrayList();
-            return this.parseValues(abstractDiagnosisCommand$Parameter2, string2, string, stringTokenizer);
+            parameter2.parsedValues = new ArrayList();
+            return this.parseValues(parameter2, string2, string, stringTokenizer);
         }
         boolean bl = false;
         for (n = 0; n < this.anonymousParams.size(); ++n) {
-            abstractDiagnosisCommand$Parameter = (AbstractDiagnosisCommand$Parameter)this.anonymousParams.get(n);
-            if (abstractDiagnosisCommand$Parameter.possibleValues == null) {
-                if (this.parseIntValue(abstractDiagnosisCommand$Parameter, string).length() != 0) continue;
-                buffer.append(this.checkRange(abstractDiagnosisCommand$Parameter));
+            parameter = (Parameter)this.anonymousParams.get(n);
+            if (parameter.possibleValues == null) {
+                if (this.parseIntValue(parameter, string).length() != 0) continue;
+                buffer.append(this.checkRange(parameter));
                 if (buffer.length() > 0) {
                     throw new InvalidCommandParameterException(buffer.toString());
                 }
                 bl = true;
                 continue;
             }
-            if (!this.isPossibleValue(string, abstractDiagnosisCommand$Parameter.possibleValues)) continue;
+            if (!this.isPossibleValue(string, parameter.possibleValues)) continue;
             bl = true;
-            abstractDiagnosisCommand$Parameter.parsedValues = new ArrayList();
-            if (abstractDiagnosisCommand$Parameter.type == 1) {
-                buffer.append(this.parseBooleanValue(abstractDiagnosisCommand$Parameter, string));
+            parameter.parsedValues = new ArrayList();
+            if (parameter.type == 1) {
+                buffer.append(this.parseBooleanValue(parameter, string));
                 if (buffer.length() <= 0) continue;
                 throw new InvalidCommandParameterException(buffer.toString());
             }
-            abstractDiagnosisCommand$Parameter.parsedValues.add(string);
+            parameter.parsedValues.add(string);
         }
         for (n = 0; n < this.intParams.size() && !bl; ++n) {
-            abstractDiagnosisCommand$Parameter = (AbstractDiagnosisCommand$Parameter)this.intParams.get(n);
-            boolean bl2 = bl = this.parseIntValue(abstractDiagnosisCommand$Parameter, string).length() == 0;
+            parameter = (Parameter)this.intParams.get(n);
+            boolean bl2 = bl = this.parseIntValue(parameter, string).length() == 0;
             if (!bl) continue;
-            buffer.append(this.checkRange(abstractDiagnosisCommand$Parameter));
+            buffer.append(this.checkRange(parameter));
             if (buffer.length() <= 0) continue;
             throw new InvalidCommandParameterException(buffer.toString());
         }
         for (n = 0; n < this.boolParams.size() && !bl; ++n) {
-            abstractDiagnosisCommand$Parameter = (AbstractDiagnosisCommand$Parameter)this.boolParams.get(n);
-            bl = this.parseBooleanValue(abstractDiagnosisCommand$Parameter, string).length() == 0;
+            parameter = (Parameter)this.boolParams.get(n);
+            bl = this.parseBooleanValue(parameter, string).length() == 0;
         }
         if (bl) {
             if (stringTokenizer.hasMoreTokens()) {
@@ -307,44 +305,44 @@ implements IDiagnosisCommand {
         return false;
     }
 
-    private String parseValues(AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter, String string, String string2, StringTokenizer stringTokenizer) {
+    private String parseValues(Parameter parameter, String string, String string2, StringTokenizer stringTokenizer) throws InvalidCommandParameterException {
         Buffer buffer = new Buffer();
         boolean bl = false;
         if (this.params.containsKey(string2.toLowerCase())) {
             return this.parseParameters(string2, stringTokenizer);
         }
-        if (abstractDiagnosisCommand$Parameter.possibleValues == null) {
+        if (parameter.possibleValues == null) {
             bl = true;
-            switch (abstractDiagnosisCommand$Parameter.type) {
+            switch (parameter.type) {
                 case 2: {
-                    buffer.append(this.parseIntValue(abstractDiagnosisCommand$Parameter, string2));
+                    buffer.append(this.parseIntValue(parameter, string2));
                     break;
                 }
                 case 1: {
-                    buffer.append(this.parseBooleanValue(abstractDiagnosisCommand$Parameter, string2));
+                    buffer.append(this.parseBooleanValue(parameter, string2));
                     break;
                 }
                 default: {
-                    abstractDiagnosisCommand$Parameter.parsedValues.add(string2);
+                    parameter.parsedValues.add(string2);
                 }
             }
             if (buffer.length() > 0) {
                 return buffer.toString();
             }
         } else {
-            for (int i2 = 0; i2 < abstractDiagnosisCommand$Parameter.possibleValues.length; ++i2) {
-                if (!string2.equalsIgnoreCase(abstractDiagnosisCommand$Parameter.possibleValues[i2])) continue;
-                switch (abstractDiagnosisCommand$Parameter.type) {
+            for (int i2 = 0; i2 < parameter.possibleValues.length; ++i2) {
+                if (!string2.equalsIgnoreCase(parameter.possibleValues[i2])) continue;
+                switch (parameter.type) {
                     case 2: {
-                        buffer.append(this.parseIntValue(abstractDiagnosisCommand$Parameter, string2));
+                        buffer.append(this.parseIntValue(parameter, string2));
                         break;
                     }
                     case 1: {
-                        buffer.append(this.parseBooleanValue(abstractDiagnosisCommand$Parameter, string2));
+                        buffer.append(this.parseBooleanValue(parameter, string2));
                         break;
                     }
                     default: {
-                        abstractDiagnosisCommand$Parameter.parsedValues.add(string2);
+                        parameter.parsedValues.add(string2);
                     }
                 }
                 if (buffer.length() > 0) {
@@ -355,14 +353,14 @@ implements IDiagnosisCommand {
         }
         if (bl) {
             if (stringTokenizer.hasMoreTokens()) {
-                return this.parseValues(abstractDiagnosisCommand$Parameter, string, stringTokenizer.nextToken(), stringTokenizer);
+                return this.parseValues(parameter, string, stringTokenizer.nextToken(), stringTokenizer);
             }
             return "";
         }
         return this.parseParameters(string2, stringTokenizer);
     }
 
-    private String parseBooleanValue(AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter, String string) {
+    private String parseBooleanValue(Parameter parameter, String string) {
         Boolean bl;
         Buffer buffer = new Buffer();
         if (string.equalsIgnoreCase("true")) {
@@ -372,12 +370,12 @@ implements IDiagnosisCommand {
         } else {
             return buffer.append("input value ").append(string).append(" is not a boolean. (true or false expected)").toString();
         }
-        abstractDiagnosisCommand$Parameter.parsedValues = new ArrayList();
-        abstractDiagnosisCommand$Parameter.parsedValues.add(bl);
+        parameter.parsedValues = new ArrayList();
+        parameter.parsedValues.add(bl);
         return "";
     }
 
-    private String parseIntValue(AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter, String string) {
+    private String parseIntValue(Parameter parameter, String string) {
         Integer n;
         Buffer buffer = new Buffer();
         try {
@@ -386,38 +384,55 @@ implements IDiagnosisCommand {
         catch (NumberFormatException numberFormatException) {
             return buffer.append("input value ").append(string).append(" is not an integer.").toString();
         }
-        abstractDiagnosisCommand$Parameter.parsedValues = new ArrayList();
-        abstractDiagnosisCommand$Parameter.parsedValues.add(n);
+        parameter.parsedValues = new ArrayList();
+        parameter.parsedValues.add(n);
         return "";
     }
 
-    private String checkRange(AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter) {
+    private String checkRange(Parameter parameter) {
         Buffer buffer = new Buffer();
-        Integer n = (Integer)abstractDiagnosisCommand$Parameter.parsedValues.get(abstractDiagnosisCommand$Parameter.parsedValues.size() - 1);
-        if (n < abstractDiagnosisCommand$Parameter.min) {
-            return buffer.append("input value ").append(n).append(" is too small. Must be greater or equal ").append(abstractDiagnosisCommand$Parameter.min).toString();
+        Integer n = (Integer)parameter.parsedValues.get(parameter.parsedValues.size() - 1);
+        if (n < parameter.min) {
+            return buffer.append("input value ").append(n).append(" is too small. Must be greater or equal ").append(parameter.min).toString();
         }
-        if (n > abstractDiagnosisCommand$Parameter.max) {
-            return buffer.append("input value ").append(n).append(" is too big. Must be smaller or equal ").append(abstractDiagnosisCommand$Parameter.max).toString();
+        if (n > parameter.max) {
+            return buffer.append("input value ").append(n).append(" is too big. Must be smaller or equal ").append(parameter.max).toString();
         }
         return "";
     }
 
     public Object[] getParsedValues(String string) {
-        AbstractDiagnosisCommand$Parameter abstractDiagnosisCommand$Parameter = (AbstractDiagnosisCommand$Parameter)this.params.get(string.toLowerCase());
-        if (abstractDiagnosisCommand$Parameter.parsedValues.isEmpty()) {
+        Parameter parameter = (Parameter)this.params.get(string.toLowerCase());
+        if (parameter.parsedValues.isEmpty()) {
             return new Integer[]{new Integer(0)};
         }
-        return abstractDiagnosisCommand$Parameter.parsedValues.toArray();
+        return parameter.parsedValues.toArray();
     }
 
     public Object[] getAnonymousParsedValues(int n) {
-        return ((AbstractDiagnosisCommand$Parameter)this.anonymousParams.get((int)n)).parsedValues.toArray();
+        return ((Parameter)this.anonymousParams.get((int)n)).parsedValues.toArray();
     }
 
-    @Override
     public String getCommandString() {
         return this.commandString.toString();
+    }
+
+    private class Parameter {
+        public final String[] possibleValues;
+        public final int type;
+        public List parsedValues;
+        public final boolean optional;
+        public final int maxNumberOfValues;
+        public int min = Integer.MIN_VALUE;
+        public int max = Integer.MAX_VALUE;
+
+        public Parameter(String[] stringArray, int n, int n2, boolean bl) {
+            this.possibleValues = stringArray;
+            this.parsedValues = new ArrayList();
+            this.type = n2;
+            this.optional = bl;
+            this.maxNumberOfValues = n;
+        }
     }
 }
 

@@ -10,424 +10,371 @@ import org.dsi.ifc.telephoneng.CFRequestData;
 
 public interface ITelDSIMobileEquipmentDeviceAccess
 extends ITelComponent {
-    public static final int ROLE_UNKNOWN;
-    public static final int ROLE_PRIMARY;
-    public static final int ROLE_ASSOCIATED;
-    public static final int ROLE_DATA;
-    public static final int RT_ACCEPTCALL;
-    public static final int RT_HANGUPCALL;
-    public static final int RT_SWAPCALLS;
-    public static final int RT_SPLITCALL;
-    public static final int RT_JOINCALLS;
-    public static final int RT_DIALNUMBER;
-    public static final int RT_DIALNUMBERFROMDBENTRY;
-    public static final int RT_SENDDTMF;
-    public static final int RT_REQUESTNETWORKREGISTRATION;
-    public static final int RT_REQUESTABORTNETWORKREGISTRATION;
-    public static final int RT_REQUESTNETWORKSEARCH;
-    public static final int RT_REQUESTABORTNETWORKSEARCH;
-    public static final int RT_REQUESTCALLFORWARD;
-    public static final int RT_REQUESTCALLWAITING;
-    public static final int RT_REQUESTCLIR;
-    public static final int RT_REQUESTSERVICECODEABORT;
-    public static final int RT_REQUESTSETAUTOMATICPINENTRYACTIVE;
-    public static final int RT_REQUESTSETAUTOMATICREDIALACTIVE;
-    public static final int RT_REQUESTSETCDMATHREEWAYCALLINGSETTING;
-    public static final int RT_REQUESTSETAUTOMATICEMERGENCYCALLACTIVE;
-    public static final int RT_REQUESTSETENHANCEDPRIVACYMODE;
-    public static final int RT_REQUESTSETMAILBOXCONTENT;
-    public static final int RT_REQUESTSETPRIVACYMODE;
-    public static final int RT_REQUESTTELPOWER;
-    public static final int RT_REQUESTUNLOCKSIM;
-    public static final int RT_REQUESTCHECKSIMPINCODE;
-    public static final int RT_REQUESTCHANGESIMCODE;
-    public static final int RT_REQUESTSETHANDSFREEMODE;
-    public static final int RT_REQUESTSETMICMUTESTATE;
-    public static final int RT_REQUESTSETLANGUAGE;
-    public static final int RT_REQUESTSIMPINREQUIRED;
-    public static final int RT_RESTOREFACTORYSETTINGS;
-    public static final int RT_REQUESTUNLOCKOTHERSIM;
-    public static final int RT_REQUESTSETSIMALIASES;
-    public static final int RT_REQUESTSETMICGAINLEVEL;
-    public static final int RT_REQUESTDECREASEMICGAINLEVEL;
-    public static final int RT_REQUESTINCREASEMICGAINLEVEL;
-    public static final int RT_REQUESTSETOPTIMIZATIONMODE;
-    public static final int RT_REQUESTSETNADMODE;
-    public static final int RT_REQUESTREMOVEOTHERSIM;
-    public static final int RT_DIALOPERATOR;
-    public static final int RT_REQUESTSETPREFIXCONTENT;
-    public static final int RT_REQUESTSETPHONEREMINDERSETTING;
-    public static final int RT_REQUESTSETPREFIXACTIVATED;
-    public static final int RT_REQUESTSETPHONERINGTONE;
-    public static final int RT_REQUESTSETFAVORITES;
-    public static final int RT_REQUESTSETSIMNAME;
-    public static final int RT_REQUESTSETESIMACTIVE;
-    public static final int RT_DELETECALLSTACKSALL;
-    public static final int RT_DELETECALLSTACKSENTRY;
-    public static final int RT_RESETMISSEDCALLINDICATOR;
-    public static final int RT_REVERTCALLSTACKS;
-    public static final int ATTR_DTMFTONEPLAYING;
-    public static final int ATTR_EMERGENCYNUMBERS;
-    public static final int ATTR_SIMPINREQUIRED;
-    public static final int ATTR_ACTIVATIONSTATE;
-    public static final int ATTR_AUTOMATICPINENTRYACTIVE;
-    public static final int ATTR_AUTOMATICREDIALACTIVE;
-    public static final int ATTR_BATTERYCHARGELEVEL;
-    public static final int ATTR_CALLDURATIONLIST;
-    public static final int ATTR_CALLLIST;
-    public static final int ATTR_CDMATHREEWAYCALLINGSETTING;
-    public static final int ATTR_CRADLEPLUGINSTATE;
-    public static final int ATTR_DISCONNECTREASON;
-    public static final int ATTR_EMERGENCYCALLACTIVE;
-    public static final int ATTR_ENHANCEDPRIVACYMODE;
-    public static final int ATTR_HANDSFREEMODE;
-    public static final int ATTR_LOCKSTATE;
-    public static final int ATTR_MAILBOXCONTENT;
-    public static final int ATTR_MICMUTESTATE;
-    public static final int ATTR_NADTEMPERATURE;
-    public static final int ATTR_PHONEINFORMATION;
-    public static final int ATTR_NETWORKPROVIDER;
-    public static final int ATTR_NETWORKTYPE;
-    public static final int ATTR_PRIVACYMODE;
-    public static final int ATTR_REGISTERSTATE;
-    public static final int ATTR_SERVICECODETYPE;
-    public static final int ATTR_SERVICENUMBERS;
-    public static final int ATTR_SIGNALQUALITY;
-    public static final int ATTR_SUPPSERVICERESPONSE;
-    public static final int ATTR_SERVICEPROVIDER;
-    public static final int ATTR_SIMALIASINFORMATION;
-    public static final int ATTR_MICGAINLEVEL;
-    public static final int ATTR_OPTIMIZATIONMODE;
-    public static final int ATTR_NADMODE;
-    public static final int ATTR_OTHERSIMAVAILABLE;
-    public static final int ATTR_PREFIXCONTENT;
-    public static final int ATTR_PHONEREMINDERSETTING;
-    public static final int ATTR_PREFIXACTIVATED;
-    public static final int ATTR_WIDEBANDSPEECH;
-    public static final int ATTR_PHONERINGTONE;
-    public static final int ATTR_FAVORITES;
-    public static final int ATTR_SAPUPGRADEACTIVE;
-    public static final int ATTR_EUICCID;
-    public static final int ATTR_ESIMMSISDN;
-    public static final int ATTR_ESIMACTIVE;
-    public static final int ATTR_ESIMB2BMODE;
-    public static final int ATTR_CALLSTACKSISREVERTED;
-    public static final int ATTR_LASTANSWEREDNUMBERS;
-    public static final int ATTR_LASTDIALEDNUMBERS;
-    public static final int ATTR_MISSEDNUMBERS;
-    public static final int ATTR_MEDATAVALIDITY;
-    public static final int ATTR_MISSEDCALLINDICATOR;
-    public static final int ATTR_PRIMARY_DTMFTONEPLAYING;
-    public static final int ATTR_PRIMARY_EMERGENCYNUMBERS;
-    public static final int ATTR_PRIMARY_SIMPINREQUIRED;
-    public static final int ATTR_PRIMARY_ACTIVATIONSTATE;
-    public static final int ATTR_PRIMARY_AUTOMATICPINENTRYACTIVE;
-    public static final int ATTR_PRIMARY_AUTOMATICREDIALACTIVE;
-    public static final int ATTR_PRIMARY_BATTERYCHARGELEVEL;
-    public static final int ATTR_PRIMARY_CALLDURATIONLIST;
-    public static final int ATTR_PRIMARY_CALLLIST;
-    public static final int ATTR_PRIMARY_CDMATHREEWAYCALLINGSETTING;
-    public static final int ATTR_PRIMARY_CRADLEPLUGINSTATE;
-    public static final int ATTR_PRIMARY_DISCONNECTREASON;
-    public static final int ATTR_PRIMARY_EMERGENCYCALLACTIVE;
-    public static final int ATTR_PRIMARY_ENHANCEDPRIVACYMODE;
-    public static final int ATTR_PRIMARY_HANDSFREEMODE;
-    public static final int ATTR_PRIMARY_LOCKSTATE;
-    public static final int ATTR_PRIMARY_MAILBOXCONTENT;
-    public static final int ATTR_PRIMARY_MICMUTESTATE;
-    public static final int ATTR_PRIMARY_NADTEMPERATURE;
-    public static final int ATTR_PRIMARY_PHONEINFORMATION;
-    public static final int ATTR_PRIMARY_NETWORKPROVIDER;
-    public static final int ATTR_PRIMARY_NETWORKTYPE;
-    public static final int ATTR_PRIMARY_PRIVACYMODE;
-    public static final int ATTR_PRIMARY_REGISTERSTATE;
-    public static final int ATTR_PRIMARY_SERVICECODETYPE;
-    public static final int ATTR_PRIMARY_SERVICENUMBERS;
-    public static final int ATTR_PRIMARY_SIGNALQUALITY;
-    public static final int ATTR_PRIMARY_SUPPSERVICERESPONSE;
-    public static final int ATTR_PRIMARY_SERVICEPROVIDER;
-    public static final int ATTR_PRIMARY_SIMALIASINFORMATION;
-    public static final int ATTR_PRIMARY_MICGAINLEVEL;
-    public static final int ATTR_PRIMARY_OPTIMIZATIONMODE;
-    public static final int ATTR_PRIMARY_NADMODE;
-    public static final int ATTR_PRIMARY_OTHERSIMAVAILABLE;
-    public static final int ATTR_PRIMARY_PREFIXCONTENT;
-    public static final int ATTR_PRIMARY_PHONEREMINDERSETTING;
-    public static final int ATTR_PRIMARY_PREFIXACTIVATED;
-    public static final int ATTR_PRIMARY_WIDEBANDSPEECH;
-    public static final int ATTR_PRIMARY_PHONERINGTONE;
-    public static final int ATTR_PRIMARY_FAVORITES;
-    public static final int ATTR_PRIMARY_SAPUPGRADEACTIVE;
-    public static final int ATTR_PRIMARY_EUICCID;
-    public static final int ATTR_PRIMARY_ESIMMSISDN;
-    public static final int ATTR_PRIMARY_ESIMACTIVE;
-    public static final int ATTR_PRIMARY_ESIMB2BMODE;
-    public static final int ATTR_PRIMARY_CALLSTACKSISREVERTED;
-    public static final int ATTR_PRIMARY_LASTANSWEREDNUMBERS;
-    public static final int ATTR_PRIMARY_LASTDIALEDNUMBERS;
-    public static final int ATTR_PRIMARY_MISSEDNUMBERS;
-    public static final int ATTR_PRIMARY_MEDATAVALIDITY;
-    public static final int ATTR_PRIMARY_MISSEDCALLINDICATOR;
-    public static final int ATTR_ASSOCIATED_DTMFTONEPLAYING;
-    public static final int ATTR_ASSOCIATED_EMERGENCYNUMBERS;
-    public static final int ATTR_ASSOCIATED_SIMPINREQUIRED;
-    public static final int ATTR_ASSOCIATED_ACTIVATIONSTATE;
-    public static final int ATTR_ASSOCIATED_AUTOMATICPINENTRYACTIVE;
-    public static final int ATTR_ASSOCIATED_AUTOMATICREDIALACTIVE;
-    public static final int ATTR_ASSOCIATED_BATTERYCHARGELEVEL;
-    public static final int ATTR_ASSOCIATED_CALLDURATIONLIST;
-    public static final int ATTR_ASSOCIATED_CALLLIST;
-    public static final int ATTR_ASSOCIATED_CDMATHREEWAYCALLINGSETTING;
-    public static final int ATTR_ASSOCIATED_CRADLEPLUGINSTATE;
-    public static final int ATTR_ASSOCIATED_DISCONNECTREASON;
-    public static final int ATTR_ASSOCIATED_EMERGENCYCALLACTIVE;
-    public static final int ATTR_ASSOCIATED_ENHANCEDPRIVACYMODE;
-    public static final int ATTR_ASSOCIATED_HANDSFREEMODE;
-    public static final int ATTR_ASSOCIATED_LOCKSTATE;
-    public static final int ATTR_ASSOCIATED_MAILBOXCONTENT;
-    public static final int ATTR_ASSOCIATED_MICMUTESTATE;
-    public static final int ATTR_ASSOCIATED_NADTEMPERATURE;
-    public static final int ATTR_ASSOCIATED_PHONEINFORMATION;
-    public static final int ATTR_ASSOCIATED_NETWORKPROVIDER;
-    public static final int ATTR_ASSOCIATED_NETWORKTYPE;
-    public static final int ATTR_ASSOCIATED_PRIVACYMODE;
-    public static final int ATTR_ASSOCIATED_REGISTERSTATE;
-    public static final int ATTR_ASSOCIATED_SERVICECODETYPE;
-    public static final int ATTR_ASSOCIATED_SERVICENUMBERS;
-    public static final int ATTR_ASSOCIATED_SIGNALQUALITY;
-    public static final int ATTR_ASSOCIATED_SUPPSERVICERESPONSE;
-    public static final int ATTR_ASSOCIATED_SERVICEPROVIDER;
-    public static final int ATTR_ASSOCIATED_SIMALIASINFORMATION;
-    public static final int ATTR_ASSOCIATED_MICGAINLEVEL;
-    public static final int ATTR_ASSOCIATED_OPTIMIZATIONMODE;
-    public static final int ATTR_ASSOCIATED_NADMODE;
-    public static final int ATTR_ASSOCIATED_OTHERSIMAVAILABLE;
-    public static final int ATTR_ASSOCIATED_PREFIXCONTENT;
-    public static final int ATTR_ASSOCIATED_PHONEREMINDERSETTING;
-    public static final int ATTR_ASSOCIATED_PREFIXACTIVATED;
-    public static final int ATTR_ASSOCIATED_WIDEBANDSPEECH;
-    public static final int ATTR_ASSOCIATED_PHONERINGTONE;
-    public static final int ATTR_ASSOCIATED_FAVORITES;
-    public static final int ATTR_ASSOCIATED_SAPUPGRADEACTIVE;
-    public static final int ATTR_ASSOCIATED_EUICCID;
-    public static final int ATTR_ASSOCIATED_ESIMMSISDN;
-    public static final int ATTR_ASSOCIATED_ESIMACTIVE;
-    public static final int ATTR_ASSOCIATED_ESIMB2BMODE;
-    public static final int ATTR_ASSOCIATED_CALLSTACKSISREVERTED;
-    public static final int ATTR_ASSOCIATED_LASTANSWEREDNUMBERS;
-    public static final int ATTR_ASSOCIATED_LASTDIALEDNUMBERS;
-    public static final int ATTR_ASSOCIATED_MISSEDNUMBERS;
-    public static final int ATTR_ASSOCIATED_MEDATAVALIDITY;
-    public static final int ATTR_ASSOCIATED_MISSEDCALLINDICATOR;
-    public static final int ATTR_DATA_DTMFTONEPLAYING;
-    public static final int ATTR_DATA_EMERGENCYNUMBERS;
-    public static final int ATTR_DATA_SIMPINREQUIRED;
-    public static final int ATTR_DATA_ACTIVATIONSTATE;
-    public static final int ATTR_DATA_AUTOMATICPINENTRYACTIVE;
-    public static final int ATTR_DATA_AUTOMATICREDIALACTIVE;
-    public static final int ATTR_DATA_BATTERYCHARGELEVEL;
-    public static final int ATTR_DATA_CALLDURATIONLIST;
-    public static final int ATTR_DATA_CALLLIST;
-    public static final int ATTR_DATA_CDMATHREEWAYCALLINGSETTING;
-    public static final int ATTR_DATA_CRADLEPLUGINSTATE;
-    public static final int ATTR_DATA_DISCONNECTREASON;
-    public static final int ATTR_DATA_EMERGENCYCALLACTIVE;
-    public static final int ATTR_DATA_ENHANCEDPRIVACYMODE;
-    public static final int ATTR_DATA_HANDSFREEMODE;
-    public static final int ATTR_DATA_LOCKSTATE;
-    public static final int ATTR_DATA_MAILBOXCONTENT;
-    public static final int ATTR_DATA_MICMUTESTATE;
-    public static final int ATTR_DATA_NADTEMPERATURE;
-    public static final int ATTR_DATA_PHONEINFORMATION;
-    public static final int ATTR_DATA_NETWORKPROVIDER;
-    public static final int ATTR_DATA_NETWORKTYPE;
-    public static final int ATTR_DATA_PRIVACYMODE;
-    public static final int ATTR_DATA_REGISTERSTATE;
-    public static final int ATTR_DATA_SERVICECODETYPE;
-    public static final int ATTR_DATA_SERVICENUMBERS;
-    public static final int ATTR_DATA_SIGNALQUALITY;
-    public static final int ATTR_DATA_SUPPSERVICERESPONSE;
-    public static final int ATTR_DATA_SERVICEPROVIDER;
-    public static final int ATTR_DATA_SIMALIASINFORMATION;
-    public static final int ATTR_DATA_MICGAINLEVEL;
-    public static final int ATTR_DATA_OPTIMIZATIONMODE;
-    public static final int ATTR_DATA_NADMODE;
-    public static final int ATTR_DATA_OTHERSIMAVAILABLE;
-    public static final int ATTR_DATA_PREFIXCONTENT;
-    public static final int ATTR_DATA_PHONEREMINDERSETTING;
-    public static final int ATTR_DATA_PREFIXACTIVATED;
-    public static final int ATTR_DATA_WIDEBANDSPEECH;
-    public static final int ATTR_DATA_PHONERINGTONE;
-    public static final int ATTR_DATA_FAVORITES;
-    public static final int ATTR_DATA_SAPUPGRADEACTIVE;
-    public static final int ATTR_DATA_EUICCID;
-    public static final int ATTR_DATA_ESIMMSISDN;
-    public static final int ATTR_DATA_ESIMACTIVE;
-    public static final int ATTR_DATA_ESIMB2BMODE;
-    public static final int ATTR_DATA_CALLSTACKSISREVERTED;
-    public static final int ATTR_DATA_LASTANSWEREDNUMBERS;
-    public static final int ATTR_DATA_LASTDIALEDNUMBERS;
-    public static final int ATTR_DATA_MISSEDNUMBERS;
-    public static final int ATTR_DATA_MEDATAVALIDITY;
-    public static final int ATTR_DATA_MISSEDCALLINDICATOR;
+    public static final int ROLE_UNKNOWN = -65536;
+    public static final int ROLE_PRIMARY = 65536;
+    public static final int ROLE_ASSOCIATED = 131072;
+    public static final int ROLE_DATA = 196608;
+    public static final int RT_ACCEPTCALL = 1000;
+    public static final int RT_HANGUPCALL = 1001;
+    public static final int RT_SWAPCALLS = 1002;
+    public static final int RT_SPLITCALL = 1003;
+    public static final int RT_JOINCALLS = 1004;
+    public static final int RT_DIALNUMBER = 1005;
+    public static final int RT_DIALNUMBERFROMDBENTRY = 1006;
+    public static final int RT_SENDDTMF = 1007;
+    public static final int RT_REQUESTNETWORKREGISTRATION = 1008;
+    public static final int RT_REQUESTABORTNETWORKREGISTRATION = 1009;
+    public static final int RT_REQUESTNETWORKSEARCH = 1010;
+    public static final int RT_REQUESTABORTNETWORKSEARCH = 1011;
+    public static final int RT_REQUESTCALLFORWARD = 1012;
+    public static final int RT_REQUESTCALLWAITING = 1013;
+    public static final int RT_REQUESTCLIR = 1014;
+    public static final int RT_REQUESTSERVICECODEABORT = 1015;
+    public static final int RT_REQUESTSETAUTOMATICPINENTRYACTIVE = 1016;
+    public static final int RT_REQUESTSETAUTOMATICREDIALACTIVE = 1017;
+    public static final int RT_REQUESTSETCDMATHREEWAYCALLINGSETTING = 1018;
+    public static final int RT_REQUESTSETAUTOMATICEMERGENCYCALLACTIVE = 1019;
+    public static final int RT_REQUESTSETENHANCEDPRIVACYMODE = 1020;
+    public static final int RT_REQUESTSETMAILBOXCONTENT = 1021;
+    public static final int RT_REQUESTSETPRIVACYMODE = 1022;
+    public static final int RT_REQUESTTELPOWER = 1023;
+    public static final int RT_REQUESTUNLOCKSIM = 1024;
+    public static final int RT_REQUESTCHECKSIMPINCODE = 1025;
+    public static final int RT_REQUESTCHANGESIMCODE = 1026;
+    public static final int RT_REQUESTSETHANDSFREEMODE = 1027;
+    public static final int RT_REQUESTSETMICMUTESTATE = 1028;
+    public static final int RT_REQUESTSETLANGUAGE = 1029;
+    public static final int RT_REQUESTSIMPINREQUIRED = 1030;
+    public static final int RT_RESTOREFACTORYSETTINGS = 1031;
+    public static final int RT_REQUESTUNLOCKOTHERSIM = 1032;
+    public static final int RT_REQUESTSETSIMALIASES = 1033;
+    public static final int RT_REQUESTSETMICGAINLEVEL = 1034;
+    public static final int RT_REQUESTDECREASEMICGAINLEVEL = 1035;
+    public static final int RT_REQUESTINCREASEMICGAINLEVEL = 1036;
+    public static final int RT_REQUESTSETOPTIMIZATIONMODE = 1037;
+    public static final int RT_REQUESTSETNADMODE = 1038;
+    public static final int RT_REQUESTREMOVEOTHERSIM = 1039;
+    public static final int RT_DIALOPERATOR = 1040;
+    public static final int RT_REQUESTSETPREFIXCONTENT = 1041;
+    public static final int RT_REQUESTSETPHONEREMINDERSETTING = 1042;
+    public static final int RT_REQUESTSETPREFIXACTIVATED = 1043;
+    public static final int RT_REQUESTSETPHONERINGTONE = 1044;
+    public static final int RT_REQUESTSETFAVORITES = 1045;
+    public static final int RT_REQUESTSETSIMNAME = 1046;
+    public static final int RT_REQUESTSETESIMACTIVE = 1047;
+    public static final int RT_DELETECALLSTACKSALL = 1048;
+    public static final int RT_DELETECALLSTACKSENTRY = 1049;
+    public static final int RT_RESETMISSEDCALLINDICATOR = 1050;
+    public static final int RT_REVERTCALLSTACKS = 1051;
+    public static final int ATTR_DTMFTONEPLAYING = 1;
+    public static final int ATTR_EMERGENCYNUMBERS = 2;
+    public static final int ATTR_SIMPINREQUIRED = 3;
+    public static final int ATTR_ACTIVATIONSTATE = 4;
+    public static final int ATTR_AUTOMATICPINENTRYACTIVE = 5;
+    public static final int ATTR_AUTOMATICREDIALACTIVE = 6;
+    public static final int ATTR_BATTERYCHARGELEVEL = 7;
+    public static final int ATTR_CALLDURATIONLIST = 8;
+    public static final int ATTR_CALLLIST = 9;
+    public static final int ATTR_CDMATHREEWAYCALLINGSETTING = 10;
+    public static final int ATTR_CRADLEPLUGINSTATE = 11;
+    public static final int ATTR_DISCONNECTREASON = 12;
+    public static final int ATTR_EMERGENCYCALLACTIVE = 13;
+    public static final int ATTR_ENHANCEDPRIVACYMODE = 14;
+    public static final int ATTR_HANDSFREEMODE = 15;
+    public static final int ATTR_LOCKSTATE = 16;
+    public static final int ATTR_MAILBOXCONTENT = 17;
+    public static final int ATTR_MICMUTESTATE = 18;
+    public static final int ATTR_NADTEMPERATURE = 19;
+    public static final int ATTR_PHONEINFORMATION = 20;
+    public static final int ATTR_NETWORKPROVIDER = 21;
+    public static final int ATTR_NETWORKTYPE = 22;
+    public static final int ATTR_PRIVACYMODE = 23;
+    public static final int ATTR_REGISTERSTATE = 24;
+    public static final int ATTR_SERVICECODETYPE = 25;
+    public static final int ATTR_SERVICENUMBERS = 26;
+    public static final int ATTR_SIGNALQUALITY = 27;
+    public static final int ATTR_SUPPSERVICERESPONSE = 28;
+    public static final int ATTR_SERVICEPROVIDER = 29;
+    public static final int ATTR_SIMALIASINFORMATION = 30;
+    public static final int ATTR_MICGAINLEVEL = 31;
+    public static final int ATTR_OPTIMIZATIONMODE = 32;
+    public static final int ATTR_NADMODE = 33;
+    public static final int ATTR_OTHERSIMAVAILABLE = 34;
+    public static final int ATTR_PREFIXCONTENT = 35;
+    public static final int ATTR_PHONEREMINDERSETTING = 36;
+    public static final int ATTR_PREFIXACTIVATED = 37;
+    public static final int ATTR_WIDEBANDSPEECH = 38;
+    public static final int ATTR_PHONERINGTONE = 39;
+    public static final int ATTR_FAVORITES = 40;
+    public static final int ATTR_SAPUPGRADEACTIVE = 41;
+    public static final int ATTR_EUICCID = 42;
+    public static final int ATTR_ESIMMSISDN = 43;
+    public static final int ATTR_ESIMACTIVE = 44;
+    public static final int ATTR_ESIMB2BMODE = 45;
+    public static final int ATTR_CALLSTACKSISREVERTED = 46;
+    public static final int ATTR_LASTANSWEREDNUMBERS = 47;
+    public static final int ATTR_LASTDIALEDNUMBERS = 48;
+    public static final int ATTR_MISSEDNUMBERS = 49;
+    public static final int ATTR_MEDATAVALIDITY = 50;
+    public static final int ATTR_MISSEDCALLINDICATOR = 51;
+    public static final int ATTR_PRIMARY_DTMFTONEPLAYING = 65537;
+    public static final int ATTR_PRIMARY_EMERGENCYNUMBERS = 65538;
+    public static final int ATTR_PRIMARY_SIMPINREQUIRED = 65539;
+    public static final int ATTR_PRIMARY_ACTIVATIONSTATE = 65540;
+    public static final int ATTR_PRIMARY_AUTOMATICPINENTRYACTIVE = 65541;
+    public static final int ATTR_PRIMARY_AUTOMATICREDIALACTIVE = 65542;
+    public static final int ATTR_PRIMARY_BATTERYCHARGELEVEL = 65543;
+    public static final int ATTR_PRIMARY_CALLDURATIONLIST = 65544;
+    public static final int ATTR_PRIMARY_CALLLIST = 65545;
+    public static final int ATTR_PRIMARY_CDMATHREEWAYCALLINGSETTING = 65546;
+    public static final int ATTR_PRIMARY_CRADLEPLUGINSTATE = 65547;
+    public static final int ATTR_PRIMARY_DISCONNECTREASON = 65548;
+    public static final int ATTR_PRIMARY_EMERGENCYCALLACTIVE = 65549;
+    public static final int ATTR_PRIMARY_ENHANCEDPRIVACYMODE = 65550;
+    public static final int ATTR_PRIMARY_HANDSFREEMODE = 65551;
+    public static final int ATTR_PRIMARY_LOCKSTATE = 65552;
+    public static final int ATTR_PRIMARY_MAILBOXCONTENT = 65553;
+    public static final int ATTR_PRIMARY_MICMUTESTATE = 65554;
+    public static final int ATTR_PRIMARY_NADTEMPERATURE = 65555;
+    public static final int ATTR_PRIMARY_PHONEINFORMATION = 65556;
+    public static final int ATTR_PRIMARY_NETWORKPROVIDER = 65557;
+    public static final int ATTR_PRIMARY_NETWORKTYPE = 65558;
+    public static final int ATTR_PRIMARY_PRIVACYMODE = 65559;
+    public static final int ATTR_PRIMARY_REGISTERSTATE = 65560;
+    public static final int ATTR_PRIMARY_SERVICECODETYPE = 65561;
+    public static final int ATTR_PRIMARY_SERVICENUMBERS = 65562;
+    public static final int ATTR_PRIMARY_SIGNALQUALITY = 65563;
+    public static final int ATTR_PRIMARY_SUPPSERVICERESPONSE = 65564;
+    public static final int ATTR_PRIMARY_SERVICEPROVIDER = 65565;
+    public static final int ATTR_PRIMARY_SIMALIASINFORMATION = 65566;
+    public static final int ATTR_PRIMARY_MICGAINLEVEL = 65567;
+    public static final int ATTR_PRIMARY_OPTIMIZATIONMODE = 65568;
+    public static final int ATTR_PRIMARY_NADMODE = 65569;
+    public static final int ATTR_PRIMARY_OTHERSIMAVAILABLE = 65570;
+    public static final int ATTR_PRIMARY_PREFIXCONTENT = 65571;
+    public static final int ATTR_PRIMARY_PHONEREMINDERSETTING = 65572;
+    public static final int ATTR_PRIMARY_PREFIXACTIVATED = 65573;
+    public static final int ATTR_PRIMARY_WIDEBANDSPEECH = 65574;
+    public static final int ATTR_PRIMARY_PHONERINGTONE = 65575;
+    public static final int ATTR_PRIMARY_FAVORITES = 65576;
+    public static final int ATTR_PRIMARY_SAPUPGRADEACTIVE = 65577;
+    public static final int ATTR_PRIMARY_EUICCID = 65578;
+    public static final int ATTR_PRIMARY_ESIMMSISDN = 65579;
+    public static final int ATTR_PRIMARY_ESIMACTIVE = 65580;
+    public static final int ATTR_PRIMARY_ESIMB2BMODE = 65581;
+    public static final int ATTR_PRIMARY_CALLSTACKSISREVERTED = 65582;
+    public static final int ATTR_PRIMARY_LASTANSWEREDNUMBERS = 65583;
+    public static final int ATTR_PRIMARY_LASTDIALEDNUMBERS = 65584;
+    public static final int ATTR_PRIMARY_MISSEDNUMBERS = 65585;
+    public static final int ATTR_PRIMARY_MEDATAVALIDITY = 65586;
+    public static final int ATTR_PRIMARY_MISSEDCALLINDICATOR = 65587;
+    public static final int ATTR_ASSOCIATED_DTMFTONEPLAYING = 131073;
+    public static final int ATTR_ASSOCIATED_EMERGENCYNUMBERS = 131074;
+    public static final int ATTR_ASSOCIATED_SIMPINREQUIRED = 131075;
+    public static final int ATTR_ASSOCIATED_ACTIVATIONSTATE = 131076;
+    public static final int ATTR_ASSOCIATED_AUTOMATICPINENTRYACTIVE = 131077;
+    public static final int ATTR_ASSOCIATED_AUTOMATICREDIALACTIVE = 131078;
+    public static final int ATTR_ASSOCIATED_BATTERYCHARGELEVEL = 131079;
+    public static final int ATTR_ASSOCIATED_CALLDURATIONLIST = 131080;
+    public static final int ATTR_ASSOCIATED_CALLLIST = 131081;
+    public static final int ATTR_ASSOCIATED_CDMATHREEWAYCALLINGSETTING = 131082;
+    public static final int ATTR_ASSOCIATED_CRADLEPLUGINSTATE = 131083;
+    public static final int ATTR_ASSOCIATED_DISCONNECTREASON = 131084;
+    public static final int ATTR_ASSOCIATED_EMERGENCYCALLACTIVE = 131085;
+    public static final int ATTR_ASSOCIATED_ENHANCEDPRIVACYMODE = 131086;
+    public static final int ATTR_ASSOCIATED_HANDSFREEMODE = 131087;
+    public static final int ATTR_ASSOCIATED_LOCKSTATE = 131088;
+    public static final int ATTR_ASSOCIATED_MAILBOXCONTENT = 131089;
+    public static final int ATTR_ASSOCIATED_MICMUTESTATE = 131090;
+    public static final int ATTR_ASSOCIATED_NADTEMPERATURE = 131091;
+    public static final int ATTR_ASSOCIATED_PHONEINFORMATION = 131092;
+    public static final int ATTR_ASSOCIATED_NETWORKPROVIDER = 131093;
+    public static final int ATTR_ASSOCIATED_NETWORKTYPE = 131094;
+    public static final int ATTR_ASSOCIATED_PRIVACYMODE = 131095;
+    public static final int ATTR_ASSOCIATED_REGISTERSTATE = 131096;
+    public static final int ATTR_ASSOCIATED_SERVICECODETYPE = 131097;
+    public static final int ATTR_ASSOCIATED_SERVICENUMBERS = 131098;
+    public static final int ATTR_ASSOCIATED_SIGNALQUALITY = 131099;
+    public static final int ATTR_ASSOCIATED_SUPPSERVICERESPONSE = 131100;
+    public static final int ATTR_ASSOCIATED_SERVICEPROVIDER = 131101;
+    public static final int ATTR_ASSOCIATED_SIMALIASINFORMATION = 131102;
+    public static final int ATTR_ASSOCIATED_MICGAINLEVEL = 131103;
+    public static final int ATTR_ASSOCIATED_OPTIMIZATIONMODE = 131104;
+    public static final int ATTR_ASSOCIATED_NADMODE = 131105;
+    public static final int ATTR_ASSOCIATED_OTHERSIMAVAILABLE = 131106;
+    public static final int ATTR_ASSOCIATED_PREFIXCONTENT = 131107;
+    public static final int ATTR_ASSOCIATED_PHONEREMINDERSETTING = 131108;
+    public static final int ATTR_ASSOCIATED_PREFIXACTIVATED = 131109;
+    public static final int ATTR_ASSOCIATED_WIDEBANDSPEECH = 131110;
+    public static final int ATTR_ASSOCIATED_PHONERINGTONE = 131111;
+    public static final int ATTR_ASSOCIATED_FAVORITES = 131112;
+    public static final int ATTR_ASSOCIATED_SAPUPGRADEACTIVE = 131113;
+    public static final int ATTR_ASSOCIATED_EUICCID = 131114;
+    public static final int ATTR_ASSOCIATED_ESIMMSISDN = 131115;
+    public static final int ATTR_ASSOCIATED_ESIMACTIVE = 131116;
+    public static final int ATTR_ASSOCIATED_ESIMB2BMODE = 131117;
+    public static final int ATTR_ASSOCIATED_CALLSTACKSISREVERTED = 131118;
+    public static final int ATTR_ASSOCIATED_LASTANSWEREDNUMBERS = 131119;
+    public static final int ATTR_ASSOCIATED_LASTDIALEDNUMBERS = 131120;
+    public static final int ATTR_ASSOCIATED_MISSEDNUMBERS = 131121;
+    public static final int ATTR_ASSOCIATED_MEDATAVALIDITY = 131122;
+    public static final int ATTR_ASSOCIATED_MISSEDCALLINDICATOR = 131123;
+    public static final int ATTR_DATA_DTMFTONEPLAYING = 196609;
+    public static final int ATTR_DATA_EMERGENCYNUMBERS = 196610;
+    public static final int ATTR_DATA_SIMPINREQUIRED = 196611;
+    public static final int ATTR_DATA_ACTIVATIONSTATE = 196612;
+    public static final int ATTR_DATA_AUTOMATICPINENTRYACTIVE = 196613;
+    public static final int ATTR_DATA_AUTOMATICREDIALACTIVE = 196614;
+    public static final int ATTR_DATA_BATTERYCHARGELEVEL = 196615;
+    public static final int ATTR_DATA_CALLDURATIONLIST = 196616;
+    public static final int ATTR_DATA_CALLLIST = 196617;
+    public static final int ATTR_DATA_CDMATHREEWAYCALLINGSETTING = 196618;
+    public static final int ATTR_DATA_CRADLEPLUGINSTATE = 196619;
+    public static final int ATTR_DATA_DISCONNECTREASON = 196620;
+    public static final int ATTR_DATA_EMERGENCYCALLACTIVE = 196621;
+    public static final int ATTR_DATA_ENHANCEDPRIVACYMODE = 196622;
+    public static final int ATTR_DATA_HANDSFREEMODE = 196623;
+    public static final int ATTR_DATA_LOCKSTATE = 196624;
+    public static final int ATTR_DATA_MAILBOXCONTENT = 196625;
+    public static final int ATTR_DATA_MICMUTESTATE = 196626;
+    public static final int ATTR_DATA_NADTEMPERATURE = 196627;
+    public static final int ATTR_DATA_PHONEINFORMATION = 196628;
+    public static final int ATTR_DATA_NETWORKPROVIDER = 196629;
+    public static final int ATTR_DATA_NETWORKTYPE = 196630;
+    public static final int ATTR_DATA_PRIVACYMODE = 196631;
+    public static final int ATTR_DATA_REGISTERSTATE = 196632;
+    public static final int ATTR_DATA_SERVICECODETYPE = 196633;
+    public static final int ATTR_DATA_SERVICENUMBERS = 196634;
+    public static final int ATTR_DATA_SIGNALQUALITY = 196635;
+    public static final int ATTR_DATA_SUPPSERVICERESPONSE = 196636;
+    public static final int ATTR_DATA_SERVICEPROVIDER = 196637;
+    public static final int ATTR_DATA_SIMALIASINFORMATION = 196638;
+    public static final int ATTR_DATA_MICGAINLEVEL = 196639;
+    public static final int ATTR_DATA_OPTIMIZATIONMODE = 196640;
+    public static final int ATTR_DATA_NADMODE = 196641;
+    public static final int ATTR_DATA_OTHERSIMAVAILABLE = 196642;
+    public static final int ATTR_DATA_PREFIXCONTENT = 196643;
+    public static final int ATTR_DATA_PHONEREMINDERSETTING = 196644;
+    public static final int ATTR_DATA_PREFIXACTIVATED = 196645;
+    public static final int ATTR_DATA_WIDEBANDSPEECH = 196646;
+    public static final int ATTR_DATA_PHONERINGTONE = 196647;
+    public static final int ATTR_DATA_FAVORITES = 196648;
+    public static final int ATTR_DATA_SAPUPGRADEACTIVE = 196649;
+    public static final int ATTR_DATA_EUICCID = 196650;
+    public static final int ATTR_DATA_ESIMMSISDN = 196651;
+    public static final int ATTR_DATA_ESIMACTIVE = 196652;
+    public static final int ATTR_DATA_ESIMB2BMODE = 196653;
+    public static final int ATTR_DATA_CALLSTACKSISREVERTED = 196654;
+    public static final int ATTR_DATA_LASTANSWEREDNUMBERS = 196655;
+    public static final int ATTR_DATA_LASTDIALEDNUMBERS = 196656;
+    public static final int ATTR_DATA_MISSEDNUMBERS = 196657;
+    public static final int ATTR_DATA_MEDATAVALIDITY = 196658;
+    public static final int ATTR_DATA_MISSEDCALLINDICATOR = 196659;
 
-    default public int getInstanceID() {
-    }
+    public int getInstanceID();
 
-    default public void setDeviceRole(int n) {
-    }
+    public void setDeviceRole(int var1);
 
-    default public void acceptCall(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void acceptCall(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void deleteCallstacksAll(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void deleteCallstacksAll(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void deleteCallstacksEntry(int n, int n2, boolean bl, int n3, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void deleteCallstacksEntry(int var1, int var2, boolean var3, int var4, ITelDSIResponseListener var5, ITelDSIResponseListener[] var6);
 
-    default public void dialSOSNumber(String string, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void dialSOSNumber(String var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void dialNumber(String string, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void dialNumber(String var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void dialNumberFromDBEntry(String string, long l, String string2, short s, short s2, ResourceLocator resourceLocator, int n, int n2, boolean bl, int n3, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void dialNumberFromDBEntry(String var1, long var2, String var4, short var5, short var6, ResourceLocator var7, int var8, int var9, boolean var10, int var11, ITelDSIResponseListener var12, ITelDSIResponseListener[] var13);
 
-    default public void dialOperator(int n, String string, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void dialOperator(int var1, String var2, boolean var3, int var4, ITelDSIResponseListener var5, ITelDSIResponseListener[] var6);
 
-    default public void hangupCall(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void hangupCall(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void joinCalls(boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void joinCalls(boolean var1, int var2, ITelDSIResponseListener var3, ITelDSIResponseListener[] var4);
 
-    default public void requestAbortNetworkRegistration() {
-    }
+    public void requestAbortNetworkRegistration();
 
-    default public void requestAbortNetworkSearch() {
-    }
+    public void requestAbortNetworkSearch();
 
-    default public void requestCallForward(CFRequestData[] cFRequestDataArray, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestCallForward(CFRequestData[] var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestCallWaiting(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestCallWaiting(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestChangeSIMCode(int n, String string, String string2, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestChangeSIMCode(int var1, String var2, String var3, boolean var4, int var5, ITelDSIResponseListener var6, ITelDSIResponseListener[] var7);
 
-    default public void requestCLIR(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestCLIR(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestDecreaseMicGainLevel(short s, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestDecreaseMicGainLevel(short var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestIncreaseMicGainLevel(short s, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestIncreaseMicGainLevel(short var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestNetworkRegistration(String string, int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestNetworkRegistration(String var1, int var2, boolean var3, int var4, ITelDSIResponseListener var5, ITelDSIResponseListener[] var6);
 
-    default public void requestNetworkSearch(boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestNetworkSearch(boolean var1, int var2, ITelDSIResponseListener var3, ITelDSIResponseListener[] var4);
 
-    default public void abortCallForwardRequest() {
-    }
+    public void abortCallForwardRequest();
 
-    default public void abortCallWaitingRequest() {
-    }
+    public void abortCallWaitingRequest();
 
-    default public void abortCallerIDRequest() {
-    }
+    public void abortCallerIDRequest();
 
-    default public void requestSetAutomaticEmergencyCallActive(boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetAutomaticEmergencyCallActive(boolean var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetAutomaticPinEntryActive(boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetAutomaticPinEntryActive(boolean var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetAutomaticRedialActive(boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetAutomaticRedialActive(boolean var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetCDMAThreeWayCallingSetting(boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetCDMAThreeWayCallingSetting(boolean var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetEnhancedPrivacyMode(boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetEnhancedPrivacyMode(boolean var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetESIMActive(boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetESIMActive(boolean var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetHandsFreeMode(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetHandsFreeMode(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetLanguage(String string, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetLanguage(String var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetMailboxContent(String string, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetMailboxContent(String var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetMicGainLevel(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetMicGainLevel(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetMICMuteState(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetMICMuteState(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetNADMode(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetNADMode(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetOptimizationMode(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetOptimizationMode(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetPhoneRingtone(int n, String string, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetPhoneRingtone(int var1, String var2, boolean var3, int var4, ITelDSIResponseListener var5, ITelDSIResponseListener[] var6);
 
-    default public void requestSetPrivacyMode(boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetPrivacyMode(boolean var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSIMPINRequired(String string, boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSIMPINRequired(String var1, boolean var2, boolean var3, int var4, ITelDSIResponseListener var5, ITelDSIResponseListener[] var6);
 
-    default public void requestTelPower(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestTelPower(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestUnlockSIM(int n, String string, String string2, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestUnlockSIM(int var1, String var2, String var3, boolean var4, int var5, ITelDSIResponseListener var6, ITelDSIResponseListener[] var7);
 
-    default public void resetMissedCallIndicator(boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void resetMissedCallIndicator(boolean var1, int var2, ITelDSIResponseListener var3, ITelDSIResponseListener[] var4);
 
-    default public void restoreFactorySettings(boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void restoreFactorySettings(boolean var1, int var2, ITelDSIResponseListener var3, ITelDSIResponseListener[] var4);
 
-    default public void sendDTMF(String string, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void sendDTMF(String var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void splitCall(short s, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void splitCall(short var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void swapCalls(boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void swapCalls(boolean var1, int var2, ITelDSIResponseListener var3, ITelDSIResponseListener[] var4);
 
-    default public void revertCallstacks(boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void revertCallstacks(boolean var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetPhoneReminderSetting(boolean bl, boolean bl2, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetPhoneReminderSetting(boolean var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public int getDeviceRole() {
-    }
+    public int getDeviceRole();
 
-    default public void setIsNadInstance(boolean bl) {
-    }
+    public void setIsNadInstance(boolean var1);
 
-    default public boolean isNadInstance() {
-    }
+    public boolean isNadInstance();
 
-    default public void setNotification() {
-    }
+    public void setNotification();
 }
 

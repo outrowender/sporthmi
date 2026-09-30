@@ -8,25 +8,25 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public final class ByteSize
 extends AbstractMetrics {
-    public static final int UNIT_NONE;
-    public static final int UNIT_BYTE;
-    public static final int UNIT_KB;
-    public static final int UNIT_MB;
-    public static final int UNIT_GB;
-    public static final int UNIT_TB;
-    public static final int UNIT_AUTO;
-    private static final String TEXT_UNIT_BYTE;
-    private static final String TEXT_UNIT_KB;
-    private static final String TEXT_UNIT_MB;
-    private static final String TEXT_UNIT_GB;
-    private static final String TEXT_UNIT_TB;
-    private static String TEXT_INVALID;
-    private static final int DECIMAL_UNIT_VALUE;
-    private static final int BINARY_UNIT_VALUE;
-    public static final float[] DECIMAL_UNIT_VALUES;
-    public static final float[] BINARY_UNIT_VALUES;
+    public static final int UNIT_NONE = 40;
+    public static final int UNIT_BYTE = 41;
+    public static final int UNIT_KB = 42;
+    public static final int UNIT_MB = 43;
+    public static final int UNIT_GB = 44;
+    public static final int UNIT_TB = 45;
+    public static final int UNIT_AUTO = 46;
+    private static final String TEXT_UNIT_BYTE = " B";
+    private static final String TEXT_UNIT_KB = " KB";
+    private static final String TEXT_UNIT_MB = " MB";
+    private static final String TEXT_UNIT_GB = " GB";
+    private static final String TEXT_UNIT_TB = " TB";
+    private static String TEXT_INVALID = "---";
+    private static final int DECIMAL_UNIT_VALUE = 1000;
+    private static final int BINARY_UNIT_VALUE = 1024;
+    public static final float[] DECIMAL_UNIT_VALUES = new float[]{1.0f, 1000.0f, 1000000.0f, 1.0E9f, 1.0E12f};
+    public static final float[] BINARY_UNIT_VALUES = new float[]{1.0f, 1024.0f, 1048576.0f, 1.0737418E9f, 1.0995116E12f};
     private float[] unitValues;
-    private static final float ERROR;
+    private static final float ERROR = 1.0E-5f;
     private int fracDigitNumber;
 
     public ByteSize(float f2, int n) {
@@ -48,7 +48,6 @@ extends AbstractMetrics {
         this.unitValues = bl ? DECIMAL_UNIT_VALUES : BINARY_UNIT_VALUES;
     }
 
-    @Override
     public String format(int n) {
         if (n < 40 || n > 46) {
             throw new IllegalArgumentException();
@@ -80,7 +79,6 @@ extends AbstractMetrics {
         }
     }
 
-    @Override
     public float getValue(int n) {
         if (n == 46) {
             n = this.getDefaultOutputUnit();
@@ -90,19 +88,19 @@ extends AbstractMetrics {
     }
 
     private int getDefaultOutputUnit() {
-        if (this.value < -1396365513) {
+        if (this.value < 1.0E-5f) {
             return 41;
         }
         float f2 = this.value;
         int n = 0;
         if (f2 < 1.0f) {
             while (f2 < 1.0f) {
-                f2 *= 31300;
+                f2 *= 1000.0f;
                 --n;
             }
         } else {
-            while (f2 >= 31300) {
-                f2 /= 31300;
+            while (f2 >= 1000.0f) {
+                f2 /= 1000.0f;
                 ++n;
             }
         }
@@ -134,17 +132,14 @@ extends AbstractMetrics {
         this.fracDigitNumber = n;
     }
 
-    @Override
     public String format() {
         return this.format(this.unit);
     }
 
-    @Override
     public float getValue() {
         return this.value;
     }
 
-    @Override
     public void setValue(float f2) {
         this.value = f2;
     }
@@ -191,23 +186,23 @@ extends AbstractMetrics {
                     break;
                 }
                 case 52: {
-                    string = " B";
+                    string = TEXT_UNIT_BYTE;
                     break;
                 }
                 case 53: {
-                    string = " KB";
+                    string = TEXT_UNIT_KB;
                     break;
                 }
                 case 54: {
-                    string = " MB";
+                    string = TEXT_UNIT_MB;
                     break;
                 }
                 case 55: {
-                    string = " GB";
+                    string = TEXT_UNIT_GB;
                     break;
                 }
                 case 56: {
-                    string = " TB";
+                    string = TEXT_UNIT_TB;
                     break;
                 }
                 default: {
@@ -218,12 +213,10 @@ extends AbstractMetrics {
         return string;
     }
 
-    @Override
     public String getFormattedMetricUnit() {
         return this.getFormattedUnit(this.unit);
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         String string;
         if (n < 40 || n > 46) {
@@ -235,12 +228,10 @@ extends AbstractMetrics {
         return null != (string = this.getUnitText(n)) ? string.trim() : "";
     }
 
-    @Override
     public String getFormattedValue() {
         return this.getFormattedValue(this.unit);
     }
 
-    @Override
     public String getFormattedValue(int n) {
         if (n < 40 || n > 46) {
             throw new IllegalArgumentException();
@@ -253,15 +244,8 @@ extends AbstractMetrics {
         return this.isMetricvalid() ? buffer.toString().trim() : this.getInvalidText();
     }
 
-    @Override
     public String getInvalidText() {
         return TEXT_INVALID;
-    }
-
-    static {
-        TEXT_INVALID = "---";
-        DECIMAL_UNIT_VALUES = new float[]{1.0f, 31300, 2389065, 678129230, -1512806317};
-        BINARY_UNIT_VALUES = new float[]{1.0f, 32836, 32841, 32846, 32851};
     }
 }
 

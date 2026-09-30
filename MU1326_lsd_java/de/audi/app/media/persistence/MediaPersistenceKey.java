@@ -4,7 +4,7 @@
 package de.audi.app.media.persistence;
 
 public class MediaPersistenceKey {
-    public static final int NO_DIRECT_ACCESS;
+    public static final int NO_DIRECT_ACCESS = -1;
     private final boolean directAccess;
     private final int directAccessKey;
 

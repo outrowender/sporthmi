@@ -20,11 +20,11 @@ import java.util.NoSuchElementException;
 
 public class CommandList
 implements ICommandList {
-    public static final int MODE_SYNC;
-    public static final int MODE_ASYNC;
-    public static final int STATUS_OK;
-    public static final int STATUS_STOPPED;
-    public static final int STATUS_ABORTED;
+    public static final int MODE_SYNC = 0;
+    public static final int MODE_ASYNC = 1;
+    public static final int STATUS_OK = 0;
+    public static final int STATUS_STOPPED = 1;
+    public static final int STATUS_ABORTED = 2;
     private LogChannel logChannel;
     private List commands;
     private int pos = -1;
@@ -49,12 +49,10 @@ implements ICommandList {
         this.commands = new ArrayList(5);
     }
 
-    @Override
     public final CommandListManager getManager() {
         return this.manager;
     }
 
-    @Override
     public Collection getCommands() {
         return this.commands;
     }
@@ -63,12 +61,10 @@ implements ICommandList {
         return this.mode == 0;
     }
 
-    @Override
     public String getName() {
         return this.invocationSource == null ? "UNKNOWN" : this.invocationSource;
     }
 
-    @Override
     public String getInvocationSource() {
         return this.invocationSource;
     }
@@ -81,13 +77,11 @@ implements ICommandList {
         this.queuingTime = l;
     }
 
-    @Override
     public ICommandList add(Command command) {
         this.add(this.commands.size(), command);
         return this;
     }
 
-    @Override
     public ICommandList add(int n, Command command) {
         if (command != null) {
             command.setCommandList(this);
@@ -96,13 +90,11 @@ implements ICommandList {
         return this;
     }
 
-    @Override
     public ICommandList add(CommandList commandList) {
         this.add(this.commands.size(), commandList);
         return this;
     }
 
-    @Override
     public ICommandList add(int n, CommandList commandList) {
         if (commandList != null) {
             Iterator iterator = commandList.commands.iterator();
@@ -136,13 +128,11 @@ implements ICommandList {
         return this;
     }
 
-    @Override
     public ICommandList add(Collection collection) {
         this.add(this.getCommands().size(), collection);
         return this;
     }
 
-    @Override
     public ICommandList add(int n, Collection collection) {
         Iterator iterator = collection.iterator();
         while (iterator.hasNext()) {
@@ -153,27 +143,24 @@ implements ICommandList {
         return this;
     }
 
-    @Override
     public void execute(String string) {
         this.invocationSource = string;
         this.manager.execute(this);
     }
 
-    @Override
     public void commandFinishedWithPostCommand(Command command) {
         if (command != null) {
             this.add(this.pos + 1, command);
-            this.logChannel.log(-2137614336, "CommandList#commandFinishedWithPostCommand() - new list: %1 ", (Object)this);
+            this.logChannel.log(10000000, "CommandList#commandFinishedWithPostCommand() - new list: %1 ", (Object)this);
         }
         this.commandFinished();
     }
 
-    @Override
     public void commandFinishedWithPostSequence(CommandList commandList) {
         if (commandList != null && commandList.size() > 0) {
             this.add(this.pos + 1, commandList);
             this.prologueMonitors(commandList.getMonitors());
-            this.logChannel.log(-2137614336, "CommandList#commandFinishedWithPostSequence() - new list: %1 ", (Object)this);
+            this.logChannel.log(10000000, "CommandList#commandFinishedWithPostSequence() - new list: %1 ", (Object)this);
         }
         this.commandFinished();
     }
@@ -194,12 +181,10 @@ implements ICommandList {
         return bl;
     }
 
-    @Override
     public int getPos() {
         return this.pos;
     }
 
-    @Override
     public int size() {
         return this.commands.size();
     }
@@ -215,22 +200,18 @@ implements ICommandList {
         }
     }
 
-    @Override
     public boolean hasActiveCommand() {
         return this.activeCommand != null;
     }
 
-    @Override
     public Command getActiveCommand() {
         return this.activeCommand;
     }
 
-    @Override
     public Command getErrorCommand() {
         return this.errorCommand;
     }
 
-    @Override
     public void setErrorCommand(Command command) {
         this.errorCommand = command;
         if (command != null) {
@@ -245,21 +226,19 @@ implements ICommandList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void commandFinished() {
         CommandList commandList = this;
         synchronized (commandList) {
             this.activeCommand = null;
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stop(String string) {
-        this.logChannel.log(-2137614336, "CommandList#stop( %1 ) - active command: %2, commandlist: %3", (Object)string, (Object)this.activeCommand, (Object)this);
+        this.logChannel.log(10000000, "CommandList#stop( %1 ) - active command: %2, commandlist: %3", (Object)string, (Object)this.activeCommand, (Object)this);
         CommandList commandList = this;
         synchronized (commandList) {
             if (this.activeCommand != null) {
@@ -276,13 +255,11 @@ implements ICommandList {
         }
     }
 
-    @Override
     public void commandAborted(long l) {
         String string = new Buffer().append("ResultCode: ").append(l).toString();
         this.commandAborted(string, "invalid result");
     }
 
-    @Override
     public void commandAborted(Exception exception) {
         ICommandListSupplier iCommandListSupplier = this.manager.getCommandListSupplier();
         if (iCommandListSupplier != null) {
@@ -293,7 +270,6 @@ implements ICommandList {
         this.commandAborted(exception.getMessage(), "exception");
     }
 
-    @Override
     public void commandAborted(String string, String string2) {
         Object object;
         this.logChannel.log(10000, "CommandList#commandAborted( %1 ) - active command: %2, commandlist: %3", (Object)string, (Object)this.activeCommand, (Object)this);
@@ -317,7 +293,6 @@ implements ICommandList {
         }
     }
 
-    @Override
     public void commandAborted(String string) {
         this.logChannel.log(10000, "CommandList#commandAborted( %1 ) - active command: %2, commandlist: %3", (Object)string, (Object)this.activeCommand, (Object)this);
         this.commandAborted(string, null);
@@ -327,7 +302,6 @@ implements ICommandList {
         return this.monitors;
     }
 
-    @Override
     public void addMonitor(Monitor monitor) {
         if (!this.isMonitorRegistered(monitor)) {
             Monitor[] monitorArray = this.monitors;
@@ -353,7 +327,6 @@ implements ICommandList {
         return bl;
     }
 
-    @Override
     public void put(Object object, Object object2) {
         if (this.databag == null) {
             this.databag = new Hashtable();
@@ -361,7 +334,6 @@ implements ICommandList {
         this.databag.put(object, object2);
     }
 
-    @Override
     public Object get(Object object) {
         if (this.databag == null) {
             return null;
@@ -369,7 +341,6 @@ implements ICommandList {
         return this.databag.get(object);
     }
 
-    @Override
     public Object remove(Object object) {
         if (this.databag == null) {
             return null;
@@ -377,7 +348,6 @@ implements ICommandList {
         return this.databag.remove(object);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         if (this.invocationSource != null) {
@@ -414,7 +384,7 @@ implements ICommandList {
     }
 
     void prologue() {
-        this.logChannel.log(14808325, "CommandList#prologue() - mode: %1 ", (long)this.mode);
+        this.logChannel.log(100000000, "CommandList#prologue() - mode: %1 ", (long)this.mode);
         this.setQueuingTime(this.manager.getFramework().getMonotonicTime());
         if (this.manager.getMediatorModel() != null && this.isSync()) {
             this.setMediatorModelStatus(0);
@@ -425,13 +395,13 @@ implements ICommandList {
 
     void epilogue() {
         Monitor[] monitorArray;
-        this.logChannel.log(14808325, "CommandList#epilogue() - mode: %1 ", (long)this.mode);
+        this.logChannel.log(100000000, "CommandList#epilogue() - mode: %1 ", (long)this.mode);
         if (this.manager.getMediatorModel() != null && this.isSync()) {
             if (!this.manager.isSyncCLenqueued()) {
-                this.logChannel.log(14808325, "CommandList#epilogue() - release waitSyncMonitor");
+                this.logChannel.log(100000000, "CommandList#epilogue() - release waitSyncMonitor");
                 this.setMediatorModelStatus(1);
             } else {
-                this.logChannel.log(14808325, "CommandList#epilogue() - waitSyncMonitor kept close ");
+                this.logChannel.log(100000000, "CommandList#epilogue() - waitSyncMonitor kept close ");
             }
         }
         if ((monitorArray = this.getMonitors()) != null) {

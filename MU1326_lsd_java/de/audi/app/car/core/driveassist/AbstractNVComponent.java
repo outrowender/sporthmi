@@ -17,18 +17,18 @@ import org.dsi.ifc.cardriverassistance.NVViewOptions;
 public abstract class AbstractNVComponent
 extends AbstractDSICarDriverAssistanceAdapter
 implements RangeListener {
-    public static final short CODING_ID;
-    private static final String LOGCHANNEL_NAME;
+    public static final short CODING_ID = 26;
+    private static final String LOGCHANNEL_NAME = "App.Car.NV";
     private volatile NVViewOptions currViewOptions;
-    private static final int NV_CONTRAST_MIN;
-    private static final int NV_CONTRAST_MAX;
-    private static final int NV_CONTRAST_STEP;
+    private static final int NV_CONTRAST_MIN = 5;
+    private static final int NV_CONTRAST_MAX = 95;
+    private static final int NV_CONTRAST_STEP = 5;
     private RangeModelWatcherTimer nvContrastRangeWatcher;
-    private static final int ATTR_NVCONTRAST;
+    private static final int ATTR_NVCONTRAST = 10;
     private IIntValueConverterStrategy nvContrastValueConverterStrategy = new DefaultIntValueConverterStrategy();
 
     public AbstractNVComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.NV");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
     public IIntValueConverterStrategy getNvContrastValueConverterStrategy() {
@@ -40,12 +40,12 @@ implements RangeListener {
     }
 
     protected void changeValue(int n) {
-        int n2 = this.getRangeModel(220793088).getValue();
+        int n2 = this.getRangeModel(600333).getValue();
         int n3 = AbstractNVComponent.clip(n2 + n, 5, 95);
         try {
             int n4 = this.getNvContrastValueConverterStrategy().getDSIValue(n3);
             this.nvContrastRangeWatcher.setTempValue(n3);
-            this.getLogChannel().log(1078071040, "dsi.setNVContrast(%1)", (long)n4);
+            this.getLogChannel().log(1000000, "dsi.setNVContrast(%1)", (long)n4);
             this.getDSI().setNVContrast(n4);
         }
         catch (ValueConverterStrategyException valueConverterStrategyException) {
@@ -53,25 +53,22 @@ implements RangeListener {
         }
     }
 
-    @Override
     protected void initModels() {
-        RangeModelApp rangeModelApp = this.getRangeModel(220793088);
+        RangeModelApp rangeModelApp = this.getRangeModel(600333);
         rangeModelApp.setRangeListener(this);
         rangeModelApp.setLimits(5, 95, 5);
-        this.nvContrastRangeWatcher = new RangeModelWatcherTimer("NightVisionContrast", rangeModelApp, 0, this.getLogChannel());
+        this.nvContrastRangeWatcher = new RangeModelWatcherTimer("NightVisionContrast", rangeModelApp, 1000L, this.getLogChannel());
     }
 
-    @Override
     protected void deinitModels() {
-        this.getRangeModel(220793088).resetListener();
+        this.getRangeModel(600333).resetListener();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         this.logModelData("keyPressed:", n, n2, true);
         switch (n) {
             case 600333: {
-                this.getRangeModel(220793088).fireEvent(n3);
+                this.getRangeModel(600333).fireEvent(n3);
                 break;
             }
             default: {
@@ -80,36 +77,29 @@ implements RangeListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
         this.logModelData("decrement", n, n2, true);
         this.changeValue(-n2);
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
         this.logModelData("increment", n, n2, true);
         this.changeValue(n2);
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{8}, new int[]{10})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currViewOptions == null) {
             return "no view options received yet";
@@ -117,9 +107,8 @@ implements RangeListener {
         return this.currViewOptions.toString();
     }
 
-    @Override
     public void updateNVViewOptions(NVViewOptions nVViewOptions, int n) {
-        this.getLogChannel().log(1078071040, "updateNVViewOptions(%1,%2)", (Object)nVViewOptions, (long)n);
+        this.getLogChannel().log(1000000, "updateNVViewOptions(%1,%2)", (Object)nVViewOptions, (long)n);
         if (n == 1) {
             this.currViewOptions = nVViewOptions;
             this.updateMenuEntryVisibility(this.currViewOptions);
@@ -127,9 +116,8 @@ implements RangeListener {
         }
     }
 
-    @Override
     public void updateNVContrast(int n, int n2) {
-        this.getLogChannel().log(1078071040, "updateNVContrast(%1,%2)", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "updateNVContrast(%1,%2)", (long)n, (long)n2);
         if (n2 == 1) {
             try {
                 int n3 = this.getNvContrastValueConverterStrategy().getHMIValue(n);
@@ -142,17 +130,15 @@ implements RangeListener {
     }
 
     public RangeModelApp getNVRangeModel() {
-        return this.getRangeModel(220793088);
+        return this.getRangeModel(600333);
     }
 
     public RangeModelWatcherTimer getNvContrastRangeWatcher() {
         return this.nvContrastRangeWatcher;
     }
 
-    protected abstract void updateMenuEntryVisibility(NVViewOptions nVViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(NVViewOptions var1);
 
-    @Override
     public String getName() {
         return "NightVision";
     }

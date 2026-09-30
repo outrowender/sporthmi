@@ -13,10 +13,10 @@ import org.dsi.ifc.networking.CDataProfile;
 class ProfileList
 implements IApplicationComponent,
 BaseListModelListener {
-    private static final int NUM_COLUMNS;
-    private static final int ID_PROFILE_NAME;
-    private static final int ID_APN;
-    private static final int ID_PROVIDER;
+    private static final int NUM_COLUMNS = 3;
+    private static final int ID_PROFILE_NAME = 0;
+    private static final int ID_APN = 1;
+    private static final int ID_PROVIDER = 2;
     private final AbstractDataProfile profile;
     private CDataProfile[] availableProfiles;
     private final BaseListModelApp profileList;
@@ -41,7 +41,6 @@ BaseListModelListener {
         }
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (n == this.profileList.getID() && this.availableProfiles != null) {
             this.profile.profileSelected(this.availableProfiles[n2]);
@@ -49,24 +48,19 @@ BaseListModelListener {
         }
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void init() {
         this.profileList.setListener(this);
     }
 
-    @Override
     public void deinit() {
         this.profileList.resetListener();
         this.profileList.removeAll();

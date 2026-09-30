@@ -9,8 +9,8 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class ProximityEvent
 extends ATIPEvent {
-    public static final int OFFSET_EVENT_ID;
-    public static final int PROXIMITY_EVENT;
+    public static final int OFFSET_EVENT_ID = 11001;
+    public static final int PROXIMITY_EVENT = 11001;
     private final long timestamp;
     private final int distance;
     private final int terminalID;

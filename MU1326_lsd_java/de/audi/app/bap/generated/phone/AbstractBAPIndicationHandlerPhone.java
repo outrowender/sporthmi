@@ -40,7 +40,6 @@ extends AbstractBAPIndicationHandlerFSG {
         super(abstractBAPModuleFSG, logChannel);
     }
 
-    @Override
     public void processIndicationStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, StartResultMethod startResultMethod) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             case 26: {
@@ -117,7 +116,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             case 26: {
@@ -194,7 +192,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationSet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             default: 
@@ -202,7 +199,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerPhone#processIndicationSet not implemented for fctID=%1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             case 33: {
@@ -235,7 +231,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAck(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, AckProperty ackProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             default: 
@@ -243,7 +238,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerPhone#processIndicationAck not implemented for fctID=%1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationAckArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, BAPArray bAPArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -251,7 +245,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerPhone#processIndicationAck not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -259,7 +252,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerPhone#processIndicationSetArray not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             case 46: {
@@ -288,139 +280,94 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    protected abstract void processDialNumberAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processDialNumberAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processDialNumberStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, DialNumber_StartResult dialNumber_StartResult) {
-    }
+    protected abstract void processDialNumberStartResult(BAPFunctionMethodFSG var1, DialNumber_StartResult var2);
 
-    protected abstract void processDialServiceAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processDialServiceAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processDialServiceStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, DialService_StartResult dialService_StartResult) {
-    }
+    protected abstract void processDialServiceStartResult(BAPFunctionMethodFSG var1, DialService_StartResult var2);
 
-    protected abstract void processConfirmEmergencyCallAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processConfirmEmergencyCallAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processConfirmEmergencyCallStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, ConfirmEmergencyCall_StartResult confirmEmergencyCall_StartResult) {
-    }
+    protected abstract void processConfirmEmergencyCallStartResult(BAPFunctionMethodFSG var1, ConfirmEmergencyCall_StartResult var2);
 
-    protected abstract void processHangupCallAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processHangupCallAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processHangupCallStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, HangupCall_StartResult hangupCall_StartResult) {
-    }
+    protected abstract void processHangupCallStartResult(BAPFunctionMethodFSG var1, HangupCall_StartResult var2);
 
-    protected abstract void processAcceptCallAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processAcceptCallAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processAcceptCallStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processAcceptCallStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processCallHoldAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processCallHoldAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processCallHoldStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processCallHoldStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processResumeCallAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processResumeCallAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processResumeCallStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processResumeCallStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processHandsFreeOnOffSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, HandsFreeOnOff_SetGet handsFreeOnOff_SetGet) {
-    }
+    protected abstract void processHandsFreeOnOffSetGet(BAPFunctionPropertyFSG var1, HandsFreeOnOff_SetGet var2);
 
-    protected abstract void processMicroMuteOnOffSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MicroMuteOnOff_SetGet microMuteOnOff_SetGet) {
-    }
+    protected abstract void processMicroMuteOnOffSetGet(BAPFunctionPropertyFSG var1, MicroMuteOnOff_SetGet var2);
 
-    protected abstract void processMpRelActiveCallAcceptWcAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpRelActiveCallAcceptWcAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMpRelActiveCallAcceptWcStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpRelActiveCallAcceptWcStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMpSwapAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpSwapAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMpSwapStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpSwapStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMpCallHoldAcceptWcAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpCallHoldAcceptWcAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMpCallHoldAcceptWcStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpCallHoldAcceptWcStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMpRelAllCallsAcceptWcAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpRelAllCallsAcceptWcAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMpRelAllCallsAcceptWcStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpRelAllCallsAcceptWcStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMpSetWaitingCallOnHoldAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpSetWaitingCallOnHoldAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processMpSetWaitingCallOnHoldStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processMpSetWaitingCallOnHoldStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processCcJoinAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processCcJoinAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processCcJoinStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processCcJoinStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processCcSplitAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processCcSplitAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processCcSplitStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, CCSplit_StartResult cCSplit_StartResult) {
-    }
+    protected abstract void processCcSplitStartResult(BAPFunctionMethodFSG var1, CCSplit_StartResult var2);
 
-    protected abstract void processMissedCallIndicationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MissedCallIndication_SetGet missedCallIndication_SetGet) {
-    }
+    protected abstract void processMissedCallIndicationSetGet(BAPFunctionPropertyFSG var1, MissedCallIndication_SetGet var2);
 
-    protected abstract void processMissedCallsSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, MissedCalls_SetGetArray missedCalls_SetGetArray) {
-    }
+    protected abstract void processMissedCallsSetGetArray(BAPFunctionArrayFSG var1, MissedCalls_SetGetArray var2);
 
-    protected abstract void processReceivedCallsSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, ReceivedCalls_SetGetArray receivedCalls_SetGetArray) {
-    }
+    protected abstract void processReceivedCallsSetGetArray(BAPFunctionArrayFSG var1, ReceivedCalls_SetGetArray var2);
 
-    protected abstract void processDialedNumbersSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, DialedNumbers_SetGetArray dialedNumbers_SetGetArray) {
-    }
+    protected abstract void processDialedNumbersSetGetArray(BAPFunctionArrayFSG var1, DialedNumbers_SetGetArray var2);
 
-    protected abstract void processCombinedNumbersSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, CombinedNumbers_SetGetArray combinedNumbers_SetGetArray) {
-    }
+    protected abstract void processCombinedNumbersSetGetArray(BAPFunctionArrayFSG var1, CombinedNumbers_SetGetArray var2);
 
-    protected abstract void processCallStackDeleteAllAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processCallStackDeleteAllAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processCallStackDeleteAllStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, CallStackDeleteAll_StartResult callStackDeleteAll_StartResult) {
-    }
+    protected abstract void processCallStackDeleteAllStartResult(BAPFunctionMethodFSG var1, CallStackDeleteAll_StartResult var2);
 
-    protected abstract void processPbSpellerAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processPbSpellerAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processPbSpellerStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, PbSpeller_StartResult pbSpeller_StartResult) {
-    }
+    protected abstract void processPbSpellerStartResult(BAPFunctionMethodFSG var1, PbSpeller_StartResult var2);
 
-    protected abstract void processGetNextListPosAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processGetNextListPosAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processGetNextListPosStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, GetNextListPos_StartResult getNextListPos_StartResult) {
-    }
+    protected abstract void processGetNextListPosStartResult(BAPFunctionMethodFSG var1, GetNextListPos_StartResult var2);
 
-    protected abstract void processSmsStateSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SMSState_SetGet sMSState_SetGet) {
-    }
+    protected abstract void processSmsStateSetGet(BAPFunctionPropertyFSG var1, SMSState_SetGet var2);
 
-    protected abstract void processRingToneMuteOnOffSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, RingToneMuteOnOff_SetGet ringToneMuteOnOff_SetGet) {
-    }
+    protected abstract void processRingToneMuteOnOffSetGet(BAPFunctionPropertyFSG var1, RingToneMuteOnOff_SetGet var2);
 
-    protected abstract void processAutomaticRedialSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, AutomaticRedial_SetGet automaticRedial_SetGet) {
-    }
+    protected abstract void processAutomaticRedialSetGet(BAPFunctionPropertyFSG var1, AutomaticRedial_SetGet var2);
 
-    protected abstract void processFavoriteListSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, FavoriteList_SetGetArray favoriteList_SetGetArray) {
-    }
+    protected abstract void processFavoriteListSetGetArray(BAPFunctionArrayFSG var1, FavoriteList_SetGetArray var2);
 }
 

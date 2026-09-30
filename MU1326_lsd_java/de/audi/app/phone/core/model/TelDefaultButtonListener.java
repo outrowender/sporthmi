@@ -23,13 +23,11 @@ implements ButtonListener {
         this.buttonModel = this.getButtonModel(n);
     }
 
-    @Override
     public void init() {
         super.init();
         this.buttonModel.setButtonListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.buttonModel.resetListener();
@@ -39,31 +37,27 @@ implements ButtonListener {
         return this.buttonModel;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#keyPressed] %1", (Object)TelDefaultButtonListener.getLogMessage(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultButtonListener#keyPressed] %1", (Object)TelDefaultButtonListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#keyReleased] %1", (Object)TelDefaultButtonListener.getLogMessage(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultButtonListener#keyReleased] %1", (Object)TelDefaultButtonListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelDefaultButtonListener#keyTyped] %1", (Object)TelDefaultButtonListener.getLogMessage(n, n2, n3));
+            this.log.log(1000000, "[TelDefaultButtonListener#keyTyped] %1", (Object)TelDefaultButtonListener.getLogMessage(n, n2, n3));
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultButtonListener#keyLongTyped] %1", (Object)TelDefaultButtonListener.getLogMessage(n, n2, n3));
+            this.log.log(10000000, "[TelDefaultButtonListener#keyLongTyped] %1", (Object)TelDefaultButtonListener.getLogMessage(n, n2, n3));
         }
     }
 }

@@ -21,7 +21,6 @@ implements Adaptation {
         this.adaptation2Data = byArray2;
     }
 
-    @Override
     public int getPopupLanguageSelectionStatus() {
         int n = BitHelper.unsignedByteToInt(this.adaptationData[0]);
         if (n >= 0 && n <= 2) {
@@ -30,22 +29,18 @@ implements Adaptation {
         return 1;
     }
 
-    @Override
     public int getTestmodeVideoSpeedCutoffLimit() {
         return BitHelper.unsignedByteToInt(this.adaptationData[1]);
     }
 
-    @Override
     public boolean isExternalMediumActivated() {
         return this.getBoolean(2, 0, false);
     }
 
-    @Override
     public boolean isOpticalMediumActivated() {
         return this.getBoolean(2, 1, false);
     }
 
-    @Override
     public boolean isResetToZeroValid(short s) {
         boolean bl = false;
         switch (s) {
@@ -121,7 +116,6 @@ implements Adaptation {
         return bl;
     }
 
-    @Override
     public int getBluetoothDeactivationState() {
         int[] nArray = new int[]{0, 1, 255};
         int n = BitHelper.unsignedByteToInt(this.adaptationData[6]);
@@ -131,7 +125,6 @@ implements Adaptation {
         return n;
     }
 
-    @Override
     public boolean isBluetoothSniffModeActivated() {
         int n = BitHelper.unsignedByteToInt(this.adaptationData[7]);
         if (n >= 0 && n <= 1) {
@@ -140,7 +133,6 @@ implements Adaptation {
         return false;
     }
 
-    @Override
     public int getBluetoothVisibility() {
         int[] nArray = new int[]{0, 1, 2, 3};
         int n = BitHelper.unsignedByteToInt(this.adaptationData[8]);
@@ -150,7 +142,6 @@ implements Adaptation {
         return n;
     }
 
-    @Override
     public int getDvdRegionCode() {
         int n = BitHelper.unsignedByteToInt(this.adaptationData[9]);
         if (n >= 0 && n <= 8) {
@@ -159,7 +150,6 @@ implements Adaptation {
         return 2;
     }
 
-    @Override
     public int getBlueRaySystemRegionCode() {
         int n = BitHelper.unsignedByteToInt(this.adaptationData[10]);
         if (n >= 0 && n <= 3) {
@@ -168,7 +158,6 @@ implements Adaptation {
         return 2;
     }
 
-    @Override
     public boolean isCdEjectButtonBlocked() {
         int n = BitHelper.unsignedByteToInt(this.adaptationData[11]);
         if (n >= 0 && n <= 1) {
@@ -177,7 +166,6 @@ implements Adaptation {
         return false;
     }
 
-    @Override
     public boolean isDeveloperTestModeActivated() {
         int n = BitHelper.unsignedByteToInt(this.adaptationData[12]);
         if (n >= 0 && n <= 1) {
@@ -187,12 +175,10 @@ implements Adaptation {
         return false;
     }
 
-    @Override
     public int getEmergencyEstablishLinkAttempts() {
         return BitHelper.unsignedByteToInt(this.adaptationData[13]);
     }
 
-    @Override
     public int getSummerTimeShiftMethod() {
         int n = BitHelper.unsignedByteToInt(this.adaptationData[14]);
         if (n >= 0 && n <= 3) {
@@ -201,7 +187,6 @@ implements Adaptation {
         return 0;
     }
 
-    @Override
     public boolean isWlanModuleActivated() {
         int n = BitHelper.unsignedByteToInt(this.adaptationData[16]);
         if (n >= 0 && n <= 1) {
@@ -210,7 +195,6 @@ implements Adaptation {
         return false;
     }
 
-    @Override
     public boolean isPayTmcSetOnlineTrafficAvailable() {
         int n = this.getPayTmcSet();
         switch (n) {
@@ -253,10 +237,9 @@ implements Adaptation {
         return false;
     }
 
-    @Override
     public boolean isPayTmcSetTrafficAvailable() {
         int n = this.getPayTmcSet();
-        return n != -16842752 && n != -65536;
+        return n != 65534 && n != 65535;
     }
 
     protected boolean getBoolean(int n, int n2, boolean bl) {
@@ -365,240 +348,122 @@ implements Adaptation {
         return buffer.toString();
     }
 
-    @Override
-    public abstract boolean isTelephoneActivated() {
-    }
+    public abstract boolean isTelephoneActivated();
 
-    @Override
-    public abstract int getPayTmcSet() {
-    }
+    public abstract int getPayTmcSet();
 
-    @Override
-    public abstract boolean isVzaProOnAvailable() {
-    }
+    public abstract boolean isVzaProOnAvailable();
 
-    @Override
-    public abstract boolean isOnlinePoiAvailable() {
-    }
+    public abstract boolean isOnlinePoiAvailable();
 
-    @Override
-    public abstract boolean isOnlinePoiVoiceAvailable() {
-    }
+    public abstract boolean isOnlinePoiVoiceAvailable();
 
-    @Override
-    public abstract boolean isOnlinePortalBrowserServicesAvailable() {
-    }
+    public abstract boolean isOnlinePortalBrowserServicesAvailable();
 
-    @Override
-    public abstract boolean isOnlineNaviGoogleEarthAvailable() {
-    }
+    public abstract boolean isOnlineNaviGoogleEarthAvailable();
 
-    @Override
-    public abstract boolean isOnlineStreetViewAvailable() {
-    }
+    public abstract boolean isOnlineStreetViewAvailable();
 
-    @Override
-    public abstract boolean isWiFiHotspotAvailable() {
-    }
+    public abstract boolean isWiFiHotspotAvailable();
 
-    @Override
-    public abstract boolean isMyAudiAvailable() {
-    }
+    public abstract boolean isMyAudiAvailable();
 
-    @Override
-    public abstract boolean isPictureNaviAvailable() {
-    }
+    public abstract boolean isPictureNaviAvailable();
 
-    @Override
-    public abstract boolean isOnlineDictationAvailable() {
-    }
+    public abstract boolean isOnlineDictationAvailable();
 
-    @Override
-    public abstract boolean isRemoteHmiAvailable() {
-    }
+    public abstract boolean isRemoteHmiAvailable();
 
-    @Override
-    public abstract boolean isAdvancedRangeDisplayAvailable() {
-    }
+    public abstract boolean isAdvancedRangeDisplayAvailable();
 
-    @Override
-    public abstract boolean isGracenoteOnlineCoverartsAvailable() {
-    }
+    public abstract boolean isGracenoteOnlineCoverartsAvailable();
 
-    @Override
-    public abstract boolean isGracenoteOnlineOtherAvailable() {
-    }
+    public abstract boolean isGracenoteOnlineOtherAvailable();
 
-    @Override
-    public abstract boolean isGracenoteLocalCoverartsAvailable() {
-    }
+    public abstract boolean isGracenoteLocalCoverartsAvailable();
 
-    @Override
-    public abstract boolean isGracenoteLocalOtherAvailable() {
-    }
+    public abstract boolean isGracenoteLocalOtherAvailable();
 
-    @Override
-    public abstract boolean isUPnPAvailable() {
-    }
+    public abstract boolean isUPnPAvailable();
 
-    @Override
-    public abstract boolean isOPSinDashboardAvailable() {
-    }
+    public abstract boolean isOPSinDashboardAvailable();
 
-    @Override
-    public abstract boolean isSupports2ndPhone() {
-    }
+    public abstract boolean isSupports2ndPhone();
 
-    @Override
-    public abstract boolean isSupportOfThreewayCalling() {
-    }
+    public abstract boolean isSupportOfThreewayCalling();
 
-    @Override
-    public abstract boolean isDtmfWithoutActiveCall() {
-    }
+    public abstract boolean isDtmfWithoutActiveCall();
 
-    @Override
-    public abstract boolean isSupportForResponseAndHold() {
-    }
+    public abstract boolean isSupportForResponseAndHold();
 
-    @Override
-    public abstract boolean isSimCardModeSwitch() {
-    }
+    public abstract boolean isSimCardModeSwitch();
 
-    @Override
-    public abstract boolean isPhoneModuleOperationModeWithVoice() {
-    }
+    public abstract boolean isPhoneModuleOperationModeWithVoice();
 
-    @Override
-    public abstract int getEmergencyCallPrivateMode() {
-    }
+    public abstract int getEmergencyCallPrivateMode();
 
-    @Override
-    public abstract boolean isAppleDIO() {
-    }
+    public abstract boolean isAppleDIO();
 
-    @Override
-    public abstract boolean isSDISAvailable() {
-    }
+    public abstract boolean isSDISAvailable();
 
-    @Override
-    public abstract boolean isGoogleGAL() {
-    }
+    public abstract boolean isGoogleGAL();
 
-    @Override
-    public abstract boolean isOperatorCallAvailable() {
-    }
+    public abstract boolean isOperatorCallAvailable();
 
-    @Override
-    public abstract int getRadioDatabaseRegion() {
-    }
+    public abstract int getRadioDatabaseRegion();
 
-    @Override
-    public abstract int getNavMapTransmissionMode() {
-    }
+    public abstract int getNavMapTransmissionMode();
 
-    @Override
-    public abstract boolean isCoverartAvailable() {
-    }
+    public abstract boolean isCoverartAvailable();
 
-    @Override
-    public abstract boolean isStationartAvailable() {
-    }
+    public abstract boolean isStationartAvailable();
 
-    @Override
-    public abstract boolean isCallPictureAvailable() {
-    }
+    public abstract boolean isCallPictureAvailable();
 
-    @Override
-    public abstract boolean isFastMOSTListAvailable() {
-    }
+    public abstract boolean isFastMOSTListAvailable();
 
-    @Override
-    public abstract boolean isTpegAvailable() {
-    }
+    public abstract boolean isTpegAvailable();
 
-    @Override
-    public abstract boolean isOnlineMediaAvailable() {
-    }
+    public abstract boolean isOnlineMediaAvailable();
 
-    @Override
-    public abstract boolean isTVAvailable() {
-    }
+    public abstract boolean isTVAvailable();
 
-    @Override
-    public abstract int getESIMUUsage() {
-    }
+    public abstract int getESIMUUsage();
 
-    @Override
-    public abstract boolean isUotAAvailable() {
-    }
+    public abstract boolean isUotAAvailable();
 
-    @Override
-    public abstract boolean isWLANClient() {
-    }
+    public abstract boolean isWLANClient();
 
-    @Override
-    public abstract int getNavKDKTransmissionMode() {
-    }
+    public abstract int getNavKDKTransmissionMode();
 
-    @Override
-    public abstract boolean isBreakdownCallAvailable() {
-    }
+    public abstract boolean isBreakdownCallAvailable();
 
-    @Override
-    public abstract boolean isPOICallAvailable() {
-    }
+    public abstract boolean isPOICallAvailable();
 
-    @Override
-    public abstract byte getPrimaryEngineType() {
-    }
+    public abstract byte getPrimaryEngineType();
 
-    @Override
-    public abstract byte getSecondaryEngineType() {
-    }
+    public abstract byte getSecondaryEngineType();
 
-    @Override
-    public abstract boolean isServiceDiscoveryAvailable() {
-    }
+    public abstract boolean isServiceDiscoveryAvailable();
 
-    @Override
-    public abstract boolean isVzoAvailable() {
-    }
+    public abstract boolean isVzoAvailable();
 
-    @Override
-    public abstract boolean isLGIAvailable() {
-    }
+    public abstract boolean isLGIAvailable();
 
-    @Override
-    public abstract boolean isProbeCarAvailable() {
-    }
+    public abstract boolean isProbeCarAvailable();
 
-    @Override
-    public abstract boolean isProbeCarLGIAvailable() {
-    }
+    public abstract boolean isProbeCarLGIAvailable();
 
-    @Override
-    public abstract boolean isVehicleReadinessSoundAvailable() {
-    }
+    public abstract boolean isVehicleReadinessSoundAvailable();
 
-    @Override
-    public abstract boolean isVehicleLeavingSoundAvailable() {
-    }
+    public abstract boolean isVehicleLeavingSoundAvailable();
 
-    @Override
-    public abstract int getMediaCountryCodeHmi() {
-    }
+    public abstract int getMediaCountryCodeHmi();
 
-    @Override
-    public abstract boolean isAllowMessageEditing() {
-    }
+    public abstract boolean isAllowMessageEditing();
 
-    @Override
-    public abstract boolean isPopupIfGpsIsInUse() {
-    }
+    public abstract boolean isPopupIfGpsIsInUse();
 
-    @Override
-    public abstract boolean isMobileDeviceKeyProfile() {
-    }
+    public abstract boolean isMobileDeviceKeyProfile();
 }
 

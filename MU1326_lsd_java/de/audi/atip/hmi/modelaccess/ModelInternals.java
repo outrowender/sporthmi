@@ -6,13 +6,10 @@ package de.audi.atip.hmi.modelaccess;
 import de.audi.atip.hmi.cc.ComponentConditionManager;
 
 public interface ModelInternals {
-    default public void addCondition(int n, ComponentConditionManager componentConditionManager) {
-    }
+    public void addCondition(int var1, ComponentConditionManager var2);
 
-    default public void removeCondition(int n) {
-    }
+    public void removeCondition(int var1);
 
-    default public boolean connected() {
-    }
+    public boolean connected();
 }
 

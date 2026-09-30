@@ -15,12 +15,10 @@ extends AbstractCommandOpenFunctionSync {
         super(abstractBAPModuleFSG, abstractFunctionSynchronization);
     }
 
-    @Override
     protected StatusProperty createFunctionSynchronizationStatus() {
         return new FunctionSynchronisation_Status();
     }
 
-    @Override
     protected void setFunctionBit(int n) {
         FunctionSynchronisation_Status functionSynchronisation_Status = (FunctionSynchronisation_Status)this.functionSyncStatusSerializer;
         switch (n) {

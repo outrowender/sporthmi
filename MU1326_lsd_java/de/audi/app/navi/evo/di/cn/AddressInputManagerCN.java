@@ -47,7 +47,7 @@ import org.dsi.ifc.global.NavLocation;
 
 public class AddressInputManagerCN
 extends AbstractAddressInputManagerEvo {
-    private static final int DESTINATION_TYPE_FOR_CCP_LOCATION_STRIPPING;
+    private static final int DESTINATION_TYPE_FOR_CCP_LOCATION_STRIPPING = 20;
     private AddressInputMainScreenListenerCN mainScreenListener;
     private AddressInputRightDrawerListenerCN rightDrawerListener;
     private AddressInputCityScreenListenerCN cityScreenListener;
@@ -59,7 +59,6 @@ extends AbstractAddressInputManagerEvo {
         super(navigationEnv, iCommandListFactory, iAddressInputWorkFlowManager, spellerStack, iPreviewMap, iStartGuidanceToDestinationSequence, iVehicle, locationSerializer, iRouteManager, cityHistory, naviADBHandler, iNaviFavoriteHandler, asyncNavLocationExtractor, aDBInterAppService, homeAddressHandler, mapInterface, asyncNavLocationExtractor2, iAddressInputFormModelAccessHelper, homeAddressHandler2);
     }
 
-    @Override
     protected void initListeners() {
         this.mainScreenListener = this.initMainScreenListener();
         this.rightDrawerListener = this.initRightDrawerListener();
@@ -69,51 +68,46 @@ extends AbstractAddressInputManagerEvo {
         this.intersectionScreenListener = this.initIntersectionScreenListener();
     }
 
-    @Override
     public void start(NavLocation navLocation) {
         if (!this.addressInputCommandListMonitor.isActive()) {
-            this.logChannel.log(-2137614336, "%1#start with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.logChannel.log(10000000, "%1#start with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
             CommandList commandList = this.commandListFactory.createCommandList();
             commandList.addMonitor(this.addressInputCommandListMonitor);
             this.mainScreenListener.resetPreviousLocation();
             if (navLocation != null) {
-                this.logChannel.log(-2137614336, "%1#start() with navLocation: %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+                this.logChannel.log(10000000, "%1#start() with navLocation: %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
                 commandList.put("startMainScreenNavLocation", navLocation);
             } else {
-                this.logChannel.log(-2137614336, "%1#start() with CCP", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#start() with CCP", (Object)this.CLASS_NAME);
                 this.addStripLocationForCcpCommands(commandList, 20);
             }
             this.enterSearchAreaFromPoiContext();
             this.executeAddressInputEvent(commandList, 10008);
         } else {
-            this.logChannel.log(-2137614336, "%1#start - the command list to start address input is still running - ignoring further calls.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#start - the command list to start address input is still running - ignoring further calls.", (Object)this.CLASS_NAME);
         }
     }
 
-    @Override
     public void startWithoutStrip(NavLocation navLocation) {
         this.start(navLocation);
     }
 
-    @Override
     public void startForOnline() {
-        this.logChannel.log(-2137614336, "%1#startForOnline", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#startForOnline", (Object)this.CLASS_NAME);
         this.enterSearchAreaFromOnlinePoiContext();
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addStripLocationForCcpCommands(commandList, 20);
         this.startForOnline(commandList);
     }
 
-    @Override
     public void startForRemoteHMI() {
-        this.logChannel.log(-2137614336, "%1#startForRemoteHMI", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#startForRemoteHMI", (Object)this.CLASS_NAME);
         this.enterSearchAreaFromRemoteHmi();
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addStripLocationForCcpCommands(commandList, 20);
         this.startForRemoteHMI(commandList);
     }
 
-    @Override
     public void addAddressToFavorites(NavLocation navLocation) {
         this.naviFavoriteHandler.addToFavorites(navLocation);
     }
@@ -171,7 +165,6 @@ extends AbstractAddressInputManagerEvo {
         return addressInputHouseNumberScreenListenerCN;
     }
 
-    @Override
     public IAddressInputMainScreenListener getMainScreenListener() {
         return this.mainScreenListener;
     }
@@ -196,32 +189,26 @@ extends AbstractAddressInputManagerEvo {
         return this.intersectionScreenListener;
     }
 
-    @Override
     public int getAutoSelectLeftElementEventId() {
         return 10104;
     }
 
-    @Override
     public int getStreetScreenAmbiguousListElementSelecteEventId() {
         return 10404;
     }
 
-    @Override
     public int getStreetScreenNonAmbiguousListElementSelectedEventId() {
         return 10403;
     }
 
-    @Override
     public int getStartForOnlineEventId() {
         return 10013;
     }
 
-    @Override
     public int getStartForRemoteHMIEventId() {
         return 10014;
     }
 
-    @Override
     public int getStartCityInputFromMainScreenEventId() {
         return 10002;
     }

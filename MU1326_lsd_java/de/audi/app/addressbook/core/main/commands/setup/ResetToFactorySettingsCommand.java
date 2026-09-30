@@ -16,9 +16,8 @@ extends AbstractADBCommand {
         super(aDBApplication);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ResetToFactorySettingsCommand#execute()");
+        this.logger.log(10000000, "ResetToFactorySettingsCommand#execute()");
         boolean bl = this.adbDSIAccess.resetToFactorySettings();
         if (!bl) {
             this.logger.log(10000, "ResetToFactorySettingsCommand#execute(): dsi call was not successful, finishing command.");
@@ -26,9 +25,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void resetToFactorySettingsResult(int n) {
-        this.logger.log(-2137614336, "ResetToFactorySettingsCommand#resetToFactorySettingsResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "ResetToFactorySettingsCommand#resetToFactorySettingsResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

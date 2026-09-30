@@ -16,7 +16,6 @@ import de.audi.app.sdsmanager.syscall.ISystemCallParameter;
 import de.audi.atip.hmi.HMIService;
 import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.interapp.TunerService;
-import de.audi.atip.interapp.TunerService$TunerListEntry;
 import de.audi.atip.log.LogChannel;
 
 public class TunerListShowCommand
@@ -39,44 +38,43 @@ implements ISDSScreenConnectedUpdatable {
         this.hmi = hMIService;
     }
 
-    @Override
     public void execute() {
         byte by;
-        this.logger.log(-2137614336, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: listMode=%2", (Object)this.getName(), (long)this.listMode);
         this.nBestStorage.resetPicklistsWithHistory();
         IPicklist iPicklist = this.nBestStorage.getMatchingPicklist((byte)0);
         if (this.listMode == 0 || this.listMode == 2) {
             Object[] objectArray = TunerSDSUtils.combineEqualEntries(iPicklist);
             if (objectArray.length == 1) {
-                this.logger.log(-2137614336, "%1#execute: unique entry in picklist", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: unique entry in picklist", (Object)this.getName());
                 this.isUniqueResult = true;
                 this.nBestStorage.setLastRecogLine(false, -1);
             }
-            this.logger.log(-2137614336, "%1#execute: entries=%2", (Object)this.getName(), (Object)SDSUtils.toString(objectArray, true));
-            by = this.tunerService.fillTunerPickList((TunerService$TunerListEntry[])objectArray);
+            this.logger.log(10000000, "%1#execute: entries=%2", (Object)this.getName(), (Object)SDSUtils.toString(objectArray, true));
+            by = this.tunerService.fillTunerPickList((TunerService.TunerListEntry[])objectArray);
         } else {
             Object[] objectArray = SDSUtils.createSDSListFromPicklist(iPicklist);
-            this.logger.log(-2137614336, "%1#execute: entries=%2", (Object)this.getName(), (Object)SDSUtils.toString(objectArray, true));
+            this.logger.log(10000000, "%1#execute: entries=%2", (Object)this.getName(), (Object)SDSUtils.toString(objectArray, true));
             by = this.tunerService.fillTunerPickList((SDSListEntry[])objectArray);
         }
         this.fillTunerPicklistResult(by);
     }
 
     private void fillTunerPicklistResult(int n) {
-        this.logger.log(-2137614336, "%1#fillTunerPicklistResult: result=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#fillTunerPicklistResult: result=%2!", (Object)this.getName(), (long)n);
         if (n != 1) {
-            this.logger.log(-1601830656, "%1#fillTunerPicklistResult: Unhandled result %2, sending ERROR!", (Object)this.getName(), (long)n);
+            this.logger.log(100000, "%1#fillTunerPicklistResult: Unhandled result %2, sending ERROR!", (Object)this.getName(), (long)n);
             this.sendResult(10005);
             return;
         }
         if (this.isUniqueResult) {
-            this.logger.log(-2137614336, "%1#fillTunerPicklistResult: Picklist with one entry -> no popup shown!", (Object)this.getName());
+            this.logger.log(10000000, "%1#fillTunerPicklistResult: Picklist with one entry -> no popup shown!", (Object)this.getName());
             this.sendResult(10009);
             return;
         }
         int n2 = SDSUtils.translate((int)this.listMode, TunerSDSUtils.TUNER_LIST_MODE_TO_POPUP_MAPPING_ID);
-        if (n2 == 128) {
-            this.logger.log(-1601830656, "%1#fillTunerPicklistResult: Unhandled listMode %2, sending ERROR!", (Object)this.getName(), (long)this.listMode);
+        if (n2 == Integer.MIN_VALUE) {
+            this.logger.log(100000, "%1#fillTunerPicklistResult: Unhandled listMode %2, sending ERROR!", (Object)this.getName(), (long)this.listMode);
             this.sendResult(10005);
             return;
         }
@@ -85,9 +83,8 @@ implements ISDSScreenConnectedUpdatable {
         this.popupHelper.triggerHapticalPopup(n2, true);
     }
 
-    @Override
     public void updateSDSScreenConnected(int n) {
-        this.logger.log(-2137614336, "%1#updateSDSScreenConnected: screenID=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#updateSDSScreenConnected: screenID=%2", (Object)this.getName(), (long)n);
         this.sendResult(10008);
     }
 }

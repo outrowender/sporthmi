@@ -15,7 +15,6 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
         switch (n) {
             case 10502: {
@@ -30,7 +29,7 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
     }
 
     private void createCNHousenumberScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCNHousenumberScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCNHousenumberScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
     }
 }

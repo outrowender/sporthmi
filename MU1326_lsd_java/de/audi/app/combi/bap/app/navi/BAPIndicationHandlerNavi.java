@@ -61,7 +61,6 @@ extends AbstractBAPIndicationHandlerNavi {
         return ((CombiModuleNavi)this.module).getNaviServiceListener();
     }
 
-    @Override
     public GetArrayIndication evaluateGetArrayIndication(int n, GetArray getArray) {
         GetArrayIndication getArrayIndication = null;
         switch (n) {
@@ -97,9 +96,8 @@ extends AbstractBAPIndicationHandlerNavi {
         return getArrayIndication;
     }
 
-    @Override
     protected void processVoiceGuidanceSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, VoiceGuidance_SetGet voiceGuidance_SetGet) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processVoiceGuidanceSetGet] call navi service 'setVoiceGuidanceState( %1 )'", (long)voiceGuidance_SetGet.voiceGuidance_State);
+        this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processVoiceGuidanceSetGet] call navi service 'setVoiceGuidanceState( %1 )'", (long)voiceGuidance_SetGet.voiceGuidance_State);
         if (BAPIndicationHandlerNavi.reservedValueUsed(voiceGuidance_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processVoiceGuidanceSetGet] Reserved Value Used. serializer: %1", (Object)voiceGuidance_SetGet);
             this.sendAppErrorOutOfRange(bAPFunctionPropertyFSG);
@@ -117,7 +115,6 @@ extends AbstractBAPIndicationHandlerNavi {
         return voiceGuidance_SetGet.voiceGuidance_State >= 4 && voiceGuidance_SetGet.voiceGuidance_State <= 255;
     }
 
-    @Override
     protected void processCalibrationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, Calibration_SetGet calibration_SetGet) {
         if (BAPIndicationHandlerNavi.reservedValueUsed(calibration_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processCalibrationSetGet] Reserved Value Used. serializer: %1", (Object)calibration_SetGet);
@@ -131,23 +128,21 @@ extends AbstractBAPIndicationHandlerNavi {
         return calibration_SetGet.calibrationState >= 3 && calibration_SetGet.calibrationState <= 254;
     }
 
-    @Override
     protected void processRepeatLastNavAnnouncementAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processRepeatLastNavAnnouncementAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+        this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processRepeatLastNavAnnouncementAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
         RepeatLastNavAnnouncement_Result repeatLastNavAnnouncement_Result = (RepeatLastNavAnnouncement_Result)((CombiModuleNavi)this.module).createResultSerializer(35);
         repeatLastNavAnnouncement_Result.repeatLna_Result = 3;
         bAPFunctionMethodFSG.resultAbortNotSuccessfulREQ(repeatLastNavAnnouncement_Result);
     }
 
-    @Override
     protected void processRepeatLastNavAnnouncementStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processRepeatLastNavAnnouncementStartResult] call navi service 'repeatLastNavAnnouncement()'");
+        this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processRepeatLastNavAnnouncementStartResult] call navi service 'repeatLastNavAnnouncement()'");
         this.getNaviService().repeatLastNavAnnouncement();
         if (this.getExternalKeyListener() != null) {
             this.getExternalKeyListener().supplyExternalKey(100, 104, 1, 1);
             this.getExternalKeyListener().supplyExternalKey(100, 104, 0, 1);
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processRepeatLastNavAnnouncementStartResult] externalKeyListener is null");
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processRepeatLastNavAnnouncementStartResult] externalKeyListener is null");
         }
     }
 
@@ -155,7 +150,6 @@ extends AbstractBAPIndicationHandlerNavi {
         return ((CombiModuleNavi)this.module).getExternalKeyListener();
     }
 
-    @Override
     protected void processMapScaleSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MapScale_SetGet mapScale_SetGet) {
         if (BAPIndicationHandlerNavi.reservedValueUsed(mapScale_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processMapScaleSetGet] Reserved Value Used. serializer: %1", (Object)mapScale_SetGet);
@@ -164,12 +158,12 @@ extends AbstractBAPIndicationHandlerNavi {
         }
         MapScale_Status mapScale_Status = (MapScale_Status)bAPFunctionPropertyFSG.getLastStatus();
         if (mapScale_Status.autoZoom == mapScale_SetGet.autoZoom) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapScaleSetGet] autoZoom setting didn't change (%1)", (long)mapScale_SetGet.autoZoom);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapScaleSetGet] autoZoom setting didn't change (%1)", (long)mapScale_SetGet.autoZoom);
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapScaleSetGet] call navi service 'setMapScaleSetting(%1)'", (long)mapScale_SetGet.autoZoom);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapScaleSetGet] call navi service 'setMapScaleSetting(%1)'", (long)mapScale_SetGet.autoZoom);
             this.getNaviService().setMapScaleSetting(mapScale_SetGet.autoZoom);
         }
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapScaleSetGet] call navi service 'setMapScale(%1)'", (long)mapScale_SetGet.steps);
+        this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapScaleSetGet] call navi service 'setMapScale(%1)'", (long)mapScale_SetGet.steps);
         this.getNaviService().setMapScale(mapScale_SetGet.steps);
     }
 
@@ -177,19 +171,16 @@ extends AbstractBAPIndicationHandlerNavi {
         return mapScale_SetGet.autoZoom >= 3 && mapScale_SetGet.autoZoom <= 14;
     }
 
-    @Override
     protected void processAsgCapabilitiesSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, ASG_Capabilities_SetGet aSG_Capabilities_SetGet) {
         bAPFunctionPropertyFSG.functionNotSupported();
     }
 
-    @Override
     protected void processPoiSearchAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
         bAPFunctionMethodFSG.functionNotSupported();
     }
 
-    @Override
     protected void processPoiSearchStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, POI_Search_StartResult pOI_Search_StartResult) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processPoiSearchStartResult] call navi service 'startPOISearch(searchType=%1, poiType=%2)'", (long)pOI_Search_StartResult.searchType, (long)pOI_Search_StartResult.poi_Type);
+        this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processPoiSearchStartResult] call navi service 'startPOISearch(searchType=%1, poiType=%2)'", (long)pOI_Search_StartResult.searchType, (long)pOI_Search_StartResult.poi_Type);
         if (BAPIndicationHandlerNavi.reservedValueUsed(pOI_Search_StartResult)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processPoiSearchStartResult] Reserved Value Used. serializer: %1", (Object)pOI_Search_StartResult);
             this.sendAppErrorOutOfRange(bAPFunctionMethodFSG);
@@ -205,7 +196,6 @@ extends AbstractBAPIndicationHandlerNavi {
         return pOI_Search_StartResult.searchType >= 0 && pOI_Search_StartResult.searchType <= 62 || pOI_Search_StartResult.searchType >= 64 && pOI_Search_StartResult.searchType <= 102 || pOI_Search_StartResult.searchType >= 104 && pOI_Search_StartResult.searchType <= 255;
     }
 
-    @Override
     protected void processMagnetFieldZoneSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MagnetFieldZone_SetGet magnetFieldZone_SetGet) {
         if (BAPIndicationHandlerNavi.reservedValueUsed(magnetFieldZone_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processMagnetFieldZoneSetGet] Reserved Value Used. serializer: %1", (Object)magnetFieldZone_SetGet);
@@ -219,9 +209,8 @@ extends AbstractBAPIndicationHandlerNavi {
         return magnetFieldZone_SetGet.zone >= 16 && magnetFieldZone_SetGet.zone <= 255;
     }
 
-    @Override
     protected void processTmCinfoSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, TMCinfo_SetGet tMCinfo_SetGet) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processTmcinfoSetGet] called (messageID=%1)", (long)tMCinfo_SetGet.messageId);
+        this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processTmcinfoSetGet] called (messageID=%1)", (long)tMCinfo_SetGet.messageId);
         if (BAPIndicationHandlerNavi.reservedValueUsed(tMCinfo_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processTmCinfoSetGet] Reserved Value Used. serializer: %1", (Object)tMCinfo_SetGet);
             this.sendAppErrorOutOfRange(bAPFunctionPropertyFSG);
@@ -230,7 +219,7 @@ extends AbstractBAPIndicationHandlerNavi {
         if (tMCinfo_SetGet.messageStatus == 3) {
             ((CombiModuleNavi)this.module).getTMCInfoHandler().notifyMessagePresentationConfirmed(tMCinfo_SetGet.messageId);
         } else {
-            this.logChannel.log(-1601830656, "[BAPIndicationHandlerNavi#processTmcinfoSetGet] invalid request");
+            this.logChannel.log(100000, "[BAPIndicationHandlerNavi#processTmcinfoSetGet] invalid request");
             this.module.getRequestHandler().requestError(this.lsgID, 25, 5);
         }
     }
@@ -239,7 +228,6 @@ extends AbstractBAPIndicationHandlerNavi {
         return tMCinfo_SetGet.messageStatus >= 4 && tMCinfo_SetGet.messageStatus <= 255;
     }
 
-    @Override
     protected void processActiveRgTypeSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, ActiveRgType_SetGet activeRgType_SetGet) {
         if (BAPIndicationHandlerNavi.reservedValueUsed(activeRgType_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processActiveRgTypeSetGet] Reserved Value Used. serializer: %1", (Object)activeRgType_SetGet);
@@ -248,10 +236,10 @@ extends AbstractBAPIndicationHandlerNavi {
         }
         ActiveRgType_Status activeRgType_Status = (ActiveRgType_Status)bAPFunctionPropertyFSG.getLastStatus();
         if (activeRgType_Status.rgtype == activeRgType_SetGet.rgtype) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processActiveRgTypeSetGet] value didn't change (%1)'", (long)activeRgType_SetGet.rgtype);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processActiveRgTypeSetGet] value didn't change (%1)'", (long)activeRgType_SetGet.rgtype);
             bAPFunctionPropertyFSG.resendLastStatus();
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processActiveRgTypeSetGet] call navi service 'setActiveRGType(%1)'", (long)activeRgType_SetGet.rgtype);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processActiveRgTypeSetGet] call navi service 'setActiveRGType(%1)'", (long)activeRgType_SetGet.rgtype);
             this.getNaviService().setActiveRGType(activeRgType_SetGet.rgtype);
         }
     }
@@ -260,18 +248,16 @@ extends AbstractBAPIndicationHandlerNavi {
         return activeRgType_SetGet.rgtype >= 6 && activeRgType_SetGet.rgtype <= 254;
     }
 
-    @Override
     protected void processGetNextListPosAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
         bAPFunctionMethodFSG.functionNotSupported();
     }
 
-    @Override
     protected void processGetNextListPosStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, GetNextListPos_StartResult getNextListPos_StartResult) {
         Object object;
         int n;
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processGetNextListPosStartResult] called for listType %1", (long)getNextListPos_StartResult.listType);
+        this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processGetNextListPosStartResult] called for listType %1", (long)getNextListPos_StartResult.listType);
         if (BAPIndicationHandlerNavi.reservedValueUsed(getNextListPos_StartResult)) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processGetNextListPosStartResult] Reserved Value Used. serializer: %1", (Object)getNextListPos_StartResult);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processGetNextListPosStartResult] Reserved Value Used. serializer: %1", (Object)getNextListPos_StartResult);
             this.sendAppErrorOutOfRange(bAPFunctionMethodFSG);
             return;
         }
@@ -329,8 +315,8 @@ extends AbstractBAPIndicationHandlerNavi {
             object = (GetNextListPos_Result)((CombiModuleNavi)this.module).createResultSerializer(41);
             ((GetNextListPos_Result)object).getNextListPos_Result = 1;
             ((GetNextListPos_Result)object).currentPos = getNextListPos_StartResult.currentPos;
-            ((GetNextListPos_Result)object).nextPos = -65536;
-            ((GetNextListPos_Result)object).absoluteListPos = -65536;
+            ((GetNextListPos_Result)object).nextPos = 65535;
+            ((GetNextListPos_Result)object).absoluteListPos = 65535;
             bAPFunctionMethodFSG.resultREQ((ResultMethod)object);
         }
     }
@@ -339,12 +325,10 @@ extends AbstractBAPIndicationHandlerNavi {
         return getNextListPos_StartResult.listType >= 5 && getNextListPos_StartResult.listType <= 255;
     }
 
-    @Override
     protected void processNbSpellerAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
         bAPFunctionMethodFSG.functionNotSupported();
     }
 
-    @Override
     protected void processNbSpellerStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, NbSpeller_StartResult nbSpeller_StartResult) {
         if (BAPIndicationHandlerNavi.reservedValueUsed(nbSpeller_StartResult)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processNbSpellerStartResult] Reserved Value Used. serializer: %1", (Object)nbSpeller_StartResult);
@@ -358,15 +342,13 @@ extends AbstractBAPIndicationHandlerNavi {
         return nbSpeller_StartResult.mode >= 3 && nbSpeller_StartResult.mode <= 255;
     }
 
-    @Override
     protected void processRgActDeactAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processRgActDeactAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+        this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processRgActDeactAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
         RG_ActDeact_Result rG_ActDeact_Result = (RG_ActDeact_Result)((CombiModuleNavi)this.module).createResultSerializer(34);
         rG_ActDeact_Result.rg_ActDeact_Result = 3;
         bAPFunctionMethodFSG.resultAbortNotSuccessfulREQ(rG_ActDeact_Result);
     }
 
-    @Override
     protected void processRgActDeactStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, RG_ActDeact_StartResult rG_ActDeact_StartResult) {
         if (BAPIndicationHandlerNavi.reservedValueUsed(rG_ActDeact_StartResult)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] Reserved Value Used. serializer: %1", (Object)rG_ActDeact_StartResult);
@@ -377,24 +359,24 @@ extends AbstractBAPIndicationHandlerNavi {
         if (rG_ActDeact_StartResult.controlType == 0) {
             switch (rG_ActDeact_StartResult.ci_Type) {
                 case 4: {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] start route guidance to home address", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] start route guidance to home address", (Object)bAPFunctionMethodFSG.getFctIDDescription());
                     this.getNaviService().startRouteGuidanceToHomeAddress();
                     break;
                 }
                 case 1: {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] start route guidance to last destination");
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] start route guidance to last destination");
                     this.startRouteGuidanceToDestination(bAPFunctionMethodFSG, 29, rG_ActDeact_StartResult.controlInformation);
                     break;
                 }
                 case 2: {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] start route guidance to favorite destination");
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] start route guidance to favorite destination");
                     this.startRouteGuidanceToDestination(bAPFunctionMethodFSG, 30, rG_ActDeact_StartResult.controlInformation);
                     break;
                 }
                 case 0: 
                 case 3: 
                 case 5: {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] CI_TYPE not supported: %1", (long)rG_ActDeact_StartResult.ci_Type);
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] CI_TYPE not supported: %1", (long)rG_ActDeact_StartResult.ci_Type);
                     RG_ActDeact_Result rG_ActDeact_Result = (RG_ActDeact_Result)((CombiModuleNavi)this.module).createResultSerializer(34);
                     rG_ActDeact_Result.rg_ActDeact_Result = 1;
                     bAPFunctionMethodFSG.resultREQ(rG_ActDeact_Result);
@@ -406,7 +388,7 @@ extends AbstractBAPIndicationHandlerNavi {
                 }
             }
         } else if (rG_ActDeact_StartResult.controlType == 1) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] stop route guidance", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] stop route guidance", (Object)bAPFunctionMethodFSG.getFctIDDescription());
             this.getNaviService().stopRouteGuidance();
         } else {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processRgActDeactStartResult] Reserved Value controlType: %1", (long)rG_ActDeact_StartResult.controlType);
@@ -426,7 +408,7 @@ extends AbstractBAPIndicationHandlerNavi {
         if (combiBAPArrayElement instanceof CombiBAPDestinationListEntry) {
             CombiBAPDestinationListEntry combiBAPDestinationListEntry = (CombiBAPDestinationListEntry)combiBAPArrayElement;
             CombiBAPNaviDestination combiBAPNaviDestination = combiBAPDestinationListEntry.getAddressList()[0];
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#startRouteGuidanceToDestination] address=%1", (Object)combiBAPNaviDestination);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#startRouteGuidanceToDestination] address=%1", (Object)combiBAPNaviDestination);
             this.getNaviService().startRouteGuidance(combiBAPNaviDestination);
         } else {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#startRouteGuidanceToDestination] no list entry with posID=%1 available", (long)n2);
@@ -436,19 +418,17 @@ extends AbstractBAPIndicationHandlerNavi {
         }
     }
 
-    @Override
     protected void processMapPresentationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, Map_Presentation_SetGet map_Presentation_SetGet) {
         Map_Presentation_Status map_Presentation_Status = (Map_Presentation_Status)bAPFunctionPropertyFSG.getLastStatus();
         if (map_Presentation_Status.asg_Hmi_State.equalTo(map_Presentation_SetGet.asg_Hmi_State)) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapPresentationSetGet] value didn't change (largeView=%1, leftSideMenuOpen=%2, rightSideMenuOpen=%3)'", map_Presentation_SetGet.asg_Hmi_State.largeMapView, map_Presentation_SetGet.asg_Hmi_State.leftSideMenueOpen, map_Presentation_SetGet.asg_Hmi_State.rightSideMenueOpen);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapPresentationSetGet] value didn't change (largeView=%1, leftSideMenuOpen=%2, rightSideMenuOpen=%3)'", map_Presentation_SetGet.asg_Hmi_State.largeMapView, map_Presentation_SetGet.asg_Hmi_State.leftSideMenueOpen, map_Presentation_SetGet.asg_Hmi_State.rightSideMenueOpen);
             bAPFunctionPropertyFSG.resendLastStatus();
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapPresentationSetGet] call navi service 'setActiveRGType(largeMapView=%1, leftSideMenuOpen=%2, rightSideMenuOpen=%3)'", map_Presentation_SetGet.asg_Hmi_State.largeMapView, map_Presentation_SetGet.asg_Hmi_State.leftSideMenueOpen, map_Presentation_SetGet.asg_Hmi_State.rightSideMenueOpen);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapPresentationSetGet] call navi service 'setActiveRGType(largeMapView=%1, leftSideMenuOpen=%2, rightSideMenuOpen=%3)'", map_Presentation_SetGet.asg_Hmi_State.largeMapView, map_Presentation_SetGet.asg_Hmi_State.leftSideMenueOpen, map_Presentation_SetGet.asg_Hmi_State.rightSideMenueOpen);
             this.getNaviService().setMapPresentation(map_Presentation_SetGet.asg_Hmi_State.largeMapView, map_Presentation_SetGet.asg_Hmi_State.leftSideMenueOpen, map_Presentation_SetGet.asg_Hmi_State.rightSideMenueOpen);
         }
     }
 
-    @Override
     protected void processMapViewAndOrientationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MapViewAndOrientation_SetGet mapViewAndOrientation_SetGet) {
         if (BAPIndicationHandlerNavi.reservedValueUsed(mapViewAndOrientation_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] Reserved Value Used. serializer: %1", (Object)mapViewAndOrientation_SetGet);
@@ -461,23 +441,23 @@ extends AbstractBAPIndicationHandlerNavi {
             this.getNaviService().mapViewChanged(true);
         }
         if (mapViewAndOrientation_Status.mapView == mapViewAndOrientation_SetGet.mapView && mapViewAndOrientation_Status.supplementaryMapView == mapViewAndOrientation_SetGet.supplementaryMapView) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] map view didn't change (mapView=%1, supplementaryMapView=%2)", (long)mapViewAndOrientation_SetGet.mapView, (long)mapViewAndOrientation_SetGet.supplementaryMapView);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] map view didn't change (mapView=%1, supplementaryMapView=%2)", (long)mapViewAndOrientation_SetGet.mapView, (long)mapViewAndOrientation_SetGet.supplementaryMapView);
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] call navi service 'setMapView(mapView=%1, supplementaryMapView=%2)'", (long)mapViewAndOrientation_SetGet.mapView, (long)mapViewAndOrientation_SetGet.supplementaryMapView);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] call navi service 'setMapView(mapView=%1, supplementaryMapView=%2)'", (long)mapViewAndOrientation_SetGet.mapView, (long)mapViewAndOrientation_SetGet.supplementaryMapView);
             this.getNaviService().setMapView(mapViewAndOrientation_SetGet.mapView, mapViewAndOrientation_SetGet.supplementaryMapView);
             bl = true;
         }
         if (mapViewAndOrientation_Status.mapVisibility.equalTo(mapViewAndOrientation_SetGet.mapVisibility)) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] map visibility didn't change (lvdsMapVisible=%1, supplementaryMapViewVisible=%2)", mapViewAndOrientation_SetGet.mapVisibility.lvdsMapIsVisible, mapViewAndOrientation_SetGet.mapVisibility.supplementaryMapViewIsVisible);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] map visibility didn't change (lvdsMapVisible=%1, supplementaryMapViewVisible=%2)", mapViewAndOrientation_SetGet.mapVisibility.lvdsMapIsVisible, mapViewAndOrientation_SetGet.mapVisibility.supplementaryMapViewIsVisible);
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] call navi service 'setMapVisibility(lvdsMapVisible=%1, supplementaryMapViewVisible=%2)'", mapViewAndOrientation_SetGet.mapVisibility.lvdsMapIsVisible, mapViewAndOrientation_SetGet.mapVisibility.supplementaryMapViewIsVisible);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] call navi service 'setMapVisibility(lvdsMapVisible=%1, supplementaryMapViewVisible=%2)'", mapViewAndOrientation_SetGet.mapVisibility.lvdsMapIsVisible, mapViewAndOrientation_SetGet.mapVisibility.supplementaryMapViewIsVisible);
             this.getNaviService().setMapVisibility(mapViewAndOrientation_SetGet.mapVisibility.lvdsMapIsVisible, mapViewAndOrientation_SetGet.mapVisibility.supplementaryMapViewIsVisible);
             bl = true;
         }
         if (mapViewAndOrientation_Status.mapOrientation == mapViewAndOrientation_SetGet.mapOrientation) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] map orientation didn't change (mapOrientation=%1)", (long)mapViewAndOrientation_SetGet.mapOrientation);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] map orientation didn't change (mapOrientation=%1)", (long)mapViewAndOrientation_SetGet.mapOrientation);
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] call navi service 'setMapOrientation(mapOrientation=%1)'", (long)mapViewAndOrientation_SetGet.mapOrientation);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapViewAndOrientationSetGet] call navi service 'setMapOrientation(mapOrientation=%1)'", (long)mapViewAndOrientation_SetGet.mapOrientation);
             this.getNaviService().setMapOrientation(mapViewAndOrientation_SetGet.mapOrientation);
             bl = true;
         }
@@ -496,7 +476,6 @@ extends AbstractBAPIndicationHandlerNavi {
         return mapViewAndOrientation_SetGet.supplementaryMapView >= 4 && mapViewAndOrientation_SetGet.supplementaryMapView <= 255;
     }
 
-    @Override
     protected void processMapColorAndTypeSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MapColorAndType_SetGet mapColorAndType_SetGet) {
         if (BAPIndicationHandlerNavi.reservedValueUsed(mapColorAndType_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerNavi#processMapColorAndTypeSetGet] Reserved Value Used. serializer: %1", (Object)mapColorAndType_SetGet);
@@ -506,16 +485,16 @@ extends AbstractBAPIndicationHandlerNavi {
         MapColorAndType_Status mapColorAndType_Status = (MapColorAndType_Status)bAPFunctionPropertyFSG.getLastStatus();
         boolean bl = false;
         if (mapColorAndType_Status.colour == mapColorAndType_SetGet.colour) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapColorAndTypeSetGet] map color didn't change (color=%1)", (long)mapColorAndType_SetGet.colour);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapColorAndTypeSetGet] map color didn't change (color=%1)", (long)mapColorAndType_SetGet.colour);
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapColorAndTypeSetGet] call navi service 'setMapColor(%1)'", (long)mapColorAndType_SetGet.colour);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapColorAndTypeSetGet] call navi service 'setMapColor(%1)'", (long)mapColorAndType_SetGet.colour);
             this.getNaviService().setMapColor(mapColorAndType_SetGet.colour);
             bl = true;
         }
         if (mapColorAndType_Status.activeMapType == mapColorAndType_SetGet.activeMapType && mapColorAndType_Status.mainMapSetup == mapColorAndType_SetGet.mainMapSetup) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapColorAndTypeSetGet] map type didn't change (activeMapType=%1, mainMapSetup=%2)", (long)mapColorAndType_SetGet.activeMapType, (long)mapColorAndType_SetGet.mainMapSetup);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapColorAndTypeSetGet] map type didn't change (activeMapType=%1, mainMapSetup=%2)", (long)mapColorAndType_SetGet.activeMapType, (long)mapColorAndType_SetGet.mainMapSetup);
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerNavi#processMapColorAndTypeSetGet] call navi service 'setMapType(activeMapType=%1, mainMapSetup=%2)", (long)mapColorAndType_SetGet.activeMapType, (long)mapColorAndType_SetGet.mainMapSetup);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerNavi#processMapColorAndTypeSetGet] call navi service 'setMapType(activeMapType=%1, mainMapSetup=%2)", (long)mapColorAndType_SetGet.activeMapType, (long)mapColorAndType_SetGet.mainMapSetup);
             this.getNaviService().setMapType(mapColorAndType_SetGet.activeMapType, mapColorAndType_SetGet.mainMapSetup);
         }
         if (!bl) {

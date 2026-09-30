@@ -43,51 +43,48 @@ ServiceTrackerCustomizer {
         this.client = iDSIClient;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.context.getService(serviceReference);
         if (object instanceof DSIBase) {
             Object object2 = serviceReference.getProperty("DEVICE_INSTANCE");
             if (this.instance.equals(object2)) {
-                this.log.log(1078071040, "[DSIActivator] found DSI %1 instance %2!", (Object)this.clazz, (Object)this.instance);
+                this.log.log(1000000, "[DSIActivator] found DSI %1 instance %2!", (Object)this.clazz, (Object)this.instance);
                 this.client.setDSI((DSIBase)object);
                 int[] nArray = this.client.getAutoNotifications();
                 if (nArray != null && this.listener != null) {
                     if (nArray == ATTR_ALL) {
-                        this.log.log(-2137614336, "[DSIActivator] %1 set all notifications!", (Object)this.clazz);
+                        this.log.log(10000000, "[DSIActivator] %1 set all notifications!", (Object)this.clazz);
                         ((DSIBase)object).setNotification(this.listener);
                     } else {
-                        this.log.log(-2137614336, "[DSIActivator] %1 set notifications %2!", (Object)this.clazz, (Object)nArray);
+                        this.log.log(10000000, "[DSIActivator] %1 set notifications %2!", (Object)this.clazz, (Object)nArray);
                         ((DSIBase)object).setNotification(nArray, this.listener);
                     }
                 }
             } else {
-                this.log.log(-1601830656, "[DSIActivator] wrong instance %2!", (Object)this.clazz, (Object)this.instance);
+                this.log.log(100000, "[DSIActivator] wrong instance %2!", (Object)this.clazz, (Object)this.instance);
                 this.context.ungetService(serviceReference);
                 object = null;
             }
         } else {
             this.context.ungetService(serviceReference);
-            this.log.log(-1601830656, "[DSIActivator] not adding unwanted service!");
+            this.log.log(100000, "[DSIActivator] not adding unwanted service!");
             object = null;
         }
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.log.log(-1601830656, "[DSIActivator] removed DSI %1 instance %2!", (Object)this.clazz, (Object)this.instance);
+        this.log.log(100000, "[DSIActivator] removed DSI %1 instance %2!", (Object)this.clazz, (Object)this.instance);
         int[] nArray = this.client.getAutoNotifications();
         if (nArray != null && this.listener != null) {
             if (nArray == ATTR_ALL) {
-                this.log.log(-2137614336, "[DSIActivator] %1 clear all notifications!", (Object)this.clazz);
+                this.log.log(10000000, "[DSIActivator] %1 clear all notifications!", (Object)this.clazz);
                 ((DSIBase)object).clearNotification(this.listener);
             } else {
-                this.log.log(-2137614336, "[DSIActivator] %1 clear notifications %2!", (Object)this.clazz, (Object)nArray);
+                this.log.log(10000000, "[DSIActivator] %1 clear notifications %2!", (Object)this.clazz, (Object)nArray);
                 ((DSIBase)object).clearNotification(nArray, this.listener);
             }
         }
@@ -95,7 +92,6 @@ ServiceTrackerCustomizer {
         this.context.ungetService(serviceReference);
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.context = bundleContext;
         Hashtable hashtable = new Hashtable(8);
@@ -109,7 +105,6 @@ ServiceTrackerCustomizer {
         this.framework.startDSIService(this.clazz, this.instance);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.framework.stopDSIService(this.clazz, this.instance);
         if (this.tracker != null) {

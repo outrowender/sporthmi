@@ -103,7 +103,6 @@ extends AbstractCombiElement {
         }
     }
 
-    @Override
     public void reset() {
         this.textChanged = false;
         if (this.text != null && this.text.length() > 0) {

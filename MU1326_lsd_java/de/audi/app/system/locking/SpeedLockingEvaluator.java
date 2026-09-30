@@ -14,7 +14,7 @@ final class SpeedLockingEvaluator {
     }
 
     public boolean evaluate(SpeedEvaluationRequirements speedEvaluationRequirements) {
-        this.logChannel.log(-2137614336, "SpeedLockingEvaluator#evaluate(%1)", (Object)speedEvaluationRequirements);
+        this.logChannel.log(10000000, "SpeedLockingEvaluator#evaluate(%1)", (Object)speedEvaluationRequirements);
         return speedEvaluationRequirements.isVehicleSpeedExceeded();
     }
 }

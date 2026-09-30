@@ -6,24 +6,19 @@ package de.audi.atip.hmi.view;
 import java.util.Iterator;
 
 public interface IFontLoader {
-    public static final int STYLE_PLAIN;
-    public static final int STYLE_BOLD;
-    public static final int STYLE_LIGHT;
-    public static final int STYLE_ITALIC;
+    public static final int STYLE_PLAIN = 0;
+    public static final int STYLE_BOLD = 1;
+    public static final int STYLE_LIGHT = 2;
+    public static final int STYLE_ITALIC = 3;
 
-    default public Object getFont(String string, int n, int n2) {
-    }
+    public Object getFont(String var1, int var2, int var3);
 
-    default public Object getFont(int n, int n2) {
-    }
+    public Object getFont(int var1, int var2);
 
-    default public Iterator getAllFonts() {
-    }
+    public Iterator getAllFonts();
 
-    default public void destroyFont(Object object) {
-    }
+    public void destroyFont(Object var1);
 
-    default public void clearFontCache() {
-    }
+    public void clearFontCache();
 }
 

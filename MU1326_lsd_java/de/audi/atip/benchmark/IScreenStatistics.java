@@ -7,30 +7,22 @@ import de.audi.atip.benchmark.IStatisticsInfoProvider;
 
 public interface IScreenStatistics
 extends IStatisticsInfoProvider {
-    public static final String FILE_NAME;
+    public static final String FILE_NAME = "ScreenStatistics.csv";
 
-    default public void paintStart(int n) {
-    }
+    public void paintStart(int var1);
 
-    default public void paintEnd() {
-    }
+    public void paintEnd();
 
-    default public void drawEnd() {
-    }
+    public void drawEnd();
 
-    default public void increaseCacheHits(int n) {
-    }
+    public void increaseCacheHits(int var1);
 
-    default public void getScreenStart(int n) {
-    }
+    public void getScreenStart(int var1);
 
-    default public void getScreenEnd() {
-    }
+    public void getScreenEnd();
 
-    default public void connectStart(int n) {
-    }
+    public void connectStart(int var1);
 
-    default public void connectEnd() {
-    }
+    public void connectEnd();
 }
 

@@ -22,10 +22,9 @@ extends AbstractIntellicallSearchResultRow {
         this.setRecordSetColumn(5);
         this.setInteger(2, ADBTruffleSearchUtils.getEntryTypeModelValue(searchResult));
         this.setHighlightTextCell(3, ADBTruffleSearchUtils.getCombinedNameListCell(searchResult));
-        this.setPropertyCell(7, PropertyListCell.create(195680110, new int[]{553997474}));
+        this.setPropertyCell(7, PropertyListCell.create(1859627275, new int[]{-1571551967}));
     }
 
-    @Override
     public EvoListRow copy() {
         IntellicallADBSearchResultRow intellicallADBSearchResultRow = new IntellicallADBSearchResultRow(this.getSearchResult(), this.log);
         intellicallADBSearchResultRow.setOpen(this.isOpen());
@@ -41,11 +40,10 @@ extends AbstractIntellicallSearchResultRow {
         return ADBTruffleSearchUtils.getContactPicture(this.getSearchResult());
     }
 
-    @Override
     public void setOpen(boolean bl) {
         super.setOpen(bl);
         int n = bl ? 1 : 0;
-        this.log.log(-2137614336, "[IntellicallADBSearchResultRow#setOpen] isOpen=%1, setting column value to %1", bl, (long)n);
+        this.log.log(10000000, "[IntellicallADBSearchResultRow#setOpen] isOpen=%1, setting column value to %1", bl, (long)n);
         this.setInteger(9, n);
     }
 }

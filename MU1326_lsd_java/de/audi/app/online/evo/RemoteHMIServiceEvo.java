@@ -18,15 +18,6 @@ import de.audi.app.online.evo.MapStateServiceImpl;
 import de.audi.app.online.evo.PartialPopupComponent;
 import de.audi.app.online.evo.RemoteHMIComponentFactoryEvo;
 import de.audi.app.online.evo.RemoteHMILockingListenerEvo;
-import de.audi.app.online.evo.RemoteHMIServiceEvo$1;
-import de.audi.app.online.evo.RemoteHMIServiceEvo$2;
-import de.audi.app.online.evo.RemoteHMIServiceEvo$3;
-import de.audi.app.online.evo.RemoteHMIServiceEvo$4;
-import de.audi.app.online.evo.RemoteHMIServiceEvo$5;
-import de.audi.app.online.evo.RemoteHMIServiceEvo$6;
-import de.audi.app.online.evo.RemoteHMIServiceEvo$7;
-import de.audi.app.online.evo.RemoteHMIServiceEvo$8;
-import de.audi.app.online.evo.RemoteHMIServiceEvo$LoadViewTask;
 import de.audi.app.online.evo.SwitchToOnlineComponent;
 import de.audi.app.online.evo.connectivity.bundled.BundledConnectivityHandlerEvo;
 import de.audi.app.online.evo.connectivity.bundled.BundledConnectivityPopupConfigEvo;
@@ -40,28 +31,38 @@ import de.audi.app.online.evo.search.OnlineSearchComponent;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.model.ModelGroup;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.i18n.Language;
+import de.audi.atip.interapp.OnlineServiceListener;
 import de.audi.atip.interapp.online.IRemoteHMIMediaOnlineServiceListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.HMIProperties;
-import de.audi.remotehmi.IRemoteHMISpeechContext$CommandDisplay;
+import de.audi.remotehmi.IRemoteHMISpeechContext;
+import de.audi.remotehmi.ISpeechDictionary;
 import de.audi.remotehmi.RemoteHMIAction;
 import de.audi.remotehmi.ui.mib2.grid.IGridList;
-import de.audi.remotehmi.util.LogAppender$Factory;
+import de.audi.remotehmi.util.LogAppender;
+import de.audi.tghu.online.app.remotehmi.AbstractCommandHandler;
 import de.audi.tghu.online.app.remotehmi.AbstractExternalServiceProvider;
 import de.audi.tghu.online.app.remotehmi.AbstractHMIViewListener;
+import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.I18NTextComponent;
 import de.audi.tghu.online.app.remotehmi.OnlineModelBankAccess;
+import de.audi.tghu.online.app.remotehmi.RemoteHMIDSIAccess;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIMediaHandler;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
+import de.audi.tghu.online.app.remotehmi.RemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.connectivity.bundled.BundledConnectivityComponent;
+import de.audi.tghu.online.app.remotehmi.sds.HMISpeechASRListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class RemoteHMIServiceEvo
 extends RemoteHMIService {
-    public static final int CONNECTIVITY_CONTEXT_DEFAULT;
-    public static final int CONNECTIVITY_CONTEXT_MEDIA;
-    private final RemoteHMIServiceEvo$LoadViewTask loadViewTask = new RemoteHMIServiceEvo$LoadViewTask(this, null);
+    public static final int CONNECTIVITY_CONTEXT_DEFAULT = 0;
+    public static final int CONNECTIVITY_CONTEXT_MEDIA = 1;
+    private final LoadViewTask loadViewTask = new LoadViewTask();
     protected LeftDrawerHandler leftDrawerHandler;
     protected RightDrawerHandler rightDrawerHandler;
     private I18NTextComponent i18NComponent;
@@ -73,20 +74,20 @@ extends RemoteHMIService {
     protected OnlineSearchComponent onlineSearchComponent;
     private BundledConnectivityComponent bundledConnectivityComponent;
     private Language hmiLanuage;
-    public IRemoteHMISpeechContext$CommandDisplay pttCommandDisplay;
+    public IRemoteHMISpeechContext.CommandDisplay pttCommandDisplay;
     static /* synthetic */ Class class$de$audi$atip$hmi$app$AppOnlineTextConstants;
 
     protected RemoteHMIServiceEvo(LogChannel logChannel, LogChannel logChannel2, IFrameworkAccess iFrameworkAccess, OnlineModelBankAccess onlineModelBankAccess, boolean bl) {
         super(logChannel, logChannel2, iFrameworkAccess, onlineModelBankAccess, bl, new RemoteHMIComponentFactoryEvo());
     }
 
-    public RemoteHMIServiceEvo(LogChannel logChannel, LogChannel logChannel2, IFrameworkAccess iFrameworkAccess, OnlineModelBankAccess onlineModelBankAccess) {
+    public RemoteHMIServiceEvo(final LogChannel logChannel, LogChannel logChannel2, IFrameworkAccess iFrameworkAccess, OnlineModelBankAccess onlineModelBankAccess) {
         super(logChannel, logChannel2, iFrameworkAccess, onlineModelBankAccess, false, new RemoteHMIComponentFactoryEvo());
-        this.viewTypeModelGroup.add(onlineModelBankAccess.getChoiceModel(1025254144));
+        this.viewTypeModelGroup.add(onlineModelBankAccess.getChoiceModel(2300989));
         this.leftDrawerHandler = new LeftDrawerHandler(logChannel, this, this.hmiModelGroup);
         this.rightDrawerHandler = new RightDrawerHandler(logChannel, this);
         iFrameworkAccess.getLogChannel("App.Online.RemoteHMI.Grid");
-        ChoiceModelApp choiceModelApp = onlineModelBankAccess.getChoiceModel(907813632);
+        ChoiceModelApp choiceModelApp = onlineModelBankAccess.getChoiceModel(2300982);
         if (Boolean.getBoolean("RemoteHMIConnecitivityOverride")) {
             choiceModelApp.setValue(1);
         }
@@ -96,8 +97,8 @@ extends RemoteHMIService {
         this.addComponent(this.distributedServiceComponent);
         this.onlineSearchComponent = new OnlineSearchComponent();
         this.addComponent(this.onlineSearchComponent);
-        BundledConnectivityPopupConfigEvo bundledConnectivityPopupConfigEvo = new BundledConnectivityPopupConfigEvo(logChannel, 1730028288, 1713251072, 1696473856, 1746805504);
-        bundledConnectivityPopupConfigEvo.registerDefaultPopupId(1696080640);
+        BundledConnectivityPopupConfigEvo bundledConnectivityPopupConfigEvo = new BundledConnectivityPopupConfigEvo(logChannel, 2301543, 2301542, 2301541, 2301544);
+        bundledConnectivityPopupConfigEvo.registerDefaultPopupId(2300005);
         BundledConnectivityHandlerEvo bundledConnectivityHandlerEvo = new BundledConnectivityHandlerEvo("bundled-connectivity-show-dataplan-popup", logChannel, (RemoteHMIService)this, bundledConnectivityPopupConfigEvo);
         this.bundledConnectivityComponent = new BundledConnectivityComponent(bundledConnectivityPopupConfigEvo, bundledConnectivityHandlerEvo);
         this.addComponent(this.bundledConnectivityComponent);
@@ -116,13 +117,78 @@ extends RemoteHMIService {
         this.getDsiAccess().addDSIListener(this);
         this.setMapStateService(new MapStateServiceImpl(logChannel, this));
         this.lockingListener = new RemoteHMILockingListenerEvo(this.hmiService, this, logChannel);
-        this.addCommandHandler(-2126436030, new RemoteHMIServiceEvo$1(this, "goto-audi-connect", logChannel));
-        this.addCommandHandler(718180417, new RemoteHMIServiceEvo$2(this, "connectivity_state_changed", logChannel));
-        this.addCommandHandler(682332225, new RemoteHMIServiceEvo$3(this, "activate-speech-dictionary", logChannel));
-        this.addCommandHandler(1017876545, new RemoteHMIServiceEvo$4(this, "active-mobile-device-connected", logChannel));
+        this.addCommandHandler(1110000001, new AbstractCommandHandler("goto-audi-connect"){
+
+            public void indicateCommand(int n, Object object) {
+                if (RemoteHMIServiceEvo.this.isEntered() && RemoteHMIServiceEvo.this.getEntryPointId() == 1) {
+                    logChannel.log(1000000, "RemoteHMIServiceEvo#indicateCommand: state STATE_PREDEVELOPMENT_GOTO_AUDI_CONNECT skipped (already in Audi Connect)");
+                    return;
+                }
+                ChoiceModelApp choiceModelApp = RemoteHMIServiceEvo.this.getModelBankAccess().getChoiceModel(452);
+                choiceModelApp.setValue(~choiceModelApp.getValue());
+                logChannel.log(1000000, "RemoteHMIServiceEvo#indicateCommand: state STATE_PREDEVELOPMENT_GOTO_AUDI_CONNECT triggered");
+            }
+        });
+        this.addCommandHandler(1100009002, new AbstractCommandHandler("connectivity_state_changed"){
+
+            public void indicateCommand(int n, Object object) {
+                boolean bl;
+                if (object instanceof Boolean && (bl = ((Boolean)object).booleanValue())) {
+                    logChannel.log(1000000, "RemoteHMIServiceEvo#indicateCommand: state STATE_CONNECTIVITY_CHANGED");
+                    RemoteHMIServiceEvo.this.getModelBankAccess().getChoiceModel(2300982).setValue(0);
+                }
+            }
+        });
+        this.addCommandHandler(1100000040, new AbstractCommandHandler("activate-speech-dictionary"){
+
+            public void indicateCommand(int n, Object object) {
+                logChannel.log(1000000, "RemoteHMIServiceEvo#ctor (AbstractCommandHandler): received dictionaries.");
+                if (object instanceof List) {
+                    String string = null;
+                    String string2 = null;
+                    int n2 = 2;
+                    ArrayList arrayList = new ArrayList();
+                    for (int i2 = 0; i2 < ((List)object).size(); ++i2) {
+                        if (((List)object).get(i2) instanceof ISpeechDictionary) {
+                            ISpeechDictionary iSpeechDictionary = (ISpeechDictionary)((List)object).get(i2);
+                            if (string != null && !string.equals(iSpeechDictionary.getFormat()) || string2 != null && !string2.equals(iSpeechDictionary.getLanguage())) {
+                                logChannel.log(10000, "RemoteHMIHandlerImpl#ctor (AbstractCommandHandler): format or language of available dictionaries do not fit");
+                                continue;
+                            }
+                            string = iSpeechDictionary.getFormat();
+                            string2 = iSpeechDictionary.getLanguage();
+                            n2 = iSpeechDictionary.getType();
+                            arrayList.addAll(iSpeechDictionary.getDictionaryEntries());
+                            continue;
+                        }
+                        logChannel.log(1000000, "RemoteHMIHandlerImpl#ctor (AbstractCommandHandler): payload not of type SpeechDictionary, no registration of Online-Dictionary");
+                    }
+                    if (string2 != null && string != null && arrayList != null && !arrayList.isEmpty()) {
+                        OnlineServiceListener.OnlineSpeechDictionary onlineSpeechDictionary = new OnlineServiceListener.OnlineSpeechDictionary(n2, string2, string, arrayList);
+                        logChannel.log(1000000, "RemoteHMIHandlerImpl#ctor (AbstractCommandHandler): setting dictionary %1 at onlineServiceListener", (Object)onlineSpeechDictionary.toString());
+                        RemoteHMIServiceEvo.this.getASR().getOnlineServiceListener().setDictionary(onlineSpeechDictionary);
+                    } else {
+                        logChannel.log(10000, "RemoteHMIHandlerImpl#ctor (AbstractCommandHandler): dictionary cannot be set due to missing fields");
+                    }
+                }
+            }
+        });
+        this.addCommandHandler(1100000060, new AbstractCommandHandler("active-mobile-device-connected"){
+
+            public void indicateCommand(int n, Object object) {
+                logChannel.log(1000000, "RemoteHMIServiceEvo#ctor (ICommandHandler): mobile device was personalized via service discovery.");
+                if (object instanceof String) {
+                    String string = (String)object;
+                    logChannel.log(1000000, "RemoteHMIServiceEvo#ctor (ICommandHandler): connected device %1, showing popzp", (Object)string);
+                    LabelModelApp labelModelApp = RemoteHMIServiceEvo.this.getModelBankAccess().getLabelModel(2301043);
+                    labelModelApp.setText(string);
+                    ChoiceModelApp choiceModelApp = RemoteHMIServiceEvo.this.getModelBankAccess().getChoiceModel(2301044);
+                    choiceModelApp.setValue(~choiceModelApp.getValue());
+                }
+            }
+        });
     }
 
-    @Override
     public void setRemoteHMIMediaOnlineServiceListener(IRemoteHMIMediaOnlineServiceListener iRemoteHMIMediaOnlineServiceListener) {
         super.setRemoteHMIMediaOnlineServiceListener(iRemoteHMIMediaOnlineServiceListener);
         if (iRemoteHMIMediaOnlineServiceListener != null) {
@@ -130,23 +196,25 @@ extends RemoteHMIService {
         }
     }
 
-    @Override
     public void setLanguage(Language language) {
         super.setLanguage(language);
         this.hmiLanuage = language;
         if (this.i18NComponent != null) {
-            this.execute(new RemoteHMIServiceEvo$5(this, "set-language-", LogAppender$Factory.fromString(language == null ? "null" : this.getCorrectLanguageString(language))));
+            this.execute(new AbstractRemoteHMITask("set-language-", LogAppender.Factory.fromString(language == null ? "null" : this.getCorrectLanguageString(language))){
+
+                public void run() {
+                    RemoteHMIServiceEvo.this.i18NComponent.refresh();
+                }
+            });
         }
     }
 
-    @Override
     public Object getDistributedServiceComponent() {
         return this.distributedServiceComponent;
     }
 
-    @Override
     protected void initializeViewListeners() {
-        ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(1025254144);
+        ChoiceModelApp choiceModelApp = this.modelBank.getChoiceModel(2300989);
         HMIViewGridScreenAccess hMIViewGridScreenAccess = new HMIViewGridScreenAccess(this.logChannel, this, this.hmiModelGroup, this.modelBank, choiceModelApp);
         this.putViewListener(new HMIViewGridListener(this.logChannel, (ModelGroup)this.hmiModelGroup, this.modelBank, this.hmiService, this, hMIViewGridScreenAccess), 13000);
         this.putViewListener(new HMIViewNpsListener(this.logChannel, new ModelGroup(), this.modelBank, this.hmiService, this), 15000);
@@ -158,7 +226,6 @@ extends RemoteHMIService {
         this.putViewListener(new HMIViewTextDisplayListener(this.logChannel, (ModelGroup)this.hmiModelGroup, this.modelBank, this.hmiService, this, hMIViewTextDisplayScreenAccess), 4000);
     }
 
-    @Override
     protected void triggerScreenEnter(String string) {
         this.triggerScreenEnter(string, false);
     }
@@ -166,11 +233,11 @@ extends RemoteHMIService {
     private void triggerScreenEnter(String string, boolean bl) {
         boolean bl2 = this.contextManagerComponent.isRemoteHMIActive();
         if (!bl2 && !bl) {
-            this.logChannel.log(-1601830656, "RemoteHMIServiceEvo#triggerScreenEnter: first loadview recieved for context '%1' before RemoteHMI is active -> delay", (Object)string);
+            this.logChannel.log(100000, "RemoteHMIServiceEvo#triggerScreenEnter: first loadview recieved for context '%1' before RemoteHMI is active -> delay", (Object)string);
             this.loadViewTask.setEntryPointContextName(string);
             this.execute(this.loadViewTask);
         } else if (this.contextManagerComponent.getWaitForApplicationValue() == 1) {
-            this.logChannel.log(1078071040, "RemoteHMIServiceEvo#triggerScreenEnter: first loadview recieved for context '%1' so removing waiting screen", (Object)string);
+            this.logChannel.log(1000000, "RemoteHMIServiceEvo#triggerScreenEnter: first loadview recieved for context '%1' so removing waiting screen", (Object)string);
             this.contextManagerComponent.setWaitForApplicationValue(0);
         }
     }
@@ -183,62 +250,62 @@ extends RemoteHMIService {
         return this.leftDrawerHandler;
     }
 
-    @Override
     public AbstractExternalServiceProvider getOnlineServiceProvider() {
         return this.onlineEvoServiceProvider;
     }
 
-    @Override
     public Object getI18NTextComponent() {
         return this.i18NComponent;
     }
 
-    @Override
-    public void indicateContextsCommandDisplay(IRemoteHMISpeechContext$CommandDisplay iRemoteHMISpeechContext$CommandDisplay) {
-        this.execute(new RemoteHMIServiceEvo$6(this, "indicate-context_commandDisplay", iRemoteHMISpeechContext$CommandDisplay));
+    public void indicateContextsCommandDisplay(final IRemoteHMISpeechContext.CommandDisplay commandDisplay) {
+        this.execute(new AbstractRemoteHMITask("indicate-context_commandDisplay"){
+
+            public void run() {
+                HMISpeechASRListener hMISpeechASRListener = RemoteHMIServiceEvo.this.getASR();
+                if (hMISpeechASRListener != null) {
+                    RemoteHMIServiceEvo.this.logChannel.log(10000000, "RemoteHMIServiceEvo#indicateContextsCommandDisplay: Called.");
+                    hMISpeechASRListener.indicateApplicationCommands(commandDisplay);
+                }
+            }
+        });
     }
 
     public OnlineSearchComponent getSearchComponent() {
         return this.onlineSearchComponent;
     }
 
-    @Override
     public void setConnectivityContext(int n) {
-        this.hmiService.getChoiceModel(-1793318144).setValue(n);
-        this.logChannel.log(1078071040, "RemoteHMIServiceEvo#setConnectivityContext connectivityContext: %1", (long)n);
+        this.hmiService.getChoiceModel(2301077).setValue(n);
+        this.logChannel.log(1000000, "RemoteHMIServiceEvo#setConnectivityContext connectivityContext: %1", (long)n);
     }
 
-    @Override
     public int getActiveAppModelId() {
         return super.getActiveAppModelId();
     }
 
-    @Override
     public RemoteHMIMediaHandler getMediaHandler() {
         return null;
     }
 
-    @Override
     public void onExit() {
-        ChoiceModelApp choiceModelApp = this.getModelBankAccess().getChoiceModel(907813632);
+        ChoiceModelApp choiceModelApp = this.getModelBankAccess().getChoiceModel(2300982);
         choiceModelApp.setValue(0);
         super.onExit();
     }
 
-    @Override
     public void remoteHmiDsiReady() {
-        this.logChannel.log(-2137614336, "RemoteHMIServiceEvo#remoteHmiDsiReady: sending language as DSI is now available");
+        this.logChannel.log(10000000, "RemoteHMIServiceEvo#remoteHmiDsiReady: sending language as DSI is now available");
         this.setLanguage(this.hmiLanuage);
     }
 
-    @Override
     protected void updateViews(LogChannel logChannel, String string, IGridList iGridList, boolean bl, Set set, AbstractHMIViewListener abstractHMIViewListener, int n) {
         if (abstractHMIViewListener instanceof HMIViewGridListener) {
             HMIViewGridListener hMIViewGridListener = (HMIViewGridListener)abstractHMIViewListener;
             IGridList iGridList2 = hMIViewGridListener.getCurrentGridList();
             if (iGridList2 != iGridList) {
                 String string2 = "RemoteHMIServiceEvo#indicateCommand: updateViews: not rendering (gridlist instance doesn't match) for context '%1'.";
-                logChannel.log(-1601830656, string2, (Object)string);
+                logChannel.log(100000, string2, (Object)string);
                 return;
             }
             boolean bl2 = bl || set.contains("decoratorUrl");
@@ -252,7 +319,6 @@ extends RemoteHMIService {
         }
     }
 
-    @Override
     protected void applyPropertyChanges(AbstractHMIViewListener abstractHMIViewListener, Set set, HMIProperties hMIProperties) {
         if (set.contains("providerLogo")) {
             abstractHMIViewListener.showProviderLogo(hMIProperties);
@@ -271,15 +337,19 @@ extends RemoteHMIService {
         return this.onlinePresetHandler;
     }
 
-    @Override
     public void triggerPrivacyMode(boolean bl) {
         this.rightDrawerHandler.togglePrivacyMode(bl);
         HMIProperties hMIProperties = new HMIProperties();
         hMIProperties.put("value", bl);
-        RemoteHMIAction remoteHMIAction = new RemoteHMIAction(1421449216);
+        final RemoteHMIAction remoteHMIAction = new RemoteHMIAction(10008916);
         remoteHMIAction.setParameters(hMIProperties);
         if (!this.hasDsiAccess()) {
-            this.dsiAccess.addDSIListener(new RemoteHMIServiceEvo$7(this, remoteHMIAction));
+            this.dsiAccess.addDSIListener(new RemoteHMIDSIAccess.IRemoteHMIDSIListener(){
+
+                public void remoteHmiDsiReady() {
+                    RemoteHMIServiceEvo.this.invokeAction(remoteHMIAction);
+                }
+            });
         } else {
             this.invokeAction(remoteHMIAction);
         }
@@ -288,16 +358,20 @@ extends RemoteHMIService {
     public void triggerFleetMode(boolean bl) {
         HMIProperties hMIProperties = new HMIProperties();
         hMIProperties.put("value", bl);
-        RemoteHMIAction remoteHMIAction = new RemoteHMIAction(1438226432);
+        final RemoteHMIAction remoteHMIAction = new RemoteHMIAction(10008917);
         remoteHMIAction.setParameters(hMIProperties);
         if (!this.hasDsiAccess()) {
-            this.dsiAccess.addDSIListener(new RemoteHMIServiceEvo$8(this, remoteHMIAction));
+            this.dsiAccess.addDSIListener(new RemoteHMIDSIAccess.IRemoteHMIDSIListener(){
+
+                public void remoteHmiDsiReady() {
+                    RemoteHMIServiceEvo.this.invokeAction(remoteHMIAction);
+                }
+            });
         } else {
             this.invokeAction(remoteHMIAction);
         }
     }
 
-    @Override
     public void processMsg(int n) {
         super.processMsg(n);
         if (n == 206) {
@@ -305,10 +379,6 @@ extends RemoteHMIService {
         } else if (n == 207) {
             this.rightDrawerHandler.updateLockingState(false);
         }
-    }
-
-    static /* synthetic */ void access$000(RemoteHMIServiceEvo remoteHMIServiceEvo, String string, boolean bl) {
-        remoteHMIServiceEvo.triggerScreenEnter(string, bl);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -320,20 +390,44 @@ extends RemoteHMIService {
         }
     }
 
-    static /* synthetic */ boolean access$200(RemoteHMIServiceEvo remoteHMIServiceEvo) {
-        return remoteHMIServiceEvo.isEntered();
-    }
+    private class LoadViewTask
+    implements RemoteHMITask {
+        private String entryPointContextName;
 
-    static /* synthetic */ int access$300(RemoteHMIServiceEvo remoteHMIServiceEvo) {
-        return remoteHMIServiceEvo.getEntryPointId();
-    }
+        private LoadViewTask() {
+        }
 
-    static /* synthetic */ I18NTextComponent access$400(RemoteHMIServiceEvo remoteHMIServiceEvo) {
-        return remoteHMIServiceEvo.i18NComponent;
-    }
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void setEntryPointContextName(String string) {
+            String string2 = string;
+            synchronized (string2) {
+                this.entryPointContextName = string;
+            }
+        }
 
-    static /* synthetic */ LogChannel access$500(RemoteHMIServiceEvo remoteHMIServiceEvo) {
-        return remoteHMIServiceEvo.logChannel;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void run() {
+            String string = this.entryPointContextName;
+            synchronized (string) {
+                RemoteHMIServiceEvo.this.triggerScreenEnter(this.entryPointContextName, true);
+            }
+        }
+
+        public boolean isCoalescable() {
+            return false;
+        }
+
+        public boolean coalesceWith(RemoteHMITask remoteHMITask) {
+            return false;
+        }
+
+        public Long getDelayMillis() {
+            return new Long(100L);
+        }
     }
 }
 

@@ -23,7 +23,6 @@ extends AbstractNaviSearchDataProvider {
         this.favoritesListModel = baseListModelApp;
     }
 
-    @Override
     protected DataSet[] getDataSet() {
         List list = this.favoritesListModel.asList();
         Iterator iterator = this.favoritesListModel.asList().iterator();

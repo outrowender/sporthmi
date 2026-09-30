@@ -11,7 +11,7 @@ import de.audi.atip.log.LogChannel;
 
 public class JobSessionClose
 extends AbstractOnlinePlayerControllerJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobSessionClose";
     private final OnlinePlayerSession session;
     private final IOnlinePlayerController controller;
 
@@ -21,26 +21,23 @@ extends AbstractOnlinePlayerControllerJob {
         this.controller = iOnlinePlayerController;
     }
 
-    @Override
     public void start() {
-        this.logger.log(-2137614336, "[%1.start]", (Object)"JobSessionClose");
+        this.logger.log(10000000, "[%1.start]", (Object)LOGCLASS);
         if (this.controller.isActiveSession(this.session)) {
-            this.logger.log(1078071040, "[%1.start] The active session. Detach it.", (Object)"JobSessionClose");
+            this.logger.log(1000000, "[%1.start] The active session. Detach it.", (Object)LOGCLASS);
             this.controller.detachActiveSession();
             return;
         }
-        this.logger.log(1078071040, "[%1.start] Not the active session.", (Object)"JobSessionClose");
+        this.logger.log(1000000, "[%1.start] Not the active session.", (Object)LOGCLASS);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void onActiveSessionDetached() {
-        this.logger.log(-2137614336, "[%1.onActiveSessionDetached]", (Object)"JobSessionClose");
+        this.logger.log(10000000, "[%1.onActiveSessionDetached]", (Object)LOGCLASS);
         this.session.onClose();
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public String toString() {
         return this.session.getName();
     }

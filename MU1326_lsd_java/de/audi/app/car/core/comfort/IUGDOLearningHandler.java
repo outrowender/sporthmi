@@ -4,31 +4,22 @@
 package de.audi.app.car.core.comfort;
 
 public interface IUGDOLearningHandler {
-    default public void startLearningButton(int n, int n2) {
-    }
+    public void startLearningButton(int var1, int var2);
 
-    default public void startLearningButton() {
-    }
+    public void startLearningButton();
 
-    default public void startLearningButtonFixkitDefaultMode() {
-    }
+    public void startLearningButtonFixkitDefaultMode();
 
-    default public int getCurrentHardkeyButton() {
-    }
+    public int getCurrentHardkeyButton();
 
-    default public int getCurrentSoftkeyButton() {
-    }
+    public int getCurrentSoftkeyButton();
 
-    default public boolean isLearningStarted() {
-    }
+    public boolean isLearningStarted();
 
-    default public void resetLearningStartedState() {
-    }
+    public void resetLearningStartedState();
 
-    default public void abortUgdoLearning() {
-    }
+    public void abortUgdoLearning();
 
-    default public int getLearningState() {
-    }
+    public int getLearningState();
 }
 

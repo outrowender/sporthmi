@@ -6,11 +6,10 @@ package de.audi.app.car.common.swdiag;
 import java.util.Collection;
 
 public interface IDiagnosisCommandCollection {
-    public static final String ERROR_FUNCTION_NOT_CODED;
-    public static final String ERROR_UNKNOWN_COMMAND;
-    public static final String ERROR_NONE;
+    public static final String ERROR_FUNCTION_NOT_CODED = "component is null. Check coding under Keys -> SysApp -> getCarMenuFlags";
+    public static final String ERROR_UNKNOWN_COMMAND = "unknown command ";
+    public static final String ERROR_NONE = "";
 
-    default public Collection getDiagnosisCommands() {
-    }
+    public Collection getDiagnosisCommands();
 }
 

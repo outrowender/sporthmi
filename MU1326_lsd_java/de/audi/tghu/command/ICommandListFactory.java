@@ -6,10 +6,8 @@ package de.audi.tghu.command;
 import de.audi.tghu.command.CommandList;
 
 public interface ICommandListFactory {
-    default public CommandList createCommandList() {
-    }
+    public CommandList createCommandList();
 
-    default public CommandList createCommandList(int n) {
-    }
+    public CommandList createCommandList(int var1);
 }
 

@@ -29,14 +29,12 @@ implements IActionProxyListener {
         this.addSubPhoneComponent(new EntertainmentDrawaerClosedStatusLineHandler(iTelApplication));
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(7, this);
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(8, this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(7, this);
@@ -46,7 +44,6 @@ implements IActionProxyListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateCallList(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         Object object = this.updateMutex;
         synchronized (object) {
@@ -57,28 +54,24 @@ implements IActionProxyListener {
         }
     }
 
-    @Override
     public void updateCallDurationList(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
     }
 
-    @Override
     public void updateMicMuteState(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.update(iGlobalTelephoneStateStruct);
     }
 
-    @Override
     public void updateHandsfreeModeState(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.update(iGlobalTelephoneStateStruct);
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (n == 7) {
             this.getEntertainmentController().onTelAppEntered(this.state);
         } else if (n == 8) {
             this.getEntertainmentController().onTelAppLeft(this.state);
         } else {
-            this.log.log(-1601830656, "[EntertainmentDrawerHandler#actionProxyCallPerformed] unhandled methodID=%1", (long)n);
+            this.log.log(100000, "[EntertainmentDrawerHandler#actionProxyCallPerformed] unhandled methodID=%1", (long)n);
         }
     }
 

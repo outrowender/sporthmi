@@ -22,27 +22,24 @@ implements ServiceTrackerCustomizer {
         super(iEcallApplication, "App.Ecall.Main");
     }
 
-    @Override
     public void init() {
         this.bluetoothServiceEcallTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         this.bluetoothServiceEcallTracker.closeTracker();
     }
 
     public void switchOnBluetooth() {
-        this.log.log(1078071040, "EcallBluetoothHandler#switchOnBluetooth(): called");
+        this.log.log(1000000, "EcallBluetoothHandler#switchOnBluetooth(): called");
         this.ecallBluetoothService.switchOnBluetooth();
     }
 
     public void switchOffBluetooth() {
-        this.log.log(1078071040, "EcallBluetoothHandler#switchOffBluetooth(): called");
+        this.log.log(1000000, "EcallBluetoothHandler#switchOffBluetooth(): called");
         this.ecallBluetoothService.switchOffBluetooth();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof IEcallBluetoothService) {
@@ -53,11 +50,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IEcallBluetoothService) {
             this.ecallBluetoothService = new NullEcallBluetoothService(this.log);

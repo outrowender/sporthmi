@@ -18,7 +18,6 @@ extends SearchResultFormatterNavDb {
         super(interAppService, iconHandler, logChannel, iNaviFavoriteHandler, navigationEnv);
     }
 
-    @Override
     protected void setPropertyCell(NaviSearchResultListRow naviSearchResultListRow, SearchResult searchResult) {
         naviSearchResultListRow.setPropertiesColumn(null);
     }

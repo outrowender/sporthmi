@@ -4,16 +4,12 @@
 package de.audi.app.bluetooth.core.online;
 
 public interface IConnectAppSetup {
-    default public void updateSimState(boolean bl) {
-    }
+    public void updateSimState(boolean var1);
 
-    default public void updateWlanState(boolean bl) {
-    }
+    public void updateWlanState(boolean var1);
 
-    default public void officeSetupLeft() {
-    }
+    public void officeSetupLeft();
 
-    default public void updateESimState(boolean bl) {
-    }
+    public void updateESimState(boolean var1);
 }
 

@@ -22,7 +22,6 @@ implements ITerminalModeAudioService {
         super(logChannel, "NullTerminalModeAudioService");
     }
 
-    @Override
     public void muteIncomingCarPlayRingtone() {
         this.log();
     }

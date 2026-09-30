@@ -15,9 +15,9 @@ import org.dsi.ifc.global.CarViewOption;
 
 public class EtronComponentEvo
 extends AbstractEtronComponent {
-    private static final int STATE_DISABLED_BATTERY_ERROR;
+    private static final int STATE_DISABLED_BATTERY_ERROR = 11;
     public CharismaViewOptions currViewOptions;
-    public static final int ETRON_POPUP_ID_INVALID;
+    public static final int ETRON_POPUP_ID_INVALID = -1;
     private EtronPopupHandler popupHandler = new EtronPopupHandler(this.getApplication(), this, this.getLogChannel());
     private EtronPopupHKTimerController popupHKTimer = null;
     private DefaultMenuModelHandler etronMenuHandler = null;
@@ -28,23 +28,20 @@ extends AbstractEtronComponent {
         this.logMSC = iCarApplication.getFrameworkAccess().getLogChannel("App.Car.Charge.Etron.MSC");
     }
 
-    @Override
     public void initModels() {
         super.initModels();
-        this.popupHKTimer = new EtronPopupHKTimerController(this.getChoiceModel(-1525932032), this.getLogChannel());
+        this.popupHKTimer = new EtronPopupHKTimerController(this.getChoiceModel(2100389), this.getLogChannel());
         this.initServiceProvider();
         this.popupHandler.setTimer(this.popupHKTimer);
-        this.etronMenuHandler = new DefaultMenuModelHandler(this.getMenuModel(-1509154816), this.getLogChannel());
-        this.getChoiceModel(-1525932032).setValue(0);
-        this.getButtonModel(-1475600384).setButtonListener(this);
+        this.etronMenuHandler = new DefaultMenuModelHandler(this.getMenuModel(2100390), this.getLogChannel());
+        this.getChoiceModel(2100389).setValue(0);
+        this.getButtonModel(2100392).setButtonListener(this);
     }
 
-    @Override
     protected void initBusiness() {
-        this.etronMenuHandler.setBusiness(new EtronMenuEventBusiness(this.getDSI(), this.etronMenuHandler, this.getChoiceModel(-1492377600), this.popupHKTimer, this.getLogChannel()));
+        this.etronMenuHandler.setBusiness(new EtronMenuEventBusiness(this.getDSI(), this.etronMenuHandler, this.getChoiceModel(2100391), this.popupHKTimer, this.getLogChannel()));
     }
 
-    @Override
     protected void updateMenuEntryVisibility(CharismaViewOptions charismaViewOptions) {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(8, this.getExtendedMenuEntryVisibilityState(charismaViewOptions.getActiveOperationMode(), charismaViewOptions.getSustainingMode()));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(7, this.getExtendedMenuEntryVisibilityState(charismaViewOptions.getActiveOperationMode(), charismaViewOptions.getEvMode()));
@@ -73,20 +70,18 @@ extends AbstractEtronComponent {
         return carViewOption.getState() == 2;
     }
 
-    @Override
     public int getID() {
         return 10;
     }
 
     public int getPopUpID() {
-        return 1292574720;
+        return 2100045;
     }
 
     public int getStandbyPopupID() {
         return 6;
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(8, CODING_ID[0]);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(7, CODING_ID[0]);
@@ -94,7 +89,6 @@ extends AbstractEtronComponent {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(10, CODING_ID[0]);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(8);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(7);
@@ -106,9 +100,8 @@ extends AbstractEtronComponent {
         this.popupHandler.initServiceProvider();
     }
 
-    @Override
     public void requestCharismaPopup(int n) {
-        this.logMSC.log(1078071040, "<--- requestCharismaPopup(%1)", (long)n);
+        this.logMSC.log(1000000, "<--- requestCharismaPopup(%1)", (long)n);
         if (this.getPopUpID() != -1 && 5 == n) {
             this.popupHandler.requestCharismaPopup(n, true);
         } else if (this.getPopUpID() != -1 && 0 == n) {
@@ -116,66 +109,60 @@ extends AbstractEtronComponent {
         }
     }
 
-    @Override
     public void acknowledgeCharismaPopup(int n) {
-        this.logMSC.log(1078071040, "<--- acknowledgeCharismaPopup(%1)", (long)n);
+        this.logMSC.log(1000000, "<--- acknowledgeCharismaPopup(%1)", (long)n);
         if (this.getPopUpID() != -1) {
             this.popupHandler.acknowledgePopup(n);
         }
     }
 
-    @Override
     public void updateCharismaContent(int n, int n2) {
-        this.logMSC.log(1078071040, "<--- updateCharismaContent(%1, %2)", (long)n, (long)n2);
+        this.logMSC.log(1000000, "<--- updateCharismaContent(%1, %2)", (long)n, (long)n2);
         this.popupHandler.updateCharismaPopup(n);
     }
 
     public void showCharismaPopup(int n, int n2) {
-        this.logMSC.log(1078071040, "---> showCharismaContent(%1, %2)", (long)n, (long)n2);
+        this.logMSC.log(1000000, "---> showCharismaContent(%1, %2)", (long)n, (long)n2);
         this.getDSI().showCharismaPopup(n, n2);
     }
 
     public void cancelCharismaPopup(int n, int n2) {
-        this.logMSC.log(1078071040, "---> cancelCharismaPopup(%1, %2)", (long)n, (long)n2);
+        this.logMSC.log(1000000, "---> cancelCharismaPopup(%1, %2)", (long)n, (long)n2);
         this.getDSI().cancelCharismaPopup(n, n2);
     }
 
-    @Override
     public void updateCharismaActiveOperationMode(int n, int n2) {
         super.updateCharismaActiveOperationMode(n, n2);
         this.updateOperationMode();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         this.logModelData("keyPressed", n, n2, true);
-        if (n == -1475600384) {
-            this.getChoiceModel(-1525932032).setValue(1);
+        if (n == 2100392) {
+            this.getChoiceModel(2100389).setValue(1);
         }
     }
 
-    @Override
     protected void dsiAvailable(boolean bl) {
         if (this.getApplication().getCarMenuCoding().getByteCoding((short)17) <= 0) {
             super.dsiAvailable(bl);
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("itemSelected:", n, n2, true);
-        this.getLogChannel().log(1078071040, "[EtronComponentEvo:itemSelected]modelID:%1, itemID:%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[EtronComponentEvo:itemSelected]modelID:%1, itemID:%2", (long)n, (long)n2);
         if (this.isChargeEtronSelectedModeChoiceItemID(n)) {
             if (this.getCharismaActiveOperationMode() == n2) {
-                this.getLogChannel().log(1078071040, "[EtronComponentEvo:itemSelected] ChargeEtronSelectedMode unchanged, no DSI call!");
+                this.getLogChannel().log(1000000, "[EtronComponentEvo:itemSelected] ChargeEtronSelectedMode unchanged, no DSI call!");
                 this.updateOperationMode();
             } else {
-                this.getLogChannel().log(1078071040, "[EtronComponentEvo:itemSelected] ChargeEtronSelectedMode changed from %1 to %2, calling DSI", (long)this.getCharismaActiveOperationMode(), (long)n2);
-                this.logMSC.log(1078071040, "---> setCharismaActiveOperationMode(%1)", (long)n2);
+                this.getLogChannel().log(1000000, "[EtronComponentEvo:itemSelected] ChargeEtronSelectedMode changed from %1 to %2, calling DSI", (long)this.getCharismaActiveOperationMode(), (long)n2);
+                this.logMSC.log(1000000, "---> setCharismaActiveOperationMode(%1)", (long)n2);
                 this.getDSI().setCharismaActiveOperationMode(n2);
             }
         } else {
-            this.getLogChannel().log(1078071040, "[EtronComponentEvo:itemSelected] unhandled model ID %1", (long)n);
+            this.getLogChannel().log(1000000, "[EtronComponentEvo:itemSelected] unhandled model ID %1", (long)n);
             this.logModelData("itemSelected:", n, n2, false);
         }
     }

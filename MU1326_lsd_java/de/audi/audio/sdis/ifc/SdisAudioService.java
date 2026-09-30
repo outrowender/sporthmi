@@ -7,46 +7,32 @@ import de.audi.atip.interapp.IBluetoothA2LSService;
 import de.esolutions.fw.comm.asi.hmisync.audio.ASIHMISyncAudioReply;
 
 public interface SdisAudioService {
-    default public void setAudioContext(int n, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void setAudioContext(int var1, ASIHMISyncAudioReply var2);
 
-    default public void setAudioContext(int n) {
-    }
+    public void setAudioContext(int var1);
 
-    default public void setBluetoothService(IBluetoothA2LSService iBluetoothA2LSService) {
-    }
+    public void setBluetoothService(IBluetoothA2LSService var1);
 
-    default public void unjoinActiveAudioContext(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void unjoinActiveAudioContext(ASIHMISyncAudioReply var1);
 
-    default public void joinActiveAudioContext(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void joinActiveAudioContext(ASIHMISyncAudioReply var1);
 
-    default public void enableA2LS(String string, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void enableA2LS(String var1, ASIHMISyncAudioReply var2);
 
-    default public void disableA2LSFromSDIS(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void disableA2LSFromSDIS(ASIHMISyncAudioReply var1);
 
-    default public void disableA2LSFromHU() {
-    }
+    public void disableA2LSFromHU();
 
-    default public void setVolume(int n) {
-    }
+    public void setVolume(int var1);
 
-    default public void increaseVolume(int n) {
-    }
+    public void increaseVolume(int var1);
 
-    default public void decreaseVolume(int n) {
-    }
+    public void decreaseVolume(int var1);
 
-    default public void forceFrontAudioContext(int n, ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void forceFrontAudioContext(int var1, ASIHMISyncAudioReply var2);
 
-    default public void registerReplyProxy(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void registerReplyProxy(ASIHMISyncAudioReply var1);
 
-    default public void removeReplyProxy(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void removeReplyProxy(ASIHMISyncAudioReply var1);
 }
 

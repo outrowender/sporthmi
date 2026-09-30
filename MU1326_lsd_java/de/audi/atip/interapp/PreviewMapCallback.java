@@ -4,10 +4,8 @@
 package de.audi.atip.interapp;
 
 public interface PreviewMapCallback {
-    default public void onPreviewMapEntered() {
-    }
+    public void onPreviewMapEntered();
 
-    default public void onPreviewMapLeft() {
-    }
+    public void onPreviewMapLeft();
 }
 

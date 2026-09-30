@@ -19,7 +19,7 @@ public class FocusAdvice {
     }
 
     public String toString() {
-        return new StringBuffer().append(super.getClass().getName()).append("#").append(this.name).toString();
+        return this.getClass().getName() + "#" + this.name;
     }
 }
 

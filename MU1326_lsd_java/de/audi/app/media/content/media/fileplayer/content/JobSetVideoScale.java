@@ -10,7 +10,7 @@ import de.audi.atip.log.LogChannel;
 
 public class JobSetVideoScale
 extends AbstractFilePlayerJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobSetVideoScale";
     private final VideoScaling videoScaling;
 
     public JobSetVideoScale(LogChannel logChannel, IFilePlayer iFilePlayer, int n, int n2, int n3, int n4) {
@@ -18,9 +18,8 @@ extends AbstractFilePlayerJob {
         this.videoScaling = new VideoScaling(n, n2, n3, n4);
     }
 
-    @Override
     public void start() {
-        this.logger.log(14808325, "[%1.start]", (Object)"JobSetVideoScale");
+        this.logger.log(100000000, "[%1.start]", (Object)LOGCLASS);
         this.getPlayer().getState().setVideoScaling(this.videoScaling);
         this.getExecutionContext().jobFinished();
     }

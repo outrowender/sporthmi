@@ -12,15 +12,13 @@ public class NullETCTTSSpeakService
 extends NullService
 implements TTSSingleSpeakService {
     protected NullETCTTSSpeakService(LogChannel logChannel) {
-        super(logChannel, -1601830656, "TTSService");
+        super(logChannel, 100000, "TTSService");
     }
 
-    @Override
     public void speak(String string) {
         this.log(new Buffer("speak():").append(string).toString());
     }
 
-    @Override
     public void abortSpeaking() {
         this.log("abortSpeaking()");
     }

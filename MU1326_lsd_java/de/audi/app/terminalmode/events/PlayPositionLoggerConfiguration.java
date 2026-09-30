@@ -9,7 +9,7 @@ import de.audi.atip.log.NullLogChannel;
 
 public class PlayPositionLoggerConfiguration {
     private final PlayPositionLogEvent[] logEventConfiguration;
-    private final PlayPositionLogEvent nullPlayPositionEvent = new PlayPositionLogEvent(NullLogChannel.getInstance(), 14808325, 0);
+    private final PlayPositionLogEvent nullPlayPositionEvent = new PlayPositionLogEvent(NullLogChannel.getInstance(), 100000000, 0);
 
     public PlayPositionLoggerConfiguration() {
         this.logEventConfiguration = new PlayPositionLogEvent[PlayPositionEvent.values().length];

@@ -41,9 +41,8 @@ extends AbstractAddressInputWorkFlowManagerEvo {
         this.intersectionScreenWorkFlowManager = new AddressInputIntersectionScreenWorkFlowManagerNAR(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - eventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - eventId=%2", (Object)this.CLASS_NAME, (long)n);
         if (this.isSystemNAR(n)) {
             if (this.isNARMainScreen(n)) {
                 return this.mainScreenWorkFlowManager.handleWorkFlow(commandList, n);
@@ -73,7 +72,6 @@ extends AbstractAddressInputWorkFlowManagerEvo {
         return commandList;
     }
 
-    @Override
     public void setAddressInputManager(IAddressInputManager iAddressInputManager) {
         if (iAddressInputManager instanceof AddressInputManagerNAR) {
             this.addressInputManager = (AddressInputManagerNAR)iAddressInputManager;

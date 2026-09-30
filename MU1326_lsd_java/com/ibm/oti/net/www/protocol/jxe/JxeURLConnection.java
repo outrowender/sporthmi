@@ -25,8 +25,7 @@ extends URLConnection {
         this.jxe = jxe;
     }
 
-    @Override
-    public void connect() {
+    public void connect() throws IOException {
         if (this.jxe == null) {
             throw new IOException(Msg.getString("K01a8"));
         }
@@ -42,7 +41,6 @@ extends URLConnection {
         this.connected = true;
     }
 
-    @Override
     public int getContentLength() {
         try {
             if (!this.connected) {
@@ -53,7 +51,6 @@ extends URLConnection {
         return this.length;
     }
 
-    @Override
     public String getContentType() {
         try {
             if (!this.connected) {
@@ -73,13 +70,11 @@ extends URLConnection {
         return string;
     }
 
-    @Override
     public boolean getDoOutput() {
         return false;
     }
 
-    @Override
-    public InputStream getInputStream() {
+    public InputStream getInputStream() throws IOException {
         if (!this.connected) {
             this.connect();
         }
@@ -90,8 +85,7 @@ extends URLConnection {
         return this.jxe;
     }
 
-    @Override
-    public Permission getPermission() {
+    public Permission getPermission() throws IOException {
         return new JxePermission(this.getURL().getHost());
     }
 }

@@ -23,7 +23,6 @@ implements ICarSDISService {
     public void asiAvailable(boolean bl) {
     }
 
-    @Override
     public void sendData(Object object) {
     }
 }

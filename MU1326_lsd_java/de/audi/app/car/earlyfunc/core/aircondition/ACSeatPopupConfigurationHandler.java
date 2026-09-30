@@ -11,8 +11,8 @@ public class ACSeatPopupConfigurationHandler {
     private final LogChannel logChannel;
     private volatile AirconMasterViewOptions viewOptions;
     private boolean driversideLeft = true;
-    public static final int ZONE_FRONT_LEFT;
-    public static final int ZONE_FRONT_RIGHT;
+    public static final int ZONE_FRONT_LEFT = 1;
+    public static final int ZONE_FRONT_RIGHT = 2;
 
     public ACSeatPopupConfigurationHandler(LogChannel logChannel) {
         this.logChannel = logChannel;

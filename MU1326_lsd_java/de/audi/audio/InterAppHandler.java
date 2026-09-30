@@ -20,20 +20,20 @@ public class InterAppHandler {
     }
 
     public void register(ATIPAudioServiceListener aTIPAudioServiceListener) {
-        this.lc.log(-2137614336, "[InterAppHandler.register] ATIPAudioListener:%1", (Object)aTIPAudioServiceListener);
+        this.lc.log(10000000, "[InterAppHandler.register] ATIPAudioListener:%1", (Object)aTIPAudioServiceListener);
         this.listener = aTIPAudioServiceListener;
         if (this.activeConn != 0) {
-            this.lc.log(-2137614336, "[InterAppHandler.register] %1 -> AAC:%2", (Object)aTIPAudioServiceListener, (long)this.activeConn);
+            this.lc.log(10000000, "[InterAppHandler.register] %1 -> AAC:%2", (Object)aTIPAudioServiceListener, (long)this.activeConn);
             this.updateActiveConnection(this.activeConn, 0);
         }
         if (this.activeEntConn != 0) {
-            this.lc.log(-2137614336, "[InterAppHandler.register] %1 -> AEC:%2", (Object)aTIPAudioServiceListener, (long)this.activeEntConn);
+            this.lc.log(10000000, "[InterAppHandler.register] %1 -> AEC:%2", (Object)aTIPAudioServiceListener, (long)this.activeEntConn);
             this.updateActiveEntertainmentConnection(this.activeEntConn, 0);
         }
     }
 
     public void deregister() {
-        this.lc.log(-2137614336, "[InterAppHandler.deregister]");
+        this.lc.log(10000000, "[InterAppHandler.deregister]");
         this.listener = new NullATIPAudioServiceListener(this.lc);
     }
 

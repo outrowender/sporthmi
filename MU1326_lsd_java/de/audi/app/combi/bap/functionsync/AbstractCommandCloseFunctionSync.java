@@ -16,23 +16,20 @@ implements IAcknowledgeListener {
         super(abstractBAPModuleFSG, abstractFunctionSynchronization, "CommandCloseFunctionSync");
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[AbstractCommandCloseFunctionSync#execute] [%1] start command", (Object)this.functionSync.getSyncTypeDescription());
+        this.logger.log(10000000, "[AbstractCommandCloseFunctionSync#execute] [%1] start command", (Object)this.functionSync.getSyncTypeDescription());
         this.functionSync.getFctSyncProperty().addAcknowledgeListener(this);
         this.functionSync.setSyncState(3);
         this.functionSync.getFctSyncProperty().sendStatusIfChanged(this.createFunctionSynchronizationStatus());
     }
 
-    @Override
     public void abort() {
         this.removeAllListeners();
         super.abort();
     }
 
-    @Override
     public void processAcknowledge(int n, int n2) {
-        this.logger.log(-2137614336, "[AbstractCommandCloseFunctionSync#processAcknowledge] [%1] fctID=%2, acknowledgeType=%3", (Object)this.functionSync.getSyncTypeDescription(), (long)n, (long)n2);
+        this.logger.log(10000000, "[AbstractCommandCloseFunctionSync#processAcknowledge] [%1] fctID=%2, acknowledgeType=%3", (Object)this.functionSync.getSyncTypeDescription(), (long)n, (long)n2);
         this.functionSync.setSyncState(4);
         this.removeAllListeners();
         this.commandList.commandFinished();
@@ -42,7 +39,6 @@ implements IAcknowledgeListener {
         this.functionSync.getFctSyncProperty().removeAcknowledgeListener(this);
     }
 
-    protected abstract StatusProperty createFunctionSynchronizationStatus() {
-    }
+    protected abstract StatusProperty createFunctionSynchronizationStatus();
 }
 

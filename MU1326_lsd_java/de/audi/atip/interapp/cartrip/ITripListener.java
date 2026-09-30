@@ -6,7 +6,6 @@ package de.audi.atip.interapp.cartrip;
 import de.audi.atip.metrics.AbstractMetrics;
 
 public interface ITripListener {
-    default public void updateMetrics(int n, AbstractMetrics abstractMetrics) {
-    }
+    public void updateMetrics(int var1, AbstractMetrics var2);
 }
 

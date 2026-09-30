@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface IEjectHandler {
-    default public void ejectCD() {
-    }
+    public void ejectCD();
 }
 

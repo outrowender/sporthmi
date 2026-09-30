@@ -3,8 +3,6 @@
  */
 package de.audi.atip.interapp.bap.eni.data;
 
-import de.audi.atip.interapp.bap.eni.data.SupportedRemoteProcesses$Builder;
-
 public final class SupportedRemoteProcesses {
     private final boolean updateUserListSupported;
     private final boolean deleteUserListSupported;
@@ -13,8 +11,8 @@ public final class SupportedRemoteProcesses {
     private final boolean confirmServiceExpirationWarningSupported;
     private final boolean terminateRemoteProcessSupported;
 
-    public static SupportedRemoteProcesses$Builder builder() {
-        return new SupportedRemoteProcesses$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private SupportedRemoteProcesses(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
@@ -68,7 +66,7 @@ public final class SupportedRemoteProcesses {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         SupportedRemoteProcesses supportedRemoteProcesses = (SupportedRemoteProcesses)object;
@@ -92,6 +90,49 @@ public final class SupportedRemoteProcesses {
 
     public String toString() {
         return new StringBuffer().append("SupportedRemoteProcesses [updateUserListSupported=").append(this.updateUserListSupported).append(", deleteUserListSupported=").append(this.deleteUserListSupported).append(", pairMainUserUsingPairingCodeSupported=").append(this.pairMainUserUsingPairingCodeSupported).append(", pairMainUserUsingVehiclePinSupported=").append(this.pairMainUserUsingVehiclePinSupported).append(", confirmServiceExpirationWarningSupported=").append(this.confirmServiceExpirationWarningSupported).append(", terminateRemoteProcessSupported=").append(this.terminateRemoteProcessSupported).append("]").toString();
+    }
+
+    public static final class Builder {
+        private boolean updateUserListSupported;
+        private boolean deleteUserListSupported;
+        private boolean pairMainUserUsingPairingCodeSupported;
+        private boolean pairMainUserUsingVehiclePinSupported;
+        private boolean confirmServiceExpirationWarningSupported;
+        private boolean terminateRemoteProcessSupported;
+
+        public Builder setUpdateUserListSupported(boolean bl) {
+            this.updateUserListSupported = bl;
+            return this;
+        }
+
+        public Builder setDeleteUserListSupported(boolean bl) {
+            this.deleteUserListSupported = bl;
+            return this;
+        }
+
+        public Builder setPairMainUserUsingPairingCodeSupported(boolean bl) {
+            this.pairMainUserUsingPairingCodeSupported = bl;
+            return this;
+        }
+
+        public Builder setPairMainUserUsingVehiclePinSupported(boolean bl) {
+            this.pairMainUserUsingVehiclePinSupported = bl;
+            return this;
+        }
+
+        public Builder setConfirmServiceExpirationWarningSupported(boolean bl) {
+            this.confirmServiceExpirationWarningSupported = bl;
+            return this;
+        }
+
+        public Builder setTerminateRemoteProcessSupported(boolean bl) {
+            this.terminateRemoteProcessSupported = bl;
+            return this;
+        }
+
+        public SupportedRemoteProcesses build() {
+            return new SupportedRemoteProcesses(this.updateUserListSupported, this.deleteUserListSupported, this.pairMainUserUsingPairingCodeSupported, this.pairMainUserUsingVehiclePinSupported, this.confirmServiceExpirationWarningSupported, this.terminateRemoteProcessSupported);
+        }
     }
 }
 

@@ -17,15 +17,14 @@ extends AbstractSystemCallCommand {
         this.messagingService = iMessagingDictationService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         this.messagingService.requestClearRecipients(0);
     }
 
     public void responseClearRecipients(int n) {
-        this.logger.log(-2137614336, "%1#responseClearRecipients(), response=%2", (Object)this.getName(), (long)n);
-        this.sendResult(n == 0 ? -131858176 : -115080960);
+        this.logger.log(10000000, "%1#responseClearRecipients(), response=%2", (Object)this.getName(), (long)n);
+        this.sendResult(n == 0 ? 75000 : 75001);
     }
 }
 

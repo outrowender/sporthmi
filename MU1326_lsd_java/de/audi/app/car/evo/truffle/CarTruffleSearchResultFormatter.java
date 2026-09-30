@@ -19,9 +19,8 @@ extends AbstractSearchResultFormatter {
         this.logChannel = logChannel;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
-        this.logChannel.log(1078071040, "[CarTruffleSearchResultFormatter#formatResult] result='%1'", (Object)searchResult);
+        this.logChannel.log(1000000, "[CarTruffleSearchResultFormatter#formatResult] result='%1'", (Object)searchResult);
         CarSearchResultListRow carSearchResultListRow = new CarSearchResultListRow(searchResult);
         Token[] tokenArray = searchResult.getTokens();
         Token token = AbstractSearchResultFormatter.getTokenForType(tokenArray, 5);

@@ -18,11 +18,9 @@ extends AbstractEngineeringSelectionManager {
         super(swdlEnv, abstractSwdlJoinedDownloadState, abstractPopupManager, abstractEngineeringDeviceInfoManager, swdlDSIHandlerSelection, swdlDSIHandlerDeviceInfo, swdlDSIHandlerProgress);
     }
 
-    @Override
     protected void fireSMEventTriggerDownloadAborting(int n) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 }

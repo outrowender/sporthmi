@@ -3,9 +3,11 @@
  */
 package de.audi.app.navi.evo.asia;
 
-import de.audi.app.navi.evo.asia.AsiaDbPartialMapUpdateHMIListener$AsiaDbPartialMapUpdateButtonListener;
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.command.TriggerNavigationRestartCommand;
 
 public class AsiaDbPartialMapUpdateHMIListener {
     private NavigationEnv env;
@@ -18,16 +20,29 @@ public class AsiaDbPartialMapUpdateHMIListener {
     }
 
     private final void initListeners() {
-        AsiaDbPartialMapUpdateHMIListener$AsiaDbPartialMapUpdateButtonListener asiaDbPartialMapUpdateHMIListener$AsiaDbPartialMapUpdateButtonListener = new AsiaDbPartialMapUpdateHMIListener$AsiaDbPartialMapUpdateButtonListener(this, null);
-        this.env.getButtonModel(874579456).setButtonListener(asiaDbPartialMapUpdateHMIListener$AsiaDbPartialMapUpdateButtonListener);
+        AsiaDbPartialMapUpdateButtonListener asiaDbPartialMapUpdateButtonListener = new AsiaDbPartialMapUpdateButtonListener();
+        this.env.getButtonModel(401716).setButtonListener(asiaDbPartialMapUpdateButtonListener);
     }
 
-    static /* synthetic */ NavigationEnv access$100(AsiaDbPartialMapUpdateHMIListener asiaDbPartialMapUpdateHMIListener) {
-        return asiaDbPartialMapUpdateHMIListener.env;
-    }
+    private class AsiaDbPartialMapUpdateButtonListener
+    extends DefaultButtonListener {
+        private AsiaDbPartialMapUpdateButtonListener() {
+        }
 
-    static /* synthetic */ ICommandListFactory access$200(AsiaDbPartialMapUpdateHMIListener asiaDbPartialMapUpdateHMIListener) {
-        return asiaDbPartialMapUpdateHMIListener.commandListFactory;
+        public void keyPressed(int n, int n2, int n3) {
+            AsiaDbPartialMapUpdateHMIListener.this.env.getLogChannel().log(1000000, "AsiaDbPartialMapUpdateHMIListener#AsiaDbPartialMapUpdateButtonListener#keyPressed model=%1 key=%2", (long)n, (long)n2);
+            switch (n) {
+                case 401716: {
+                    AsiaDbPartialMapUpdateHMIListener.this.env.getButtonModel(n).setStatus(0);
+                    AsiaDbPartialMapUpdateHMIListener.this.env.getChoiceModel(401725).setValue(1);
+                    CommandList commandList = AsiaDbPartialMapUpdateHMIListener.this.commandListFactory.createCommandList();
+                    commandList.add(new TriggerNavigationRestartCommand());
+                    commandList.execute("AsiaDbPartialMapUpdateButtonListener at RESTART_NAVIGATION_BUNDLE_BUTTON");
+                    break;
+                }
+            }
+            AsiaDbPartialMapUpdateHMIListener.this.env.getButtonModel(n).fireEvent(n3);
+        }
     }
 }
 

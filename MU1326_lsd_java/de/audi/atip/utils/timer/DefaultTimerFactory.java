@@ -10,12 +10,10 @@ import de.audi.atip.utils.timer.ITimerFactory;
 
 public class DefaultTimerFactory
 implements ITimerFactory {
-    @Override
     public Timer createTimer(String string, int n, LogChannel logChannel, TimerListener timerListener, long l, boolean bl) {
         return new Timer(string, n, logChannel, timerListener, l, bl);
     }
 
-    @Override
     public Timer createTimer(String string, TimerListener timerListener, long l, boolean bl) {
         return new Timer(string, l, bl, timerListener);
     }

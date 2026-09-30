@@ -23,19 +23,17 @@ extends AbstractBluetoothCommand {
         this.accessibleMode = n;
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.setAccessibleMode(this.accessibleMode);
         } else {
-            this.logger.log(-1601830656, "CommandSetAccessibleMode#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandSetAccessibleMode#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void responseSetAccessibleMode(int n) {
-        this.logger.log(1078071040, "CommandSetAccessibleMode#responseSetAccessibleMode(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandSetAccessibleMode#responseSetAccessibleMode(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

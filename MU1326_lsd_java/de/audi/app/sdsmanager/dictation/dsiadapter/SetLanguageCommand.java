@@ -4,8 +4,8 @@
 package de.audi.app.sdsmanager.dictation.dsiadapter;
 
 import de.audi.app.sdsmanager.dictation.DictationComponentManager;
+import de.audi.app.sdsmanager.dictation.command.AbstractCommand;
 import de.audi.app.sdsmanager.dictation.dsi.AbstractDsiOnlineDictationCommand;
-import de.audi.app.sdsmanager.dictation.dsiadapter.SetLanguageCommand$1;
 import de.audi.tghu.command.Command;
 import de.audi.tghu.command.Monitor;
 
@@ -25,10 +25,9 @@ extends AbstractDsiOnlineDictationCommand {
         setLanguageCommand.schedule(monitor);
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[SetLanguageCommand#execute]");
+            this.logger.log(10000000, "[SetLanguageCommand#execute]");
             if (!this.isFallbackLanguage) {
                 this.dsiOnlineDictationAccess.setLanguage(this.languageCode);
             } else {
@@ -42,9 +41,8 @@ extends AbstractDsiOnlineDictationCommand {
         }
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 5000L;
     }
 
     /*
@@ -52,7 +50,7 @@ extends AbstractDsiOnlineDictationCommand {
      */
     private void signalResult(int n) {
         try {
-            this.logger.log(-2137614336, "[SetLanguageCommand#signalResult] result = %1", (long)n);
+            this.logger.log(10000000, "[SetLanguageCommand#signalResult] result = %1", (long)n);
             this.dictationComponentManager.getDsiDictationAdapter().handleSetLanguageResult(n, this.languageCode, this.isFallbackLanguage);
         }
         catch (Exception exception) {
@@ -63,13 +61,14 @@ extends AbstractDsiOnlineDictationCommand {
         }
     }
 
-    @Override
     protected Command getErrorCommand() {
-        return new SetLanguageCommand$1(this, this.dictationComponentManager);
-    }
+        return new AbstractCommand(this.dictationComponentManager){
 
-    static /* synthetic */ void access$000(SetLanguageCommand setLanguageCommand, int n) {
-        setLanguageCommand.signalResult(n);
+            public void execute() {
+                this.logger.log(10000000, "[SetLanguageErrorCommand#execute]");
+                SetLanguageCommand.this.signalResult(1);
+            }
+        };
     }
 }
 

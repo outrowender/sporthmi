@@ -8,8 +8,8 @@ import de.audi.atip.hmi.modelaccess.ICopyTo;
 
 public class LinkedList
 implements ICopyTo {
-    public static final int UNKNOWN_SIZE;
-    public static final boolean DEBUG;
+    public static final int UNKNOWN_SIZE = -1;
+    public static final boolean DEBUG = false;
     public ListNode head = new ListNode();
     public ListNode tail;
     public int size = 0;
@@ -192,7 +192,6 @@ implements ICopyTo {
         return iCopyToArray;
     }
 
-    @Override
     public boolean copyTo(ICopyTo iCopyTo) {
         if (!(iCopyTo instanceof LinkedList)) {
             return false;

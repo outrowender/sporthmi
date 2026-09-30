@@ -15,110 +15,91 @@ import org.dsi.ifc.carplay.TouchEvent;
 
 public class NullDSICarplay
 implements DSICarplay {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NullDSIDigitailIpodOut";
     private final LogChannel logger;
 
     public NullDSICarplay(LogChannel logChannel) {
         this.logger = logChannel;
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.setNotification]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.setNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.setNotification]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.setNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.setNotification]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.setNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.clearNotification]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.clearNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.clearNotification]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.clearNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
-        this.logger.log(1078071040, "[%1.clearNotification]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.clearNotification]", (Object)LOGCLASS);
     }
 
-    @Override
     public void responseBTDeactivation() {
-        this.logger.log(1078071040, "[%1.responseBTDeactivation]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.responseBTDeactivation]", (Object)LOGCLASS);
     }
 
-    @Override
     public void requestUI(int n) {
-        this.logger.log(1078071040, "[%1.requestUI]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.requestUI]", (Object)LOGCLASS);
     }
 
-    @Override
     public void requestUI2(String string) {
-        this.logger.log(1078071040, "[%1.requestUI]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.requestUI]", (Object)LOGCLASS);
     }
 
-    @Override
     public void postTouchEvent(int n, int n2, TouchEvent[] touchEventArray) {
-        this.logger.log(1078071040, "[%1.postTouchEvent]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.postTouchEvent]", (Object)LOGCLASS);
     }
 
-    @Override
     public void startService(ServiceConfiguration serviceConfiguration) {
-        this.logger.log(1078071040, "[%1.startService]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.startService]", (Object)LOGCLASS);
     }
 
     public void stopService() {
-        this.logger.log(1078071040, "[%1.stopService]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.stopService]", (Object)LOGCLASS);
     }
 
-    @Override
     public void postButtonEvent(int n, int n2) {
-        this.logger.log(1078071040, "[%1.postButtonEvent]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.postButtonEvent]", (Object)LOGCLASS);
     }
 
-    @Override
     public void postRotaryEvent(int n) {
-        this.logger.log(1078071040, "[%1.postRotaryEvent]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.postRotaryEvent]", (Object)LOGCLASS);
     }
 
-    @Override
     public void postCharacterEvent(int n, String[] stringArray) {
-        this.logger.log(1078071040, "[%1.postCharacterEvent]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.postCharacterEvent]", (Object)LOGCLASS);
     }
 
-    @Override
     public void requestModeChange(ResourceRequest[] resourceRequestArray, AppStateRequest[] appStateRequestArray, String string) {
-        this.logger.log(1078071040, "[%1.requestModeChange]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.requestModeChange]", (Object)LOGCLASS);
     }
 
-    @Override
     public void requestNightMode(boolean bl) {
-        this.logger.log(1078071040, "[%1.requestNightMode]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.requestNightMode]", (Object)LOGCLASS);
     }
 
-    @Override
     public void requestSIRIAction(int n) {
-        this.logger.log(1078071040, "[%1.requestSIRIAction]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.requestSIRIAction]", (Object)LOGCLASS);
     }
 
-    @Override
     public void responseUpdateMode(Resource[] resourceArray, AppState[] appStateArray) {
-        this.logger.log(1078071040, "[%1.responseUpdateMode]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.responseUpdateMode]", (Object)LOGCLASS);
     }
 
-    @Override
     public void responseUpdateMainAudioType(int n) {
-        this.logger.log(1078071040, "[%1.responseUpdateMainAudioType]", (Object)"NullDSIDigitailIpodOut");
+        this.logger.log(1000000, "[%1.responseUpdateMainAudioType]", (Object)LOGCLASS);
     }
 }
 

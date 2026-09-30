@@ -18,15 +18,14 @@ extends AbstractSystemCallCommand {
         this.naviService = naviService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         this.naviService.requestCurrentSpeedLimit();
     }
 
     public void responseCurrentSpeedLimit(byte by, int n, byte by2) {
-        this.logger.log(-2137614336, "%1#responseCurrentSpeedLimit: result=%2", (Object)this.getName(), (long)by);
-        this.logger.log(-2137614336, "%1#responseCurrentSpeedLimit: speedLimit=%2, speedUnit=%3", (Object)this.getName(), (long)n, (long)by2);
+        this.logger.log(10000000, "%1#responseCurrentSpeedLimit: result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#responseCurrentSpeedLimit: speedLimit=%2, speedUnit=%3", (Object)this.getName(), (long)n, (long)by2);
         SDSModelAccess.setSpeedLimitValue(n);
         SDSModelAccess.setSpeedLimitUnit(by2);
         this.sendResult(3000);

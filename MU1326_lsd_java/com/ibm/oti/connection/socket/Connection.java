@@ -5,8 +5,7 @@ package com.ibm.oti.connection.socket;
 
 import com.ibm.oti.connection.ConnectionUtil;
 import com.ibm.oti.connection.CreateConnection;
-import com.ibm.oti.connection.socket.Connection$1;
-import com.ibm.oti.connection.socket.Connection$2;
+import com.ibm.oti.connection.socket.Socket;
 import com.ibm.oti.connection.socket.SocketHelper;
 import com.ibm.oti.util.Msg;
 import java.io.DataInputStream;
@@ -14,7 +13,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import javax.microedition.io.ConnectionNotFoundException;
@@ -23,29 +21,28 @@ import javax.microedition.io.SocketConnection;
 public class Connection
 implements CreateConnection,
 SocketConnection {
-    static final int DEFAULT_TIMEOUT;
-    private static final int UNOPENED;
-    private static final int OPEN;
-    private static final int CLOSED;
+    static final int DEFAULT_TIMEOUT = 8000;
+    private static final int UNOPENED = 0;
+    private static final int OPEN = 1;
+    private static final int CLOSED = 2;
     private String host;
     private int access;
     private int port = 0;
     private int timeout = 0;
     private int inputStatus = 0;
     private int outputStatus = 0;
-    private Socket socket;
+    private java.net.Socket socket;
 
     public Connection() {
     }
 
-    public Connection(Socket socket) {
+    public Connection(java.net.Socket socket) {
         this.host = "";
         this.access = 3;
         this.socket = socket;
     }
 
-    @Override
-    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) {
+    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) throws IOException {
         if (string.startsWith("//") && (string.length() == 2 || string.length() > 2 && (string.charAt(2) == ':' || string.charAt(2) == ';'))) {
             Class clazz = null;
             try {
@@ -74,7 +71,7 @@ SocketConnection {
         return this;
     }
 
-    private void setParameters(String string, int n, boolean bl) {
+    private void setParameters(String string, int n, boolean bl) throws IOException {
         String[][] stringArray = ConnectionUtil.NO_PARAMETERS;
         int n2 = string.indexOf(59);
         if (n2 != -1) {
@@ -84,7 +81,7 @@ SocketConnection {
         this.setParameters(string, stringArray, n, bl);
     }
 
-    private void setParameters(String string, String[][] stringArray, int n, boolean bl) {
+    private void setParameters(String string, String[][] stringArray, int n, boolean bl) throws IOException {
         int[] nArray = new int[1];
         boolean bl2 = false;
         boolean bl3 = false;
@@ -100,8 +97,8 @@ SocketConnection {
                 this.timeout = nArray[0];
             } else if (ConnectionUtil.intParam("so_linger", stringArray[n5], 1, nArray)) {
                 n2 = nArray[0];
-                if (n2 > -65536) {
-                    n2 = -65536;
+                if (n2 > 65535) {
+                    n2 = 65535;
                 }
             } else if (stringArray[n5][0].equals("tcp_nodelay")) {
                 string2 = stringArray[n5][1].toLowerCase();
@@ -136,7 +133,7 @@ SocketConnection {
         }
         this.host = SocketHelper.parseURL(string, nArray, true, false);
         try {
-            this.socket = new Socket(this.host, nArray[0]);
+            this.socket = new java.net.Socket(this.host, nArray[0]);
         }
         catch (UnknownHostException unknownHostException) {
             throw new ConnectionNotFoundException(Msg.getString("K01ce", this.host, unknownHostException.getMessage()));
@@ -172,16 +169,14 @@ SocketConnection {
         }
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.host = null;
         if (this.inputStatus != 1 && this.outputStatus != 1) {
             this.socket.close();
         }
     }
 
-    @Override
-    public InputStream openInputStream() {
+    public InputStream openInputStream() throws IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -192,11 +187,53 @@ SocketConnection {
             throw new IOException(Msg.getString("K0059"));
         }
         this.inputStatus = 1;
-        return new Connection$1(this);
+        return new InputStream(){
+            InputStream stream;
+            {
+                this.stream = Connection.this.socket.getInputStream();
+            }
+
+            public int available() throws IOException {
+                if (Connection.this.inputStatus == 2) {
+                    throw new IOException(Msg.getString("K0059"));
+                }
+                return this.stream.available();
+            }
+
+            public long skip(int n) throws IOException {
+                if (Connection.this.inputStatus == 2) {
+                    throw new IOException(Msg.getString("K0059"));
+                }
+                return this.stream.skip(n);
+            }
+
+            public void close() throws IOException {
+                if (Connection.this.inputStatus != 2) {
+                    Connection.this.inputStatus = 2;
+                    if (Connection.this.outputStatus != 1 && Connection.this.host == null) {
+                        this.stream.close();
+                    }
+                }
+            }
+
+            public int read(byte[] byArray, int n, int n2) throws IOException {
+                if (Connection.this.inputStatus == 2) {
+                    throw new IOException(Msg.getString("K0059"));
+                }
+                int n3 = this.stream.read(byArray, n, n2);
+                return n3;
+            }
+
+            public int read() throws IOException {
+                if (Connection.this.inputStatus == 2) {
+                    throw new IOException(Msg.getString("K0059"));
+                }
+                return this.stream.read();
+            }
+        };
     }
 
-    @Override
-    public OutputStream openOutputStream() {
+    public OutputStream openOutputStream() throws IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -207,53 +244,84 @@ SocketConnection {
             throw new IOException(Msg.getString("K0059"));
         }
         this.outputStatus = 1;
-        return new Connection$2(this);
+        return new OutputStream(){
+            OutputStream stream;
+            {
+                this.stream = Connection.this.socket.getOutputStream();
+            }
+
+            public void close() throws IOException {
+                if (Connection.this.outputStatus != 2) {
+                    if ((Socket.getSocketFlags() & 8) == 0 || Connection.this.socket.getSoLinger() == -1) {
+                        Connection.this.socket.shutdownOutput();
+                    }
+                    Connection.this.outputStatus = 2;
+                    if (Connection.this.inputStatus != 1 && Connection.this.host == null) {
+                        this.stream.close();
+                    }
+                }
+            }
+
+            public void write(int n) throws IOException {
+                if (Connection.this.outputStatus == 2) {
+                    throw new IOException(Msg.getString("K0059"));
+                }
+                this.stream.write(n);
+            }
+
+            public void write(byte[] byArray, int n, int n2) throws IOException {
+                if (Connection.this.outputStatus == 2) {
+                    throw new IOException(Msg.getString("K0059"));
+                }
+                this.stream.write(byArray, n, n2);
+            }
+
+            public void flush() throws IOException {
+                if (Connection.this.outputStatus == 2) {
+                    throw new IOException(Msg.getString("K0059"));
+                }
+                this.stream.flush();
+            }
+        };
     }
 
-    @Override
-    public DataInputStream openDataInputStream() {
+    public DataInputStream openDataInputStream() throws IOException {
         return new DataInputStream(this.openInputStream());
     }
 
-    @Override
-    public DataOutputStream openDataOutputStream() {
+    public DataOutputStream openDataOutputStream() throws IOException {
         return new DataOutputStream(this.openOutputStream());
     }
 
-    @Override
-    public String getLocalAddress() {
+    public String getLocalAddress() throws IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
         return this.socket.getLocalAddress().getHostAddress();
     }
 
-    @Override
-    public int getLocalPort() {
+    public int getLocalPort() throws IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
         return this.socket.getLocalPort();
     }
 
-    @Override
-    public String getAddress() {
+    public String getAddress() throws IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
         return this.socket.getInetAddress().getHostAddress();
     }
 
-    @Override
-    public int getPort() {
+    public int getPort() throws IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
         return this.socket.getPort();
     }
 
-    @Override
-    public int getSocketOption(byte by) {
+    public int getSocketOption(byte by) throws IllegalArgumentException, IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -283,8 +351,7 @@ SocketConnection {
         }
     }
 
-    @Override
-    public void setSocketOption(byte by, int n) {
+    public void setSocketOption(byte by, int n) throws IllegalArgumentException, IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -328,30 +395,6 @@ SocketConnection {
         catch (IOException iOException) {
             return 0;
         }
-    }
-
-    static /* synthetic */ Socket access$0(Connection connection) {
-        return connection.socket;
-    }
-
-    static /* synthetic */ int access$1(Connection connection) {
-        return connection.inputStatus;
-    }
-
-    static /* synthetic */ void access$2(Connection connection, int n) {
-        connection.inputStatus = n;
-    }
-
-    static /* synthetic */ int access$3(Connection connection) {
-        return connection.outputStatus;
-    }
-
-    static /* synthetic */ String access$4(Connection connection) {
-        return connection.host;
-    }
-
-    static /* synthetic */ void access$5(Connection connection, int n) {
-        connection.outputStatus = n;
     }
 }
 

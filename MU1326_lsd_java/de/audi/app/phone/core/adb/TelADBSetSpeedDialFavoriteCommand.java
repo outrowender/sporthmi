@@ -23,9 +23,8 @@ extends AbstractADBCommand {
         this.speedDialEntry = adbEntry;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "TelADBSetSpeedDialFavoriteCommand#execute()");
+        this.logger.log(1000000, "TelADBSetSpeedDialFavoriteCommand#execute()");
         boolean bl = this.adbDSIAccess.setSpeedDial(this.speedDialEntry);
         if (!bl) {
             this.logger.log(10000, "TelADBSetSpeedDialFavoriteCommand#execute(): dsi call was not successful, finishing command.");
@@ -33,9 +32,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setSpeedDialResult(int n) {
-        this.logger.log(1078071040, "TelADBSetSpeedDialFavoriteCommand#setSpeedDialResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "TelADBSetSpeedDialFavoriteCommand#setSpeedDialResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

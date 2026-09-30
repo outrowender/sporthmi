@@ -9,29 +9,29 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class GestureEvent
 extends ATIPEvent {
-    public static final int OFFSET_EVENT_ID;
-    public static final int GESTURE_EVENT_INVALID;
-    public static final int GESTURE_EVENT_PRESS;
-    public static final int GESTURE_EVENT_RELEASE;
-    public static final int GESTURE_EVENT_MOVE;
-    public static final int GESTURE_EVENT_FLICK;
-    public static final int GESTURE_EVENT_TAP;
-    public static final int GESTURE_EVENT_ZOOM;
-    public static final int GESTURE_EVENT_ROTATE;
-    public static final int GESTURE_EVENT_PRESS2;
-    public static final int GESTURE_EVENT_CHARS_RECOGNIZED;
-    public static final int GESTURE_EVENT_FLICK2;
-    public static final int GESTURE_EVENT_DRAG2;
-    public static final int GESTURE_EVENT_LONG_PRESS;
-    public static final int GESTURE_EVENT_UPDATE_TOUCH_AREA;
-    public static final double[] PGEN2_COORDINATE_SACLING;
+    public static final int OFFSET_EVENT_ID = 10901;
+    public static final int GESTURE_EVENT_INVALID = 10901;
+    public static final int GESTURE_EVENT_PRESS = 10902;
+    public static final int GESTURE_EVENT_RELEASE = 10903;
+    public static final int GESTURE_EVENT_MOVE = 10904;
+    public static final int GESTURE_EVENT_FLICK = 10905;
+    public static final int GESTURE_EVENT_TAP = 10906;
+    public static final int GESTURE_EVENT_ZOOM = 10907;
+    public static final int GESTURE_EVENT_ROTATE = 10908;
+    public static final int GESTURE_EVENT_PRESS2 = 10909;
+    public static final int GESTURE_EVENT_CHARS_RECOGNIZED = 10910;
+    public static final int GESTURE_EVENT_FLICK2 = 10911;
+    public static final int GESTURE_EVENT_DRAG2 = 10912;
+    public static final int GESTURE_EVENT_LONG_PRESS = 10913;
+    public static final int GESTURE_EVENT_UPDATE_TOUCH_AREA = 10914;
+    public static final double[] PGEN2_COORDINATE_SACLING = new double[]{1.40625, 1.0};
     private long timestamp;
     private int code;
     private int x;
-    private static double scaleFactorX;
+    private static double scaleFactorX = 1.0;
     private int y;
-    private static double scaleFactorY;
-    private static boolean doScaling;
+    private static double scaleFactorY = 1.0;
+    private static boolean doScaling = false;
     private int param1;
     private int param2;
     private String[] recognizedCharacters;
@@ -248,20 +248,13 @@ extends ATIPEvent {
                 return "GESTURE_EVENT_UPDATE_TOUCH_AREA";
             }
         }
-        return new StringBuffer().append("Invalid type id: ").append(n).toString();
+        return "Invalid type id: " + n;
     }
 
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("GestureEvent:[receiver: ").append(this.getReceiver()).append(", id: ").append(this.getID()).append(", timestamp: ").append(this.timestamp).append(", code: ").append(this.code).append(", type: ").append(GestureEvent.typeIdToText(this.getID())).append(", managed: ").append(this.managed).append(", coordinates: (").append(this.x).append(",").append(this.y).append(")").append(", param1: ").append(this.param1).append(", param2: ").append(this.param2).append(", rotationAngle: ").append(this.getRotationAngle()).append(", getXDelta(): ").append(this.getXDelta()).append(", getYDelta(): ").append(this.getYDelta()).append("]");
         return buffer.toString();
-    }
-
-    static {
-        PGEN2_COORDINATE_SACLING = new double[]{1.40625, 1.0};
-        scaleFactorX = 1.0;
-        scaleFactorY = 1.0;
-        doScaling = false;
     }
 }
 

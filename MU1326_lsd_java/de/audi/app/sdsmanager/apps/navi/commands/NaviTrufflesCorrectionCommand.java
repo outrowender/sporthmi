@@ -28,35 +28,34 @@ extends AbstractSystemCallCommand {
         this.naviTrufflesHistory = naviSDSTrufflesHistoryHelper;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called!", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called!", (Object)this.getName());
         this.speechRecognitionHandler.deleteLastTrufflesSearchText();
     }
 
     public void responseDeleteLastTrufflesSearchText(int n, NBestList nBestList) {
-        this.logger.log(-2137614336, "%1#responseDeleteLastTrufflesSearchText: replyCode=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseDeleteLastTrufflesSearchText: replyCode=%2!", (Object)this.getName(), (long)n);
         if (n != 0) {
-            this.sendResult(1100742656);
+            this.sendResult(40001);
             return;
         }
         if (SDSUtils.isEmpty(nBestList)) {
-            this.logger.log(-2137614336, "%1#responseDeleteLastTrufflesSearchText: N-Best list is empty => also clear truffles search history!", (Object)this.getName());
+            this.logger.log(10000000, "%1#responseDeleteLastTrufflesSearchText: N-Best list is empty => also clear truffles search history!", (Object)this.getName());
             this.naviTrufflesHistory.clearLastTruffleSearchTexts();
             this.speechRecognitionHandler.clearTrufflesSearchHistory();
             return;
         }
         this.nBestStorageAccess.storeNBestList(nBestList);
-        this.sendResult(1083965440);
+        this.sendResult(40000);
     }
 
     public void responseClearTrufflesSearchHistory(int n) {
-        this.logger.log(-2137614336, "%1#responseClearTrufflesSearchHistory: replyCode=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseClearTrufflesSearchHistory: replyCode=%2!", (Object)this.getName(), (long)n);
         if (n == 0) {
             this.naviService.cancelSDSTrufflesSearch(true);
-            this.sendResult(1234960384);
+            this.sendResult(40009);
         } else {
-            this.sendResult(1100742656);
+            this.sendResult(40001);
         }
     }
 }

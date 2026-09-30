@@ -4,31 +4,22 @@
 package de.audi.app.ecall.core.audio.cmd;
 
 public interface IEcallAudioCmdManager {
-    default public void schedulePhoneEcallAudioScenario(int n, boolean bl) {
-    }
+    public void schedulePhoneEcallAudioScenario(int var1, boolean var2);
 
-    default public void schedulePhoneEcallHighAudioScenario(int n) {
-    }
+    public void schedulePhoneEcallHighAudioScenario(int var1);
 
-    default public void schedulePhoneVoiceHighAudioScenario(int n) {
-    }
+    public void schedulePhoneVoiceHighAudioScenario(int var1);
 
-    default public void schedulePhoneVoiceLowAudioScenario(int n) {
-    }
+    public void schedulePhoneVoiceLowAudioScenario(int var1);
 
-    default public void scheduleEcallMuteAudioScenario(int n) {
-    }
+    public void scheduleEcallMuteAudioScenario(int var1);
 
-    default public void scheduleMutePinAudioScenarioRequest() {
-    }
+    public void scheduleMutePinAudioScenarioRequest();
 
-    default public void scheduleReleaseAllConnections(boolean bl) {
-    }
+    public void scheduleReleaseAllConnections(boolean var1);
 
-    default public void scheduleMutePinMuteRequest() {
-    }
+    public void scheduleMutePinMuteRequest();
 
-    default public void scheduleMutePinMuteRelease() {
-    }
+    public void scheduleMutePinMuteRelease();
 }
 

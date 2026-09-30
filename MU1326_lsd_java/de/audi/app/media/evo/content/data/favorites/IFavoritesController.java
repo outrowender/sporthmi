@@ -11,37 +11,26 @@ import de.audi.app.media.evo.content.data.favorites.MediaFavorite;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface IFavoritesController {
-    default public void addFavoriteListListener(IMediaFavoriteListListener iMediaFavoriteListListener) {
-    }
+    public void addFavoriteListListener(IMediaFavoriteListListener var1);
 
-    default public void removeFavoriteListListener(IMediaFavoriteListListener iMediaFavoriteListListener) {
-    }
+    public void removeFavoriteListListener(IMediaFavoriteListListener var1);
 
-    default public IFavoritesBrowserList getFavoriteBrowserList() {
-    }
+    public IFavoritesBrowserList getFavoriteBrowserList();
 
-    default public void updateFavorite(MediaFavorite mediaFavorite) {
-    }
+    public void updateFavorite(MediaFavorite var1);
 
-    default public void listChanged(FavoritesList favoritesList) {
-    }
+    public void listChanged(FavoritesList var1);
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void activate(ISourceSlot iSourceSlot) {
-    }
+    public void activate(ISourceSlot var1);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public void update(byte by, ISourceSlot iSourceSlot) {
-    }
+    public void update(byte var1, ISourceSlot var2);
 
-    default public void setPlayer(IPlayer iPlayer) {
-    }
+    public void setPlayer(IPlayer var1);
 }
 

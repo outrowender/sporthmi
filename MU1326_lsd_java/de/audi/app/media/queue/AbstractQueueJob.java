@@ -10,10 +10,8 @@ public abstract class AbstractQueueJob
 implements IQueueJob {
     private volatile IQueueExecutionContext exContext;
 
-    public abstract void start() {
-    }
+    public abstract void start();
 
-    @Override
     public final void start(IQueueExecutionContext iQueueExecutionContext) {
         this.setExecutionContext(iQueueExecutionContext);
         this.start();

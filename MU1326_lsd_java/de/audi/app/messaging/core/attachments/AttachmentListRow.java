@@ -9,15 +9,15 @@ import org.dsi.ifc.messaging.AttachmentInformation;
 
 final class AttachmentListRow
 extends EvoListRow {
-    public static final int COLUMN_COUNT;
-    private static final int CELL_IDX_RECORDSET;
-    private static final int CELL_IDX_ICON;
-    private static final int CELL_IDX_ATTACHMENT_NAME;
-    private static final int RECORDSET_COLLAPSED;
-    private static final int RECORDSET_EXPANDED;
-    private static final int ICON_UNSUPPORTED_ATTACHMENT;
-    private static final int ICON_SUPPORTED_ATTACHMENT;
-    private static volatile long nextRowId;
+    public static final int COLUMN_COUNT = 3;
+    private static final int CELL_IDX_RECORDSET = 0;
+    private static final int CELL_IDX_ICON = 1;
+    private static final int CELL_IDX_ATTACHMENT_NAME = 2;
+    private static final int RECORDSET_COLLAPSED = 0;
+    private static final int RECORDSET_EXPANDED = 1;
+    private static final int ICON_UNSUPPORTED_ATTACHMENT = 0;
+    private static final int ICON_SUPPORTED_ATTACHMENT = 1;
+    private static volatile long nextRowId = 0L;
     private final AttachmentInformation attachmentInformation;
 
     AttachmentListRow(AttachmentInformation attachmentInformation, boolean bl) {
@@ -43,13 +43,8 @@ extends EvoListRow {
         return n == 1;
     }
 
-    @Override
     public EvoListRow copy() {
         return new AttachmentListRow(this.attachmentInformation, this.isExpanded());
-    }
-
-    static {
-        nextRowId = 0L;
     }
 }
 

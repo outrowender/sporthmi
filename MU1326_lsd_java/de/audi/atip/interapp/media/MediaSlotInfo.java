@@ -4,40 +4,32 @@
 package de.audi.atip.interapp.media;
 
 public interface MediaSlotInfo {
-    public static final int MEDIATYPE_UNDEFINED;
-    public static final int MEDIATYPE_CDAUDIO;
-    public static final int MEDIATYPE_FILESYTEM;
-    public static final int MEDIATYPE_DVDV;
-    public static final int MEDIATYPE_DVDA;
-    public static final int MEDIATYPE_AUDIO_STREAM;
-    public static final int MEDIATYPE_VIDEO_STREAM;
-    public static final int MEDIATYPE_REMOTE_CONTROL_PLAYER;
-    public static final int MEDIATYPE_SYSTEM_UPDATE;
-    public static final int MEDIATYPE_NAVIGATION_DATABASE;
-    public static final int MEDIATYPE_IPOD;
+    public static final int MEDIATYPE_UNDEFINED = 0;
+    public static final int MEDIATYPE_CDAUDIO = 1;
+    public static final int MEDIATYPE_FILESYTEM = 2;
+    public static final int MEDIATYPE_DVDV = 3;
+    public static final int MEDIATYPE_DVDA = 4;
+    public static final int MEDIATYPE_AUDIO_STREAM = 5;
+    public static final int MEDIATYPE_VIDEO_STREAM = 6;
+    public static final int MEDIATYPE_REMOTE_CONTROL_PLAYER = 7;
+    public static final int MEDIATYPE_SYSTEM_UPDATE = 8;
+    public static final int MEDIATYPE_NAVIGATION_DATABASE = 9;
+    public static final int MEDIATYPE_IPOD = 10;
 
-    default public int getSlotIdx() {
-    }
+    public int getSlotIdx();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public String getMountPoint() {
-    }
+    public String getMountPoint();
 
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    default public boolean isReadOnly() {
-    }
+    public boolean isReadOnly();
 
-    default public int getType() {
-    }
+    public int getType();
 
-    default public int getSourceType() {
-    }
+    public int getSourceType();
 
-    default public boolean isSyncedSource() {
-    }
+    public boolean isSyncedSource();
 }
 

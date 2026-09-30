@@ -5,11 +5,6 @@ package com.ibm.oti.vm;
 
 import com.ibm.oti.net.www.protocol.jxe.Handler;
 import com.ibm.oti.util.Util;
-import com.ibm.oti.vm.AbstractClassLoader$1;
-import com.ibm.oti.vm.AbstractClassLoader$2;
-import com.ibm.oti.vm.AbstractClassLoader$3;
-import com.ibm.oti.vm.AbstractClassLoader$CacheLock;
-import com.ibm.oti.vm.AbstractClassLoader$ManifestLock;
 import com.ibm.oti.vm.Jxe;
 import com.ibm.oti.vm.JxePermission;
 import com.ibm.oti.vm.VM;
@@ -26,12 +21,12 @@ import java.security.AccessController;
 import java.security.CodeSource;
 import java.security.PermissionCollection;
 import java.security.Permissions;
+import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.jar.Attributes;
-import java.util.jar.Attributes$Name;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
@@ -49,9 +44,9 @@ extends ClassLoader {
     private static Object manifestLock;
 
     static {
-        cacheLock = new AbstractClassLoader$CacheLock();
+        cacheLock = new CacheLock();
         permissionToExitVM = new RuntimePermission("exitVM");
-        manifestLock = new AbstractClassLoader$ManifestLock();
+        manifestLock = new ManifestLock();
     }
 
     public AbstractClassLoader() {
@@ -156,7 +151,6 @@ extends ClassLoader {
         }
     }
 
-    @Override
     public InputStream getResourceAsStream(String string) {
         InputStream inputStream;
         if (string == null || string.length() < 1 || string.charAt(0) == '/') {
@@ -258,10 +252,22 @@ extends ClassLoader {
         return null;
     }
 
-    @Override
-    protected URL findResource(String string) {
+    protected URL findResource(final String string) {
         SecurityManager securityManager;
-        URL uRL = (URL)AccessController.doPrivileged(new AbstractClassLoader$1(this, string));
+        URL uRL = (URL)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                int n = 0;
+                while (n < AbstractClassLoader.this.cache.length) {
+                    URL uRL = AbstractClassLoader.this.findResourceImpl(n, string);
+                    if (uRL != null) {
+                        return uRL;
+                    }
+                    ++n;
+                }
+                return null;
+            }
+        });
         if (uRL != null && (securityManager = System.getSecurityManager()) != null) {
             try {
                 securityManager.checkPermission(uRL.openConnection().getPermission());
@@ -315,10 +321,23 @@ extends ClassLoader {
         return null;
     }
 
-    @Override
-    protected Enumeration findResources(String string) {
+    protected Enumeration findResources(final String string) throws IOException {
         SecurityManager securityManager;
-        Vector vector = (Vector)AccessController.doPrivileged(new AbstractClassLoader$2(this, string));
+        Vector vector = (Vector)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                Vector vector = new Vector();
+                int n = 0;
+                while (n < AbstractClassLoader.this.cache.length) {
+                    URL uRL = AbstractClassLoader.this.findResourceImpl(n, string);
+                    if (uRL != null) {
+                        vector.addElement(uRL);
+                    }
+                    ++n;
+                }
+                return vector;
+            }
+        });
         int n = vector.size();
         if (n > 0 && (securityManager = System.getSecurityManager()) != null) {
             Vector vector2 = new Vector(n);
@@ -410,10 +429,16 @@ extends ClassLoader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    void definePackage(String string, int n) {
+    void definePackage(String string, final int n) {
         Object object;
         if (n >= 0 && this.cache[n] == null) {
-            AccessController.doPrivileged(new AbstractClassLoader$3(this, n));
+            AccessController.doPrivileged(new PrivilegedAction(){
+
+                public Object run() {
+                    AbstractClassLoader.this.fillCache(n);
+                    return null;
+                }
+            });
         }
         if (n >= 0 && this.types[n] == 2) {
             Object object2;
@@ -436,21 +461,21 @@ extends ClassLoader {
                         return;
                     }
                     Attributes attributes = ((Manifest)object).getMainAttributes();
-                    String string8 = attributes.getValue(Attributes$Name.SEALED);
+                    String string8 = attributes.getValue(Attributes.Name.SEALED);
                     boolean bl = string8 != null && string8.toLowerCase().equals("true");
                     String string9 = new StringBuffer(String.valueOf(string.replace('.', '/'))).append("/").toString();
                     Attributes attributes2 = ((Manifest)object).getAttributes(string9);
                     if (attributes2 != null) {
-                        string8 = attributes2.getValue(Attributes$Name.SEALED);
+                        string8 = attributes2.getValue(Attributes.Name.SEALED);
                         if (string8 != null) {
                             bl = string8.toLowerCase().equals("true");
                         }
-                        string2 = attributes2.getValue(Attributes$Name.SPECIFICATION_TITLE);
-                        string3 = attributes2.getValue(Attributes$Name.SPECIFICATION_VERSION);
-                        string4 = attributes2.getValue(Attributes$Name.SPECIFICATION_VENDOR);
-                        string5 = attributes2.getValue(Attributes$Name.IMPLEMENTATION_TITLE);
-                        string6 = attributes2.getValue(Attributes$Name.IMPLEMENTATION_VERSION);
-                        string7 = attributes2.getValue(Attributes$Name.IMPLEMENTATION_VENDOR);
+                        string2 = attributes2.getValue(Attributes.Name.SPECIFICATION_TITLE);
+                        string3 = attributes2.getValue(Attributes.Name.SPECIFICATION_VERSION);
+                        string4 = attributes2.getValue(Attributes.Name.SPECIFICATION_VENDOR);
+                        string5 = attributes2.getValue(Attributes.Name.IMPLEMENTATION_TITLE);
+                        string6 = attributes2.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
+                        string7 = attributes2.getValue(Attributes.Name.IMPLEMENTATION_VENDOR);
                     }
                     URL uRL = null;
                     try {
@@ -460,22 +485,22 @@ extends ClassLoader {
                     }
                     catch (MalformedURLException malformedURLException) {}
                     if (string2 == null) {
-                        string2 = attributes.getValue(Attributes$Name.SPECIFICATION_TITLE);
+                        string2 = attributes.getValue(Attributes.Name.SPECIFICATION_TITLE);
                     }
                     if (string3 == null) {
-                        string3 = attributes.getValue(Attributes$Name.SPECIFICATION_VERSION);
+                        string3 = attributes.getValue(Attributes.Name.SPECIFICATION_VERSION);
                     }
                     if (string4 == null) {
-                        string4 = attributes.getValue(Attributes$Name.SPECIFICATION_VENDOR);
+                        string4 = attributes.getValue(Attributes.Name.SPECIFICATION_VENDOR);
                     }
                     if (string5 == null) {
-                        string5 = attributes.getValue(Attributes$Name.IMPLEMENTATION_TITLE);
+                        string5 = attributes.getValue(Attributes.Name.IMPLEMENTATION_TITLE);
                     }
                     if (string6 == null) {
-                        string6 = attributes.getValue(Attributes$Name.IMPLEMENTATION_VERSION);
+                        string6 = attributes.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
                     }
                     if (string7 == null) {
-                        string7 = attributes.getValue(Attributes$Name.IMPLEMENTATION_VENDOR);
+                        string7 = attributes.getValue(Attributes.Name.IMPLEMENTATION_VENDOR);
                     }
                     this.definePackage(string, string2, string3, string4, string5, string6, string7, uRL);
                     return;
@@ -504,8 +529,14 @@ extends ClassLoader {
         return string.substring(0, n);
     }
 
-    static /* synthetic */ URL access$0(AbstractClassLoader abstractClassLoader, int n, String string) {
-        return abstractClassLoader.findResourceImpl(n, string);
+    private static class CacheLock {
+        CacheLock() {
+        }
+    }
+
+    private static class ManifestLock {
+        ManifestLock() {
+        }
     }
 }
 

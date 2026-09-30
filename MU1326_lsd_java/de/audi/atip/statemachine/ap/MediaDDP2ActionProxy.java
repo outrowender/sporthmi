@@ -7,7 +7,6 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface MediaDDP2ActionProxy
 extends ActionProxy {
-    default public void combiSetAutomaticCursorMerge(int n) {
-    }
+    public void combiSetAutomaticCursorMerge(int var1);
 }
 

@@ -19,12 +19,11 @@ extends AbstractADBEntryDetailsListRowBuilder {
         this.appAdr = abstractAddressBookApplication;
     }
 
-    @Override
     public ADBEntryDetailsListRow createAddressDetailsRow(AdbEntry adbEntry, int n) {
         int n2 = n == 0 || n == 2 || n == 4 ? 0 : 1;
         String[] stringArray = this.getAddressDisplayText(adbEntry.addressData[n2], n);
         String string = this.getAddressDisplayTextSingleLine(adbEntry.addressData[n2].navLocation);
-        this.appAdr.getLog().log(-2137614336, "AddressBookEntryDetailsListRowBuilder#createAddressDetailsRow(): displayTexts for addressData %1 and addressType %3 are: %2", (Object)adbEntry.addressData[n2], (Object)stringArray, (long)n);
+        this.appAdr.getLog().log(10000000, "AddressBookEntryDetailsListRowBuilder#createAddressDetailsRow(): displayTexts for addressData %1 and addressType %3 are: %2", (Object)adbEntry.addressData[n2], (Object)stringArray, (long)n);
         if (stringArray == null) {
             return null;
         }
@@ -35,7 +34,7 @@ extends AbstractADBEntryDetailsListRowBuilder {
         String[] stringArray;
         if (n == 0 || n == 1) {
             if (!ADBAddressUtils.hasValidPostalAddress(addressData)) {
-                this.appAdr.getLog().log(1078071040, "AddressBookEntryDetailsListRowBuilder#getAddressDisplayText(): invalid address: %1 ", (Object)addressData.toString());
+                this.appAdr.getLog().log(1000000, "AddressBookEntryDetailsListRowBuilder#getAddressDisplayText(): invalid address: %1 ", (Object)addressData.toString());
                 return null;
             }
             int n2 = this.appAdr.getFramework().getSysConst(442);
@@ -55,7 +54,7 @@ extends AbstractADBEntryDetailsListRowBuilder {
             if (geoMetric == null) {
                 return null;
             }
-            stringArray = new String[]{new StringBuffer().append(geoMetric.formatLatitude()).append(", ").append(geoMetric.formatLongitude()).toString(), ""};
+            stringArray = new String[]{geoMetric.formatLatitude() + ", " + geoMetric.formatLongitude(), ""};
         } else {
             return null;
         }

@@ -8,62 +8,42 @@ import de.audi.app.media.dsi.media.MediaListEntry;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface IBrowseListContext {
-    public static final int BROWSEMODE_UNDEFINED;
-    public static final int BROWSEMODE_RAW;
-    public static final int BROWSEMODE_DATABASE;
-    public static final int INVALID_LIST_SIZE;
-    public static final MediaListEntry[] EMPTY_BROWSE_FOLDER;
+    public static final int BROWSEMODE_UNDEFINED = -1;
+    public static final int BROWSEMODE_RAW = 0;
+    public static final int BROWSEMODE_DATABASE = 1;
+    public static final int INVALID_LIST_SIZE = -1;
+    public static final MediaListEntry[] EMPTY_BROWSE_FOLDER = new MediaListEntry[0];
 
-    default public int getBrowserID() {
-    }
+    public int getBrowserID();
 
-    default public ISourceSlot getSlot() {
-    }
+    public ISourceSlot getSlot();
 
-    default public void changeFolder(MediaListEntry[] mediaListEntryArray) {
-    }
+    public void changeFolder(MediaListEntry[] var1);
 
-    default public MediaListEntry[] getBrowseFolder() {
-    }
+    public MediaListEntry[] getBrowseFolder();
 
-    default public int getListSize() {
-    }
+    public int getListSize();
 
-    default public void requestListByIndex(int n, int n2, int n3) {
-    }
+    public void requestListByIndex(int var1, int var2, int var3);
 
-    default public void requestListByEntryId(long l, int n, int n2, int n3) {
-    }
+    public void requestListByEntryId(long var1, int var3, int var4, int var5);
 
-    default public void requestPickList(long[] lArray, int n) {
-    }
+    public void requestPickList(long[] var1, int var2);
 
-    default public void discardListRequest(int n) {
-    }
+    public void discardListRequest(int var1);
 
-    default public void discardPickListRequest(int n) {
-    }
+    public void discardPickListRequest(int var1);
 
-    default public void setBrowseMode(int n) {
-    }
+    public void setBrowseMode(int var1);
 
-    default public int getBrowseMode() {
-    }
+    public int getBrowseMode();
 
-    default public void addSelection(boolean bl, int n, long l, int n2, boolean bl2) {
-    }
+    public void addSelection(boolean var1, int var2, long var3, int var5, boolean var6);
 
-    default public void resetSelection() {
-    }
+    public void resetSelection();
 
-    default public void addBrowseListListener(IBrowseListListener iBrowseListListener, boolean bl) {
-    }
+    public void addBrowseListListener(IBrowseListListener var1, boolean var2);
 
-    default public void removeAllBrowseListListener() {
-    }
-
-    static {
-        EMPTY_BROWSE_FOLDER = new MediaListEntry[0];
-    }
+    public void removeAllBrowseListListener();
 }
 

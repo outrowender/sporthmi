@@ -7,13 +7,10 @@ import de.audi.tghu.command.CommandListManager;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 public interface IDispatcherManager {
-    default public CommandListManager getCommandListManager() {
-    }
+    public CommandListManager getCommandListManager();
 
-    default public DispatcherBase getInternalTaskDispatcher() {
-    }
+    public DispatcherBase getInternalTaskDispatcher();
 
-    default public DispatcherBase getExternalTaskDispatcher() {
-    }
+    public DispatcherBase getExternalTaskDispatcher();
 }
 

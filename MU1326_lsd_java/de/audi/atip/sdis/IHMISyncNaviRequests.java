@@ -7,10 +7,8 @@ import de.audi.atip.sdis.IHMISyncRequests;
 
 public interface IHMISyncNaviRequests
 extends IHMISyncRequests {
-    default public void requestLastDestinationList() {
-    }
+    public void requestLastDestinationList();
 
-    default public void requestStartRouteGuidance(double d2, double d3) {
-    }
+    public void requestStartRouteGuidance(double var1, double var3);
 }
 

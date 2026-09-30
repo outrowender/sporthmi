@@ -8,10 +8,10 @@ import org.dsi.ifc.kombifastlist.ArrayHeader;
 
 public class ArrayHeaderFastList
 implements IArrayHeader {
-    private static final int MASK_MODE_SHIFT;
-    private static final int MASK_MODE_ARRAY_DIRECTION_IS_BACKWARD;
-    private static final int MASK_MODE_ARRAY_POSITION_IS_TRANSMITTED;
-    private static final int MASK_MODE_INDEX_SIZE_16_BITS;
+    private static final int MASK_MODE_SHIFT = 1;
+    private static final int MASK_MODE_ARRAY_DIRECTION_IS_BACKWARD = 2;
+    private static final int MASK_MODE_ARRAY_POSITION_IS_TRANSMITTED = 4;
+    private static final int MASK_MODE_INDEX_SIZE_16_BITS = 8;
     private final ArrayHeader arrayHeader;
 
     public ArrayHeaderFastList() {
@@ -26,62 +26,50 @@ implements IArrayHeader {
         return this.arrayHeader;
     }
 
-    @Override
     public void setStart(int n) {
         this.arrayHeader.start = n;
     }
 
-    @Override
     public int getStart() {
         return (int)this.arrayHeader.getStart();
     }
 
-    @Override
     public int getStartOffset() {
         return this.arrayHeader.getRelativeJump();
     }
 
-    @Override
     public int getNumberOfElements() {
         return this.arrayHeader.getElements();
     }
 
-    @Override
     public boolean isModeShift() {
         return (this.arrayHeader.getMode() & 1) > 0;
     }
 
-    @Override
     public boolean isModeArrayDirectionBackward() {
         return (this.arrayHeader.getMode() & 2) > 0;
     }
 
-    @Override
     public boolean isModePositionTransmitted() {
         return (this.arrayHeader.getMode() & 4) > 0;
     }
 
-    @Override
     public boolean isModeIndexSize16Bit() {
         return (this.arrayHeader.getMode() & 8) > 0;
     }
 
-    @Override
     public int getRecordAddress() {
         return this.arrayHeader.getRecordAddress();
     }
 
-    @Override
     public void setRecordAddress(int n) {
         this.arrayHeader.recordAddress = n;
     }
 
-    @Override
     public int getJobID() {
         return this.arrayHeader.getJobID();
     }
 
-    @Override
     public int hashCode() {
         int n = 1;
         n = 31 * n + this.arrayHeader.absoluteListPos;
@@ -96,7 +84,6 @@ implements IArrayHeader {
         return n;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -104,7 +91,7 @@ implements IArrayHeader {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         ArrayHeader arrayHeader = ((ArrayHeaderFastList)object).arrayHeader;

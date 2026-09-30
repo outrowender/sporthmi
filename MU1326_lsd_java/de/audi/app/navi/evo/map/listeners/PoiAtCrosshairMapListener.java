@@ -15,8 +15,8 @@ import org.dsi.ifc.global.NavLocationWgs84;
 
 public class PoiAtCrosshairMapListener
 implements ButtonListener {
-    private static final int BUTTON_MODEL;
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private static final int BUTTON_MODEL = 401988;
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private ButtonModelApp buttonModel;
     private final IPoiService poiService;
     private final NavigationEnv env;
@@ -32,13 +32,12 @@ implements ButtonListener {
     }
 
     private void initListeners() {
-        this.buttonModel = this.env.getButtonModel(1143080448);
+        this.buttonModel = this.env.getButtonModel(401988);
         this.buttonModel.setButtonListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#keyPressed - modelId=%2, keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#keyPressed - modelId=%2, keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         this.env.getChoiceModel(170).setValue(0);
         NavLocationWgs84 navLocationWgs84 = this.mapInterface.getMapPosition();
         NavLocation navLocation = Util.getLocationFromGeoPos(navLocationWgs84.getLongitude(), navLocationWgs84.getLatitude());
@@ -46,15 +45,12 @@ implements ButtonListener {
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

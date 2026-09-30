@@ -6,29 +6,30 @@ package de.audi.app.phone.core.state;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.ITelTextFactory;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
+import de.audi.app.phone.core.lang.AbstractTelLangaugeUpdateListener;
 import de.audi.app.phone.core.model.TelModelGroup;
-import de.audi.app.phone.core.state.GlobalTelephoneStateModelHandler$GlobalTelephoneStateModelHandlerLanguageUpdateListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.atip.hmi.IHMIServiceApp;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
+import de.audi.atip.i18n.Language;
 import de.audi.atip.log.LogChannel;
 
 class GlobalTelephoneStateModelHandler
 implements IGlobalTelephoneStateListener {
-    public static final int TEL_MODE_HFP;
-    public static final int TEL_MODE_INTERNAL_SIM;
-    public static final int TEL_MODE_EXTERNAL_SIMAP;
-    public static final int TEL_MODE_SIMAP_BTHS;
-    public static final int TEL_MODE_NO_SIM_AVAILABLE;
-    private static final int HANDSFREEMODE_PRIVATE;
-    private static final int HANDSFREEMODE_HANDSFREE;
-    private static final int VOICE_AND_DATA;
-    private static final int DATA_ONLY;
+    public static final int TEL_MODE_HFP = 0;
+    public static final int TEL_MODE_INTERNAL_SIM = 1;
+    public static final int TEL_MODE_EXTERNAL_SIMAP = 2;
+    public static final int TEL_MODE_SIMAP_BTHS = 3;
+    public static final int TEL_MODE_NO_SIM_AVAILABLE = 4;
+    private static final int HANDSFREEMODE_PRIVATE = 1;
+    private static final int HANDSFREEMODE_HANDSFREE = 0;
+    private static final int VOICE_AND_DATA = 0;
+    private static final int DATA_ONLY = 1;
     private final IHMIServiceApp hmiService;
     private final LogChannel log;
-    private final GlobalTelephoneStateModelHandler$GlobalTelephoneStateModelHandlerLanguageUpdateListener langListener;
+    private final GlobalTelephoneStateModelHandlerLanguageUpdateListener langListener;
     private final TelModelGroup modelGroup;
     private final ITelTextFactory textFactory;
     private volatile IGlobalTelephoneStateStruct lastState;
@@ -143,7 +144,7 @@ implements IGlobalTelephoneStateListener {
     }
 
     private static int getPhoneReady2PhoneChoiceValue(ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState) {
-        return iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getDeviceRole() == 256 && iTelDSIMobileEquipmentDeviceState.isDialingPossible() ? 1 : 0;
+        return iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getDeviceRole() == 65536 && iTelDSIMobileEquipmentDeviceState.isDialingPossible() ? 1 : 0;
     }
 
     private static int getTelFeatEnhCallChoiceValue(ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState) {
@@ -213,7 +214,7 @@ implements IGlobalTelephoneStateListener {
         this.textFactory = iTelApplication.getTextFactory();
         this.hmiService = iTelApplication.getFrameworkAccess().getHmiServiceApp();
         this.modelGroup = new TelModelGroup("GlobalTelephoneStateModelHandler", logChannel);
-        this.langListener = new GlobalTelephoneStateModelHandler$GlobalTelephoneStateModelHandlerLanguageUpdateListener(this, iTelApplication);
+        this.langListener = new GlobalTelephoneStateModelHandlerLanguageUpdateListener(iTelApplication);
         this.langListener.init();
     }
 
@@ -239,70 +240,69 @@ implements IGlobalTelephoneStateListener {
     }
 
     private void setCallLeadingDeviceModels(ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState) {
-        this.groupAndSetChoiceModel(-510196736, GlobalTelephoneStateModelHandler.getHandsfreeModeModelValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-476642304, GlobalTelephoneStateModelHandler.getMultipartyActiveModelValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-459865088, GlobalTelephoneStateModelHandler.getMultipartySupportedModelValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-493419520, GlobalTelephoneStateModelHandler.getTelModeChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(1587020800, GlobalTelephoneStateModelHandler.getMicMuteChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-342424576, GlobalTelephoneStateModelHandler.getActiveCallChoiceValue(iTelDSIMobileEquipmentDeviceState, this.lastState));
-        this.groupAndSetChoiceModel(-325647360, GlobalTelephoneStateModelHandler.getConferenceInStateActiveChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-308870144, GlobalTelephoneStateModelHandler.getConferenceInStateHeldOrActiveChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-292092928, GlobalTelephoneStateModelHandler.getTelFeatEnhCallChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-208206848, GlobalTelephoneStateModelHandler.getOutgoingCallPresentChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(630719488, GlobalTelephoneStateModelHandler.getIncomingCallPresentChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301025, GlobalTelephoneStateModelHandler.getHandsfreeModeModelValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301027, GlobalTelephoneStateModelHandler.getMultipartyActiveModelValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301028, GlobalTelephoneStateModelHandler.getMultipartySupportedModelValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301026, GlobalTelephoneStateModelHandler.getTelModeChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301150, GlobalTelephoneStateModelHandler.getMicMuteChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301035, GlobalTelephoneStateModelHandler.getActiveCallChoiceValue(iTelDSIMobileEquipmentDeviceState, this.lastState));
+        this.groupAndSetChoiceModel(301036, GlobalTelephoneStateModelHandler.getConferenceInStateActiveChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301037, GlobalTelephoneStateModelHandler.getConferenceInStateHeldOrActiveChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301038, GlobalTelephoneStateModelHandler.getTelFeatEnhCallChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301043, GlobalTelephoneStateModelHandler.getOutgoingCallPresentChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301093, GlobalTelephoneStateModelHandler.getIncomingCallPresentChoiceValue(iTelDSIMobileEquipmentDeviceState));
     }
 
     private void setNonCallLeadingDeviceModels(ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState) {
-        this.groupAndSetChoiceModel(613942272, GlobalTelephoneStateModelHandler.getIncomingCallPresentChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301092, GlobalTelephoneStateModelHandler.getIncomingCallPresentChoiceValue(iTelDSIMobileEquipmentDeviceState));
     }
 
     private void setPrimaryDeviceModels(ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState, ITelTextFactory iTelTextFactory) {
-        this.groupAndSetChoiceModel(2106983424, GlobalTelephoneStateModelHandler.getMailboxAvailableModelValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(1687553024, GlobalTelephoneStateModelHandler.getHandsfreeModeModelValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-1198193664, GlobalTelephoneStateModelHandler.getMultipartyActiveModelValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-2137652224, GlobalTelephoneStateModelHandler.getMultipartySupportedModelValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(1385497600, GlobalTelephoneStateModelHandler.getTelModeChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetLabelModel(1637352448, GlobalTelephoneStateModelHandler.getBluetoothFriendlyName(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(300669, GlobalTelephoneStateModelHandler.getMailboxAvailableModelValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(300644, GlobalTelephoneStateModelHandler.getHandsfreeModeModelValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(300472, GlobalTelephoneStateModelHandler.getMultipartyActiveModelValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(300672, GlobalTelephoneStateModelHandler.getMultipartySupportedModelValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(300370, GlobalTelephoneStateModelHandler.getTelModeChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetLabelModel(301153, GlobalTelephoneStateModelHandler.getBluetoothFriendlyName(iTelDSIMobileEquipmentDeviceState));
         this.groupAndSetChoiceModel(4091, GlobalTelephoneStateModelHandler.getPhoneReadyModelValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-560528384, GlobalTelephoneStateModelHandler.getConferenceInStateActiveChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-526973952, GlobalTelephoneStateModelHandler.getConferenceInStateHeldChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-543751168, GlobalTelephoneStateModelHandler.getConferenceInStateHeldOrActiveChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301022, GlobalTelephoneStateModelHandler.getConferenceInStateActiveChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301024, GlobalTelephoneStateModelHandler.getConferenceInStateHeldChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(301023, GlobalTelephoneStateModelHandler.getConferenceInStateHeldOrActiveChoiceValue(iTelDSIMobileEquipmentDeviceState));
         this.groupAndSetChoiceModel(4346, GlobalTelephoneStateModelHandler.getMicMuteChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(1201079296, GlobalTelephoneStateModelHandler.getOutgoingCallChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetChoiceModel(-1164573696, GlobalTelephoneStateModelHandler.getActiveCallChoiceValue(iTelDSIMobileEquipmentDeviceState, this.lastState));
-        this.groupAndSetChoiceModel(-1885928448, GlobalTelephoneStateModelHandler.getActiveCallChoiceValue(iTelDSIMobileEquipmentDeviceState, this.lastState));
+        this.groupAndSetChoiceModel(300871, GlobalTelephoneStateModelHandler.getOutgoingCallChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(300730, GlobalTelephoneStateModelHandler.getActiveCallChoiceValue(iTelDSIMobileEquipmentDeviceState, this.lastState));
+        this.groupAndSetChoiceModel(300943, GlobalTelephoneStateModelHandler.getActiveCallChoiceValue(iTelDSIMobileEquipmentDeviceState, this.lastState));
         this.groupAndSetChoiceModel(4403, GlobalTelephoneStateModelHandler.getTelFeatInbandRingingChoiceValue(iTelDSIMobileEquipmentDeviceState));
     }
 
     private void setAssociatedDeviceModels(ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState, ITelTextFactory iTelTextFactory) {
-        this.groupAndSetChoiceModel(-1349057536, GlobalTelephoneStateModelHandler.getTelModeChoiceValue(iTelDSIMobileEquipmentDeviceState));
-        this.groupAndSetLabelModel(-1701379072, GlobalTelephoneStateModelHandler.getBluetoothFriendlyName(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetChoiceModel(300975, GlobalTelephoneStateModelHandler.getTelModeChoiceValue(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetLabelModel(300954, GlobalTelephoneStateModelHandler.getBluetoothFriendlyName(iTelDSIMobileEquipmentDeviceState));
         this.groupAndSetChoiceModel(4350, GlobalTelephoneStateModelHandler.getPhoneReadyModelValue(iTelDSIMobileEquipmentDeviceState));
     }
 
     private void setDataDeviceModels(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        this.groupAndSetChoiceModel(513278976, GlobalTelephoneStateModelHandler.getTelModeChoiceValue(iGlobalTelephoneStateStruct.getDataOnlyNadDeviceState()));
+        this.groupAndSetChoiceModel(301086, GlobalTelephoneStateModelHandler.getTelModeChoiceValue(iGlobalTelephoneStateStruct.getDataOnlyNadDeviceState()));
     }
 
     private void setEmergencyCallModels(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        this.groupAndSetChoiceModel(76874752, GlobalTelephoneStateModelHandler.getEmergencyCallChoiceValue(iGlobalTelephoneStateStruct));
+        this.groupAndSetChoiceModel(300292, GlobalTelephoneStateModelHandler.getEmergencyCallChoiceValue(iGlobalTelephoneStateStruct));
     }
 
     private void setNADDeviceModels(ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState) {
-        this.groupAndSetLabelModel(1721238528, GlobalTelephoneStateModelHandler.getNadIMEI(iTelDSIMobileEquipmentDeviceState));
+        this.groupAndSetLabelModel(301158, GlobalTelephoneStateModelHandler.getNadIMEI(iTelDSIMobileEquipmentDeviceState));
     }
 
     private void setGlobalModels(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct, ITelTextFactory iTelTextFactory) {
         this.groupAndSetChoiceModel(494, GlobalTelephoneStateModelHandler.getNadModeChoiceModelValue(iGlobalTelephoneStateStruct));
         this.groupAndSetChoiceModel(186, GlobalTelephoneStateModelHandler.getPhoneReady2PhoneChoiceValue(iGlobalTelephoneStateStruct.getCallLeadingDevice()));
-        this.groupAndSetLabelModel(-90766336, GlobalTelephoneStateModelHandler.getNadUserFriendlyNameLabelText(iGlobalTelephoneStateStruct.getNadInstanceState(), iTelTextFactory.getText(13)));
+        this.groupAndSetLabelModel(301050, GlobalTelephoneStateModelHandler.getNadUserFriendlyNameLabelText(iGlobalTelephoneStateStruct.getNadInstanceState(), iTelTextFactory.getText(13)));
         this.groupAndSetChoiceModel(4423, GlobalTelephoneStateModelHandler.getNadRoleChoiceValue(iGlobalTelephoneStateStruct.getNadInstanceState()));
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         Object object = this.lock;
         synchronized (object) {
@@ -331,8 +331,16 @@ implements IGlobalTelephoneStateListener {
         }
     }
 
-    static /* synthetic */ void access$000(GlobalTelephoneStateModelHandler globalTelephoneStateModelHandler) {
-        globalTelephoneStateModelHandler.refreshModelValues();
+    private class GlobalTelephoneStateModelHandlerLanguageUpdateListener
+    extends AbstractTelLangaugeUpdateListener {
+        public GlobalTelephoneStateModelHandlerLanguageUpdateListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main");
+        }
+
+        public void setLanguage(Language language) {
+            this.log.log(1000000, "[GlobalTelephoneStateModelHandler.GlobalTelephoneStateModelHandlerLanguageUpdateListener#setLanguage] refreshing primary phone models.");
+            GlobalTelephoneStateModelHandler.this.refreshModelValues();
+        }
     }
 }
 

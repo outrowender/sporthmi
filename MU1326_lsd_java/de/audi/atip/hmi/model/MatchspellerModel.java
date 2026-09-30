@@ -15,8 +15,8 @@ public class MatchspellerModel
 extends SpellerModel
 implements MatchspellerModelApp,
 MatchspellerModelGUI {
-    public static final int MATCH_COUNT_UNDEFINED;
-    private static final String DEFAULT_VALID_CHARS;
+    public static final int MATCH_COUNT_UNDEFINED = -1;
+    private static final String DEFAULT_VALID_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
     private String mValidChars = "abcdefghijklmnopqrstuvwxyz0123456789";
     private boolean mZIPFlag;
     private boolean fullMatch;
@@ -45,7 +45,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(1000);
         buffer.append(super.dumpContent());
@@ -80,7 +79,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -105,38 +103,31 @@ MatchspellerModelGUI {
         }
     }
 
-    @Override
     public int getModelType() {
         return 7;
     }
 
-    @Override
     public String getValidChars() {
         return this.mValidChars;
     }
 
-    @Override
     public void setValidChars(String string) {
         this.setValidChars(string, -1, -1);
     }
 
-    @Override
     public void setValidChars(String string, int n) {
         this.setValidChars(string, n, -1);
     }
 
-    @Override
     public void setValidChars(String string, int n, int n2) {
         this.mValidChars = string;
         this.setControlButtonStates(n, n2);
     }
 
-    @Override
     public void setZIPFlag(boolean bl) {
         this.mZIPFlag = bl;
     }
 
-    @Override
     public boolean isZIP() {
         return this.mZIPFlag;
     }
@@ -144,11 +135,10 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
         Object object = this.mutex;
         synchronized (object) {
-            this.mValidChars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            this.mValidChars = DEFAULT_VALID_CHARS;
             this.mZIPFlag = false;
             this.uniqueMatch = false;
             this.fullMatch = false;
@@ -159,7 +149,6 @@ MatchspellerModelGUI {
         }
     }
 
-    @Override
     public void setMatchCount(int n) {
         this.setMatchCount(n, -1);
     }
@@ -167,7 +156,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setMatchCount(int n, int n2) {
         Object object = this.mutex;
         synchronized (object) {
@@ -181,7 +169,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setUniqueMatch(boolean bl) {
         Object object = this.mutex;
         synchronized (object) {
@@ -193,7 +180,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setFullMatch(boolean bl) {
         Object object = this.mutex;
         synchronized (object) {
@@ -205,7 +191,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getMatchCountVisibility() {
         Object object = this.mutex;
         synchronized (object) {
@@ -216,7 +201,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getMatchCount() {
         Object object = this.mutex;
         synchronized (object) {
@@ -227,7 +211,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isUniqueMatch() {
         Object object = this.mutex;
         synchronized (object) {
@@ -238,7 +221,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isFullMatch() {
         Object object = this.mutex;
         synchronized (object) {
@@ -246,33 +228,27 @@ MatchspellerModelGUI {
         }
     }
 
-    @Override
     public void setLanguage(int n) {
         this.language = n;
     }
 
-    @Override
     public int getLanguage() {
         return this.language;
     }
 
-    @Override
     public void setPhonemeText(String string, String string2) {
         this.phoneme = string;
         this.phonemeAlphabet = string2;
     }
 
-    @Override
     public String getPhonemeAlphabet() {
         return this.phonemeAlphabet;
     }
 
-    @Override
     public String getPhonemeText() {
         return this.phoneme;
     }
 
-    @Override
     public void nonAlphaNumTPCharsChanged(String string, int n) {
         try {
             this.asiaSpellerListener.nonAlphaNumTPCharsChanged(this.id, n, string);
@@ -285,7 +261,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setValidNonAlphaNumTPCharacters(String string) {
         Object object = this.mutex;
         synchronized (object) {
@@ -295,12 +270,10 @@ MatchspellerModelGUI {
         this.fireModelUpdateEvent(17);
     }
 
-    @Override
     public void setInitialInputMode(int n) {
         this.initialInputMode = n;
     }
 
-    @Override
     public void setAllowNonAlphaNumInput(boolean bl) {
         this.allowNonAlphaNumInput = bl;
     }
@@ -309,7 +282,6 @@ MatchspellerModelGUI {
         return this.nonAlphaNumMode;
     }
 
-    @Override
     public int getInitialInputMode(int n) {
         return this.initialInputMode;
     }
@@ -317,7 +289,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getValidNonAlphaNumTPCharacters(int n) {
         Object object = this.mutex;
         synchronized (object) {
@@ -325,7 +296,6 @@ MatchspellerModelGUI {
         }
     }
 
-    @Override
     public void inputModeTPChanged(int n, int n2) {
         try {
             this.asiaSpellerListener.inputModeTPChanged(this.id, n, n2);
@@ -335,18 +305,15 @@ MatchspellerModelGUI {
         }
     }
 
-    @Override
     public boolean getAllowNonAlphaNumInput(int n) {
         return this.allowNonAlphaNumInput;
     }
 
-    @Override
     public void setSpellerListener(SpellerListener spellerListener) {
         super.setSpellerListener(spellerListener);
         this.asiaSpellerListener = DUMMY_LISTENER;
     }
 
-    @Override
     public void setSpellerListenerAsia(MatchspellerListenerAsia matchspellerListenerAsia) {
         super.setSpellerListener(matchspellerListenerAsia);
         this.asiaSpellerListener = matchspellerListenerAsia;
@@ -355,7 +322,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void strokesChanged(int n, String string, char c2) {
         Object object = this.mutex;
         synchronized (object) {
@@ -371,7 +337,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void requestValidHanziCharsWindow(int n, int n2, int n3) {
         Object object = this.mutex;
         synchronized (object) {
@@ -387,7 +352,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getValidHanziCharsWindowResult() {
         Object object = this.mutex;
         synchronized (object) {
@@ -398,7 +362,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getTotalAmountOfHanziCharacters() {
         Object object = this.mutex;
         synchronized (object) {
@@ -409,7 +372,6 @@ MatchspellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setValidHanziChars(String string, int n) {
         Object object = this.mutex;
         synchronized (object) {

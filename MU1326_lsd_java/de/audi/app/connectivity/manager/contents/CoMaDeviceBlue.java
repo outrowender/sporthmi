@@ -9,15 +9,15 @@ import org.dsi.ifc.bluetooth.TrustedDevice;
 
 public class CoMaDeviceBlue
 extends AbstractCoMaDevice {
-    private static final int BLUETOOTH_DEVICE;
-    private static final int[] BLUETOOTH_PHONE;
-    private static final int[] BLUETOOTH_STANDARD_PHONE;
-    private static final int[] SAP_PHONE;
-    private static final int[] SAP_STANDARD_PHONE;
-    private static final int[] BLUETOOTH_PHONE_CALL;
-    private static final int[] BLUETOOTH_STANDARD_PHONE_CALL;
-    private static final int[] SAP_PHONE_CALL;
-    private static final int[] SAP_STANDARD_PHONE_CALL;
+    private static final int BLUETOOTH_DEVICE = -1447848442;
+    private static final int[] BLUETOOTH_PHONE = new int[]{-364181611};
+    private static final int[] BLUETOOTH_STANDARD_PHONE = new int[]{0x66D36336};
+    private static final int[] SAP_PHONE = new int[]{-364181611, -296862715};
+    private static final int[] SAP_STANDARD_PHONE = new int[]{0x66D36336, -296862715};
+    private static final int[] BLUETOOTH_PHONE_CALL = new int[]{-364181611, 40432557};
+    private static final int[] BLUETOOTH_STANDARD_PHONE_CALL = new int[]{0x66D36336, 40432557};
+    private static final int[] SAP_PHONE_CALL = new int[]{-364181611, -296862715, 40432557};
+    private static final int[] SAP_STANDARD_PHONE_CALL = new int[]{0x66D36336, -296862715, 40432557};
     private final boolean isConnectedRsap;
     private final boolean isPrioReconnect;
     private final boolean hasActiveCall;
@@ -29,27 +29,15 @@ extends AbstractCoMaDevice {
         this.hasActiveCall = bl2;
     }
 
-    @Override
     PropertyListCell getProperties() {
         if (this.isConnectedRsap) {
-            return PropertyListCell.create(110539689, this.isPrioReconnect ? (this.hasActiveCall ? SAP_STANDARD_PHONE_CALL : SAP_STANDARD_PHONE) : (this.hasActiveCall ? SAP_PHONE_CALL : SAP_PHONE));
+            return PropertyListCell.create(-1447848442, this.isPrioReconnect ? (this.hasActiveCall ? SAP_STANDARD_PHONE_CALL : SAP_STANDARD_PHONE) : (this.hasActiveCall ? SAP_PHONE_CALL : SAP_PHONE));
         }
-        return PropertyListCell.create(110539689, this.supports(3) ? (this.isPrioReconnect ? (this.hasActiveCall ? BLUETOOTH_STANDARD_PHONE_CALL : BLUETOOTH_STANDARD_PHONE) : (this.hasActiveCall ? BLUETOOTH_PHONE_CALL : BLUETOOTH_PHONE)) : null);
+        return PropertyListCell.create(-1447848442, this.supports(3) ? (this.isPrioReconnect ? (this.hasActiveCall ? BLUETOOTH_STANDARD_PHONE_CALL : BLUETOOTH_STANDARD_PHONE) : (this.hasActiveCall ? BLUETOOTH_PHONE_CALL : BLUETOOTH_PHONE)) : null);
     }
 
     boolean isPrioReconnect() {
         return this.isPrioReconnect;
-    }
-
-    static {
-        BLUETOOTH_PHONE = new int[]{-1794683926};
-        BLUETOOTH_STANDARD_PHONE = new int[]{0x3663D366};
-        SAP_PHONE = new int[]{-1794683926, 87838446};
-        SAP_STANDARD_PHONE = new int[]{0x3663D366, 87838446};
-        BLUETOOTH_PHONE_CALL = new int[]{-1794683926, -1376557054};
-        BLUETOOTH_STANDARD_PHONE_CALL = new int[]{0x3663D366, -1376557054};
-        SAP_PHONE_CALL = new int[]{-1794683926, 87838446, -1376557054};
-        SAP_STANDARD_PHONE_CALL = new int[]{0x3663D366, 87838446, -1376557054};
     }
 }
 

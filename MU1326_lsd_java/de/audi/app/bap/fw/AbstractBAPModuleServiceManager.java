@@ -24,11 +24,9 @@ implements ServiceTrackerCustomizer {
         this.bundleContext = bundleContext;
     }
 
-    public abstract void registerServices(AbstractActivator abstractActivator) {
-    }
+    public abstract void registerServices(AbstractActivator var1);
 
-    public abstract void trackServices() {
-    }
+    public abstract void trackServices();
 
     protected void closeTracker() {
         if (this.serviceTracker != null) {
@@ -36,11 +34,10 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof SwDiagnosisManager) {
-            this.module.getLogChannel().log(-2137614336, "[AbstractBAPModuleServiceManager#addingService] SwDiagnosisManager found -> adding diagnosis gateway of lsg=%1", (Object)LSGIDs.getDescription(this.module.getLSGID()));
+            this.module.getLogChannel().log(10000000, "[AbstractBAPModuleServiceManager#addingService] SwDiagnosisManager found -> adding diagnosis gateway of lsg=%1", (Object)LSGIDs.getDescription(this.module.getLSGID()));
             AbstractSwDiagnosis abstractSwDiagnosis = this.module.getDiagnosisGateway(true);
             if (abstractSwDiagnosis != null) {
                 ((SwDiagnosisManager)object).addDiagGateway(abstractSwDiagnosis);
@@ -51,11 +48,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         AbstractSwDiagnosis abstractSwDiagnosis;
         if (object instanceof SwDiagnosisManager && (abstractSwDiagnosis = this.module.getDiagnosisGateway(false)) != null) {

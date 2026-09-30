@@ -4,7 +4,6 @@
 package de.audi.atip.hmi.model.menu;
 
 public interface MenuModelListener {
-    default public void itemFocused(int n, int n2, long l, int n3) {
-    }
+    public void itemFocused(int var1, int var2, long var3, int var5);
 }
 

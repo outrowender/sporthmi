@@ -7,12 +7,12 @@ import de.audi.app.data.core.online.AbstractErrorHandler;
 import de.audi.atip.log.LogChannel;
 
 public final class OnlineApplicationState {
-    public static final int CONTEXT_NONE;
-    public static final int CONTEXT_RED;
-    public static final int CONTEXT_MAP;
-    public static final int CONTEXT_CHECK;
-    public static final int CONTEXT_UNLOCK;
-    private static final String[] CONTEXT_NAMES;
+    public static final int CONTEXT_NONE = 0;
+    public static final int CONTEXT_RED = 1;
+    public static final int CONTEXT_MAP = 2;
+    public static final int CONTEXT_CHECK = 3;
+    public static final int CONTEXT_UNLOCK = 4;
+    private static final String[] CONTEXT_NAMES = new String[]{"CONTEXT_NONE", "CONTEXT_RED", "CONTEXT_MAP", "CONTEXT_CHECK", "CONTEXT_UNLOCK"};
     private final LogChannel log;
     private volatile boolean redApp = false;
     private volatile boolean map = false;
@@ -86,16 +86,12 @@ public final class OnlineApplicationState {
     }
 
     private void updateApplicationState() {
-        this.log.log(-2137614336, "OnlineApplicationState#updateApplicationState(): new application state: %1", (Object)this);
+        this.log.log(10000000, "OnlineApplicationState#updateApplicationState(): new application state: %1", (Object)this);
         this.errorHandler.updateApplicationState(this.context, this.wlan, this.dataOnly);
     }
 
     public String toString() {
-        return new StringBuffer().append(CONTEXT_NAMES[this.context]).append("; wlan=").append(this.wlan).append("; dataOnly=").append(this.dataOnly).toString();
-    }
-
-    static {
-        CONTEXT_NAMES = new String[]{"CONTEXT_NONE", "CONTEXT_RED", "CONTEXT_MAP", "CONTEXT_CHECK", "CONTEXT_UNLOCK"};
+        return CONTEXT_NAMES[this.context] + "; wlan=" + this.wlan + "; dataOnly=" + this.dataOnly;
     }
 }
 

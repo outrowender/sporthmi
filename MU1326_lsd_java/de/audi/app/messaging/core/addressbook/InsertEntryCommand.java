@@ -5,8 +5,6 @@ package de.audi.app.messaging.core.addressbook;
 
 import de.audi.app.addressbook.core.common.ADBDbgUtils;
 import de.audi.app.addressbook.core.common.commands.AbstractADBCommand;
-import de.audi.app.messaging.core.addressbook.InsertEntryCommand$1;
-import de.audi.app.messaging.core.addressbook.InsertEntryCommand$Result;
 import de.audi.app.messaging.core.addressbook.MessagingAdbHandler;
 import de.audi.app.messaging.core.commands.ICommandCallback;
 import de.audi.app.messaging.core.util.Logs;
@@ -20,7 +18,7 @@ extends AbstractADBCommand {
     private final ICommandCallback commandCallback;
     private final AdbEntry entry;
     private volatile boolean hasTerminated = false;
-    private volatile InsertEntryCommand$Result result = null;
+    private volatile Result result = null;
     static /* synthetic */ Class class$de$audi$app$messaging$core$addressbook$InsertEntryCommand;
 
     public InsertEntryCommand(MessagingAdbHandler messagingAdbHandler, ICommandCallback iCommandCallback, AdbEntry adbEntry) {
@@ -38,19 +36,17 @@ extends AbstractADBCommand {
         commandList.execute((class$de$audi$app$messaging$core$addressbook$InsertEntryCommand == null ? (class$de$audi$app$messaging$core$addressbook$InsertEntryCommand = InsertEntryCommand.class$("de.audi.app.messaging.core.addressbook.InsertEntryCommand")) : class$de$audi$app$messaging$core$addressbook$InsertEntryCommand).getName());
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[InsertEntryCommand#execute] called");
+        this.logger.log(1000000, "[InsertEntryCommand#execute] called");
         boolean bl = this.adbDSIAccess.insertEntry(this.entry, 0);
         if (!bl) {
-            this.logger.log(-2137614336, "[InsertEntryCommand#execute] dsi call was not successful, finishing command");
+            this.logger.log(10000000, "[InsertEntryCommand#execute] dsi call was not successful, finishing command");
             this.signalResult(1);
         }
     }
 
-    @Override
     public void insertEntryResult(int n, AdbEntry adbEntry) {
-        this.logger.log(1078071040, "InsertEntryCommand#insertEntryResult(): success: %1, adbEntry: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)ADBDbgUtils.dbg(adbEntry));
+        this.logger.log(1000000, "InsertEntryCommand#insertEntryResult(): success: %1, adbEntry: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)ADBDbgUtils.dbg(adbEntry));
         this.signalResult(n);
     }
 
@@ -59,8 +55,8 @@ extends AbstractADBCommand {
      */
     private void signalResult(int n) {
         try {
-            this.logger.log(-2137614336, "[InsertEntryCommand#signalResult] success = %1", (long)n);
-            this.result = new InsertEntryCommand$Result(this, n, null);
+            this.logger.log(10000000, "[InsertEntryCommand#signalResult] success = %1", (long)n);
+            this.result = new Result(n);
             if (!this.hasTerminated && this.commandCallback != null) {
                 this.commandCallback.terminating(this);
             }
@@ -77,10 +73,16 @@ extends AbstractADBCommand {
     }
 
     public Command getErrorCommand() {
-        return new InsertEntryCommand$1(this, this.adbHandler);
+        return new AbstractADBCommand(this.adbHandler){
+
+            public void execute() {
+                this.logger.log(10000000, "[InsertEntryErrorCommand#execute]");
+                InsertEntryCommand.this.signalResult(1);
+            }
+        };
     }
 
-    public InsertEntryCommand$Result getResult() {
+    public Result getResult() {
         return this.result;
     }
 
@@ -93,8 +95,16 @@ extends AbstractADBCommand {
         }
     }
 
-    static /* synthetic */ void access$100(InsertEntryCommand insertEntryCommand, int n) {
-        insertEntryCommand.signalResult(n);
+    public final class Result {
+        private final int resultCode;
+
+        private Result(int n) {
+            this.resultCode = n;
+        }
+
+        public int getResultCode() {
+            return this.resultCode;
+        }
     }
 }
 

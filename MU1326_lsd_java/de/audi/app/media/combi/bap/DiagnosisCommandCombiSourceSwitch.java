@@ -14,12 +14,10 @@ implements IDiagnosisCommandProvider {
         this.combiBAPServiceListenerImpl = combiBAPServiceListenerImpl;
     }
 
-    @Override
     public String[] getDiagKeys() {
         return new String[]{"CombiBAPServiceListenerImpl.switchSource(pCombiSourceType|slotNumber|partitionNumber)"};
     }
 
-    @Override
     public void executeDiagCommand(String string, String[] stringArray) {
         int n = Integer.parseInt(stringArray[0]);
         int n2 = Integer.parseInt(stringArray[1]);

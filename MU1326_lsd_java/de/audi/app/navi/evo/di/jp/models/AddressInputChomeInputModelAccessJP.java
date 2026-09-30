@@ -19,16 +19,14 @@ extends AddressInputModelAccessJP {
         this.housenumberAvailable = navigationEnv.getChoiceModel(DIScreensEvo.getDiJpChomeNeedsNumberChoice());
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
-        this.env.getAddressInputLogChannel().log(-2137614336, "%1#onElementSelected - housenumberAvailable.setValue(NavigationConstants.CHOME_NEEDS_NO_NUMBER)", (Object)this.CLASS_NAME);
+        this.env.getAddressInputLogChannel().log(10000000, "%1#onElementSelected - housenumberAvailable.setValue(NavigationConstants.CHOME_NEEDS_NO_NUMBER)", (Object)this.CLASS_NAME);
         this.housenumberAvailable.setValue(0);
         this.reInitNDFScreenModel.setValue(0);
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
-        this.env.getAddressInputLogChannel().log(-2137614336, "%1#onAmbiguousElementSelected - housenumberAvailable.setValue(NavigationConstants.CHOME_NEEDS_NUMBER)", (Object)this.CLASS_NAME);
+        this.env.getAddressInputLogChannel().log(10000000, "%1#onAmbiguousElementSelected - housenumberAvailable.setValue(NavigationConstants.CHOME_NEEDS_NUMBER)", (Object)this.CLASS_NAME);
         this.housenumberAvailable.setValue(1);
         this.reInitNDFScreenModel.setValue(1);
     }

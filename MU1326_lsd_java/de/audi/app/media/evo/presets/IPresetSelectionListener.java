@@ -4,7 +4,6 @@
 package de.audi.app.media.evo.presets;
 
 public interface IPresetSelectionListener {
-    default public void selectionDone(boolean bl) {
-    }
+    public void selectionDone(boolean var1);
 }
 

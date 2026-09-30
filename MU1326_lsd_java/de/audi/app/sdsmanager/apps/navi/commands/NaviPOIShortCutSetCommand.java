@@ -16,17 +16,17 @@ import de.audi.atip.log.LogChannel;
 public class NaviPOIShortCutSetCommand
 extends AbstractSystemCallCommand
 implements ISDSNaviInputStartingCommand {
-    private static final byte GAS_STATION;
-    private static final byte RESTAURANT;
-    private static final byte REST_AREA;
-    private static final byte REST_AREA_WC;
-    private static final byte ATM;
-    private static final byte REST_AREA_NAR;
+    private static final byte GAS_STATION = 0;
+    private static final byte RESTAURANT = 1;
+    private static final byte REST_AREA = 2;
+    private static final byte REST_AREA_WC = 3;
+    private static final byte ATM = 4;
+    private static final byte REST_AREA_NAR = 5;
     private final NaviService naviService;
     private NaviSDSHandler naviSDSHandler;
     private final byte searchArea;
     private byte naturalPOI;
-    private static final byte[][] searchAreaToPOIID;
+    private static final byte[][] searchAreaToPOIID = new byte[][]{{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 102}};
 
     public NaviPOIShortCutSetCommand(LogChannel logChannel, String string, SDSHandlerService sDSHandlerService, ISystemCallParameter[] iSystemCallParameterArray, NaviSDSHandler naviSDSHandler, NaviService naviService) {
         super(logChannel, string, sDSHandlerService);
@@ -35,13 +35,12 @@ implements ISDSNaviInputStartingCommand {
         this.searchArea = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: searchArea=%2", (Object)this.getName(), (long)this.searchArea);
+        this.logger.log(10000000, "%1#execute: searchArea=%2", (Object)this.getName(), (long)this.searchArea);
         this.naturalPOI = SDSUtils.translate(this.searchArea, searchAreaToPOIID);
         if (this.naturalPOI == -128) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled searchArea %2, sending INVALID!", (Object)this.getName(), (long)this.searchArea);
-            this.sendResult(1184628736);
+            this.logger.log(100000, "%1#execute: Unhandled searchArea %2, sending INVALID!", (Object)this.getName(), (long)this.searchArea);
+            this.sendResult(40006);
             return;
         }
         NaviSDSUtils.resetVDEData(11, this.naviSDSHandler);
@@ -49,9 +48,8 @@ implements ISDSNaviInputStartingCommand {
         this.naviService.startDestinationInput(10);
     }
 
-    @Override
     public void responseStartDestinationInput(byte by) {
-        this.logger.log(-2137614336, "%1#responseStartDestinationInput: result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#responseStartDestinationInput: result=%2", (Object)this.getName(), (long)by);
         if (by != 0) {
             this.sendResult(NaviSDSUtils.getSDSResult(by));
             return;
@@ -68,14 +66,10 @@ implements ISDSNaviInputStartingCommand {
     }
 
     public void responsePOISelection(byte by) {
-        this.logger.log(-2137614336, "%1#responsePOISelection: result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#responsePOISelection: result=%2", (Object)this.getName(), (long)by);
         int n = NaviSDSUtils.getSDSResult(by);
-        this.logger.log(-2137614336, "%1#responsePOISelection: sdsRes=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responsePOISelection: sdsRes=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
-    }
-
-    static {
-        searchAreaToPOIID = new byte[][]{{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 102}};
     }
 }
 

@@ -14,7 +14,6 @@ implements IAudioFocusManager {
         super(logChannel, "NullAudioFocusManager");
     }
 
-    @Override
     public void setActiveAudioApp(int n, int n2) {
         this.log();
     }

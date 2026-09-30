@@ -12,27 +12,25 @@ import org.dsi.ifc.media.DSIMediaBrowser;
 
 public class MediaDSIBrowserRequestPickListHandler
 extends AbstractQueuedRequestHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaDSIBrowserRequestPickListHandler";
 
     public MediaDSIBrowserRequestPickListHandler(LogChannel logChannel, int n) {
         super(logChannel, true, n);
     }
 
-    @Override
     protected String getLogClass() {
-        return "MediaDSIBrowserRequestPickListHandler";
+        return LOGCLASS;
     }
 
-    @Override
     protected final boolean sendRequest(IRequestParameter iRequestParameter, DSIBase dSIBase, int n) {
         try {
             RequestPickListParameterList requestPickListParameterList = (RequestPickListParameterList)iRequestParameter;
-            this.getLogChannel().log(1078071040, "[%1.sendRequest] [%3] dsiMediaBrowser.requestPickList('%2').", (Object)"MediaDSIBrowserRequestPickListHandler", (Object)requestPickListParameterList, (long)n);
+            this.getLogChannel().log(1000000, "[%1.sendRequest] [%3] dsiMediaBrowser.requestPickList('%2').", (Object)LOGCLASS, (Object)requestPickListParameterList, (long)n);
             ((DSIMediaBrowser)dSIBase).requestPickList(requestPickListParameterList.getEntryIDs());
             return true;
         }
         catch (Exception exception) {
-            this.getLogChannel().log(-1601830656, "[%1.sendRequest] Error on requesting pick list: %2", (Object)"MediaDSIBrowserRequestPickListHandler", (Throwable)exception);
+            this.getLogChannel().log(100000, "[%1.sendRequest] Error on requesting pick list: %2", (Object)LOGCLASS, (Throwable)exception);
             return false;
         }
     }

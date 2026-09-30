@@ -19,48 +19,48 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public class DataPlayerPlayViewListRow
 extends AbstractMediaPlayViewListRow {
-    private static final String LOGCLASS;
-    private static final int[] EMPTY_PROPERTIES;
-    private static final String EMPTY_TEXT_CELL;
-    private static final int EMPTY_INT_CELL;
-    private static final int NOT_SUPPORT_INT_CELL;
-    private static final byte RECORDSET_BIT_VIDEO_TYPE;
-    private static final byte RECORDSET_BIT_PLAYING;
-    private static final byte RECORDSET_BIT_ERROR;
-    private static final byte RECORDSET_BIT_CHAPTER_SUPPORT;
-    private static final byte CELL_COUNT;
-    private static final byte CELL_ID_UNIQUE_ID;
-    private static final byte CELL_ID_RECORD_SET;
-    private static final byte CELL_ID_ICON;
-    private static final byte CELL_ID_TITEL;
-    private static final byte CELL_ID_TITLE_I18N;
-    private static final byte CELL_ID_ARTIST;
-    private static final byte CELL_ID_ARTIST_I18N;
-    private static final byte CELL_ID_ALBUM;
-    private static final byte CELL_ID_ALBUM_I18N;
-    private static final byte CELL_ID_PLAYTIME;
-    private static final byte CELL_ID_PLAYTIME_REMAINING;
-    private static final byte CELL_ID_PLAYTIME_PROGRESS;
-    private static final byte CELL_ID_ERROR_STATE;
-    private static final byte CELL_ID_COVERART;
-    private static final byte CELL_ID_PROPERTY;
-    private static final byte CELL_ID_TOTAL_CHAPTER;
-    private static final byte CELL_ID_ACTIV_CHAPTER;
-    private static final byte CELL_ID_ENABLED;
-    private static final byte CELL_ID_LAYOUT;
-    private static final byte CELL_ID_DEFAULTCOVER_ID;
-    private static final byte CELL_ID_ONLINE;
-    private static final int LAYOUT_ONE_LINE;
-    private static final int LAYOUT_TWO_LINES;
-    public static final int ERROR_STATE_NONE;
-    public static final int ERROR_STATE_PROTECTED;
-    public static final int ERROR_STATE_CORRUPT;
-    public static final int ERROR_STATE_DEADLINK;
-    public static final int ERROR_STATE_ONLINE_ENTRY_NO_CONNECTION;
-    public static final int ONLINE_STATE_NONE;
-    public static final int ONLINE_STATE_CLOUD;
-    private static final int ICONTYPE_OFFSET_AUDIO;
-    private static final int ICONTYPE_OFFSET_VIDEO;
+    private static final String LOGCLASS = "DataPlayerPlayViewListRow";
+    private static final int[] EMPTY_PROPERTIES = new int[0];
+    private static final String EMPTY_TEXT_CELL = null;
+    private static final int EMPTY_INT_CELL = 0;
+    private static final int NOT_SUPPORT_INT_CELL = -1;
+    private static final byte RECORDSET_BIT_VIDEO_TYPE = 1;
+    private static final byte RECORDSET_BIT_PLAYING = 2;
+    private static final byte RECORDSET_BIT_ERROR = 4;
+    private static final byte RECORDSET_BIT_CHAPTER_SUPPORT = 8;
+    private static final byte CELL_COUNT = 21;
+    private static final byte CELL_ID_UNIQUE_ID = 0;
+    private static final byte CELL_ID_RECORD_SET = 1;
+    private static final byte CELL_ID_ICON = 2;
+    private static final byte CELL_ID_TITEL = 3;
+    private static final byte CELL_ID_TITLE_I18N = 4;
+    private static final byte CELL_ID_ARTIST = 5;
+    private static final byte CELL_ID_ARTIST_I18N = 6;
+    private static final byte CELL_ID_ALBUM = 7;
+    private static final byte CELL_ID_ALBUM_I18N = 8;
+    private static final byte CELL_ID_PLAYTIME = 9;
+    private static final byte CELL_ID_PLAYTIME_REMAINING = 10;
+    private static final byte CELL_ID_PLAYTIME_PROGRESS = 11;
+    private static final byte CELL_ID_ERROR_STATE = 12;
+    private static final byte CELL_ID_COVERART = 13;
+    private static final byte CELL_ID_PROPERTY = 14;
+    private static final byte CELL_ID_TOTAL_CHAPTER = 15;
+    private static final byte CELL_ID_ACTIV_CHAPTER = 16;
+    private static final byte CELL_ID_ENABLED = 17;
+    private static final byte CELL_ID_LAYOUT = 18;
+    private static final byte CELL_ID_DEFAULTCOVER_ID = 19;
+    private static final byte CELL_ID_ONLINE = 20;
+    private static final int LAYOUT_ONE_LINE = 1;
+    private static final int LAYOUT_TWO_LINES = 2;
+    public static final int ERROR_STATE_NONE = 0;
+    public static final int ERROR_STATE_PROTECTED = 1;
+    public static final int ERROR_STATE_CORRUPT = 2;
+    public static final int ERROR_STATE_DEADLINK = 3;
+    public static final int ERROR_STATE_ONLINE_ENTRY_NO_CONNECTION = 4;
+    public static final int ONLINE_STATE_NONE = 0;
+    public static final int ONLINE_STATE_CLOUD = 1;
+    private static final int ICONTYPE_OFFSET_AUDIO = 0;
+    private static final int ICONTYPE_OFFSET_VIDEO = 4;
     private final int entryContentType;
     private volatile ResourceLocator coverart;
     private final MediaListEntry entry;
@@ -131,22 +131,21 @@ extends AbstractMediaPlayViewListRow {
     private static int getCategory(boolean bl, int n, boolean bl2) {
         switch (n) {
             case 2: {
-                return 1715074328;
+                return 418724198;
             }
             case 3: {
-                return -1397398285;
+                return -211503700;
             }
             case 1: {
-                return -1255215132;
+                return -454086987;
             }
         }
         if (bl2) {
-            return bl ? 1305543806 : 983881888;
+            return bl ? 2114244941 : -1596414918;
         }
-        return bl ? -1068327696 : 1264194613;
+        return bl ? -258190656 : 890526283;
     }
 
-    @Override
     public void setTime(PlayTime playTime) {
         if (playTime == null) {
             this.setText(9, EMPTY_TEXT_CELL);
@@ -159,7 +158,6 @@ extends AbstractMediaPlayViewListRow {
         }
     }
 
-    @Override
     public void setPlaying(boolean bl) {
         int n = this.getInteger(1);
         if (bl) {
@@ -174,7 +172,6 @@ extends AbstractMediaPlayViewListRow {
         }
     }
 
-    @Override
     public void setDetailInfos(MediaDetailInfo mediaDetailInfo) {
         if (this.getEntryID() != mediaDetailInfo.getPlayingTrack().getEntryID()) {
             return;
@@ -203,9 +200,8 @@ extends AbstractMediaPlayViewListRow {
         }
     }
 
-    @Override
     public void setCoverArt(ResourceLocator resourceLocator) {
-        this.logger.log(1078071040, "[%1.setCoverArt] cover: '%2'.", (Object)"DataPlayerPlayViewListRow", (Object)resourceLocator);
+        this.logger.log(1000000, "[%1.setCoverArt] cover: '%2'.", (Object)LOGCLASS, (Object)resourceLocator);
         this.coverart = resourceLocator;
         if (resourceLocator == null) {
             this.setHMIResourceLocator(13, new HMIResourceLocator(-1, HMIResourceLocator.UNDEFINED_URI));
@@ -214,7 +210,6 @@ extends AbstractMediaPlayViewListRow {
         }
     }
 
-    @Override
     public void updatePlaytimeCapabilitiy(boolean bl) {
         this.supportsPlayTime = bl;
         this.setInteger(11, this.supportsPlayTime ? 0 : -1);
@@ -224,7 +219,6 @@ extends AbstractMediaPlayViewListRow {
         return this.entry;
     }
 
-    @Override
     public I18NString getTitle() {
         return this.entry.getTitle();
     }
@@ -245,7 +239,6 @@ extends AbstractMediaPlayViewListRow {
         return this.getInteger(12);
     }
 
-    @Override
     public boolean isEnabled() {
         return (this.getInteger(1) & 4) != 4;
     }
@@ -270,12 +263,10 @@ extends AbstractMediaPlayViewListRow {
         return this.entryContentType;
     }
 
-    @Override
     public EvoListRow copy() {
         return new DataPlayerPlayViewListRow(this);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(100);
         buffer.append("['");
@@ -309,11 +300,6 @@ extends AbstractMediaPlayViewListRow {
         buffer.append("','").append(this.getInteger(1)).append("','").append(this.getCell(13));
         buffer.append("','").append(this.getInteger(2)).append("']");
         return buffer.toString();
-    }
-
-    static {
-        EMPTY_PROPERTIES = new int[0];
-        EMPTY_TEXT_CELL = null;
     }
 }
 

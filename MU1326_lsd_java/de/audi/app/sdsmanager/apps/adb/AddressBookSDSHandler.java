@@ -4,92 +4,103 @@
 package de.audi.app.sdsmanager.apps.adb;
 
 import de.audi.app.sdsmanager.apps.ISDSApplication;
-import de.audi.app.sdsmanager.apps.adb.AddressBookSDSHandler$TelNumberInfo;
 import de.audi.atip.interapp.ADBSDSService;
-import de.audi.atip.interapp.ADBSDSService$TelNumberDetails;
 import de.audi.atip.interapp.NaviService;
+import org.dsi.ifc.global.ResourceLocator;
 
 public interface AddressBookSDSHandler
 extends ISDSApplication {
-    default public void setADBService(ADBSDSService aDBSDSService) {
-    }
+    public void setADBService(ADBSDSService var1);
 
-    default public ADBSDSService getADBService() {
-    }
+    public ADBSDSService getADBService();
 
-    default public void unsetADBService() {
-    }
+    public void unsetADBService();
 
-    default public void setNaviService(NaviService naviService) {
-    }
+    public void setNaviService(NaviService var1);
 
-    default public void unsetNaviService() {
-    }
+    public void unsetNaviService();
 
-    default public int getProfileID() {
-    }
+    public int getProfileID();
 
-    default public long getCurrentEntryID() {
-    }
+    public long getCurrentEntryID();
 
-    default public void setPhoneNumberTypes(int n) {
-    }
+    public void setPhoneNumberTypes(int var1);
 
-    default public int getPhoneNumberTypes() {
-    }
+    public int getPhoneNumberTypes();
 
-    default public TelNumberInfo getTelNumberInfo() {
-    }
+    public TelNumberInfo getTelNumberInfo();
 
-    default public long getADBID(int n) {
-    }
+    public long getADBID(int var1);
 
-    default public void setCurrentEntryID(long l) {
-    }
+    public void setCurrentEntryID(long var1);
 
-    default public long getSelectedEntryID() {
-    }
+    public long getSelectedEntryID();
 
-    default public void setSelectedEntryID(long l) {
-    }
+    public void setSelectedEntryID(long var1);
 
-    default public void setNavLocations(int[] nArray) {
-    }
+    public void setNavLocations(int[] var1);
 
-    default public long[] getEntryIDs() {
-    }
+    public long[] getEntryIDs();
 
-    default public void setEntryIDs(long[] lArray) {
-    }
+    public void setEntryIDs(long[] var1);
 
-    default public void handleItemSelectionInAdbList(int n, int n2) {
-    }
+    public void handleItemSelectionInAdbList(int var1, int var2);
 
-    default public long getADBEntrySelectionInterruptID() {
-    }
+    public long getADBEntrySelectionInterruptID();
 
-    default public void setADBEntrySelectionInterruptID(long l) {
-    }
+    public void setADBEntrySelectionInterruptID(long var1);
 
-    default public void setTelNumberDetails(ADBSDSService$TelNumberDetails aDBSDSService$TelNumberDetails) {
-    }
+    public void setTelNumberDetails(ADBSDSService.TelNumberDetails var1);
 
-    default public int getNavLocationSize() {
-    }
+    public int getNavLocationSize();
 
-    default public int getNavLocationType(int n) {
-    }
+    public int getNavLocationType(int var1);
 
-    default public int getNavLocationTypeByCategory(int n) {
-    }
+    public int getNavLocationTypeByCategory(int var1);
 
-    default public void responseGetEntryNames(String[] stringArray) {
-    }
+    public void responseGetEntryNames(String[] var1);
 
-    default public ADBSDSService$TelNumberDetails getTelNumberDetails(int n) {
-    }
+    public ADBSDSService.TelNumberDetails getTelNumberDetails(int var1);
 
-    default public void updateTelNumberInfo(int n, int n2, String string) {
+    public void updateTelNumberInfo(int var1, int var2, String var3);
+
+    public static class TelNumberInfo {
+        private ADBSDSService.TelNumberDetails telNumDetails = null;
+        private int phoneNumberIndex = 0;
+        private int phoneNumCount = 0;
+        private ResourceLocator adbPic = null;
+
+        public void setTelNumDetails(ADBSDSService.TelNumberDetails telNumberDetails) {
+            this.telNumDetails = telNumberDetails;
+        }
+
+        public void setPhoneNumCount(int n) {
+            this.phoneNumCount = n;
+        }
+
+        public void setResourceLocator(ResourceLocator resourceLocator) {
+            this.adbPic = resourceLocator;
+        }
+
+        public ADBSDSService.TelNumberDetails getTelNumDetails() {
+            return this.telNumDetails;
+        }
+
+        public int getPhoneNumCount() {
+            return this.phoneNumCount;
+        }
+
+        public ResourceLocator getResourceLocator() {
+            return this.adbPic;
+        }
+
+        public int getPhoneNumberIndex() {
+            return this.phoneNumberIndex;
+        }
+
+        public void setPhoneNumberIndex(int n) {
+            this.phoneNumberIndex = n;
+        }
     }
 }
 

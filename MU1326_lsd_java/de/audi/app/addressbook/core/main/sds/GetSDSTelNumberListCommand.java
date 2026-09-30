@@ -16,7 +16,7 @@ import org.dsi.ifc.organizer.AdbEntry;
 
 public class GetSDSTelNumberListCommand
 extends AbstractADBCommand {
-    private static final int PHONETYPE_GENERAL;
+    private static final int PHONETYPE_GENERAL = 6;
     private AbstractAddressBookApplication appAdr;
     private long entryId;
     private ADBSDSHandler sdsHandler;
@@ -31,9 +31,8 @@ extends AbstractADBCommand {
         this.sdsPhoneNumberTypes = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "GetSDSTelNumberListCommand#execute()");
+        this.logger.log(10000000, "GetSDSTelNumberListCommand#execute()");
         boolean bl = this.adbDSIAccess.getEntries(new long[]{this.entryId}, 0, 0);
         if (!bl) {
             this.logger.log(10000, "GetSDSTelNumberListCommand#execute(): dsi call was not successful, finishing command.");
@@ -42,14 +41,13 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(-2137614336, "GetSDSTelNumberListCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "GetSDSTelNumberListCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             if (adbEntryArray.length == 1) {
-                this.logger.log(-2137614336, "GetSDSTelNumberListCommand#getEntriesResult(): got entry: %1", (Object)adbEntryArray[0]);
+                this.logger.log(10000000, "GetSDSTelNumberListCommand#getEntriesResult(): got entry: %1", (Object)adbEntryArray[0]);
                 ADBUtils.checkAndFixADBEntry(adbEntryArray[0], this.appAdr.getFramework());
-                this.appAdr.getHMIService().getLabelModel(1303382528).setText(adbEntryArray[0].combinedName);
+                this.appAdr.getHMIService().getLabelModel(700493).setText(adbEntryArray[0].combinedName);
                 int[] nArray = new int[ADBUtils.countPhoneNumbers(adbEntryArray[0])];
                 int n2 = 0;
                 for (int i2 = 0; i2 < adbEntryArray[0].phoneData.length; ++i2) {

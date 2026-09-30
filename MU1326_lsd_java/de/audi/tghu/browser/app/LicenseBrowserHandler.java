@@ -13,10 +13,9 @@ extends DirectSuspendResumeBrowserHandler {
         super(iFrameworkAccess, n, logChannel, logChannel2);
     }
 
-    @Override
     public void updateBrowserState(int n, int n2) {
         if (n2 == 1 && n == 4) {
-            this.logChannelDSI.log(1078071040, "LicenseBrowserHandler#updateBrowserState: showing browser layer");
+            this.logChannelDSI.log(1000000, "LicenseBrowserHandler#updateBrowserState: showing browser layer");
             this.modelHandler.setDisplayContextSwitchChoiceValue(4);
         }
         super.updateBrowserState(n, n2);

@@ -10,17 +10,17 @@ import de.esolutions.fw.util.commons.Buffer;
 public final class PorscheControllerEntry
 implements DeepCloneable,
 PorscheGenericEntry {
-    public static final int MAX_CONTROLLER_LENGTH;
-    public static final int LABELICON_BUTTON_INDEX;
-    public static final int ALIGNMENT_RIGHT;
-    public static final int ALIGNMENT_LEFT;
-    public static final int ALIGNMENT_UNDEFINED;
+    public static final int MAX_CONTROLLER_LENGTH = 8;
+    public static final int LABELICON_BUTTON_INDEX = 8;
+    public static final int ALIGNMENT_RIGHT = 1;
+    public static final int ALIGNMENT_LEFT = 0;
+    public static final int ALIGNMENT_UNDEFINED = -1;
     public int alignment = -1;
-    public static final int TYPE_UNDEFINED;
-    public static final int TYPE_GLOW;
-    public static final int TYPE_LABELIMAGE;
-    public static final int TYPE_TOGGLE;
-    public static final int TYPE_ICONTEXT;
+    public static final int TYPE_UNDEFINED = -1;
+    public static final int TYPE_GLOW = 0;
+    public static final int TYPE_LABELIMAGE = 1;
+    public static final int TYPE_TOGGLE = 2;
+    public static final int TYPE_ICONTEXT = 3;
     public int type = -1;
     public final String id;
     public String url;
@@ -74,7 +74,6 @@ PorscheGenericEntry {
         this.iconText = string;
     }
 
-    @Override
     public Object clone(boolean bl) {
         if (bl) {
             return new PorscheControllerEntry(this);
@@ -106,37 +105,30 @@ PorscheGenericEntry {
         return bl;
     }
 
-    @Override
     public String getFirstImagePath() {
         return this.url;
     }
 
-    @Override
     public void setFirstImagePath(String string) {
         this.url = string;
     }
 
-    @Override
     public String getSecondImagePath() {
         return this.secondUrl;
     }
 
-    @Override
     public void setSecondImagePath(String string) {
         this.secondUrl = string;
     }
 
-    @Override
     public boolean isSecondImageAvailable() {
         return true;
     }
 
-    @Override
     public void setContextName(String string) {
         this.context = string;
     }
 
-    @Override
     public String getContextName() {
         return this.context;
     }

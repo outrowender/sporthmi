@@ -8,15 +8,14 @@ import de.audi.app.terminalmode.statemachine.commands.AbstractCommand;
 
 public class StopNaviRouteGuidance
 extends AbstractCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "StopNaviRouteGuidance";
 
     public StopNaviRouteGuidance(IContext iContext) {
-        super(iContext.getLogger().main(), "StopNaviRouteGuidance", iContext);
+        super(iContext.getLogger().main(), LOGCLASS, iContext);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"StopNaviRouteGuidance");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
         this.context.getNaviAppHandler().stopRouteGuidance();
         this.getCommandList().commandFinished();
     }

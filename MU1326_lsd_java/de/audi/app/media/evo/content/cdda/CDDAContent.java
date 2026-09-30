@@ -21,89 +21,79 @@ public class CDDAContent
 extends AbstractMediaContent
 implements IActionProxyListener,
 TimerListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CDDAContent";
     private final CDDAPlayer cddaPlayer;
     private final Timer gracenoteTimer;
 
     public CDDAContent(IContentContext iContentContext, IMediaTerminal iMediaTerminal, IMediaDSIPlayerController iMediaDSIPlayerController) {
         super(0, iContentContext, iMediaTerminal);
         this.cddaPlayer = new CDDAPlayer(iMediaTerminal, this, iMediaDSIPlayerController);
-        this.gracenoteTimer = new Timer("Gracenote", 0, true, this);
+        this.gracenoteTimer = new Timer("Gracenote", 3000L, true, this);
     }
 
-    @Override
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"CDDAContent");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.cddaPlayer.init();
-        this.getChoiceModel(-2062613760).setValue(1);
+        this.getChoiceModel(200581).setValue(1);
     }
 
-    @Override
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"CDDAContent");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.cddaPlayer.deinit();
     }
 
-    @Override
     public void activate(IActivationContext iActivationContext) {
-        this.logger.main().log(1078071040, "[%1.activate]", (Object)"CDDAContent");
+        this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
         super.activate(iActivationContext);
         this.getTerminal().addActionProxyListener(36, (IActionProxyListener)this);
         this.cddaPlayer.activate(iActivationContext);
     }
 
-    @Override
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate] Deactivate.", (Object)"CDDAContent");
+        this.logger.main().log(1000000, "[%1.deactivate] Deactivate.", (Object)LOGCLASS);
         this.getTerminal().removeActionProxyListener(this);
         this.getChoiceModel(3941).setValue(0);
         super.deactivate();
         this.cddaPlayer.deactivate();
     }
 
-    @Override
     public IPlayer getPlayer() {
         return this.cddaPlayer;
     }
 
-    @Override
     public ButtonListener getHardKeyListener() {
         return this.cddaPlayer.getHardKeyListener();
     }
 
-    @Override
     public void resetSettings() {
         this.cddaPlayer.resetSettings();
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logger.main().log(1078071040, "[%1.fireTimer] Remove gracenote icon.", (Object)"CDDAContent");
+        this.logger.main().log(1000000, "[%1.fireTimer] Remove gracenote icon.", (Object)LOGCLASS);
         this.getChoiceModel(3941).setValue(0);
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-        this.logger.main().log(1078071040, "[%1.cancelTimer]", (Object)"CDDAContent");
+        this.logger.main().log(1000000, "[%1.cancelTimer]", (Object)LOGCLASS);
         this.getChoiceModel(3941).setValue(0);
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (36 == n) {
-            this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed]", (Object)"CDDAContent");
+            this.logger.main().log(1000000, "[%1.actionProxyCallPerformed]", (Object)LOGCLASS);
             if (this.getTerminal().getConfiguration().isGracenoteEnabled()) {
                 this.getChoiceModel(3941).setValue(1);
                 this.gracenoteTimer.start();
             } else {
-                this.logger.main().log(-2137614336, "[%1.actionProxyCallPerformed] Gracenote is not coded", (Object)"CDDAContent");
+                this.logger.main().log(10000000, "[%1.actionProxyCallPerformed] Gracenote is not coded", (Object)LOGCLASS);
             }
         }
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("CDDAContent").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 }

@@ -9,15 +9,15 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 
 public class OPSSensorAreaFrontRear
 extends OPSSensorArea {
-    private static final int TRAILER_NONE;
-    private static final int TRAILER_HITCHED;
+    private static final int TRAILER_NONE = 0;
+    private static final int TRAILER_HITCHED = 1;
     private boolean trailerHitched = false;
     private boolean isRear = false;
     private ChoiceModelApp trailerModel;
     private final ChoiceModelApp errorIconStatusModel;
-    public static final int NO_ERROR_ICON;
-    public static final int TEMP_NOT_AVAILABLE_ICON;
-    public static final int ERROR_ICON;
+    public static final int NO_ERROR_ICON = 0;
+    public static final int TEMP_NOT_AVAILABLE_ICON = 1;
+    public static final int ERROR_ICON = 2;
 
     public boolean isTrailerHitched() {
         return this.trailerHitched;
@@ -29,7 +29,6 @@ extends OPSSensorArea {
         this.errorIconStatusModel = choiceModelApp2;
     }
 
-    @Override
     protected void updateAreaVisibility(int[] nArray) {
         this.errorStatus = 0;
         for (int i2 = this.getLeftOuterSectorIndex(); i2 <= this.getRightOuterSectorIndex(); ++i2) {
@@ -56,7 +55,6 @@ extends OPSSensorArea {
         }
     }
 
-    @Override
     public void setTrailerHitched(boolean bl) {
         if (this.isRear) {
             this.handleTrailerHitching(bl);
@@ -81,12 +79,10 @@ extends OPSSensorArea {
         }
     }
 
-    @Override
     public boolean isRear() {
         return this.isRear;
     }
 
-    @Override
     public void setRear(boolean bl) {
         this.isRear = bl;
     }

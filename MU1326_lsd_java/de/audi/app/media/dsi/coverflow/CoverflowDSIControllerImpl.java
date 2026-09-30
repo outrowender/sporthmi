@@ -20,7 +20,7 @@ import org.dsi.ifc.base.DSIListener;
 public class CoverflowDSIControllerImpl
 extends AbstractDSIController
 implements ICoverflowDSIController {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CoverflowDSIControllerImpl";
     private final CoverflowDSIListener dsiListener;
     private volatile DSIAlbumBrowser dsiService = null;
     private volatile ICoverflowListener coverflowListener;
@@ -32,49 +32,42 @@ implements ICoverflowDSIController {
         this.dsiListener = new CoverflowDSIListener(logChannel, this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.logger.log(1078071040, "[%1.deinit] Deinit.", (Object)"CoverflowDSIControllerImpl");
+        this.logger.log(1000000, "[%1.deinit] Deinit.", (Object)LOGCLASS);
         this.clearAttributeNotification(this.dsiService);
     }
 
-    @Override
     public void addDSIService(DSIBase dSIBase) {
-        this.logger.log(1078071040, "[%1.addDSIService] '%2'.", (Object)"CoverflowDSIControllerImpl", (Object)dSIBase);
+        this.logger.log(1000000, "[%1.addDSIService] '%2'.", (Object)LOGCLASS, (Object)dSIBase);
         this.dsiService = (DSIAlbumBrowser)dSIBase;
         this.registerAttributeNotifications(dSIBase);
     }
 
-    @Override
     protected void removeDSIService() {
-        this.logger.log(1078071040, "[%1.removeDSIService] DSI service removed.", (Object)"CoverflowDSIControllerImpl");
+        this.logger.log(1000000, "[%1.removeDSIService] DSI service removed.", (Object)LOGCLASS);
         this.dsiService = null;
     }
 
     protected void registerAttributeNotifications(DSIBase dSIBase) {
-        this.logger.log(-2137614336, "[%1.registerDSI] Set attribute notifications.", (Object)"CoverflowDSIControllerImpl");
+        this.logger.log(10000000, "[%1.registerDSI] Set attribute notifications.", (Object)LOGCLASS);
         dSIBase.setNotification(new int[]{1, 2, 3, 4, 5}, (DSIListener)this.dsiListener);
     }
 
-    @Override
     protected DSIListener getDSIListener() {
         return this.dsiListener;
     }
 
-    @Override
     protected Class getDSIServiceClass() {
         return class$org$dsi$ifc$albumbrowser$DSIAlbumBrowser == null ? (class$org$dsi$ifc$albumbrowser$DSIAlbumBrowser = CoverflowDSIControllerImpl.class$("org.dsi.ifc.albumbrowser.DSIAlbumBrowser")) : class$org$dsi$ifc$albumbrowser$DSIAlbumBrowser;
     }
 
-    @Override
     protected Class getDSIListenerClass() {
         return class$org$dsi$ifc$albumbrowser$DSIAlbumBrowserListener == null ? (class$org$dsi$ifc$albumbrowser$DSIAlbumBrowserListener = CoverflowDSIControllerImpl.class$("org.dsi.ifc.albumbrowser.DSIAlbumBrowserListener")) : class$org$dsi$ifc$albumbrowser$DSIAlbumBrowserListener;
     }
 
-    @Override
     public void setCoverflowListener(ICoverflowListener iCoverflowListener) {
-        this.logger.log(1078071040, "[%1.setCoverflowListener] '%2'.", (Object)"CoverflowDSIControllerImpl", (Object)iCoverflowListener);
+        this.logger.log(1000000, "[%1.setCoverflowListener] '%2'.", (Object)LOGCLASS, (Object)iCoverflowListener);
         this.coverflowListener = iCoverflowListener;
     }
 
@@ -82,9 +75,8 @@ implements ICoverflowDSIController {
         return this.coverflowListener;
     }
 
-    @Override
     public void startActive() {
-        this.logger.log(1078071040, "[%1.startActive]", (Object)"CoverflowDSIControllerImpl");
+        this.logger.log(1000000, "[%1.startActive]", (Object)LOGCLASS);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -92,9 +84,8 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.startActive();
     }
 
-    @Override
     public void startSingle() {
-        this.logger.log(1078071040, "[%1.startSingle]", (Object)"CoverflowDSIControllerImpl");
+        this.logger.log(1000000, "[%1.startSingle]", (Object)LOGCLASS);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -102,9 +93,8 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.startSingle();
     }
 
-    @Override
     public void startPreview() {
-        this.logger.log(1078071040, "[%1.startPreview]", (Object)"CoverflowDSIControllerImpl");
+        this.logger.log(1000000, "[%1.startPreview]", (Object)LOGCLASS);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -112,9 +102,8 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.startPreview();
     }
 
-    @Override
     public void stop() {
-        this.logger.log(1078071040, "[%1.stop]", (Object)"CoverflowDSIControllerImpl");
+        this.logger.log(1000000, "[%1.stop]", (Object)LOGCLASS);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -122,9 +111,8 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.stop();
     }
 
-    @Override
     public void deinitialize() {
-        this.logger.log(1078071040, "[%1.deinitialize]", (Object)"CoverflowDSIControllerImpl");
+        this.logger.log(1000000, "[%1.deinitialize]", (Object)LOGCLASS);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -132,10 +120,9 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.deinitializeBrowser();
     }
 
-    @Override
     public void initialize(ISourceSlot iSourceSlot) {
         MediaSourceSlot mediaSourceSlot = (MediaSourceSlot)iSourceSlot;
-        this.logger.log(1078071040, "[%1.initialize] deviceID='%2', mediaID='%3'.", (Object)"CoverflowDSIControllerImpl", mediaSourceSlot.getDeviceID(), mediaSourceSlot.getMediaID());
+        this.logger.log(1000000, "[%1.initialize] deviceID='%2', mediaID='%3'.", (Object)LOGCLASS, mediaSourceSlot.getDeviceID(), mediaSourceSlot.getMediaID());
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -143,9 +130,8 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.initializeBrowser(mediaSourceSlot.getDeviceID(), mediaSourceSlot.getMediaID(), 0);
     }
 
-    @Override
     public void moveFocus(long l, boolean bl) {
-        this.logger.log(1078071040, "[%1.moveFocus] '%3' ('%2').", (Object)"CoverflowDSIControllerImpl", (Object)(bl ? "ANIMATED" : "STILL"), l);
+        this.logger.log(1000000, "[%1.moveFocus] '%3' ('%2').", (Object)LOGCLASS, (Object)(bl ? "ANIMATED" : "STILL"), l);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -153,9 +139,8 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.moveFocus(l, bl ? 1 : 0);
     }
 
-    @Override
     public void scrollTicks(int n) {
-        this.logger.log(1078071040, "[%1.scrollTicks] '%2'.", (Object)"CoverflowDSIControllerImpl", (long)n);
+        this.logger.log(1000000, "[%1.scrollTicks] '%2'.", (Object)LOGCLASS, (long)n);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -163,9 +148,8 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.scrollTicks(n);
     }
 
-    @Override
     public void setScrollMode(int n) {
-        this.logger.log(1078071040, "[%1.setScrollMode] '%2'.", (Object)"CoverflowDSIControllerImpl", (long)n);
+        this.logger.log(1000000, "[%1.setScrollMode] '%2'.", (Object)LOGCLASS, (long)n);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -173,9 +157,8 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.setScrollMode(n);
     }
 
-    @Override
     public void selectAlbum(long l) {
-        this.logger.log(1078071040, "[%1.selectAlbum] '%2'.", (Object)"CoverflowDSIControllerImpl", l);
+        this.logger.log(1000000, "[%1.selectAlbum] '%2'.", (Object)LOGCLASS, l);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;
@@ -183,9 +166,8 @@ implements ICoverflowDSIController {
         dSIAlbumBrowser.selectAlbum(l);
     }
 
-    @Override
     public void requestAlbumIdxForFID(long l) {
-        this.logger.log(1078071040, "[%1.requestAlbumIdxForFID] '%2'.", (Object)"CoverflowDSIControllerImpl", l);
+        this.logger.log(1000000, "[%1.requestAlbumIdxForFID] '%2'.", (Object)LOGCLASS, l);
         DSIAlbumBrowser dSIAlbumBrowser = this.dsiService;
         if (dSIAlbumBrowser == null) {
             return;

@@ -11,7 +11,7 @@ import org.dsi.ifc.media.ChapterInfo;
 import org.dsi.ifc.media.EntryInfo;
 
 public class MediaDetailInfo {
-    public static final int INVALID_ID;
+    public static final int INVALID_ID = 0;
     private final PlayingTrack playingTrack;
     private final int contentType;
     private final int entryFlags;

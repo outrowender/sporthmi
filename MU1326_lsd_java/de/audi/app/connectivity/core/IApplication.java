@@ -13,25 +13,18 @@ import de.mib.swdiagnosis.connectivity.ConnectivityDiag;
 import org.osgi.framework.BundleContext;
 
 public interface IApplication {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 
-    default public BundleContext getBundleContext() {
-    }
+    public BundleContext getBundleContext();
 
-    default public CommandListManager getCommandListManager() {
-    }
+    public CommandListManager getCommandListManager();
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public ConnectivityDiag getDiag() {
-    }
+    public ConnectivityDiag getDiag();
 }
 

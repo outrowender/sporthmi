@@ -27,21 +27,19 @@ implements ILicenseBrowser {
     public LicenseBrowserStdIntegration(SettingsEnv settingsEnv) {
         this.env = settingsEnv;
         this.logChannel = this.env.getFw().getLogChannel("App.Settings.LB");
-        this.licenseLabel = this.env.getLabelModel(432672768);
+        this.licenseLabel = this.env.getLabelModel(1100313);
         if (this.licenseLabel == null) {
             this.logChannel.log(10000, "LicenseBrowserStdIntegration#init: LicenseListModel not found");
         }
         this.license = new Buffer(100);
     }
 
-    @Override
     public void browserEntered() {
         if (this.license.length() == 0) {
             this.readLicense();
         }
     }
 
-    @Override
     public void setBrowserHandler(IBrowserHandler iBrowserHandler) {
     }
 
@@ -49,10 +47,10 @@ implements ILicenseBrowser {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void readLicense() {
-        this.logChannel.log(-2137614336, "LicenseBrowserStdIntegration#readLicense: Reading license from %1.", (Object)new StringBuffer().append(this.PATH_PREFIX).append(this.FILE_NAME).toString());
+        this.logChannel.log(10000000, "LicenseBrowserStdIntegration#readLicense: Reading license from %1.", (Object)(this.PATH_PREFIX + this.FILE_NAME));
         BufferedReader bufferedReader = null;
         try {
-            bufferedReader = new BufferedReader(new FileReader(new File(new StringBuffer().append(this.PATH_PREFIX).append(this.FILE_NAME).toString())));
+            bufferedReader = new BufferedReader(new FileReader(new File(this.PATH_PREFIX + this.FILE_NAME)));
             String string = bufferedReader.readLine();
             while (string != null) {
                 this.license.append(string).append(this.LINE_SEPARATOR).append(this.LINE_SEPARATOR);

@@ -8,22 +8,37 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import org.dsi.ifc.messaging.ListEntry;
 
 public interface IEntryListObserver {
-    default public void indicateItemFocused(EntryListRow entryListRow) {
-    }
+    public void indicateItemFocused(EntryListRow var1);
 
-    default public void indicateItemSelected(ListEntry listEntry, long l) {
-    }
+    public void indicateItemSelected(ListEntry var1, long var2);
 
-    default public void indicateItemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-    }
+    public void indicateItemSelected(EvoListRow var1, int var2, int var3, int var4, int var5);
 
-    default public void indicateListDataResponseOnFolderChange() {
-    }
+    public void indicateListDataResponseOnFolderChange();
 
-    default public void indicateOperationState(int n) {
-    }
+    public void indicateOperationState(int var1);
 
-    default public void indicateItemToSelect(EvoListRow evoListRow) {
+    public void indicateItemToSelect(EvoListRow var1);
+
+    public static class EmptyImplementation
+    implements IEntryListObserver {
+        public void indicateItemFocused(EntryListRow entryListRow) {
+        }
+
+        public void indicateItemSelected(ListEntry listEntry, long l) {
+        }
+
+        public void indicateListDataResponseOnFolderChange() {
+        }
+
+        public void indicateOperationState(int n) {
+        }
+
+        public void indicateItemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+        }
+
+        public void indicateItemToSelect(EvoListRow evoListRow) {
+        }
     }
 }
 

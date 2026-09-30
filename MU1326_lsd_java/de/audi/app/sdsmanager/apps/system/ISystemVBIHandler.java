@@ -7,35 +7,24 @@ import de.audi.app.sdsmanager.dsi.ISpeechRecognitionStateListener;
 
 public interface ISystemVBIHandler
 extends ISpeechRecognitionStateListener {
-    default public void sendTTSFinishAtPromptEnd(boolean bl) {
-    }
+    public void sendTTSFinishAtPromptEnd(boolean var1);
 
-    default public void sendTTSFinishAtPromptRequestForLastQueuedPrompt(int n) {
-    }
+    public void sendTTSFinishAtPromptRequestForLastQueuedPrompt(int var1);
 
-    default public void startRecognitionProlongDuringPrompt() {
-    }
+    public void startRecognitionProlongDuringPrompt();
 
-    default public boolean isVBIActiveDuringActivePrompt() {
-    }
+    public boolean isVBIActiveDuringActivePrompt();
 
-    default public void initializeRecgonitionMode() {
-    }
+    public void initializeRecgonitionMode();
 
-    @Override
-    default public void updateSpeechRecognitionState(int n) {
-    }
+    public void updateSpeechRecognitionState(int var1);
 
-    default public void stopRecognitionProlongAtPromptEnd() {
-    }
+    public void stopRecognitionProlongAtPromptEnd();
 
-    default public boolean isTTSFinishAlreadySent() {
-    }
+    public boolean isTTSFinishAlreadySent();
 
-    default public boolean isRegularPromptAtSessionEndActive() {
-    }
+    public boolean isRegularPromptAtSessionEndActive();
 
-    default public boolean informTTSAbortCommandAboutPromptEnd() {
-    }
+    public boolean informTTSAbortCommandAboutPromptEnd();
 }
 

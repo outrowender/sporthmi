@@ -28,18 +28,17 @@ implements ISystemSessionEndCommand {
         this.popupHelper = iSDSPopupHelper;
     }
 
-    @Override
     public void execute() {
         boolean bl = this.sdsHandlerService.isSDSPaused();
-        this.logger.log(-2137614336, "%1#execute: sdsPaused=%2", (Object)this.getName(), (Object)bl);
+        this.logger.log(10000000, "%1#execute: sdsPaused=%2", (Object)this.getName(), (Object)bl);
         if (!bl) {
             this.sdsHandlerService.resetSelectedRow();
             this.srHandler.stopDialog();
         } else {
-            this.logger.log(-1601830656, "%1#execute: SDS paused, NOT stopping dialog!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: SDS paused, NOT stopping dialog!", (Object)this.getName());
         }
         if (this.sdsHandlerService.isSDSVolumeSettingActive()) {
-            this.logger.log(-2137614336, "%1#execute: Volume setting dialog is ending, returning OK without releasing audio connections!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: Volume setting dialog is ending, returning OK without releasing audio connections!", (Object)this.getName());
             this.sdsManager.endSession();
             if (!bl) {
                 this.sdsManager.resetDialogFlags();
@@ -47,17 +46,16 @@ implements ISystemSessionEndCommand {
             this.sendResult(bl ? 3002 : 3000);
             return;
         }
-        this.logger.log(-2137614336, "%1#execute: Releasing audio connections and waiting for them to stop!", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: Releasing audio connections and waiting for them to stop!", (Object)this.getName());
         this.audioHandler.releaseSDSAudioConnections();
     }
 
-    @Override
     public void responseReleaseAudioConnections(boolean bl) {
-        this.logger.log(-2137614336, "%1#responseReleaseAudioConnections: ok=%2, ending session!", (Object)this.getName(), (Object)bl);
+        this.logger.log(10000000, "%1#responseReleaseAudioConnections: ok=%2, ending session!", (Object)this.getName(), (Object)bl);
         boolean bl2 = this.sdsHandlerService.isSDSPaused();
         if (!bl2) {
             this.sdsManager.endSession();
-            this.logger.log(-2137614336, "%1#responseReleaseAudioConnections: SDS not paused, removing logical popup!", (Object)this.getName());
+            this.logger.log(10000000, "%1#responseReleaseAudioConnections: SDS not paused, removing logical popup!", (Object)this.getName());
             this.popupHelper.setLogicalPopupRemovedBySDS(true);
             this.popupHelper.triggerHapticalPopup(4, false);
             this.sdsManager.resetDialogFlags();
@@ -65,17 +63,14 @@ implements ISystemSessionEndCommand {
         this.sendResult(bl ? (bl2 ? 3002 : 3000) : (bl2 ? 3003 : 3001));
     }
 
-    @Override
     public boolean isSDSEndSequenceCommand() {
         return this.sdsManager.isSDSAborting();
     }
 
-    @Override
     public boolean isSDSSessionEndCommand() {
         return true;
     }
 
-    @Override
     public boolean handleTimeout() {
         boolean bl = this.sdsHandlerService.isSDSPaused();
         if (!bl) {

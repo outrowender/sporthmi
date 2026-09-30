@@ -10,9 +10,9 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class StateMachineEvent
 extends ATIPEvent {
-    public static final int STATEMACHINE_FIRST;
-    public static final int TRIGGER_STATEMACHINE;
-    public static final int STATEMACHINE_LAST;
+    public static final int STATEMACHINE_FIRST = 10201;
+    public static final int TRIGGER_STATEMACHINE = 10201;
+    public static final int STATEMACHINE_LAST = 10201;
     private int smID = -1;
     private int smEventID = -1;
     private final AdditionalScreenData metaData;

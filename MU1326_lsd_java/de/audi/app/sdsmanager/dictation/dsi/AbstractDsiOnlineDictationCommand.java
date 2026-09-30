@@ -22,17 +22,14 @@ implements DSIOnlineDictationListener {
         this.dsiOnlineDictationDefaultListener = dictationComponentManager.getDsiOnlineDictationPrimaryListener().getDsiOnlineDictationDefaultListener();
     }
 
-    @Override
     public void dictationResult(int n) {
         this.dsiOnlineDictationDefaultListener.dictationResult(n);
     }
 
-    @Override
     public void finishDictationResponse(int n) {
         this.dsiOnlineDictationDefaultListener.finishDictationResponse(n);
     }
 
-    @Override
     public void dictationValueList(DictationValueSentence dictationValueSentence) {
         this.dsiOnlineDictationDefaultListener.dictationValueList(dictationValueSentence);
     }

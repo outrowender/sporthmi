@@ -24,9 +24,8 @@ extends AbstractADBCommand {
         this.entryId = l;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "GetEntryDetailsCommand#execute()");
+        this.logger.log(10000000, "GetEntryDetailsCommand#execute()");
         boolean bl = this.adbDSIAccess.getEntries(new long[]{this.entryId}, 0, 0);
         if (!bl) {
             this.logger.log(10000, "GetEntryDetailsCommand#execute(): dsi call was not successful, finishing command.");
@@ -34,13 +33,12 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(-2137614336, "GetEntryDetailsCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "GetEntryDetailsCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             if (adbEntryArray.length == 1) {
                 int n2;
-                this.logger.log(-2137614336, "GetEntryDetailsCommand#getEntriesResult(): got entry: %1", (Object)adbEntryArray[0]);
+                this.logger.log(10000000, "GetEntryDetailsCommand#getEntriesResult(): got entry: %1", (Object)adbEntryArray[0]);
                 int n3 = 0;
                 for (n2 = 0; n2 < adbEntryArray[0].phoneData.length; ++n2) {
                     if (ADBUtils.isEmpty(adbEntryArray[0].phoneData[n2].number)) continue;

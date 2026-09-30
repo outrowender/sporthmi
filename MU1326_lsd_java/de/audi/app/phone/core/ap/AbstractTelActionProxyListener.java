@@ -18,28 +18,24 @@ implements IActionProxyListener {
         this.methodID = n;
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(this.methodID, this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(this.methodID, this);
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (n == this.methodID) {
             this.actionProxyCalled(map);
         } else {
-            this.log.log(-1601830656, "[AbstractTelActionProxyListener#actionProxyCallPerformed] unhandled method ID %1", (long)n);
+            this.log.log(100000, "[AbstractTelActionProxyListener#actionProxyCallPerformed] unhandled method ID %1", (long)n);
         }
     }
 
-    protected abstract void actionProxyCalled(Map map) {
-    }
+    protected abstract void actionProxyCalled(Map var1);
 }
 

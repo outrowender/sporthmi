@@ -24,7 +24,7 @@ extends ATIPEvent {
     }
 
     public String toString() {
-        return new StringBuffer().append("ShowPartialPopupEvent: partialPopupID = ").append(this.partialPopupID).toString();
+        return "ShowPartialPopupEvent: partialPopupID = " + this.partialPopupID;
     }
 }
 

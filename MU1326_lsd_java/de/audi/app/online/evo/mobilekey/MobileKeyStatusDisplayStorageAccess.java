@@ -7,7 +7,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.storage.IStorageAccess;
 
 public class MobileKeyStatusDisplayStorageAccess {
-    private static final boolean STORAGE_ACCESS_DEFAULT;
+    private static final boolean STORAGE_ACCESS_DEFAULT = false;
     private IStorageAccess storageAccess;
     private LogChannel logChannel;
 
@@ -17,13 +17,13 @@ public class MobileKeyStatusDisplayStorageAccess {
     }
 
     public void updateSmartCardStatus(boolean bl) {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayStorageAccess#updateSmartCardStatus enabled: %1", bl);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayStorageAccess#updateSmartCardStatus enabled: %1", bl);
         this.storageAccess.setBoolean(1023, 41, bl);
     }
 
     public boolean wasSmartCardPreviouslyEnabled() {
         boolean bl = this.storageAccess.getBoolean(1023, 41, false);
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayStorageAccess#wasSmartCardPreviouslyEnabled result: %1", bl);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayStorageAccess#wasSmartCardPreviouslyEnabled result: %1", bl);
         return bl;
     }
 }

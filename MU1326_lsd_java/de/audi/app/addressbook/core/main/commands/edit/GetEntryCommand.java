@@ -22,9 +22,8 @@ extends AbstractGetEntryCommand {
         super(abstractAddressBookApplication, l);
     }
 
-    @Override
     protected boolean handleGetEntryResult(AdbEntry adbEntry) {
-        this.logger.log(1078071040, "GetEntryCommand#handleGetEntryResult(): entry: %1", (Object)ADBDbgUtils.dbgShort(adbEntry));
+        this.logger.log(1000000, "GetEntryCommand#handleGetEntryResult(): entry: %1", (Object)ADBDbgUtils.dbgShort(adbEntry));
         return true;
     }
 

@@ -27,49 +27,45 @@ extends AbstractWlanComponent {
         super(iWlanApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return this.attributeNotifications;
     }
 
-    @Override
     public void updateRFActive(int n, int n2) {
         if (n2 != 1) {
             return;
         }
         boolean bl = this.wlanOn = n == 1;
-        this.log.log(-2137614336, "MediaWlanStateProvider#updateRFActive(): Updating media application, wlanOn=%1", bl);
+        this.log.log(10000000, "MediaWlanStateProvider#updateRFActive(): Updating media application, wlanOn=%1", bl);
         Iterator iterator = this.wlanListeners.iterator();
         while (iterator.hasNext()) {
             WlanServiceListener wlanServiceListener = (WlanServiceListener)iterator.next();
             if (wlanServiceListener == null) continue;
             wlanServiceListener.updateWlanState(bl);
         }
-        this.log.log(-2137614336, "MediaWlanStateProvider#updateRFActive(): After call.");
+        this.log.log(10000000, "MediaWlanStateProvider#updateRFActive(): After call.");
     }
 
-    @Override
     public void updateNodeList(Node[] nodeArray, int n) {
         if (n != 1) {
             return;
         }
         this.numberOfClients = nodeArray == null ? 0 : nodeArray.length;
         int n2 = this.numberOfClients;
-        this.log.log(-2137614336, "MediaWlanStateProvider#updateNodeList(): Updating media application: number of clients=%1", (long)n2);
+        this.log.log(10000000, "MediaWlanStateProvider#updateNodeList(): Updating media application: number of clients=%1", (long)n2);
         Iterator iterator = this.wlanListeners.iterator();
         while (iterator.hasNext()) {
             WlanServiceListener wlanServiceListener = (WlanServiceListener)iterator.next();
             if (wlanServiceListener == null) continue;
             wlanServiceListener.updateNumberOfClients(n2);
         }
-        this.log.log(-2137614336, "MediaWlanStateProvider#updateNodeList(): After call.");
+        this.log.log(10000000, "MediaWlanStateProvider#updateNodeList(): After call.");
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof WlanServiceListener) {
-            this.log.log(-2137614336, "MediaWlanStateProvider#addingService(): Adding WlanServiceListener");
+            this.log.log(10000000, "MediaWlanStateProvider#addingService(): Adding WlanServiceListener");
             if (!this.wlanListeners.contains(object)) {
                 this.wlanListeners.add(object);
                 ((WlanServiceListener)object).updateWlanState(this.wlanOn);
@@ -80,7 +76,6 @@ extends AbstractWlanComponent {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof WlanServiceListener) {
             if (this.wlanListeners.contains(object)) {
@@ -91,18 +86,15 @@ extends AbstractWlanComponent {
         super.removedService(serviceReference, object);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         super.modifiedService(serviceReference, object);
     }
 
-    @Override
     public void init() {
         super.init();
         this.tracker.open();
     }
 
-    @Override
     public void deinit() {
         this.tracker.close();
         super.deinit();

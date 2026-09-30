@@ -8,100 +8,68 @@ import de.audi.atip.start.ILastmodeHandler;
 import java.util.List;
 
 public interface IStartupManager {
-    default public boolean isRebootToDownload() {
-    }
+    public boolean isRebootToDownload();
 
-    default public void setNavEnabled(boolean bl) {
-    }
+    public void setNavEnabled(boolean var1);
 
-    default public boolean isNavEnabled() {
-    }
+    public boolean isNavEnabled();
 
-    default public void triggerNavAvailable() {
-    }
+    public void triggerNavAvailable();
 
-    default public void triggerMapAvailable() {
-    }
+    public void triggerMapAvailable();
 
-    default public void triggerTTSAvailable() {
-    }
+    public void triggerTTSAvailable();
 
-    default public void triggerNewScreenVisible() {
-    }
+    public void triggerNewScreenVisible();
 
-    default public boolean waitForTTSAvailable() {
-    }
+    public boolean waitForTTSAvailable();
 
-    default public boolean waitForFirstScreen() {
-    }
+    public boolean waitForFirstScreen();
 
-    default public boolean waitForKombiSync() {
-    }
+    public boolean waitForKombiSync();
 
-    default public void setRVCActive(boolean bl) {
-    }
+    public void setRVCActive(boolean var1);
 
-    default public void logStartupEvent(String string) {
-    }
+    public void logStartupEvent(String var1);
 
-    default public void logStartupEvent(LogChannel logChannel, int n, String string) {
-    }
+    public void logStartupEvent(LogChannel var1, int var2, String var3);
 
-    default public void logStartupEvent(LogChannel logChannel, int n, String string, Throwable throwable) {
-    }
+    public void logStartupEvent(LogChannel var1, int var2, String var3, Throwable var4);
 
-    default public void processHKsDuringStartup(boolean bl) {
-    }
+    public void processHKsDuringStartup(boolean var1);
 
-    default public void setMMIKombiLastmode(int n) {
-    }
+    public void setMMIKombiLastmode(int var1);
 
-    default public void requestAppStart(int n) {
-    }
+    public void requestAppStart(int var1);
 
-    default public void requestAppStartByHMIKey(int n) {
-    }
+    public void requestAppStartByHMIKey(int var1);
 
-    default public void requestStartBundle(String string) {
-    }
+    public void requestStartBundle(String var1);
 
-    default public void startSwDiag() {
-    }
+    public void startSwDiag();
 
-    default public boolean isStartupCompleted() {
-    }
+    public boolean isStartupCompleted();
 
-    default public boolean isSMRunning() {
-    }
+    public boolean isSMRunning();
 
-    default public void setFallBackScreenShown(boolean bl) {
-    }
+    public void setFallBackScreenShown(boolean var1);
 
-    default public void initDSI() {
-    }
+    public void initDSI();
 
-    default public void initSystem() {
-    }
+    public void initSystem();
 
-    default public void initHMI() {
-    }
+    public void initHMI();
 
-    default public void initModelBanks() {
-    }
+    public void initModelBanks();
 
-    default public void showFirstScreen() {
-    }
+    public void showFirstScreen();
 
-    default public void postStartup() {
-    }
+    public void postStartup();
 
-    default public ILastmodeHandler getLastmodeHandler() {
-    }
+    public ILastmodeHandler getLastmodeHandler();
 
-    default public void addInitialEvents(List list) {
-    }
+    public void addInitialEvents(List var1);
 
-    default public void resourcesReady(int n) {
-    }
+    public void resourcesReady(int var1);
 }
 

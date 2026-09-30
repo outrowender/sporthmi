@@ -3,13 +3,8 @@
  */
 package de.audi.app.sdsmanager.dictation.combinedstate;
 
-import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateObserverProxy$1;
-import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateObserverProxy$2;
-import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateObserverProxy$3;
-import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateObserverProxy$4;
-import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateObserverProxy$5;
-import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateObserverProxy$6;
 import de.audi.app.sdsmanager.dictation.combinedstate.IDictationStateObserver;
+import de.audi.app.sdsmanager.dictation.util.DictationUtil;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 import java.util.Collection;
@@ -28,12 +23,43 @@ implements IDictationStateObserver {
         this.log = logChannel;
     }
 
-    void addObserver(IDictationStateObserver iDictationStateObserver) {
-        this.dispatcher.execute(new DictationStateObserverProxy$1(this, iDictationStateObserver));
+    void addObserver(final IDictationStateObserver iDictationStateObserver) {
+        this.dispatcher.execute(new Runnable(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                DictationStateObserverProxy.this.log.log(10000000, "[DictationStateObserverProxy#addObserver] observer = %1", (Object)iDictationStateObserver);
+                DictationStateObserverProxy dictationStateObserverProxy = DictationStateObserverProxy.this;
+                synchronized (dictationStateObserverProxy) {
+                    DictationStateObserverProxy.this.observers.add(iDictationStateObserver);
+                }
+                try {
+                    iDictationStateObserver.updateDictationMaxDuration(DictationStateObserverProxy.this.dictationMaxDuration);
+                    iDictationStateObserver.updateDictationState(DictationStateObserverProxy.this.dictationState);
+                }
+                catch (Exception exception) {
+                    DictationUtil.logException(DictationStateObserverProxy.this.log, exception, "[DictationStateObserverProxy#addObserver]");
+                }
+            }
+        });
     }
 
-    void removeObserver(IDictationStateObserver iDictationStateObserver) {
-        this.dispatcher.execute(new DictationStateObserverProxy$2(this, iDictationStateObserver));
+    void removeObserver(final IDictationStateObserver iDictationStateObserver) {
+        this.dispatcher.execute(new Runnable(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                DictationStateObserverProxy.this.log.log(10000000, "[DictationStateObserverProxy#removeObserver] observer = %1", (Object)iDictationStateObserver);
+                DictationStateObserverProxy dictationStateObserverProxy = DictationStateObserverProxy.this;
+                synchronized (dictationStateObserverProxy) {
+                    DictationStateObserverProxy.this.observers.remove(iDictationStateObserver);
+                }
+            }
+        });
     }
 
     private synchronized IDictationStateObserver[] getCurrentObservers() {
@@ -42,54 +68,86 @@ implements IDictationStateObserver {
         return objectArray;
     }
 
-    @Override
-    public void updateDictationState(int n) {
-        this.dispatcher.execute(new DictationStateObserverProxy$3(this, n));
+    public void updateDictationState(final int n) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DictationStateObserverProxy.this.log.log(1000000, "[DictationStateObserverProxy#updateDictationState] dictationState = %1", (long)n);
+                if (DictationStateObserverProxy.this.dictationState != n) {
+                    DictationStateObserverProxy.this.dictationState = n;
+                    IDictationStateObserver[] iDictationStateObserverArray = DictationStateObserverProxy.this.getCurrentObservers();
+                    for (int i2 = 0; i2 < iDictationStateObserverArray.length; ++i2) {
+                        try {
+                            iDictationStateObserverArray[i2].updateDictationState(n);
+                            continue;
+                        }
+                        catch (Exception exception) {
+                            DictationUtil.logException(DictationStateObserverProxy.this.log, exception, "[DictationStateObserverProxy#updateDictationState]");
+                        }
+                    }
+                }
+            }
+        });
     }
 
-    @Override
-    public void updateDictationMaxDuration(long l) {
-        this.dispatcher.execute(new DictationStateObserverProxy$4(this, l));
+    public void updateDictationMaxDuration(final long l) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DictationStateObserverProxy.this.log.log(10000000, "[DictationStateObserverProxy#updateDictationMaxDuration] dictationMaxDuration = %1", l);
+                if (DictationStateObserverProxy.this.dictationMaxDuration != l) {
+                    DictationStateObserverProxy.this.dictationMaxDuration = l;
+                    IDictationStateObserver[] iDictationStateObserverArray = DictationStateObserverProxy.this.getCurrentObservers();
+                    for (int i2 = 0; i2 < iDictationStateObserverArray.length; ++i2) {
+                        try {
+                            iDictationStateObserverArray[i2].updateDictationMaxDuration(l);
+                            continue;
+                        }
+                        catch (Exception exception) {
+                            DictationUtil.logException(DictationStateObserverProxy.this.log, exception, "[DictationStateObserverProxy#updateDictationMaxDuration]");
+                        }
+                    }
+                }
+            }
+        });
     }
 
-    @Override
     public void indicateRecordingStarted() {
-        this.dispatcher.execute(new DictationStateObserverProxy$5(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DictationStateObserverProxy.this.log.log(1000000, "[DictationStateObserverProxy#indicateRecordingStarted]");
+                IDictationStateObserver[] iDictationStateObserverArray = DictationStateObserverProxy.this.getCurrentObservers();
+                for (int i2 = 0; i2 < iDictationStateObserverArray.length; ++i2) {
+                    try {
+                        iDictationStateObserverArray[i2].indicateRecordingStarted();
+                        continue;
+                    }
+                    catch (Exception exception) {
+                        DictationUtil.logException(DictationStateObserverProxy.this.log, exception, "[DictationStateObserverProxy#indicateRecordingStarted]");
+                    }
+                }
+            }
+        });
     }
 
-    @Override
     public void indicateRecordingStopped() {
-        this.dispatcher.execute(new DictationStateObserverProxy$6(this));
-    }
+        this.dispatcher.execute(new Runnable(){
 
-    static /* synthetic */ LogChannel access$000(DictationStateObserverProxy dictationStateObserverProxy) {
-        return dictationStateObserverProxy.log;
-    }
-
-    static /* synthetic */ Collection access$100(DictationStateObserverProxy dictationStateObserverProxy) {
-        return dictationStateObserverProxy.observers;
-    }
-
-    static /* synthetic */ long access$200(DictationStateObserverProxy dictationStateObserverProxy) {
-        return dictationStateObserverProxy.dictationMaxDuration;
-    }
-
-    static /* synthetic */ int access$300(DictationStateObserverProxy dictationStateObserverProxy) {
-        return dictationStateObserverProxy.dictationState;
-    }
-
-    static /* synthetic */ int access$302(DictationStateObserverProxy dictationStateObserverProxy, int n) {
-        dictationStateObserverProxy.dictationState = n;
-        return dictationStateObserverProxy.dictationState;
-    }
-
-    static /* synthetic */ IDictationStateObserver[] access$400(DictationStateObserverProxy dictationStateObserverProxy) {
-        return dictationStateObserverProxy.getCurrentObservers();
-    }
-
-    static /* synthetic */ long access$202(DictationStateObserverProxy dictationStateObserverProxy, long l) {
-        dictationStateObserverProxy.dictationMaxDuration = l;
-        return dictationStateObserverProxy.dictationMaxDuration;
+            public void run() {
+                DictationStateObserverProxy.this.log.log(1000000, "[DictationStateObserverProxy#indicateRecordingStopped]");
+                IDictationStateObserver[] iDictationStateObserverArray = DictationStateObserverProxy.this.getCurrentObservers();
+                for (int i2 = 0; i2 < iDictationStateObserverArray.length; ++i2) {
+                    try {
+                        iDictationStateObserverArray[i2].indicateRecordingStopped();
+                        continue;
+                    }
+                    catch (Exception exception) {
+                        DictationUtil.logException(DictationStateObserverProxy.this.log, exception, "[DictationStateObserverProxy#indicateRecordingStopped]");
+                    }
+                }
+            }
+        });
     }
 }
 

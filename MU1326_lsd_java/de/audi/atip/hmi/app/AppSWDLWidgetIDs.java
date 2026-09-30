@@ -4,6 +4,6 @@
 package de.audi.atip.hmi.app;
 
 public interface AppSWDLWidgetIDs {
-    public static final int SWDL_TEXT_CONSTANT_TEST_CHOICE_INDEX;
+    public static final int SWDL_TEXT_CONSTANT_TEST_CHOICE_INDEX = 77;
 }
 

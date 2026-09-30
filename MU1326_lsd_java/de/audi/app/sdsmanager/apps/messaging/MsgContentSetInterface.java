@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.messaging;
 
 public interface MsgContentSetInterface {
-    default public void responseNextMessage(int n, String string) {
-    }
+    public void responseNextMessage(int var1, String var2);
 }
 

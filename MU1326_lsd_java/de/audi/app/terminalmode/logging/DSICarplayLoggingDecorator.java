@@ -24,13 +24,11 @@ implements DSICarplay {
         this.wrappee = dSICarplay;
     }
 
-    @Override
     public void startService(ServiceConfiguration serviceConfiguration) {
         this.lc.log(this.level, "-> [DSICarplay.startService] %1", (Object)serviceConfiguration);
         this.wrappee.startService(serviceConfiguration);
     }
 
-    @Override
     public void postButtonEvent(int n, int n2) {
         this.lc.log(this.level, "-> [DSICarplay.postButtonEvent] button %3(%1), %2", (Object)new Integer(n), (Object)this.buttonStateToString(n2), (Object)this.buttonToString(n));
         this.wrappee.postButtonEvent(n, n2);
@@ -117,61 +115,51 @@ implements DSICarplay {
         return "UNKNOWN";
     }
 
-    @Override
     public void postRotaryEvent(int n) {
         this.lc.log(this.level, "-> [DSICarplay.postRotaryEvent] ticks %1", (long)n);
         this.wrappee.postRotaryEvent(n);
     }
 
-    @Override
     public void requestNightMode(boolean bl) {
         this.lc.log(this.level, "-> [DSICarplay.requestNightMode] %1", bl);
         this.wrappee.requestNightMode(bl);
     }
 
-    @Override
     public void postTouchEvent(int n, int n2, TouchEvent[] touchEventArray) {
         this.lc.log(this.level, "-> [DSICarplay.postTouchEvent] touchSource %1, numberOfFingers %2, touchEvents %3 ", (Object)new Integer(n), (Object)new Integer(n2), (Object)Arrays2.toString(touchEventArray));
         this.wrappee.postTouchEvent(n, n2, touchEventArray);
     }
 
-    @Override
     public void postCharacterEvent(int n, String[] stringArray) {
         this.lc.log(this.level, "-> [DSICarplay.postCharacterEvent] postCharacterEvent %1, detectedCharacters %2", (Object)new Integer(n), (Object)stringArray);
         this.wrappee.postCharacterEvent(n, stringArray);
     }
 
-    @Override
     public void requestModeChange(ResourceRequest[] resourceRequestArray, AppStateRequest[] appStateRequestArray, String string) {
         this.lc.log(this.level, "-> [DSICarplay.requestModeChange] reason=%1, resources=%2, appStates=%3", (Object)string, (Object)resourceRequestArray, (Object)appStateRequestArray);
         this.wrappee.requestModeChange(resourceRequestArray, appStateRequestArray, string);
     }
 
-    @Override
     public void responseUpdateMode(Resource[] resourceArray, AppState[] appStateArray) {
         this.lc.log(this.level, "-> [DSICarplay.responseUpdateMode] resources %1, appStates %2", (Object)resourceArray, (Object)appStateArray);
         this.wrappee.responseUpdateMode(resourceArray, appStateArray);
     }
 
-    @Override
     public void responseBTDeactivation() {
         this.lc.log(this.level, "-> [DSICarplay.responseBTDeactivation]");
         this.wrappee.responseBTDeactivation();
     }
 
-    @Override
     public void requestUI(int n) {
         this.lc.log(this.level, "-> [DSICarplay.requestUI] %1", (long)n);
         this.wrappee.requestUI(n);
     }
 
-    @Override
     public void requestUI2(String string) {
         this.lc.log(this.level, "-> [DSICarplay.requestUI2] %1", (Object)string);
         this.wrappee.requestUI2(string);
     }
 
-    @Override
     public void requestSIRIAction(int n) {
         this.lc.log(this.level, "-> [DSICarplay.requestSIRIAction] %1(%2)", (Object)this.siriActionToString(n), (long)n);
         this.wrappee.requestSIRIAction(n);
@@ -192,7 +180,6 @@ implements DSICarplay {
         return "UNKNOWN";
     }
 
-    @Override
     public void responseUpdateMainAudioType(int n) {
         this.lc.log(this.level, "-> [DSICarplay.responseUpdateMainAudioType] %1", (long)n);
         this.wrappee.responseUpdateMainAudioType(n);

@@ -1,14 +1,11 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.smartphone.androidauto2;
 
 import de.audi.app.terminalmode.CommandListHelper;
 import de.audi.app.terminalmode.dsi.androidauto2.DSIAndroidAuto2DefaultListener;
-import de.audi.app.terminalmode.smartphone.IDSISmartphoneManager$RequestModeChangeCallback;
+import de.audi.app.terminalmode.smartphone.IDSISmartphoneManager;
 import de.audi.app.terminalmode.smartphone.androidauto2.IAndroidAuto2RequestHandler;
 import de.audi.app.terminalmode.smartphone.androidauto2.audio.IAndroidAuto2AudioHandler;
 import de.audi.app.terminalmode.smartphone.androidauto2.mic.IAndroidAuto2MicHandler;
@@ -26,7 +23,7 @@ import de.audi.atip.utils.dispatching.IDispatcher;
 public final class AndroidAuto2RequestHandler
 extends DSIAndroidAuto2DefaultListener
 implements IAndroidAuto2RequestHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AndroidAuto2RequestHandler";
     private final LogChannel lc;
     private final IAndroidAuto2MicHandler micHandler;
     private final IAndroidAuto2NavHandler navHandler;
@@ -42,7 +39,6 @@ implements IAndroidAuto2RequestHandler {
         this.audioHandler = iAndroidAuto2AudioHandler;
     }
 
-    @Override
     public void responseUpdateMode(TMState tMState, long l) {
         this.audioHandler.responseUpdateMode(tMState);
         if (tMState.getOwnerForResource(Resource.SCREEN).is(ResourceOwner.DEVICE)) {
@@ -58,8 +54,7 @@ implements IAndroidAuto2RequestHandler {
         this.navHandler.updateNavFocus(tMState.getOwnerForApplication(Application.NAVI));
     }
 
-    @Override
-    public void requestModeChange(TMState tMState, String string, IDSISmartphoneManager$RequestModeChangeCallback iDSISmartphoneManager$RequestModeChangeCallback) {
+    public void requestModeChange(TMState tMState, String string, IDSISmartphoneManager.RequestModeChangeCallback requestModeChangeCallback) {
         if (tMState.getOwnerForResource(Resource.AUDIO_MEDIA).is(ResourceOwner.DEVICE)) {
             this.audioHandler.updateEntertainmentAudioState(true);
         } else if (tMState.getOwnerForResource(Resource.AUDIO_MEDIA).is(ResourceOwner.MAINUNIT)) {
@@ -76,14 +71,13 @@ implements IAndroidAuto2RequestHandler {
             this.micHandler.microphoneUpdate(false);
         }
         this.navHandler.updateNavFocus(tMState.getOwnerForApplication(Application.NAVI));
-        if (null != iDSISmartphoneManager$RequestModeChangeCallback) {
-            iDSISmartphoneManager$RequestModeChangeCallback.modeChanged();
+        if (null != requestModeChangeCallback) {
+            requestModeChangeCallback.modeChanged();
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.lc.log(10000, "<- [%1.asyncException] errCode='%2' msg='%3' requestType='%4'", (Object)"AndroidAuto2RequestHandler", (Object)String.valueOf(n), (Object)String.valueOf(string), (Object)String.valueOf(n2));
+        this.lc.log(10000, "<- [%1.asyncException] errCode='%2' msg='%3' requestType='%4'", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)String.valueOf(string), (Object)String.valueOf(n2));
     }
 }
 

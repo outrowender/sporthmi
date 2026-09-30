@@ -6,8 +6,8 @@ package de.audi.atip.hmi.combi.ddp2;
 public class CombiSignConverter {
     private static int characterSetMajorVersion = 3;
     private static int characterSetMinorVersion = 0;
-    private static final String COMBISIGN_NONE;
-    private static final String[] SPECIAL_SIGN_SET_VERSION_1;
+    private static final String COMBISIGN_NONE = "";
+    private static final String[] SPECIAL_SIGN_SET_VERSION_1 = new String[147];
     private static final String[] SPECIAL_SIGN_SET_VERSION_2;
     private static final String[] SPECIAL_SIGN_SET_VERSION_3;
     private static final String[] SPECIAL_SIGN_SET_VERSION_3_1;
@@ -29,7 +29,7 @@ public class CombiSignConverter {
             }
             return SPECIAL_SIGN_SET_VERSION_3_1[n];
         }
-        return "";
+        return COMBISIGN_NONE;
     }
 
     public static void setCharacterSetVersion(int n, int n2) {
@@ -38,8 +38,7 @@ public class CombiSignConverter {
     }
 
     static {
-        SPECIAL_SIGN_SET_VERSION_1 = new String[147];
-        CombiSignConverter.SPECIAL_SIGN_SET_VERSION_1[0] = "";
+        CombiSignConverter.SPECIAL_SIGN_SET_VERSION_1[0] = COMBISIGN_NONE;
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_1[1] = "\ue000";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_1[2] = "\ue001";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_1[3] = "\ue002";
@@ -79,7 +78,7 @@ public class CombiSignConverter {
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_1[37] = "#";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_1[38] = "#";
         SPECIAL_SIGN_SET_VERSION_2 = new String[147];
-        CombiSignConverter.SPECIAL_SIGN_SET_VERSION_2[0] = "";
+        CombiSignConverter.SPECIAL_SIGN_SET_VERSION_2[0] = COMBISIGN_NONE;
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_2[1] = "\ue000";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_2[2] = "\ue001";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_2[3] = "\ue002";
@@ -119,7 +118,7 @@ public class CombiSignConverter {
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_2[37] = "\ue046";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_2[38] = "\ue047";
         SPECIAL_SIGN_SET_VERSION_3 = new String[147];
-        CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[0] = "";
+        CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[0] = COMBISIGN_NONE;
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[1] = "\ue000";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[2] = "\ue001";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[3] = "\ue002";
@@ -257,7 +256,7 @@ public class CombiSignConverter {
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[137] = "\ue237";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[138] = "\ue238";
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[139] = "\ue239";
-        CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[140] = "";
+        CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[140] = COMBISIGN_NONE;
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[141] = SPECIAL_SIGN_SET_VERSION_3[79];
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[142] = SPECIAL_SIGN_SET_VERSION_3[72];
         CombiSignConverter.SPECIAL_SIGN_SET_VERSION_3[143] = SPECIAL_SIGN_SET_VERSION_3[89];

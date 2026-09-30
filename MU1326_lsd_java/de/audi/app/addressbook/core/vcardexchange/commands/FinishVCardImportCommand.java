@@ -22,9 +22,8 @@ extends AbstractADBCommand {
         this.fileSelectionBrowser = iFileBrowser;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "FinishVCardImportCommand#execute()");
+        this.logger.log(10000000, "FinishVCardImportCommand#execute()");
         this.fileSelectionBrowser.close();
         boolean bl = this.adbDSIAccess.importVCard(null, 0);
         if (!bl) {
@@ -33,10 +32,9 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void importVCardResult(int n, int n2, int n3, int n4) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "FinishVCardImportCommand#importVCardResult(): success: %1, countSuccess: %3, countFailure: %4, failureReason: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)ADBDbgUtils.dbgFailureReason(n4), (Object)Integer.toString(n2), (long)n3);
+            this.logger.log(10000000, "FinishVCardImportCommand#importVCardResult(): success: %1, countSuccess: %3, countFailure: %4, failureReason: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)ADBDbgUtils.dbgFailureReason(n4), (Object)Integer.toString(n2), (long)n3);
         }
         VCardImportProgress vCardImportProgress = this.vCardExchangeAdbHandler.getImportProgress();
         int n5 = 2;
@@ -68,10 +66,10 @@ extends AbstractADBCommand {
                 this.logger.log(10000, "FinishVCardImportCommand#importVCardResult(): unknown failure reason %1", (long)vCardImportProgress.getErrorReason());
             }
         }
-        this.vCardExchangeAdbHandler.getHMIService().getLabelModel(1085278720).setText(Integer.toString(vCardImportProgress.getCountSuccess()));
-        this.vCardExchangeAdbHandler.getHMIService().getLabelModel(1102055936).setText(Integer.toString(vCardImportProgress.getCountFailure()));
-        this.vCardExchangeAdbHandler.getHMIService().getChoiceModel(1118833152).setValue(n5);
-        this.vCardExchangeAdbHandler.getHMIService().getModelApp(1353714176).setStatus(1);
+        this.vCardExchangeAdbHandler.getHMIService().getLabelModel(700480).setText(Integer.toString(vCardImportProgress.getCountSuccess()));
+        this.vCardExchangeAdbHandler.getHMIService().getLabelModel(700481).setText(Integer.toString(vCardImportProgress.getCountFailure()));
+        this.vCardExchangeAdbHandler.getHMIService().getChoiceModel(700482).setValue(n5);
+        this.vCardExchangeAdbHandler.getHMIService().getModelApp(700496).setStatus(1);
         this.commandList.commandFinished();
     }
 

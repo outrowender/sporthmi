@@ -84,7 +84,7 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
                     break;
                 }
                 default: {
-                    this.log.log(-1601830656, "PhoneBapPropertyHandlerDisconnectReason#getBAPDisconnectReason: Couldn't map DSI value %1. Reverting to BAP value REASON_UNKNOWN.", (long)n2);
+                    this.log.log(100000, "PhoneBapPropertyHandlerDisconnectReason#getBAPDisconnectReason: Couldn't map DSI value %1. Reverting to BAP value REASON_UNKNOWN.", (long)n2);
                     n = 14;
                 }
             }
@@ -93,19 +93,17 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         return 14;
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return n == 0xB000100 || n == 0xB000200 || n == 0xB000300;
+        return n == 65547 || n == 131083 || n == 196619;
     }
 
-    @Override
     protected void updateAsync() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState;
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState2 = iTelDSIMobileEquipmentDeviceState = iGlobalTelephoneStateStruct != null ? iGlobalTelephoneStateStruct.getCallLeadingDevice() : null;
         if (iTelDSIMobileEquipmentDeviceState == null || combiBAPServicePhone == null) {
-            this.log.log(-2137614336, "[BAPPropertyTelDisconnectReason#update nothing to update: callLeadingDeviceState OR combiService is null]");
+            this.log.log(10000000, "[BAPPropertyTelDisconnectReason#update nothing to update: callLeadingDeviceState OR combiService is null]");
             return;
         }
         int n = this.getBAPDisconnectReason(iTelDSIMobileEquipmentDeviceState.getDisconnectReason());
@@ -113,7 +111,7 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
             Buffer buffer = new Buffer();
             buffer.append("disonnect reason = ");
             buffer.append(n);
-            this.log.log(1078071040, "[BAPPropertyTelDisconnectReason#update] updating cluster: %1", (Object)buffer);
+            this.log.log(1000000, "[BAPPropertyTelDisconnectReason#update] updating cluster: %1", (Object)buffer);
         }
         combiBAPServicePhone.updateDisconnectReason(n);
     }

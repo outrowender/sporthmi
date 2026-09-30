@@ -27,7 +27,7 @@ import org.osgi.framework.ServiceRegistration;
 
 public class MediaEVOTerminalExtensionImpl
 implements IMediaTerminalExtension {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaEVOTerminalExtensionImpl";
     private final int terminalID;
     private final IMediaLogger logger;
     private final IServiceManager serviceManager;
@@ -54,20 +54,19 @@ implements IMediaTerminalExtension {
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"MediaEVOTerminalExtensionImpl");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         Hashtable hashtable = new Hashtable(1);
         hashtable.put("TERMINALID", new Integer(this.terminalID));
         this.serviceRegistration = this.serviceManager.registerService(class$de$audi$app$media$extension$IMediaTerminalExtension == null ? (class$de$audi$app$media$extension$IMediaTerminalExtension = MediaEVOTerminalExtensionImpl.class$("de.audi.app.media.extension.IMediaTerminalExtension")) : class$de$audi$app$media$extension$IMediaTerminalExtension, this, hashtable);
     }
 
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"MediaEVOTerminalExtensionImpl");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.serviceRegistration.unregister();
     }
 
-    @Override
     public void initExtension(IMediaTerminal iMediaTerminal) {
-        iMediaTerminal.getLogger().main().log(1078071040, "[%1.initExtension]", (Object)"MediaEVOTerminalExtensionImpl");
+        iMediaTerminal.getLogger().main().log(1000000, "[%1.initExtension]", (Object)LOGCLASS);
         iMediaTerminal.getSourceController().setAutomaticSourceChange(new int[]{5, 9, 2, 0, 3, 1});
         this.sourceListHandler = new SourceListHMIHandler(iMediaTerminal);
         this.sourceListHandler.init();
@@ -98,7 +97,6 @@ implements IMediaTerminalExtension {
         iMediaTerminal.getSourceController().setSourceActivationExtension(new SourceActivationEvoExtension(iMediaTerminal));
     }
 
-    @Override
     public void deinitExtension() {
         if (this.sourceListHandler != null) {
             this.sourceListHandler.deinit();
@@ -135,14 +133,13 @@ implements IMediaTerminalExtension {
         }
     }
 
-    @Override
     public IContentProvider getContentProvider() {
         return this.contentProvider;
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("MediaEVOTerminalExtensionImpl").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 

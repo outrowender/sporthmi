@@ -13,9 +13,8 @@ extends JokerKeyHandler {
         super(iFrameworkAccess, abstractOnlineActivator);
     }
 
-    @Override
     protected void removePopup() {
-        this.framework.getHmiServiceApp().removePopup(564201216);
+        this.framework.getHmiServiceApp().removePopup(500001);
     }
 }
 

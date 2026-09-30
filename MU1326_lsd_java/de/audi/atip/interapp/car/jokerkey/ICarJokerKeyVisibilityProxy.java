@@ -7,19 +7,14 @@ import de.audi.atip.interapp.car.jokerkey.ICarJokerKeyVisibilityClient;
 import org.dsi.ifc.global.CarViewOption;
 
 public interface ICarJokerKeyVisibilityProxy {
-    default public boolean hasClients() {
-    }
+    public boolean hasClients();
 
-    default public void registerClient(ICarJokerKeyVisibilityClient iCarJokerKeyVisibilityClient) {
-    }
+    public void registerClient(ICarJokerKeyVisibilityClient var1);
 
-    default public void unregisterClient(ICarJokerKeyVisibilityClient iCarJokerKeyVisibilityClient) {
-    }
+    public void unregisterClient(ICarJokerKeyVisibilityClient var1);
 
-    default public void invokeCurrentVisibilityRequest() {
-    }
+    public void invokeCurrentVisibilityRequest();
 
-    default public void notifyVisibilityChanged(int n, CarViewOption carViewOption) {
-    }
+    public void notifyVisibilityChanged(int var1, CarViewOption var2);
 }
 

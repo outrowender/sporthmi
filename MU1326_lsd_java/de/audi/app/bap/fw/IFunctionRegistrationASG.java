@@ -16,34 +16,24 @@ import de.vw.mib.bap.requests.StartResultMethod;
 
 public interface IFunctionRegistrationASG
 extends IFunctionRegistration {
-    default public BAPFunctionMethodASG getBAPFunctionMethodASG(int n) {
-    }
+    public BAPFunctionMethodASG getBAPFunctionMethodASG(int var1);
 
-    default public StartResultMethod createStartResulForMethodASG(int n) {
-    }
+    public StartResultMethod createStartResulForMethodASG(int var1);
 
-    default public AbortResultMethod createAbortResulForMethodASG(int n) {
-    }
+    public AbortResultMethod createAbortResulForMethodASG(int var1);
 
-    default public BAPFunctionPropertyASG getBAPFunctionPropertyASG(int n) {
-    }
+    public BAPFunctionPropertyASG getBAPFunctionPropertyASG(int var1);
 
-    default public SetGetProperty createSetGetForPropertyASG(int n) {
-    }
+    public SetGetProperty createSetGetForPropertyASG(int var1);
 
-    default public AckProperty createAckForPropertyASG(int n) {
-    }
+    public AckProperty createAckForPropertyASG(int var1);
 
-    default public BAPFunctionArrayASG getBAPFunctionArrayASG(int n) {
-    }
+    public BAPFunctionArrayASG getBAPFunctionArrayASG(int var1);
 
-    default public GetArray createGetArrayForArrayASG(int n) {
-    }
+    public GetArray createGetArrayForArrayASG(int var1);
 
-    default public SetGetArray createSetGetArrayForArrayASG(int n) {
-    }
+    public SetGetArray createSetGetArrayForArrayASG(int var1);
 
-    default public SetGetArray createSetArrayForArrayASG(int n) {
-    }
+    public SetGetArray createSetArrayForArrayASG(int var1);
 }
 

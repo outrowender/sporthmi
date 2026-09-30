@@ -8,10 +8,8 @@ import de.audi.atip.timer.Timer;
 import de.audi.atip.timer.TimerListener;
 
 public interface ITimerFactory {
-    default public Timer createTimer(String string, int n, LogChannel logChannel, TimerListener timerListener, long l, boolean bl) {
-    }
+    public Timer createTimer(String var1, int var2, LogChannel var3, TimerListener var4, long var5, boolean var7);
 
-    default public Timer createTimer(String string, TimerListener timerListener, long l, boolean bl) {
-    }
+    public Timer createTimer(String var1, TimerListener var2, long var3, boolean var5);
 }
 

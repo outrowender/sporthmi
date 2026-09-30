@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.ecall;
 
 public interface IEcallBluetoothService {
-    default public void switchOnBluetooth() {
-    }
+    public void switchOnBluetooth();
 
-    default public void switchOffBluetooth() {
-    }
+    public void switchOffBluetooth();
 }
 

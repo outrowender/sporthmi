@@ -8,10 +8,10 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 
 public class TelDataUpdateMediator {
-    private static final int NOT_AVAILABLE_VALUE;
-    private static final int AVAILABLE_VALUE;
-    private static final int UPDATE_VALUE;
-    private static final int ERROR_DEFAULT_VALUE;
+    private static final int NOT_AVAILABLE_VALUE = -1;
+    private static final int AVAILABLE_VALUE = 0;
+    private static final int UPDATE_VALUE = 0;
+    private static final int ERROR_DEFAULT_VALUE = 0;
     private final ChoiceModelApp choiceModel;
     private final LogChannel log;
 

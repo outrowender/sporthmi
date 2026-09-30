@@ -6,7 +6,6 @@ package de.audi.app.navi.evo.addressinput.poi.listener;
 import de.audi.app.navi.evo.addressinput.poi.PoiManager;
 import de.audi.app.navi.evo.addressinput.poi.PoiScreensEvo;
 import de.audi.app.navi.evo.addressinput.poi.listener.AbstractPoiResultScreenEvoListener;
-import de.audi.app.navi.evo.addressinput.poi.listener.PoiResultScreenWithSpellerHmiListener$1;
 import de.audi.atip.hmi.model.SpellerListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.TiledListModelListener;
@@ -15,6 +14,7 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultScreenWithSpellerInputSequence;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.navlocationextractor.AsyncNavLocationExtractor;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LIValueListElement;
@@ -32,7 +32,6 @@ TiledListModelListener {
         this.preparePreviewMapCommand = null;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         return this.inputSequence.getStartCommandList();
     }
@@ -46,12 +45,10 @@ TiledListModelListener {
         return this.inputSequence.getStartCommandListByUID(n);
     }
 
-    @Override
     public void preparePreviewMap() {
         this.displayMultiplePois = true;
     }
 
-    @Override
     protected void registerAsListener() {
         this.env.getSpellerModel(PoiScreensEvo.getPoiResultScreenWithSpellerSpellerModel()).setSpellerListener(this);
         this.env.getTiledListModel(PoiScreensEvo.getPoiResultScreenWithSpellerListModel()).setListener(this);
@@ -62,11 +59,10 @@ TiledListModelListener {
         return this.inputSequence;
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerHmiListener#itemselected(%1, %2, %3)", (long)n, (long)n2, (long)n4);
+        this.logChannel.log(10000000, "PoiResultScreenWithSpellerHmiListener#itemselected(%1, %2, %3)", (long)n, (long)n2, (long)n4);
         if (n != PoiScreensEvo.getPoiResultScreenWithSpellerListModel()) {
-            this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerHmiListener#itemSelected: Unexpected model ID: %1", (long)n);
+            this.logChannel.log(10000000, "PoiResultScreenWithSpellerHmiListener#itemSelected: Unexpected model ID: %1", (long)n);
             return;
         }
         LIValueListElement lIValueListElement = PoiScreensEvo.getLiValueListElementFromRow(evoListRow, n);
@@ -74,17 +70,16 @@ TiledListModelListener {
         this.env.fireModelEvent(n, n4);
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#commandPressed model=%2, index=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#commandPressed model=%2, index=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         if (n2 == 4711) {
             this.inputSequence.setSpellerOpen(true);
             if (this.preparePreviewMapCommand != null) {
-                this.logChannel.log(-2137614336, "%1#commandPressed - stop FocusPreviewMap", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#commandPressed - stop FocusPreviewMap", (Object)this.CLASS_NAME);
                 this.preparePreviewMapCommand.setHidePreviewMap(true);
                 this.preparePreviewMapCommand = null;
             } else {
-                this.logChannel.log(-2137614336, "%1#commandPressed - preparePreviewMapCommand is null", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#commandPressed - preparePreviewMapCommand is null", (Object)this.CLASS_NAME);
             }
             this.inputSequence.hidePreviewMap(this.previewMapInterface);
         } else if (n2 == 4712) {
@@ -93,9 +88,8 @@ TiledListModelListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#itemFocused() - menuItemId: %1, model: %2, uniqueListRowID: %3").toString(), (long)n, (long)n2, l);
+        this.logChannel.log(10000000, new StringBuffer().append(this.CLASS_NAME).append("#itemFocused() - menuItemId: %1, model: %2, uniqueListRowID: %3").toString(), (long)n, (long)n2, l);
         this.previewMapComplete = false;
         if (l == -1L && !this.inputSequence.isSpellerOpen()) {
             this.displayPreviewMap(n2, this.inputSequence, PoiScreensEvo.getPoiResultScreenWithSpellerListModel());
@@ -103,7 +97,6 @@ TiledListModelListener {
         this.currentlyFocusedListIndex = l;
     }
 
-    @Override
     public void updateResultsAvailable() {
         if (this.currentlyFocusedListIndex == -1L && !this.inputSequence.isSpellerOpen()) {
             this.displayPreviewMap(PoiScreensEvo.getPoiResultScreenWithSpellerMenuModel(), this.inputSequence, PoiScreensEvo.getPoiResultScreenWithSpellerListModel());
@@ -111,7 +104,7 @@ TiledListModelListener {
     }
 
     private void displayPoisInPreviewMap(int n) {
-        this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerHmiListener#displayPoisInPreviewMap model=%1", (long)n);
+        this.logChannel.log(10000000, "PoiResultScreenWithSpellerHmiListener#displayPoisInPreviewMap model=%1", (long)n);
         if (!this.inputSequence.isSpellerOpen()) {
             LIValueListElement[] lIValueListElementArray = new LIValueListElement[3];
             int n2 = 0;
@@ -133,63 +126,55 @@ TiledListModelListener {
         }
     }
 
-    @Override
     protected void itemFocusedCallBack(NavLocation navLocation) {
         if (navLocation != null && !navLocation.isPositionValid() || this.inputSequence.isSpellerOpen()) {
-            this.logChannel.log(-2137614336, "%1#itemFocusedCallBack hidePreviewMap", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#itemFocusedCallBack hidePreviewMap", (Object)this.CLASS_NAME);
             this.inputSequence.hidePreviewMap(this.previewMapInterface);
         } else {
-            this.logChannel.log(-2137614336, "%1#itemFocusedCallBack focusPreviewMap", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#itemFocusedCallBack focusPreviewMap", (Object)this.CLASS_NAME);
             this.inputSequence.focusPreviewMap(this.previewMapInterface, navLocation);
             this.inputSequence.onElementFocused(navLocation);
         }
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
         this.inputSequence.unrequestItems(n, n2);
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         this.poiManager.exitRRD();
         this.inputSequence.setInput(string);
     }
 
-    @Override
-    public void requestItems(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerHmiListener#requestItems - was called with requestID = %1, startIndex = %2, model = %3", (long)n3, (long)n, (long)n4);
-        PoiResultScreenWithSpellerHmiListener$1 poiResultScreenWithSpellerHmiListener$1 = new PoiResultScreenWithSpellerHmiListener$1(this, "Update Preview Map", n4);
-        this.inputSequence.requestItems(n, n3, n2, poiResultScreenWithSpellerHmiListener$1);
+    public void requestItems(int n, int n2, int n3, final int n4, int n5) {
+        this.logChannel.log(10000000, "PoiResultScreenWithSpellerHmiListener#requestItems - was called with requestID = %1, startIndex = %2, model = %3", (long)n3, (long)n, (long)n4);
+        NavCommand navCommand = new NavCommand("Update Preview Map"){
+
+            public void execute() {
+                PoiResultScreenWithSpellerHmiListener.this.displayPoisInPreviewMap(n4);
+                this.getCommandList().commandFinished();
+            }
+        };
+        this.inputSequence.requestItems(n, n3, n2, navCommand);
         this.poiManager.restartRRDForCurrentContext();
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-    }
-
-    static /* synthetic */ void access$000(PoiResultScreenWithSpellerHmiListener poiResultScreenWithSpellerHmiListener, int n) {
-        poiResultScreenWithSpellerHmiListener.displayPoisInPreviewMap(n);
     }
 }
 

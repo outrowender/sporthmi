@@ -94,7 +94,7 @@ implements HMIModel {
             hMIModel = this.terminalModel[n];
         }
         catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
-            throw new IllegalArgumentException(new StringBuffer().append("illegal terminal ID ").append(n).toString());
+            throw new IllegalArgumentException("illegal terminal ID " + n);
         }
         if (hMIModel == null) {
             hMIModel = this.createModel(hMIModelBank);
@@ -112,7 +112,6 @@ implements HMIModel {
         return this.modelID;
     }
 
-    @Override
     public int getModelType() {
         return this.modelType;
     }
@@ -255,7 +254,7 @@ implements HMIModel {
                 return new MenuModel(this.modelID);
             }
         }
-        throw new UnsupportedOperationException(new StringBuffer().append("model type ").append(this.modelType).append(" not supported").toString());
+        throw new UnsupportedOperationException("model type " + this.modelType + " not supported");
     }
 
     private MenuModel getMenuModel(HMIModelBank hMIModelBank) {
@@ -265,136 +264,106 @@ implements HMIModel {
         return (MenuModel)hMIModelBank.getModel(this.menuModelId);
     }
 
-    @Override
     public void deferredConnected() {
     }
 
-    @Override
     public boolean isEmpty() {
         return true;
     }
 
-    @Override
     public int getTerminalID() {
         return -2;
     }
 
-    @Override
     public void addReference() {
     }
 
-    @Override
     public int getChangeState() {
         return 0;
     }
 
-    @Override
     public void removeReference() {
     }
 
-    @Override
     public String dumpContent() {
         return "";
     }
 
-    @Override
     public int getHints() {
         return 0;
     }
 
-    @Override
     public String getName() {
         return null;
     }
 
-    @Override
     public int getStatus() {
         return 0;
     }
 
-    @Override
-    public void abortTransaction() {
+    public void abortTransaction() throws IllegalStateException {
     }
 
-    @Override
     public void addHint(int n) {
     }
 
-    @Override
-    public void beginTransaction() {
+    public void beginTransaction() throws IllegalStateException {
     }
 
-    @Override
-    public void endTransaction() {
+    public void endTransaction() throws IllegalStateException {
     }
 
-    @Override
     public boolean fireEvent(int n) {
         return false;
     }
 
-    @Override
     public boolean fireEvent(int n, AdditionalScreenData additionalScreenData) {
         return false;
     }
 
-    @Override
     public boolean isTransactionRunning() {
         return false;
     }
 
-    @Override
     public void removeHint(int n) {
     }
 
-    @Override
     public void resetHints() {
     }
 
-    @Override
     public void publishHints() {
         throw new UnsupportedOperationException("HMIModelApp#publishHints() not implemented!");
     }
 
-    @Override
     public void setStatus(int n) {
     }
 
-    @Override
     public int getID() {
         return this.getModelID();
     }
 
-    @Override
     public void resetListener() {
     }
 
-    @Override
     public int startDrag(int n, long l, int n2) {
         return 0;
     }
 
-    @Override
     public void stopDrag(int n, long l, long l2) {
     }
 
-    @Override
     public void drop(int n, long l, long l2, int n2, int n3) {
     }
 
-    @Override
     public void setDragAndDropHandler(IDragAndDropHandler iDragAndDropHandler) {
     }
 
-    @Override
     public void setDragAndDropListener(DragAndDropListener dragAndDropListener) {
     }
 
-    @Override
     public void trigger(ModelTrigger modelTrigger, int n) {
     }
 
-    @Override
     public void setModelGroup(ModelGroup modelGroup) {
     }
 }

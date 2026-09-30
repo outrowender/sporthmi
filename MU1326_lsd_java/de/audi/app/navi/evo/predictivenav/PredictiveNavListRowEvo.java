@@ -11,7 +11,7 @@ import org.dsi.ifc.predictivenavigation.LikelyDestination;
 
 public class PredictiveNavListRowEvo
 extends PredictiveNavListRow {
-    private static final int ICON_SELENA;
+    private static final int ICON_SELENA = 1;
 
     public PredictiveNavListRowEvo(NavigationEnv navigationEnv, LikelyDestination likelyDestination) {
         super(navigationEnv, likelyDestination);
@@ -21,14 +21,12 @@ extends PredictiveNavListRow {
         super(predictiveNavListRow);
     }
 
-    @Override
     public void updateInformation(LikelyDestination likelyDestination) {
         super.updateInformation(likelyDestination);
-        this.setPropertyCell(10, new PropertyListCell(-132842518, new int[0]));
+        this.setPropertyCell(10, new PropertyListCell(-352643848, new int[0]));
         this.setInteger(1, 1);
     }
 
-    @Override
     public EvoListRow copy() {
         return new PredictiveNavListRowEvo(this);
     }

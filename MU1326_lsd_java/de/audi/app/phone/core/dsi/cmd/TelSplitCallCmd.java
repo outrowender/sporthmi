@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelSplitCallCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -21,23 +21,30 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelSplitCallCmd.schedule(commandListManager, this, "TelSplitCallCmd", new TelSplitCallCmd$1(this, this.logger, "TelSplitCallCmdError"), monitor);
+        TelSplitCallCmd.schedule(commandListManager, this, "TelSplitCallCmd", new Command(this.logger, "TelSplitCallCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelSplitCallCmd.schedule().new Command() {...}#execute] Error.");
+                if (TelSplitCallCmd.this.listener != null) {
+                    TelSplitCallCmd.this.listener.responseSplitCall(65537, TelSplitCallCmd.this.terminalID);
+                }
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelSplitCallCmd#execute] telCallID=%1", (long)this.telCallID);
+        this.logger.log(1000000, "[TelSplitCallCmd#execute] telCallID=%1", (long)this.telCallID);
         if (this.isDSIAvailable()) {
             this.dsi.splitCall(this.telCallID);
         } else {
-            this.logger.log(-1601830656, "[TelSplitCallCmd#execute] DSITelephone is null!");
+            this.logger.log(100000, "[TelSplitCallCmd#execute] DSITelephone is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseSplitCall(int n) {
-        this.logger.log(1078071040, "[TelSplitCallCmd#responseSplitCall] result=%1", (long)n);
+        this.logger.log(1000000, "[TelSplitCallCmd#responseSplitCall] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseSplitCall(n, this.terminalID);
         }

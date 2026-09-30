@@ -10,35 +10,33 @@ import org.dsi.ifc.carhybrid.BatteryControlViewOptions;
 
 public class AuxACComponentCarEvo
 extends AbstractDSICarHybridAdapter {
-    public static final short CODING_ID;
+    public static final short CODING_ID = 46;
     private boolean auxAcImmediateOn = false;
     private int auxACImmediateVisiblityState = 0;
     private Object climateSystemVariant;
-    public static final int CLIMATE_SYSTEM_VARIANT_NONE;
-    public static final int CLIMATE_SYSTEM_VARIANT_HEATER;
-    public static final int CLIMATE_SYSTEM_VARIANT_COOLER;
-    public static final int CLIMATE_SYSTEM_VARIANT_COMBINED;
+    public static final int CLIMATE_SYSTEM_VARIANT_NONE = 0;
+    public static final int CLIMATE_SYSTEM_VARIANT_HEATER = 1;
+    public static final int CLIMATE_SYSTEM_VARIANT_COOLER = 2;
+    public static final int CLIMATE_SYSTEM_VARIANT_COMBINED = 3;
 
     public AuxACComponentCarEvo(ICarApplication iCarApplication) {
         super(iCarApplication, "App.Car.AuxAc");
     }
 
-    @Override
     public int getID() {
         return 48;
     }
 
-    @Override
     protected void initVisibility() {
         if (this.getClimateSystemVariant() == 3) {
-            this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1825961728, (short)46);
-            this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1809184512, (short)46);
+            this.getApplication().getMenuEntryRegistry().registerMenuEntry(600723, (short)46);
+            this.getApplication().getMenuEntryRegistry().registerMenuEntry(600724, (short)46);
         } else if (this.getClimateSystemVariant() == 2) {
-            this.getApplication().getMenuEntryRegistry().registerMenuEntry(-47642368, (short)46);
-            this.getApplication().getMenuEntryRegistry().registerMenuEntry(1361709312, (short)46);
+            this.getApplication().getMenuEntryRegistry().registerMenuEntry(600573, (short)46);
+            this.getApplication().getMenuEntryRegistry().registerMenuEntry(600657, (short)46);
         }
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-165213952, (short)46);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-148436736, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600054, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600055, (short)46);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(222, (short)46);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(223, (short)46);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(225, (short)46);
@@ -46,14 +44,13 @@ extends AbstractDSICarHybridAdapter {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(227, (short)46);
     }
 
-    @Override
     protected void deinitVisibility() {
         if (this.getClimateSystemVariant() == 3) {
-            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1825961728);
-            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1809184512);
+            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600723);
+            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600724);
         } else if (this.getClimateSystemVariant() == 2) {
-            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-47642368);
-            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1361709312);
+            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600573);
+            this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600657);
         }
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(222);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(223);
@@ -62,9 +59,8 @@ extends AbstractDSICarHybridAdapter {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(227);
     }
 
-    @Override
     public void updateBatteryControlViewOptions(BatteryControlViewOptions batteryControlViewOptions, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlViewOptions(%1), valid:%2", (Object)batteryControlViewOptions, (long)n);
+        this.getLogChannel().log(1000000, "updateBatteryControlViewOptions(%1), valid:%2", (Object)batteryControlViewOptions, (long)n);
         if (n == 1) {
             this.updateMenuEntryVisibility(batteryControlViewOptions);
             this.primaryAttributeFirstSetReceived();
@@ -83,19 +79,19 @@ extends AbstractDSICarHybridAdapter {
     private void updateMenuEntryVisibilityNow(boolean bl, int n) {
         if (this.getClimateSystemVariant() == 3) {
             if (bl) {
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1825961728, 1);
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1809184512, n);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600723, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600724, n);
             } else {
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1825961728, n);
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1809184512, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600723, n);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600724, 1);
             }
         } else if (this.getClimateSystemVariant() == 2) {
             if (bl) {
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-47642368, 1);
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1361709312, n);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600573, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600657, n);
             } else {
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-47642368, n);
-                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1361709312, 1);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600573, n);
+                this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600657, 1);
             }
         }
     }
@@ -125,26 +121,21 @@ extends AbstractDSICarHybridAdapter {
         return 0;
     }
 
-    @Override
     public String getName() {
         return null;
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{6}, new int[0])};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return null;
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 }

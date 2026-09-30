@@ -18,8 +18,8 @@ import org.osgi.framework.BundleContext;
 public class DataMediaSearch
 extends AbstractSearch
 implements IDataMediaSearch {
-    private static final String LOGCLASS;
-    private static final int[] WORDTYPELIST_ALL;
+    private static final String LOGCLASS = "DataMediaSearch";
+    private static final int[] WORDTYPELIST_ALL = new int[]{15, 16, 5, 14};
     private final Map sourceAvailabilityMap;
     private volatile int currentSearchFilterType;
     private volatile int[] currentDefaultSearchFilter = WORDTYPELIST_ALL;
@@ -38,17 +38,17 @@ implements IDataMediaSearch {
     }
 
     public void init() {
-        this.logChannel.log(1078071040, "[%1.init]", (Object)"DataMediaSearch");
+        this.logChannel.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.startDSI();
     }
 
     public void deinit() {
-        this.logChannel.log(1078071040, "[%1.deinit]", (Object)"DataMediaSearch");
+        this.logChannel.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.stopDSI();
     }
 
     public void activate() {
-        this.logChannel.log(1078071040, "[%1.activate]", (Object)"DataMediaSearch");
+        this.logChannel.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.sourceAvailabilityMap.put(Util.createInteger(11), Boolean.FALSE);
         this.sourceAvailabilityMap.put(Util.createInteger(12), Boolean.FALSE);
         this.sourceAvailabilityMap.put(Util.createInteger(13), Boolean.FALSE);
@@ -60,12 +60,11 @@ implements IDataMediaSearch {
     }
 
     public void deactivate() {
-        this.logChannel.log(1078071040, "[%1.deactivate]", (Object)"DataMediaSearch");
+        this.logChannel.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setActiveGuiSearchHandler(AbstractGuiSearchHandler abstractGuiSearchHandler) {
-        this.logChannel.log(1078071040, "[%1.setActiveGuiSearchHandler]", (Object)"DataMediaSearch");
+        this.logChannel.log(1000000, "[%1.setActiveGuiSearchHandler]", (Object)LOGCLASS);
         if (this.activeGuiSearchHandler == abstractGuiSearchHandler) {
             return;
         }
@@ -79,10 +78,9 @@ implements IDataMediaSearch {
         this.setSearchFilterTypeInternal(this.currentSearchFilterType);
     }
 
-    @Override
     public void initDSI() {
         super.initDSI();
-        this.logChannel.log(1078071040, "[%1.initDSI]", (Object)"DataMediaSearch");
+        this.logChannel.log(1000000, "[%1.initDSI]", (Object)LOGCLASS);
         super.prepareSources(new int[]{11, 12, 13, 19, 20, 21, 22, 20011});
         this.setSearchFilter(11, new SearchFilter(WORDTYPELIST_NAME, null, 0, null));
         this.setSearchFilter(13, new SearchFilter(WORDTYPELIST_ALBUM, null, 0, null));
@@ -94,7 +92,6 @@ implements IDataMediaSearch {
         this.setSearchFilter(20011, new SearchFilter(WORDTYPELIST_NAME, null, 0, null));
     }
 
-    @Override
     public void sourceDataAvailabilityChanged(int n, boolean bl) {
         switch (n) {
             case 11: 
@@ -107,7 +104,7 @@ implements IDataMediaSearch {
             case 20011: {
                 int[] nArray;
                 if (this.logChannel.isDebug2()) {
-                    this.logChannel.log(14808325, "[%1.sourceDataAvailabilityChanged] source=%2 %3", (Object)"DataMediaSearch", (Object)String.valueOf(n), (Object)String.valueOf(bl));
+                    this.logChannel.log(100000000, "[%1.sourceDataAvailabilityChanged] source=%2 %3", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)String.valueOf(bl));
                 }
                 this.sourceAvailabilityMap.put(Util.createInteger(n), bl);
                 if (null == this.activeGuiSearchHandler || !this.isSourceRelevant(n, nArray = ((AbstractSearchHandler)this.activeGuiSearchHandler).getSources())) break;
@@ -123,7 +120,7 @@ implements IDataMediaSearch {
 
     private boolean isSourceRelevant(int n, int[] nArray) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "[%1.isSourceRelevant]", (Object)"DataMediaSearch");
+            this.logChannel.log(100000000, "[%1.isSourceRelevant]", (Object)LOGCLASS);
         }
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             if (n != nArray[i2]) continue;
@@ -137,22 +134,21 @@ implements IDataMediaSearch {
         for (int i2 = 0; i2 < nArray.length && !bl; bl |= this.getSourceAvailability(nArray[i2]), ++i2) {
         }
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "[%1.isAnySourceAvailable] %2", (Object)"DataMediaSearch", (Object)bl);
+            this.logChannel.log(100000000, "[%1.isAnySourceAvailable] %2", (Object)LOGCLASS, (Object)bl);
         }
         return bl;
     }
 
-    @Override
     public void setSearchFilterType(int n) {
         if (this.currentSearchFilterType == n) {
-            this.logChannel.log(-2137614336, "[%1.setSearchFilterType] Search filter '%2' already set.", (Object)"DataMediaSearch", (long)n);
+            this.logChannel.log(10000000, "[%1.setSearchFilterType] Search filter '%2' already set.", (Object)LOGCLASS, (long)n);
             return;
         }
         this.setSearchFilterTypeInternal(n);
     }
 
     private void setSearchFilterTypeInternal(int n) {
-        this.logChannel.log(-2137614336, "[%1.setSearchFilterType] '%2'", (Object)"DataMediaSearch", (long)n);
+        this.logChannel.log(10000000, "[%1.setSearchFilterType] '%2'", (Object)LOGCLASS, (long)n);
         this.currentSearchFilterType = n;
         switch (n) {
             case 1: {
@@ -164,20 +160,19 @@ implements IDataMediaSearch {
                 break;
             }
             default: {
-                this.logChannel.log(1078071040, "[%1.setSearchFilterType] Search type not supported.", (Object)"DataMediaSearch");
+                this.logChannel.log(1000000, "[%1.setSearchFilterType] Search type not supported.", (Object)LOGCLASS);
             }
         }
     }
 
-    @Override
     public void setDefaultSearchFilter(int[] nArray) {
-        this.logChannel.log(1078071040, "[%1.setDefaultSearchFilter]", (Object)"DataMediaSearch");
+        this.logChannel.log(1000000, "[%1.setDefaultSearchFilter]", (Object)LOGCLASS);
         this.currentDefaultSearchFilter = nArray;
         this.setDefaultSearchFilter();
     }
 
     private void setAdvanceSearchFilter() {
-        this.logChannel.log(1078071040, "[%1.setAdvanceSearchFilter]", (Object)"DataMediaSearch");
+        this.logChannel.log(1000000, "[%1.setAdvanceSearchFilter]", (Object)LOGCLASS);
         int[] nArray = this.activeGuiSearchHandler.getSources();
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             this.setSearchFilter(WORDTYPELIST_ALL, nArray[i2]);
@@ -186,7 +181,7 @@ implements IDataMediaSearch {
 
     private void setDefaultSearchFilter() {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "[%1.setDefaultSearchFilter]", (Object)"DataMediaSearch");
+            this.logChannel.log(100000000, "[%1.setDefaultSearchFilter]", (Object)LOGCLASS);
         }
         int[] nArray = this.activeGuiSearchHandler.getSources();
         block9: for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -228,12 +223,8 @@ implements IDataMediaSearch {
     }
 
     private void setSearchFilter(int[] nArray, int n) {
-        this.logChannel.log(1078071040, "[%1.setSearchFilter]", (Object)"DataMediaSearch");
+        this.logChannel.log(1000000, "[%1.setSearchFilter]", (Object)LOGCLASS);
         this.setSearchFilter(n, new SearchFilter(nArray, null, 0, null));
-    }
-
-    static {
-        WORDTYPELIST_ALL = new int[]{15, 16, 5, 14};
     }
 }
 

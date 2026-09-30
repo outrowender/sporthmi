@@ -6,7 +6,7 @@ package de.audi.app.sdsmanager.apps.phone.commands;
 import de.audi.app.sdsmanager.SDSModelAccess;
 import de.audi.app.sdsmanager.apps.AbstractSystemCallCommand;
 import de.audi.app.sdsmanager.apps.SDSHandlerService;
-import de.audi.app.sdsmanager.apps.adb.ADBSDSUtils$TelNumberTypeToModelValueMapping;
+import de.audi.app.sdsmanager.apps.adb.ADBSDSUtils;
 import de.audi.app.sdsmanager.apps.phone.PhoneSDSHandler;
 import de.audi.app.sdsmanager.common.ISDSPopupHelper;
 import de.audi.app.sdsmanager.common.SDSUtils;
@@ -22,8 +22,8 @@ import java.util.ArrayList;
 
 public class PhoneListShowCommand
 extends AbstractSystemCallCommand {
-    private static final int PHONE_TITLE_REDIAL;
-    private static final int PHONE_TITLE_CALL;
+    private static final int PHONE_TITLE_REDIAL = 0;
+    private static final int PHONE_TITLE_CALL = 1;
     private final int listMode;
     private final NBestStorageAccess nBestStorage;
     private final HMIService hmi;
@@ -41,9 +41,8 @@ extends AbstractSystemCallCommand {
         this.phoneHandler = phoneSDSHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: listMode=%2!", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: listMode=%2!", (Object)this.getName(), (long)this.listMode);
         switch (this.listMode) {
             case 5: {
                 this.getLastDialed();
@@ -60,15 +59,15 @@ extends AbstractSystemCallCommand {
                 return;
             }
         }
-        this.logger.log(-1601830656, "%1#execute: unhandled list mode %2", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(100000, "%1#execute: unhandled list mode %2", (Object)this.getName(), (long)this.listMode);
         this.sendResult(30001);
     }
 
     private void showPicklist() {
-        this.logger.log(-2137614336, "%1#showPicklist!", (Object)this.getName());
+        this.logger.log(10000000, "%1#showPicklist!", (Object)this.getName());
         boolean bl = this.triggerPicklist();
         if (!bl) {
-            this.logger.log(-1601830656, "%1#execute: filling of picklist failed", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: filling of picklist failed", (Object)this.getName());
             this.sendResult(30001);
             return;
         }
@@ -84,16 +83,16 @@ extends AbstractSystemCallCommand {
 
     private void getCallstackFavoriteEntry() {
         int n;
-        this.logger.log(-2137614336, "%1#fillNumScreen!", (Object)this.getName());
+        this.logger.log(10000000, "%1#fillNumScreen!", (Object)this.getName());
         long l = SDSUtils.getSelectedObjectId(this.nBestStorage, this.logger, 0);
         if (l == -1L) {
-            this.logger.log(-1601830656, "PhoneListShowCommand#fillNumScreen: no slot id found!");
+            this.logger.log(100000, "PhoneListShowCommand#fillNumScreen: no slot id found!");
             this.sendResult(30001);
             return;
         }
         int n2 = n = this.listMode == 4 ? this.phoneHandler.getFavoriteIndexById(l) : this.phoneHandler.getCallStackIndexById(l);
         if (n == -1) {
-            this.logger.log(-1601830656, "PhoneListShowCommand#fillNumScreen: id %1 not found in list!", (long)n);
+            this.logger.log(100000, "PhoneListShowCommand#fillNumScreen: id %1 not found in list!", (long)n);
             this.sendResult(30001);
             return;
         }
@@ -104,20 +103,20 @@ extends AbstractSystemCallCommand {
     }
 
     private void getLastDialed() {
-        this.logger.log(-2137614336, "PhoneListShowCommand#getLastDialed");
+        this.logger.log(10000000, "PhoneListShowCommand#getLastDialed");
         TelServiceCallStackEntry telServiceCallStackEntry = this.phoneService.getLastDialedNumber();
         if (telServiceCallStackEntry == null) {
-            this.logger.log(-1601830656, "PhoneListShowCommand#getLastDialed -> last dialed number is null");
+            this.logger.log(100000, "PhoneListShowCommand#getLastDialed -> last dialed number is null");
             this.sendResult(30001);
             return;
         }
         this.fillNumScreen(telServiceCallStackEntry.getNumber(), telServiceCallStackEntry.getName(), 0);
-        SDSModelAccess.setADBSelectedNumberTypeModel(ADBSDSUtils$TelNumberTypeToModelValueMapping.getModelValueForTelNumberType(telServiceCallStackEntry.getPhoneType()));
+        SDSModelAccess.setADBSelectedNumberTypeModel(ADBSDSUtils.TelNumberTypeToModelValueMapping.getModelValueForTelNumberType(telServiceCallStackEntry.getPhoneType()));
         this.sendResult(30000);
     }
 
     private void fillNumScreen(String string, String string2, int n) {
-        this.logger.log(-2137614336, "PhoneListShowCommand#fillNumScreen: index=%3, name=%1, title=%2!", (Object)string2, (Object)string, (long)n);
+        this.logger.log(10000000, "PhoneListShowCommand#fillNumScreen: index=%3, name=%1, title=%2!", (Object)string2, (Object)string, (long)n);
         SDSModelAccess.setPhoneCompleteNumberModel(string);
         this.phoneService.setNumberSpeller(string);
         SDSModelAccess.setTelSDSNumLabel(string2);
@@ -127,13 +126,13 @@ extends AbstractSystemCallCommand {
     }
 
     private boolean triggerPicklist() {
-        this.logger.log(-2137614336, "%1#triggerPicklist: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#triggerPicklist: called", (Object)this.getName());
         this.nBestStorage.resetPicklistsWithHistory();
         IPicklist iPicklist = this.nBestStorage.getMatchingPicklist((byte)0);
         if (SDSUtils.isEmpty(iPicklist)) {
             return false;
         }
-        this.logger.log(-2137614336, "%1#triggerPicklist: picklist=%2!", (Object)this.getName(), (Object)iPicklist.toString());
+        this.logger.log(10000000, "%1#triggerPicklist: picklist=%2!", (Object)this.getName(), (Object)iPicklist.toString());
         SDSListEntry[] sDSListEntryArray = SDSUtils.createSDSListFromPicklist(iPicklist);
         int n = 4;
         switch (this.listMode) {
@@ -146,7 +145,7 @@ extends AbstractSystemCallCommand {
                     }
                     sDSListEntryArray = (SDSListEntry[])arrayList.toArray(new SDSListEntry[arrayList.size()]);
                 } else {
-                    this.logger.log(-1601830656, "%1#triggerPicklist: available call stack entries=NULL, using original picklist entries", (Object)this.getName());
+                    this.logger.log(100000, "%1#triggerPicklist: available call stack entries=NULL, using original picklist entries", (Object)this.getName());
                 }
                 n = this.phoneService.fillCallstackPickList(sDSListEntryArray);
                 break;
@@ -156,7 +155,7 @@ extends AbstractSystemCallCommand {
                 break;
             }
         }
-        this.logger.log(-2137614336, "%1#triggerPicklist: response=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#triggerPicklist: response=%2", (Object)this.getName(), (long)n);
         return n == 0;
     }
 }

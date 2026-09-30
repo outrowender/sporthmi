@@ -4,13 +4,12 @@
 package de.audi.atip.interapp.car;
 
 public interface ICarRemainingRangeListener {
-    public static final int UNIT_KM;
-    public static final int UNIT_MI;
-    public static final int STATE_NOT_AVAILABLE;
-    public static final int STATE_INVALID;
-    public static final int STATE_VALID;
+    public static final int UNIT_KM = 0;
+    public static final int UNIT_MI = 1;
+    public static final int STATE_NOT_AVAILABLE = 0;
+    public static final int STATE_INVALID = 1;
+    public static final int STATE_VALID = 2;
 
-    default public void updateRemainingRange(int n, int n2, int n3) {
-    }
+    public void updateRemainingRange(int var1, int var2, int var3);
 }
 

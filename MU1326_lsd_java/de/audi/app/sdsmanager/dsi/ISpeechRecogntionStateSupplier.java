@@ -6,10 +6,8 @@ package de.audi.app.sdsmanager.dsi;
 import de.audi.app.sdsmanager.dsi.ISpeechRecognitionStateListener;
 
 public interface ISpeechRecogntionStateSupplier {
-    default public boolean registerSpeechRecognitionStateListener(ISpeechRecognitionStateListener iSpeechRecognitionStateListener) {
-    }
+    public boolean registerSpeechRecognitionStateListener(ISpeechRecognitionStateListener var1);
 
-    default public boolean unregisterSpeechRecognitionStateListener(ISpeechRecognitionStateListener iSpeechRecognitionStateListener) {
-    }
+    public boolean unregisterSpeechRecognitionStateListener(ISpeechRecognitionStateListener var1);
 }
 

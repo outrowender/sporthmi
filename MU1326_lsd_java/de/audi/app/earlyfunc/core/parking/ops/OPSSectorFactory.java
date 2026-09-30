@@ -21,10 +21,10 @@ public final class OPSSectorFactory {
     private final int rightInnerNumberSegments;
     private final int rightOuterNumberSegments;
     private final int range;
-    public static final OPSSectorFactory FRONTAREA_WITH_CONSTANT_DIST_RANGE = new OPSSectorFactory(-1391779840, -1962205184, -1995759616, -1928650752, -1895096320, -1945427968, -1978982400, -1911873536, -1878319104, 6, 8, 8, 6, 15);
-    public static final OPSSectorFactory REARAREA_WITH_CONSTANT_DIST_RANGE = new OPSSectorFactory(-1341448192, -1559552000, -1593106432, -1525997568, -1492443136, -1542774784, -1576329216, -1509220352, -1475665920, 6, 11, 11, 6, 15);
-    public static final OPSSectorFactory LEFTAREA_WITH_CONSTANT_DIST_RANGE = new OPSSectorFactory(0, -1760878592, -1794433024, -1861541888, -1827987456, -1744101376, -1777655808, -1844764672, -1811210240, 6, 6, 6, 6, 15);
-    public static final OPSSectorFactory RIGHTAREA_WITH_CONSTANT_DIST_RANGE = new OPSSectorFactory(0, -1626660864, -1660215296, -1727324160, -1693769728, -1609883648, -1643438080, -1710546944, -1676992512, 6, 6, 6, 6, 15);
+    public static final OPSSectorFactory FRONTAREA_WITH_CONSTANT_DIST_RANGE = new OPSSectorFactory(2100141, 2100107, 2100105, 2100109, 2100111, 2100108, 2100106, 2100110, 2100112, 6, 8, 8, 6, 15);
+    public static final OPSSectorFactory REARAREA_WITH_CONSTANT_DIST_RANGE = new OPSSectorFactory(0x200BB0, 2100131, 2100129, 2100133, 2100135, 2100132, 2100130, 2100134, 2100136, 6, 11, 11, 6, 15);
+    public static final OPSSectorFactory LEFTAREA_WITH_CONSTANT_DIST_RANGE = new OPSSectorFactory(0, 2100119, 2100117, 2100113, 2100115, 2100120, 2100118, 2100114, 2100116, 6, 6, 6, 6, 15);
+    public static final OPSSectorFactory RIGHTAREA_WITH_CONSTANT_DIST_RANGE = new OPSSectorFactory(0, 2100127, 2100125, 2100121, 2100123, 2100128, 2100126, 2100122, 2100124, 6, 6, 6, 6, 15);
 
     private OPSSectorFactory(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10, int n11, int n12, int n13) {
         this.errorIconStatusModelID = n;

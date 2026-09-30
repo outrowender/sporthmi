@@ -29,7 +29,6 @@ extends AbstractSystemCallCommand {
         this.mediaSDSService = iMediaSDSService;
     }
 
-    @Override
     public void execute() {
         int n;
         IPicklistSlot iPicklistSlot = this.nBestStorage.getSlotForPicklistElement(0, 0, (byte)0, true);
@@ -39,16 +38,16 @@ extends AbstractSystemCallCommand {
         catch (NumberFormatException numberFormatException) {
             n = this.getDefaultSlot();
         }
-        this.logger.log(-2137614336, "%1#execute: deviceMode=%2, slot=%3", (Object)this.getName(), (long)this.deviceMode, (long)n);
+        this.logger.log(10000000, "%1#execute: deviceMode=%2, slot=%3", (Object)this.getName(), (long)this.deviceMode, (long)n);
         if (!MediaSDSUtils.isMediaDeviceMode(this.deviceMode)) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled deviceMode %2!", (Object)this.getName(), (long)this.deviceMode);
+            this.logger.log(100000, "%1#execute: Unhandled deviceMode %2!", (Object)this.getName(), (long)this.deviceMode);
             this.sendResult(20001);
             return;
         }
         int n2 = MediaSDSUtils.getSourceIDForDevice(this.deviceMode);
-        this.logger.log(-2137614336, "%1#execute: sourceID=%2!", (Object)this.getName(), (long)n2);
-        if (n2 == 128) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled deviceMode %2, sending ERROR!", (Object)this.getName(), (long)this.deviceMode);
+        this.logger.log(10000000, "%1#execute: sourceID=%2!", (Object)this.getName(), (long)n2);
+        if (n2 == Integer.MIN_VALUE) {
+            this.logger.log(100000, "%1#execute: Unhandled deviceMode %2, sending ERROR!", (Object)this.getName(), (long)this.deviceMode);
             this.sendResult(20001);
             return;
         }
@@ -57,12 +56,12 @@ extends AbstractSystemCallCommand {
     }
 
     protected int getDefaultSlot() {
-        this.logger.log(-2137614336, "%1#getDefaultSlot: No number found in first slot, asssuming 0!", (Object)this.getName());
+        this.logger.log(10000000, "%1#getDefaultSlot: No number found in first slot, asssuming 0!", (Object)this.getName());
         return 0;
     }
 
     public void sendActivationReply(int n) {
-        this.logger.log(-2137614336, "[%1#sendActivationReply] state=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#sendActivationReply] state=%2!", (Object)this.getName(), (long)n);
         this.sendResult(MediaSDSUtils.getActivationResponseEvent(n, this.logger));
     }
 }

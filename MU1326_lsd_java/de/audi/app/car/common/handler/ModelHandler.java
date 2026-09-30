@@ -8,25 +8,18 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 import de.audi.atip.log.LogChannel;
 
 public interface ModelHandler {
-    default public void setBusiness(ModelEventBusiness modelEventBusiness) {
-    }
+    public void setBusiness(ModelEventBusiness var1);
 
-    default public ModelEventBusiness getBusiness() {
-    }
+    public ModelEventBusiness getBusiness();
 
-    default public void deinitModel() {
-    }
+    public void deinitModel();
 
-    default public void fireEvent() {
-    }
+    public void fireEvent();
 
-    default public int getHandledModelID() {
-    }
+    public int getHandledModelID();
 
-    default public HMIModelApp getHandledModel() {
-    }
+    public HMIModelApp getHandledModel();
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 }
 

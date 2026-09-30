@@ -15,7 +15,7 @@ import org.dsi.ifc.androidauto2.DSIAndroidAuto2;
 public class AndroidAuto2MicHandler
 extends AbstractAndroidAuto2Handler
 implements IAndroidAuto2MicHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AndroidAuto2MicHandler";
     private volatile boolean micState = false;
     private volatile boolean unsolicited = true;
 
@@ -23,12 +23,11 @@ implements IAndroidAuto2MicHandler {
         super(logChannel, dSIAndroidAuto2, iStateHandler, iContext);
     }
 
-    @Override
     public void microphoneUpdate(boolean bl) {
         if (this.micState == bl) {
             return;
         }
-        this.logger.log(1078071040, "[%1.microphoneUpdate] %2", (Object)"AndroidAuto2MicHandler", (Object)(bl ? "OPEN" : "CLOSE"));
+        this.logger.log(1000000, "[%1.microphoneUpdate] %2", (Object)LOGCLASS, (Object)(bl ? "OPEN" : "CLOSE"));
         if (bl) {
             this.dsi.microphoneNotification(1, this.unsolicited);
         } else {
@@ -38,10 +37,9 @@ implements IAndroidAuto2MicHandler {
         this.micState = bl;
     }
 
-    @Override
     public void microphoneRequestNotification(int n, int n2) {
         if (this.isValid(n2)) {
-            this.logger.log(1078071040, "<- [%1.microphoneRequestNotification] %2", (Object)"AndroidAuto2MicHandler", (Object)this.getMicrophoneState(n));
+            this.logger.log(1000000, "<- [%1.microphoneRequestNotification] %2", (Object)LOGCLASS, (Object)this.getMicrophoneState(n));
             if (n == 1) {
                 this.requestDSIUpdate(Resource.AUDIO_SPEECH, ResourceOwner.DEVICE);
             } else {
@@ -60,12 +58,11 @@ implements IAndroidAuto2MicHandler {
                 return "MIC_CLOSE";
             }
         }
-        return new StringBuffer().append("MIC_UNKNOWN ").append(n).toString();
+        return "MIC_UNKNOWN " + n;
     }
 
-    @Override
     protected String getLogClass() {
-        return "AndroidAuto2MicHandler";
+        return LOGCLASS;
     }
 }
 

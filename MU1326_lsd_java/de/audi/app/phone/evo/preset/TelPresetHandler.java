@@ -18,15 +18,15 @@ import de.audi.app.phone.evo.intellicall.search.IntellicallADBSearchResultRow;
 import de.audi.app.phone.evo.intellicall.search.IntellicallCallStackSearchResultRow;
 import de.audi.app.phone.evo.intellicall.search.IntellicallFavoriteSearchResultRow;
 import de.audi.app.phone.evo.preset.TelPresetDefinitionContainer;
-import de.audi.app.phone.evo.preset.TelPresetHandler$TelPresetServiceImpl;
 import de.audi.atip.hmi.model.BaseListRow;
 import de.audi.atip.hmi.model.PresetListRow;
 import de.audi.atip.hmi.model.list.EvoListRow;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.interapp.phone.ITelPresetService;
 import de.audi.atip.preset.DefinitionRequest;
 import de.audi.atip.preset.ExecuteRequest;
 import de.audi.atip.preset.IAppPresetDefinitionHandler;
 import de.audi.atip.preset.IAppPresetExecutionHandler;
+import de.esolutions.fw.util.commons.Buffer;
 import java.io.Serializable;
 import java.util.Hashtable;
 import org.dsi.ifc.telephoneng.CallStackEntry;
@@ -35,7 +35,7 @@ public class TelPresetHandler
 extends AbstractPhoneComponent
 implements IAppPresetDefinitionHandler,
 IAppPresetExecutionHandler {
-    private final int[] modelIDs = new int[]{-1365900288, -1718287360, -1349123072, -1533672448, -1516895232, -1500118016, -1483340800, -1466563584, 1402340352};
+    private final int[] modelIDs = new int[]{300718, 300441, 300719, 300708, 300709, 300710, 300711, 300712, 300627};
     private volatile PhoneServiceProvider presetDefinitionHandlerServiceProvider;
     private volatile PhoneServiceProvider presetExecutionHandlerServiceProvider;
     private volatile PhoneServiceProvider telPresetServiceProvider;
@@ -63,22 +63,20 @@ IAppPresetExecutionHandler {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppPhone");
-        this.getApplication().getGlobalTelephoneStateManager().registerListenerForSpecificAttributeUpdate(0x10000100, (IGlobalTelephoneStateListener)this);
+        this.getApplication().getGlobalTelephoneStateManager().registerListenerForSpecificAttributeUpdate(65552, (IGlobalTelephoneStateListener)this);
         this.presetDefinitionHandlerServiceProvider = new PhoneServiceProvider((class$de$audi$atip$preset$IAppPresetDefinitionHandler == null ? (class$de$audi$atip$preset$IAppPresetDefinitionHandler = TelPresetHandler.class$("de.audi.atip.preset.IAppPresetDefinitionHandler")) : class$de$audi$atip$preset$IAppPresetDefinitionHandler).getName(), this, hashtable, this.getApplication().getBundleContext(), this.log);
         this.presetDefinitionHandlerServiceProvider.startService();
         this.presetExecutionHandlerServiceProvider = new PhoneServiceProvider((class$de$audi$atip$preset$IAppPresetExecutionHandler == null ? (class$de$audi$atip$preset$IAppPresetExecutionHandler = TelPresetHandler.class$("de.audi.atip.preset.IAppPresetExecutionHandler")) : class$de$audi$atip$preset$IAppPresetExecutionHandler).getName(), this, hashtable, this.getApplication().getBundleContext(), this.log);
         this.presetExecutionHandlerServiceProvider.startService();
-        this.telPresetServiceProvider = new PhoneServiceProvider((class$de$audi$atip$interapp$phone$ITelPresetService == null ? (class$de$audi$atip$interapp$phone$ITelPresetService = TelPresetHandler.class$("de.audi.atip.interapp.phone.ITelPresetService")) : class$de$audi$atip$interapp$phone$ITelPresetService).getName(), new TelPresetHandler$TelPresetServiceImpl(this, null), hashtable, this.getApplication().getBundleContext(), this.log);
+        this.telPresetServiceProvider = new PhoneServiceProvider((class$de$audi$atip$interapp$phone$ITelPresetService == null ? (class$de$audi$atip$interapp$phone$ITelPresetService = TelPresetHandler.class$("de.audi.atip.interapp.phone.ITelPresetService")) : class$de$audi$atip$interapp$phone$ITelPresetService).getName(), new TelPresetServiceImpl(), hashtable, this.getApplication().getBundleContext(), this.log);
         this.telPresetServiceProvider.startService();
     }
 
-    @Override
     public void deinit() {
-        this.getApplication().getGlobalTelephoneStateManager().removeListenerForSpecificAttributeUpdate(0x10000100, (IGlobalTelephoneStateListener)this);
+        this.getApplication().getGlobalTelephoneStateManager().removeListenerForSpecificAttributeUpdate(65552, (IGlobalTelephoneStateListener)this);
         if (this.presetDefinitionHandlerServiceProvider != null) {
             this.presetDefinitionHandlerServiceProvider.stopService();
             this.presetDefinitionHandlerServiceProvider = null;
@@ -93,33 +91,28 @@ IAppPresetExecutionHandler {
         }
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (n == 0x10000100) {
+        if (n == 65552) {
             this.mailboxNumber = iGlobalTelephoneStateStruct.getMailboxNumber();
         } else {
-            this.log.log(-1601830656, "[TelPresetHandler#updateGlobalTelephoneStateProperty] unexpected update %1", (Object)GlobalTelephoneState.getAttributeName(n));
+            this.log.log(100000, "[TelPresetHandler#updateGlobalTelephoneStateProperty] unexpected update %1", (Object)GlobalTelephoneState.getAttributeName(n));
         }
     }
 
-    @Override
     public int getType() {
         return 1;
     }
 
-    @Override
     public int[] getModelIds() {
         return this.modelIDs;
     }
 
-    @Override
     public int getExecutionType() {
         return 3;
     }
 
-    @Override
     public void requestDefinition(DefinitionRequest definitionRequest) {
-        this.log.log(1078071040, "[TelPresetHandler#requestDefinition] request=%1", (Object)definitionRequest);
+        this.log.log(1000000, "[TelPresetHandler#requestDefinition] request=%1", (Object)definitionRequest);
         int n = definitionRequest.getModelId();
         int n2 = definitionRequest.getRowId();
         switch (n) {
@@ -148,7 +141,7 @@ IAppPresetExecutionHandler {
                 break;
             }
             default: {
-                this.log.log(-1601830656, "[TelPresetHandler#requestDefinition] unhandled model id %1", (long)n);
+                this.log.log(100000, "[TelPresetHandler#requestDefinition] unhandled model id %1", (long)n);
             }
         }
     }
@@ -156,10 +149,10 @@ IAppPresetExecutionHandler {
     private void requestDefinitionMailbox(DefinitionRequest definitionRequest, int n) {
         String string = this.mailboxNumber;
         if (string != null && string.length() > 0) {
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionMailbox] mailboxNumber=%1", (Object)string);
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionMailbox] mailboxNumber=%1", (Object)string);
             this.responseDefinitionOK(definitionRequest, this.getApplication().getTextFactory().getText(0), string, (short)0);
         } else {
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionMailbox] no mailbox number available - preset not possible!");
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionMailbox] no mailbox number available - preset not possible!");
             this.requestDefinitionNotPossible(definitionRequest);
         }
     }
@@ -168,7 +161,7 @@ IAppPresetExecutionHandler {
         EvoListRow evoListRow = this.getBaseListModel(n).getRow(n2);
         if (evoListRow != null) {
             TelEvoFavoriteListRow telEvoFavoriteListRow = (TelEvoFavoriteListRow)evoListRow;
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionFavoriteList] row=%1", (Object)telEvoFavoriteListRow);
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionFavoriteList] row=%1", (Object)telEvoFavoriteListRow);
             this.responseDefinitionOK(definitionRequest, telEvoFavoriteListRow.getName(), telEvoFavoriteListRow.getNumber(), (short)telEvoFavoriteListRow.getPhoneNumberType());
         } else {
             this.log.log(10000, "[TelPresetHandler#requestDefinitionFavoriteList] row is null, modelId=%1, rowId=%2", (long)n, (long)n2);
@@ -185,10 +178,10 @@ IAppPresetExecutionHandler {
     }
 
     private void requestDefinitionFavoriteSearchList(DefinitionRequest definitionRequest, int n) {
-        EvoListRow evoListRow = this.getBaseListModel(-1349123072).getRow(n);
+        EvoListRow evoListRow = this.getBaseListModel(300719).getRow(n);
         if (evoListRow != null) {
             TelFavoriteSearchResultRow telFavoriteSearchResultRow = (TelFavoriteSearchResultRow)evoListRow;
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionFavoriteSearchList] row=%1", (Object)telFavoriteSearchResultRow);
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionFavoriteSearchList] row=%1", (Object)telFavoriteSearchResultRow);
             this.responseDefinitionOK(definitionRequest, telFavoriteSearchResultRow.getName(), telFavoriteSearchResultRow.getTelephoneNumber(), (short)telFavoriteSearchResultRow.getPhoneNumberType());
         } else {
             this.log.log(10000, "[TelPresetHandler#requestDefinitionFavoriteSearchList] row is null, rowId=%1", (long)n);
@@ -196,10 +189,10 @@ IAppPresetExecutionHandler {
     }
 
     private void requestDefinitionCombinedCallStackList(DefinitionRequest definitionRequest, int n) {
-        BaseListRow baseListRow = this.getListModel(-1718287360).getRow(n);
+        BaseListRow baseListRow = this.getListModel(300441).getRow(n);
         if (baseListRow != null) {
             TelEvoCallStackRow telEvoCallStackRow = (TelEvoCallStackRow)baseListRow;
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionCombinedCallStackList] row=%1", (Object)telEvoCallStackRow);
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionCombinedCallStackList] row=%1", (Object)telEvoCallStackRow);
             CallStackEntry callStackEntry = telEvoCallStackRow.getCallStackEntry();
             this.responseDefinitionOK(definitionRequest, telEvoCallStackRow.getDisplayName(), callStackEntry.getClNumber(), (short)callStackEntry.getAdbNumberType());
         } else {
@@ -208,26 +201,26 @@ IAppPresetExecutionHandler {
     }
 
     private void requestDefinitionIntellicallSearchList(DefinitionRequest definitionRequest, int n) {
-        EvoListRow evoListRow = this.getBaseListModel(-1365900288).getRow(n);
+        EvoListRow evoListRow = this.getBaseListModel(300718).getRow(n);
         if (evoListRow instanceof IntellicallCallStackSearchResultRow) {
             IntellicallCallStackSearchResultRow intellicallCallStackSearchResultRow = (IntellicallCallStackSearchResultRow)evoListRow;
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionIntellicallSearchList] row=%1", (Object)intellicallCallStackSearchResultRow);
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionIntellicallSearchList] row=%1", (Object)intellicallCallStackSearchResultRow);
             CallStackEntry callStackEntry = intellicallCallStackSearchResultRow.getCallStackEntry();
             this.responseDefinitionOK(definitionRequest, callStackEntry.getClName(), callStackEntry.getClNumber(), (short)callStackEntry.getAdbNumberType());
         } else if (evoListRow instanceof IntellicallADBEntryDetailsResultRow) {
             IntellicallADBEntryDetailsResultRow intellicallADBEntryDetailsResultRow = (IntellicallADBEntryDetailsResultRow)evoListRow;
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionIntellicallSearchList] row=%1", (Object)intellicallADBEntryDetailsResultRow);
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionIntellicallSearchList] row=%1", (Object)intellicallADBEntryDetailsResultRow);
             this.responseDefinitionOK(definitionRequest, intellicallADBEntryDetailsResultRow.getName(), intellicallADBEntryDetailsResultRow.getNumber(), intellicallADBEntryDetailsResultRow.getPhoneNumberType());
         } else if (evoListRow instanceof IntellicallADBSearchResultRow) {
             IntellicallADBSearchResultRow intellicallADBSearchResultRow = (IntellicallADBSearchResultRow)evoListRow;
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionIntellicallSearchList] row=%1", (Object)intellicallADBSearchResultRow);
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionIntellicallSearchList] row=%1", (Object)intellicallADBSearchResultRow);
             definitionRequest.responseDefine(3, null, null, 3);
         } else if (evoListRow instanceof IntellicallFavoriteSearchResultRow) {
             IntellicallFavoriteSearchResultRow intellicallFavoriteSearchResultRow = (IntellicallFavoriteSearchResultRow)evoListRow;
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionIntellicallSearchList] row=%1", (Object)intellicallFavoriteSearchResultRow);
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionIntellicallSearchList] row=%1", (Object)intellicallFavoriteSearchResultRow);
             this.responseDefinitionOK(definitionRequest, intellicallFavoriteSearchResultRow.getName(), intellicallFavoriteSearchResultRow.getTelephoneNumber(), (short)intellicallFavoriteSearchResultRow.getPhoneNumberType());
         } else {
-            this.log.log(1078071040, "[TelPresetHandler#requestDefinitionIntellicallSearchList] not possible for row %1", (Object)evoListRow);
+            this.log.log(1000000, "[TelPresetHandler#requestDefinitionIntellicallSearchList] not possible for row %1", (Object)evoListRow);
             this.requestDefinitionNotPossible(definitionRequest);
         }
     }
@@ -236,16 +229,15 @@ IAppPresetExecutionHandler {
         definitionRequest.responseDefine(2, null, null, 3);
     }
 
-    @Override
     public void requestExecute(ExecuteRequest executeRequest) {
-        this.log.log(1078071040, "[TelPresetHandler#requestExecute] request=%1", (Object)executeRequest);
+        this.log.log(1000000, "[TelPresetHandler#requestExecute] request=%1", (Object)executeRequest);
         Serializable serializable = executeRequest.getPreset().getData();
         if (serializable instanceof TelPresetDefinitionContainer) {
             TelPresetDefinitionContainer telPresetDefinitionContainer = (TelPresetDefinitionContainer)serializable;
-            this.log.log(1078071040, "[TelPresetHandler#requestExecute] dialing container=%1", (Object)telPresetDefinitionContainer);
+            this.log.log(1000000, "[TelPresetHandler#requestExecute] dialing container=%1", (Object)telPresetDefinitionContainer);
             this.getApplication().getTelephoneDSIAccess().dialNumber(telPresetDefinitionContainer.getNumber(), 0);
         } else {
-            this.log.log(-1601830656, "[TelPresetHandler#requestExecute] container format unknown: %1", (Object)serializable);
+            this.log.log(100000, "[TelPresetHandler#requestExecute] container format unknown: %1", (Object)serializable);
         }
     }
 
@@ -258,16 +250,30 @@ IAppPresetExecutionHandler {
         }
     }
 
-    static /* synthetic */ LogChannel access$100(TelPresetHandler telPresetHandler) {
-        return telPresetHandler.log;
-    }
+    private class TelPresetServiceImpl
+    implements ITelPresetService {
+        private TelPresetServiceImpl() {
+        }
 
-    static /* synthetic */ LogChannel access$200(TelPresetHandler telPresetHandler) {
-        return telPresetHandler.log;
-    }
-
-    static /* synthetic */ void access$300(TelPresetHandler telPresetHandler, DefinitionRequest definitionRequest, String string, String string2, short s) {
-        telPresetHandler.responseDefinitionOK(definitionRequest, string, string2, s);
+        public void definePreset(DefinitionRequest definitionRequest, String string, String string2, int n) {
+            if (TelPresetHandler.this.log.isInfo()) {
+                Buffer buffer = new Buffer();
+                buffer.append("definitionRequest=");
+                buffer.append(definitionRequest);
+                buffer.append(", ");
+                buffer.append("number=");
+                buffer.append(string);
+                buffer.append(", ");
+                buffer.append("name=");
+                buffer.append(string2);
+                buffer.append(", ");
+                buffer.append("phoneNumberType=");
+                buffer.append(n);
+                buffer.append(", ");
+                TelPresetHandler.this.log.log(1000000, "[TelPresetServiceImpl#definePreset] %1", (Object)buffer);
+            }
+            TelPresetHandler.this.responseDefinitionOK(definitionRequest, string2, string, (short)n);
+        }
     }
 }
 

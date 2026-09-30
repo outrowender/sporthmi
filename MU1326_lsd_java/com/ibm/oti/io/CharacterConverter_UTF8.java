@@ -13,7 +13,6 @@ extends CharacterConverter {
     /*
      * Enabled aggressive block sorting
      */
-    @Override
     public int countChars(byte[] byArray, int n, int n2) {
         if (n2 < 0) {
             throw new StringIndexOutOfBoundsException();
@@ -79,7 +78,6 @@ extends CharacterConverter {
         return n4;
     }
 
-    @Override
     public int convert(byte[] byArray, int n, char[] cArray, int n2, int n3) {
         int n4 = n2 + n3;
         while (n2 < n4) {
@@ -96,13 +94,12 @@ extends CharacterConverter {
                 cArray[n2++] = (char)(((by & 0xF) << 12) + ((byArray[n++] & 0x3F) << 6) + (byArray[n++] & 0x3F));
                 continue;
             }
-            cArray[n2++] = (char)((((by & 7) << 2) + (byArray[n] >> 4 & 3) - 1 << 6) + ((byArray[n++] & 0xF) << 2) + (byArray[n] >> 4 & 3) + 0xD80000);
-            cArray[n2++] = (char)(((byArray[n++] & 0xF) << 6) + (byArray[n++] & 0x3F) + 0xDC0000);
+            cArray[n2++] = (char)((((by & 7) << 2) + (byArray[n] >> 4 & 3) - 1 << 6) + ((byArray[n++] & 0xF) << 2) + (byArray[n] >> 4 & 3) + 55296);
+            cArray[n2++] = (char)(((byArray[n++] & 0xF) << 6) + (byArray[n++] & 0x3F) + 56320);
         }
         return n;
     }
 
-    @Override
     public byte[] convert(char[] cArray, int n, int n2) {
         int n3;
         int n4 = 0;
@@ -117,7 +114,7 @@ extends CharacterConverter {
                 n4 += 2;
                 continue;
             }
-            if (n3 >= 0xDC0000 && n3 < 0xE00000 && n5 > 0 && cArray[n5 - 1] >= '\ud80000' && cArray[n5 - 1] < '\udc0000') {
+            if (n3 >= 56320 && n3 < 57344 && n5 > 0 && cArray[n5 - 1] >= '\ud800' && cArray[n5 - 1] < '\udc00') {
                 --n5;
                 n4 += 4;
                 continue;
@@ -138,7 +135,7 @@ extends CharacterConverter {
                 byArray[--n3] = (byte)(0xC0 | c2 >> 6);
                 continue;
             }
-            if (c2 >= '\udc0000' && c2 < '\ue00000' && n6 > 0 && cArray[n6 - 1] >= '\ud80000' && cArray[n6 - 1] < '\udc0000') {
+            if (c2 >= '\udc00' && c2 < '\ue000' && n6 > 0 && cArray[n6 - 1] >= '\ud800' && cArray[n6 - 1] < '\udc00') {
                 int n7 = (cArray[n6 - 1] & 0x3C0) + 64;
                 byArray[--n3] = (byte)(0x80 | c2 & 0x3F);
                 byArray[--n3] = (byte)(0x80 | c2 >> 6 & 0xF | (cArray[n6 - 1] & 3) << 4);

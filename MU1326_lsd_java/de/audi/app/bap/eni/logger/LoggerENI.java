@@ -10,19 +10,18 @@ import de.audi.atip.log.NullLogChannel;
 
 public class LoggerENI
 extends AbstractBAPLogger {
-    private static final String LOG_CH_PREFIX;
-    private static final String LOG_CH_ENI;
-    private static final String LOG_CH_ENI_BAPDATA;
+    private static final String LOG_CH_PREFIX = "App.BAPENI";
+    private static final String LOG_CH_ENI = "ENI";
+    private static final String LOG_CH_ENI_BAPDATA = "ENI.BAPData";
     private final LogChannel logENI;
     private final LogChannel logENIBAPData;
 
     public LoggerENI(IFrameworkAccess iFrameworkAccess) {
-        AbstractBAPLogger.init(iFrameworkAccess, "App.BAPENI");
-        this.logENI = iFrameworkAccess.getLogChannel(LoggerENI.createLogChannelName("ENI"));
-        this.logENIBAPData = iFrameworkAccess.getLogChannel(LoggerENI.createLogChannelName("ENI.BAPData"));
+        AbstractBAPLogger.init(iFrameworkAccess, LOG_CH_PREFIX);
+        this.logENI = iFrameworkAccess.getLogChannel(LoggerENI.createLogChannelName(LOG_CH_ENI));
+        this.logENIBAPData = iFrameworkAccess.getLogChannel(LoggerENI.createLogChannelName(LOG_CH_ENI_BAPDATA));
     }
 
-    @Override
     public LogChannel getLog(int n) {
         LogChannel logChannel;
         switch (n) {
@@ -40,7 +39,6 @@ extends AbstractBAPLogger {
         return logChannel;
     }
 
-    @Override
     public LogChannel getLogBAPData(int n) {
         LogChannel logChannel;
         switch (n) {

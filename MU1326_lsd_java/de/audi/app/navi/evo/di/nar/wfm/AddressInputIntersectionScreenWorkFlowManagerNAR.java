@@ -17,16 +17,15 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 30502: {
                 this.createNarIntersectionScreenListElementSelectedWorkFlow(commandList);
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId %2 is in range of intersection screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId %2 is in range of intersection screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
             }
         }
         return commandList;
@@ -34,7 +33,7 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
 
     private void createNarIntersectionScreenListElementSelectedWorkFlow(CommandList commandList) {
         commandList.add(0, new LIGetStateCommand(this.spellerStack, null, -1, null, SpellerContextManager.getSpellerContext(107), null));
-        this.logChannel.log(-2137614336, "%1#createNarIntersectionScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createNarIntersectionScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
     }
 }
 

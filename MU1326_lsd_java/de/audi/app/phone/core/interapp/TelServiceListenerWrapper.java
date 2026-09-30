@@ -18,7 +18,6 @@ extends TelDefaultDSIResponseListener {
         this.serviceListener = iTelServiceListener;
     }
 
-    @Override
     public void responseDialNumber(int n, int n2, SuppServiceResponseStruct suppServiceResponseStruct, int n3) {
         this.serviceListener.dialNumberResponse(this.mapResultCode(n));
     }

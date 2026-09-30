@@ -4,20 +4,16 @@
 package de.audi.atip.interapp;
 
 public interface IMessagingService {
-    public static final int MSG_TYPE_SMS;
-    public static final int MSG_TYPE_MAIL;
-    public static final int DATA_INDEX_NONE;
+    public static final int MSG_TYPE_SMS = 0;
+    public static final int MSG_TYPE_MAIL = 1;
+    public static final int DATA_INDEX_NONE = -1;
 
-    default public void composeMsgPresetRecipient(int n, long l, int n2) {
-    }
+    public void composeMsgPresetRecipient(int var1, long var2, int var4);
 
-    default public void composeMsgPresetRecipient(int n, long l, int n2, int n3) {
-    }
+    public void composeMsgPresetRecipient(int var1, long var2, int var4, int var5);
 
-    default public void composeMsgPresetRecipient(int n, String string) {
-    }
+    public void composeMsgPresetRecipient(int var1, String var2);
 
-    default public void composeMsgAttachVCard(int n, String string, long l) {
-    }
+    public void composeMsgAttachVCard(int var1, String var2, long var3);
 }
 

@@ -4,7 +4,6 @@
 package de.audi.app.bap.fw.indication;
 
 public interface IAcknowledgeListener {
-    default public void processAcknowledge(int n, int n2) {
-    }
+    public void processAcknowledge(int var1, int var2);
 }
 

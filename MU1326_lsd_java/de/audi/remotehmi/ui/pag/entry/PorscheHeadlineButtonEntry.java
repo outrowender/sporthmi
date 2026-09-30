@@ -32,7 +32,7 @@ PorscheGenericEntry {
 
     public String toString() {
         Buffer buffer = new Buffer();
-        buffer.append(super.getClass().getName());
+        buffer.append(this.getClass().getName());
         buffer.append("[ id: ").append(this.id);
         if (this.type.equalsIgnoreCase("headlineButton")) {
             buffer.append(" url: ").append(this.url);
@@ -63,7 +63,6 @@ PorscheGenericEntry {
         return n;
     }
 
-    @Override
     public Object clone(boolean bl) {
         if (bl) {
             return new PorscheHeadlineButtonEntry(this.id, this.url, this.type);
@@ -71,36 +70,29 @@ PorscheGenericEntry {
         return this;
     }
 
-    @Override
     public String getFirstImagePath() {
         return this.url;
     }
 
-    @Override
     public void setFirstImagePath(String string) {
         this.url = string;
     }
 
-    @Override
     public String getSecondImagePath() {
         return null;
     }
 
-    @Override
     public void setSecondImagePath(String string) {
     }
 
-    @Override
     public boolean isSecondImageAvailable() {
         return false;
     }
 
-    @Override
     public void setContextName(String string) {
         this.context = string;
     }
 
-    @Override
     public String getContextName() {
         return this.context;
     }

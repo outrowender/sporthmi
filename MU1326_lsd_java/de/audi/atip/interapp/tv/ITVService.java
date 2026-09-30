@@ -6,13 +6,11 @@ package de.audi.atip.interapp.tv;
 import de.audi.atip.interapp.media.IMediaDrawerContext;
 
 public interface ITVService {
-    public static final int SOURCE_TYPE_TV;
-    public static final int SOURCE_TYPE_AV;
+    public static final int SOURCE_TYPE_TV = 0;
+    public static final int SOURCE_TYPE_AV = 1;
 
-    default public void activate(int n, IMediaDrawerContext iMediaDrawerContext) {
-    }
+    public void activate(int var1, IMediaDrawerContext var2);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 }
 

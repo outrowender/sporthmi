@@ -6,13 +6,10 @@ package de.audi.app.combi.bap.fw.arrays.fastlist;
 import org.osgi.framework.BundleContext;
 
 public interface IListAdapterFastList {
-    default public void init(BundleContext bundleContext) {
-    }
+    public void init(BundleContext var1);
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public int[] getDSINotifications() {
-    }
+    public int[] getDSINotifications();
 }
 

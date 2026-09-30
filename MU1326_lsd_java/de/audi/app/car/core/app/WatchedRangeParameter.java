@@ -15,8 +15,8 @@ implements IRangeModelSyncParameterAccess {
     private final LogChannel logChannel;
     private final int attributeID;
     private int currentValue;
-    private int lastValidValue = 128;
-    private int lastSentValue = 128;
+    private int lastValidValue = Integer.MIN_VALUE;
+    private int lastSentValue = Integer.MIN_VALUE;
     private boolean dsiSetterBlocked = false;
     private boolean valueChange = false;
     private final boolean boundToRangeModel;
@@ -59,7 +59,6 @@ implements IRangeModelSyncParameterAccess {
         return buffer.toString();
     }
 
-    @Override
     public int getAttributeID() {
         return this.attributeID;
     }
@@ -72,7 +71,6 @@ implements IRangeModelSyncParameterAccess {
         return new Integer(this.attributeID);
     }
 
-    @Override
     public int getCurrentValue() {
         return this.currentValue;
     }
@@ -84,14 +82,13 @@ implements IRangeModelSyncParameterAccess {
         return this.currentValue;
     }
 
-    @Override
     public int getLastSentValue() {
         return this.lastSentValue;
     }
 
     private void setLastSentValue(int n) {
         if (this.logChannel.isDebug()) {
-            this.logChannel.log(-2137614336, "[WatchedRangeParameter#setLastSentValue] lastSentValue='%1' ", (long)n);
+            this.logChannel.log(10000000, "[WatchedRangeParameter#setLastSentValue] lastSentValue='%1' ", (long)n);
         }
         this.lastSentValue = n;
     }
@@ -114,7 +111,6 @@ implements IRangeModelSyncParameterAccess {
         return this.minValue;
     }
 
-    @Override
     public int getRangeModelID() {
         return this.rangeModelID;
     }
@@ -128,7 +124,7 @@ implements IRangeModelSyncParameterAccess {
         this.valueChange = true;
         if (this.boundToRangeModel) {
             if (this.logChannel.isDebug()) {
-                this.logChannel.log(-2137614336, "[WatchedRangeParameter#updateCurrentValueBySteps] gives clearance to write current value into the RangeModel: attributeID='%1' , currentValue='%2' , isDSISetterBlocked='%3'", (long)this.getAttributeID(), (long)this.getCurrentValue(), this.isDsiSetterBlocked());
+                this.logChannel.log(10000000, "[WatchedRangeParameter#updateCurrentValueBySteps] gives clearance to write current value into the RangeModel: attributeID='%1' , currentValue='%2' , isDSISetterBlocked='%3'", (long)this.getAttributeID(), (long)this.getCurrentValue(), this.isDsiSetterBlocked());
             }
             iRangeModelSyncListener.updateRangeModelByTurningRotary(this);
         }
@@ -138,7 +134,7 @@ implements IRangeModelSyncParameterAccess {
         if (this.isDsiSetterBlocked()) {
             this.setDsiSetterBlocked(false);
             if (this.getLastSentValue() != n) {
-                this.logChannel.log(-1601830656, "[WatchedRangeParameter#notifyDSIUpdateReceived] Updated value is not the same as sent value. This could result in flickering of the rotary.: sentValue=%1 , updatedValue=%2 , rangeModelID=%3", (long)this.getLastSentValue(), (long)n, (long)this.rangeModelID);
+                this.logChannel.log(100000, "[WatchedRangeParameter#notifyDSIUpdateReceived] Updated value is not the same as sent value. This could result in flickering of the rotary.: sentValue=%1 , updatedValue=%2 , rangeModelID=%3", (long)this.getLastSentValue(), (long)n, (long)this.rangeModelID);
             }
         }
         if (!this.valueChange) {
@@ -150,7 +146,7 @@ implements IRangeModelSyncParameterAccess {
     private void updateCurrentRangeModelValue(IRangeModelSyncListener iRangeModelSyncListener) {
         if (this.boundToRangeModel) {
             if (this.logChannel.isDebug()) {
-                this.logChannel.log(-2137614336, "[WatchedRangeParameter#updateCurrentValueBySteps] gives clearance to write current value into the RangeModel: attributeID='%1' , currentValue='%2' ", (long)this.getAttributeID(), (long)this.getCurrentValue());
+                this.logChannel.log(10000000, "[WatchedRangeParameter#updateCurrentValueBySteps] gives clearance to write current value into the RangeModel: attributeID='%1' , currentValue='%2' ", (long)this.getAttributeID(), (long)this.getCurrentValue());
             }
             iRangeModelSyncListener.updateRangeModelByDSINotitification(this);
         }
@@ -159,7 +155,7 @@ implements IRangeModelSyncParameterAccess {
     public void activateDSISetter(IRangeModelSyncListener iRangeModelSyncListener) {
         if (this.valueChange) {
             if (this.logChannel.isDebug()) {
-                this.logChannel.log(-2137614336, "[WatchedRangeParameter#activateDSISetter] gives clearance to send DSI call (future set calls are blocked until this value change is acknowledged by the FSG): attributeID='%1' , currentValue='%2' ", (long)this.getAttributeID(), (long)this.getCurrentValue());
+                this.logChannel.log(10000000, "[WatchedRangeParameter#activateDSISetter] gives clearance to send DSI call (future set calls are blocked until this value change is acknowledged by the FSG): attributeID='%1' , currentValue='%2' ", (long)this.getAttributeID(), (long)this.getCurrentValue());
             }
             this.setDsiSetterBlocked(this.getLastSentValue() != this.getCurrentValue());
             this.valueChange = false;
@@ -170,7 +166,6 @@ implements IRangeModelSyncParameterAccess {
         }
     }
 
-    @Override
     public void resetRangeModelParameter(IRangeModelSyncListener iRangeModelSyncListener) {
         this.valueChange = false;
         this.currentValue = this.lastValidValue;

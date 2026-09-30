@@ -10,22 +10,16 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface TooltipModelApp
 extends HMIModelApp {
-    default public void setListener(TooltipListener tooltipListener) {
-    }
+    public void setListener(TooltipListener var1);
 
-    default public void setData(ListRow[] listRowArray) {
-    }
+    public void setData(ListRow[] var1);
 
-    default public void updateData(int n, int n2, ListCell listCell) {
-    }
+    public void updateData(int var1, int var2, ListCell var3);
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public void setMaxColumns(int n) {
-    }
+    public void setMaxColumns(int var1);
 
-    default public void setMaxRows(int n) {
-    }
+    public void setMaxRows(int var1);
 }
 

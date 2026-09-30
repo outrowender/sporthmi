@@ -8,10 +8,8 @@ import de.audi.atip.hmi.model.ListRow;
 
 public interface SlidingListModelListener
 extends AbstractListModelListener {
-    default public void requestRowsAfter(int n, ListRow listRow, int n2, int n3) {
-    }
+    public void requestRowsAfter(int var1, ListRow var2, int var3, int var4);
 
-    default public void requestRowsBefore(int n, ListRow listRow, int n2, int n3) {
-    }
+    public void requestRowsBefore(int var1, ListRow var2, int var3, int var4);
 }
 

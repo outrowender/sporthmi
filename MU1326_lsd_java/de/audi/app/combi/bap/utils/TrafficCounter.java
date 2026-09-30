@@ -50,7 +50,7 @@ public class TrafficCounter {
     }
 
     public void reset() {
-        TrafficStatistics.getLogChannel().log(-2137614336, "[TrafficCounter#reset] reset traffic counter \"%1\"", (Object)this.name);
+        TrafficStatistics.getLogChannel().log(10000000, "[TrafficCounter#reset] reset traffic counter \"%1\"", (Object)this.name);
         this.countBytesTransmitted = 0;
         this.countRequests = 0;
         this.timestampLastReset = System.currentTimeMillis();
@@ -66,7 +66,7 @@ public class TrafficCounter {
 
     public String getCurrentStatisticsLog() {
         long l = System.currentTimeMillis();
-        long l2 = (l - this.timestampLastReset) / 0;
+        long l2 = (l - this.timestampLastReset) / 1000L;
         Buffer buffer = new Buffer();
         buffer.append(this.name);
         buffer.append(" - current Statistics:\n");
@@ -80,12 +80,12 @@ public class TrafficCounter {
 
     public void startMeasurement(String string) {
         this.reset();
-        this.logChannel.log(1078071040, "[TrafficCounter#startMeasurement] %1", (Object)string);
+        this.logChannel.log(1000000, "[TrafficCounter#startMeasurement] %1", (Object)string);
         this.measurementActive = true;
     }
 
     public void stopMeasurement(String string) {
-        this.logChannel.log(1078071040, "[TrafficCounter#stopMeasurement] %1\n%2", (Object)string, (Object)this.getCurrentStatisticsLog());
+        this.logChannel.log(1000000, "[TrafficCounter#stopMeasurement] %1\n%2", (Object)string, (Object)this.getCurrentStatisticsLog());
         this.reset();
         this.measurementActive = false;
     }

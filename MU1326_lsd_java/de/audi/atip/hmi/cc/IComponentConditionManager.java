@@ -4,13 +4,10 @@
 package de.audi.atip.hmi.cc;
 
 public interface IComponentConditionManager {
-    default public void activateCC(int n) {
-    }
+    public void activateCC(int var1);
 
-    default public void deactivateCC(int n) {
-    }
+    public void deactivateCC(int var1);
 
-    default public boolean isTrue(int n, int n2) {
-    }
+    public boolean isTrue(int var1, int var2);
 }
 

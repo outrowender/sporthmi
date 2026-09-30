@@ -11,12 +11,12 @@ import de.esolutions.fw.util.commons.Buffer;
 public final class PorscheAppListEntry
 implements DeepCloneable,
 PorscheGenericEntry {
-    public static final int APP_STATE_NORMAL;
-    public static final int APP_STATE_GREY;
+    public static final int APP_STATE_NORMAL = 0;
+    public static final int APP_STATE_GREY = 2;
     private static int count;
-    public static final String ENTRY_POINT_MEDIA;
-    public static final String ENTRY_POINT_PHONE_MSG;
-    public static final String ENTRY_POINT_NAVI_FAV;
+    public static final String ENTRY_POINT_MEDIA = "media";
+    public static final String ENTRY_POINT_PHONE_MSG = "phone_msg";
+    public static final String ENTRY_POINT_NAVI_FAV = "Navi_Location";
     public final int id;
     public int entryPointId;
     public final String context;
@@ -91,7 +91,6 @@ PorscheGenericEntry {
         return false;
     }
 
-    @Override
     public Object clone(boolean bl) {
         if (bl) {
             PorscheAppListEntry porscheAppListEntry = new PorscheAppListEntry(this);
@@ -101,35 +100,28 @@ PorscheGenericEntry {
         return this;
     }
 
-    @Override
     public String getFirstImagePath() {
         return this.imageLocalPath;
     }
 
-    @Override
     public void setFirstImagePath(String string) {
         this.imageLocalPath = string;
     }
 
-    @Override
     public String getSecondImagePath() {
         return null;
     }
 
-    @Override
     public void setSecondImagePath(String string) {
     }
 
-    @Override
     public boolean isSecondImageAvailable() {
         return false;
     }
 
-    @Override
     public void setContextName(String string) {
     }
 
-    @Override
     public String getContextName() {
         return this.context;
     }
@@ -145,6 +137,14 @@ PorscheGenericEntry {
 
     public int getAppState() {
         return this.app_state;
+    }
+
+    public static interface ApplistUpdateReasons {
+        public static final int REASON_REGULAR = 0;
+        public static final int REASON_LANGUAGE_CHANGE = 1;
+        public static final int REASON_USER_LOGIN = 2;
+        public static final int REASON_MOBILE_UPDATE = 3;
+        public static final int REASON_INVALIDATION = 4;
     }
 }
 

@@ -36,7 +36,7 @@ implements IDataApplication {
 
     public AbstractDataApplication(IFrameworkAccess iFrameworkAccess, BundleContext bundleContext, IConnectivity iConnectivity) {
         super(iFrameworkAccess, bundleContext, "App.Data.Main", "App.Data.Commands", "AppData");
-        this.log.log(-2137614336, "AbstractDataApplication#AbstractDataApplication(): DataApplication created.");
+        this.log.log(10000000, "AbstractDataApplication#AbstractDataApplication(): DataApplication created.");
         this.dataConfigurationDsiListener = new DataConfigurationDSIListener(this.commandListManager, this.log);
         this.dataConnectionDsiListener = new DataConnectionDSIListener(this.commandListManager, this.log);
         this.connectivity = iConnectivity;
@@ -50,7 +50,6 @@ implements IDataApplication {
         }
     }
 
-    @Override
     protected void registerDSIListener() {
         Hashtable hashtable = new Hashtable();
         hashtable.put("DEVICE_NAME", (class$org$dsi$ifc$networking$DSIDataConfigurationListener == null ? (class$org$dsi$ifc$networking$DSIDataConfigurationListener = AbstractDataApplication.class$("org.dsi.ifc.networking.DSIDataConfigurationListener")) : class$org$dsi$ifc$networking$DSIDataConfigurationListener).getName());
@@ -62,23 +61,19 @@ implements IDataApplication {
         this.getBundleContext().registerService((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = AbstractDataApplication.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (Object)this.dataConnectionDsiListener, (Dictionary)hashtable);
     }
 
-    @Override
     protected void startDSI() {
         this.framework.startDSIService((class$org$dsi$ifc$networking$DSIDataConfiguration == null ? (class$org$dsi$ifc$networking$DSIDataConfiguration = AbstractDataApplication.class$("org.dsi.ifc.networking.DSIDataConfiguration")) : class$org$dsi$ifc$networking$DSIDataConfiguration).getName(), 0);
         this.framework.startDSIService((class$org$dsi$ifc$networking$DSIDataConnection == null ? (class$org$dsi$ifc$networking$DSIDataConnection = AbstractDataApplication.class$("org.dsi.ifc.networking.DSIDataConnection")) : class$org$dsi$ifc$networking$DSIDataConnection).getName(), 0);
     }
 
-    @Override
     public IConnectivity getConnectivity() {
         return this.connectivity;
     }
 
-    @Override
     public ConnectivityDiag getDiag() {
         return this.connectivity.getDiagnosis();
     }
 
-    @Override
     public AbstractSimStateListener getSimStateListener() {
         return this.simStateListener;
     }

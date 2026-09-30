@@ -5,49 +5,48 @@ package de.audi.atip.interapp;
 
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.interapp.ADBSDSAddressDetails;
-import de.audi.atip.interapp.ADBSDSService$EmailAddressDetails;
-import de.audi.atip.interapp.ADBSDSService$TelNumberDetails;
 import de.audi.atip.interapp.AbstractSDSApplicationService;
 
 public interface ADBSDSService
 extends AbstractSDSApplicationService {
-    public static final int ADB_RESULT_OK;
-    public static final int ADB_RESULT_ERROR;
+    public static final int ADB_RESULT_OK = 0;
+    public static final int ADB_RESULT_ERROR = 1;
 
-    default public int getAdbProfileID() {
+    public int getAdbProfileID();
+
+    public void fillAdbPickList(long[] var1, String[] var2, int[] var3);
+
+    public void fillTelNumberList(long var1, int var3);
+
+    public TelNumberDetails getTelNumberDetails(int var1);
+
+    public void fillEmailList(long var1);
+
+    public EmailAddressDetails getEmailAddressDetails(int var1, int var2);
+
+    public void showAddresses(long var1, boolean var3, boolean var4);
+
+    public ADBSDSAddressDetails getAddressDetails(int var1);
+
+    public long getCurrentEntryId();
+
+    public void openEntryDetails(long var1);
+
+    public long getEntryIDFromListRow(EvoListRow var1);
+
+    public void getEntryNames(long[] var1);
+
+    public static class TelNumberDetails {
+        public String telNumber;
+        public int telNumberType;
+        public String combinedName;
+        public int entryType;
     }
 
-    default public void fillAdbPickList(long[] lArray, String[] stringArray, int[] nArray) {
-    }
-
-    default public void fillTelNumberList(long l, int n) {
-    }
-
-    default public TelNumberDetails getTelNumberDetails(int n) {
-    }
-
-    default public void fillEmailList(long l) {
-    }
-
-    default public EmailAddressDetails getEmailAddressDetails(int n, int n2) {
-    }
-
-    default public void showAddresses(long l, boolean bl, boolean bl2) {
-    }
-
-    default public ADBSDSAddressDetails getAddressDetails(int n) {
-    }
-
-    default public long getCurrentEntryId() {
-    }
-
-    default public void openEntryDetails(long l) {
-    }
-
-    default public long getEntryIDFromListRow(EvoListRow evoListRow) {
-    }
-
-    default public void getEntryNames(long[] lArray) {
+    public static class EmailAddressDetails {
+        public String email;
+        public String combinedName;
+        public int entryType;
     }
 }
 

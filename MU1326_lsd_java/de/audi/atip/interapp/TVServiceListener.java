@@ -6,13 +6,10 @@ package de.audi.atip.interapp;
 import de.audi.atip.interapp.SDSListEntry;
 
 public interface TVServiceListener {
-    default public String getName() {
-    }
+    public String getName();
 
-    default public void updateSourceList(int[] nArray) {
-    }
+    public void updateSourceList(int[] var1);
 
-    default public void updateTVStationList(SDSListEntry[] sDSListEntryArray, int n) {
-    }
+    public void updateTVStationList(SDSListEntry[] var1, int var2);
 }
 

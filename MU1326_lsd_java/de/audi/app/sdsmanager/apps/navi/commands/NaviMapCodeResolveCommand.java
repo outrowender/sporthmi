@@ -20,14 +20,13 @@ extends AbstractSystemCallCommand {
         this.naviService = naviService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute]", (Object)this.getName());
+        this.logger.log(10000000, "[%1#execute]", (Object)this.getName());
         this.naviService.disambiguateMapCode();
     }
 
     public void mapCodeResolveResult(byte by) {
-        this.logger.log(-2137614336, "[%1#resultMapCodeResolve] result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#resultMapCodeResolve] result=%2", (Object)this.getName(), (long)by);
         BaseListModelApp baseListModelApp = SDSModelAccess.getSDSNaviPicklistBaseList();
         if (baseListModelApp.getLength() == 2) {
             int n = baseListModelApp.getRow(0).getInteger(4);

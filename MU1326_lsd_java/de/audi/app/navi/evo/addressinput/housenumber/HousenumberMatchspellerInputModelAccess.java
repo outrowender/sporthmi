@@ -14,15 +14,13 @@ extends AbstractEvoMatchspellerModelAccess {
         super(navigationEnv, n, n2, iAddressInputFormModelAccessHelper);
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         super.onStart(navLocation);
-        this.env.getChoiceModel(220071424).setValue(1);
+        this.env.getChoiceModel(400909).setValue(1);
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
-        this.env.getChoiceModel(287049216).setValue(1);
+        this.env.getChoiceModel(400401).setValue(1);
     }
 }
 

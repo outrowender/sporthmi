@@ -3,26 +3,27 @@
  */
 package com.ibm.oti.net.www;
 
-import com.ibm.oti.net.www.MimeTable$1;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.FileNameMap;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Properties;
 
 public class MimeTable
 implements FileNameMap {
-    public static final String UNKNOWN;
-    public static final Properties types;
-
-    static {
-        types = new Properties();
-    }
+    public static final String UNKNOWN = "content/unknown";
+    public static final Properties types = new Properties();
 
     public MimeTable() {
-        InputStream inputStream = (InputStream)AccessController.doPrivileged(new MimeTable$1(this));
+        InputStream inputStream = (InputStream)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                return MimeTable.this.getContentTypes();
+            }
+        });
         if (inputStream != null) {
             try {
                 try {
@@ -54,7 +55,6 @@ implements FileNameMap {
         }
     }
 
-    @Override
     public String getContentTypeFor(String string) {
         if (string.endsWith("/")) {
             return (String)types.get("html");
@@ -69,10 +69,6 @@ implements FileNameMap {
             string2 = string.substring(n2, n);
         }
         return (String)types.get(string2.toLowerCase());
-    }
-
-    static /* synthetic */ InputStream access$0(MimeTable mimeTable) {
-        return mimeTable.getContentTypes();
     }
 }
 

@@ -9,10 +9,10 @@ package de.audi.app.ecall.core.bap;
 
 import de.audi.app.ecall.core.EcallUtil;
 import de.audi.app.ecall.core.IEcallApplication;
-import de.audi.app.ecall.core.bap.BAPServiceEcallListenerClusterHandler$ListenerUpdater;
 import de.audi.app.ecall.core.bap.IGlobalEcallState;
 import de.audi.app.ecall.core.osgi.EcallServiceProvider;
 import de.audi.app.ecall.core.state.EcallStateStruct;
+import de.audi.app.ecall.core.state.IEcallStateStruct;
 import de.audi.app.ecall.core.state.IGlobalEcallStateListener;
 import de.audi.atip.interapp.bap.ecall.BAPServiceEcallListener;
 import de.audi.atip.interapp.bap.ecall.data.EcallProvider;
@@ -22,7 +22,6 @@ import de.audi.atip.interapp.bap.ecall.data.MdsTransmissionResult;
 import de.audi.atip.interapp.bap.ecall.data.NetworkRegistrationData;
 import de.audi.atip.interapp.bap.ecall.data.NetworkRegistrationVoice;
 import de.audi.atip.interapp.bap.ecall.data.PendingServiceRequests;
-import de.audi.atip.interapp.bap.ecall.data.PendingServiceRequests$Builder;
 import de.audi.atip.interapp.bap.ecall.data.PhoneCall;
 import de.audi.atip.interapp.bap.ecall.data.SignalQuality;
 import de.audi.atip.interapp.bap.ecall.data.SupportedServices;
@@ -50,7 +49,7 @@ ITelEcallService {
     private EcallServiceProvider telStateListenerProvider;
     private EcallServiceProvider telEcallServiceProvider;
     private volatile int bapAudioSource;
-    private volatile PendingServiceRequests pendingServiceCalls = new PendingServiceRequests$Builder().build();
+    private volatile PendingServiceRequests pendingServiceCalls = new PendingServiceRequests.Builder().build();
     private volatile int previousServiceCallKind;
     private volatile int serviceCallKind;
     private volatile int serviceState;
@@ -84,7 +83,6 @@ ITelEcallService {
         iEcallApplication.addDiagnosisComponent((IEcallDiagnosisComponent)new EcallBapDiagnosis(iEcallApplication, (BAPServiceEcallListener)this));
     }
 
-    @Override
     public void init() {
         this.listenerDispatcher.start();
         this.bapServiceEcallListenerProvider = new EcallServiceProvider((class$de$audi$atip$interapp$bap$ecall$BAPServiceEcallListener == null ? (class$de$audi$atip$interapp$bap$ecall$BAPServiceEcallListener = BAPServiceEcallListenerClusterHandler.class$("de.audi.atip.interapp.bap.ecall.BAPServiceEcallListener")) : class$de$audi$atip$interapp$bap$ecall$BAPServiceEcallListener).getName(), this, null, this.bundleContext, this.log);
@@ -95,7 +93,6 @@ ITelEcallService {
         this.telEcallServiceProvider.startService();
     }
 
-    @Override
     public void deinit() {
         this.listenerDispatcher.stop();
         this.globalListeners.clear();
@@ -107,12 +104,10 @@ ITelEcallService {
         this.telEcallServiceProvider = null;
     }
 
-    @Override
     public void removeListener(IGlobalEcallStateListener iGlobalEcallStateListener) {
         this.globalListeners.remove(iGlobalEcallStateListener);
     }
 
-    @Override
     public void registerListener(IGlobalEcallStateListener iGlobalEcallStateListener) {
         this.globalListeners.add(iGlobalEcallStateListener);
     }
@@ -120,7 +115,6 @@ ITelEcallService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void hangupServiceCall() {
         Object object = this.stateMutex;
         synchronized (object) {
@@ -131,7 +125,6 @@ ITelEcallService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void hangupLowPrioritySOSCall() {
         Object object = this.stateMutex;
         synchronized (object) {
@@ -142,7 +135,6 @@ ITelEcallService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void dialLowPrioritySOSCall(String string) {
         Object object = this.stateMutex;
         synchronized (object) {
@@ -154,9 +146,8 @@ ITelEcallService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateTelState(int n, ITelState iTelState) {
-        this.log.log(1078071040, "BAPServiceEcallListenerClusterHandler#updateTelState(): key %1, ecallState %2", (Object)String.valueOf(n), (Object)iTelState);
+        this.log.log(1000000, "BAPServiceEcallListenerClusterHandler#updateTelState(): key %1, ecallState %2", (Object)String.valueOf(n), (Object)iTelState);
         if (n == 2) {
             Object object = this.stateMutex;
             synchronized (object) {
@@ -169,9 +160,8 @@ ITelEcallService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void onCommunicationUp() {
-        this.log.log(1078071040, "BAPServiceEcallListenerClusterHandler#onCommunicationUp(): called");
+        this.log.log(1000000, "BAPServiceEcallListenerClusterHandler#onCommunicationUp(): called");
         Object object = this.stateMutex;
         synchronized (object) {
             this.enqueueListenerUpdate(6);
@@ -181,9 +171,8 @@ ITelEcallService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void onAudioSourceRequested(int n) {
-        this.log.log(1078071040, "[BAPServiceEcallListenerClusterHandler#onAudioSourceRequested] called. AudioSource: %1 ", (long)n);
+        this.log.log(1000000, "[BAPServiceEcallListenerClusterHandler#onAudioSourceRequested] called. AudioSource: %1 ", (long)n);
         Object object = this.stateMutex;
         synchronized (object) {
             this.bapAudioSource = n;
@@ -194,9 +183,8 @@ ITelEcallService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void onServiceRequests(PendingServiceRequests pendingServiceRequests) {
-        this.log.log(1078071040, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onServiceRequests(): ").append(pendingServiceRequests).toString());
+        this.log.log(1000000, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onServiceRequests(): ").append(pendingServiceRequests).toString());
         Object object = this.stateMutex;
         synchronized (object) {
             this.pendingServiceCalls = pendingServiceRequests;
@@ -211,10 +199,9 @@ ITelEcallService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void onServiceState(int n, int n2, MdsTransmissionResult mdsTransmissionResult) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "BAPServiceEcallListenerClusterHandler#onServiceState(): start to handle service state serviceCallKind (%1), serviceState (%2), transmissionResult (%3)", (Object)String.valueOf(n), (Object)String.valueOf(n2), (Object)mdsTransmissionResult.toString());
+            this.log.log(1000000, "BAPServiceEcallListenerClusterHandler#onServiceState(): start to handle service state serviceCallKind (%1), serviceState (%2), transmissionResult (%3)", (Object)String.valueOf(n), (Object)String.valueOf(n2), (Object)mdsTransmissionResult.toString());
         }
         Object object = this.stateMutex;
         synchronized (object) {
@@ -232,11 +219,10 @@ ITelEcallService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void onCallState(PhoneCall[] phoneCallArray) {
         Object object = this.stateMutex;
         synchronized (object) {
-            this.log.log(1078071040, "BAPServiceEcallListenerClusterHandler#onCallState(): phoneCalls %1", (Object)StringUtils.toString(phoneCallArray));
+            this.log.log(1000000, "BAPServiceEcallListenerClusterHandler#onCallState(): phoneCalls %1", (Object)StringUtils.toString(phoneCallArray));
             this.phoneCalls = phoneCallArray;
             if (this.serviceCallKind == 0 && EcallUtil.isArrayNotEmpty(this.phoneCalls)) {
                 this.previousServiceCallKind = this.serviceCallKind;
@@ -248,66 +234,55 @@ ITelEcallService {
         }
     }
 
-    @Override
     public void onHangupCallResult(boolean bl) {
-        this.log.log(-2137614336, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onHangupCallResult(): ").append(bl).toString());
+        this.log.log(10000000, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onHangupCallResult(): ").append(bl).toString());
     }
 
-    @Override
     public void onAcceptCallResult(boolean bl) {
-        this.log.log(-2137614336, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onAcceptCallResult(): unhandled ").append(bl).toString());
+        this.log.log(10000000, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onAcceptCallResult(): unhandled ").append(bl).toString());
     }
 
-    @Override
     public void onServiceRequestResult(int n) {
-        this.log.log(-2137614336, "BAPServiceEcallListenerClusterHandler#onServiceRequestResult(): unhandled %1 ", (long)n);
+        this.log.log(10000000, "BAPServiceEcallListenerClusterHandler#onServiceRequestResult(): unhandled %1 ", (long)n);
         EcallUtil.logStructFieldForDbg(this.log, class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestResult == null ? (class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestResult = BAPServiceEcallListenerClusterHandler.class$("de.audi.atip.interapp.bap.ecall.data.ServiceRequestResult")) : class$de$audi$atip$interapp$bap$ecall$data$ServiceRequestResult, n);
     }
 
-    @Override
     public void onDisconnectReason(int n) {
-        this.log.log(-2137614336, "BAPServiceEcallListenerClusterHandler#onDisconnectReason(): unhandled disconnectReason %1 ", (long)n);
+        this.log.log(10000000, "BAPServiceEcallListenerClusterHandler#onDisconnectReason(): unhandled disconnectReason %1 ", (long)n);
         EcallUtil.logStructFieldForDbg(this.log, class$de$audi$atip$interapp$bap$ecall$data$EcallDisconnectReason == null ? (class$de$audi$atip$interapp$bap$ecall$data$EcallDisconnectReason = BAPServiceEcallListenerClusterHandler.class$("de.audi.atip.interapp.bap.ecall.data.EcallDisconnectReason")) : class$de$audi$atip$interapp$bap$ecall$data$EcallDisconnectReason, n);
     }
 
-    @Override
     public void onNetworkRegistrationState(NetworkRegistrationVoice networkRegistrationVoice, NetworkRegistrationData networkRegistrationData) {
-        this.log.log(-2137614336, "BAPServiceEcallListenerClusterHandler#onNetworkRegistrationState(): unhandled networkRegistrationVoice %1, networkRegistrationData %2", (Object)networkRegistrationVoice, (Object)networkRegistrationData);
+        this.log.log(10000000, "BAPServiceEcallListenerClusterHandler#onNetworkRegistrationState(): unhandled networkRegistrationVoice %1, networkRegistrationData %2", (Object)networkRegistrationVoice, (Object)networkRegistrationData);
     }
 
-    @Override
     public void onNetworkProviderInfo(EcallProvider ecallProvider, EcallProvider ecallProvider2) {
-        this.log.log(-2137614336, "BAPServiceEcallListenerClusterHandler#onNetworkProviderInfo(): unhandled networkProvider (%1), serviceProvider (%2)", (Object)ecallProvider, (Object)ecallProvider2);
+        this.log.log(10000000, "BAPServiceEcallListenerClusterHandler#onNetworkProviderInfo(): unhandled networkProvider (%1), serviceProvider (%2)", (Object)ecallProvider, (Object)ecallProvider2);
     }
 
-    @Override
     public void onSignalQuality(SignalQuality signalQuality) {
-        this.log.log(-2137614336, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onSignalQuality(): unhandled ").append(signalQuality).toString());
+        this.log.log(10000000, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onSignalQuality(): unhandled ").append(signalQuality).toString());
     }
 
-    @Override
     public void onSupportedServices(SupportedServices supportedServices) {
-        this.log.log(1078071040, "BAPServiceEcallListenerClusterHandler#onSupportedServices(%1) --> Called. ", (Object)supportedServices);
+        this.log.log(1000000, "BAPServiceEcallListenerClusterHandler#onSupportedServices(%1) --> Called. ", (Object)supportedServices);
         int n = supportedServices.isTestModeSupported() ? 1 : 0;
-        this.ecallApplication.getFrameworkAccess().getHMIService().getChoiceModel(-1168494080).setValue(n);
+        this.ecallApplication.getFrameworkAccess().getHMIService().getChoiceModel(3300026).setValue(n);
     }
 
-    @Override
     public void onFunctionalState(FunctionalState functionalState) {
-        this.log.log(-2137614336, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onFunctionalState(): unhandled ").append(functionalState).toString());
+        this.log.log(10000000, new StringBuffer().append("BAPServiceEcallListenerClusterHandler#onFunctionalState(): unhandled ").append(functionalState).toString());
     }
 
-    @Override
     public void onDialNumberResult(int n) {
-        this.log.log(1078071040, "BAPServiceEcallListenerClusterHandler#onDialNumberResult(): result=%1", (long)n);
+        this.log.log(1000000, "BAPServiceEcallListenerClusterHandler#onDialNumberResult(): result=%1", (long)n);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void onAllowedEmergencyNumbers(EmergencyNumber[] emergencyNumberArray) {
-        this.log.log(1078071040, "BAPServiceEcallListenerClusterHandler#onAllowedEmergencyNumbers(): emergencyNumbers=%1", (Object)StringUtils.toString(emergencyNumberArray));
+        this.log.log(1000000, "BAPServiceEcallListenerClusterHandler#onAllowedEmergencyNumbers(): emergencyNumbers=%1", (Object)StringUtils.toString(emergencyNumberArray));
         Object object = this.stateMutex;
         synchronized (object) {
             this.allowedEmergencyNumbersList = emergencyNumberArray;
@@ -351,7 +326,7 @@ ITelEcallService {
     private void enqueueListenerUpdate(int n) {
         Object object = this.stateMutex;
         synchronized (object) {
-            this.listenerDispatcher.execute(new BAPServiceEcallListenerClusterHandler$ListenerUpdater(this, n, new EcallStateStruct(this.bapAudioSource, this.pendingServiceCalls, this.serviceCallKind, this.serviceState, this.phoneCalls, this.customerTelState, this.emergencyNumberToBeDialed, this.allowedEmergencyNumbersList)));
+            this.listenerDispatcher.execute(new ListenerUpdater(n, new EcallStateStruct(this.bapAudioSource, this.pendingServiceCalls, this.serviceCallKind, this.serviceState, this.phoneCalls, this.customerTelState, this.emergencyNumberToBeDialed, this.allowedEmergencyNumbersList)));
         }
     }
 
@@ -362,18 +337,6 @@ ITelEcallService {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ String access$000(int n) {
-        return BAPServiceEcallListenerClusterHandler.getAttributeName(n);
-    }
-
-    static /* synthetic */ LogChannel access$100(BAPServiceEcallListenerClusterHandler bAPServiceEcallListenerClusterHandler) {
-        return bAPServiceEcallListenerClusterHandler.log;
-    }
-
-    static /* synthetic */ LinkedList access$200(BAPServiceEcallListenerClusterHandler bAPServiceEcallListenerClusterHandler) {
-        return bAPServiceEcallListenerClusterHandler.globalListeners;
     }
 
     static {
@@ -393,6 +356,34 @@ ITelEcallService {
                     illegalAccessException.printStackTrace();
                 }
             }
+        }
+    }
+
+    private class ListenerUpdater
+    implements Runnable {
+        private final int attribute;
+        private final IEcallStateStruct update;
+
+        public ListenerUpdater(int n, IEcallStateStruct iEcallStateStruct) {
+            this.attribute = n;
+            this.update = iEcallStateStruct;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void run() {
+            LinkedList linkedList;
+            BAPServiceEcallListenerClusterHandler.this.log.log(100000000, "BAPServiceEcallListenerClusterHandler.ListenerUpdater#run(): start update %1", (Object)BAPServiceEcallListenerClusterHandler.getAttributeName(this.attribute));
+            Object object = BAPServiceEcallListenerClusterHandler.this.globalListeners;
+            synchronized (object) {
+                linkedList = (LinkedList)BAPServiceEcallListenerClusterHandler.this.globalListeners.clone();
+            }
+            object = linkedList.iterator();
+            while (object.hasNext()) {
+                ((IGlobalEcallStateListener)object.next()).updateGlobalEcallStateProperty(this.attribute, this.update);
+            }
+            BAPServiceEcallListenerClusterHandler.this.log.log(100000000, "BAPServiceEcallListenerClusterHandler.ListenerUpdater#run(): finished update %1", (Object)BAPServiceEcallListenerClusterHandler.getAttributeName(this.attribute));
         }
     }
 }

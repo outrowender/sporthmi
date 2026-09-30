@@ -17,17 +17,14 @@ implements IDumpHandler {
         this.data = new HashMap();
     }
 
-    @Override
     public void updateData(String string, String string2) {
         this.data.put(string, string2);
     }
 
-    @Override
     public HashMap getData() {
         return (HashMap)this.data;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }

@@ -14,7 +14,6 @@ implements IAnnouncementStateService {
         super(logChannel, "AnnouncementStateService");
     }
 
-    @Override
     public void setAnnouncementState(int n) {
         this.log("setAnnouncementState");
     }

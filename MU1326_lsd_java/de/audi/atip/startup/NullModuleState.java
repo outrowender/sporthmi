@@ -10,34 +10,27 @@ import java.util.List;
 
 public class NullModuleState
 extends GUIDEModuleState {
-    @Override
     public ComponentState getComponentState() {
         return null;
     }
 
-    @Override
     public void enqueueStartBundles(List list, boolean bl) {
     }
 
-    @Override
     public void enqueueStopBundles(List list, boolean bl) {
     }
 
-    @Override
     public int getModuleId() {
         return -1;
     }
 
-    @Override
     public void dump(PrintStream printStream) {
     }
 
-    @Override
     public boolean isActive() {
         return true;
     }
 
-    @Override
     public void appendBundles(List list) {
     }
 }

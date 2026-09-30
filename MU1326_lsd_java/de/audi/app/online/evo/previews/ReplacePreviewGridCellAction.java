@@ -22,7 +22,6 @@ implements IGridCellAction {
         this.logChannel = logChannel;
     }
 
-    @Override
     public boolean modify(IGridCell iGridCell) {
         GeoPosition geoPosition = iGridCell.getGeoPosition();
         if (geoPosition == null) {
@@ -39,12 +38,12 @@ implements IGridCellAction {
             int n2 = iGridCell2.getType();
             if (n2 != iGridCell.getType() || !this.newPosition.equals(geoPosition2 = iGridCell2.getGeoPosition())) continue;
             if (n2 == 11) {
-                this.logChannel.log(1078071040, "ReplacePreviewGridCellAction#modify: restored previous rrd image cell arrow direction.");
+                this.logChannel.log(1000000, "ReplacePreviewGridCellAction#modify: restored previous rrd image cell arrow direction.");
                 iGridCell.setIntValue(iGridCell2.getIntValue());
                 break;
             }
             if (n2 != 10) continue;
-            this.logChannel.log(1078071040, "ReplacePreviewGridCellAction#modify: restored previous rrd text cell content.");
+            this.logChannel.log(1000000, "ReplacePreviewGridCellAction#modify: restored previous rrd text cell content.");
             iGridCell.setStringValue(iGridCell2.getStringValue());
             break;
         }

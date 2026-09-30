@@ -4,7 +4,6 @@
 package de.audi.atip.statemachine;
 
 public interface SyncTargetProcessor {
-    default public boolean processSyncTransition(int n) {
-    }
+    public boolean processSyncTransition(int var1);
 }
 

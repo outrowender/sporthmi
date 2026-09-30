@@ -7,10 +7,8 @@ import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 
 public interface PropertyModelGui
 extends HMIModelGUI {
-    default public int getCategory() {
-    }
+    public int getCategory();
 
-    default public int[] getProperties() {
-    }
+    public int[] getProperties();
 }
 

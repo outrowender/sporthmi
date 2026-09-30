@@ -28,7 +28,7 @@ PorscheGenericEntry {
 
     public String toString() {
         Buffer buffer = new Buffer();
-        buffer.append(super.getClass().getName());
+        buffer.append(this.getClass().getName());
         buffer.append("[ id: ").append(this.checksum);
         buffer.append("[ url: ").append(this.url);
         buffer.append(" ]");
@@ -55,7 +55,6 @@ PorscheGenericEntry {
         return n;
     }
 
-    @Override
     public Object clone(boolean bl) {
         if (bl) {
             return new PorscheGenericImage(this.id, this.checksum, this.url);
@@ -63,36 +62,29 @@ PorscheGenericEntry {
         return this;
     }
 
-    @Override
     public String getFirstImagePath() {
         return this.url;
     }
 
-    @Override
     public void setFirstImagePath(String string) {
         this.url = string;
     }
 
-    @Override
     public String getSecondImagePath() {
         return null;
     }
 
-    @Override
     public void setSecondImagePath(String string) {
     }
 
-    @Override
     public boolean isSecondImageAvailable() {
         return false;
     }
 
-    @Override
     public void setContextName(String string) {
         this.id = string;
     }
 
-    @Override
     public String getContextName() {
         return this.id;
     }

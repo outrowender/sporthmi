@@ -64,7 +64,7 @@ public class ArrayJobHandler {
     }
 
     public void notifyStatusReceived(GetArrayIndication getArrayIndication) {
-        this.module.getLogChannel().log(-2137614336, "[ArrayJobHandler#notifyStatusReceived] %1", (Object)getArrayIndication);
+        this.module.getLogChannel().log(10000000, "[ArrayJobHandler#notifyStatusReceived] %1", (Object)getArrayIndication);
         CommandList commandList = this.cmdListManager.getActiveCommandList();
         if (commandList != null) {
             GetArrayJob getArrayJob = (GetArrayJob)commandList.getActiveCommand();
@@ -75,10 +75,10 @@ public class ArrayJobHandler {
                     this.module.getLogChannel().log(10000, "[JobListHandler#notifyStatusReceived] indication of received status doesn't match active getArray job");
                 }
             } else {
-                this.module.getLogChannel().log(-1601830656, "[ArrayJobHandler#notifyStatusReceived] no job active");
+                this.module.getLogChannel().log(100000, "[ArrayJobHandler#notifyStatusReceived] no job active");
             }
         } else {
-            this.module.getLogChannel().log(-1601830656, "[ArrayJobHandler#notifyStatusReceived] no CommandList active");
+            this.module.getLogChannel().log(100000, "[ArrayJobHandler#notifyStatusReceived] no CommandList active");
         }
     }
 

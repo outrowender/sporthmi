@@ -4,19 +4,14 @@
 package de.audi.app.bluetooth.core.connectivity.trusted;
 
 public interface IDeviceProfileList {
-    default public void showProfiles(String string) {
-    }
+    public void showProfiles(String var1);
 
-    default public void setPhoneRole(boolean bl) {
-    }
+    public void setPhoneRole(boolean var1);
 
-    default public void updateProfiles(String string) {
-    }
+    public void updateProfiles(String var1);
 
-    default public void updateProfiles() {
-    }
+    public void updateProfiles();
 
-    default public void updateConnectedProfiles(String string, boolean bl) {
-    }
+    public void updateConnectedProfiles(String var1, boolean var2);
 }
 

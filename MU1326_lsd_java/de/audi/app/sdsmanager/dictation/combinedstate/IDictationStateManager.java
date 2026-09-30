@@ -6,16 +6,14 @@ package de.audi.app.sdsmanager.dictation.combinedstate;
 import de.audi.app.sdsmanager.dictation.combinedstate.IDictationStateObserver;
 
 public interface IDictationStateManager {
-    public static final int DICTATION_STATE_INACTIVE;
-    public static final int DICTATION_STATE_ACTIVATED;
-    public static final int DICTATION_STATE_STARTED;
-    public static final int DICTATION_STATE_RECORDING;
-    public static final int DICTATION_STATE_PROCESSING;
+    public static final int DICTATION_STATE_INACTIVE = 0;
+    public static final int DICTATION_STATE_ACTIVATED = 1;
+    public static final int DICTATION_STATE_STARTED = 2;
+    public static final int DICTATION_STATE_RECORDING = 3;
+    public static final int DICTATION_STATE_PROCESSING = 4;
 
-    default public void addObserver(IDictationStateObserver iDictationStateObserver) {
-    }
+    public void addObserver(IDictationStateObserver var1);
 
-    default public void removeObserver(IDictationStateObserver iDictationStateObserver) {
-    }
+    public void removeObserver(IDictationStateObserver var1);
 }
 

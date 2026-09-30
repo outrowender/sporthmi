@@ -4,16 +4,12 @@
 package de.audi.app.terminalmode.smartphone;
 
 public interface IPlayerModificationListener {
-    default public void skip(boolean bl, int n) {
-    }
+    public void skip(boolean var1, int var2);
 
-    default public void seek(boolean bl, boolean bl2) {
-    }
+    public void seek(boolean var1, boolean var2);
 
-    default public void resume() {
-    }
+    public void resume();
 
-    default public void pause(boolean bl) {
-    }
+    public void pause(boolean var1);
 }
 

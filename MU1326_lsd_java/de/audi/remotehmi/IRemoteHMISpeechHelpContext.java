@@ -7,16 +7,12 @@ import de.audi.remotehmi.IRemoteHMISpeechContext;
 
 public interface IRemoteHMISpeechHelpContext
 extends IRemoteHMISpeechContext {
-    default public String getHelpTitle() {
-    }
+    public String getHelpTitle();
 
-    default public String[] getIntroPrompts() {
-    }
+    public String[] getIntroPrompts();
 
-    default public int getId() {
-    }
+    public int getId();
 
-    default public String getContext() {
-    }
+    public String getContext();
 }
 

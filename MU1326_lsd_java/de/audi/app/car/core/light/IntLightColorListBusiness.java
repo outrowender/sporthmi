@@ -14,10 +14,10 @@ import org.dsi.ifc.carlight.IntLightRGBValues;
 
 public class IntLightColorListBusiness
 implements BaseListModelListener {
-    private static final int MAX_COLUMNS;
-    protected static final int COL_RED_VALUE;
-    protected static final int COL_GREEN_VALUE;
-    protected static final int COL_BLUE_VALUE;
+    private static final int MAX_COLUMNS = 3;
+    protected static final int COL_RED_VALUE = 0;
+    protected static final int COL_GREEN_VALUE = 1;
+    protected static final int COL_BLUE_VALUE = 2;
     protected BaseListModel model;
     protected DSICarLight dsi;
     protected LogChannel logger;
@@ -33,7 +33,7 @@ implements BaseListModelListener {
 
     private void init() {
         this.model.setListener(this);
-        this.watchedModelTimer = new BaseListModelWatcherTimer("IntLightColorRotaryValue", this.model, 0, this.logger);
+        this.watchedModelTimer = new BaseListModelWatcherTimer("IntLightColorRotaryValue", this.model, 1000L, this.logger);
     }
 
     public void deinit() {
@@ -50,7 +50,7 @@ implements BaseListModelListener {
         for (n = 0; n < intLightRGBColorListRA0Array.length; ++n) {
             if (intLightRGBColorListRA0Array[n] != null) {
                 IntLightRGBValues intLightRGBValues = intLightRGBColorListRA0Array[n].getValues();
-                this.logger.log(1078071040, "[IntLightColorListBusiness] insert %1 at (%2|%3)", (Object)intLightRGBValues, (long)n, (long)intLightRGBColorListRA0Array[n].getPos());
+                this.logger.log(1000000, "[IntLightColorListBusiness] insert %1 at (%2|%3)", (Object)intLightRGBValues, (long)n, (long)intLightRGBColorListRA0Array[n].getPos());
                 EvoListRow evoListRow = new EvoListRow(n, 3);
                 evoListRow.setInteger(0, intLightRGBValues.getBaseColorRed());
                 evoListRow.setInteger(1, intLightRGBValues.getBaseColorGreen());
@@ -58,7 +58,7 @@ implements BaseListModelListener {
                 this.model.append(evoListRow);
                 continue;
             }
-            this.logger.log(-1601830656, new StringBuffer().append("[IntLightColorListBusiness] IntLightRGBColorListRA0 data[").append(n).append("] is null").toString());
+            this.logger.log(100000, "[IntLightColorListBusiness] IntLightRGBColorListRA0 data[" + n + "] is null");
         }
         if (this.selectedColor != null) {
             n = this.getColorDataIndex(this.selectedColor);
@@ -74,14 +74,14 @@ implements BaseListModelListener {
     public int getColorDataIndex(IntLightRGBValues intLightRGBValues) {
         if (this.model != null) {
             int n = this.model.getLength();
-            this.logger.log(-1601830656, "[IntLightColorListBusiness] getColorIndex of color=%1", (Object)intLightRGBValues);
+            this.logger.log(100000, "[IntLightColorListBusiness] getColorIndex of color=%1", (Object)intLightRGBValues);
             for (int i2 = 0; i2 < n; ++i2) {
                 EvoListRow evoListRow = this.model.getRow(i2);
                 if (evoListRow.getInteger(2) != intLightRGBValues.getBaseColorBlue() || evoListRow.getInteger(1) != intLightRGBValues.getBaseColorGreen() || evoListRow.getInteger(0) != intLightRGBValues.getBaseColorRed()) continue;
                 return i2;
             }
         } else if (this.model == null) {
-            this.logger.log(-1601830656, "Model for color is null");
+            this.logger.log(100000, "Model for color is null");
         }
         return -1;
     }
@@ -100,43 +100,39 @@ implements BaseListModelListener {
         }
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logger.log(-1601830656, "[IntLightColorListBusiness] itemSelected: %1", (long)n2);
+        this.logger.log(100000, "[IntLightColorListBusiness] itemSelected: %1", (long)n2);
         this.model.fireEvent(0);
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (n == this.model.getID()) {
             int n5 = evoListRow.getInteger(0);
             int n6 = evoListRow.getInteger(1);
             int n7 = evoListRow.getInteger(2);
             IntLightRGBValues intLightRGBValues = new IntLightRGBValues(n5, n6, n7);
-            this.logger.log(-2137614336, "[IntLightColorListBusiness] itemFocused: %1", (long)n2);
-            if (n == 2066483456) {
-                this.logger.log(-2137614336, "[IntLightColorListBusiness] itemFocused: dsi.setIntLightAmbientLightColor(%1)", (Object)intLightRGBValues);
+            this.logger.log(10000000, "[IntLightColorListBusiness] itemFocused: %1", (long)n2);
+            if (n == 601211) {
+                this.logger.log(10000000, "[IntLightColorListBusiness] itemFocused: dsi.setIntLightAmbientLightColor(%1)", (Object)intLightRGBValues);
                 this.dsi.setIntLightAmbientLightColor(intLightRGBValues);
                 if (n2 > -1) {
                     this.watchedModelTimer.setTempValue(n2);
                 }
-            } else if (n == 2083260672) {
-                this.logger.log(-2137614336, "[IntLightColorListBusiness] itemFocused: dsi.setIntLightContourLightColor(%1)", (Object)intLightRGBValues);
+            } else if (n == 601212) {
+                this.logger.log(10000000, "[IntLightColorListBusiness] itemFocused: dsi.setIntLightContourLightColor(%1)", (Object)intLightRGBValues);
                 this.dsi.setIntLightContourLightColor(intLightRGBValues);
                 if (n2 > -1) {
                     this.watchedModelTimer.setTempValue(n2);
                 }
             } else {
-                this.logger.log(-1601830656, "[IntLightColorListBusiness] itemFocused: model id is not contour light ord ambient light color model");
+                this.logger.log(100000, "[IntLightColorListBusiness] itemFocused: model id is not contour light ord ambient light color model");
             }
         }
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 

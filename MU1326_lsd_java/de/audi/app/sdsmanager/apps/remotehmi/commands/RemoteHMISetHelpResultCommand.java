@@ -23,16 +23,15 @@ extends AbstractSystemCallCommand {
         this.handler = remoteHMIHandler;
     }
 
-    @Override
     public void execute() {
         int n = this.handler.getSelectedHelpLine();
         if (n > -1) {
-            this.logger.log(-2137614336, "%1#execute: selectedIdx=%2!", (Object)this.getName(), (long)n);
+            this.logger.log(10000000, "%1#execute: selectedIdx=%2!", (Object)this.getName(), (long)n);
             this.handler.setSelectedHelpLine(-1);
             this.onlineService.setRemoteHMIHelpRecognizedID(n, (byte)0);
         } else {
             long l = this.nBestStorage.getSlotObjID(0, 0);
-            this.logger.log(-2137614336, "%1#execute: topSlotObjID=%2!", (Object)this.getName(), l);
+            this.logger.log(10000000, "%1#execute: topSlotObjID=%2!", (Object)this.getName(), l);
             this.onlineService.setRemoteHMIHelpRecognizedID((int)l, (byte)1);
         }
         this.sendResult(3000);

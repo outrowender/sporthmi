@@ -4,13 +4,10 @@
 package de.audi.atip.interapp.car;
 
 public interface AudiEnergyAssistStateListener {
-    default public void updateAEAAvailable(int n) {
-    }
+    public void updateAEAAvailable(int var1);
 
-    default public void updateAEASystemActive(boolean bl) {
-    }
+    public void updateAEASystemActive(boolean var1);
 
-    default public void updateAEASystemState(int n) {
-    }
+    public void updateAEASystemState(int var1);
 }
 

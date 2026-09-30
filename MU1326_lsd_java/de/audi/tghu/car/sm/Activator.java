@@ -9,7 +9,6 @@ import de.audi.tghu.car.sm.CarSMMActions;
 
 public class Activator
 extends AbstractSMMActivator {
-    @Override
     public void init() {
         this.smmList = new CarSMM[8];
         if (this.framework.isFrontMU()) {

@@ -18,33 +18,33 @@ public class InfoDetailsRow
 extends TMCAbstractListRow {
     private static long uniqueIdCounter = 0L;
     private final int layout;
-    public static final int LAYOUT_TITLE;
-    public static final int LAYOUT_AREA_FULL;
-    public static final int LAYOUT_AREA_LIGHT;
-    public static final int LAYOUT_EVENT;
-    public static final int LAYOUT_DIRECTION_WITH_ARROW;
-    public static final int LAYOUT_DIRECTION_WITH_IN;
-    public static final int MAX_NUMBER_OF_CELLS;
-    public static final int CELL_LAYOUT;
-    public static final int CELL_ROAD_ICON;
-    public static final int CELL_ROAD_LOCATION1;
-    public static final int CELL_ROAD_LOCATION2;
-    public static final int CELL_LOCATION_DIRECTION_ARROW;
-    public static final int CELL_SUB_LOCATION1;
-    public static final int CELL_SUB_LOCATION2;
-    public static final int CELL_EVENT_ICON;
-    public static final int CELL_EVENT_TEXT;
-    public static final int CELL_DISTANCE_ARROW;
-    public static final int CELL_EVENT_DISTANCE;
-    public static final int CELL_CURSOR_FOCUS;
-    public static final int CELL_PROPERTY;
-    public static final int CELL_CAR2X;
-    private static final int DIRECTION_ARROW_NONE;
-    private static final int DIRECTION_ARROW_RIGHT;
-    private static final int DIRECTION_ARROW_LEFT;
-    private static final int DIRECTION_ARROW_BIDIRECTIONAL;
-    public static final int WITHOUT_CAR2X_ICON;
-    public static final int WITH_CAR2X_ICON;
+    public static final int LAYOUT_TITLE = 0;
+    public static final int LAYOUT_AREA_FULL = 1;
+    public static final int LAYOUT_AREA_LIGHT = 2;
+    public static final int LAYOUT_EVENT = 3;
+    public static final int LAYOUT_DIRECTION_WITH_ARROW = 4;
+    public static final int LAYOUT_DIRECTION_WITH_IN = 5;
+    public static final int MAX_NUMBER_OF_CELLS = 14;
+    public static final int CELL_LAYOUT = 0;
+    public static final int CELL_ROAD_ICON = 1;
+    public static final int CELL_ROAD_LOCATION1 = 2;
+    public static final int CELL_ROAD_LOCATION2 = 3;
+    public static final int CELL_LOCATION_DIRECTION_ARROW = 4;
+    public static final int CELL_SUB_LOCATION1 = 5;
+    public static final int CELL_SUB_LOCATION2 = 6;
+    public static final int CELL_EVENT_ICON = 7;
+    public static final int CELL_EVENT_TEXT = 8;
+    public static final int CELL_DISTANCE_ARROW = 9;
+    public static final int CELL_EVENT_DISTANCE = 10;
+    public static final int CELL_CURSOR_FOCUS = 11;
+    public static final int CELL_PROPERTY = 12;
+    public static final int CELL_CAR2X = 13;
+    private static final int DIRECTION_ARROW_NONE = 0;
+    private static final int DIRECTION_ARROW_RIGHT = 1;
+    private static final int DIRECTION_ARROW_LEFT = 2;
+    private static final int DIRECTION_ARROW_BIDIRECTIONAL = 3;
+    public static final int WITHOUT_CAR2X_ICON = 0;
+    public static final int WITH_CAR2X_ICON = 1;
 
     public InfoDetailsRow(TmcListElement tmcListElement, int n, IconCell iconCell, String string, int n2, IconCell iconCell2, Distance distance, int n3, int n4, InfoEnv infoEnv) {
         super(uniqueIdCounter++, 14);
@@ -78,18 +78,16 @@ extends TMCAbstractListRow {
             }
         }
         this.setInteger(11, 0);
-        PropertyListCell propertyListCell = new PropertyListCell(-1868343730, new int[0]);
+        PropertyListCell propertyListCell = new PropertyListCell(1314300816, new int[0]);
         this.setPropertyCell(propertyListCell);
     }
 
-    @Override
     public void updateRrdCarToEvent(int n) {
         long l = (long)n - this.getTmcListElement().getMessage().distanceToEvent;
         Distance distance = new Distance(l, 5);
         this.setDistance(distance);
     }
 
-    @Override
     public void updateDistanceAndDireciton(int n, int n2, int n3) {
         if (this.layout != 4 && this.layout != 5) {
             return;
@@ -134,11 +132,11 @@ extends TMCAbstractListRow {
         int n = infoEnv.getFramework().getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_HMI").getLanguageIndex();
         this.setLayout(1);
         if (infoEnv.getFramework().isCn() && n == 14) {
-            this.setStartLocation(new StringBuffer().append(tmcListElement.getMessage().startLocation).append(" ").append(infoEnv.getTranslatedText(0)).toString());
-            this.setEndLocation(new StringBuffer().append(tmcListElement.getMessage().endLocation).append(" ").append(infoEnv.getTranslatedText(1)).toString());
+            this.setStartLocation(tmcListElement.getMessage().startLocation + " " + infoEnv.getTranslatedText(0));
+            this.setEndLocation(tmcListElement.getMessage().endLocation + " " + infoEnv.getTranslatedText(1));
         } else {
-            this.setStartLocation(new StringBuffer().append(infoEnv.getTranslatedText(1)).append(" ").append(tmcListElement.getMessage().startLocation).toString());
-            this.setEndLocation(new StringBuffer().append(infoEnv.getTranslatedText(0)).append(" ").append(tmcListElement.getMessage().endLocation).toString());
+            this.setStartLocation(infoEnv.getTranslatedText(1) + " " + tmcListElement.getMessage().startLocation);
+            this.setEndLocation(infoEnv.getTranslatedText(0) + " " + tmcListElement.getMessage().endLocation);
         }
         if (tmcListElement.getMessage().isArea) {
             this.setCar2x(tmcListElement.getMessage().getMessageSource() == 5 ? 1 : 0);
@@ -196,7 +194,6 @@ extends TMCAbstractListRow {
         this.layout = infoDetailsRow.layout;
     }
 
-    @Override
     public EvoListRow copy() {
         return new InfoDetailsRow(this);
     }
@@ -259,17 +256,14 @@ extends TMCAbstractListRow {
         this.setPropertyCell(12, propertyListCell);
     }
 
-    @Override
     public boolean equals(Object object) {
         return false;
     }
 
-    @Override
     public int hashCode() {
         return super.hashCode();
     }
 
-    @Override
     public boolean isLayoutOnRoute() {
         return this.layout == 5;
     }

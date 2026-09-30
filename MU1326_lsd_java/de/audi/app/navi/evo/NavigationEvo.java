@@ -8,7 +8,6 @@ import de.audi.app.navi.evo.DBIncompleteModelAccess;
 import de.audi.app.navi.evo.NaviPartialPopupListener;
 import de.audi.app.navi.evo.NaviPresetHandlerEvo;
 import de.audi.app.navi.evo.NavigationContextHmiListener;
-import de.audi.app.navi.evo.NavigationEvo$1;
 import de.audi.app.navi.evo.actionproxy.NaviActionProxyImplEvo;
 import de.audi.app.navi.evo.adb.NaviAdbAddToContactEvoHmiListener;
 import de.audi.app.navi.evo.addressinput.poi.PoiServiceEvo;
@@ -110,6 +109,7 @@ import de.audi.tghu.navi.app.TMCGateway;
 import de.audi.tghu.navi.app.TMCOnRouteService;
 import de.audi.tghu.navi.app.adb.NaviADBHandler;
 import de.audi.tghu.navi.app.addressinput.IAddressInputForm;
+import de.audi.tghu.navi.app.addressinput.country.UpdateDestinationCountryCodeCommand;
 import de.audi.tghu.navi.app.addressinput.poi.IPoiService;
 import de.audi.tghu.navi.app.addressinput.sds.IAddressInputSDSForm;
 import de.audi.tghu.navi.app.addressinput.tpegpoi.ITpegPOIService;
@@ -122,6 +122,9 @@ import de.audi.tghu.navi.app.audio.NaviNullAudioHandler;
 import de.audi.tghu.navi.app.cluster.ClusterService;
 import de.audi.tghu.navi.app.cluster.CombiBAPListener;
 import de.audi.tghu.navi.app.cluster.ViewSizeManagerCluster;
+import de.audi.tghu.navi.app.command.LocationToStreamCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
+import de.audi.tghu.navi.app.command.SaveLocationToPersistenceCommand;
 import de.audi.tghu.navi.app.countryinfo.CountryInfoHmiListener;
 import de.audi.tghu.navi.app.countryinfo.ICountryInfoHandler;
 import de.audi.tghu.navi.app.details.DetailsDestionationHandler;
@@ -197,6 +200,7 @@ import de.audi.tghu.navi.app.setup.RouteCriteriaEvoConfiguration;
 import de.audi.tghu.navi.app.setup.RouteCriteriaManager;
 import de.audi.tghu.navi.app.setup.RouteCriteriaSequence;
 import de.audi.tghu.navi.app.tr.TrafficRegulationService;
+import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import de.audi.tghu.navi.app.version.NavVersionInfoHandler;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
@@ -230,7 +234,6 @@ extends Navigation {
         this.dbIncompleteController = new DBIncompleteController(new DBIncompleteModelAccess(navigationEnv), navigationEnv.getLogChannel(), navigationEnv);
     }
 
-    @Override
     public void init(AbstractNavigationActivator abstractNavigationActivator, NavigationEnv navigationEnv) {
         IViewSizeManager iViewSizeManager;
         super.init(abstractNavigationActivator, navigationEnv);
@@ -411,10 +414,10 @@ extends Navigation {
     }
 
     private void setLabelForRemoteHMI() {
-        this.env.getLogChannel().log(1078071040, "NavigatioEvo#setLabelForRemoteHMI: setting labels for RemoteHMI in right drawer of Map and Dest");
-        String string = this.env.getTranslatedText(1193543168, "");
-        this.env.getLabelModel(-2111961600).setText(string);
-        this.env.getLabelModel(-1860303360).setText(string);
+        this.env.getLogChannel().log(1000000, "NavigatioEvo#setLabelForRemoteHMI: setting labels for RemoteHMI in right drawer of Map and Dest");
+        String string = this.env.getTranslatedText(402503, "");
+        this.env.getLabelModel(401026).setText(string);
+        this.env.getLabelModel(401041).setText(string);
     }
 
     private void initRightDrawerMapListeners() {
@@ -425,13 +428,13 @@ extends Navigation {
             new PoiAtLocationMapListener(this.env, this.poiService, this.detailsHMIListener.getDestinationHandler());
         } else {
             ParkingInVincinityMapListener parkingInVincinityMapListener = new ParkingInVincinityMapListener(this.env, this.poiService, this.vehicle);
-            this.env.getButtonModel(52430336).setButtonListener(parkingInVincinityMapListener);
+            this.env.getButtonModel(401411).setButtonListener(parkingInVincinityMapListener);
             ParkingAtCrosshairMapListener parkingAtCrosshairMapListener = new ParkingAtCrosshairMapListener(this.env, this.poiService, this.getMapInterface());
-            this.env.getButtonModel(69207552).setButtonListener(parkingAtCrosshairMapListener);
+            this.env.getButtonModel(401412).setButtonListener(parkingAtCrosshairMapListener);
             ParkingAlongRouteMapListener parkingAlongRouteMapListener = new ParkingAlongRouteMapListener(this.env, this.poiService);
-            this.env.getButtonModel(85984768).setButtonListener(parkingAlongRouteMapListener);
+            this.env.getButtonModel(401413).setButtonListener(parkingAlongRouteMapListener);
             ParkingAtLocationMapListener parkingAtLocationMapListener = new ParkingAtLocationMapListener(this.poiService, this.detailsHMIListener.getDestinationHandler(), this.env);
-            this.env.getButtonModel(-1373501952).setButtonListener(parkingAtLocationMapListener);
+            this.env.getButtonModel(402094).setButtonListener(parkingAtLocationMapListener);
         }
     }
 
@@ -454,10 +457,10 @@ extends Navigation {
 
     private void initRML(NavigationEnv navigationEnv, IconHandler iconHandler, ICommandListFactory iCommandListFactory, IRouteManager iRouteManager, ICountryInfoHandler iCountryInfoHandler, IDestinationHandler iDestinationHandler, IPreviewMap iPreviewMap, IVehicle iVehicle) {
         this.rmlDsiHandler = new RMLDSIHandler(navigationEnv);
-        RMLModelAccess rMLModelAccess = Util.isHURegionAsia() ? new RMLModelAccessAsia(navigationEnv, -618789376, -702675456, -333576704, iconHandler, iPreviewMap, iRouteManager, iVehicle) : new RMLModelAccess(navigationEnv, -618789376, -702675456, -333576704, iconHandler, iPreviewMap, iRouteManager);
+        RMLModelAccess rMLModelAccess = Util.isHURegionAsia() ? new RMLModelAccessAsia(navigationEnv, 401115, 401110, 401132, iconHandler, iPreviewMap, iRouteManager, iVehicle) : new RMLModelAccess(navigationEnv, 401115, 401110, 401132, iconHandler, iPreviewMap, iRouteManager);
         GuiModelAccessDetailsLocationPoi guiModelAccessDetailsLocationPoi = new GuiModelAccessDetailsLocationPoi(navigationEnv, iconHandler, iDestinationHandler);
         RMLSequence rMLSequence = new RMLSequence(rMLModelAccess, iCommandListFactory, iRouteManager, iCountryInfoHandler, guiModelAccessDetailsLocationPoi, navigationEnv);
-        this.rmlListener = new RMLListener(navigationEnv, -702675456, -451017216, -685898240, rMLSequence, this.rmlDsiHandler, iPreviewMap);
+        this.rmlListener = new RMLListener(navigationEnv, 401110, 401125, 401111, rMLSequence, this.rmlDsiHandler, iPreviewMap);
     }
 
     private void initAddressInput(NavigationEnv navigationEnv, ICommandListFactory iCommandListFactory, IVehicle iVehicle, IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence, HomeAddressHandler homeAddressHandler, IPreviewMap iPreviewMap, ADBInterAppService aDBInterAppService, CityHistory cityHistory, IRouteManager iRouteManager, LocationSerializer locationSerializer, INaviFavoriteHandler iNaviFavoriteHandler, NaviADBHandler naviADBHandler, SpellerStack spellerStack, ILocationDisambiguatorPopupHandler iLocationDisambiguatorPopupHandler) {
@@ -518,9 +521,9 @@ extends Navigation {
     }
 
     private void initDemoMode(NavigationEnv navigationEnv, ICommandListFactory iCommandListFactory, IVehicle iVehicle, IStartGuidanceManager iStartGuidanceManager) {
-        DemoModeModelAccess demoModeModelAccess = new DemoModeModelAccess(navigationEnv, -2044459520);
+        DemoModeModelAccess demoModeModelAccess = new DemoModeModelAccess(navigationEnv, 402566);
         this.demoModeManager = new DemoModeManager(navigationEnv, iCommandListFactory, iVehicle, demoModeModelAccess, iStartGuidanceManager);
-        this.demoModeHmiListener = new DemoModeHmiListener(navigationEnv, this.demoModeManager, -2044459520, this.getMapInterface());
+        this.demoModeHmiListener = new DemoModeHmiListener(navigationEnv, this.demoModeManager, 402566, this.getMapInterface());
     }
 
     private void initHomeAddressHandler(NavigationEnv navigationEnv, LocationSerializer locationSerializer, IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence, DispatcherBase dispatcherBase) {
@@ -566,23 +569,21 @@ extends Navigation {
         return (NavigationEvo)instance;
     }
 
-    @Override
     public void resetSettings() {
         if (!this.operationManager.isFullyOperable()) {
-            this.env.getLogChannel().log(-1601830656, "NavigationEvo#resetSettings navigation nor fully operable, ignore call");
+            this.env.getLogChannel().log(100000, "NavigationEvo#resetSettings navigation nor fully operable, ignore call");
             return;
         }
-        this.env.getLogChannel().log(1078071040, "NavigationEvo#resetSettings() ");
+        this.env.getLogChannel().log(1000000, "NavigationEvo#resetSettings() ");
         super.resetSettings();
     }
 
-    @Override
     public void resetMemorySettings() {
         if (!this.operationManager.isFullyOperable()) {
-            this.env.getLogChannel().log(-1601830656, "NavigationEvo#resetMemorySettings navigation nor fully operable, ignore call");
+            this.env.getLogChannel().log(100000, "NavigationEvo#resetMemorySettings navigation nor fully operable, ignore call");
             return;
         }
-        this.env.getLogChannel().log(1078071040, "NavigatioEvo#resetMemorySettings() ");
+        this.env.getLogChannel().log(1000000, "NavigatioEvo#resetMemorySettings() ");
         super.resetMemorySettings();
     }
 
@@ -590,12 +591,10 @@ extends Navigation {
         return (IntelliDestController)this.intelliDestAccess;
     }
 
-    @Override
     public void setDSIOnline(DSIPoiOnlineSearch dSIPoiOnlineSearch) {
         this.onlineSearchController.setDSIOnline(dSIPoiOnlineSearch);
     }
 
-    @Override
     public DSIPoiOnlineSearchListener getDSIOnlineSearchListener() {
         return this.onlineSearchController.getDSIOnlineSearchListener();
     }
@@ -612,61 +611,53 @@ extends Navigation {
         return this.remoteHMIAppsDestinationListener;
     }
 
-    @Override
     public void setOnlineServiceProvider(OnlineServiceProvider onlineServiceProvider) {
         super.setOnlineServiceProvider(onlineServiceProvider);
         this.remoteHMIAppsDestinationListener.setOnlineServiceProvider(onlineServiceProvider);
         this.remoteHMIAppsMapListener.setOnlineServiceProvider(onlineServiceProvider);
     }
 
-    @Override
     public void setOnlineDestinationService(IOnlineDestinationService iOnlineDestinationService) {
         this.onlineDestinationService = iOnlineDestinationService;
         this.contextHmiListener.setOnlineDestinationService(iOnlineDestinationService);
     }
 
-    @Override
     public void setAdbRhmiModelListener(ADBRemoteHMIService aDBRemoteHMIService, LocationSerializer locationSerializer, ADBInterAppService aDBInterAppService) {
-        this.env.getLogChannel().log(-2137614336, "NavigationEvo#setAdbRhmiModelListener() - Called");
+        this.env.getLogChannel().log(10000000, "NavigationEvo#setAdbRhmiModelListener() - Called");
         if (this.remoteHMIAppsDestinationListener == null) {
-            this.env.getLogChannel().log(-1601830656, "RemoteHMIAppsDestinationListener not available");
+            this.env.getLogChannel().log(100000, "RemoteHMIAppsDestinationListener not available");
             return;
         }
         this.remoteHMIAppsDestinationListener.setADBModelListener(aDBRemoteHMIService, locationSerializer, aDBInterAppService);
     }
 
-    @Override
     public void setViewSizeManager(IViewSizeManager iViewSizeManager) {
         if (this.viewSizeChangeHandler != null) {
-            this.env.getLogChannel().log(-2137614336, "NavigationEvo#setViewSizeManager()");
+            this.env.getLogChannel().log(10000000, "NavigationEvo#setViewSizeManager()");
             this.viewSizeChangeHandler.setViewSizeManager(iViewSizeManager);
         } else {
-            this.env.getLogChannel().log(-2137614336, "NavigationEvo#setViewSizeManager() - viewSizeChangeHandler is null");
+            this.env.getLogChannel().log(10000000, "NavigationEvo#setViewSizeManager() - viewSizeChangeHandler is null");
         }
     }
 
-    @Override
     public void setLanguage(Language language) {
-        this.env.getLogChannel().log(-2137614336, "NavigationEvo#setLanguage( %1 ) ", (Object)language.getLanguageCode());
+        this.env.getLogChannel().log(10000000, "NavigationEvo#setLanguage( %1 ) ", (Object)language.getLanguageCode());
         super.setLanguage(language);
         this.setLabelForRemoteHMI();
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(-2128607744);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(401537);
         choiceModelApp.setStatus(3);
         choiceModelApp.setValue(0);
     }
 
-    @Override
     public IViewSizeChangeHandler getViewSizeChangeHandler() {
         return this.viewSizeChangeHandler;
     }
 
-    @Override
     public void setADBHMIAppService(ADBHMIAppService aDBHMIAppService) {
         super.setADBHMIAppService(aDBHMIAppService);
         this.myAudiImporter.setAdbHmiAppService(aDBHMIAppService);
     }
 
-    @Override
     public synchronized void cleanup1() {
         super.cleanup1();
         this.naviInterface.cleanUp();
@@ -707,17 +698,57 @@ extends Navigation {
         return this.naviPartialPopupListener;
     }
 
-    @Override
     public ITrafficMiniMap getTrafficMiniMap() {
         return this.trafficMiniMap;
     }
 
-    @Override
     public void refreshPositionDescription() {
-        NavLocation navLocation = this.vehicle.getVehicleCountryLocation();
+        final NavLocation navLocation = this.vehicle.getVehicleCountryLocation();
         super.refreshPositionDescription();
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new NavigationEvo$1(this, "NavigationEvo#refreshPositionDescription --> CheckIfUpdateIsNeeded", navLocation));
+        commandList.add(new NavCommand("NavigationEvo#refreshPositionDescription --> CheckIfUpdateIsNeeded"){
+
+            public void execute() {
+                NavLocation navLocation2 = NavigationEvo.this.vehicle.getVehicleLocationDescription();
+                if (navLocation == null) {
+                    this.oldLocationIsNull(navLocation2);
+                } else if (navLocation2 == null) {
+                    this.logger.log(10000000, "NavigationEvo.refreshPositionDescription().new NavCommand() {...}#execute() - newLocation is null or has the same countryname (newLocation = %1)", (Object)LocationFormatter.formatLocationShort(navLocation2));
+                    this.getCommandList().commandFinished();
+                } else if (Util.isEmpty(navLocation2.country)) {
+                    this.logger.log(10000000, "NavigationEvo.refreshPositionDescription().new NavCommand() {...}#execute() - newLocation.country is empty! (newLocation = %1)", (Object)LocationFormatter.formatLocationShort(navLocation2));
+                    this.getCommandList().commandFinished();
+                } else if (navLocation2.country.equalsIgnoreCase(navLocation.country)) {
+                    this.logger.log(10000000, "NavigationEvo.refreshPositionDescription().new NavCommand() {...}#execute() - newLocation and oldlocation have the same countryname (country = %1)", (Object)navLocation2.country);
+                    this.getCommandList().commandFinished();
+                } else {
+                    this.createUpdateCountryCodeCommandListAndFinish(navLocation2);
+                }
+            }
+
+            private void oldLocationIsNull(NavLocation navLocation2) {
+                if (navLocation2 == null) {
+                    this.logger.log(10000, "NavigationEvo.refreshPositionDescription().new NavCommand() {...}#oldLocationIsNull() - oldLocation AND newLocation are null!");
+                    this.getCommandList().commandFinished();
+                } else if (Util.isEmpty(navLocation2.country)) {
+                    this.logger.log(10000, "NavigationEvo.refreshPositionDescription().new NavCommand() {...}#oldLocationIsNull() - newLocation has no country! (newLocation = %1)", (Object)LocationFormatter.formatLocationShort(navLocation2));
+                    this.getCommandList().commandFinished();
+                } else {
+                    this.logger.log(10000000, "NavigationEvo.refreshPositionDescription().new NavCommand() {...}#oldLocationIsNull - newLocation looks valid -> update!");
+                    this.createUpdateCountryCodeCommandListAndFinish(navLocation2);
+                }
+            }
+
+            private void createUpdateCountryCodeCommandListAndFinish(NavLocation navLocation2) {
+                CommandList commandList = NavigationEvo.this.commandListFactory.createCommandList();
+                commandList.add(new LocationToStreamCommand(navLocation2));
+                commandList.add(new SaveLocationToPersistenceCommand(989, "LOCATION_STREAM"));
+                if (!this.env.getInputModeManager().isSdsActive()) {
+                    commandList.add(new UpdateDestinationCountryCodeCommand(navLocation2));
+                }
+                this.getCommandList().commandFinishedWithPostSequence(commandList);
+            }
+        });
         commandList.execute("NavigationEvo#refreshPositionDescription");
     }
 
@@ -732,14 +763,6 @@ extends Navigation {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IVehicle access$000(NavigationEvo navigationEvo) {
-        return navigationEvo.vehicle;
-    }
-
-    static /* synthetic */ ICommandListFactory access$100(NavigationEvo navigationEvo) {
-        return navigationEvo.commandListFactory;
     }
 }
 

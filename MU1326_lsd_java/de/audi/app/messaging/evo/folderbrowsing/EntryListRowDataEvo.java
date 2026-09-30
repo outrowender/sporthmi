@@ -13,30 +13,28 @@ import org.dsi.ifc.search.SearchResult;
 
 public class EntryListRowDataEvo
 extends AbstractEntryListRowData {
-    public static final int COLUMN_COUNT;
-    private static final int CELL_IDX_RECORDSET;
-    private static final int CELL_IDX_ENABLED;
-    private static final int CELL_IDX_PROPERTIES;
-    private static final int CELL_IDX_ICON;
-    private static final int CELL_IDX_ENTRY_TYPE;
-    private static final int CELL_IDX_FOLDER_NAME;
-    private static final int CELL_IDX_UNREAD_MESSAGE_COUNT;
-    private static final int CELL_IDX_CONTACT_INFO;
-    private static final int CELL_IDX_SUBJECT;
-    private static final int CELL_IDX_TIME_PRIMARY;
-    private static final int CELL_IDX_TIME_SECONDARY;
-    private static final int CELL_IDX_HAS_ATTACHMENT;
+    public static final int COLUMN_COUNT = 12;
+    private static final int CELL_IDX_RECORDSET = 0;
+    private static final int CELL_IDX_ENABLED = 1;
+    private static final int CELL_IDX_PROPERTIES = 2;
+    private static final int CELL_IDX_ICON = 3;
+    private static final int CELL_IDX_ENTRY_TYPE = 4;
+    private static final int CELL_IDX_FOLDER_NAME = 5;
+    private static final int CELL_IDX_UNREAD_MESSAGE_COUNT = 6;
+    private static final int CELL_IDX_CONTACT_INFO = 7;
+    private static final int CELL_IDX_SUBJECT = 8;
+    private static final int CELL_IDX_TIME_PRIMARY = 9;
+    private static final int CELL_IDX_TIME_SECONDARY = 10;
+    private static final int CELL_IDX_HAS_ATTACHMENT = 11;
 
     public EntryListRowDataEvo(ListEntry listEntry, IEntryPropertyFactory iEntryPropertyFactory, int n, long l, ITextLookup iTextLookup) {
         super(listEntry, iEntryPropertyFactory, n, l, iTextLookup);
     }
 
-    @Override
     public int getIconId() {
         return this.getIcon(this.getListEntry());
     }
 
-    @Override
     public void setColumns(EvoListRow evoListRow, AbstractEntryListRowData abstractEntryListRowData, SearchResult searchResult) {
         ListEntry listEntry = abstractEntryListRowData.getListEntry();
         IEntryPropertyFactory iEntryPropertyFactory = abstractEntryListRowData.getEntryPropertyFactory();
@@ -65,7 +63,6 @@ extends AbstractEntryListRowData {
         return iEntryPropertyFactory.create(listEntry);
     }
 
-    @Override
     public int getColumnCount() {
         return 12;
     }

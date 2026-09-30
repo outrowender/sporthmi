@@ -15,7 +15,6 @@ extends ADBOrganizerSearchListRow {
         this.setInteger(6, bl ? 1 : 0);
     }
 
-    @Override
     public EvoListRow copy() {
         return new VCardExchangeOrganizerSearchListRow(this.dataSet, this.getInteger(6) == 1);
     }

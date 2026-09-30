@@ -8,57 +8,41 @@ import de.audi.atip.hmi.view.IScreenData;
 import de.audi.atip.mmicombi.IMMICombiAnimationInfo;
 
 public interface IAnimation {
-    public static final float MIN_DIFFERENCE;
-    public static final int TYPE_NO_ANIMATION;
-    public static final int TYPE_ENDLESS_ANIMATION;
-    public static final int TYPE_WAIT_FADING;
+    public static final float MIN_DIFFERENCE = 1.0E-7f;
+    public static final int TYPE_NO_ANIMATION = 0;
+    public static final int TYPE_ENDLESS_ANIMATION = 1;
+    public static final int TYPE_WAIT_FADING = 2;
 
-    default public void startScreenChangeAnimation(int[] nArray, boolean bl, IScreenData iScreenData, IScreenData iScreenData2) {
-    }
+    public void startScreenChangeAnimation(int[] var1, boolean var2, IScreenData var3, IScreenData var4);
 
-    default public void rollBackAnimation(boolean bl) {
-    }
+    public void rollBackAnimation(boolean var1);
 
-    default public void addListener(AnimationListener animationListener) {
-    }
+    public void addListener(AnimationListener var1);
 
-    default public boolean isAnimating() {
-    }
+    public boolean isAnimating();
 
-    default public void setBlocked(boolean bl) {
-    }
+    public void setBlocked(boolean var1);
 
-    default public boolean isBlocked() {
-    }
+    public boolean isBlocked();
 
-    default public int getType() {
-    }
+    public int getType();
 
-    default public int getCombiSyncType(int n) {
-    }
+    public int getCombiSyncType(int var1);
 
-    default public void setCombiSyncInfo(IMMICombiAnimationInfo iMMICombiAnimationInfo) {
-    }
+    public void setCombiSyncInfo(IMMICombiAnimationInfo var1);
 
-    default public float getProgress() {
-    }
+    public float getProgress();
 
-    default public long getPlannedDuration() {
-    }
+    public long getPlannedDuration();
 
-    default public long getStartTime() {
-    }
+    public long getStartTime();
 
-    default public long getCurrentDuration() {
-    }
+    public long getCurrentDuration();
 
-    default public boolean isFadeIn() {
-    }
+    public boolean isFadeIn();
 
-    default public int getCurrentAnimationStep() {
-    }
+    public int getCurrentAnimationStep();
 
-    default public void stopAnimation() {
-    }
+    public void stopAnimation();
 }
 

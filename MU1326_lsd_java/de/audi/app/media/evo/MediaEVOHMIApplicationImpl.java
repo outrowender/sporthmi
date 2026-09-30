@@ -12,7 +12,7 @@ import org.osgi.framework.BundleContext;
 
 public class MediaEVOHMIApplicationImpl
 extends AbstractMediaHMIApplication {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaEVOHMIApplicationImpl";
     private final MediaActionProxyImpl actionProxy;
     private final MediaEVOTerminalExtensionImpl[] extensions = new MediaEVOTerminalExtensionImpl[8];
 
@@ -21,9 +21,8 @@ extends AbstractMediaHMIApplication {
         this.actionProxy = new MediaActionProxyImpl(iFrameworkAccess, this.mediaCore.getServiceManager(), this.mediaCore.getActionProxyDispatcher());
     }
 
-    @Override
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaEVOHMIApplicationImpl");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         if (this.framework.isFrontMU()) {
             this.extensions[0] = new MediaEVOTerminalExtensionImpl(0, this.mediaCore.getLogger(), this.mediaCore.getServiceManager());
             this.extensions[0].init();
@@ -32,9 +31,8 @@ extends AbstractMediaHMIApplication {
         this.actionProxy.init();
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaEVOHMIApplicationImpl");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.actionProxy.deinit();
         for (int i2 = 0; i2 < this.extensions.length; ++i2) {
             if (null == this.extensions[i2]) continue;
@@ -43,15 +41,13 @@ extends AbstractMediaHMIApplication {
         super.deinit();
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
-        this.logger.log(1078071040, "[%1.screenFadedOut]", (Object)"MediaEVOHMIApplicationImpl");
+        this.logger.log(1000000, "[%1.screenFadedOut]", (Object)LOGCLASS);
         this.mediaCore.getActionProxyDispatcher().notifyActionProxyCall(37, n2, new HashMap(0));
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
-        this.logger.log(1078071040, "[%1.screenConnected]", (Object)"MediaEVOHMIApplicationImpl");
+        this.logger.log(1000000, "[%1.screenConnected]", (Object)LOGCLASS);
         this.mediaCore.getActionProxyDispatcher().notifyActionProxyCall(37, n2, new HashMap(0));
     }
 }

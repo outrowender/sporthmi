@@ -10,7 +10,7 @@ import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPCallState;
 import de.audi.atip.log.LogChannel;
 
 public class TelBAPCallArrayAccess {
-    private static final int MAX_CALLS;
+    private static final int MAX_CALLS = 7;
     private final TelBAPCall[] bapPhoneCalls = new TelBAPCall[7];
     private final LogChannel log;
     private final Object lock = new Object();
@@ -95,7 +95,7 @@ public class TelBAPCallArrayAccess {
         Object object = this.lock;
         synchronized (object) {
             for (int i2 = 0; i2 < 7; ++i2) {
-                callStartTimeArray[i2] = this.bapPhoneCalls[i2] != null ? this.bapPhoneCalls[i2].getCallStartTime() : new CallStartTime(-65536);
+                callStartTimeArray[i2] = this.bapPhoneCalls[i2] != null ? this.bapPhoneCalls[i2].getCallStartTime() : new CallStartTime(65535);
             }
         }
         return callStartTimeArray;

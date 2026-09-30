@@ -4,7 +4,6 @@
 package de.audi.remotehmi;
 
 public interface IRemoteHMIAuthenticationProviderListener {
-    default public void setPairingCodeResult(boolean bl) {
-    }
+    public void setPairingCodeResult(boolean var1);
 }
 

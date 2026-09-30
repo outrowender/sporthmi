@@ -25,341 +25,238 @@ import java.util.Map;
 public interface IGridList
 extends List,
 DeepCloneable {
-    public static final int NONE;
-    public static final int FOR_MAIN;
-    public static final int FOR_HEADER;
-    public static final int FOR_DETAIL;
-    public static final int FOR_EXPANDED;
-    public static final int FOR_SUBGRID;
-    public static final int FOR_SUBLIST;
-    public static final int FOR_MEDIA;
-    public static final int FOR_ARTIFICIAL_CLONE;
-    public static final int FOR_ALL;
-    public static final int FOR_ALL_DECORATORS;
-    public static final int SOURCE_UNKNOWN;
-    public static final int SOURCE_HMI_VIEWGRID_LISTENER_MAIN;
-    public static final int SOURCE_HMI_VIEWGRID_LISTENER_DRAWER;
-    public static final int SOURCE_TRUFFLE;
-    public static final int SOURCE_MEDIA_UPDATE;
-    public static final int SOURCE_RRD;
-    public static final int SOURCE_PREVIEW;
-    public static final int SOURCE_DIAGNOSIS;
-    public static final int SOURCE_ITEM_FOCUSED;
-    public static final int SOURCE_AUTH_STATE_CHANGED;
-    public static final int SOURCE_HMI_VIEWGRID_LISTENER_FAST_RESOURCES;
-    public static final int SOURCE_CONTEXT_CHANGE;
-    public static final String[] sourceDescription;
-    public static final int LOG_MODE_DEFAULT;
-    public static final int UPDATE_NONE;
-    public static final int UPDATE_OPTIONS_ICON_ONLY;
-    public static final int UPDATE_CURSOR_ONLY;
-    public static final int UPDATE_VALUES_ONLY;
-    public static final int UPDATE_GRID_STRUCTURE_AND_VALUES;
-    public static final int UPDATE_MENU_STRUCTURE_AND_VALUES;
-    public static final String[] updateDescription;
-    public static final int VIEW_TYPE_NORMAL;
-    public static final int VIEW_TYPE_MEDIA;
-    public static final int VIEW_TYPE_INFINITE;
-    public static final int VIEW_TYPE_MEDIA_SINGLE_NPS;
-    public static final int VIEW_TYPE_BANK_PAGE;
-    public static final String[] viewTypeDescription;
-    public static final int MODEL_RANGE_MAX_INFINITE_LIST;
-
-    default public ICursor getCurrentCursor() {
-    }
-
-    default public void setCurrentCursor(ICursor iCursor) {
-    }
-
-    default public ICursor getInitialCursor() {
-    }
+    public static final int NONE = -1;
+    public static final int FOR_MAIN = 1;
+    public static final int FOR_HEADER = 2;
+    public static final int FOR_DETAIL = 4;
+    public static final int FOR_EXPANDED = 8;
+    public static final int FOR_SUBGRID = 16;
+    public static final int FOR_SUBLIST = 32;
+    public static final int FOR_MEDIA = 64;
+    public static final int FOR_ARTIFICIAL_CLONE = 128;
+    public static final int FOR_ALL = Integer.MAX_VALUE;
+    public static final int FOR_ALL_DECORATORS = 205;
+    public static final int SOURCE_UNKNOWN = 0;
+    public static final int SOURCE_HMI_VIEWGRID_LISTENER_MAIN = 1;
+    public static final int SOURCE_HMI_VIEWGRID_LISTENER_DRAWER = 2;
+    public static final int SOURCE_TRUFFLE = 3;
+    public static final int SOURCE_MEDIA_UPDATE = 4;
+    public static final int SOURCE_RRD = 5;
+    public static final int SOURCE_PREVIEW = 6;
+    public static final int SOURCE_DIAGNOSIS = 7;
+    public static final int SOURCE_ITEM_FOCUSED = 8;
+    public static final int SOURCE_AUTH_STATE_CHANGED = 9;
+    public static final int SOURCE_HMI_VIEWGRID_LISTENER_FAST_RESOURCES = 10;
+    public static final int SOURCE_CONTEXT_CHANGE = 11;
+    public static final String[] sourceDescription = new String[]{"unknown source", "hmiViewGridListener-MainGridList", "hmiViewGridListener-DrawersList", "truffle-search", "mediaUpdate", "RRD", "Preview", "DiagnosisUI", "item-focused", "authentication-changed", "fast-resource-update", "context-change"};
+    public static final int LOG_MODE_DEFAULT = 0;
+    public static final int UPDATE_NONE = 0;
+    public static final int UPDATE_OPTIONS_ICON_ONLY = 1;
+    public static final int UPDATE_CURSOR_ONLY = 2;
+    public static final int UPDATE_VALUES_ONLY = 3;
+    public static final int UPDATE_GRID_STRUCTURE_AND_VALUES = 4;
+    public static final int UPDATE_MENU_STRUCTURE_AND_VALUES = 5;
+    public static final String[] updateDescription = new String[]{"none", "optionsIconOnly", "cursorOnly", "valuesOnly", "gridStructureAndValues", "menuStructureAndValues"};
+    public static final int VIEW_TYPE_NORMAL = 0;
+    public static final int VIEW_TYPE_MEDIA = 1;
+    public static final int VIEW_TYPE_INFINITE = 2;
+    public static final int VIEW_TYPE_MEDIA_SINGLE_NPS = 3;
+    public static final int VIEW_TYPE_BANK_PAGE = 4;
+    public static final String[] viewTypeDescription = new String[]{"normal", "media", "infinite", "singleNPS", "bankPage"};
+    public static final int MODEL_RANGE_MAX_INFINITE_LIST = 5000;
 
-    default public void setInitialCursor(ICursor iCursor) {
-    }
+    public ICursor getCurrentCursor();
 
-    default public void setCurrentFocusWith(int n, int n2, String string, String string2) {
-    }
+    public void setCurrentCursor(ICursor var1);
 
-    default public void setCurrentFocus(ICursorComponent iCursorComponent) {
-    }
+    public ICursor getInitialCursor();
 
-    default public void setCurrentSelection(int n, int n2, String string, String string2) {
-    }
+    public void setInitialCursor(ICursor var1);
 
-    default public void setCurrentSelection(ICursorComponent iCursorComponent) {
-    }
+    public void setCurrentFocusWith(int var1, int var2, String var3, String var4);
 
-    default public int getIdRangeStart() {
-    }
+    public void setCurrentFocus(ICursorComponent var1);
 
-    default public int getIdRangeSize() {
-    }
+    public void setCurrentSelection(int var1, int var2, String var3, String var4);
 
-    default public void setIdRange(int n, int n2) {
-    }
+    public void setCurrentSelection(ICursorComponent var1);
 
-    default public IGrid getParentGrid() {
-    }
+    public int getIdRangeStart();
 
-    default public void setParentGrid(IGrid iGrid) {
-    }
+    public int getIdRangeSize();
 
-    default public int getUpdateMode() {
-    }
+    public void setIdRange(int var1, int var2);
 
-    default public void setUpdateMode(int n) {
-    }
+    public IGrid getParentGrid();
 
-    default public int getAndClearUpdateMode() {
-    }
+    public void setParentGrid(IGrid var1);
 
-    default public int addUpdateMode(int n) {
-    }
+    public int getUpdateMode();
 
-    default public boolean isSelectionEnabled() {
-    }
+    public void setUpdateMode(int var1);
 
-    default public void setSelectionEnabled(boolean bl) {
-    }
+    public int getAndClearUpdateMode();
 
-    default public boolean isRendered() {
-    }
+    public int addUpdateMode(int var1);
 
-    default public void setRendered(boolean bl) {
-    }
+    public boolean isSelectionEnabled();
 
-    default public boolean isDirty() {
-    }
+    public void setSelectionEnabled(boolean var1);
 
-    default public void setDirty(boolean bl) {
-    }
+    public boolean isRendered();
 
-    default public Object getListener() {
-    }
+    public void setRendered(boolean var1);
 
-    default public void setListener(Object object) {
-    }
+    public boolean isDirty();
 
-    default public boolean isEventListening() {
-    }
+    public void setDirty(boolean var1);
 
-    default public void setEventListening(boolean bl) {
-    }
+    public Object getListener();
 
-    default public IRangeCounter getRangeCounter() {
-    }
+    public void setListener(Object var1);
 
-    default public void setRangeCounter(IRangeCounter iRangeCounter) {
-    }
+    public boolean isEventListening();
 
-    default public void setUpdateSource(int n) {
-    }
+    public void setEventListening(boolean var1);
 
-    default public int getUpdateSource() {
-    }
+    public IRangeCounter getRangeCounter();
 
-    default public void setNewIdRange(IRangeCounter iRangeCounter) {
-    }
+    public void setRangeCounter(IRangeCounter var1);
 
-    default public void setNewIdRange(IRangeCounter iRangeCounter, int n) {
-    }
+    public void setUpdateSource(int var1);
 
-    default public void setContentRightOffset(int n) {
-    }
+    public int getUpdateSource();
 
-    default public int getContentRightOffset() {
-    }
+    public void setNewIdRange(IRangeCounter var1);
 
-    default public void correctCurrentCursor() {
-    }
+    public void setNewIdRange(IRangeCounter var1, int var2);
 
-    default public ICursorComponent getCorrectedFocus(ICursorComponent iCursorComponent) {
-    }
+    public void setContentRightOffset(int var1);
 
-    default public ICursorComponent getCorrectedSelection(ICursorComponent iCursorComponent) {
-    }
+    public int getContentRightOffset();
 
-    default public int findCorrectFocusedIndex(int n, String string) {
-    }
+    public void correctCurrentCursor();
 
-    default public int findCorrectSelectedIndex(int n, String string) {
-    }
+    public ICursorComponent getCorrectedFocus(ICursorComponent var1);
 
-    default public void makeAllEmptyCellsInvisible() {
-    }
+    public ICursorComponent getCorrectedSelection(ICursorComponent var1);
 
-    default public int findIndexOfFirstGridId(String string, int n) {
-    }
+    public int findCorrectFocusedIndex(int var1, String var2);
 
-    default public void setGridsVisible(boolean bl) {
-    }
+    public int findCorrectSelectedIndex(int var1, String var2);
 
-    default public void restoreInitialGridVisibility() {
-    }
+    public void makeAllEmptyCellsInvisible();
 
-    default public void deleteGridHighlight() {
-    }
+    public int findIndexOfFirstGridId(String var1, int var2);
 
-    default public IGrid getGridOfModelRow(int n) {
-    }
+    public void setGridsVisible(boolean var1);
 
-    default public int getIndexOfModelRow(int n) {
-    }
+    public void restoreInitialGridVisibility();
 
-    default public void replaceTextConstants(String string, ITextConstantsConverter iTextConstantsConverter) {
-    }
+    public void deleteGridHighlight();
 
-    default public IGrid getGridOfWidgetId(int n) {
-    }
+    public IGrid getGridOfModelRow(int var1);
 
-    default public int getIndexWithinList(int n) {
-    }
+    public int getIndexOfModelRow(int var1);
 
-    default public int getIndexWithinRange(int n) {
-    }
+    public void replaceTextConstants(String var1, ITextConstantsConverter var2);
 
-    default public int getIndexFromId(int n) {
-    }
+    public IGrid getGridOfWidgetId(int var1);
 
-    default public IGridList getHeader() {
-    }
+    public int getIndexWithinList(int var1);
 
-    default public void setHeader(IGridList iGridList) {
-    }
+    public int getIndexWithinRange(int var1);
 
-    default public void applySearchFilter(int n, ArrayList arrayList) {
-    }
+    public int getIndexFromId(int var1);
 
-    default public List getAllGridCells(int n) {
-    }
+    public IGridList getHeader();
 
-    default public List getTabIds() {
-    }
+    public void setHeader(IGridList var1);
 
-    default public void setViewType(int n) {
-    }
+    public void applySearchFilter(int var1, ArrayList var2);
 
-    default public int getViewType() {
-    }
+    public List getAllGridCells(int var1);
 
-    default public IInfiniteListData getInfiniteListData() {
-    }
+    public List getTabIds();
 
-    default public int[] getTabIdArray() {
-    }
+    public void setViewType(int var1);
 
-    default public IGridFactory getGridFactory() {
-    }
+    public int getViewType();
 
-    default public ISpeller getSpeller() {
-    }
+    public IInfiniteListData getInfiniteListData();
 
-    default public void setSpeller(ISpeller iSpeller) {
-    }
+    public int[] getTabIdArray();
 
-    default public int getVisibleGridCount() {
-    }
+    public IGridFactory getGridFactory();
 
-    default public int artificialElementCount() {
-    }
+    public ISpeller getSpeller();
 
-    default public IGrid replaceGridNode(String string, IGrid iGrid) {
-    }
+    public void setSpeller(ISpeller var1);
 
-    default public void setMediaGridValues(IMediaValues iMediaValues) {
-    }
+    public int getVisibleGridCount();
 
-    default public void copyIdRangeFrom(IGridList iGridList) {
-    }
+    public int artificialElementCount();
 
-    default public int updateAllCellImages(List list) {
-    }
+    public IGrid replaceGridNode(String var1, IGrid var2);
 
-    default public boolean updateAllDecoratorImages(List list) {
-    }
+    public void setMediaGridValues(IMediaValues var1);
 
-    default public int forEachCell(IGridCellAction iGridCellAction, int n) {
-    }
+    public void copyIdRangeFrom(IGridList var1);
 
-    default public int forEachGrid(IGridAction iGridAction, int n) {
-    }
+    public int updateAllCellImages(List var1);
 
-    default public int forEachList(IGridListAction iGridListAction, int n) {
-    }
+    public boolean updateAllDecoratorImages(List var1);
 
-    default public void setReferencePoint(IReferencePoint iReferencePoint) {
-    }
+    public int forEachCell(IGridCellAction var1, int var2);
 
-    default public IReferencePoint getReferencePoint() {
-    }
+    public int forEachGrid(IGridAction var1, int var2);
 
-    default public void calculateDisplayedRows() {
-    }
+    public int forEachList(IGridListAction var1, int var2);
 
-    default public void calculateAllDisplayedRows() {
-    }
+    public void setReferencePoint(IReferencePoint var1);
 
-    default public void correctCursorOfInfiniteList() {
-    }
+    public IReferencePoint getReferencePoint();
 
-    default public boolean isRightDrawerAvailable() {
-    }
+    public void calculateDisplayedRows();
 
-    default public void setRightDrawerAvailable(boolean bl) {
-    }
+    public void calculateAllDisplayedRows();
 
-    default public boolean hasDetailGridsForNonExpandableEntries() {
-    }
+    public void correctCursorOfInfiniteList();
 
-    default public Object getLogObject(int n) {
-    }
+    public boolean isRightDrawerAvailable();
 
-    default public int calculateUniqueId(int n, int n2) {
-    }
+    public void setRightDrawerAvailable(boolean var1);
 
-    default public void setRestoreHistoryDataActive(boolean bl) {
-    }
+    public boolean hasDetailGridsForNonExpandableEntries();
 
-    default public boolean isRestoreHistoryDataActive() {
-    }
+    public Object getLogObject(int var1);
 
-    default public int getUpdateCounter() {
-    }
+    public int calculateUniqueId(int var1, int var2);
 
-    default public int getNextUpdateCounter() {
-    }
+    public void setRestoreHistoryDataActive(boolean var1);
 
-    default public int getRenderId() {
-    }
+    public boolean isRestoreHistoryDataActive();
 
-    default public void setRenderId(int n) {
-    }
+    public int getUpdateCounter();
 
-    default public String getSender() {
-    }
+    public int getNextUpdateCounter();
 
-    default public void addSender(String string) {
-    }
+    public int getRenderId();
 
-    default public int addButtonSelectionId(String string) {
-    }
+    public void setRenderId(int var1);
 
-    default public Map getButtonSelectionIds() {
-    }
+    public String getSender();
 
-    default public int getIndexBeforeLastPageOfInfiniteList() {
-    }
+    public void addSender(String var1);
 
-    default public boolean equalsRoughly(IGridList iGridList) {
-    }
+    public int addButtonSelectionId(String var1);
 
-    default public int replaceEmptyDecorator(PreparedImage preparedImage) {
-    }
+    public Map getButtonSelectionIds();
 
-    static {
-        sourceDescription = new String[]{"unknown source", "hmiViewGridListener-MainGridList", "hmiViewGridListener-DrawersList", "truffle-search", "mediaUpdate", "RRD", "Preview", "DiagnosisUI", "item-focused", "authentication-changed", "fast-resource-update", "context-change"};
-        updateDescription = new String[]{"none", "optionsIconOnly", "cursorOnly", "valuesOnly", "gridStructureAndValues", "menuStructureAndValues"};
-        viewTypeDescription = new String[]{"normal", "media", "infinite", "singleNPS", "bankPage"};
-    }
+    public int getIndexBeforeLastPageOfInfiniteList();
+
+    public boolean equalsRoughly(IGridList var1);
+
+    public int replaceEmptyDecorator(PreparedImage var1);
 }
 

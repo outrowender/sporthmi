@@ -4,6 +4,6 @@
 package de.audi.atip.hmi;
 
 public interface IDrawerContextConnectivity {
-    public static final int CONTEXT_CONNECTIVITY_CONNECTIVITY;
+    public static final int CONTEXT_CONNECTIVITY_CONNECTIVITY = -601412079;
 }
 

@@ -18,12 +18,12 @@ class SpeechRecognitionHandlerUtils {
     }
 
     void stop() {
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#stop] called");
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#stop] called");
         this.dsiSR = null;
     }
 
     void unsetDSISR() {
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#unsetDSISR] called");
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#unsetDSISR] called");
         this.dsiSR = null;
     }
 
@@ -36,9 +36,9 @@ class SpeechRecognitionHandlerUtils {
     }
 
     boolean requestVDECapabilities(String string) {
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#requestVDECapabilities] country=%1", (Object)string);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#requestVDECapabilities] country=%1", (Object)string);
         if (this.dsiSR == null) {
-            this.lc.log(-1601830656, "[SpeechRecognitionHandlerUtils#requestVDECapabilities] No DSISpeechRec available!");
+            this.lc.log(100000, "[SpeechRecognitionHandlerUtils#requestVDECapabilities] No DSISpeechRec available!");
             return false;
         }
         this.dsiSR.requestVDECapabilities(string);
@@ -46,7 +46,7 @@ class SpeechRecognitionHandlerUtils {
     }
 
     void startPostTraining(int n) {
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#startPostTraining] id=%1", (long)n);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#startPostTraining] id=%1", (long)n);
         this.profileID = n;
         if (this.dsiSR == null) {
             this.lc.log(10000, "[SpeechRecognitionHandlerUtils#startPostTraining] No DSISpeechRec available!");
@@ -64,7 +64,7 @@ class SpeechRecognitionHandlerUtils {
     }
 
     void loadProfile(int n) {
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#loadProfile] id=%1", (long)n);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#loadProfile] id=%1", (long)n);
         this.profileID = n;
         if (this.dsiSR == null) {
             this.lc.log(10000, "[SpeechRecognitionHandlerUtils#loadProfile] No DSISpeechRec available!");
@@ -74,7 +74,7 @@ class SpeechRecognitionHandlerUtils {
     }
 
     void unloadProfile() {
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#loadProfile] profileID=%1", (long)this.profileID);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#loadProfile] profileID=%1", (long)this.profileID);
         if (this.dsiSR == null) {
             this.lc.log(10000, "[SpeechRecognitionHandlerUtils#unloadProfile] No DSISpeechRec available!");
             return;
@@ -83,7 +83,7 @@ class SpeechRecognitionHandlerUtils {
     }
 
     void deleteProfile(int n) {
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#deleteProfile] id=%1", (long)n);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#deleteProfile] id=%1", (long)n);
         if (this.dsiSR == null) {
             this.lc.log(10000, "[SpeechRecognitionHandlerUtils#deleteProfile] No DSISpeechRec available!");
             return;
@@ -96,7 +96,7 @@ class SpeechRecognitionHandlerUtils {
             this.lc.log(10000, "[SpeechRecognitionHandlerUtils#setMaxCommandNBestListSize] No DSISpeechRec available!");
             return;
         }
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#setMaxCommandNBestListSize] Setting MaxCommandNBestListSize to %1!", (long)n);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#setMaxCommandNBestListSize] Setting MaxCommandNBestListSize to %1!", (long)n);
         this.dsiSR.setMaxCommandNBestListSize(n);
     }
 
@@ -105,7 +105,7 @@ class SpeechRecognitionHandlerUtils {
             this.lc.log(10000, "[SpeechRecognitionHandlerUtils#setMaxSlotNBestListSize] No DSISpeechRec available!");
             return;
         }
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#setMaxSlotNBestListSize] Setting MaxSlotNBestListSize to %1!", (long)n);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#setMaxSlotNBestListSize] Setting MaxSlotNBestListSize to %1!", (long)n);
         this.dsiSR.setMaxSlotNBestListSize(n);
     }
 
@@ -114,7 +114,7 @@ class SpeechRecognitionHandlerUtils {
             this.lc.log(10000, "[SpeechRecognitionHandlerUtils#setUnambiguousResultThreshold] No DSISpeechRec available!");
             return;
         }
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#setUnambiguousResultThreshold] Setting UnambiguousResultThreshold to %1!", (long)n);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#setUnambiguousResultThreshold] Setting UnambiguousResultThreshold to %1!", (long)n);
         this.dsiSR.setUnambiguousResultThreshold(n);
     }
 
@@ -123,7 +123,7 @@ class SpeechRecognitionHandlerUtils {
             this.lc.log(10000, "[SpeechRecognitionHandlerUtils#setUnambiguousResultRange] No DSISpeechRec available!");
             return;
         }
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#setUnambiguousResultRange] Setting UnambiguousResultRange to %1!", (long)n);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#setUnambiguousResultRange] Setting UnambiguousResultRange to %1!", (long)n);
         this.dsiSR.setUnambiguousResultRange(n);
     }
 
@@ -132,7 +132,7 @@ class SpeechRecognitionHandlerUtils {
             this.lc.log(10000, "[SpeechRecognitionHandlerUtils#setFirstLevelSize] No DSISpeechRec available!");
             return;
         }
-        this.lc.log(-2137614336, "[SpeechRecognitionHandlerUtils#setFirstLevelSize] Setting FirstLevelSize to %1!", (long)n);
+        this.lc.log(10000000, "[SpeechRecognitionHandlerUtils#setFirstLevelSize] Setting FirstLevelSize to %1!", (long)n);
         this.dsiSR.setFirstLevelSize(n);
     }
 

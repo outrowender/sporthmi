@@ -135,8 +135,6 @@ import de.audi.atip.interapp.MapServiceListener;
 import de.audi.atip.interapp.NaviSDSPOIOnlineService;
 import de.audi.atip.interapp.NaviSDSPOIOnlineServiceListener;
 import de.audi.atip.interapp.NaviService;
-import de.audi.atip.interapp.NaviService$OneshotData;
-import de.audi.atip.interapp.NaviService$POISDSListEntry;
 import de.audi.atip.interapp.NaviServiceListener;
 import de.audi.atip.interapp.NullADBSDSService;
 import de.audi.atip.interapp.SDSListEntry;
@@ -169,7 +167,7 @@ implements NaviSDSHandler,
 MapServiceListener,
 IOperatorCallSDSServiceListener,
 AppInfoKrServiceListener {
-    private static int[] commands = new int[]{2124152832, 2140930048, 1335623680, -1902379008, 1100742656, -1969487872, 1302069248, 1268514816, 1151074304, 1134297088, 1167851520, 1201405952, 1251737600, 1234960384, -1935933440, -2120482816, -1885601792, 1436286976, 2090598400, 2107375616, 2073821184, 1419509760, 1385955328, 1402732544, -1768161280, 1469841408, 1486618624, -2019819520, -2103705600, 1520173056, 1973157888, 1553727488, 1570504704, 1604059136, -2036596736, -1986265088, -2003042304, -2070151168, -2053373952, 1637613568, 1654390784, 1755054080, 1620836352, 1805385728, 1838940160, 1822162944, 1855717376, -2137260032, 1788608512, 1906049024, -1919156224, 1939603456, 1956380672, -1952710656, 1922826240, -2086928384, 2006712320, 2040266752, 2023489536, -1868824576, -1852047360, -1835270144, -1818492928, -1801715712, 1060, -1784938496, -1751384064, -1734606848, -1717829632, -1701052416, -1684275200, -1667497984, -1432616960, -1415839744, -1650720768, -1633943552, -1617166336, -1600389120, -1583611904, -1566834688, -1449394176, -1550057472, -1533280256, -1516503040, -1499725824, -1482948608, -1466171392, -1399062528, -1382285312, -1365508096, -1348730880, -1331953664, -1315176448, -1298399232};
+    private static int[] commands = new int[]{40062, 40063, 40015, 40078, 40001, 40074, 40013, 40011, 40004, 40003, 40005, 40007, 40010, 40009, 40076, 40065, 40079, 40021, 40060, 40061, 40059, 40020, 40018, 40019, 40086, 40023, 40024, 40071, 40066, 40026, 40053, 40028, 40029, 40031, 40070, 40073, 40072, 40068, 40069, 40033, 40034, 40040, 40032, 40043, 40045, 40044, 40046, 40064, 40042, 40049, 40077, 40051, 40052, 40075, 40050, 40067, 40055, 40057, 40056, 40080, 40081, 40082, 40083, 40084, 1060, 40085, 40087, 40088, 40089, 40090, 40091, 40092, 40106, 40107, 40093, 40094, 40095, 40096, 40097, 40098, 40105, 40099, 40100, 40101, 40102, 40103, 40104, 40108, 40109, 40110, 40111, 40112, 40113, 40114};
     private final LogChannel lc = Logger.getAppNaviLog();
     private final SDSAppFactory factory;
     private final OneshotHandlerFactory oneshotHandlerFactory;
@@ -192,7 +190,7 @@ AppInfoKrServiceListener {
     private SDSListEntry[] favoriteDestinations;
     private SDSListEntry[] lastDestinations;
     private SDSListEntry[] myAudiContacts;
-    private final NaviService$OneshotData[] oneshotData = new NaviService$OneshotData[5];
+    private final NaviService.OneshotData[] oneshotData = new NaviService.OneshotData[5];
     private byte pickListMode = (byte)-1;
     private boolean poiOnlineOneshotRecog;
     private NavLocation poiOnlineDestination;
@@ -226,22 +224,19 @@ AppInfoKrServiceListener {
         this.checkVZEStatus();
         this.naviTrufflesHist = new NaviSDSTrufflesHistoryHelper(this.lc);
         this.dynamicLists = iDynamicLists;
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#NaviSDSHandler initialized.");
+        this.lc.log(10000000, "NaviSDSHandlerImpl#NaviSDSHandler initialized.");
     }
 
-    @Override
     public void setNaviService(NaviService naviService) {
         if (naviService != null) {
             this.naviService = naviService;
         }
     }
 
-    @Override
     public NaviService getNaviService() {
         return this.naviService;
     }
 
-    @Override
     public void setADBService(ADBSDSService aDBSDSService) {
         if (aDBSDSService == null) {
             return;
@@ -249,7 +244,6 @@ AppInfoKrServiceListener {
         this.adbService = aDBSDSService;
     }
 
-    @Override
     public void setOperatorCallService(IOperatorCallSDSService iOperatorCallSDSService) {
         if (iOperatorCallSDSService == null) {
             return;
@@ -257,51 +251,42 @@ AppInfoKrServiceListener {
         this.operatorCallService = iOperatorCallSDSService;
     }
 
-    @Override
     public IOperatorCallSDSService getOperatorCallService() {
         return this.operatorCallService;
     }
 
-    @Override
     public void unsetNaviService() {
         this.naviService = new NullNaviService(this.lc);
     }
 
-    @Override
     public void unsetADBService() {
         this.adbService = new NullADBSDSService(this.lc);
     }
 
-    @Override
     public void unsetOperatorCallService() {
         this.operatorCallService = new NullOperatorCallSDSService(this.lc);
     }
 
-    @Override
     public void setPOIOnlineService(NaviSDSPOIOnlineService naviSDSPOIOnlineService) {
         if (naviSDSPOIOnlineService != null) {
             this.poiOnlineService = naviSDSPOIOnlineService;
         }
     }
 
-    @Override
     public void unsetPOIOnlineService() {
         this.poiOnlineService = new NullPOIOnlineService(this.lc);
     }
 
-    @Override
     public void setMapService(MapService mapService) {
         if (mapService != null) {
             this.mapService = mapService;
         }
     }
 
-    @Override
     public void unsetMapService() {
         this.mapService = new NullMapService(this.lc);
     }
 
-    @Override
     public void setMyAudiService(IOnlineSDSMyAudiService iOnlineSDSMyAudiService) {
         if (iOnlineSDSMyAudiService != null) {
             this.myAudiService = iOnlineSDSMyAudiService;
@@ -309,29 +294,24 @@ AppInfoKrServiceListener {
         }
     }
 
-    @Override
     public void setOnlineDestinationService(IOnlineDestinationService iOnlineDestinationService) {
         if (iOnlineDestinationService != null) {
             this.onlineDestinationService = iOnlineDestinationService;
         }
     }
 
-    @Override
     public void unsetOnlineDestinationService() {
         this.onlineDestinationService = new NullOnlineDestinationService(this.lc);
     }
 
-    @Override
     public void unsetMyAudiService() {
         this.myAudiService = new NullSDSMyAudiService(this.lc);
     }
 
-    @Override
     public int[] getCommands() {
         return commands;
     }
 
-    @Override
     public void setMyAudiContacts(SDSListEntry[] sDSListEntryArray) {
         if (sDSListEntryArray == null) {
             this.myAudiContacts = new SDSListEntry[0];
@@ -340,15 +320,13 @@ AppInfoKrServiceListener {
         this.myAudiContacts = sDSListEntryArray;
     }
 
-    @Override
     public boolean freezeLists() {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#freezeLists: called");
+        this.lc.log(10000000, "NaviSDSHandlerImpl#freezeLists: called");
         return this.naviService.freezeDynamicLists() == 0;
     }
 
-    @Override
     public boolean unfreezeLists() {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#unfreezeLists: called");
+        this.lc.log(10000000, "NaviSDSHandlerImpl#unfreezeLists: called");
         return this.naviService.unfreezeDynamicLists() == 0;
     }
 
@@ -364,14 +342,14 @@ AppInfoKrServiceListener {
     private boolean checkOperationState(int n) {
         boolean bl = SDSModelAccess.isCustomerNaviUpdateRunning();
         if (bl) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#checkOperationState: customerUpdate is active!", bl);
+            this.lc.log(100000, "NaviSDSHandlerImpl#checkOperationState: customerUpdate is active!", bl);
             if (SystemCall.requiresResponse(n)) {
-                this.sdsHandlerService.sendResult(1167851520);
+                this.sdsHandlerService.sendResult(40005);
             }
             return false;
         }
         if (SDSModelAccess.getNaviVDEMediumState() != 1) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#checkOperationState: VDE-medium not available or data corrupt, currentVDEMediumState=%1!", (long)SDSModelAccess.getNaviVDEMediumState());
+            this.lc.log(100000, "NaviSDSHandlerImpl#checkOperationState: VDE-medium not available or data corrupt, currentVDEMediumState=%1!", (long)SDSModelAccess.getNaviVDEMediumState());
             if (SystemCall.requiresResponse(n)) {
                 this.sdsHandlerService.sendResult(1006);
             }
@@ -380,27 +358,26 @@ AppInfoKrServiceListener {
         byte by = this.naviService.getOperationState();
         switch (by) {
             case 1: {
-                this.lc.log(-1601830656, "NaviSDSHandlerImpl#checkOperationState: Navigation not operable, aborting call with ID %1!", (long)n);
+                this.lc.log(100000, "NaviSDSHandlerImpl#checkOperationState: Navigation not operable, aborting call with ID %1!", (long)n);
                 if (SystemCall.requiresResponse(n)) {
-                    this.sdsHandlerService.sendResult(1385955328);
+                    this.sdsHandlerService.sendResult(40018);
                 }
                 return false;
             }
             case 2: {
-                this.lc.log(-1601830656, "NaviSDSHandlerImpl#checkOperationState: Navigation SD card removed, aborting call with ID %1!", (long)n);
+                this.lc.log(100000, "NaviSDSHandlerImpl#checkOperationState: Navigation SD card removed, aborting call with ID %1!", (long)n);
                 if (SystemCall.requiresResponse(n)) {
                     this.sdsHandlerService.sendResult(1006);
                 }
                 return false;
             }
         }
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#checkOperationState: Navigation considered operable!");
+        this.lc.log(10000000, "NaviSDSHandlerImpl#checkOperationState: Navigation considered operable!");
         return true;
     }
 
-    @Override
     public void processCommand(int n, ISystemCallParameter[] iSystemCallParameterArray) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
+        this.lc.log(10000000, "NaviSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
         CommandList commandList = new CommandList(SDSManagerBaseActivator.getSysCallCmdListManager());
         if (!this.checkOperationState(n)) {
             return;
@@ -441,137 +418,137 @@ AppInfoKrServiceListener {
             }
             case 40079: {
                 commandList.add(new NaviFillPromptLabelsCommand(this.lc, string, this.sdsHandlerService, this.naviService, this));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40021: {
                 commandList.add(new NaviGetInfoCommand(this.lc, string, this.sdsHandlerService, this.naviService, this.languageManager));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40023: {
                 commandList.add(new NaviInputModeCheckCommand(this.lc, string, this.sdsHandlerService, this.naviService, this.srHandler, this));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40024: {
                 commandList.add(new NaviInputStartedCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this, this.naviService, this.onlineDestinationService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40051: {
                 commandList.add(new NaviPostCodeCheckCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40055: {
                 commandList.add(new NaviVoiceGuidanceSetCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40020: {
                 commandList.add(new NaviHomeSetCommand(this.lc, string, this.sdsHandlerService, this, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40059: {
                 commandList.add(new NaviHomeSaveCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40029: {
                 commandList.add(new NaviMapOptionsSetCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.mapService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40031: {
                 commandList.add(new NaviMapZoomCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.mapService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40050: {
                 commandList.add(new NaviSpeedLimitGetCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40080: {
                 commandList.add(new NaviEnterGeoCoordinatesCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40082: {
                 commandList.add(new NaviOperatorcallCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.operatorCallService, this));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 1060: {
                 commandList.add(new SystemTruffleSetCommand(this.lc, string, this.sdsHandlerService, this.nBestStorage, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40087: {
                 commandList.add(new NaviOneshotAmbiguousCommand(this.lc, string, this.sdsHandlerService, this, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40088: {
                 commandList.add(new NaviOneshotFilterPicklistCommand(this.lc, string, this.sdsHandlerService, this, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40097: {
                 commandList.add(new NaviTrufflesSearchDestinationCommand(this.lc, string, this.sdsHandlerService, this.naviService, this.nBestStorage, (NaviServiceListenerImpl)this.naviServiceListener, this.naviTrufflesHist));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40098: {
                 commandList.add(new NaviTrufflesCorrectionCommand(this.lc, string, this.sdsHandlerService, this.srHandler, this.naviService, this.nBestStorage, this.naviTrufflesHist));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40099: {
                 commandList.add(new NaviAddressInputCorrectionCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40104: {
                 commandList.add(new NaviSynchronizeCountryCommand(this.lc, string, this.sdsHandlerService, this, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40105: {
                 commandList.add(new NaviTrufflesEndCommand(this.lc, string, this.sdsHandlerService, this.srHandler, this.naviTrufflesHist));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40108: {
                 commandList.add(new NaviTrufflesCancelSearchCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40109: {
                 commandList.add(new NaviSimpleMapAreaSetCommand(this.lc, string, this.sdsHandlerService, this.appInfoKrService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40110: {
                 commandList.add(new NaviAddressInputCursorCorrectionCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40111: {
                 commandList.add(new NaviAddressInputCursorSetCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40112: {
                 commandList.add(new NaviSimpleMapFreeSelectionInitCommand(this.lc, string, this.sdsHandlerService, this.appInfoKrService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40114: {
                 commandList.add(new NaviTrufflesSearchPreviousDestinationCommand(this.lc, string, this.sdsHandlerService, this.naviService, this.nBestStorage, (NaviServiceListenerImpl)this.naviServiceListener, this.naviTrufflesHist));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             default: {
@@ -585,107 +562,107 @@ AppInfoKrServiceListener {
         switch (n) {
             case 40043: {
                 commandList.add(new NaviPOIOnlineSearchAreaSetCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.poiOnlineService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40045: {
                 commandList.add(new NaviPOIOnlineSearchCancelCommand(this.lc, string, this.sdsHandlerService, this.poiOnlineService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40046: {
                 commandList.add(new NaviPOIOnlineSearchInitCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.poiOnlineService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40077: {
                 commandList.add(new NaviPOIOnlineSelectDestinationCommand(this.lc, string, this.sdsHandlerService, this, this.poiOnlineService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40044: {
                 commandList.add(new NaviPOIOnlineDidYouMeanCommand(this.lc, string, this.sdsHandlerService, this.poiOnlineService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40042: {
                 commandList.add(new NaviPOIOnlineRecogCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40049: {
                 commandList.add(new NaviPOIOnlineUniqueResultCommand(this.lc, string, this.sdsHandlerService, this.hmi));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40033: {
                 commandList.add(new NaviPOISearchAreaSetCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40034: {
                 commandList.add(new NaviPOIShortCutSetCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40040: {
                 commandList.add(new NaviPOIValueSetCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.naviService, this.nBestStorage, this));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40032: {
                 commandList.add(new NaviPOICorrectionCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40064: {
                 commandList.add(new NaviPOIOnlineShowListCommand(this.lc, string, this.sdsHandlerService, this.poiOnlineService, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40068: {
                 commandList.add(new NaviPOIOneshotAmbiguousCommand(this.lc, string, this.sdsHandlerService, this, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40069: {
                 commandList.add(new NaviPOIOneshotFilterPicklistCommand(this.lc, string, this.sdsHandlerService, this, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40072: {
                 commandList.add(new NaviPOIPromptLabelSetCommand(this.lc, string, this.sdsHandlerService, this.naviService, this, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40084: {
                 commandList.add(new NaviPOIHistoryEntryUniqueCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.operatorCallService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40096: {
                 commandList.add(new NaviEnterPoiNameSearchCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40100: {
                 commandList.add(new NaviStartTpegPOICommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40101: {
                 commandList.add(new NaviGetTpegPOIResultsByCategoryCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40102: {
                 commandList.add(new NaviSelectTpegPOIResultCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40103: {
                 commandList.add(new NaviTriggerTpegPOIReturnCommand(this.lc, string, this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             default: {
@@ -751,167 +728,167 @@ AppInfoKrServiceListener {
         switch (n) {
             case 40018: {
                 commandList.add(new NaviHouseNumberCheckCommand(this.lc, string, this.sdsHandlerService, this, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40019: {
                 commandList.add(new NaviHouseNumberSetCommand(this.lc, string, this.sdsHandlerService, this));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40086: {
                 commandList.add(new NaviHouseNumberResolveCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.naviService, this, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40004: {
                 commandList.add(new NaviDestinationAvailableCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40003: {
                 commandList.add(new NaviDestinationDeleteCommand(this.lc, "NAVI_DESTINATIONDELETE", this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40005: {
                 commandList.add(new NaviDestinationGetCommand(this.lc, "NAVI_DESTINATIONGET", this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40007: {
                 commandList.add(new NaviDestinationSetCommand(this.lc, "NAVI_DESTINATIONSET", this.sdsHandlerService, iSystemCallParameterArray, this, this.naviService, this.operatorCallService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40009: {
                 commandList.add(new NaviDestinationStatusCommand(this.lc, "NAVI_DESTINATIONSTATUS", this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40076: {
                 commandList.add(new NaviDetailsPhoneCallCommand(this.lc, "NAVI_DETAILSPHONECALL", this.sdsHandlerService, this.hmi, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40056: {
                 if (this.oneshotHandler == null) {
                     commandList.add(new NaviVDEOneshotAmbiguousCommand(this.lc, "NAVI_VDEONESHOTISAMBIGUOUS", this.sdsHandlerService, this, this.nBestStorage));
-                    commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                    commandList.execute("SYSTEMCALL " + string);
                     break;
                 }
                 commandList.add(new NaviOneshotAmbiguousCommand(this.lc, "NAVI_ONESHOTISAMBIGUOUS", this.sdsHandlerService, this, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40057: {
                 if (this.oneshotHandler == null) {
                     commandList.add(new NaviVDEOneshotFilterPicklistCommand(this.lc, "NAVI_VDEONESHOTFILTERPICKLIST", this.sdsHandlerService, this, iSystemCallParameterArray));
-                    commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                    commandList.execute("SYSTEMCALL " + string);
                     break;
                 }
                 commandList.add(new NaviOneshotFilterPicklistCommand(this.lc, "NAVI_ONESHOTFILTERPICKLIST", this.sdsHandlerService, this, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40062: {
                 commandList.add(new NaviAddDestinationCommand(this.lc, "NAVI_ADD_DESTINATION", this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40065: {
                 commandList.add(new NaviFavoriteDestinationSetCommand(this.lc, "NAVI_FAVORITEDESTINATIONSET", this.sdsHandlerService, iSystemCallParameterArray, this, this.naviService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40066: {
                 commandList.add(new NaviLastDestinationSetCommand(this.lc, "NAVI_LASTDESTINATIONSET", this.sdsHandlerService, iSystemCallParameterArray, this, this.naviService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40060: {
                 commandList.add(new NaviGuidanceStartCommand(this.lc, "NAVI_GUIDANCE_START", this.sdsHandlerService, this, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40061: {
                 commandList.add(new NaviGuidanceStopCommand(this.lc, "NAVI_GUIDANCE_STOP", this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40067: {
                 commandList.add(new NaviSUITypeGetCommand(this.lc, "NAVI_SUITYPEGET", this.sdsHandlerService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40070: {
                 commandList.add(new NaviMyAudiContactSelectCommand(this.lc, "NAVI_MYAUDICONTACTSELECT", this.sdsHandlerService, iSystemCallParameterArray, this, this.myAudiService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40071: {
                 commandList.add(new NaviIntelliDestinationSetCommand(this.lc, "NAVI_INTELLIDESTSET", this.sdsHandlerService, this, this.naviService, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40073: {
                 commandList.add(new NaviOneshotStoreDataCommand(this.lc, "NAVI_ONESHOTSTOREDATA", this.sdsHandlerService, this, this.nBestStorage, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40081: {
                 commandList.add(new NaviDestinationAvailableAsiaCommand(this.lc, "NAVI_DESTINATIONAVAILABLE_ASIA", this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40089: {
                 commandList.add(new NaviMapCodeAddCommand(this.lc, "NAVI_MAPCODEADD", this.sdsHandlerService, this.naviService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40090: {
                 commandList.add(new NaviMapCodeDeleteCommand(this.lc, "NAVI_MAPCODEDELETE", this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40091: {
                 commandList.add(new NaviMapCodeGetCommand(this.lc, "NAVI_MAPCODEGET", this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40092: {
                 commandList.add(new NaviMapCodeResolveCommand(this.lc, "NAVI_MAPCODERESOLVE", this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40106: {
                 commandList.add(new NaviMapCodeNavigableCommand(this.lc, "NAVI_MAPCODENAVIGABLE", this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40107: {
                 commandList.add(new NaviFurtherInputPossibleCommand(this.lc, "NAVI_FURTHERINPUTPOSSIBLE", this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40093: {
                 commandList.add(new NaviPhoneNumberAddCommand(this.lc, "NAVI_PHONENUMBERADD", this.sdsHandlerService, this.naviService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40094: {
                 commandList.add(new NaviPhoneNumberDeleteCommand(this.lc, "NAVI_PHONENUMBERDELETE", this.sdsHandlerService, iSystemCallParameterArray, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40095: {
                 commandList.add(new NaviPhoneNumberGetCommand(this.lc, "NAVI_PHONENUMBERGET", this.sdsHandlerService, this.naviService));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40113: {
                 commandList.add(new NaviHousenumberJPKRValidate(this.lc, string, this.sdsHandlerService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             default: {
@@ -925,12 +902,12 @@ AppInfoKrServiceListener {
         switch (n) {
             case 40010: {
                 commandList.add(new NaviSpellingModeCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40011: {
                 commandList.add(new NaviSpellingModeCorrectionCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             default: {
@@ -944,17 +921,17 @@ AppInfoKrServiceListener {
         switch (n) {
             case 40028: {
                 commandList.add(new NaviListShowCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this, this.factory, this.hmi, this.sdsPopupHelper, this.naviService, this.adbService, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40026: {
                 commandList.add(new NaviListHideCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.hmi, this.sdsPopupHelper));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             case 40053: {
                 commandList.add(new NaviListLineDataGetCommand(this.lc, string, this.sdsHandlerService, iSystemCallParameterArray, this.hmi, this, this.nBestStorage));
-                commandList.execute(new StringBuffer().append("SYSTEMCALL ").append(string).toString());
+                commandList.execute("SYSTEMCALL " + string);
                 break;
             }
             default: {
@@ -964,32 +941,31 @@ AppInfoKrServiceListener {
     }
 
     private static boolean isMainCommand(int n) {
-        return n == -1885601792 || n == 1436286976 || n == 1469841408 || n == 1486618624 || n == 1419509760 || n == 2073821184 || n == 1570504704 || n == 1604059136 || n == 1939603456 || n == 1922826240 || n == 2006712320 || n == -1868824576 || n == -1835270144 || n == 1060 || n == 1064 || n == -1751384064 || n == -1734606848 || n == -1466171392 || n == -1583611904 || n == -1566834688 || n == -1449394176 || n == -1550057472 || n == -1399062528 || n == -1382285312 || n == -1365508096 || n == -1348730880 || n == -1331953664 || n == -1298399232;
+        return n == 40079 || n == 40021 || n == 40023 || n == 40024 || n == 40020 || n == 40059 || n == 40029 || n == 40031 || n == 40051 || n == 40050 || n == 40055 || n == 40080 || n == 40082 || n == 1060 || n == 1064 || n == 40087 || n == 40088 || n == 40104 || n == 40097 || n == 40098 || n == 40105 || n == 40099 || n == 40108 || n == 40109 || n == 40110 || n == 40111 || n == 40112 || n == 40114;
     }
 
     private static boolean isPOICommand(int n) {
-        return n == 1620836352 || n == 1788608512 || n == 1805385728 || n == 1838940160 || n == 1822162944 || n == 1855717376 || n == 1906049024 || n == -1919156224 || n == 1637613568 || n == 1654390784 || n == -2137260032 || n == -2070151168 || n == -2053373952 || n == -2003042304 || n == -1801715712 || n == 1755054080 || n == -1600389120 || n == -1533280256 || n == -1516503040 || n == -1499725824 || n == -1482948608;
+        return n == 40032 || n == 40042 || n == 40043 || n == 40045 || n == 40044 || n == 40046 || n == 40049 || n == 40077 || n == 40033 || n == 40034 || n == 40064 || n == 40068 || n == 40069 || n == 40072 || n == 40084 || n == 40040 || n == 40096 || n == 40100 || n == 40101 || n == 40102 || n == 40103;
     }
 
     private static boolean isDestinationCommand(int n) {
-        return n == 2124152832 || n == 1151074304 || n == 1134297088 || n == 1167851520 || n == 1201405952 || n == -1768161280 || n == 1234960384 || n == -1935933440 || n == -2120482816 || n == 2090598400 || n == 2107375616 || n == 1385955328 || n == 1402732544 || n == -2019819520 || n == -2103705600 || n == -2036596736 || n == -1986265088 || n == -2086928384 || n == 2040266752 || n == 2023489536 || n == -1852047360 || n == -1717829632 || n == -1701052416 || n == -1684275200 || n == -1667497984 || n == -1432616960 || n == -1415839744 || n == -1650720768 || n == -1633943552 || n == -1617166336 || n == -1315176448;
+        return n == 40062 || n == 40004 || n == 40003 || n == 40005 || n == 40007 || n == 40086 || n == 40009 || n == 40076 || n == 40065 || n == 40060 || n == 40061 || n == 40018 || n == 40019 || n == 40071 || n == 40066 || n == 40070 || n == 40073 || n == 40067 || n == 40057 || n == 40056 || n == 40081 || n == 40089 || n == 40090 || n == 40091 || n == 40092 || n == 40106 || n == 40107 || n == 40093 || n == 40094 || n == 40095 || n == 40113;
     }
 
     private static boolean isRouteCommand(int n) {
-        return n == 2140930048 || n == 1335623680 || n == -1902379008 || n == 1100742656 || n == -1969487872 || n == 1302069248 || n == 1956380672 || n == -1818492928 || n == -1952710656 || n == -1784938496;
+        return n == 40063 || n == 40015 || n == 40078 || n == 40001 || n == 40074 || n == 40013 || n == 40052 || n == 40083 || n == 40075 || n == 40085;
     }
 
     private static boolean isSpellingCommand(int n) {
-        return n == 1251737600 || n == 1268514816;
+        return n == 40010 || n == 40011;
     }
 
     private static boolean isListCommand(int n) {
-        return n == 1553727488 || n == 1520173056 || n == 1973157888;
+        return n == 40028 || n == 40026 || n == 40053;
     }
 
-    @Override
     public void sessionEnded() {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#sessionEnded: Resetting models!");
+        this.lc.log(10000000, "NaviSDSHandlerImpl#sessionEnded: Resetting models!");
         this.setSDSAddressInputMode((byte)0);
         this.setPickListMode((byte)-1);
         SDSModelAccess.setNaviDestinationTypeModel(-1);
@@ -997,14 +973,12 @@ AppInfoKrServiceListener {
         this.oneshotHandler = null;
     }
 
-    @Override
     public boolean isListLineDataGetActive() {
         return SDSUtils.getActiveSystemCall() instanceof NaviListLineDataGetCommand;
     }
 
-    @Override
     public void sdsListLineDataGet(int n, int n2) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#sdsListLineDataGet: modelID=%1, absLine=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#sdsListLineDataGet: modelID=%1, absLine=%2", (long)n, (long)n2);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand == null) {
             this.lc.log(10000, "NaviSDSHandlerImpl#sdsListLineDataGet: No active command!");
@@ -1018,17 +992,16 @@ AppInfoKrServiceListener {
         }
     }
 
-    @Override
     public void responseVDECapabilities(int n, VDECapabilities vDECapabilities, String string) {
         AbstractSystemCallCommand abstractSystemCallCommand;
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#responseVDECapabilities: result=%1, capabilities=%2, sdsLanguage=%3", (Object)Integer.toString(n), (Object)vDECapabilities, (Object)string);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#responseVDECapabilities: result=%1, capabilities=%2, sdsLanguage=%3", (Object)Integer.toString(n), (Object)vDECapabilities, (Object)string);
         if (this.handleSUIModel(vDECapabilities, string)) {
             this.reloadSUIVDERelatedGrammars();
         }
         boolean bl = vDECapabilities == null ? false : vDECapabilities.flexVDE;
         String[] stringArray = vDECapabilities == null ? new String[]{} : vDECapabilities.getFlexVDELanguage();
         String string2 = vDECapabilities == null ? "" : vDECapabilities.countryAbbreviation;
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#responseVDECapabilities: trufflesForCountry=%1, trufflesLangCodes=%2, trufflesCountryAbbreviation=%3!", bl, (Object)stringArray, (Object)string2);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#responseVDECapabilities: trufflesForCountry=%1, trufflesLangCodes=%2, trufflesCountryAbbreviation=%3!", bl, (Object)stringArray, (Object)string2);
         boolean bl2 = bl && SDSUtils.contains(string, stringArray);
         boolean bl3 = !string2.equals(this.currentTrufflesCountryAbbreviation);
         SDSModelAccess.setNaviTrufflesAvailable(bl2);
@@ -1039,32 +1012,30 @@ AppInfoKrServiceListener {
             this.currentTrufflesCountryAbbreviation = string2;
         }
         if ((abstractSystemCallCommand = SDSUtils.getActiveSystemCall()) instanceof NaviInputModeCheckCommand) {
-            this.lc.log(-2137614336, "NaviSDSHandlerImpl#responseVDECapabilities: Active command is NaviInputModeCheckCommand!");
+            this.lc.log(10000000, "NaviSDSHandlerImpl#responseVDECapabilities: Active command is NaviInputModeCheckCommand!");
             ((NaviInputModeCheckCommand)abstractSystemCallCommand).sdsInputModeCheckResult(n == 0 ? (byte)0 : 1, vDECapabilities, string);
         }
     }
 
-    @Override
     public void responseDeleteLastTrufflesSearchText(int n, NBestList nBestList) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#responseDeleteLastTrufflesSearchText: replyCode=%2, results=%1!", (Object)nBestList, (long)n);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#responseDeleteLastTrufflesSearchText: replyCode=%2, results=%1!", (Object)nBestList, (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof NaviTrufflesCorrectionCommand) {
             ((NaviTrufflesCorrectionCommand)abstractSystemCallCommand).responseDeleteLastTrufflesSearchText(n, nBestList);
         } else {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#responseDeleteLastTrufflesSearchText: Active command is not NaviTrufflesCorrectionCommand but %1!", (Object)abstractSystemCallCommand);
+            this.lc.log(100000, "NaviSDSHandlerImpl#responseDeleteLastTrufflesSearchText: Active command is not NaviTrufflesCorrectionCommand but %1!", (Object)abstractSystemCallCommand);
         }
     }
 
-    @Override
     public void responseClearTrufflesSearchHistory(int n) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#responseClearTrufflesSearchHistory: replyCode=%1!", (long)n);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#responseClearTrufflesSearchHistory: replyCode=%1!", (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof NaviTrufflesCorrectionCommand) {
             ((NaviTrufflesCorrectionCommand)abstractSystemCallCommand).responseClearTrufflesSearchHistory(n);
         } else if (abstractSystemCallCommand instanceof NaviTrufflesEndCommand) {
             ((NaviTrufflesEndCommand)abstractSystemCallCommand).responseClearTrufflesSearchHistory(n);
         } else {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#responseClearTrufflesSearchHistory: Active command is neiter NaviTrufflesCorrection nor NaviTrufflesEnd but %1!", (Object)abstractSystemCallCommand);
+            this.lc.log(100000, "NaviSDSHandlerImpl#responseClearTrufflesSearchHistory: Active command is neiter NaviTrufflesCorrection nor NaviTrufflesEnd but %1!", (Object)abstractSystemCallCommand);
         }
     }
 
@@ -1078,24 +1049,23 @@ AppInfoKrServiceListener {
             return false;
         }
         if (vDECapabilities == null) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#handleSUIModel: Empty capabilities, setting model to false!");
+            this.lc.log(100000, "NaviSDSHandlerImpl#handleSUIModel: Empty capabilities, setting model to false!");
             SDSModelAccess.setDestinationCountrySystemLanguage(false);
             return false;
         }
         boolean bl = SDSUtils.contains(string, vDECapabilities.getGrammarLanguage());
         boolean bl2 = vDECapabilities.oneShot;
         boolean bl3 = bl && bl2;
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#handleSUIModel: containsSDSLanguage=%1, oneShotAvailable=%2!", bl, bl2);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#handleSUIModel: containsSDSLanguage=%1, oneShotAvailable=%2!", bl, bl2);
         SDSModelAccess.setDestinationCountrySystemLanguage(bl3);
         return bl3;
     }
 
-    @Override
     public void reloadSUIVDERelatedGrammars() {
         int n;
         int[] nArray = SDSManagerBaseActivator.getMapping().getSUIGrammars(1);
         int[] nArray2 = SDSManagerBaseActivator.getMapping().getSUIGrammars(4);
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#reloadSUIVDERelatedGrammars: Reloading suiVDERuleIDs %1 and suiPOICityRuleIDs %2!", (Object)nArray, (Object)nArray2);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#reloadSUIVDERelatedGrammars: Reloading suiVDERuleIDs %1 and suiPOICityRuleIDs %2!", (Object)nArray, (Object)nArray2);
         ITTSASRContext iTTSASRContext = this.ttsASR.createGrammarContext();
         if (!SDSUtils.isEmpty(nArray)) {
             for (n = 0; n < nArray.length; ++n) {
@@ -1110,10 +1080,9 @@ AppInfoKrServiceListener {
         this.ttsASR.reloadGrammarContext(iTTSASRContext);
     }
 
-    @Override
     public void reloadTruffleVDERelatedGrammars() {
         int[] nArray = SDSManagerBaseActivator.getMapping().getTruffleGrammars(1);
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#reloadTruffleVDERelatedGrammars: Reloading truffleVDERuleIDs %1!", (Object)nArray);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#reloadTruffleVDERelatedGrammars: Reloading truffleVDERuleIDs %1!", (Object)nArray);
         ITTSASRContext iTTSASRContext = this.ttsASR.createGrammarContext();
         if (!SDSUtils.isEmpty(nArray)) {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -1123,106 +1092,95 @@ AppInfoKrServiceListener {
         this.ttsASR.reloadGrammarContext(iTTSASRContext);
     }
 
-    @Override
     public void setSDSAddressInputMode(byte by) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#setSDSAddressInputMode: value=%1", (long)by);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#setSDSAddressInputMode: value=%1", (long)by);
         this.addressInputMode = by;
     }
 
-    @Override
     public synchronized void setSpeechDSIStatus(boolean bl) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#setSpeechDSIStatus: ready=%1, currentCountryAbbreviation=%2", bl, (Object)this.currentCountryAbbreviation);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#setSpeechDSIStatus: ready=%1, currentCountryAbbreviation=%2", bl, (Object)this.currentCountryAbbreviation);
         if (!bl || SDSUtils.isEmpty(this.currentCountryAbbreviation)) {
-            this.lc.log(-2137614336, "NaviSDSHandlerImpl#setSpeechDSIStatus: Speech DSI not ready or currentCountryAbbreviation empty => NOP!");
+            this.lc.log(10000000, "NaviSDSHandlerImpl#setSpeechDSIStatus: Speech DSI not ready or currentCountryAbbreviation empty => NOP!");
             return;
         }
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#setSpeechDSIStatus: Requesting VDE capabilities with countryAbbreviation %1!", (Object)this.currentCountryAbbreviation);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#setSpeechDSIStatus: Requesting VDE capabilities with countryAbbreviation %1!", (Object)this.currentCountryAbbreviation);
         this.srHandler.requestVDECapabilities(this.currentCountryAbbreviation);
         this.currentCountryAbbreviation = "";
     }
 
-    @Override
     public NaviServiceListener getNaviServiceListener() {
         return this.naviServiceListener;
     }
 
-    @Override
     public NaviSDSPOIOnlineServiceListener getPOIOnlineServiceListener() {
         return this.poiOnlineServiceListener;
     }
 
-    @Override
     public synchronized void updateDestinationCountryCode(String string, String string2) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#updateDestinationCountryCode: country=%1, countryAbbreviation=%2", (Object)string, (Object)string2);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#updateDestinationCountryCode: country=%1, countryAbbreviation=%2", (Object)string, (Object)string2);
         SDSModelAccess.setNaviCurrentCountryLabel(string);
         if (!this.srHandler.requestVDECapabilities(string2)) {
-            this.lc.log(-2137614336, "NaviSDSHandlerImpl#updateDestinationCountryCode: VDE capabilities NOT requested, overwriting currentCountryAbbreviation %1!", (Object)this.currentCountryAbbreviation);
+            this.lc.log(10000000, "NaviSDSHandlerImpl#updateDestinationCountryCode: VDE capabilities NOT requested, overwriting currentCountryAbbreviation %1!", (Object)this.currentCountryAbbreviation);
             this.currentCountryAbbreviation = string2;
             return;
         }
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#updateDestinationCountryCode: Erasing currentCountryAbbreviation!");
+        this.lc.log(10000000, "NaviSDSHandlerImpl#updateDestinationCountryCode: Erasing currentCountryAbbreviation!");
         this.currentCountryAbbreviation = "";
     }
 
-    @Override
     public synchronized void updateDestinationStateCode(String string, String string2) {
     }
 
-    @Override
     public byte getSDSAddressInputMode() {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#getSDSAddressInputMode: addressInputMode=%1", (long)this.addressInputMode);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#getSDSAddressInputMode: addressInputMode=%1", (long)this.addressInputMode);
         return this.addressInputMode;
     }
 
     private void clearOneshotData(byte by) {
         for (byte by2 = by; by2 <= 3; by2 = (byte)(by2 + 1)) {
-            this.setOneshotData(new NaviService$OneshotData("", ""), by2);
+            this.setOneshotData(new NaviService.OneshotData("", ""), by2);
         }
     }
 
-    @Override
-    public NaviService$OneshotData getOneshotData(byte by) {
+    public NaviService.OneshotData getOneshotData(byte by) {
         if (this.oneshotHandler == null) {
             return this.oneshotData[by];
         }
         return this.oneshotHandler.getOneshotData(by);
     }
 
-    @Override
-    public void setOneshotData(NaviService$OneshotData naviService$OneshotData, byte by) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#setOneshotData: data=%1, level=%2", (Object)naviService$OneshotData, (long)by);
-        this.oneshotData[by] = naviService$OneshotData;
+    public void setOneshotData(NaviService.OneshotData oneshotData, byte by) {
+        this.lc.log(10000000, "NaviSDSHandlerImpl#setOneshotData: data=%1, level=%2", (Object)oneshotData, (long)by);
+        this.oneshotData[by] = oneshotData;
     }
 
-    @Override
     public boolean setOneshotData(int n) {
         IPicklist iPicklist = this.nBestStorage.getMatchingPicklist((byte)0);
         if (iPicklist == null) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#setOneshotData: Empty picklist!");
+            this.lc.log(100000, "NaviSDSHandlerImpl#setOneshotData: Empty picklist!");
             return false;
         }
         for (byte by = 0; by < 4; by = (byte)(by + 1)) {
             IPicklistSlot iPicklistSlot = iPicklist.getSlot(n, by);
-            this.lc.log(-2137614336, "NaviSDSHandlerImpl#setOneshotData: Slot #%2=%1!", (Object)iPicklistSlot, (long)by);
+            this.lc.log(10000000, "NaviSDSHandlerImpl#setOneshotData: Slot #%2=%1!", (Object)iPicklistSlot, (long)by);
             if (iPicklistSlot == null) {
-                this.lc.log(-2137614336, "NaviSDSHandlerImpl#setOneshotData: Empty slot %1!", (long)by);
-                this.setOneshotData(new NaviService$OneshotData("", "", -1L), by);
+                this.lc.log(10000000, "NaviSDSHandlerImpl#setOneshotData: Empty slot %1!", (long)by);
+                this.setOneshotData(new NaviService.OneshotData("", "", -1L), by);
                 continue;
             }
-            this.setOneshotData(new NaviService$OneshotData(iPicklistSlot.getText(), iPicklistSlot.getObjectStringID(), iPicklistSlot.getObjID()), by);
+            this.setOneshotData(new NaviService.OneshotData(iPicklistSlot.getText(), iPicklistSlot.getObjectStringID(), iPicklistSlot.getObjID()), by);
         }
         return true;
     }
 
-    @Override
     public void storeUniqueOneshotData(byte by, byte by2, int n, int n2, int n3) {
         switch (by) {
             case 0: {
                 if (n < n2 || n > n3) {
-                    this.lc.log(-1601830656, "NaviSDSHandlerImpl#storeUniqueOneshotData: Illegal listMode %1 for RECOG_EMPTY!", (long)n);
+                    this.lc.log(100000, "NaviSDSHandlerImpl#storeUniqueOneshotData: Illegal listMode %1 for RECOG_EMPTY!", (long)n);
                     return;
                 }
-                this.lc.log(-2137614336, "NaviSDSHandlerImpl#storeUniqueOneshotData: Clearing oneshot data from listMode %1 for RECOG_EMPTY!", (long)n);
+                this.lc.log(10000000, "NaviSDSHandlerImpl#storeUniqueOneshotData: Clearing oneshot data from listMode %1 for RECOG_EMPTY!", (long)n);
                 this.clearOneshotData(by2);
                 break;
             }
@@ -1231,8 +1189,8 @@ AppInfoKrServiceListener {
                 String string = iPicklistSlot != null ? iPicklistSlot.getText() : "";
                 long l = iPicklistSlot != null ? iPicklistSlot.getObjID() : -1L;
                 String string2 = iPicklistSlot != null ? iPicklistSlot.getObjectStringID() : "";
-                this.lc.log(-2137614336, "NaviSDSHandlerImpl#storeUniqueOneshotData: Requested level %3: %1 (%2)", (Object)string, (Object)string2, (long)(by2 + 1));
-                this.setOneshotData(new NaviService$OneshotData(string, string2, l), by2);
+                this.lc.log(10000000, "NaviSDSHandlerImpl#storeUniqueOneshotData: Requested level %3: %1 (%2)", (Object)string, (Object)string2, (long)(by2 + 1));
+                this.setOneshotData(new NaviService.OneshotData(string, string2, l), by2);
                 SDSModelAccess.setSlotModel(by2 + 1, string);
                 SDSModelAccess.setSlotModelStringID(by2 + 1, string2);
                 SDSModelAccess.setListLineDataGetModel(string);
@@ -1240,22 +1198,21 @@ AppInfoKrServiceListener {
             }
             case 2: 
             case 3: {
-                this.lc.log(-2137614336, "NaviSDSHandlerImpl#storeUniqueOneshotData: Multiple entries found => NOP!");
+                this.lc.log(10000000, "NaviSDSHandlerImpl#storeUniqueOneshotData: Multiple entries found => NOP!");
                 break;
             }
             default: {
-                this.lc.log(-1601830656, "NaviSDSHandlerImpl#storeUniqueOneshotData: Unhandled nextPicklistSizeType %1!", (long)by);
+                this.lc.log(100000, "NaviSDSHandlerImpl#storeUniqueOneshotData: Unhandled nextPicklistSizeType %1!", (long)by);
             }
         }
     }
 
-    @Override
     public byte getNextPicklistSizeType(byte by, boolean bl) {
         String[] stringArray;
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#getNextPicklistSizeType: column=%1", (long)by);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#getNextPicklistSizeType: column=%1", (long)by);
         IPicklist iPicklist = this.getInitialEntryPicklist();
         if (SDSUtils.isEmpty(iPicklist)) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#getNextPicklistSizeType: Empty entryPicklist!");
+            this.lc.log(100000, "NaviSDSHandlerImpl#getNextPicklistSizeType: Empty entryPicklist!");
             return 0;
         }
         String[] stringArray2 = stringArray = bl ? this.getOneshotFilterStrings(by) : new String[]{};
@@ -1267,37 +1224,36 @@ AppInfoKrServiceListener {
         return SDSUtils.getPicklistSizeConstant(iPicklist2.getSize());
     }
 
-    @Override
     public String[] getOneshotFilterStrings(byte by) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#getOneshotFilterStrings: column=%1", (long)by);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#getOneshotFilterStrings: column=%1", (long)by);
         String[] stringArray = null;
-        NaviService$OneshotData naviService$OneshotData = null;
-        NaviService$OneshotData naviService$OneshotData2 = null;
-        NaviService$OneshotData naviService$OneshotData3 = null;
+        NaviService.OneshotData oneshotData = null;
+        NaviService.OneshotData oneshotData2 = null;
+        NaviService.OneshotData oneshotData3 = null;
         switch (by) {
             case 0: {
                 stringArray = new String[]{};
                 break;
             }
             case 1: {
-                naviService$OneshotData = this.getOneshotData((byte)0);
-                if (naviService$OneshotData == null) break;
-                stringArray = new String[]{naviService$OneshotData.getText()};
+                oneshotData = this.getOneshotData((byte)0);
+                if (oneshotData == null) break;
+                stringArray = new String[]{oneshotData.getText()};
                 break;
             }
             case 2: {
-                naviService$OneshotData = this.getOneshotData((byte)0);
-                naviService$OneshotData2 = this.getOneshotData((byte)1);
-                if (naviService$OneshotData == null || naviService$OneshotData2 == null) break;
-                stringArray = new String[]{naviService$OneshotData.getText(), naviService$OneshotData2.getText()};
+                oneshotData = this.getOneshotData((byte)0);
+                oneshotData2 = this.getOneshotData((byte)1);
+                if (oneshotData == null || oneshotData2 == null) break;
+                stringArray = new String[]{oneshotData.getText(), oneshotData2.getText()};
                 break;
             }
             case 3: {
-                naviService$OneshotData = this.getOneshotData((byte)0);
-                naviService$OneshotData2 = this.getOneshotData((byte)1);
-                naviService$OneshotData3 = this.getOneshotData((byte)2);
-                if (naviService$OneshotData == null || naviService$OneshotData2 == null || naviService$OneshotData3 == null) break;
-                stringArray = new String[]{naviService$OneshotData.getText(), naviService$OneshotData2.getText(), naviService$OneshotData3.getText()};
+                oneshotData = this.getOneshotData((byte)0);
+                oneshotData2 = this.getOneshotData((byte)1);
+                oneshotData3 = this.getOneshotData((byte)2);
+                if (oneshotData == null || oneshotData2 == null || oneshotData3 == null) break;
+                stringArray = new String[]{oneshotData.getText(), oneshotData2.getText(), oneshotData3.getText()};
                 break;
             }
         }
@@ -1307,49 +1263,42 @@ AppInfoKrServiceListener {
         return stringArray;
     }
 
-    @Override
     public void markCurrentPOIUsedFor(byte by) {
-        this.lc.log(-2137614336, "[NaviSDSHandlerImpl#markCurrentPOIUsedFor] type=%1", (long)by);
+        this.lc.log(10000000, "[NaviSDSHandlerImpl#markCurrentPOIUsedFor] type=%1", (long)by);
         this.poiOnlineService.markCurrentPOIUsedFor(by);
     }
 
-    @Override
     public byte poiOnlineVoiceDataAvailable() {
         int n = this.sdsHandlerService.getFramework().isCn() ? 1 : 2;
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#poiOnlineVoiceDataAvailable: called - audioFormat:%1", (long)n);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#poiOnlineVoiceDataAvailable: called - audioFormat:%1", (long)n);
         byte by = this.poiOnlineService.poiOnlineVoiceDataAvailable("/tmp/speech-online.pcm", n);
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#poiOnlineVoiceDataAvailable: replyCode=%1!", (long)by);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#poiOnlineVoiceDataAvailable: replyCode=%1!", (long)by);
         return by;
     }
 
-    @Override
     public boolean usesAltRouteCalc() {
         return this.useAltRouteCalc;
     }
 
-    @Override
     public void setUseAltRouteCalc(boolean bl) {
         this.useAltRouteCalc = bl;
     }
 
-    @Override
     public byte getPickListMode() {
         return this.pickListMode;
     }
 
-    @Override
     public void setPickListMode(byte by) {
-        this.lc.log(-2137614336, "[NaviSDSHandlerImpl#setPickListMode] value=%1", (long)by);
+        this.lc.log(10000000, "[NaviSDSHandlerImpl#setPickListMode] value=%1", (long)by);
         this.pickListMode = by;
     }
 
-    @Override
     public IPicklist getEntryPicklist() {
         return this.entryPicklist;
     }
 
     public void setEntryPicklist(IPicklist iPicklist) {
-        this.lc.log(-2137614336, "[NaviSDSHandlerImpl#setEntryPicklist] picklist=%1", (Object)iPicklist);
+        this.lc.log(10000000, "[NaviSDSHandlerImpl#setEntryPicklist] picklist=%1", (Object)iPicklist);
         this.entryPicklist = iPicklist;
     }
 
@@ -1369,122 +1318,113 @@ AppInfoKrServiceListener {
         this.pickListEntryNames = stringArray;
     }
 
-    @Override
     public void setSuggestions(boolean bl) {
         this.poiOnlineServiceListener.setSuggestions(bl);
     }
 
-    @Override
     public String getLastDestination(long l) {
         if (SDSUtils.isEmpty(this.lastDestinations)) {
             return "";
         }
-        for (SDSListEntry sDSListEntry : this.lastDestinations) {
+        int n = this.lastDestinations.length;
+        for (int i2 = 0; i2 < n; ++i2) {
+            SDSListEntry sDSListEntry = this.lastDestinations[i2];
             if (sDSListEntry == null || sDSListEntry.getId() != l) continue;
             return sDSListEntry.getName();
         }
         return "";
     }
 
-    @Override
     public String getFavoriteDestination(long l) {
         if (SDSUtils.isEmpty(this.favoriteDestinations)) {
             return "";
         }
-        for (SDSListEntry sDSListEntry : this.favoriteDestinations) {
+        int n = this.favoriteDestinations.length;
+        for (int i2 = 0; i2 < n; ++i2) {
+            SDSListEntry sDSListEntry = this.favoriteDestinations[i2];
             if (sDSListEntry == null || sDSListEntry.getId() != l) continue;
             return sDSListEntry.getName();
         }
         return "";
     }
 
-    @Override
     public String getLastDestinationByIndex(int n) {
         if (n < 0 || n >= this.lastDestinations.length) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#getLastDestinationByIndex: Unhandled index %1!", (long)n);
+            this.lc.log(100000, "NaviSDSHandlerImpl#getLastDestinationByIndex: Unhandled index %1!", (long)n);
             return "";
         }
         return this.lastDestinations[n].getName();
     }
 
-    @Override
     public String getFavoriteDestinationByIndex(int n) {
         if (n < 0 || n >= this.favoriteDestinations.length) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#getFavoriteDestinationByIndex: Unhandled index %1!", (long)n);
+            this.lc.log(100000, "NaviSDSHandlerImpl#getFavoriteDestinationByIndex: Unhandled index %1!", (long)n);
             return "";
         }
         return this.favoriteDestinations[n].getName();
     }
 
-    @Override
     public void setLastDestinations(SDSListEntry[] sDSListEntryArray) {
         this.lastDestinations = sDSListEntryArray;
     }
 
-    @Override
     public void setFavoriteDestinations(SDSListEntry[] sDSListEntryArray) {
         this.favoriteDestinations = sDSListEntryArray;
     }
 
-    @Override
     public boolean initializeEntryPicklist() {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#initializeEntryPicklist()!");
+        this.lc.log(10000000, "NaviSDSHandlerImpl#initializeEntryPicklist()!");
         this.initialEntryPicklist = this.nBestStorage.getMatchingPicklist((byte)2);
         if (SDSUtils.isEmpty(this.initialEntryPicklist)) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#initializeEntryPicklist: Empty nBestPicklist for multislot, returning false!");
+            this.lc.log(100000, "NaviSDSHandlerImpl#initializeEntryPicklist: Empty nBestPicklist for multislot, returning false!");
             return false;
         }
         return true;
     }
 
-    @Override
     public void storeMyAudiContact(AdbEntry adbEntry) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#storeMyAudiContact()!");
+        this.lc.log(10000000, "NaviSDSHandlerImpl#storeMyAudiContact()!");
         this.currentMyAudiContact = adbEntry;
     }
 
-    @Override
     public SDSListEntry getMyAudiContactById(long l) {
         if (SDSUtils.isEmpty(this.myAudiContacts)) {
             return null;
         }
-        for (SDSListEntry sDSListEntry : this.myAudiContacts) {
+        int n = this.myAudiContacts.length;
+        for (int i2 = 0; i2 < n; ++i2) {
+            SDSListEntry sDSListEntry = this.myAudiContacts[i2];
             if (sDSListEntry == null || sDSListEntry.getId() != l) continue;
             return sDSListEntry;
         }
         return null;
     }
 
-    @Override
     public SDSListEntry getMyAudiContactByIndex(int n) {
         if (n < 0 || n >= this.myAudiContacts.length) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#getMyAudiContactByIndex: Unhandled index %1!", (long)n);
+            this.lc.log(100000, "NaviSDSHandlerImpl#getMyAudiContactByIndex: Unhandled index %1!", (long)n);
             return null;
         }
         return this.myAudiContacts[n];
     }
 
-    @Override
     public AdbEntry getCurrentMyAudiContact() {
         return this.currentMyAudiContact;
     }
 
-    @Override
     public void setTTSASR(ITTSASR iTTSASR) {
         this.ttsASR = iTTSASR;
     }
 
-    @Override
     public void updateRemainingRange(int n, int n2, int n3) {
         int n4 = n == 2 ? 1 : 0;
         SDSModelAccess.setNaviRangeValue(n2, n4);
         SDSModelAccess.setNaviRangeScaleUnit(n3);
     }
 
-    @Override
     public void onEnterGoogleMapPopup(int n) {
         int n2 = n == 0 ? 0 : 1;
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#onEnterGoogleMapPopup: popupType=%1, cachedData=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#onEnterGoogleMapPopup: popupType=%1, cachedData=%2", (long)n, (long)n2);
         SDSModelAccess.setNaviGoogleMapAvailableModel(n2);
     }
 
@@ -1492,90 +1432,84 @@ AppInfoKrServiceListener {
         return "NaviSDSHandlerImpl";
     }
 
-    @Override
     public void setPoiOnlineDestination(NavLocation navLocation) {
         this.poiOnlineDestination = navLocation;
     }
 
-    @Override
     public NavLocation getPoiOnlineDestination() {
         return this.poiOnlineDestination;
     }
 
-    @Override
     public void startCallcenterCallBySDSResult(int n) {
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand == null) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#startCallcenterCallBySDSResult: no active command is available");
+            this.lc.log(100000, "NaviSDSHandlerImpl#startCallcenterCallBySDSResult: no active command is available");
             return;
         }
         try {
             ((NaviOperatorcallCommand)abstractSystemCallCommand).startCallcenterCallBySDSResult(n);
         }
         catch (ClassCastException classCastException) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#startCallcenterCallBySDSResult: active command is not of type NaviOperatorcallCommand");
+            this.lc.log(100000, "NaviSDSHandlerImpl#startCallcenterCallBySDSResult: active command is not of type NaviOperatorcallCommand");
         }
     }
 
-    @Override
     public boolean storePOILineData(int n) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#storePOILineData: absLine=%1", (long)n);
-        NaviService$POISDSListEntry naviService$POISDSListEntry = null;
+        this.lc.log(10000000, "NaviSDSHandlerImpl#storePOILineData: absLine=%1", (long)n);
+        NaviService.POISDSListEntry pOISDSListEntry = null;
         try {
-            naviService$POISDSListEntry = this.naviService.getPOIEntryDetails(n, (byte)1);
+            pOISDSListEntry = this.naviService.getPOIEntryDetails(n, (byte)1);
         }
         catch (Exception exception) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#storePOILineData: Exception (%1) in Navi for getPOIEntryDetails and line %2!", (Object)exception.getMessage(), (long)n);
+            this.lc.log(100000, "NaviSDSHandlerImpl#storePOILineData: Exception (%1) in Navi for getPOIEntryDetails and line %2!", (Object)exception.getMessage(), (long)n);
             return false;
         }
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#storePOILineData: selectedElement=%1", (Object)naviService$POISDSListEntry);
-        if (naviService$POISDSListEntry == null) {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#storePOILineData: empty selected element!");
+        this.lc.log(10000000, "NaviSDSHandlerImpl#storePOILineData: selectedElement=%1", (Object)pOISDSListEntry);
+        if (pOISDSListEntry == null) {
+            this.lc.log(100000, "NaviSDSHandlerImpl#storePOILineData: empty selected element!");
             return false;
         }
-        SDSModelAccess.setListLineDataGetModel(naviService$POISDSListEntry.getName());
+        SDSModelAccess.setListLineDataGetModel(pOISDSListEntry.getName());
         return true;
     }
 
-    @Override
     public boolean storePOIPickList(IPicklist iPicklist) {
         SDSListEntry[] sDSListEntryArray = SDSUtils.createSDSListFromPicklist(iPicklist);
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#showPOIPickListHelper: entries=%1!", (Object)sDSListEntryArray);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#showPOIPickListHelper: entries=%1!", (Object)sDSListEntryArray);
         SDSModelAccess.setDisambiguationLabel(sDSListEntryArray);
         return this.naviService.fillPOIPickList(sDSListEntryArray) == 0;
     }
 
-    @Override
     public boolean storeSUIData(IPicklistElement iPicklistElement, boolean bl) {
-        this.lc.log(-2137614336, "%1#storeSUIData: element=%2", (Object)NaviSDSHandlerImpl.getName(), (Object)iPicklistElement);
+        this.lc.log(10000000, "%1#storeSUIData: element=%2", (Object)NaviSDSHandlerImpl.getName(), (Object)iPicklistElement);
         int n = iPicklistElement.getRuleID();
         int n2 = SDSManagerBaseActivator.getMapping().getSUITypeForRule(n);
-        this.lc.log(-2137614336, "%1#storeSUIData: ruleID=%2, suiMappingType=%3!", (Object)NaviSDSHandlerImpl.getName(), (long)n, (long)n2);
+        this.lc.log(10000000, "%1#storeSUIData: ruleID=%2, suiMappingType=%3!", (Object)NaviSDSHandlerImpl.getName(), (long)n, (long)n2);
         Object[] objectArray = iPicklistElement.getSlots();
         if (SDSUtils.isEmpty(objectArray)) {
-            this.lc.log(-1601830656, "%1#storeSUIData: Empty slots!", (Object)NaviSDSHandlerImpl.getName());
+            this.lc.log(100000, "%1#storeSUIData: Empty slots!", (Object)NaviSDSHandlerImpl.getName());
             return false;
         }
         switch (n2) {
             case 2: {
                 Object object = objectArray[0];
                 if (object == null) {
-                    this.lc.log(-1601830656, "%1#storeSUIData: Empty first slot!", (Object)NaviSDSHandlerImpl.getName());
+                    this.lc.log(100000, "%1#storeSUIData: Empty first slot!", (Object)NaviSDSHandlerImpl.getName());
                     return false;
                 }
                 long l = object.getObjID();
-                this.lc.log(-2137614336, "%1#storeSUIData: Setting objID %2 in ADB!", (Object)NaviSDSHandlerImpl.getName(), l);
+                this.lc.log(10000000, "%1#storeSUIData: Setting objID %2 in ADB!", (Object)NaviSDSHandlerImpl.getName(), l);
                 this.factory.getSDSHandlerADB().setSelectedEntryID(l);
                 break;
             }
             case 4: {
-                this.lc.log(-2137614336, "%1#storeSUIData: Handling POI_CITY!");
+                this.lc.log(10000000, "%1#storeSUIData: Handling POI_CITY!");
                 this.handleVDE((IPicklistSlot[])objectArray);
                 break;
             }
             case 1: {
                 if (bl) {
-                    this.lc.log(-2137614336, "%1#storeSUIData: Handling VDE!", (Object)NaviSDSHandlerImpl.getName());
+                    this.lc.log(10000000, "%1#storeSUIData: Handling VDE!", (Object)NaviSDSHandlerImpl.getName());
                     this.storeOneshotSUIData(0, (IPicklistSlot[])objectArray);
                     break;
                 }
@@ -1583,7 +1517,7 @@ AppInfoKrServiceListener {
                 break;
             }
             default: {
-                this.lc.log(-2137614336, "%1#storeSUIData: Unhandled suiMappingType %2!", (Object)NaviSDSHandlerImpl.getName(), (long)n2);
+                this.lc.log(10000000, "%1#storeSUIData: Unhandled suiMappingType %2!", (Object)NaviSDSHandlerImpl.getName(), (long)n2);
             }
         }
         return true;
@@ -1596,8 +1530,8 @@ AppInfoKrServiceListener {
             String string = iPicklistSlot == null ? "" : iPicklistSlot.getText();
             String string2 = iPicklistSlot == null ? "" : iPicklistSlot.getObjectStringID();
             long l = iPicklistSlot == null ? -1L : iPicklistSlot.getObjID();
-            this.lc.log(-2137614336, "%1#storeSUIData: slotText[%4]=%2, slotStringID[%4]=%3!", (Object)NaviSDSHandlerImpl.getName(), (Object)string, (Object)string2, (long)by2);
-            this.setOneshotData(new NaviService$OneshotData(string, string2, l), by2);
+            this.lc.log(10000000, "%1#storeSUIData: slotText[%4]=%2, slotStringID[%4]=%3!", (Object)NaviSDSHandlerImpl.getName(), (Object)string, (Object)string2, (long)by2);
+            this.setOneshotData(new NaviService.OneshotData(string, string2, l), by2);
         }
     }
 
@@ -1612,94 +1546,80 @@ AppInfoKrServiceListener {
         return "NaviSDSHandlerImpl";
     }
 
-    @Override
     public OneshotHandler initializeOneshotHandler(int n) {
-        this.lc.log(-2137614336, "%1#initializeOneshotHandler: usecase=%2", (Object)NaviSDSHandlerImpl.getName(), (long)n);
+        this.lc.log(10000000, "%1#initializeOneshotHandler: usecase=%2", (Object)NaviSDSHandlerImpl.getName(), (long)n);
         this.oneshotHandler = (NaviOneshotHandler)this.oneshotHandlerFactory.initializeUsecase(n, this.nBestStorage.getMatchingPicklist((byte)2));
         return this.oneshotHandler;
     }
 
-    @Override
     public NaviOneshotHandler getOneshotHandler() {
         return this.oneshotHandler;
     }
 
-    @Override
     public void setLDCHandling(byte by) {
         this.ldcHandling = by;
     }
 
-    @Override
     public void updateVDEMediumState(int n) {
         SDSModelAccess.setNavVDEMediumState(n);
     }
 
-    @Override
     public void setSpokenHouseNumberUnresolved(IPicklistSlot iPicklistSlot) {
-        this.lc.log(-2137614336, "%1#setSpokenHouseNumberUnresolved: storing house number : %2", (Object)NaviSDSHandlerImpl.getName(), (Object)iPicklistSlot);
+        this.lc.log(10000000, "%1#setSpokenHouseNumberUnresolved: storing house number : %2", (Object)NaviSDSHandlerImpl.getName(), (Object)iPicklistSlot);
         this.houseNumberSlot = iPicklistSlot;
         SDSModelAccess.setOneshotHouseNRLabel(iPicklistSlot.getText());
     }
 
-    @Override
     public IPicklistSlot getSpokenHouseNumberUnresolved() {
         return this.houseNumberSlot;
     }
 
-    @Override
     public void setAppInfoKrService(AppInfoKrService appInfoKrService) {
         if (appInfoKrService != null) {
             this.appInfoKrService = appInfoKrService;
         }
     }
 
-    @Override
     public void unsetAppInfoKrService() {
         this.appInfoKrService = new NullAppInfoKrService(this.lc);
     }
 
-    @Override
     public void responseShowSimpleMap(int n) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#responseShowSimpleMap: replyCode=%1!", (long)n);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#responseShowSimpleMap: replyCode=%1!", (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof NaviSimpleMapAreaSetCommand) {
             ((NaviSimpleMapAreaSetCommand)abstractSystemCallCommand).responseSimpleMapAreaSet(n);
         } else {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#responseShowSimpleMap: Active command is not NaviSimpleMapAreaSetCommand but %1!", (Object)abstractSystemCallCommand);
+            this.lc.log(100000, "NaviSDSHandlerImpl#responseShowSimpleMap: Active command is not NaviSimpleMapAreaSetCommand but %1!", (Object)abstractSystemCallCommand);
         }
     }
 
-    @Override
     public void responseStartSimpleMapFreeSelection(int n) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#responseStartSimpleMapFreeSelection: result=%1!", (long)n);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#responseStartSimpleMapFreeSelection: result=%1!", (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof NaviSimpleMapFreeSelectionInitCommand) {
             ((NaviSimpleMapFreeSelectionInitCommand)abstractSystemCallCommand).responseStartSimpleMapFreeSelection(n);
         } else {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#responseStartSimpleMapFreeSelection: Active command is not NaviSimpleMapFreeSelectionInitCommand but %1!", (Object)abstractSystemCallCommand);
+            this.lc.log(100000, "NaviSDSHandlerImpl#responseStartSimpleMapFreeSelection: Active command is not NaviSimpleMapFreeSelectionInitCommand but %1!", (Object)abstractSystemCallCommand);
         }
     }
 
-    @Override
     public void setAIFCountry(boolean bl) {
         this.aifCountryFlag = bl;
     }
 
-    @Override
     public boolean getAIFCountry() {
         return this.aifCountryFlag;
     }
 
-    @Override
     public NaviSDSPOIOnlineService getPOIOnlineService() {
         return this.poiOnlineService;
     }
 
-    @Override
     public void updateSpeakableSimpleMaps(SDSListEntry[] sDSListEntryArray) {
-        this.lc.log(-2137614336, "[NaviSDSHandlerImpl#updateSpeakableSimpleMaps] called");
+        this.lc.log(10000000, "[NaviSDSHandlerImpl#updateSpeakableSimpleMaps] called");
         if (sDSListEntryArray == null || sDSListEntryArray.length == 0) {
-            this.lc.log(-1601830656, "[NaviSDSHandlerImpl#updateSpeakableStationList] Empty entries!");
+            this.lc.log(100000, "[NaviSDSHandlerImpl#updateSpeakableStationList] Empty entries!");
             this.dynamicLists.removeFromLookup(56);
             return;
         }
@@ -1710,9 +1630,9 @@ AppInfoKrServiceListener {
 
     private void updateSlotGrammars(int n) {
         int n2 = SDSManagerBaseActivator.getMapping().getHMISlotGrammar(n);
-        this.lc.log(-2137614336, "[NaviSDSHandlerImpl#updateSlotGrammars] slotMappingID=%1, slotID=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "[NaviSDSHandlerImpl#updateSlotGrammars] slotMappingID=%1, slotID=%2", (long)n, (long)n2);
         if (!this.dynamicLists.contains(n2)) {
-            this.lc.log(-1601830656, "[NaviSDSHandlerImpl#updateSlotGrammars] No slot entries available!");
+            this.lc.log(100000, "[NaviSDSHandlerImpl#updateSlotGrammars] No slot entries available!");
             return;
         }
         ITTSASRContext iTTSASRContext = this.ttsASR.createGrammarContext();
@@ -1720,14 +1640,13 @@ AppInfoKrServiceListener {
         this.ttsASR.setSlotGrammarContext(iTTSASRContext);
     }
 
-    @Override
     public void responseRefreshSpeakableSimpleMaps(int n) {
-        this.lc.log(-2137614336, "NaviSDSHandlerImpl#responseRefreshSpeakableSimpleMaps: result=%1!", (long)n);
+        this.lc.log(10000000, "NaviSDSHandlerImpl#responseRefreshSpeakableSimpleMaps: result=%1!", (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof NaviSimpleMapAreaSetCommand) {
             ((NaviSimpleMapAreaSetCommand)abstractSystemCallCommand).responseRefreshSpeakableSimpleMaps(n);
         } else {
-            this.lc.log(-1601830656, "NaviSDSHandlerImpl#responseRefreshSpeakableSimpleMaps: Active command is not NaviSimpleMapAreaSetCommand but %1!", (Object)abstractSystemCallCommand);
+            this.lc.log(100000, "NaviSDSHandlerImpl#responseRefreshSpeakableSimpleMaps: Active command is not NaviSimpleMapAreaSetCommand but %1!", (Object)abstractSystemCallCommand);
         }
     }
 }

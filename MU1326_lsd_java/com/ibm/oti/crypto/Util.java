@@ -21,7 +21,7 @@ public final class Util {
         return byArray2;
     }
 
-    static byte[] unpadPKCS5(byte[] byArray) {
+    static byte[] unpadPKCS5(byte[] byArray) throws IOException {
         int n = byArray.length;
         byte by = byArray[n - 1];
         if (by < 1 || by > n) {
@@ -47,7 +47,7 @@ public final class Util {
         return byArray2;
     }
 
-    static byte[] unpadTLS10(byte[] byArray) {
+    static byte[] unpadTLS10(byte[] byArray) throws IOException {
         int n = byArray[byArray.length - 1] + 1;
         if (n < 1 || n > 256) {
             throw new IOException(Msg.getString("K01f7"));
@@ -60,7 +60,7 @@ public final class Util {
         return byArray2;
     }
 
-    static byte[] padSSL(byte[] byArray, int n, int n2, int n3) {
+    static byte[] padSSL(byte[] byArray, int n, int n2, int n3) throws IOException {
         byte[] byArray2 = new byte[n3];
         int n4 = n3 - n2;
         if (n2 > 0) {
@@ -75,7 +75,7 @@ public final class Util {
         return byArray2;
     }
 
-    static byte[] unpadSSL(byte[] byArray) {
+    static byte[] unpadSSL(byte[] byArray) throws IOException {
         int n = byArray[byArray.length - 1] + 1;
         if (n < 1 || n > byArray.length) {
             throw new IOException(Msg.getString("K01f7"));

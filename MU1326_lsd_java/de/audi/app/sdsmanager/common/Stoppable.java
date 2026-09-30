@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.common;
 
 public interface Stoppable {
-    default public void stop() {
-    }
+    public void stop();
 }
 

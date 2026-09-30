@@ -6,8 +6,6 @@ package de.audi.app.navi.evo.di.nar.listeners;
 import de.audi.app.navi.evo.addressinput.RemoteHmiCityHistoryListRow;
 import de.audi.app.navi.evo.di.DIScreensEvo;
 import de.audi.app.navi.evo.di.nar.listeners.AbstractAddressInputListenerNAR;
-import de.audi.app.navi.evo.di.nar.listeners.AddressInputMainScreenListenerNAR$1;
-import de.audi.app.navi.evo.di.nar.listeners.AddressInputMainScreenListenerNAR$2;
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.hmi.model.SpellerListener;
 import de.audi.atip.hmi.model.list.BaseListModelListener;
@@ -23,6 +21,8 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.ReturnNavLocationToPOIOnlineSearchSequence;
 import de.audi.tghu.navi.app.addressinput.commands.GetLastCityHistoryEntryCommand;
+import de.audi.tghu.navi.app.addressinput.commands.LISetCurrentLDCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputMainScreenListener;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.nospeller.AddressInputMainScreenSequence;
@@ -73,32 +73,26 @@ MenuModelListener {
         this.initListeners();
     }
 
-    @Override
     public CommandList getStartCommandList() {
         return this.inputSequence.getStartCommandList();
     }
 
-    @Override
     public CommandList getStartCommandList(String string) {
         return this.getStartCommandList();
     }
 
-    @Override
     public CommandList getStartCommandList(NavLocation navLocation) {
         return this.inputSequence.getStartCommandList(navLocation);
     }
 
-    @Override
     public CommandList getStartCommandListForOnline() {
         return this.inputSequence.getStartCommandList(null, true);
     }
 
-    @Override
     public CommandList getStartCommandListForOnline(NavLocation navLocation) {
         return this.inputSequence.getStartCommandList(navLocation, true);
     }
 
-    @Override
     protected void initListeners() {
         this.env.getTextfieldModel(COUNTRY_TEXT_FIELD_MODEL_ID).setButtonListener(this);
         this.env.getTextfieldModel(CITY_ZIP_TEXT_FIELD_MODEL_ID).setButtonListener(this);
@@ -122,9 +116,8 @@ MenuModelListener {
         this.env.getMenuModel(MENU_MODEL_ID).setListener(this);
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(-2137614336, "%1#itemFocused (menu model) menuItemID=%2, model=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#itemFocused (menu model) menuItemID=%2, model=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         NavLocation navLocation = this.env.getContainer().getLiCurrentLD();
         if (this.previousLocation == null || this.inputSequence.isNdfEnteredForTheFirstTime() || this.previousLocation.longitude != navLocation.longitude || this.previousLocation.latitude != navLocation.latitude) {
             CommandList commandList = this.commandListFactory.createCommandList();
@@ -134,57 +127,70 @@ MenuModelListener {
             } else {
                 commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, false, 1, null, null));
             }
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#itemFocused update preview map").toString());
+            commandList.execute(this.CLASS_NAME + "#itemFocused update preview map");
         }
     }
 
-    @Override
-    public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "%1#itemSelected model=%2, row=%3", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)evoListRow);
+    public void itemSelected(EvoListRow evoListRow, final int n, int n2, int n3, final int n4) {
+        this.logChannel.log(10000000, "%1#itemSelected model=%2, row=%3", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)evoListRow);
         if (n == ONLINE_SEARCH_AREA_BASE_LIST_MODEL_ID) {
             if (evoListRow instanceof RemoteHmiCityHistoryListRow) {
                 RemoteHmiCityHistoryListRow remoteHmiCityHistoryListRow = (RemoteHmiCityHistoryListRow)evoListRow;
                 CommandList commandList = this.commandListFactory.createCommandList();
                 commandList.add(new GetLastCityHistoryEntryCommand(remoteHmiCityHistoryListRow.getHistoryElement()));
-                commandList.add(new AddressInputMainScreenListenerNAR$1(this, new StringBuffer().append(this.CLASS_NAME).append("#itemSelected").toString()));
+                commandList.add(new NavCommand(this.CLASS_NAME + "#itemSelected"){
+
+                    public void execute() {
+                        Object object = this.getCommandList().get("NavLocation from History");
+                        if (object instanceof NavLocation) {
+                            this.getCommandList().commandFinishedWithPostCommand(new LISetCurrentLDCommand((NavLocation)object));
+                        } else {
+                            this.getCommandList().commandAborted("unexpected Object");
+                        }
+                    }
+                });
                 ReturnNavLocationToPOIOnlineSearchSequence returnNavLocationToPOIOnlineSearchSequence = new ReturnNavLocationToPOIOnlineSearchSequence(this.commandListFactory);
                 commandList.add(returnNavLocationToPOIOnlineSearchSequence.getStartCommandList());
-                commandList.add(new AddressInputMainScreenListenerNAR$2(this, "delay fire model event", n, n4));
-                commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#itemSelected").toString());
+                commandList.add(new NavCommand("delay fire model event"){
+
+                    public void execute() {
+                        this.env.fireModelEvent(n, n4);
+                        this.getCommandList().commandFinished();
+                    }
+                });
+                commandList.execute(this.CLASS_NAME + "#itemSelected");
             } else {
-                this.logChannel.log(-1601830656, "%1#itemSelected - row is no instance of RemoteHmiCityHistoryListRow. This would cause a class cast exception.", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000, "%1#itemSelected - row is no instance of RemoteHmiCityHistoryListRow. This would cause a class cast exception.", (Object)this.CLASS_NAME);
             }
         }
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.logChannel.log(-2137614336, "%1#textChanged - model=%2, text=%3, latestChar=%4", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string, (long)c2);
+        this.logChannel.log(10000000, "%1#textChanged - model=%2, text=%3, latestChar=%4", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string, (long)c2);
         if (n == COUNTRY_DIRECT_WRITING_SPELLER_MODEL_ID) {
-            this.logChannel.log(-2137614336, "%1#textChanged - starting country speller", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#textChanged - starting country speller", (Object)this.CLASS_NAME);
             this.clearSpellerModel(COUNTRY_DIRECT_WRITING_SPELLER_MODEL_ID);
             this.inputManager.executeAddressInputEvent(this.inputSequence.getStartCountryCommandList(c2), 30009);
         } else if (n == CITY_ZIP_DIRECT_WRITING_SPELLER_MODEL_ID) {
-            this.logChannel.log(-2137614336, "%1#textChanged - starting city zip speller", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#textChanged - starting city zip speller", (Object)this.CLASS_NAME);
             this.clearSpellerModel(CITY_ZIP_DIRECT_WRITING_SPELLER_MODEL_ID);
             this.inputManager.executeAddressInputEvent(this.inputSequence.getStartCityZipCommandList(c2), 30010);
         } else if (n == STREET_DIRECT_WRITING_SPELLER_MODEL_ID) {
-            this.logChannel.log(-2137614336, "%1#textChanged - starting street speller", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#textChanged - starting street speller", (Object)this.CLASS_NAME);
             this.clearSpellerModel(STREET_DIRECT_WRITING_SPELLER_MODEL_ID);
             this.inputManager.executeAddressInputEvent(this.inputSequence.getStartStreetCommandList(c2), 30011);
         } else if (n == HOUSENUMBER_DIRECT_WRITING_SPELLER_MODEL_ID) {
-            this.logChannel.log(-2137614336, "%1#textChanged - starting housenumber speller", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#textChanged - starting housenumber speller", (Object)this.CLASS_NAME);
             this.clearSpellerModel(HOUSENUMBER_DIRECT_WRITING_SPELLER_MODEL_ID);
             this.inputManager.executeAddressInputEvent(this.inputSequence.getStartHouseNumberCommandList(c2), 30012);
         } else {
-            this.logChannel.log(-2137614336, "%1#textChanged - unsupported model id (%2)", (Object)this.CLASS_NAME, (long)n);
+            this.logChannel.log(10000000, "%1#textChanged - unsupported model id (%2)", (Object)this.CLASS_NAME, (long)n);
         }
         this.env.fireModelEvent(n, n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#keyTyped modelID=%2, keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#keyTyped modelID=%2, keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         if (n == DEST_OPT_METHODS_BUTTON_ID) {
             this.inputManager.start(this.adbInterAppService.getAddressbookDestination());
             if (this.inputModeManager.getInputMode() == 1) {
@@ -218,45 +224,36 @@ MenuModelListener {
         } else if (n == ADD_INTERSECTION_BUTTON_MODEL_ID) {
             this.inputManager.executeAddressInputEvent(this.inputSequence.getStartJunctionCommandList(), 30006);
         } else {
-            this.logChannel.log(-2137614336, "%1#keyTyped - no valid case for modelId=%2 keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+            this.logChannel.log(10000000, "%1#keyTyped - no valid case for modelId=%2 keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         }
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void resetPreviousLocation() {
         this.previousLocation = null;
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 }

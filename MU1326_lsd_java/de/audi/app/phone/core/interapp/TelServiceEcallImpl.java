@@ -6,10 +6,10 @@ package de.audi.app.phone.core.interapp;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceProvider;
-import de.audi.app.phone.core.interapp.TelServiceEcallImpl$1;
+import de.audi.app.phone.core.dsi.TelDefaultDSIResponseListener;
+import de.audi.app.phone.core.event.AbstractTelInterappEvent;
 import de.audi.atip.interapp.phone.ITelServiceEcall;
 import de.audi.atip.interapp.phone.ITelServiceEcallListener;
-import de.audi.atip.log.LogChannel;
 
 public class TelServiceEcallImpl
 extends AbstractPhoneComponent
@@ -22,21 +22,29 @@ implements ITelServiceEcall {
         this.phoneServiceProvider = new PhoneServiceProvider((class$de$audi$atip$interapp$phone$ITelServiceEcall == null ? (class$de$audi$atip$interapp$phone$ITelServiceEcall = TelServiceEcallImpl.class$("de.audi.atip.interapp.phone.ITelServiceEcall")) : class$de$audi$atip$interapp$phone$ITelServiceEcall).getName(), this, null, this.getApplication().getBundleContext(), this.log);
     }
 
-    @Override
     public void init() {
         super.init();
         this.phoneServiceProvider.startService();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.phoneServiceProvider.stopService();
     }
 
-    @Override
-    public void hangupAllCalls(ITelServiceEcallListener iTelServiceEcallListener) {
-        this.getApplication().enqueueEvent(new TelServiceEcallImpl$1(this, "TelServiceEcallImpl#hangupAllCalls", iTelServiceEcallListener));
+    public void hangupAllCalls(final ITelServiceEcallListener iTelServiceEcallListener) {
+        this.getApplication().enqueueEvent(new AbstractTelInterappEvent("TelServiceEcallImpl#hangupAllCalls"){
+
+            public void run() {
+                TelServiceEcallImpl.this.log.log(10000000, "TelServiceEcallImpl#hangupAllCalls(): called.");
+                TelServiceEcallImpl.this.getApplication().getTelephoneDSIAccess().hangupCall(255, 0, false, new TelDefaultDSIResponseListener(){
+
+                    public void responseHangupCall(int n, int n2) {
+                        iTelServiceEcallListener.responseHangupAllCalls(n);
+                    }
+                });
+            }
+        });
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -46,14 +54,6 @@ implements ITelServiceEcall {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(TelServiceEcallImpl telServiceEcallImpl) {
-        return telServiceEcallImpl.log;
-    }
-
-    static /* synthetic */ ITelApplication access$200(TelServiceEcallImpl telServiceEcallImpl) {
-        return telServiceEcallImpl.getApplication();
     }
 }
 

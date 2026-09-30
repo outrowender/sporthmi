@@ -10,9 +10,9 @@ public class OPSSegment {
     private final int maxDistance;
     private final ChoiceModelApp distanceModel;
     private final int segmentID;
-    public static final int HIDDEN_SEGMENT_ID;
-    public static final int WHITE_HIGHLIGHTING;
-    public static final int RED_HIGHLIGHTING;
+    public static final int HIDDEN_SEGMENT_ID = 0;
+    public static final int WHITE_HIGHLIGHTING = 0;
+    public static final int RED_HIGHLIGHTING = 1;
     private boolean hiddenStatus = false;
 
     public OPSSegment(int n, int n2, ChoiceModelApp choiceModelApp, int n3) {

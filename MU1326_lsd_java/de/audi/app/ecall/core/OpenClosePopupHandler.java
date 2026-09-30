@@ -39,14 +39,12 @@ IContextStateListener {
         this.strategyTypeStrategyMap.add(1, popupKeyConsuptionStrategy3);
     }
 
-    @Override
     public void deinit() {
         this.strategyTypeStrategyMap.clear();
     }
 
-    @Override
     public void showScreen(int n) {
-        this.log.log(-2137614336, "OpenClosePopupHandler#showScreen(): show ScreenId: %1 ", (long)n);
+        this.log.log(10000000, "OpenClosePopupHandler#showScreen(): show ScreenId: %1 ", (long)n);
         EcallUtil.logStructFieldForDbg(this.log, class$de$audi$app$ecall$core$bap$EcallScreenNames == null ? (class$de$audi$app$ecall$core$bap$EcallScreenNames = OpenClosePopupHandler.class$("de.audi.app.ecall.core.bap.EcallScreenNames")) : class$de$audi$app$ecall$core$bap$EcallScreenNames, n);
         this.setValueForEcallPopupChoiceModel(n);
         this.resolveEcallPopupShowing(n);
@@ -59,16 +57,14 @@ IContextStateListener {
         }
     }
 
-    @Override
     public void activateEcallSession() {
-        this.log.log(-2137614336, "OpenClosePopupHandler#activateEcallSession(): called");
+        this.log.log(10000000, "OpenClosePopupHandler#activateEcallSession(): called");
         this.isEcallActive = true;
         this.getChoiceModel(4371).setValue(1);
     }
 
-    @Override
     public void disactivateEcallSession() {
-        this.log.log(-2137614336, "OpenClosePopupHandler#disactivateEcallSession(): called");
+        this.log.log(10000000, "OpenClosePopupHandler#disactivateEcallSession(): called");
         this.getChoiceModel(4371).setValue(0);
         this.isEcallActive = false;
         this.wasFirstShowingOutsidePhoneContext = false;
@@ -78,7 +74,7 @@ IContextStateListener {
     }
 
     protected void showEcallPopup() {
-        this.log.log(-2137614336, "OpenClosePopupHandler#showEcallPopup(): isEcallActive: %1", this.isEcallActive);
+        this.log.log(10000000, "OpenClosePopupHandler#showEcallPopup(): isEcallActive: %1", this.isEcallActive);
         if (this.isEcallActive) {
             this.getHmiServiceApp().showPopup(this.SCREENS_POPUP_ID);
             this.setPopupConsumptionStrategy(this.getStrategyTypeForScreen(this.currentScreen));
@@ -87,11 +83,11 @@ IContextStateListener {
 
     protected void setValueForEcallPopupChoiceModel(int n) {
         this.currentScreen = n;
-        this.getHmiServiceApp().getChoiceModel(-1504038400).setValue(n);
+        this.getHmiServiceApp().getChoiceModel(3300006).setValue(n);
     }
 
     protected void setPopupConsumptionStrategy(int n) {
-        this.log.log(-2137614336, "OpenClosePopupHandler#setPopupConsumptionStrategy(): strategyType=%1", (long)n);
+        this.log.log(10000000, "OpenClosePopupHandler#setPopupConsumptionStrategy(): strategyType=%1", (long)n);
         this.getHmiServiceApp().setPopupKeyConsuptionStrategy(this.getPopupConsumptionStrategy(n));
     }
 
@@ -111,16 +107,14 @@ IContextStateListener {
         return (IPopupKeyConsuptionStrategy)this.strategyTypeStrategyMap.get(n);
     }
 
-    @Override
     public void onContextLeft() {
-        this.log.log(-2137614336, "OpenClosePopupHandler#onContextLeft (actionProxyCallPerformed): context left");
+        this.log.log(10000000, "OpenClosePopupHandler#onContextLeft (actionProxyCallPerformed): context left");
         this.isInContext = false;
         this.setPopupConsumptionStrategy(1);
     }
 
-    @Override
     public void onContextEntered() {
-        this.log.log(-2137614336, "OpenClosePopupHandler#onContextEntered (actionProxyCallPerformed): context entered");
+        this.log.log(10000000, "OpenClosePopupHandler#onContextEntered (actionProxyCallPerformed): context entered");
         this.isInContext = true;
         this.showEcallPopup();
     }
@@ -132,6 +126,20 @@ IContextStateListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
+    }
+
+    private static class ConnectedGatewayState {
+        private static final int INACTIVE = 0;
+        private static final int ACTIVE = 1;
+
+        private ConnectedGatewayState() {
+        }
+    }
+
+    public static class ConsumptionStrategyType {
+        public static final int UNBLOCKED = 1;
+        public static final int BLOCKED = 2;
+        public static final int BLOCKED_FOR_HK_TEL = 3;
     }
 }
 

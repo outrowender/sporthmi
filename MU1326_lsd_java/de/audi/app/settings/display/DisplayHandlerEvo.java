@@ -13,17 +13,14 @@ extends AbstractDisplayHandler {
         super(settingsEnv, kombiBrightnessHandler);
     }
 
-    @Override
     protected int modelValueToBrightnessValue(int n) {
         return n;
     }
 
-    @Override
     protected int brightnessValueToModelValue(int n) {
         return n;
     }
 
-    @Override
     protected void initBrightnessConstants() {
         this.rangeBrightnessMin = 0;
         this.rangeBrightnessMax = 100;

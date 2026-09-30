@@ -15,7 +15,6 @@ extends MenuModelHandlerAdapter {
         menuModelApp.setListener(this);
     }
 
-    @Override
     public void updateOnItemFocused(int n) {
         if (this.getBusiness() != null) {
             this.getMenuModelBusiness().processItemFocused(n, (MenuModelHandler)this);

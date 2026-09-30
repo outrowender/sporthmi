@@ -23,11 +23,11 @@ implements IReadable {
         while (iterator.hasNext()) {
             Object object = iterator.next();
             if (!(object instanceof String)) {
-                throw new IllegalArgumentException(new StringBuffer().append("List element is not a string: ").append(object).toString());
+                throw new IllegalArgumentException("List element is not a string: " + object);
             }
             String string = (String)object;
             if (Strings.isNullOrEmpty(string)) {
-                throw new IllegalArgumentException(new StringBuffer().append("List element is null or the empty string: ").append(string).toString());
+                throw new IllegalArgumentException("List element is null or the empty string: " + string);
             }
             arrayList.add(string);
         }
@@ -48,12 +48,10 @@ implements IReadable {
         this.speakTaskIterator = Arrays.asList(new String[]{string, string2}).iterator();
     }
 
-    @Override
     public boolean hasNextSpeakTask() {
         return this.speakTaskIterator.hasNext();
     }
 
-    @Override
     public String nextSpeakTask() {
         return (String)this.speakTaskIterator.next();
     }

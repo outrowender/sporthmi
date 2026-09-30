@@ -7,16 +7,12 @@ import de.audi.atip.interapp.combi.bap.CombiBAPServiceListener;
 
 public interface PartialPopupBAPServiceListener
 extends CombiBAPServiceListener {
-    default public void notifyPartialPopupVisible() {
-    }
+    public void notifyPartialPopupVisible();
 
-    default public void notifyPartialPopupHidden() {
-    }
+    public void notifyPartialPopupHidden();
 
-    default public void optionSelected(int n, int n2) {
-    }
+    public void optionSelected(int var1, int var2);
 
-    default public void cancelPopup(int n) {
-    }
+    public void cancelPopup(int var1);
 }
 

@@ -4,15 +4,14 @@
 package de.audi.atip.interapp.combi.bap.audio.data;
 
 import de.audi.atip.interapp.bap.data.TimeStamp;
-import de.audi.atip.interapp.combi.bap.audio.data.PlayPosition$Builder;
 
 public final class PlayPosition {
     private final TimeStamp timePosition;
     private final TimeStamp totalPlayTime;
     private final boolean isVariableBitRate;
 
-    public static PlayPosition$Builder builder() {
-        return new PlayPosition$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private PlayPosition(TimeStamp timeStamp, TimeStamp timeStamp2, boolean bl) {
@@ -40,7 +39,7 @@ public final class PlayPosition {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         PlayPosition playPosition = (PlayPosition)object;
@@ -63,6 +62,31 @@ public final class PlayPosition {
 
     public String toString() {
         return new StringBuffer().append("PlayPosition [timePosition=").append(this.timePosition).append(", totalPlayTime=").append(this.totalPlayTime).append(", isVariableBitRate=").append(this.isVariableBitRate).append("]").toString();
+    }
+
+    public static final class Builder {
+        private TimeStamp timePosition;
+        private TimeStamp totalPlayTime;
+        private boolean isVariableBitRate;
+
+        public Builder setTimePosition(TimeStamp timeStamp) {
+            this.timePosition = timeStamp;
+            return this;
+        }
+
+        public Builder setTotalPlayTime(TimeStamp timeStamp) {
+            this.totalPlayTime = timeStamp;
+            return this;
+        }
+
+        public Builder setVariableBitRate(boolean bl) {
+            this.isVariableBitRate = bl;
+            return this;
+        }
+
+        public PlayPosition build() {
+            return new PlayPosition(this.timePosition, this.totalPlayTime, this.isVariableBitRate);
+        }
     }
 }
 

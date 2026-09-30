@@ -7,7 +7,6 @@ import de.audi.app.navi.evo.addressinput.AddressInputFormOnlineModelAccess;
 import de.audi.app.navi.evo.addressinput.housenumber.HousenumberMatchspellerInputModelAccess;
 import de.audi.app.navi.evo.di.AbstractAddressInputManagerEvo;
 import de.audi.app.navi.evo.di.DIScreensEvo;
-import de.audi.app.navi.evo.di.kr.AddressInputManagerKR$1;
 import de.audi.app.navi.evo.di.kr.listener.AddressInputCityScreenListenerKR;
 import de.audi.app.navi.evo.di.kr.listener.AddressInputMainScreenListenerKR;
 import de.audi.app.navi.evo.di.kr.listener.AddressInputNumberScreenListenerKR;
@@ -34,9 +33,11 @@ import de.audi.tghu.navi.app.HomeAddressHandler;
 import de.audi.tghu.navi.app.LocationSerializer;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.adb.NaviADBHandler;
+import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.addressinput.IAddressInputFormModelAccessHelper;
 import de.audi.tghu.navi.app.addressinput.commands.UpdateAddressInputFormScreenModelsCommand;
 import de.audi.tghu.navi.app.addressinput.poi.commands.LIRestoreStateCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputMainScreenListener;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.IAddressInputWorkFlowManager;
@@ -50,7 +51,6 @@ import de.audi.tghu.navi.app.di.sequences.nospeller.AddressInputMainScreenSequen
 import de.audi.tghu.navi.app.favorite.INaviFavoriteHandler;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import de.audi.tghu.navi.app.li.SpellerStack;
-import de.audi.tghu.navi.app.li.SpellerStack$StackElement;
 import de.audi.tghu.navi.app.map.MapInterface;
 import de.audi.tghu.navi.app.navlocationextractor.AsyncNavLocationExtractor;
 import de.audi.tghu.navi.app.routeguidance.IRouteManager;
@@ -61,7 +61,7 @@ import org.dsi.ifc.global.NavLocation;
 
 public class AddressInputManagerKR
 extends AbstractAddressInputManagerEvo {
-    private static final int DESTINATION_TYPE_FOR_CCP_LOCATION_STRIPPING;
+    private static final int DESTINATION_TYPE_FOR_CCP_LOCATION_STRIPPING = 23;
     private AddressInputMainScreenListenerKR mainScreenListener;
     private AddressInputRightDrawerListenerKR rightDrawerListener;
     private AddressInputProvinceScreenListenerKR provinceScreenListener;
@@ -77,7 +77,6 @@ extends AbstractAddressInputManagerEvo {
         this.provinceNationwideSelectedChoice = navigationEnv.getChoiceModel(DIScreensEvo.getDiKrProvinceNationwideButtonSelectedChoiceModel());
     }
 
-    @Override
     protected void initListeners() {
         this.mainScreenListener = this.initMainScreenListener();
         this.rightDrawerListener = this.initRightDrawerListener();
@@ -89,75 +88,86 @@ extends AbstractAddressInputManagerEvo {
         this.numberScreenListener = this.initNumberScreenListener();
     }
 
-    @Override
     public void start(NavLocation navLocation) {
         if (!this.addressInputCommandListMonitor.isActive()) {
-            this.logChannel.log(-2137614336, "%1#start with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.logChannel.log(10000000, "%1#start with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
             CommandList commandList = this.commandListFactory.createCommandList();
             commandList.addMonitor(this.addressInputCommandListMonitor);
             this.mainScreenListener.resetPreviousLocation();
             if (navLocation != null) {
-                this.logChannel.log(-2137614336, "%1#start() with navLocation: %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+                this.logChannel.log(10000000, "%1#start() with navLocation: %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
                 commandList.put("startMainScreenNavLocation", navLocation);
             } else {
-                this.logChannel.log(-2137614336, "%1#start() with CCP", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#start() with CCP", (Object)this.CLASS_NAME);
                 this.addStripLocationForCcpCommands(commandList, 23);
             }
             this.enterSearchAreaFromPoiContext();
-            this.executeAddressInputEvent(commandList, 1285292032);
+            this.executeAddressInputEvent(commandList, 40012);
         } else {
-            this.logChannel.log(-2137614336, "%1#start - the command list to start address input is still running - ignoring further calls.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#start - the command list to start address input is still running - ignoring further calls.", (Object)this.CLASS_NAME);
         }
     }
 
-    @Override
     public void startWithoutStrip(NavLocation navLocation) {
         this.start(navLocation);
     }
 
-    @Override
     public void startForRemoteHMI() {
-        this.logChannel.log(-2137614336, "%1#startForRemoteHMI", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#startForRemoteHMI", (Object)this.CLASS_NAME);
         this.enterSearchAreaFromRemoteHmi();
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addStripLocationForCcpCommands(commandList, 23);
         this.startForRemoteHMI(commandList);
     }
 
-    @Override
     public void startForOnline() {
-        this.logChannel.log(-2137614336, "%1#startForOnline", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#startForOnline", (Object)this.CLASS_NAME);
         this.enterSearchAreaFromOnlinePoiContext();
         CommandList commandList = this.commandListFactory.createCommandList();
         this.addStripLocationForCcpCommands(commandList, 23);
         this.startForOnline(commandList);
     }
 
-    @Override
     public void addAddressToFavorites(NavLocation navLocation) {
         this.naviFavoriteHandler.addToFavorites(navLocation);
     }
 
-    @Override
     public void destAddressInputHKReturn(int n, int n2, Command command, Command command2) {
-        this.logChannel.log(-2137614336, "%1#destAddressInputHKReturn called with removeHandler=%2", (Object)this.CLASS_NAME, (long)n2);
-        SpellerStack$StackElement spellerStack$StackElement = null;
+        this.logChannel.log(10000000, "%1#destAddressInputHKReturn called with removeHandler=%2", (Object)this.CLASS_NAME, (long)n2);
+        SpellerStack.StackElement stackElement = null;
         switch (n2) {
             default: 
         }
-        spellerStack$StackElement = this.spellerStack.pop();
-        if (spellerStack$StackElement != null) {
-            this.logChannel.log(-2137614336, "%1#destAddressInputHKReturn element popped from speller stack=%2", (Object)this.CLASS_NAME, (Object)spellerStack$StackElement);
+        stackElement = this.spellerStack.pop();
+        if (stackElement != null) {
+            this.logChannel.log(10000000, "%1#destAddressInputHKReturn element popped from speller stack=%2", (Object)this.CLASS_NAME, (Object)stackElement);
             CommandList commandList = this.commandListFactory.createCommandList();
-            commandList.add(new LIRestoreStateCommand(spellerStack$StackElement));
+            commandList.add(new LIRestoreStateCommand(stackElement));
             NavLocation navLocation = this.env.getContainer().getLiCurrentLD();
             IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessor(navLocation);
-            String string = iMyLocationAccessor.getState();
-            String string2 = iMyLocationAccessor.getTown();
-            String string3 = iMyLocationAccessor.getSubmunicipalTown();
-            String string4 = iMyLocationAccessor.getStreet();
-            this.logChannel.log(-2137614336, "%1#destAddressInputHKReturn with liCurrentLD = %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
-            commandList.add(new AddressInputManagerKR$1(this, new StringBuffer().append(this.CLASS_NAME).append("#destAddressInputHKReturn - Show or Hide Preview Map").toString(), string, string2, string3, string4));
+            final String string = iMyLocationAccessor.getState();
+            final String string2 = iMyLocationAccessor.getTown();
+            final String string3 = iMyLocationAccessor.getSubmunicipalTown();
+            final String string4 = iMyLocationAccessor.getStreet();
+            this.logChannel.log(10000000, "%1#destAddressInputHKReturn with liCurrentLD = %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+            commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#destAddressInputHKReturn - Show or Hide Preview Map").toString()){
+
+                public void execute() {
+                    if (!Util.isEmpty(string)) {
+                        boolean bl = false;
+                        if (!Util.isEmpty(string2) && Util.isEmpty(string3) && Util.isEmpty(string4)) {
+                            bl = true;
+                        }
+                        this.getCommandList().commandFinishedWithPostCommand(new CmdNaviPreviewMapUpdate(AddressInputManagerKR.this.previewMap, bl, 1, null, null));
+                    } else if (AddressInputManagerKR.this.provinceNationwideSelectedChoice.getValue() == 1) {
+                        AddressInputManagerKR.this.previewMap.setPreviewAreaAroundCCP(1);
+                        this.getCommandList().commandFinished();
+                    } else {
+                        AddressInputManagerKR.this.previewMap.hidePreviewMap();
+                        this.getCommandList().commandFinished();
+                    }
+                }
+            });
             if (this.env.getInputModeManager().isSdsActive()) {
                 commandList.add(new UpdateAddressInputFormScreenModelsCommand(this.modelAccessHelper));
             }
@@ -169,7 +179,7 @@ extends AbstractAddressInputManagerEvo {
             }
             commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#destAddressInputHKReturn").toString());
         } else {
-            this.logChannel.log(-1601830656, "%1#destAddressInputHKReturn - popped element from SpellerStack but element is null!", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000, "%1#destAddressInputHKReturn - popped element from SpellerStack but element is null!", (Object)this.CLASS_NAME);
         }
     }
 
@@ -246,7 +256,6 @@ extends AbstractAddressInputManagerEvo {
         return addressInputNumberScreenListenerKR;
     }
 
-    @Override
     public IAddressInputMainScreenListener getMainScreenListener() {
         return this.mainScreenListener;
     }
@@ -279,50 +288,28 @@ extends AbstractAddressInputManagerEvo {
         return this.numberScreenListener;
     }
 
-    @Override
     public int getAutoSelectLeftElementEventId() {
-        return 211615744;
+        return 40204;
     }
 
-    @Override
     public int getStreetScreenAmbiguousListElementSelecteEventId() {
-        return 949878784;
+        return 40504;
     }
 
-    @Override
     public int getStreetScreenNonAmbiguousListElementSelectedEventId() {
-        return 933101568;
+        return 40503;
     }
 
-    @Override
     public int getStartForOnlineEventId() {
-        return 1302069248;
+        return 40013;
     }
 
-    @Override
     public int getStartForRemoteHMIEventId() {
-        return 1318846464;
+        return 40014;
     }
 
-    @Override
     public int getStartCityInputFromMainScreenEventId() {
-        return 1134297088;
-    }
-
-    static /* synthetic */ IPreviewMap access$000(AddressInputManagerKR addressInputManagerKR) {
-        return addressInputManagerKR.previewMap;
-    }
-
-    static /* synthetic */ ChoiceModelApp access$100(AddressInputManagerKR addressInputManagerKR) {
-        return addressInputManagerKR.provinceNationwideSelectedChoice;
-    }
-
-    static /* synthetic */ IPreviewMap access$200(AddressInputManagerKR addressInputManagerKR) {
-        return addressInputManagerKR.previewMap;
-    }
-
-    static /* synthetic */ IPreviewMap access$300(AddressInputManagerKR addressInputManagerKR) {
-        return addressInputManagerKR.previewMap;
+        return 40003;
     }
 }
 

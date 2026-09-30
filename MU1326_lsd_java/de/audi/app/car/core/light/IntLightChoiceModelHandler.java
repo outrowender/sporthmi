@@ -17,7 +17,6 @@ extends ChoiceModelHandlerAdapter {
         super(choiceModelApp, logChannel);
     }
 
-    @Override
     public void updateOnItemSelected(int n) {
         if (this.getBusiness() != null) {
             IntLightChoiceHandlerTransactionData intLightChoiceHandlerTransactionData = new IntLightChoiceHandlerTransactionData(n, this.lastSetting);
@@ -25,7 +24,6 @@ extends ChoiceModelHandlerAdapter {
         }
     }
 
-    @Override
     public void updateChoiceModelValue(int n) {
         this.lastSetting = n;
         this.getChoiceModel().setValue(n);

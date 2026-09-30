@@ -58,14 +58,11 @@ implements MsgListener {
         this.ttsHandler = new AddressBookTTSHandler(this.log);
     }
 
-    @Override
     protected ADBDSIDefaultListener getNewADBDSIDefaultListener(LogChannel logChannel, ADBStartupHandler aDBStartupHandler, ADBApplication aDBApplication) {
         return new AddressBookDSIDefaultListener(logChannel, aDBStartupHandler, this);
     }
 
-    @Override
-    public abstract ADBOrganizerSearch getADBOrganizerSearch() {
-    }
+    public abstract ADBOrganizerSearch getADBOrganizerSearch();
 
     public NaviGateway getNaviGateway() {
         return this.naviGateway;
@@ -83,8 +80,7 @@ implements MsgListener {
         return this.userProfileUpdater;
     }
 
-    public abstract AddressBookEntryDetails getSelectedEntryDetails() {
-    }
+    public abstract AddressBookEntryDetails getSelectedEntryDetails();
 
     public AddressBookLocationInputHandler getLocationInputHandler() {
         return this.locationInputHandler;
@@ -110,23 +106,20 @@ implements MsgListener {
         this.currentLanguageCode = string;
     }
 
-    @Override
     public int getInitStartupCompleteMask() {
         return 253;
     }
 
-    @Override
     public void handleInvalidData(int n, boolean bl) {
-        this.log.log(1078071040, "AbstractAddressBookApplication#handleInvalidData(): reason: %2, reloadMainList: %1", bl, (Object)ADBDbgUtils.dbgInvalidDataReason(n));
+        this.log.log(1000000, "AbstractAddressBookApplication#handleInvalidData(): reason: %2, reloadMainList: %1", bl, (Object)ADBDbgUtils.dbgInvalidDataReason(n));
         if (bl) {
             this.getADBOrganizerSearch().startSearch();
             this.jumpToMainList();
         }
     }
 
-    @Override
     public void setAdbReady(boolean bl) {
-        this.log.log(-2137614336, "AbstractAddressBookApplication#setAdbReady(): ready: %1", bl);
+        this.log.log(10000000, "AbstractAddressBookApplication#setAdbReady(): ready: %1", bl);
         this.getHMIService().getChoiceModel(15).setValue(bl ? 1 : 0);
         this.getHMIService().getChoiceModel(15).setStatus(bl ? 1 : 0);
         if (bl) {
@@ -138,32 +131,26 @@ implements MsgListener {
         }
     }
 
-    @Override
     public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n) {
         this.userProfileUpdater.updateActiveProfileModels();
     }
 
-    @Override
     public void updateDownloadState(int n, int n2) {
         this.userProfileUpdater.updateDownloadState(n, n2);
     }
 
-    @Override
     public void updateDownloadState2ndPhone(int n, int n2) {
         this.userProfileUpdater.updateDownloadState2ndPhone(n, n2);
     }
 
-    @Override
     public void updateNewEntryAvailable(boolean bl) {
-        this.getHMIService().getChoiceModel(1219496448).setValue(bl ? 1 : 0);
+        this.getHMIService().getChoiceModel(700488).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void updateNewPublicProfileEntryAvailable(boolean bl) {
-        this.getHMIService().getChoiceModel(1236273664).setValue(bl ? 1 : 0);
+        this.getHMIService().getChoiceModel(700489).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void updateViewSizes(AdbViewSize adbViewSize) {
         this.getHMIService().getChoiceModel(13).setValue(adbViewSize.all == 0 ? 0 : 1);
         ProfileInfo profileInfo = this.getAdbStateHandler().getActiveProfileInfo();
@@ -172,40 +159,37 @@ implements MsgListener {
         this.getUserProfileUpdater().updateCapacityInfo(n, adbViewSize.publicProfileEntries);
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 30) {
-            this.log.log(1078071040, "AbstractAddressBookApplication#processMsg(): RESET_ADDRESSBOOK_SETTINGS");
+            this.log.log(1000000, "AbstractAddressBookApplication#processMsg(): RESET_ADDRESSBOOK_SETTINGS");
             ResetToFactorySettingsCommand.createResetToFactorySettingsCommand(this);
             this.vCardExchangeADBHandler.abortImport();
         } else if (n == 31) {
-            this.log.log(1078071040, "AbstractAddressBookApplication#processMsg(): RESET_ADDRESSBOOK_DELETE_ALL");
+            this.log.log(1000000, "AbstractAddressBookApplication#processMsg(): RESET_ADDRESSBOOK_DELETE_ALL");
             ResetToFactorySettingsCommand.createResetToFactorySettingsCommand(this);
             this.vCardExchangeADBHandler.abortImport();
         }
     }
 
     public HMIModelApp getListSyncModel() {
-        return this.getHMIService().getChoiceModel(1387268608);
+        return this.getHMIService().getChoiceModel(700498);
     }
 
     public void jumpToMainList() {
-        this.log.log(-2137614336, "AbstractAddressBookApplication#jumpToMainList()");
-        this.getHMIService().getChoiceModel(1253050880).setValue(this.getHMIService().getChoiceModel(1253050880).getValue() == 0 ? 1 : 0);
+        this.log.log(10000000, "AbstractAddressBookApplication#jumpToMainList()");
+        this.getHMIService().getChoiceModel(700490).setValue(this.getHMIService().getChoiceModel(700490).getValue() == 0 ? 1 : 0);
     }
 
     public void setAdbMode(int n) {
-        this.log.log(-2137614336, "AbstractAddressBookApplication#setAdbMode(): mode: %1", (Object)ADBDbgUtils.dbgAdbMode(n));
+        this.log.log(10000000, "AbstractAddressBookApplication#setAdbMode(): mode: %1", (Object)ADBDbgUtils.dbgAdbMode(n));
         this.getHMIService().getChoiceModel(17).setValue(n);
     }
 
-    @Override
     public int getAdbMode() {
         return this.getHMIService().getChoiceModel(17).getValue();
     }
 
-    public abstract void loadMainList(int n) {
-    }
+    public abstract void loadMainList(int var1);
 
     public void setBapCombiADBHandler(CombiADBHandler combiADBHandler) {
         this.bapCombiADBHandler = combiADBHandler;

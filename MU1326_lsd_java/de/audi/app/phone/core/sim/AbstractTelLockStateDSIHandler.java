@@ -1,28 +1,30 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.phone.IPhoneDiagComponent
  */
 package de.audi.app.phone.core.sim;
 
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
-import de.audi.app.phone.core.sim.AbstractTelLockStateDSIHandler$LockStateDiag;
-import de.audi.app.phone.core.sim.AbstractTelLockStateDSIHandler$TelLockStateResponseListener;
+import de.audi.app.phone.core.dsi.TelDefaultDSIResponseListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
-import de.audi.atip.log.LogChannel;
+import de.mib.swdiagnosis.phone.IPhoneDiagComponent;
 import org.dsi.ifc.telephoneng.LockStateStruct;
 
 public abstract class AbstractTelLockStateDSIHandler
 extends AbstractPhoneComponent {
-    static final int STATE_UNKNOWN;
-    static final int STATE_NO_LOCK;
-    static final int STATE_UNLOCK_IN_PROGRESS;
-    static final int STATE_PIN_REQUIRED;
-    static final int STATE_PIN_REQUIRED_WRONG_PIN_ENTERED;
-    static final int STATE_PUK_REQUIRED;
-    static final int STATE_PUK_REQUIRED_WRONG_PIN_ENTERED_PUK_REQUIRED;
-    static final int STATE_PUK_REQUIRED_WRONG_PUK_ENTERED;
-    static final int STATE_PUK_BLOCKED;
-    static final int STATE_SIM_NOT_FUNC;
+    static final int STATE_UNKNOWN = 0;
+    static final int STATE_NO_LOCK = 1;
+    static final int STATE_UNLOCK_IN_PROGRESS = 2;
+    static final int STATE_PIN_REQUIRED = 3;
+    static final int STATE_PIN_REQUIRED_WRONG_PIN_ENTERED = 4;
+    static final int STATE_PUK_REQUIRED = 5;
+    static final int STATE_PUK_REQUIRED_WRONG_PIN_ENTERED_PUK_REQUIRED = 6;
+    static final int STATE_PUK_REQUIRED_WRONG_PUK_ENTERED = 7;
+    static final int STATE_PUK_BLOCKED = 8;
+    static final int STATE_SIM_NOT_FUNC = 9;
     private volatile LockStateStruct lockStateStruct;
     private volatile boolean manualUnlockInProgress;
     private volatile int internalLockState = 0;
@@ -68,20 +70,17 @@ extends AbstractPhoneComponent {
         super(iTelApplication, "App.Phone.LockState");
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
-        this.getApplication().addDiagnosisComponent(new AbstractTelLockStateDSIHandler$LockStateDiag(this));
+        this.getApplication().addDiagnosisComponent(new LockStateDiag());
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;
         if (this.processLockStateUpdate(n, iGlobalTelephoneStateStruct)) {
@@ -90,10 +89,10 @@ extends AbstractPhoneComponent {
                 if (this.hasChanged(lockStateStruct)) {
                     this.updateLockState(lockStateStruct);
                 } else {
-                    this.log.log(1078071040, "[AbstractTelLockStateDSIHandler#updateGlobalTelephoneStateProperty] lock state has not changed, ignoring update %1", (Object)lockStateStruct);
+                    this.log.log(1000000, "[AbstractTelLockStateDSIHandler#updateGlobalTelephoneStateProperty] lock state has not changed, ignoring update %1", (Object)lockStateStruct);
                 }
             } else {
-                this.log.log(-1601830656, "[AbstractTelLockStateDSIHandler#updateGlobalTelephoneStateProperty] lock state is null --> NOP!");
+                this.log.log(100000, "[AbstractTelLockStateDSIHandler#updateGlobalTelephoneStateProperty] lock state is null --> NOP!");
             }
         }
     }
@@ -113,7 +112,7 @@ extends AbstractPhoneComponent {
     }
 
     private void setInternalLockState(int n) {
-        this.log.log(1078071040, "[AbstractTelLockStateDSIHandler#setInternalLockState] state=%1", (Object)AbstractTelLockStateDSIHandler.getStateName(n));
+        this.log.log(1000000, "[AbstractTelLockStateDSIHandler#setInternalLockState] state=%1", (Object)AbstractTelLockStateDSIHandler.getStateName(n));
         this.internalLockState = n;
     }
 
@@ -132,7 +131,7 @@ extends AbstractPhoneComponent {
             }
             case 2: {
                 if (this.manualUnlockInProgress) {
-                    this.log.log(1078071040, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_NO_LOCK but manual unlock in progress, waiting for result");
+                    this.log.log(1000000, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_NO_LOCK but manual unlock in progress, waiting for result");
                     break;
                 }
                 this.setInternalLockState(1);
@@ -141,7 +140,7 @@ extends AbstractPhoneComponent {
             }
             case 3: {
                 if (this.manualUnlockInProgress) {
-                    this.log.log(1078071040, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_PIN_REQUIRED but manual unlock in progress, waiting for result");
+                    this.log.log(1000000, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_PIN_REQUIRED but manual unlock in progress, waiting for result");
                     break;
                 }
                 this.setInternalLockState(3);
@@ -150,7 +149,7 @@ extends AbstractPhoneComponent {
             }
             case 5: {
                 if (this.manualUnlockInProgress) {
-                    this.log.log(1078071040, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_PUK_REQUIRED but manual unlock in progress, waiting for result");
+                    this.log.log(1000000, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_PUK_REQUIRED but manual unlock in progress, waiting for result");
                     break;
                 }
                 this.setInternalLockState(5);
@@ -159,7 +158,7 @@ extends AbstractPhoneComponent {
             }
             case 7: {
                 if (this.manualUnlockInProgress) {
-                    this.log.log(1078071040, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_PUK_BLOCKED, but manual unlock in progress, waiting for result");
+                    this.log.log(1000000, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_PUK_BLOCKED, but manual unlock in progress, waiting for result");
                     break;
                 }
                 this.setInternalLockState(8);
@@ -172,110 +171,139 @@ extends AbstractPhoneComponent {
                 break;
             }
             case 1: {
-                this.log.log(-2137614336, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_UNLOCK_INPR");
+                this.log.log(10000000, "[AbstractTelLockStateDSIHandler#updateLockState] LOCKSTATE_UNLOCK_INPR");
                 break;
             }
             default: {
-                this.log.log(1078071040, "PhoneLockStateHandler#updateLockState: Unhandled lockState %1 ", (long)n);
+                this.log.log(1000000, "PhoneLockStateHandler#updateLockState: Unhandled lockState %1 ", (long)n);
                 this.setInternalLockState(0);
                 this.processUnhandledLockState(n);
             }
         }
     }
 
-    protected abstract boolean processLockStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    protected abstract boolean processLockStateUpdate(int var1, IGlobalTelephoneStateStruct var2);
 
-    protected abstract LockStateStruct getLockStateStruct(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    protected abstract LockStateStruct getLockStateStruct(IGlobalTelephoneStateStruct var1);
 
-    protected abstract void processWrongPINEntered(int n, int n2) {
-    }
+    protected abstract void processWrongPINEntered(int var1, int var2);
 
-    protected abstract void processWrongPINEnteredPUKRequired(int n, int n2) {
-    }
+    protected abstract void processWrongPINEnteredPUKRequired(int var1, int var2);
 
-    protected abstract void processWrongPUKEntered(int n, int n2) {
-    }
+    protected abstract void processWrongPUKEntered(int var1, int var2);
 
-    protected abstract void processSIMNotFunctioning() {
-    }
+    protected abstract void processSIMNotFunctioning();
 
-    protected abstract void processPUKBlocked() {
-    }
+    protected abstract void processPUKBlocked();
 
-    protected abstract void processManualUnlockInProgress(boolean bl) {
-    }
+    protected abstract void processManualUnlockInProgress(boolean var1);
 
-    protected abstract void processLockStateUnknown() {
-    }
+    protected abstract void processLockStateUnknown();
 
-    protected abstract void processNoLock(boolean bl) {
-    }
+    protected abstract void processNoLock(boolean var1);
 
-    protected abstract void processPINRequired(int n) {
-    }
+    protected abstract void processPINRequired(int var1);
 
-    protected abstract void processPUKRequired(int n) {
-    }
+    protected abstract void processPUKRequired(int var1);
 
-    protected abstract void processUnhandledLockState(int n) {
-    }
+    protected abstract void processUnhandledLockState(int var1);
 
     protected final void unlockSIMwithPIN(String string, int n) {
-        this.log.log(1078071040, "[AbstractTelLockStateDSIHandler#unlockSIMwithPIN] pin=%1", (Object)string);
+        this.log.log(1000000, "[AbstractTelLockStateDSIHandler#unlockSIMwithPIN] pin=%1", (Object)string);
         this.manualUnlockInProgress = true;
         this.processManualUnlockInProgress(true);
-        this.getApplication().getTelephoneDSIAccess().unlockSIMWithPIN(string, n, true, new AbstractTelLockStateDSIHandler$TelLockStateResponseListener(this, 0));
+        this.getApplication().getTelephoneDSIAccess().unlockSIMWithPIN(string, n, true, new TelLockStateResponseListener(0));
     }
 
     protected final void unlockSIMWithPUK(String string, String string2, int n) {
-        this.log.log(1078071040, "[AbstractTelLockStateDSIHandler#unlockSIMWithPUK] pukCode=%1, newPinCode=%2, terminalID=%3", (Object)string, (Object)string2, (long)n);
+        this.log.log(1000000, "[AbstractTelLockStateDSIHandler#unlockSIMWithPUK] pukCode=%1, newPinCode=%2, terminalID=%3", (Object)string, (Object)string2, (long)n);
         this.manualUnlockInProgress = true;
         this.processManualUnlockInProgress(true);
-        this.getApplication().getTelephoneDSIAccess().unlockSIMWithPUK(string, string2, n, true, new AbstractTelLockStateDSIHandler$TelLockStateResponseListener(this, 1));
+        this.getApplication().getTelephoneDSIAccess().unlockSIMWithPUK(string, string2, n, true, new TelLockStateResponseListener(1));
     }
 
-    static /* synthetic */ LogChannel access$000(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler) {
-        return abstractTelLockStateDSIHandler.log;
+    public class LockStateDiag
+    implements IPhoneDiagComponent {
+        public void cmdUnlockSIMWithPIN(String string) {
+            AbstractTelLockStateDSIHandler.this.unlockSIMwithPIN(string, 0);
+        }
+
+        public void cmdUnlockSIMWithPUK(String string, String string2) {
+            AbstractTelLockStateDSIHandler.this.unlockSIMWithPUK(string, string2, 0);
+        }
     }
 
-    static /* synthetic */ LockStateStruct access$102(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler, LockStateStruct lockStateStruct) {
-        abstractTelLockStateDSIHandler.lockStateStruct = lockStateStruct;
-        return abstractTelLockStateDSIHandler.lockStateStruct;
-    }
+    private class TelLockStateResponseListener
+    extends TelDefaultDSIResponseListener {
+        static final int UNLOCK_TYPE_PIN = 0;
+        static final int UNLOCK_TYPE_PUK = 1;
+        private final int unlockType;
 
-    static /* synthetic */ LogChannel access$200(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler) {
-        return abstractTelLockStateDSIHandler.log;
-    }
+        public TelLockStateResponseListener(int n) {
+            this.unlockType = n;
+        }
 
-    static /* synthetic */ LogChannel access$300(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler) {
-        return abstractTelLockStateDSIHandler.log;
-    }
+        public void responseUnlockSIM(int n, int n2, LockStateStruct lockStateStruct) {
+            AbstractTelLockStateDSIHandler.this.log.log(1000000, "[AbstractTelLockStateDSIHandler.TelLockStateResponseListener#responseUnlockSIM] result=%2, terminalID=%3, lockState=%1", (Object)lockStateStruct, (long)n, (long)n2);
+            AbstractTelLockStateDSIHandler.this.lockStateStruct = lockStateStruct;
+            switch (n) {
+                case 5: {
+                    AbstractTelLockStateDSIHandler.this.log.log(1000000, "[AbstractTelLockStateDSIHandler.TelLockStateResponseListener#responseUnlockSIM] RESULT_ERROR_CODE_WRONG");
+                    this.processWrongCodeEntered(n2, lockStateStruct);
+                    break;
+                }
+                case 9: {
+                    AbstractTelLockStateDSIHandler.this.log.log(1000000, "[AbstractTelLockStateDSIHandler.TelLockStateResponseListener#responseUnlockSIM] RESULT_ERROR_CODE_INVALID_FORMAT");
+                    this.processWrongCodeEntered(n2, lockStateStruct);
+                    break;
+                }
+                case 0: {
+                    int n3 = lockStateStruct.getTelLockState();
+                    if (n3 == 2) {
+                        AbstractTelLockStateDSIHandler.this.setInternalLockState(1);
+                        AbstractTelLockStateDSIHandler.this.processNoLock(AbstractTelLockStateDSIHandler.this.manualUnlockInProgress);
+                        break;
+                    }
+                    AbstractTelLockStateDSIHandler.this.log.log(100000, "[AbstractTelLockStateDSIHandler.TelLockStateResponseListener#responseUnlockSIM] RESULT_OK but telLockState=%1", (long)n3);
+                    break;
+                }
+                default: {
+                    AbstractTelLockStateDSIHandler.this.log.log(100000, "[AbstractTelLockStateDSIHandler.TelLockStateResponseListener#responseUnlockSIM] no processing for result %1", (long)n);
+                }
+            }
+            AbstractTelLockStateDSIHandler.this.manualUnlockInProgress = false;
+            AbstractTelLockStateDSIHandler.this.processManualUnlockInProgress(false);
+        }
 
-    static /* synthetic */ void access$400(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler, int n) {
-        abstractTelLockStateDSIHandler.setInternalLockState(n);
-    }
-
-    static /* synthetic */ boolean access$500(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler) {
-        return abstractTelLockStateDSIHandler.manualUnlockInProgress;
-    }
-
-    static /* synthetic */ LogChannel access$600(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler) {
-        return abstractTelLockStateDSIHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$700(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler) {
-        return abstractTelLockStateDSIHandler.log;
-    }
-
-    static /* synthetic */ boolean access$502(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler, boolean bl) {
-        abstractTelLockStateDSIHandler.manualUnlockInProgress = bl;
-        return abstractTelLockStateDSIHandler.manualUnlockInProgress;
-    }
-
-    static /* synthetic */ LogChannel access$800(AbstractTelLockStateDSIHandler abstractTelLockStateDSIHandler) {
-        return abstractTelLockStateDSIHandler.log;
+        protected void processWrongCodeEntered(int n, LockStateStruct lockStateStruct) {
+            int n2 = lockStateStruct.getTelLockState();
+            int n3 = lockStateStruct.getTelRetryCounter();
+            switch (n2) {
+                case 3: {
+                    AbstractTelLockStateDSIHandler.this.setInternalLockState(4);
+                    AbstractTelLockStateDSIHandler.this.processWrongPINEntered(n3, n);
+                    break;
+                }
+                case 5: {
+                    if (this.unlockType == 0) {
+                        AbstractTelLockStateDSIHandler.this.setInternalLockState(6);
+                        AbstractTelLockStateDSIHandler.this.processWrongPINEnteredPUKRequired(n3, n);
+                        break;
+                    }
+                    AbstractTelLockStateDSIHandler.this.setInternalLockState(7);
+                    AbstractTelLockStateDSIHandler.this.processWrongPUKEntered(n3, n);
+                    break;
+                }
+                case 7: {
+                    AbstractTelLockStateDSIHandler.this.setInternalLockState(8);
+                    AbstractTelLockStateDSIHandler.this.processPUKBlocked();
+                    break;
+                }
+                default: {
+                    AbstractTelLockStateDSIHandler.this.log.log(100000, "[AbstractTelLockStateDSIHandler.TelLockStateResponseListener#responseUnlockSIM] no handling for current lock state %1", (long)n2);
+                }
+            }
+        }
     }
 }
 

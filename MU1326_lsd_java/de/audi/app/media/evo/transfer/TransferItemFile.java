@@ -24,47 +24,38 @@ implements ITransferItem {
         this.sourceSlot = iSourceSlot;
     }
 
-    @Override
     public boolean isFolder() {
         return false;
     }
 
-    @Override
     public long getEntryId() {
         return this.entryId;
     }
 
-    @Override
     public int getContentType() {
         return this.contentType;
     }
 
-    @Override
     public boolean isContentTypeCDDA() {
         return false;
     }
 
-    @Override
     public MediaListEntry[] getTransferFolder() {
         return this.transferFolder;
     }
 
-    @Override
     public boolean isPhysicalFolder() {
         return this.physicalFolder;
     }
 
-    @Override
     public boolean isDeletionSource() {
         return this.sourceSlot.getSource().getType() == 6;
     }
 
-    @Override
     public boolean isDynamicTransferFolder() {
         return null == this.transferFolder;
     }
 
-    @Override
     public ISourceSlot getTransferSourceSlot() {
         return this.sourceSlot;
     }

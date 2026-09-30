@@ -19,7 +19,6 @@ extends AbstractTelServiceTracker {
         this.dsiListener = dSIListener;
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         DSIBase dSIBase = this.dsi;
@@ -28,19 +27,16 @@ extends AbstractTelServiceTracker {
         }
     }
 
-    @Override
     protected void serviceAvailable(Object object) {
         if ((class$org$dsi$ifc$base$DSIBase == null ? (class$org$dsi$ifc$base$DSIBase = AbstractTELDSIServiceTracker.class$("org.dsi.ifc.base.DSIBase")) : class$org$dsi$ifc$base$DSIBase).isInstance(object)) {
             ((DSIBase)object).setNotification(this.dsiListener);
         }
     }
 
-    @Override
     protected void serviceRemoved(Object object) {
     }
 
-    protected abstract int[] getNotifications() {
-    }
+    protected abstract int[] getNotifications();
 
     static /* synthetic */ Class class$(String string) {
         try {

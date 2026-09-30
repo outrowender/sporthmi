@@ -28,9 +28,9 @@ implements TimerListener {
 
     public MobileSpeechRecognitionHandler(ISDSPopupHelper iSDSPopupHelper) {
         this.sdsPopupHelper = iSDSPopupHelper;
-        this.mobileSpeechRecognitionTimer = new Timer("MobileSpeechRecognitionTimer", 5, this.lc, this, 0, true);
-        this.mobileSpeechRecognitionRestartTimer = new Timer("MobileSpeechRecognitionRestartTimer", 5, this.lc, this, 0, true);
-        this.lc.log(-2137614336, "MobileSpeechRecognitionHandler initialized.");
+        this.mobileSpeechRecognitionTimer = new Timer("MobileSpeechRecognitionTimer", 5, this.lc, this, 3000L, true);
+        this.mobileSpeechRecognitionRestartTimer = new Timer("MobileSpeechRecognitionRestartTimer", 5, this.lc, this, 500L, true);
+        this.lc.log(10000000, "MobileSpeechRecognitionHandler initialized.");
     }
 
     void setDSI(DSIMobileSpeechRecognition dSIMobileSpeechRecognition) {
@@ -39,10 +39,10 @@ implements TimerListener {
 
     public boolean requestStartSpeechRecognition() {
         if (this.dsi == null) {
-            this.lc.log(-1601830656, "MobileSpeechRecognitionHandler#requestStartSpeechRecognition: DSIMobileSpeechRecognition not available => NOP!");
+            this.lc.log(100000, "MobileSpeechRecognitionHandler#requestStartSpeechRecognition: DSIMobileSpeechRecognition not available => NOP!");
             return false;
         }
-        this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#requestStartSpeechRecognition: called");
+        this.lc.log(10000000, "MobileSpeechRecognitionHandler#requestStartSpeechRecognition: called");
         this.dsi.requestStartSpeechRecognition();
         if (this.appSDSManager != null) {
             this.appSDSManager.setExternalSDSRequested(true);
@@ -52,10 +52,10 @@ implements TimerListener {
 
     public boolean requestDelayedStartSpeechRecognition() {
         if (this.dsi == null) {
-            this.lc.log(-1601830656, "MobileSpeechRecognitionHandler#requestDelayedStartSpeechRecognition: DSIMobileSpeechRecognition not available => NOP!");
+            this.lc.log(100000, "MobileSpeechRecognitionHandler#requestDelayedStartSpeechRecognition: DSIMobileSpeechRecognition not available => NOP!");
             return false;
         }
-        this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#requestDelayedStartSpeechRecognition: called");
+        this.lc.log(10000000, "MobileSpeechRecognitionHandler#requestDelayedStartSpeechRecognition: called");
         this.mobileSpeechRecognitionRestartTimer.restart();
         return true;
     }
@@ -70,7 +70,7 @@ implements TimerListener {
         if (this.dsi == null) {
             return false;
         }
-        this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#requestStopSpeechRecognition: Mobile speech recognition active => request stop!");
+        this.lc.log(10000000, "MobileSpeechRecognitionHandler#requestStopSpeechRecognition: Mobile speech recognition active => request stop!");
         this.dsi.requestStopSpeechRecognition();
         return true;
     }
@@ -89,17 +89,17 @@ implements TimerListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     void setMobileSpeechRecognitionActive(boolean bl) {
-        this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: value=%1", bl);
+        this.lc.log(10000000, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: value=%1", bl);
         if (bl) {
             if (this.mobileSpeechRecognitionTimer.isRunning()) {
-                this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: Canceling timer!");
+                this.lc.log(10000000, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: Canceling timer!");
                 this.mobileSpeechRecognitionTimer.cancel();
             }
             if (this.sdsTimeoutHandler != null) {
-                this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: reset PTT running timer!");
+                this.lc.log(10000000, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: reset PTT running timer!");
                 this.sdsTimeoutHandler.cancelPTTRunningTimer();
             } else {
-                this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: SDS timeout handler NULL -> cannot reset PTT running timer!");
+                this.lc.log(10000000, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: SDS timeout handler NULL -> cannot reset PTT running timer!");
             }
             Object object = this.mobileSpeechMutex;
             synchronized (object) {
@@ -109,23 +109,22 @@ implements TimerListener {
             this.hmiListener.updateStatusExternalSDS(true);
         } else {
             if (this.mobileSpeechRecognitionTimer.isRunning()) {
-                this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: Timer already running!");
+                this.lc.log(10000000, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: Timer already running!");
                 return;
             }
-            this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: Start hide popup timer!");
+            this.lc.log(10000000, "MobileSpeechRecognitionHandler#setMobileSpeechRecognitionActive: Start hide popup timer!");
             this.mobileSpeechRecognitionTimer.start();
         }
     }
 
     public void unsetDSI() {
-        this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#unsetDSI: called");
+        this.lc.log(10000000, "MobileSpeechRecognitionHandler#unsetDSI: called");
         this.dsi = null;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fireTimer(Timer timer) {
         if (timer == this.mobileSpeechRecognitionTimer) {
             Object object = this.mobileSpeechMutex;
@@ -143,12 +142,11 @@ implements TimerListener {
             this.requestStartSpeechRecognition();
             return;
         }
-        this.lc.log(-1601830656, "MobileSpeechRecognitionHandler#fireTimer: Unhandled timer %1 => NOP!", (Object)timer);
+        this.lc.log(100000, "MobileSpeechRecognitionHandler#fireTimer: Unhandled timer %1 => NOP!", (Object)timer);
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-        this.lc.log(-2137614336, "MobileSpeechRecognitionHandler#cancelTimer: NOP!");
+        this.lc.log(10000000, "MobileSpeechRecognitionHandler#cancelTimer: NOP!");
     }
 
     public void setSDSTimeoutHandler(SDSTimeoutHandler sDSTimeoutHandler) {

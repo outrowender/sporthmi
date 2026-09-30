@@ -29,31 +29,24 @@ implements IMatchspellerModelAccess {
         this.modelAccessHelper = iAddressInputFormModelAccessHelper;
     }
 
-    @Override
     public void onRestore() {
     }
 
-    @Override
     public void onInputChanged() {
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
         if (navLocation == null) {
             this.logChannel.log(10000, "AddressInputSDSModelAccess#onElementSelected the given navLocation is null");
@@ -64,20 +57,16 @@ implements IMatchspellerModelAccess {
         }
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
         this.modelAccessHelper.onUpdateLocation(this.env, this.logChannel, this.detailModelAccess, navLocation, map);
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
     }
 
-    @Override
     public void onSpellerStatusChanged(int n) {
     }
 }

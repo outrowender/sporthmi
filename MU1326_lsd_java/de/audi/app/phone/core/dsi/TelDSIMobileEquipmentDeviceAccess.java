@@ -6,11 +6,12 @@ package de.audi.app.phone.core.dsi;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.dsi.AbstractTelDSIDeviceAccess;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
-import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentDeviceAccess$1;
 import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentListener;
 import de.audi.app.phone.core.dsi.TelDSIMobileEquipmentRequestWrapper;
 import de.audi.mib.jdsi.DSIActivator;
+import de.audi.mib.jdsi.IDSIClient;
 import de.audi.tghu.command.CommandListManager;
+import org.dsi.ifc.base.DSIBase;
 import org.dsi.ifc.telephoneng.ActivationStateStruct;
 import org.dsi.ifc.telephoneng.DSIMobileEquipment;
 
@@ -29,39 +30,43 @@ extends AbstractTelDSIDeviceAccess {
         this.commandListManager = new CommandListManager(new StringBuffer().append("TelDSIMobileEquipmentDeviceAccess(").append(n).append(")").toString(), this.getApplication().getFrameworkAccess(), this.cmdListLogChannel, null, null);
         this.hangupCommandListManager = new CommandListManager(new StringBuffer().append("TelDSIMobileEquipmentDeviceAccess(").append(n).append(")Hangup").toString(), this.getApplication().getFrameworkAccess(), this.cmdListLogChannel, null, null);
         this.dsiListener = new TelDSIMobileEquipmentListener(iTelApplication, n, this.commandListManager, this.hangupCommandListManager, this.cmdListLogChannel);
-        this.dsiMobileEquipementActivator = new DSIActivator(iTelApplication.getFrameworkAccess(), (class$org$dsi$ifc$telephoneng$DSIMobileEquipment == null ? (class$org$dsi$ifc$telephoneng$DSIMobileEquipment = TelDSIMobileEquipmentDeviceAccess.class$("org.dsi.ifc.telephoneng.DSIMobileEquipment")) : class$org$dsi$ifc$telephoneng$DSIMobileEquipment).getName(), (class$org$dsi$ifc$telephoneng$DSIMobileEquipmentListener == null ? (class$org$dsi$ifc$telephoneng$DSIMobileEquipmentListener = TelDSIMobileEquipmentDeviceAccess.class$("org.dsi.ifc.telephoneng.DSIMobileEquipmentListener")) : class$org$dsi$ifc$telephoneng$DSIMobileEquipmentListener).getName(), new Integer(n), this.dsiListener, new TelDSIMobileEquipmentDeviceAccess$1(this));
+        this.dsiMobileEquipementActivator = new DSIActivator(iTelApplication.getFrameworkAccess(), (class$org$dsi$ifc$telephoneng$DSIMobileEquipment == null ? (class$org$dsi$ifc$telephoneng$DSIMobileEquipment = TelDSIMobileEquipmentDeviceAccess.class$("org.dsi.ifc.telephoneng.DSIMobileEquipment")) : class$org$dsi$ifc$telephoneng$DSIMobileEquipment).getName(), (class$org$dsi$ifc$telephoneng$DSIMobileEquipmentListener == null ? (class$org$dsi$ifc$telephoneng$DSIMobileEquipmentListener = TelDSIMobileEquipmentDeviceAccess.class$("org.dsi.ifc.telephoneng.DSIMobileEquipmentListener")) : class$org$dsi$ifc$telephoneng$DSIMobileEquipmentListener).getName(), new Integer(n), this.dsiListener, new IDSIClient(){
+
+            public void setDSI(DSIBase dSIBase) {
+                TelDSIMobileEquipmentDeviceAccess.this.dsiMobileEquipment = (DSIMobileEquipment)dSIBase;
+            }
+
+            public int[] getAutoNotifications() {
+                return DSIActivator.ATTR_ALL;
+            }
+        });
         this.addSubPhoneComponent(this.dsiListener);
     }
 
-    @Override
     public void init() {
         super.init();
         this.startCmdManager();
         this.dsiMobileEquipementActivator.start(this.getApplication().getBundleContext());
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.stopCmdManager();
         this.dsiMobileEquipementActivator.stop(this.getApplication().getBundleContext());
     }
 
-    @Override
     public void setIsNadInstance(boolean bl) {
         super.setIsNadInstance(bl);
         this.dsiListener.setIsNadInstance(bl);
         this.updateNadUsageForRole();
     }
 
-    @Override
     public void setNotification() {
         if (this.dsiMobileEquipment != null) {
             this.dsiMobileEquipment.setNotification(this.dsiListener);
         }
     }
 
-    @Override
     public void setDeviceRole(int n) {
         super.setDeviceRole(n);
         this.dsiListener.setDeviceRole(n);
@@ -109,22 +114,18 @@ extends AbstractTelDSIDeviceAccess {
         this.dsiMobileEquipment = dSIMobileEquipment;
     }
 
-    @Override
     protected CommandListManager getCmdListManager() {
         return this.commandListManager;
     }
 
-    @Override
     protected CommandListManager getHangupCmdListManager() {
         return this.hangupCommandListManager;
     }
 
-    @Override
     protected ITelDSIMobileEquipmentRequestWrapper getDSIRequestWrapper() {
         return new TelDSIMobileEquipmentRequestWrapper(this.dsiMobileEquipment, this.log);
     }
 
-    @Override
     protected String getName() {
         return "TelDSIMobileEquipmentDeviceAccess";
     }
@@ -144,11 +145,6 @@ extends AbstractTelDSIDeviceAccess {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ DSIMobileEquipment access$002(TelDSIMobileEquipmentDeviceAccess telDSIMobileEquipmentDeviceAccess, DSIMobileEquipment dSIMobileEquipment) {
-        telDSIMobileEquipmentDeviceAccess.dsiMobileEquipment = dSIMobileEquipment;
-        return telDSIMobileEquipmentDeviceAccess.dsiMobileEquipment;
     }
 }
 

@@ -11,13 +11,10 @@ import de.audi.app.bap.fw.functiontypes.BAPFunctionPropertyFSG;
 
 public interface IBAPFunctionFactoryFSG
 extends IBAPFunctionFactory {
-    default public BAPFunctionMethodFSG createBAPFunctionMethodFSG(AbstractBAPModuleFSG abstractBAPModuleFSG, int n) {
-    }
+    public BAPFunctionMethodFSG createBAPFunctionMethodFSG(AbstractBAPModuleFSG var1, int var2);
 
-    default public BAPFunctionPropertyFSG createBAPFunctionPropertyFSG(AbstractBAPModuleFSG abstractBAPModuleFSG, int n) {
-    }
+    public BAPFunctionPropertyFSG createBAPFunctionPropertyFSG(AbstractBAPModuleFSG var1, int var2);
 
-    default public BAPFunctionArrayFSG createBAPFunctionArrayFSG(AbstractBAPModuleFSG abstractBAPModuleFSG, int n) {
-    }
+    public BAPFunctionArrayFSG createBAPFunctionArrayFSG(AbstractBAPModuleFSG var1, int var2);
 }
 

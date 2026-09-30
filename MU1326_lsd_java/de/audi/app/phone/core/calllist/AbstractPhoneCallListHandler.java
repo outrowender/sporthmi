@@ -18,13 +18,11 @@ implements ITelCallList {
         super(iTelApplication, string);
     }
 
-    @Override
     public void init() {
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
         super.init();
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
         super.deinit();
@@ -33,7 +31,6 @@ implements ITelCallList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         Object object = this.stateMutex;
         synchronized (object) {
@@ -43,7 +40,7 @@ implements ITelCallList {
             }
             this.state = iGlobalTelephoneStateStruct;
             if (iGlobalTelephoneStateStruct.getConnectedGatewayState().isCustomerCallNotAllowed() && !iGlobalTelephoneStateStruct.getConnectedGatewayState().isLowPrioritySOSEmergencyCallType()) {
-                this.log.log(-2137614336, "AbstractPhoneCallListHandler#updateGlobalTelephoneStateProperty(): ecall is active");
+                this.log.log(10000000, "AbstractPhoneCallListHandler#updateGlobalTelephoneStateProperty(): ecall is active");
                 return;
             }
             switch (n) {
@@ -73,7 +70,7 @@ implements ITelCallList {
                     break;
                 }
                 default: {
-                    this.log.log(-2137614336, "[AbstractPhoneCallListHandler#updateGlobalTelephoneStateProperty] no handling for key %1", (long)n);
+                    this.log.log(10000000, "[AbstractPhoneCallListHandler#updateGlobalTelephoneStateProperty] no handling for key %1", (long)n);
                 }
             }
         }
@@ -89,16 +86,12 @@ implements ITelCallList {
         }
     }
 
-    public abstract void updateCallDurationList(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    public abstract void updateCallDurationList(IGlobalTelephoneStateStruct var1);
 
-    public abstract void updateCallList(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    public abstract void updateCallList(IGlobalTelephoneStateStruct var1);
 
-    public abstract void updateMicMuteState(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    public abstract void updateMicMuteState(IGlobalTelephoneStateStruct var1);
 
-    public abstract void updateHandsfreeModeState(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    public abstract void updateHandsfreeModeState(IGlobalTelephoneStateStruct var1);
 }
 

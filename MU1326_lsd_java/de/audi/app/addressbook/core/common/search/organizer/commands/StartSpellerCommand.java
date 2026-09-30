@@ -13,7 +13,7 @@ import org.dsi.ifc.organizer.DataSet;
 
 public class StartSpellerCommand
 extends AbstractADBCommand {
-    private static final String START_SPELLER_COMMAND_LIST_NAME;
+    private static final String START_SPELLER_COMMAND_LIST_NAME = "StartSpellerCommandList";
     private ADBOrganizerSearch adbSearch;
     private int viewType;
     private int listSize;
@@ -29,9 +29,8 @@ extends AbstractADBCommand {
         this.searchMode = n3;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "StartSpellerCommand#execute()");
+        this.logger.log(1000000, "StartSpellerCommand#execute()");
         boolean bl = this.adbDSIAccess.startSpeller(this.viewType, this.listSize, this.searchMode);
         if (!bl) {
             this.logger.log(10000, "StartSpellerCommand#execute(): dsi call was not successful, finishing command.");
@@ -41,9 +40,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void spellerResult(int n, int n2, DataSet[] dataSetArray, int n3, String string, String string2) {
-        this.logger.log(1078071040, "StartSpellerCommand#spellerResult(): success: %1, spellerHandle: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (long)n2);
+        this.logger.log(1000000, "StartSpellerCommand#spellerResult(): success: %1, spellerHandle: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (long)n2);
         if (n == 0) {
             this.adbSearch.spellerResult(n2, dataSetArray, n3, string, string2);
             this.adbSearch.getSpellerModel().setStatus(1);
@@ -60,7 +58,7 @@ extends AbstractADBCommand {
         commandList.add(stopSpellerCommand);
         StartSpellerCommand startSpellerCommand = new StartSpellerCommand(aDBApplication, aDBOrganizerSearch, n, n2, n3);
         commandList.add(startSpellerCommand);
-        commandList.execute("StartSpellerCommandList");
+        commandList.execute(START_SPELLER_COMMAND_LIST_NAME);
     }
 }
 

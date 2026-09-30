@@ -11,8 +11,8 @@ import org.osgi.framework.BundleContext;
 public final class DomainActivator
 extends AbstractFrameworkActivator {
     private static final String DSI_STARTUP_CLASS = (class$org$dsi$ifc$startup$DSIStartup == null ? (class$org$dsi$ifc$startup$DSIStartup = DomainActivator.class$("org.dsi.ifc.startup.DSIStartup")) : class$org$dsi$ifc$startup$DSIStartup).getName();
-    private static final int INSTANCE_ID_MU;
-    private static final int INSTANCE_ID_RSU;
+    private static final int INSTANCE_ID_MU = 0;
+    private static final int INSTANCE_ID_RSU = 1;
     private final FwServices fwServices;
     private DSIActivator dsiActivator = null;
     private DSIActivator dsiMUActivator = null;
@@ -24,7 +24,6 @@ extends AbstractFrameworkActivator {
         this.fwServices = fwServices;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.fwServices.createDomainHandler();
         this.dsiActivator = new DSIActivator(this.getFramework(), DSI_STARTUP_CLASS, (class$org$dsi$ifc$startup$DSIStartupListener == null ? (class$org$dsi$ifc$startup$DSIStartupListener = DomainActivator.class$("org.dsi.ifc.startup.DSIStartupListener")) : class$org$dsi$ifc$startup$DSIStartupListener).getName(), new Integer(0), this.fwServices.getDomainHandler(), this.fwServices.getDomainHandler());
@@ -37,7 +36,6 @@ extends AbstractFrameworkActivator {
         this.dsiMUActivator.start(this.getBundleContext());
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.dsiActivator != null) {
             this.dsiActivator.stop(bundleContext);

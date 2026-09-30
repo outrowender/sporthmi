@@ -56,7 +56,7 @@ public class TrafficStatistics {
     }
 
     public static void resetAll() {
-        TrafficStatistics.getLogChannel().log(-2137614336, "[TrafficStatistics#resetAll] reset all traffic counters");
+        TrafficStatistics.getLogChannel().log(10000000, "[TrafficStatistics#resetAll] reset all traffic counters");
         trafficCounterAudio.reset();
         trafficCounterTelephone.reset();
         trafficCounterTelephone2.reset();

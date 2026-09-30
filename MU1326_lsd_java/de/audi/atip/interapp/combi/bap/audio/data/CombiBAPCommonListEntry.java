@@ -95,7 +95,6 @@ extends AbstractCombiBAPReceptionListEntry {
         return String.valueOf(n);
     }
 
-    @Override
     public boolean hasSameContent(CombiBAPArrayElement combiBAPArrayElement) {
         if (combiBAPArrayElement == this) {
             return true;
@@ -107,7 +106,6 @@ extends AbstractCombiBAPReceptionListEntry {
         return false;
     }
 
-    @Override
     public int getDiffRecordAddress(CombiBAPArrayElement combiBAPArrayElement) {
         int n = 0;
         if (combiBAPArrayElement == this) {

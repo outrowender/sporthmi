@@ -39,7 +39,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(1000);
         Object object = this.mutex;
@@ -64,9 +63,8 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
-        this.lc.log(-2137614336, "(%1) [DLM.clear]", (long)this.id);
+        this.lc.log(10000000, "(%1) [DLM.clear]", (long)this.id);
         Object object = this.mutex;
         synchronized (object) {
             this.selectedListIndex = -1;
@@ -79,9 +77,8 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fill(ListRow[] listRowArray, int n) {
-        this.lc.log(-2137614336, "(%1) [DLM.fill] length:%2", (long)this.id, (long)listRowArray.length);
+        this.lc.log(10000000, "(%1) [DLM.fill] length:%2", (long)this.id, (long)listRowArray.length);
         Object object = this.mutex;
         synchronized (object) {
             this.clear();
@@ -100,9 +97,8 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setThreshold(int n, int n2) {
-        this.lc.log(-2137614336, "(%1) [DLM.setThreshold] lower:%2 upper:%3", (long)this.id, (long)n, (long)n2);
+        this.lc.log(10000000, "(%1) [DLM.setThreshold] lower:%2 upper:%3", (long)this.id, (long)n, (long)n2);
         Object object = this.mutex;
         synchronized (object) {
             this.lowerThreshold = n;
@@ -115,9 +111,8 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setSelected(ListRow listRow) {
-        this.lc.log(-2137614336, "(%2) [DLM.setSelected] %1", (Object)listRow, (long)this.id);
+        this.lc.log(10000000, "(%2) [DLM.setSelected] %1", (Object)listRow, (long)this.id);
         int n = -1;
         Object object = this.mutex;
         synchronized (object) {
@@ -136,21 +131,19 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getSelected() {
         int n = this.selectedListIndex;
         Object object = this.mutex;
         synchronized (object) {
             n = this.selectedListIndex == -1 ? -1 : (this.isVisible(this.selectedListIndex) ? this.selectedListIndex - this.listCursor : -1);
         }
-        this.lc.log(-2137614336, "(%2) [DLM.getSelected] %1 ", (long)n, (long)this.id);
+        this.lc.log(10000000, "(%2) [DLM.getSelected] %1 ", (long)n, (long)this.id);
         return n;
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean updateRow(ListRow listRow) {
         boolean bl = false;
         int n = -1;
@@ -165,11 +158,11 @@ SlidingListModelGUI {
                     this.lastUpdatedIndex = n2;
                     bl = true;
                 } else {
-                    this.lc.log(-2137614336, "(%2) [DLM.updateRow] Given row not found: %1", (Object)listRow, (long)this.id);
+                    this.lc.log(10000000, "(%2) [DLM.updateRow] Given row not found: %1", (Object)listRow, (long)this.id);
                 }
             }
             if (bl) {
-                this.lc.log(-2137614336, "(%2) [DLM.updateRow] Updated index %3 with given row: %1", (Object)listRow, (long)this.id, (long)this.lastUpdatedIndex);
+                this.lc.log(10000000, "(%2) [DLM.updateRow] Updated index %3 with given row: %1", (Object)listRow, (long)this.id, (long)this.lastUpdatedIndex);
                 this.list.set(this.lastUpdatedIndex, listRow);
                 this.stateChanged();
                 n = this.lastUpdatedIndex - this.listCursor;
@@ -179,7 +172,6 @@ SlidingListModelGUI {
         return bl;
     }
 
-    @Override
     public boolean setFocusedCursorPosition(ListRow listRow, int n) {
         boolean bl = super.setFocusedCursorPosition(listRow, n);
         if (bl) {
@@ -188,7 +180,6 @@ SlidingListModelGUI {
         return bl;
     }
 
-    @Override
     public void setListListener(DynamicListModelListener dynamicListModelListener) {
         this.listener = dynamicListModelListener != null ? dynamicListModelListener : DUMMY_LISTENER;
     }
@@ -197,7 +188,6 @@ SlidingListModelGUI {
         throw new UnsupportedOperationException("DynamicListModel.getEndOfListState(int) not implemented!");
     }
 
-    @Override
     public boolean isEndOfList(int n) {
         Object object = this.mutex;
         synchronized (object) {
@@ -212,14 +202,13 @@ SlidingListModelGUI {
                     return this.isCurrentContextEndOfList();
                 }
             }
-            throw new IllegalArgumentException(new StringBuffer().append("(").append(this.id).append(") DynamicListModel.isEndOfList( ").append(n).append(" ) Unknown context!").toString());
+            throw new IllegalArgumentException("(" + this.id + ") DynamicListModel.isEndOfList( " + n + " ) Unknown context!");
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemFocused(int n, int n2, int n3) {
         int n4;
         ListRow listRow;
@@ -246,7 +235,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemSelected(int n, int n2, int n3) {
         ListRow listRow;
         Object object = this.mutex;
@@ -254,7 +242,7 @@ SlidingListModelGUI {
             int n4 = this.listCursor + n;
             listRow = this.get(n4);
         }
-        this.lc.log(-2137614336, "(%2) DynamicListModel.itemSelected( %3 ) = %1 ", (Object)listRow, (long)this.id, (long)n);
+        this.lc.log(10000000, "(%2) DynamicListModel.itemSelected( %3 ) = %1 ", (Object)listRow, (long)this.id, (long)n);
         if (listRow != null) {
             try {
                 this.listener.itemSelected(this.id, listRow, n3);
@@ -268,7 +256,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemReleased(int n, int n2, int n3) {
         ListRow listRow;
         Object object = this.mutex;
@@ -276,7 +263,7 @@ SlidingListModelGUI {
             int n4 = this.listCursor + n;
             listRow = this.get(n4);
         }
-        this.lc.log(-2137614336, "(%2) DynamicListModel.itemReleased( %3 ) = %1 ", (Object)listRow, (long)this.id, (long)n);
+        this.lc.log(10000000, "(%2) DynamicListModel.itemReleased( %3 ) = %1 ", (Object)listRow, (long)this.id, (long)n);
         if (listRow != null) {
             try {
                 ((DynamicListModelListener)this.listener).itemReleased(this.id, listRow, n3);
@@ -290,7 +277,6 @@ SlidingListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -327,7 +313,7 @@ SlidingListModelGUI {
         Object object = this.mutex;
         synchronized (object) {
             int n4 = this.listCursor + n;
-            this.lc.log(-2137614336, "DynamicListModel.callRunningOutOfData(): listCursor:%1, cursorPos:%2 ", (long)this.listCursor, (long)n);
+            this.lc.log(10000000, "DynamicListModel.callRunningOutOfData(): listCursor:%1, cursorPos:%2 ", (long)this.listCursor, (long)n);
             if (!this.runningOutOfDataCalled && this.list.size() > 0) {
                 if (this.upperThreshold >= 0 && n4 > this.upperThreshold) {
                     this.runningOutOfDataCalled = true;
@@ -358,7 +344,7 @@ SlidingListModelGUI {
             bl2 = this.listCursor + this.getVisibleRowsCount() >= this.list.size();
         }
         boolean bl4 = bl || bl2;
-        this.lc.log(-2137614336, "(%2) DynamicListModel.isEndOfList( CONTEXT_CURRENT ) = %1 ", bl4, (long)this.id);
+        this.lc.log(10000000, "(%2) DynamicListModel.isEndOfList( CONTEXT_CURRENT ) = %1 ", bl4, (long)this.id);
         return bl4;
     }
 
@@ -367,7 +353,7 @@ SlidingListModelGUI {
         if (this.upperThreshold == -1) {
             bl = this.listCursor + 2 * this.getVisibleRowsCount() >= this.list.size();
         }
-        this.lc.log(-2137614336, "(%2) DynamicListModel.isEndOfList( CONTEXT_NEXT ) = %1 ", bl, (long)this.id);
+        this.lc.log(10000000, "(%2) DynamicListModel.isEndOfList( CONTEXT_NEXT ) = %1 ", bl, (long)this.id);
         return bl;
     }
 
@@ -376,7 +362,7 @@ SlidingListModelGUI {
         if (this.lowerThreshold == -1) {
             bl = this.listCursor - this.getVisibleRowsCount() <= 0;
         }
-        this.lc.log(-2137614336, "(%2) DynamicListModel.isEndOfList( CONTEXT_PREVIOUS ) = %1 ", bl, (long)this.id);
+        this.lc.log(10000000, "(%2) DynamicListModel.isEndOfList( CONTEXT_PREVIOUS ) = %1 ", bl, (long)this.id);
         return bl;
     }
 }

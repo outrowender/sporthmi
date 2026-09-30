@@ -8,15 +8,15 @@ import de.audi.atip.mmicombi.exchange.MMICombiDisplayStatus;
 
 public abstract class MMICombiDisplayExchangePacket
 implements IMMICombiDisplayExchangePacket {
-    public static final int FOCUS_CHANGED;
-    public static final int CONTEXT_CHANGED;
-    public static final int VIEW_SIZE_CHANGED;
-    public static final int LEFT_DRAWER_STATE_CHANGED;
-    public static final int RIGHT_DRAWER_STATE_CHANGED;
-    public static final int PARTIAL_POPUP_VISIBLE_CHANGED;
-    public static final int SECOND_STATUS_LINE_VISIBLE_CHANGED;
-    public static final int POPUP_CONTEXT_CHANGED;
-    public static final int POPUP_QUIT_CHANGED;
+    public static final int FOCUS_CHANGED = 1;
+    public static final int CONTEXT_CHANGED = 2;
+    public static final int VIEW_SIZE_CHANGED = 4;
+    public static final int LEFT_DRAWER_STATE_CHANGED = 8;
+    public static final int RIGHT_DRAWER_STATE_CHANGED = 16;
+    public static final int PARTIAL_POPUP_VISIBLE_CHANGED = 32;
+    public static final int SECOND_STATUS_LINE_VISIBLE_CHANGED = 64;
+    public static final int POPUP_CONTEXT_CHANGED = 128;
+    public static final int POPUP_QUIT_CHANGED = 256;
     int sessionID;
     int exchangeDirection;
     MMICombiDisplayStatus displayStatus;
@@ -33,32 +33,26 @@ implements IMMICombiDisplayExchangePacket {
         this.displayStatus = iMMICombiDisplayExchangePacket.getDisplayStatus();
     }
 
-    @Override
     public void setSessionID(int n) {
         this.sessionID = n;
     }
 
-    @Override
     public int getSessionID() {
         return this.sessionID;
     }
 
-    @Override
     public void setExchangeDirection(int n) {
         this.exchangeDirection = n;
     }
 
-    @Override
     public int getExchangeDirection() {
         return this.exchangeDirection;
     }
 
-    @Override
     public void setDisplayStatus(MMICombiDisplayStatus mMICombiDisplayStatus) {
         this.displayStatus = mMICombiDisplayStatus;
     }
 
-    @Override
     public MMICombiDisplayStatus getDisplayStatus() {
         return this.displayStatus;
     }

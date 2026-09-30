@@ -17,40 +17,36 @@ implements IActionProxyListener {
 
     public TelEvoSAPUpgradeHandler(ITelApplication iTelApplication) {
         super(iTelApplication);
-        this.popupHandler = new TelEvoPopupHandler(iTelApplication, -292355072);
+        this.popupHandler = new TelEvoPopupHandler(iTelApplication, 300014);
         this.addSubPhoneComponent(this.popupHandler);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(7, this);
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(8, this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(7, this);
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(8, this);
     }
 
-    @Override
     protected void processSAPUpgradeActive(boolean bl) {
         if (bl) {
             if (this.telAppEntered) {
-                this.log.log(1078071040, "[TelEvoSAPUpgradeHandler#processSAPUpgradeActive] sapUpgradeActive=%1 - showing popup.", bl);
+                this.log.log(1000000, "[TelEvoSAPUpgradeHandler#processSAPUpgradeActive] sapUpgradeActive=%1 - showing popup.", bl);
                 this.popupHandler.requestShowPopup();
             } else {
-                this.log.log(1078071040, "[TelEvoSAPUpgradeHandler#processSAPUpgradeActive] sapUpgradeActive=%1 however not in telephone context - not showing popup!", bl);
+                this.log.log(1000000, "[TelEvoSAPUpgradeHandler#processSAPUpgradeActive] sapUpgradeActive=%1 however not in telephone context - not showing popup!", bl);
             }
         } else {
-            this.log.log(1078071040, "[TelEvoSAPUpgradeHandler#processSAPUpgradeActive] sapUpgradeActive=%1 - removing popup.", bl);
+            this.log.log(1000000, "[TelEvoSAPUpgradeHandler#processSAPUpgradeActive] sapUpgradeActive=%1 - removing popup.", bl);
             this.popupHandler.requestRemovePopup();
         }
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (n == 7) {
             this.telAppEntered = true;

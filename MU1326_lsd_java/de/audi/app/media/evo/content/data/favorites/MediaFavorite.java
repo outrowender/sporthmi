@@ -16,8 +16,8 @@ import org.dsi.ifc.media.ListEntry;
 import org.dsi.ifc.media.ListEntryExt;
 
 public class MediaFavorite {
-    private static final String LOGCLASS;
-    public static final int BROWSEMODE_RAW_PLAYLIST;
+    private static final String LOGCLASS = "MediaFavorite";
+    public static final int BROWSEMODE_RAW_PLAYLIST = 4;
     private final LogChannel logger;
     private final MediaListEntry favoriteEntry;
     private final MediaListEntry[] folderStack;
@@ -71,13 +71,13 @@ public class MediaFavorite {
         int n;
         if (0 == this.browseType) {
             if (this.intContentType == 6 || this.intContentType == 5) {
-                this.logger.log(1078071040, "[%1.getContentType] Content type playlist detected.", (Object)"MediaFavorite");
+                this.logger.log(1000000, "[%1.getContentType] Content type playlist detected.", (Object)LOGCLASS);
                 return 6;
             }
             return 4;
         }
         if (null == this.folderStack || this.folderStack.length < 2) {
-            this.logger.log(1078071040, "[%1.getContentType] No folder stack. %2", (Object)"MediaFavorite", (Object)this.toString());
+            this.logger.log(1000000, "[%1.getContentType] No folder stack. %2", (Object)LOGCLASS, (Object)this.toString());
             return 0;
         }
         switch (this.folderStack[1].getTitle().getI18NKey()) {
@@ -137,7 +137,7 @@ public class MediaFavorite {
             return new I18NString("", false);
         }
         if (null == this.folderStack || this.folderStack.length < 2) {
-            this.logger.log(1078071040, "[%1.getFavoriteMetaData] No folder stack. %2", (Object)"MediaFavorite", (Object)this.toString());
+            this.logger.log(1000000, "[%1.getFavoriteMetaData] No folder stack. %2", (Object)LOGCLASS, (Object)this.toString());
             return new I18NString("", false);
         }
         switch (this.folderStack[1].getTitle().getI18NKey()) {
@@ -156,11 +156,11 @@ public class MediaFavorite {
 
     public boolean hasMetadata() {
         if (null == this.folderStack || this.folderStack.length < 2) {
-            this.logger.log(1078071040, "[%1.hasMetadata] No folder stack. %2", (Object)"MediaFavorite", (Object)this.toString());
+            this.logger.log(1000000, "[%1.hasMetadata] No folder stack. %2", (Object)LOGCLASS, (Object)this.toString());
             return false;
         }
         if (null == this.folderStack[1].getTitle()) {
-            this.logger.log(1078071040, "[%1.hasMetadata] No title information", (Object)"MediaFavorite");
+            this.logger.log(1000000, "[%1.hasMetadata] No title information", (Object)LOGCLASS);
             return false;
         }
         switch (this.folderStack[1].getTitle().getI18NKey()) {
@@ -228,7 +228,7 @@ public class MediaFavorite {
             stringArray[i2] = stringTokenizer.nextToken();
             buffer.append("[").append(stringArray[i2]).append("]");
         }
-        logChannel.log(14808325, "[%1.getFavoriteFromPersistence] Token: %2", (Object)"MediaFavorite", (Object)buffer.toString());
+        logChannel.log(100000000, "[%1.getFavoriteFromPersistence] Token: %2", (Object)LOGCLASS, (Object)buffer.toString());
         if (2 == n) {
             return new MediaListEntry(new ListEntry(-1L, stringArray[0], stringArray[1], 0, 0, 16, null));
         }
@@ -245,9 +245,9 @@ public class MediaFavorite {
         String string2 = this.favoriteEntry.getFilename().getOriginalString();
         if (this.hasMetadata()) {
             I18NString i18NString2 = this.getFavoriteMetaData();
-            string = new StringBuffer().append(string2).append(";").append(I18NString.getOriginalString(i18NString.getI18NString(), i18NString.getI18NKey())).append(";").append(I18NString.getOriginalString(i18NString2.getI18NString(), i18NString2.getI18NKey())).toString();
+            string = string2 + ";" + I18NString.getOriginalString(i18NString.getI18NString(), i18NString.getI18NKey()) + ";" + I18NString.getOriginalString(i18NString2.getI18NString(), i18NString2.getI18NKey());
         } else {
-            string = new StringBuffer().append(string2).append(";").append(I18NString.getOriginalString(i18NString.getI18NString(), i18NString.getI18NKey())).toString();
+            string = string2 + ";" + I18NString.getOriginalString(i18NString.getI18NString(), i18NString.getI18NKey());
         }
         return string;
     }
@@ -274,23 +274,23 @@ public class MediaFavorite {
 
     public boolean validateMediaFavoriteData() {
         if (null == this.favoriteEntry) {
-            this.logger.log(1078071040, "[%1.validateMediaFavoriteData] favEntry null.", (Object)"MediaFavorite");
+            this.logger.log(1000000, "[%1.validateMediaFavoriteData] favEntry null.", (Object)LOGCLASS);
             return false;
         }
         if (null == this.folderStack) {
-            this.logger.log(1078071040, "[%1.validateMediaFavoriteData] folder stack null.", (Object)"MediaFavorite");
+            this.logger.log(1000000, "[%1.validateMediaFavoriteData] folder stack null.", (Object)LOGCLASS);
             return false;
         }
         if (1 != this.browseType && 0 != this.browseType) {
-            this.logger.log(1078071040, "[%1.validateMediaFavoriteData] unknown browse mode %2", (Object)"MediaFavorite", (long)this.browseType);
+            this.logger.log(1000000, "[%1.validateMediaFavoriteData] unknown browse mode %2", (Object)LOGCLASS, (long)this.browseType);
             return false;
         }
         if (1 == this.browseType && this.folderStack.length < 2) {
-            this.logger.log(1078071040, "[%1.validateMediaFavoriteData] folder stack size %2", (Object)"MediaFavorite", (long)this.folderStack.length);
+            this.logger.log(1000000, "[%1.validateMediaFavoriteData] folder stack size %2", (Object)LOGCLASS, (long)this.folderStack.length);
             return false;
         }
         if (this.hasMetadata() && null == this.getFavoriteMetaData()) {
-            this.logger.log(1078071040, "[%1.validateMediaFavoriteData] Metadata is not available.", (Object)"MediaFavorite");
+            this.logger.log(1000000, "[%1.validateMediaFavoriteData] Metadata is not available.", (Object)LOGCLASS);
             return false;
         }
         return true;

@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.terminalmode;
 
 public interface ITerminalModeService {
-    default public void updateTMVideoFocus(boolean bl) {
-    }
+    public void updateTMVideoFocus(boolean var1);
 }
 

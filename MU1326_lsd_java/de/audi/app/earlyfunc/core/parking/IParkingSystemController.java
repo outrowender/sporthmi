@@ -14,77 +14,54 @@ import org.dsi.ifc.carparkingsystem.DisplayContent;
 
 public interface IParkingSystemController
 extends IParkingSystemHighProtocol {
-    public static final int SYSTEM_VIEW_MODE_NONE;
-    public static final int SYSTEM_VIEW_MODE_CAMERA;
-    public static final int SYSTEM_VIEW_MODE_GRAPHIC;
+    public static final int SYSTEM_VIEW_MODE_NONE = -1;
+    public static final int SYSTEM_VIEW_MODE_CAMERA = 0;
+    public static final int SYSTEM_VIEW_MODE_GRAPHIC = 1;
 
-    default public void registerParkingSystemComponent(IParkingSystem iParkingSystem) {
-    }
+    public void registerParkingSystemComponent(IParkingSystem var1);
 
-    default public void unregisterParkingSystemComponent(IParkingSystem iParkingSystem) {
-    }
+    public void unregisterParkingSystemComponent(IParkingSystem var1);
 
-    default public SimpleIntObjectMap getAvailableParkingSystems() {
-    }
+    public SimpleIntObjectMap getAvailableParkingSystems();
 
-    default public IParkingPopupHandler getPopupHandler() {
-    }
+    public IParkingPopupHandler getPopupHandler();
 
-    default public ParkingPartialPopupHandler getPartialPopupHandler() {
-    }
+    public ParkingPartialPopupHandler getPartialPopupHandler();
 
-    default public OPSViewModeHandler getOPSViewModeHandler() {
-    }
+    public OPSViewModeHandler getOPSViewModeHandler();
 
-    default public DisplayContent getCurrentDisplayContent() {
-    }
+    public DisplayContent getCurrentDisplayContent();
 
-    default public void changeDisplayContent(DisplayContent displayContent) {
-    }
+    public void changeDisplayContent(DisplayContent var1);
 
-    default public void changeDisplayContent(DisplayContent displayContent, boolean bl) {
-    }
+    public void changeDisplayContent(DisplayContent var1, boolean var2);
 
-    default public void notifyPopupCanceled(int n) {
-    }
+    public void notifyPopupCanceled(int var1);
 
-    default public void notifyPartialPopupCanceled(int n) {
-    }
+    public void notifyPartialPopupCanceled(int var1);
 
-    default public void notifyPopupVisible(int n) {
-    }
+    public void notifyPopupVisible(int var1);
 
-    default public boolean notifyPopupHidden(int n) {
-    }
+    public boolean notifyPopupHidden(int var1);
 
-    default public void notifyParkingSystemActive(IParkingSystem iParkingSystem, boolean bl) {
-    }
+    public void notifyParkingSystemActive(IParkingSystem var1, boolean var2);
 
-    default public void notifyViewModeSettingChanged(IParkingSystem iParkingSystem, int n, int n2, int n3, boolean bl) {
-    }
+    public void notifyViewModeSettingChanged(IParkingSystem var1, int var2, int var3, int var4, boolean var5);
 
-    default public void addPopupRequest(ParkingPopupIdentifier parkingPopupIdentifier, IParkingSystem iParkingSystem) {
-    }
+    public void addPopupRequest(ParkingPopupIdentifier var1, IParkingSystem var2);
 
-    default public void removePopupRequest(ParkingPopupIdentifier parkingPopupIdentifier, IParkingSystem iParkingSystem) {
-    }
+    public void removePopupRequest(ParkingPopupIdentifier var1, IParkingSystem var2);
 
-    default public boolean isStandbyPopupVisible() {
-    }
+    public boolean isStandbyPopupVisible();
 
-    default public boolean hasVPSContent(DisplayContent displayContent) {
-    }
+    public boolean hasVPSContent(DisplayContent var1);
 
-    default public boolean hasOPSContent(DisplayContent displayContent) {
-    }
+    public boolean hasOPSContent(DisplayContent var1);
 
-    default public void addPopupRequestSuppression(ParkingPopupIdentifier parkingPopupIdentifier, IParkingSystem iParkingSystem) {
-    }
+    public void addPopupRequestSuppression(ParkingPopupIdentifier var1, IParkingSystem var2);
 
-    default public void removePopupRequestSuppression(ParkingPopupIdentifier parkingPopupIdentifier, IParkingSystem iParkingSystem) {
-    }
+    public void removePopupRequestSuppression(ParkingPopupIdentifier var1, IParkingSystem var2);
 
-    default public boolean equalsDisplayContent(DisplayContent displayContent, DisplayContent displayContent2) {
-    }
+    public boolean equalsDisplayContent(DisplayContent var1, DisplayContent var2);
 }
 

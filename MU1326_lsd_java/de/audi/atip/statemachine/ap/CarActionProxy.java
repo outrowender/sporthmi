@@ -7,58 +7,40 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface CarActionProxy
 extends ActionProxy {
-    default public void setIndividualEntered(int n) {
-    }
+    public void setIndividualEntered(int var1);
 
-    default public void charismaExited(int n) {
-    }
+    public void charismaExited(int var1);
 
-    default public void ugdoAbort(int n) {
-    }
+    public void ugdoAbort(int var1);
 
-    default public void ugdoRestart(int n) {
-    }
+    public void ugdoRestart(int var1);
 
-    default public void carMenusEntered(int n, boolean bl) {
-    }
+    public void carMenusEntered(int var1, boolean var2);
 
-    default public void browserScreenEntered(int n) {
-    }
+    public void browserScreenEntered(int var1);
 
-    default public void browserScreenExited(int n) {
-    }
+    public void browserScreenExited(int var1);
 
-    default public void charismaEntered(int n) {
-    }
+    public void charismaEntered(int var1);
 
-    default public void resetTruffleSelection(int n) {
-    }
+    public void resetTruffleSelection(int var1);
 
-    default public void browserScreenEnteredByHistory(int n) {
-    }
+    public void browserScreenEnteredByHistory(int var1);
 
-    default public void browserScreenStartMediaPlayback(int n) {
-    }
+    public void browserScreenStartMediaPlayback(int var1);
 
-    default public void browserScreenEndMediaPlayback(int n) {
-    }
+    public void browserScreenEndMediaPlayback(int var1);
 
-    default public void codriverMovementByDriverScreenExited(int n) {
-    }
+    public void codriverMovementByDriverScreenExited(int var1);
 
-    default public void codriverMovementByDriverScreenEntered(int n) {
-    }
+    public void codriverMovementByDriverScreenEntered(int var1);
 
-    default public void setCarContext(int n, int n2) {
-    }
+    public void setCarContext(int var1, int var2);
 
-    default public void ugdoSync(int n) {
-    }
+    public void ugdoSync(int var1);
 
-    default public void charismaMenuStateChange(int n, int n2) {
-    }
+    public void charismaMenuStateChange(int var1, int var2);
 
-    default public void jokerKeyPopupActive(int n, int n2) {
-    }
+    public void jokerKeyPopupActive(int var1, int var2);
 }
 

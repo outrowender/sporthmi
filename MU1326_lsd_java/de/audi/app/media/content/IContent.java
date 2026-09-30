@@ -8,55 +8,42 @@ import de.audi.app.media.source.ISourceSlot;
 import de.audi.atip.hmi.model.ButtonListener;
 
 public interface IContent {
-    public static final int CONTENT_TYPES;
-    public static final int CT_UNDEFINED;
-    public static final int CT_CDDA;
-    public static final int CT_DATA;
-    public static final int CT_DVDV;
-    public static final int CT_TV_BROADCAST;
-    public static final int CT_AV_STREAM;
-    public static final int CT_AUX_AUDIO_STREAM;
-    public static final int CT_AUX_VIDEO_STREAM;
-    public static final int CT_FILEPLAYER;
-    public static final int CT_ONLINEPLAYER;
+    public static final int CONTENT_TYPES = 9;
+    public static final int CT_UNDEFINED = -1;
+    public static final int CT_CDDA = 0;
+    public static final int CT_DATA = 1;
+    public static final int CT_DVDV = 2;
+    public static final int CT_TV_BROADCAST = 3;
+    public static final int CT_AV_STREAM = 4;
+    public static final int CT_AUX_AUDIO_STREAM = 5;
+    public static final int CT_AUX_VIDEO_STREAM = 6;
+    public static final int CT_FILEPLAYER = 7;
+    public static final int CT_ONLINEPLAYER = 8;
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public int getContentType() {
-    }
+    public int getContentType();
 
-    default public ButtonListener getHardKeyListener() {
-    }
+    public ButtonListener getHardKeyListener();
 
-    default public void resetSettings() {
-    }
+    public void resetSettings();
 
-    default public void activate(IActivationContext iActivationContext) {
-    }
+    public void activate(IActivationContext var1);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public IActivationContext getContext() {
-    }
+    public IActivationContext getContext();
 
-    default public boolean isActive() {
-    }
+    public boolean isActive();
 
-    default public ISourceSlot getActiveSlot() {
-    }
+    public ISourceSlot getActiveSlot();
 
-    default public void vehicleMoving(boolean bl) {
-    }
+    public void vehicleMoving(boolean var1);
 
-    default public void notifyContentActivationFinished() {
-    }
+    public void notifyContentActivationFinished();
 
-    default public void diagResetBrowser() {
-    }
+    public void diagResetBrowser();
 }
 

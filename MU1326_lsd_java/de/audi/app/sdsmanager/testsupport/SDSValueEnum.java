@@ -49,10 +49,10 @@ public class SDSValueEnum {
         }
         try {
             float f6 = Float.parseFloat(((String[])addValuesMap.get(n))[n2]);
-            f3 = (float)Math.round((f2 + f6) * 31300) / 31300;
+            f3 = (float)Math.round((f2 + f6) * 1000.0f) / 1000.0f;
         }
         catch (NumberFormatException numberFormatException) {
-            Logger.getMainLog().log(-1601830656, "SDSValueEnum#addValue: NumberFormatException: valueType %1, entryID %2", (Object)n, (long)n2);
+            Logger.getMainLog().log(100000, "SDSValueEnum#addValue: NumberFormatException: valueType %1, entryID %2", (Object)n, (long)n2);
             return f2;
         }
         if (f3 <= f4.floatValue()) {

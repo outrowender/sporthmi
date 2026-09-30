@@ -3,29 +3,40 @@
  */
 package de.audi.app.terminalmode.dsi;
 
-import de.audi.app.terminalmode.dsi.IResource$OwnershipType;
+import de.audi.app.terminalmode.util.Enum;
 
 public interface IResource {
-    public static final int RESOURCE_UNKNOWN;
-    public static final int RESOURCE_SCREEN;
-    public static final int RESOURCE_MAIN_AUDIO;
-    public static final int RESOURCE_AUDIO_MEDIA;
-    public static final int RESOURCE_AUDIO_PHONE;
-    public static final int RESOURCE_AUDIO_SPEECH;
-    public static final int RESOURCE_AUDIO_GUIDANCE;
-    public static final int RESOURCE_AUDIO_RINGTONE;
-    public static final int RESOURCE_NOTIFICATION;
-    public static final int RESOURCE_OWNER_UNKNOWN;
-    public static final int RESOURCE_OWNER_MAINUNIT;
-    public static final int RESOURCE_OWNER_DEVICE;
+    public static final int RESOURCE_UNKNOWN = 0;
+    public static final int RESOURCE_SCREEN = 1;
+    public static final int RESOURCE_MAIN_AUDIO = 2;
+    public static final int RESOURCE_AUDIO_MEDIA = 3;
+    public static final int RESOURCE_AUDIO_PHONE = 4;
+    public static final int RESOURCE_AUDIO_SPEECH = 5;
+    public static final int RESOURCE_AUDIO_GUIDANCE = 6;
+    public static final int RESOURCE_AUDIO_RINGTONE = 7;
+    public static final int RESOURCE_NOTIFICATION = 8;
+    public static final int RESOURCE_OWNER_UNKNOWN = 0;
+    public static final int RESOURCE_OWNER_MAINUNIT = 1;
+    public static final int RESOURCE_OWNER_DEVICE = 2;
 
-    default public int getResourceId() {
-    }
+    public int getResourceId();
 
-    default public int getOwner() {
-    }
+    public int getOwner();
 
-    default public OwnershipType getOwnershipType() {
+    public OwnershipType getOwnershipType();
+
+    /*
+     * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+     */
+    public static class OwnershipType
+    extends Enum<OwnershipType> {
+        public static final OwnershipType UNSPECIFIED = new OwnershipType("UNSPECIFIED");
+        public static final OwnershipType BORROW = new OwnershipType("BORROW");
+        public static final OwnershipType TAKE = new OwnershipType("TAKE");
+
+        protected OwnershipType(String string) {
+            super(string);
+        }
     }
 }
 

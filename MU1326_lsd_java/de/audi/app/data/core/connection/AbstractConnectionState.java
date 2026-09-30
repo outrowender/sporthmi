@@ -10,8 +10,8 @@ import org.dsi.ifc.networking.DataConnectionStateStruct;
 
 public class AbstractConnectionState
 extends AbstractDataConnectionComponent {
-    private static final int DISCONNECTED;
-    private static final int CONNECTED;
+    private static final int DISCONNECTED = 0;
+    private static final int CONNECTED = 1;
     private final int[] attributeNotifications = new int[]{1};
     private final ChoiceModelApp connectionState = this.getChoiceModel(93);
 
@@ -19,12 +19,10 @@ extends AbstractDataConnectionComponent {
         super(iDataApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return this.attributeNotifications;
     }
 
-    @Override
     public void updateStateDataConnection(DataConnectionStateStruct dataConnectionStateStruct, int n) {
         boolean bl;
         if (n != 1 || dataConnectionStateStruct == null) {
@@ -42,7 +40,7 @@ extends AbstractDataConnectionComponent {
                 bl = false;
             }
         }
-        this.log.log(1078071040, "AbstractConnectionState#updateStateDataConnection(): connected=%1", bl);
+        this.log.log(1000000, "AbstractConnectionState#updateStateDataConnection(): connected=%1", bl);
         this.connectionState.setValue(bl ? 1 : 0);
     }
 }

@@ -8,12 +8,13 @@ import de.audi.atip.i18n.I18NTarget;
 import de.audi.atip.i18n.Language;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.search.AbstractGuiSearchHandler;
-import de.audi.atip.search.AbstractSearch$1;
 import de.audi.atip.search.util.NullDSISearch;
 import de.audi.mib.jdsi.DSIActivator;
+import de.audi.mib.jdsi.IDSIClient;
 import de.esolutions.fw.util.commons.Converter;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import org.dsi.ifc.base.DSIBase;
 import org.dsi.ifc.search.CarFunction;
 import org.dsi.ifc.search.ConflictMatch;
 import org.dsi.ifc.search.Country;
@@ -32,19 +33,19 @@ import org.osgi.framework.ServiceRegistration;
 public abstract class AbstractSearch
 implements DSISearchListener,
 I18NTarget {
-    private static final int DSI_SEARCHQUERY_BLOCKSIZE;
+    private static final int DSI_SEARCHQUERY_BLOCKSIZE = 4;
     private int dsiMaxResultsReturned = 100;
     protected boolean conflictMode = false;
-    public static final int INSTANCEID_DSISEARCH_NAV;
-    public static final int INSTANCEID_DSISEARCH_TUNER;
-    public static final int INSTANCEID_DSISEARCH_MEDIA;
-    public static final int INSTANCEID_DSISEARCH_CAR;
-    public static final int INSTANCEID_DSISEARCH_PHONE;
-    public static final int INSTANCEID_DSISEARCH_ADB;
-    public static final int INSTANCEID_DSISEARCH_MSG;
-    public static final int INSTANCEID_DSISEARCH_NAV_LAST_DEST;
-    public static final int INSTANCEID_DSISEARCH_RHMI;
-    public static final int INSTANCEID_DSISEARCH_TV;
+    public static final int INSTANCEID_DSISEARCH_NAV = 0;
+    public static final int INSTANCEID_DSISEARCH_TUNER = 1;
+    public static final int INSTANCEID_DSISEARCH_MEDIA = 2;
+    public static final int INSTANCEID_DSISEARCH_CAR = 3;
+    public static final int INSTANCEID_DSISEARCH_PHONE = 4;
+    public static final int INSTANCEID_DSISEARCH_ADB = 5;
+    public static final int INSTANCEID_DSISEARCH_MSG = 6;
+    public static final int INSTANCEID_DSISEARCH_NAV_LAST_DEST = 7;
+    public static final int INSTANCEID_DSISEARCH_RHMI = 8;
+    public static final int INSTANCEID_DSISEARCH_TV = 10;
     protected final LogChannel logChannel;
     protected DSIActivator dsiActivator = null;
     protected DSISearch dsi;
@@ -52,7 +53,7 @@ I18NTarget {
     private ServiceRegistration i18nService;
     protected IFrameworkAccess framework;
     private int lastQueryID = 0;
-    private static int queryidentifier;
+    private static int queryidentifier = 1;
     protected AbstractGuiSearchHandler activeGuiSearchHandler;
     protected int instanceID = 0;
     private Language currentLanguage;
@@ -78,7 +79,7 @@ I18NTarget {
 
     protected void initDSI() {
         if (this.dsi != null) {
-            this.logChannel.log(-2137614336, "AbstractSearch#initDSI()");
+            this.logChannel.log(10000000, "AbstractSearch#initDSI()");
             try {
                 this.dsi.setNotification(this);
             }
@@ -99,7 +100,7 @@ I18NTarget {
     }
 
     protected final void deinitDSI() {
-        this.logChannel.log(-2137614336, "AbstractSearch#deinit()");
+        this.logChannel.log(10000000, "AbstractSearch#deinit()");
         if (this.dsi != null) {
             try {
                 this.dsi.clearNotification(this);
@@ -132,8 +133,20 @@ I18NTarget {
 
     private DSIActivator getDSIActivator() {
         if (this.dsiActivator == null) {
-            AbstractSearch$1 abstractSearch$1 = new AbstractSearch$1(this);
-            this.dsiActivator = new DSIActivator(this.framework, (class$org$dsi$ifc$search$DSISearch == null ? (class$org$dsi$ifc$search$DSISearch = AbstractSearch.class$("org.dsi.ifc.search.DSISearch")) : class$org$dsi$ifc$search$DSISearch).getName(), (class$org$dsi$ifc$search$DSISearchListener == null ? (class$org$dsi$ifc$search$DSISearchListener = AbstractSearch.class$("org.dsi.ifc.search.DSISearchListener")) : class$org$dsi$ifc$search$DSISearchListener).getName(), new Integer(this.instanceID), this, abstractSearch$1);
+            IDSIClient iDSIClient = new IDSIClient(){
+
+                public void setDSI(DSIBase dSIBase) {
+                    AbstractSearch.this.setDSISearch((DSISearch)dSIBase);
+                    if (AbstractSearch.this.currentLanguage != null) {
+                        AbstractSearch.this.setLanguage(AbstractSearch.this.currentLanguage);
+                    }
+                }
+
+                public int[] getAutoNotifications() {
+                    return null;
+                }
+            };
+            this.dsiActivator = new DSIActivator(this.framework, (class$org$dsi$ifc$search$DSISearch == null ? (class$org$dsi$ifc$search$DSISearch = AbstractSearch.class$("org.dsi.ifc.search.DSISearch")) : class$org$dsi$ifc$search$DSISearch).getName(), (class$org$dsi$ifc$search$DSISearchListener == null ? (class$org$dsi$ifc$search$DSISearchListener = AbstractSearch.class$("org.dsi.ifc.search.DSISearchListener")) : class$org$dsi$ifc$search$DSISearchListener).getName(), new Integer(this.instanceID), this, iDSIClient);
         }
         return this.dsiActivator;
     }
@@ -178,7 +191,7 @@ I18NTarget {
     }
 
     private final void setDSISearch(DSISearch dSISearch) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setDSI # dsi=%1", (Object)this.dsi);
+        this.logChannel.log(10000000, "AbstractSearch#setDSI # dsi=%1", (Object)this.dsi);
         if (dSISearch == null) {
             this.deinitDSI();
         }
@@ -213,13 +226,13 @@ I18NTarget {
         Object object = this.lock;
         synchronized (object) {
             if (this.activeGuiSearchHandler == null) {
-                this.logChannel.log(-1601830656, "AbstractSearch#performQuery called but activeGuiSearchHandler is null! call will be ignored!");
+                this.logChannel.log(100000, "AbstractSearch#performQuery called but activeGuiSearchHandler is null! call will be ignored!");
                 return;
             }
             this.lastSearchStartIndex = 0;
             this.lastListPosition = 0;
             this.lastQuery = new SearchQuery(this.lastQueryID, this.activeGuiSearchHandler.getSources(), string, stringArray, this.lastSearchStartIndex, 4, this.conflictMode, this.lastConflictMatch != null ? this.lastConflictMatch.type : 0, this.getMatchingMode(), this.getMaxCountPerSource(string));
-            this.logChannel.log(-2137614336, "AbstractSearch#performQuery query=%1, instanceID=%2", (Object)this.lastQuery, (long)this.instanceID);
+            this.logChannel.log(10000000, "AbstractSearch#performQuery query=%1, instanceID=%2", (Object)this.lastQuery, (long)this.instanceID);
             this.requestSuggestion(this.lastQuery);
             if (this.dsi != null) {
                 try {
@@ -233,7 +246,7 @@ I18NTarget {
     }
 
     private boolean nextQuery() {
-        this.logChannel.log(-2137614336, "AbstractSearch#nextQuery lastSearchStartIndex=%1, lastListPosition=%2, instanceID=%3", (long)this.lastSearchStartIndex, (long)this.lastListPosition, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#nextQuery lastSearchStartIndex=%1, lastListPosition=%2, instanceID=%3", (long)this.lastSearchStartIndex, (long)this.lastListPosition, (long)this.instanceID);
         if (this.lastListPosition < this.dsiMaxResultsReturned && this.lastListPosition >= this.lastSearchStartIndex + 4 - 1) {
             this.lastSearchStartIndex += 4;
             this.lastQuery.offset = this.lastSearchStartIndex;
@@ -260,10 +273,10 @@ I18NTarget {
             this.cancelQuery();
             this.lastSearchStartIndex = this.activeGuiSearchHandler.mdlListSearchResults.getLength();
             if (this.lastSearchStartIndex >= this.dsiMaxResultsReturned) {
-                this.logChannel.log(-2137614336, "AbstractSearch#resumeQuery lastSearchStartIndex=%1, do not resume", (long)this.lastSearchStartIndex);
+                this.logChannel.log(10000000, "AbstractSearch#resumeQuery lastSearchStartIndex=%1, do not resume", (long)this.lastSearchStartIndex);
                 return;
             }
-            this.logChannel.log(-2137614336, "AbstractSearch#resumeQuery lastSearchStartIndex=%1, instanceID=%2", (long)this.lastSearchStartIndex, (long)this.instanceID);
+            this.logChannel.log(10000000, "AbstractSearch#resumeQuery lastSearchStartIndex=%1, instanceID=%2", (long)this.lastSearchStartIndex, (long)this.instanceID);
             String[] stringArray = this.lastQuery.alternativeNeedles;
             this.lastQuery = new SearchQuery(this.lastQueryID, this.activeGuiSearchHandler.getSources(), this.activeGuiSearchHandler.mdlSpellerSearchText.getText(), stringArray, this.lastSearchStartIndex, 4, this.conflictMode, this.lastConflictMatch != null ? this.lastConflictMatch.type : 0, this.getMatchingMode(), this.getMaxCountPerSource(this.activeGuiSearchHandler.mdlSpellerSearchText.getText()));
             if (this.dsi != null) {
@@ -288,7 +301,7 @@ I18NTarget {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public boolean cancelQuery() {
-        this.logChannel.log(-2137614336, "AbstractSearch#cancelQuery() lastQueryID=%1, instanceID=%2", (long)this.lastQueryID, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#cancelQuery() lastQueryID=%1, instanceID=%2", (long)this.lastQueryID, (long)this.instanceID);
         boolean bl = false;
         Object object = this.lock;
         synchronized (object) {
@@ -307,7 +320,7 @@ I18NTarget {
     }
 
     public void setSearchFilter(int n, SearchFilter searchFilter) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setSearchFilter() source=%1 filter=%2, instanceID=%3", (Object)Integer.toString(n), (Object)searchFilter, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setSearchFilter() source=%1 filter=%2, instanceID=%3", (Object)Integer.toString(n), (Object)searchFilter, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.setSearchFilter(n, searchFilter);
@@ -319,7 +332,7 @@ I18NTarget {
     }
 
     public void requestSupportedCountries() {
-        this.logChannel.log(-2137614336, "AbstractSearch#requestSupportedCountries() instanceID=%1", (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#requestSupportedCountries() instanceID=%1", (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.requestSupportedCountries();
@@ -331,7 +344,7 @@ I18NTarget {
     }
 
     public void requestSuggestion(SearchQuery searchQuery) {
-        this.logChannel.log(-2137614336, "AbstractSearch#requestSuggestion() query=%1 instanceID=%2", (Object)searchQuery, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#requestSuggestion() query=%1 instanceID=%2", (Object)searchQuery, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.requestSuggestion(searchQuery);
@@ -343,7 +356,7 @@ I18NTarget {
     }
 
     public void setActiveSearchCountries(String[] stringArray) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setActiveSearchCountries() countryIDs=%1, instanceID=%2", (Object)stringArray, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setActiveSearchCountries() countryIDs=%1, instanceID=%2", (Object)stringArray, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.setActiveSearchCountries(stringArray);
@@ -355,7 +368,7 @@ I18NTarget {
     }
 
     public void addToHistory(SearchResult searchResult) {
-        this.logChannel.log(-2137614336, "AbstractSearch#addToHistory() entry=%1, instanceID=%2", (Object)searchResult, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#addToHistory() entry=%1, instanceID=%2", (Object)searchResult, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.addToHistory(searchResult);
@@ -367,7 +380,7 @@ I18NTarget {
     }
 
     public void setCurrentPosition(NavPosition navPosition) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setCurrentPosition() pos=%1, instanceID=%2", (Object)navPosition, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setCurrentPosition() pos=%1, instanceID=%2", (Object)navPosition, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.setCurrentPosition(navPosition);
@@ -379,7 +392,7 @@ I18NTarget {
     }
 
     public void setRoutePoints(NavPosition[] navPositionArray) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setRoutePoints() routePoints=%1, instanceID=%2", (Object)navPositionArray, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setRoutePoints() routePoints=%1, instanceID=%2", (Object)navPositionArray, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.setRoutePoints(navPositionArray);
@@ -391,7 +404,7 @@ I18NTarget {
     }
 
     public void setActiveProfile(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setActiveProfile() profileNumber=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setActiveProfile() profileNumber=%1, instanceID=%2", (long)n, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.setActiveProfile(n);
@@ -403,7 +416,7 @@ I18NTarget {
     }
 
     public void setCarFunctionStates(CarFunction[] carFunctionArray) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setCarFunctionStates() carfunctions=%1, instanceID=%2", (Object)carFunctionArray, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setCarFunctionStates() carfunctions=%1, instanceID=%2", (Object)carFunctionArray, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.setCarFunctionStates(carFunctionArray);
@@ -415,7 +428,7 @@ I18NTarget {
     }
 
     public void setRadioStations(int n, RadioStation[] radioStationArray) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setRadioStations() source=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setRadioStations() source=%1, instanceID=%2", (long)n, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.setRadioStations(n, radioStationArray);
@@ -427,7 +440,7 @@ I18NTarget {
     }
 
     public void prepareSources(int[] nArray) {
-        this.logChannel.log(-2137614336, "AbstractSearch#prepareSources() sources=%1, instanceID=%2", (Object)nArray, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#prepareSources() sources=%1, instanceID=%2", (Object)nArray, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.prepareSources(nArray);
@@ -439,7 +452,7 @@ I18NTarget {
     }
 
     public void resetSettings() {
-        this.logChannel.log(-2137614336, "AbstractSearch#resetSettings instanceID=%1", (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#resetSettings instanceID=%1", (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.resetToFactorySettings();
@@ -451,7 +464,7 @@ I18NTarget {
     }
 
     public void removeFromHistory(long l) {
-        this.logChannel.log(-2137614336, "AbstractSearch#removeFromHistory id=%1, instanceID=%2", l, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#removeFromHistory id=%1, instanceID=%2", l, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.removeFromHistory(l);
@@ -463,7 +476,7 @@ I18NTarget {
     }
 
     public void removeAllFromHistory() {
-        this.logChannel.log(-2137614336, "AbstractSearch#removeAllFromHistory() instanceID=%1", (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#removeAllFromHistory() instanceID=%1", (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.removeAllFromHistory();
@@ -475,7 +488,7 @@ I18NTarget {
     }
 
     public void resetAutocompletion(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#resetAutocompletion() source=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#resetAutocompletion() source=%1, instanceID=%2", (long)n, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.resetAutocompletion(n);
@@ -487,7 +500,7 @@ I18NTarget {
     }
 
     public void createBackupFile(String string) {
-        this.logChannel.log(-2137614336, "AbstractSearch#createBackupFile() path=%1, instanceID=%2", (Object)string, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#createBackupFile() path=%1, instanceID=%2", (Object)string, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.createBackupFile(string);
@@ -499,7 +512,7 @@ I18NTarget {
     }
 
     public void importBackupFile(String string) {
-        this.logChannel.log(-2137614336, "AbstractSearch#importBackupFile() fullPath=%1, instanceID=%2", (Object)string, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#importBackupFile() fullPath=%1, instanceID=%2", (Object)string, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.importBackupFile(string);
@@ -511,7 +524,7 @@ I18NTarget {
     }
 
     public void setEnvironment(Environment environment) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setEnvironment() environment=%1, instanceID=%2", (Object)environment, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setEnvironment() environment=%1, instanceID=%2", (Object)environment, (long)this.instanceID);
         if (this.dsi != null) {
             try {
                 this.dsi.setEnvironment(environment);
@@ -522,28 +535,25 @@ I18NTarget {
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.logChannel.log(10000, "AbstractSearch#asyncException # errorMsg=%1, errorCode=%2, requestType=%3", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void requestSupportedCountriesResult(int n, Country[] countryArray) {
         if (this.logChannel.isDebug()) {
-            this.logChannel.log(-2137614336, "AbstractSearch#requestSupportedCountriesResult # success=%2, countries=%1, instanceID=%3", (Object)Converter.array2String(countryArray), (long)n, (long)this.instanceID);
+            this.logChannel.log(10000000, "AbstractSearch#requestSupportedCountriesResult # success=%2, countries=%1, instanceID=%3", (Object)Converter.array2String(countryArray), (long)n, (long)this.instanceID);
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void searchResult(int n, SearchResult searchResult) {
         Object object = this.lock;
         synchronized (object) {
             if (this.logChannel.isDebug2()) {
                 String string = searchResult != null ? String.valueOf(searchResult.listPosition) : "null";
-                this.logChannel.log(14808325, "AbstractSearch#searchResult # searchResult=%2, instanceID=%3, searchResult.listPosition=%1", (Object)string, (Object)searchResult, (long)this.instanceID);
+                this.logChannel.log(100000000, "AbstractSearch#searchResult # searchResult=%2, instanceID=%3, searchResult.listPosition=%1", (Object)string, (Object)searchResult, (long)this.instanceID);
             }
             if (searchResult == null || searchResult.getQueryId() != this.lastQueryID) {
                 return;
@@ -554,14 +564,12 @@ I18NTarget {
         }
     }
 
-    @Override
     public void addToHistoryResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#addToHistoryResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#addToHistoryResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void requestSuggestionResult(int n, int n2, Suggestion[] suggestionArray) {
-        this.logChannel.log(-2137614336, "AbstractSearch#requestSuggestionResult # success=%1, queryID=%2, instanceID=%3", (long)n, (long)n2, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#requestSuggestionResult # success=%1, queryID=%2, instanceID=%3", (long)n, (long)n2, (long)this.instanceID);
         this.activeGuiSearchHandler.setFastGuess(suggestionArray, n2);
     }
 
@@ -570,29 +578,26 @@ I18NTarget {
      */
     public void cancelQueryResult(int n) {
         if (this.activeGuiSearchHandler == null) {
-            this.logChannel.log(-1601830656, "AbstractSearch#cancelQueryResult activeGuiSearchHandler is null");
+            this.logChannel.log(100000, "AbstractSearch#cancelQueryResult activeGuiSearchHandler is null");
             return;
         }
         Object object = this.lock;
         synchronized (object) {
-            this.logChannel.log(-2137614336, "AbstractSearch#cancelQueryResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+            this.logChannel.log(10000000, "AbstractSearch#cancelQueryResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
             this.activeGuiSearchHandler.cancelQueryResult();
         }
     }
 
-    @Override
     public void setCurrentPositionResult(int n) {
-        this.logChannel.log(14808325, "AbstractSearch#setCurrentPositionResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(100000000, "AbstractSearch#setCurrentPositionResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void setRoutePointsResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setRoutePointsResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setRoutePointsResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void setLanguageResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setLanguageResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setLanguageResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
     /*
@@ -601,9 +606,9 @@ I18NTarget {
     public void updateSearchIsActive(boolean bl, int n) {
         Object object = this.lock;
         synchronized (object) {
-            this.logChannel.log(-2137614336, "AbstractSearch#updateSearchIsActive # isActive=%1, validFlag=%2, instanceID=%3", (Object)Boolean.toString(bl), (long)n, (long)this.instanceID);
+            this.logChannel.log(10000000, "AbstractSearch#updateSearchIsActive # isActive=%1, validFlag=%2, instanceID=%3", (Object)Boolean.toString(bl), (long)n, (long)this.instanceID);
             if (n != 1) {
-                this.logChannel.log(-2137614336, "AbstractSearch#updateSearchIsActive # invalid");
+                this.logChannel.log(10000000, "AbstractSearch#updateSearchIsActive # invalid");
                 return;
             }
             if (bl) {
@@ -618,39 +623,32 @@ I18NTarget {
         }
     }
 
-    @Override
     public void setCarFunctionStatesResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setCarFunctionStatesResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setCarFunctionStatesResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void setRadioStationsResult(int n, int n2) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setRadioStationsResult # success=%1, source=%2, instanceID=%3", (long)n, (long)n2, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setRadioStationsResult # success=%1, source=%2, instanceID=%3", (long)n, (long)n2, (long)this.instanceID);
     }
 
-    @Override
     public void setActiveProfileResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setActiveProfileResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setActiveProfileResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void setActiveSearchCountriesResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setActiveSearchCountriesResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setActiveSearchCountriesResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void resetToFactorySettingsResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#resetToFactorySettingsResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#resetToFactorySettingsResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void setSearchFilterResult(int n, int n2) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setSearchFilterResult # success=%1 source=%2, instanceID=%3", (Object)this.resultTypeToString(n), (long)n2, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setSearchFilterResult # success=%1 source=%2, instanceID=%3", (Object)this.resultTypeToString(n), (long)n2, (long)this.instanceID);
     }
 
-    @Override
     public void invalidateData(int[] nArray) {
-        this.logChannel.log(-2137614336, "AbstractSearch#invalidateData # sources=%1, instanceID=%2", (Object)nArray, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#invalidateData # sources=%1, instanceID=%2", (Object)nArray, (long)this.instanceID);
         if (nArray == null || this.activeGuiSearchHandler == null || this.activeGuiSearchHandler.getSources() == null) {
             return;
         }
@@ -664,64 +662,54 @@ I18NTarget {
         }
     }
 
-    @Override
     public void prepareSourcesResult(int n) {
-        this.logChannel.log(14808325, "AbstractSearch#prepareSourcesResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(100000000, "AbstractSearch#prepareSourcesResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void removeFromHistoryResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#removeFromHistoryResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#removeFromHistoryResult # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void resetAutocompletionResult(int n, int n2) {
-        this.logChannel.log(14808325, "AbstractSearch#resetAutocompletionResult # success=%1, source=%2, instanceID=%3", (long)n, (long)n2, (long)this.instanceID);
+        this.logChannel.log(100000000, "AbstractSearch#resetAutocompletionResult # success=%1, source=%2, instanceID=%3", (long)n, (long)n2, (long)this.instanceID);
     }
 
-    @Override
     public void sourceDataAvailabilityChanged(int n, boolean bl) {
-        this.logChannel.log(14808325, "AbstractSearch#sourceDataAvailabilityChanged # source=%2, dataAvailable=%1, instanceID=%3", (Object)Boolean.toString(bl), (long)n, (long)this.instanceID);
+        this.logChannel.log(100000000, "AbstractSearch#sourceDataAvailabilityChanged # source=%2, dataAvailable=%1, instanceID=%3", (Object)Boolean.toString(bl), (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void removeAllFromHistoryResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#removeAllFromHistoryResult() # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#removeAllFromHistoryResult() # success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void createBackupFileResult(int n, String string) {
-        this.logChannel.log(14808325, "AbstractSearch#createBackupFileResult()");
+        this.logChannel.log(100000000, "AbstractSearch#createBackupFileResult()");
     }
 
-    @Override
     public void importBackupFileResult(int n, String string) {
-        this.logChannel.log(14808325, "AbstractSearch#importBackupFileResult()");
+        this.logChannel.log(100000000, "AbstractSearch#importBackupFileResult()");
     }
 
-    @Override
     public void setEnvironmentResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setEnvironmentResult() success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setEnvironmentResult() success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
-    @Override
     public void removeAllFromHistoryBySourceResult(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#removeAllFromHistoryBySourceResult() success=%1, instanceID=%2", (long)n, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#removeAllFromHistoryBySourceResult() success=%1, instanceID=%2", (long)n, (long)this.instanceID);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void cancelQueryResult(int n, int n2) {
-        this.logChannel.log(-2137614336, "AbstractSearch#cancelQueryResult( %1 )", (long)n);
+        this.logChannel.log(10000000, "AbstractSearch#cancelQueryResult( %1 )", (long)n);
         if (this.activeGuiSearchHandler == null) {
-            this.logChannel.log(-1601830656, "AbstractSearch#cancelQueryResult activeGuiSearchHandler is null");
+            this.logChannel.log(100000, "AbstractSearch#cancelQueryResult activeGuiSearchHandler is null");
             return;
         }
         Object object = this.lock;
         synchronized (object) {
-            this.logChannel.log(-2137614336, "AbstractSearch#cancelQueryResult # success=%1, instanceID=%2", (long)n2, (long)this.instanceID);
+            this.logChannel.log(10000000, "AbstractSearch#cancelQueryResult # success=%1, instanceID=%2", (long)n2, (long)this.instanceID);
             this.activeGuiSearchHandler.cancelQueryResult();
         }
     }
@@ -729,17 +717,16 @@ I18NTarget {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSearchIsActive(int n, boolean bl, int n2) {
         Object object = this.lock;
         synchronized (object) {
-            this.logChannel.log(-2137614336, "AbstractSearch#updateSearchIsActive(%1, %2, %3)", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (long)n2);
+            this.logChannel.log(10000000, "AbstractSearch#updateSearchIsActive(%1, %2, %3)", (Object)Integer.toString(n), (Object)Boolean.toString(bl), (long)n2);
             if (n2 != 1) {
-                this.logChannel.log(-2137614336, "AbstractSearch#updateSearchIsActive # invalid");
+                this.logChannel.log(10000000, "AbstractSearch#updateSearchIsActive # invalid");
                 return;
             }
             if (n != this.lastQueryID) {
-                this.logChannel.log(-2137614336, "AbstractSearch#updateSearchIsActive() ignore update for olf queryID %1 current id %2 ", (Object)Integer.toString(n), (Object)Integer.toString(this.lastQueryID));
+                this.logChannel.log(10000000, "AbstractSearch#updateSearchIsActive() ignore update for olf queryID %1 current id %2 ", (Object)Integer.toString(n), (Object)Integer.toString(this.lastQueryID));
                 return;
             }
             if (bl) {
@@ -748,46 +735,39 @@ I18NTarget {
                     this.firstPage = false;
                 }
             } else if (!this.nextQuery()) {
-                this.logChannel.log(-2137614336, "AbstractSearch#updateSearchIsActive() search has ended, queryId=%1", (long)n);
+                this.logChannel.log(10000000, "AbstractSearch#updateSearchIsActive() search has ended, queryId=%1", (long)n);
                 this.firstPage = true;
                 this.activeGuiSearchHandler.searchEnded();
             }
         }
     }
 
-    @Override
     public void updatePotentialConflict(int n, boolean bl, ConflictMatch conflictMatch, int n2) {
-        this.logChannel.log(-2137614336, "AbstractSearch#updatePotentialConflict()");
+        this.logChannel.log(10000000, "AbstractSearch#updatePotentialConflict()");
     }
 
-    @Override
     public void updateProfileState(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "AbstractSearch#updateProfileState()");
+        this.logChannel.log(10000000, "AbstractSearch#updateProfileState()");
     }
 
-    @Override
     public void profileChanged(int n, int n2) {
-        this.logChannel.log(-2137614336, "AbstractSearch#profileChanged()");
+        this.logChannel.log(10000000, "AbstractSearch#profileChanged()");
     }
 
-    @Override
     public void profileCopied(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "AbstractSearch#profileCopied()");
+        this.logChannel.log(10000000, "AbstractSearch#profileCopied()");
     }
 
-    @Override
     public void profileReset(int n, int n2) {
-        this.logChannel.log(-2137614336, "AbstractSearch#profileReset()");
+        this.logChannel.log(10000000, "AbstractSearch#profileReset()");
     }
 
-    @Override
     public void profileResetAll(int n) {
-        this.logChannel.log(-2137614336, "AbstractSearch#profileResetAll()");
+        this.logChannel.log(10000000, "AbstractSearch#profileResetAll()");
     }
 
-    @Override
     public void setLanguage(Language language) {
-        this.logChannel.log(-2137614336, "AbstractSearch#setLanguage # dsi=%1 # lang=%2, instanceID=%3", (Object)this.dsi, (Object)language, (long)this.instanceID);
+        this.logChannel.log(10000000, "AbstractSearch#setLanguage # dsi=%1 # lang=%2, instanceID=%3", (Object)this.dsi, (Object)language, (long)this.instanceID);
         this.currentLanguage = language;
         if (this.dsi != null) {
             this.dsi.setLanguage(language.getLanguageCode());
@@ -819,14 +799,6 @@ I18NTarget {
         return this.lock;
     }
 
-    static /* synthetic */ void access$000(AbstractSearch abstractSearch, DSISearch dSISearch) {
-        abstractSearch.setDSISearch(dSISearch);
-    }
-
-    static /* synthetic */ Language access$100(AbstractSearch abstractSearch) {
-        return abstractSearch.currentLanguage;
-    }
-
     static /* synthetic */ Class class$(String string) {
         try {
             return Class.forName(string);
@@ -834,10 +806,6 @@ I18NTarget {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        queryidentifier = 1;
     }
 }
 

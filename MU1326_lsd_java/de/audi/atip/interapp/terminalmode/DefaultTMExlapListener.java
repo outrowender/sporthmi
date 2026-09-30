@@ -10,15 +10,12 @@ import de.audi.atip.interapp.terminalmode.TrackInfoContainer;
 
 public class DefaultTMExlapListener
 implements ITMExlapListener {
-    @Override
     public void updateAppConnectDevice(AppConnectDeviceContainer appConnectDeviceContainer) {
     }
 
-    @Override
     public void updateMediaPlayInfo(MediaPlayInfoContainer mediaPlayInfoContainer) {
     }
 
-    @Override
     public void updateCurrentTrackInfo(TrackInfoContainer trackInfoContainer) {
     }
 }

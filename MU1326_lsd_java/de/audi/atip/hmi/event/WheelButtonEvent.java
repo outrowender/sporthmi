@@ -8,10 +8,10 @@ import de.audi.atip.hmi.event.KeyEvent;
 
 public class WheelButtonEvent
 extends KeyEvent {
-    public static final int RIGHTTURN;
-    public static final int LEFTTURN;
-    public static final int TURN_UP;
-    public static final int TURN_DOWN;
+    public static final int RIGHTTURN = 0;
+    public static final int LEFTTURN = 1;
+    public static final int TURN_UP = 1;
+    public static final int TURN_DOWN = 0;
     private int direction;
     private int clickCount;
     private int subClickCount;
@@ -56,10 +56,9 @@ extends KeyEvent {
     }
 
     public String toStringWithDetails() {
-        return new StringBuffer().append("WheelButtonEvent: keyCode = ").append(this.keycode2Text()).append('(').append(this.getKeyCode()).append("), direction = ").append(this.direction2Text()).append('(').append(this.direction).append("), count = ").append(this.clickCount).append(", subClickCount = ").append(this.subClickCount).toString();
+        return "WheelButtonEvent: keyCode = " + this.keycode2Text() + '(' + this.getKeyCode() + "), direction = " + this.direction2Text() + '(' + this.direction + "), count = " + this.clickCount + ", subClickCount = " + this.subClickCount;
     }
 
-    @Override
     public String toString() {
         return "WheelButtonEvent";
     }

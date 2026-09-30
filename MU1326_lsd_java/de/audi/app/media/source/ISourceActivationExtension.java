@@ -7,7 +7,6 @@ import de.audi.app.media.source.ISource;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface ISourceActivationExtension {
-    default public boolean slotsChanged(ISource[] iSourceArray, ISourceSlot iSourceSlot) {
-    }
+    public boolean slotsChanged(ISource[] var1, ISourceSlot var2);
 }
 

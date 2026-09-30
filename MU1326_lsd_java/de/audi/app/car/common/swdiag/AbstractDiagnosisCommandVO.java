@@ -16,26 +16,25 @@ public abstract class AbstractDiagnosisCommandVO
 implements IDiagnosisCommand {
     public static final CarViewOption voInvis = new CarViewOption(0, 0);
     private final String command;
-    private static final String ARG_ALL;
-    private static final String VAL_VISIBLE;
-    private static final String VAL_INVISIBLE;
-    private static final String VAL_NA_SYSTEM;
-    private static final String VAL_NA_CL15;
-    private static final String VAL_NA_SPEED;
-    private static final String VO_VALUES;
+    private static final String ARG_ALL = "all";
+    private static final String VAL_VISIBLE = "vis";
+    private static final String VAL_INVISIBLE = "invis";
+    private static final String VAL_NA_SYSTEM = "system";
+    private static final String VAL_NA_CL15 = "clamp15";
+    private static final String VAL_NA_SPEED = "speed";
+    private static final String VO_VALUES = "[vis|invis|system|clamp15|speed]";
     private final Map viewOptions = new HashMap();
 
     public AbstractDiagnosisCommandVO(String string, String[] stringArray) {
-        Buffer buffer = new Buffer(string).append(" updateVO [").append("all");
+        Buffer buffer = new Buffer(string).append(" updateVO [").append(ARG_ALL);
         for (int i2 = 0; i2 < stringArray.length; ++i2) {
             buffer.append('|').append(stringArray[i2]);
             this.viewOptions.put(stringArray[i2].toLowerCase(), null);
         }
-        buffer.append("] ").append("[vis|invis|system|clamp15|speed]");
+        buffer.append("] ").append(VO_VALUES);
         this.command = buffer.toString();
     }
 
-    @Override
     public String getCommandString() {
         return this.command;
     }
@@ -44,8 +43,7 @@ implements IDiagnosisCommand {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    @Override
-    public void parseParameters(String string) {
+    public void parseParameters(String string) throws InvalidCommandParameterException {
         CarViewOption carViewOption;
         String string2;
         StringTokenizer stringTokenizer = new StringTokenizer(string);
@@ -54,7 +52,7 @@ implements IDiagnosisCommand {
             return;
         }
         String string3 = stringTokenizer.nextToken();
-        if (string3.equalsIgnoreCase("all")) {
+        if (string3.equalsIgnoreCase(ARG_ALL)) {
             if (!stringTokenizer.hasMoreTokens()) {
                 this.setAll(new CarViewOption(2, 0));
                 return;
@@ -62,27 +60,27 @@ implements IDiagnosisCommand {
             string2 = stringTokenizer.nextToken();
             carViewOption = this.parseValue(string2);
             if (carViewOption == null) {
-                throw new InvalidCommandParameterException(new StringBuffer().append("invalid view option value ").append(string2).toString());
+                throw new InvalidCommandParameterException("invalid view option value " + string2);
             }
             this.setAll(carViewOption);
         } else {
-            if (!this.viewOptions.containsKey(string3.toLowerCase())) throw new InvalidCommandParameterException(new StringBuffer().append("wrong view option argument ").append(string3).toString());
-            if (!stringTokenizer.hasMoreTokens()) throw new InvalidCommandParameterException(new StringBuffer().append("view option value missing for argument ").append(string3).toString());
+            if (!this.viewOptions.containsKey(string3.toLowerCase())) throw new InvalidCommandParameterException("wrong view option argument " + string3);
+            if (!stringTokenizer.hasMoreTokens()) throw new InvalidCommandParameterException("view option value missing for argument " + string3);
             string2 = stringTokenizer.nextToken();
             carViewOption = this.parseValue(string2);
             if (carViewOption == null) {
-                throw new InvalidCommandParameterException(new StringBuffer().append("invalid view option value ").append(string2).toString());
+                throw new InvalidCommandParameterException("invalid view option value " + string2);
             }
             this.viewOptions.put(string3.toLowerCase(), carViewOption);
         }
         while (stringTokenizer.hasMoreTokens()) {
             string3 = stringTokenizer.nextToken();
-            if (!this.viewOptions.containsKey(string3.toLowerCase())) throw new InvalidCommandParameterException(new StringBuffer().append("wrong view option argument ").append(string3).toString());
-            if (!stringTokenizer.hasMoreTokens()) throw new InvalidCommandParameterException(new StringBuffer().append("view option value missing for argument ").append(string3).toString());
+            if (!this.viewOptions.containsKey(string3.toLowerCase())) throw new InvalidCommandParameterException("wrong view option argument " + string3);
+            if (!stringTokenizer.hasMoreTokens()) throw new InvalidCommandParameterException("view option value missing for argument " + string3);
             string2 = stringTokenizer.nextToken();
             carViewOption = this.parseValue(string2);
             if (carViewOption == null) {
-                throw new InvalidCommandParameterException(new StringBuffer().append("invalid view option value ").append(string2).toString());
+                throw new InvalidCommandParameterException("invalid view option value " + string2);
             }
             this.viewOptions.put(string3.toLowerCase(), carViewOption);
         }
@@ -93,19 +91,19 @@ implements IDiagnosisCommand {
     }
 
     private CarViewOption parseValue(String string) {
-        if (string.equalsIgnoreCase("vis")) {
+        if (string.equalsIgnoreCase(VAL_VISIBLE)) {
             return new CarViewOption(2, 0);
         }
-        if (string.equalsIgnoreCase("invis")) {
+        if (string.equalsIgnoreCase(VAL_INVISIBLE)) {
             return new CarViewOption(0, 0);
         }
-        if (string.equalsIgnoreCase("clamp15")) {
+        if (string.equalsIgnoreCase(VAL_NA_CL15)) {
             return new CarViewOption(1, 2);
         }
-        if (string.equalsIgnoreCase("speed")) {
+        if (string.equalsIgnoreCase(VAL_NA_SPEED)) {
             return new CarViewOption(1, 3);
         }
-        if (string.equalsIgnoreCase("system")) {
+        if (string.equalsIgnoreCase(VAL_NA_SYSTEM)) {
             return new CarViewOption(1, 1);
         }
         return null;

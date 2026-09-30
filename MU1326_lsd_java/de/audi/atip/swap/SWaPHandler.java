@@ -4,7 +4,6 @@
 package de.audi.atip.swap;
 
 public interface SWaPHandler {
-    default public int getFscStata(int n) {
-    }
+    public int getFscStata(int var1);
 }
 

@@ -6,7 +6,6 @@ package de.audi.app.sdsmanager.apps.media;
 import de.audi.atip.interapp.media.IMediaSDSService;
 
 public interface IMediaPlayModeStrategy {
-    default public boolean executePlayMode(int n, IMediaSDSService iMediaSDSService) {
-    }
+    public boolean executePlayMode(int var1, IMediaSDSService var2);
 }
 

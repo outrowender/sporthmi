@@ -26,9 +26,8 @@ extends AbstractADBCommand {
         this.syncModel = hMIModel;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ValidateSpellerCharsCommand#execute()");
+        this.logger.log(10000000, "ValidateSpellerCharsCommand#execute()");
         boolean bl = this.adbDSIAccess.validateSpellerChars(this.spellerHandle, this.characters);
         if (!bl) {
             this.logger.log(10000, "ValidateSpellerCharsCommand#execute(): dsi call was not successful, finishing command.");
@@ -36,9 +35,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void validateSpellerCharsResult(int n, int n2, String string, String string2) {
-        this.logger.log(-2137614336, "ValidateSpellerCharsCommand#validateSpellerCharsResult(): validChars: %1, success: %2", (Object)string2, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "ValidateSpellerCharsCommand#validateSpellerCharsResult(): validChars: %1, success: %2", (Object)string2, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             this.adbSearch.validateSpellerCharsResult(string2);
         }

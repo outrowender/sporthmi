@@ -101,82 +101,66 @@ implements IEvoBluetoothApplication {
         this.getDiag().addDiagnosisComponent((IDiagComponent)new BluetoothApplicationDiag(this));
     }
 
-    @Override
     public IAccessibility getAccessibility() {
         return this.accessibility;
     }
 
-    @Override
     public IAudio getAudio() {
         return this.audio;
     }
 
-    @Override
     public IBondingState getBondingState() {
         return this.bondingState;
     }
 
-    @Override
     public IConnection getConnection() {
         return this.connection;
     }
 
-    @Override
     public BaseSapUpgradeHandler getSapUpgrade() {
         return this.sapUpgrade;
     }
 
-    @Override
     public IDeviceProfileList getDeviceProfileList() {
         return this.deviceProfileList;
     }
 
-    @Override
     public IInquiry getInquiry() {
         return this.getEvoInquiry();
     }
 
-    @Override
     public IReconnect getReconnect() {
         return this.reconnect;
     }
 
-    @Override
     public IPrioReconnect getPrioReconnect() {
         return this.prioReconnect;
     }
 
-    @Override
     public ISecurity getSecurity() {
         return this.security;
     }
 
-    @Override
     public ISupportedBtProfiles getSupportedBtProfiles() {
         return this.supportedBTProfiles;
     }
 
-    @Override
     public ITrustedDeviceList getTrustedDeviceList() {
         return this.trustedDevices;
     }
 
-    @Override
     public IEvoConnectivity getConnectivity() {
         return this.connectivity;
     }
 
-    @Override
     public IConnectAppSetup getAudiConnectSetup() {
         return this.audiConnectSetup;
     }
 
-    @Override
     public IEvoInquiry getEvoInquiry() {
         return this.inquiry;
     }
 
-    @Override
     public IEvoTrustedDeviceList getEvoTrustedDeviceList() {
         return this.trustedDevices;
     }

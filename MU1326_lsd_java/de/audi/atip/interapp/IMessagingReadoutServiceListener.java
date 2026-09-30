@@ -4,16 +4,12 @@
 package de.audi.atip.interapp;
 
 public interface IMessagingReadoutServiceListener {
-    default public void responseBeginDialog(int n) {
-    }
+    public void responseBeginDialog(int var1);
 
-    default public void responseEndDialog(int n) {
-    }
+    public void responseEndDialog(int var1);
 
-    default public void responseReadoutMessage(int n) {
-    }
+    public void responseReadoutMessage(int var1);
 
-    default public void indicateFolderContentListItemSelected(boolean bl) {
-    }
+    public void indicateFolderContentListItemSelected(boolean var1);
 }
 

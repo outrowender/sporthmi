@@ -19,9 +19,8 @@ extends AbstractTelAudioCmd {
         this.application = iTelApplication;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelUpdateRingtoneMuteStateCmd#execute] ringtoneMuteOn=%1", this.ringtoneMuteOn);
+        this.logger.log(1000000, "[TelUpdateRingtoneMuteStateCmd#execute] ringtoneMuteOn=%1", this.ringtoneMuteOn);
         this.application.getGlobalTelephoneStateManager().updateRingtoneMuteActive(this.ringtoneMuteOn);
         this.getCommandList().commandFinished();
     }

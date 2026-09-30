@@ -14,9 +14,9 @@ public class SpellerModel
 extends AbstractModel
 implements SpellerModelApp,
 SpellerModelGUI {
-    static final int COMMAND_CHAR_LENGTH;
+    static final int COMMAND_CHAR_LENGTH = 17;
     protected String text = "";
-    private int maxLength = -129;
+    private int maxLength = Integer.MAX_VALUE;
     private int minLength = 1;
     protected volatile SpellerListener spellerListener = DUMMY_LISTENER;
     private boolean[] commandEnabled;
@@ -38,7 +38,6 @@ SpellerModelGUI {
         super(n, n2);
     }
 
-    @Override
     public void resetListener() {
         this.spellerListener = DUMMY_LISTENER;
     }
@@ -46,7 +45,6 @@ SpellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(200);
         buffer.append(super.dumpContent());
@@ -87,7 +85,6 @@ SpellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -115,12 +112,10 @@ SpellerModelGUI {
         }
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append("SpellerModel (id: ").append(this.id).append(")\n").append("min length: ").append(this.minLength).append("\n").append("max length: ").append(this.maxLength).append("\n").append("text: \"").append(this.text).append("\"\n").append("empty: ").append(this.isEmpty()).append("\n").append("status: ").append(this.getStatus()).append("\n").append("deleteButtonState: ").append(this.getDeleteButtonState()).append("\n").append("exitButtonState: ").append(this.getExitButtonState()).toString();
+        return "SpellerModel (id: " + this.id + ")\n" + "min length: " + this.minLength + "\n" + "max length: " + this.maxLength + "\n" + "text: \"" + this.text + "\"\n" + "empty: " + this.isEmpty() + "\n" + "status: " + this.getStatus() + "\n" + "deleteButtonState: " + this.getDeleteButtonState() + "\n" + "exitButtonState: " + this.getExitButtonState();
     }
 
-    @Override
     public int getModelType() {
         return 6;
     }
@@ -128,7 +123,6 @@ SpellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isEmpty() {
         Object object = this.mutex;
         synchronized (object) {
@@ -136,12 +130,10 @@ SpellerModelGUI {
         }
     }
 
-    @Override
     public int getMinLength() {
         return this.minLength;
     }
 
-    @Override
     public int getMaxLength() {
         return this.maxLength;
     }
@@ -149,7 +141,6 @@ SpellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getText() {
         Object object = this.mutex;
         synchronized (object) {
@@ -157,32 +148,26 @@ SpellerModelGUI {
         }
     }
 
-    @Override
     public int getDeleteButtonState() {
         return this.deleteButtonState;
     }
 
-    @Override
     public int getExitButtonState() {
         return this.exitButtonState;
     }
 
-    @Override
     public String getCountryAbbreviation() {
         return this.countryAbbreviation;
     }
 
-    @Override
     public void setMaxLength(int n) {
         this.maxLength = n;
     }
 
-    @Override
     public void setMinLength(int n) {
         this.minLength = n;
     }
 
-    @Override
     public void setSpellerListener(SpellerListener spellerListener) {
         this.spellerListener = spellerListener != null ? spellerListener : DUMMY_LISTENER;
     }
@@ -190,7 +175,6 @@ SpellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setText(String string) {
         Object object = this.mutex;
         synchronized (object) {
@@ -200,19 +184,16 @@ SpellerModelGUI {
         this.fireModelUpdateEvent(1);
     }
 
-    @Override
     public void clear() {
         this.setText("");
         this.setCompletionText(null);
         this.setSuggestions(null, null);
     }
 
-    @Override
     public void setCountryAbbreviation(String string) {
         this.countryAbbreviation = string;
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
         try {
             this.spellerListener.keyPressed(this.id, n, n2);
@@ -222,7 +203,6 @@ SpellerModelGUI {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2) {
         try {
             this.spellerListener.keyReleased(this.id, n, n2);
@@ -232,7 +212,6 @@ SpellerModelGUI {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2) {
         try {
             this.spellerListener.keyTyped(this.id, n, n2);
@@ -245,7 +224,6 @@ SpellerModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void textChanged(String string, char c2, int n) {
         Object object = this.mutex;
         synchronized (object) {
@@ -268,25 +246,21 @@ SpellerModelGUI {
         this.fireModelUpdateEvent(11);
     }
 
-    @Override
     public void setControlButtonStates(int n, int n2) {
         this.deleteButtonState = n;
         this.exitButtonState = n2;
         this.fireModelUpdateEvent(11);
     }
 
-    @Override
     public void setExitButtonText(int n) {
         this.exitButtonText = n;
         this.fireModelUpdateEvent(11);
     }
 
-    @Override
     public int getExitButtonText() {
         return this.exitButtonText;
     }
 
-    @Override
     public void setCommandAvailable(int n, boolean bl) {
         if (this.commandEnabled == null) {
             this.commandEnabled = new boolean[17];
@@ -295,12 +269,10 @@ SpellerModelGUI {
         this.fireModelUpdateEvent(11);
     }
 
-    @Override
     public boolean getCommandAvailable(int n) {
         return this.commandEnabled == null ? true : this.commandEnabled[n];
     }
 
-    @Override
     public void commandPressed(int n, int n2) {
         try {
             this.spellerListener.commandPressed(this.id, n, n2);
@@ -310,7 +282,6 @@ SpellerModelGUI {
         }
     }
 
-    @Override
     public void focusedCharacter(char c2, int n) {
         try {
             this.spellerListener.focusedCharacter(this.id, c2, n);
@@ -320,50 +291,41 @@ SpellerModelGUI {
         }
     }
 
-    @Override
     public void setCompletionText(String string) {
         this.possibleCompletion = string;
         this.fireModelUpdateEvent(10);
     }
 
-    @Override
     public String getCompletionText() {
         return this.possibleCompletion;
     }
 
-    @Override
     public String getTruffleSuggestion() {
         return this.truffleSuggestion;
     }
 
-    @Override
     public String getSuggestedNewSearchString() {
         return this.suggestedNewSearchString;
     }
 
-    @Override
     public void setSuggestions(String string, String string2) {
         this.truffleSuggestion = string;
         this.suggestedNewSearchString = string2;
         this.fireModelUpdateEvent(10);
     }
 
-    @Override
     public void setSpellerInitiallyOpen(boolean bl) {
         this.spellerOpen = bl;
     }
 
-    @Override
     public boolean shallSpellerBeInitiallyOpen() {
         return this.spellerOpen;
     }
 
-    @Override
     public TouchEvent getTouchEventForFollowUpScreen() {
         return this.touchEvent;
     }
 
-    @Override
     public void setTouchEventForFollowUpScreen(TouchEvent touchEvent) {
         this.touchEvent = touchEvent;
     }

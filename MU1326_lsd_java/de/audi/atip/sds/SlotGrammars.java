@@ -4,11 +4,11 @@
 package de.audi.atip.sds;
 
 public class SlotGrammars {
-    public static final int SG_TYPE_NONE;
-    public static final int SG_TYPE_TITLE;
-    public static final int SG_TYPE_ALBUM;
-    public static final int SG_TYPE_ARTIST;
-    public static final int SG_TYPE_CONTACTCARD;
+    public static final int SG_TYPE_NONE = -1;
+    public static final int SG_TYPE_TITLE = 0;
+    public static final int SG_TYPE_ALBUM = 1;
+    public static final int SG_TYPE_ARTIST = 2;
+    public static final int SG_TYPE_CONTACTCARD = 3;
 
     public static int getSlotTypeForSlot(int n) {
         switch (n) {
@@ -31,16 +31,16 @@ public class SlotGrammars {
     public static final int[] getSlotsForType(int n) {
         switch (n) {
             case 0: {
-                return new int[]{1544356608};
+                return new int[]{200028};
             }
             case 1: {
-                return new int[]{1577911040};
+                return new int[]{200030};
             }
             case 2: {
-                return new int[]{1510802176};
+                return new int[]{200026};
             }
             case 3: {
-                return new int[]{1622018560};
+                return new int[]{700000};
             }
         }
         return new int[0];

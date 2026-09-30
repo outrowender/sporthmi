@@ -9,12 +9,12 @@ import java.lang.reflect.Array;
 
 public final class CompactCharArray
 implements Cloneable {
-    public static final int UNICODECOUNT;
-    private static final int BLOCKSHIFT;
-    private static final int BLOCKCOUNT;
-    private static final int INDEXSHIFT;
-    private static final int INDEXCOUNT;
-    private static final int BLOCKMASK;
+    public static final int UNICODECOUNT = 65536;
+    private static final int BLOCKSHIFT = 5;
+    private static final int BLOCKCOUNT = 32;
+    private static final int INDEXSHIFT = 11;
+    private static final int INDEXCOUNT = 2048;
+    private static final int BLOCKMASK = 31;
     private char[] values;
     private char[] indices;
     private int[] hashes;
@@ -28,11 +28,11 @@ implements Cloneable {
     }
 
     public CompactCharArray(char c2) {
-        this.values = new char[256];
+        this.values = new char[65536];
         this.indices = new char[2048];
         this.hashes = new int[2048];
         int n = 0;
-        while (n < 256) {
+        while (n < 65536) {
             this.values[n] = c2;
             ++n;
         }
@@ -68,7 +68,7 @@ implements Cloneable {
     }
 
     public char elementAt(char c2) {
-        return this.values[(this.indices[c2 >> 5] & 0xFFFF0000) + (c2 & 0x1F)];
+        return this.values[(this.indices[c2 >> 5] & 0xFFFF) + (c2 & 0x1F)];
     }
 
     public void setElementAt(char c2, char c3) {
@@ -95,12 +95,12 @@ implements Cloneable {
         if (!this.isCompact) {
             int n = 0;
             int n2 = 0;
-            int n3 = -65536;
+            int n3 = 65535;
             int n4 = 0;
             while (n4 < this.indices.length) {
-                this.indices[n4] = -65536;
+                this.indices[n4] = 65535;
                 boolean bl = this.blockTouched(n4);
-                if (!bl && n3 != -65536) {
+                if (!bl && n3 != 65535) {
                     this.indices[n4] = n3;
                 } else {
                     int n5 = 0;
@@ -113,7 +113,7 @@ implements Cloneable {
                         ++n6;
                         n5 += 32;
                     }
-                    if (this.indices[n4] == '\uffff0000') {
+                    if (this.indices[n4] == '\uffff') {
                         System.arraycopy((Object)this.values, n2, (Object)this.values, n5, 32);
                         this.indices[n4] = (char)n5;
                         this.hashes[n6] = this.hashes[n4];
@@ -184,12 +184,12 @@ implements Cloneable {
         if (this == object) {
             return true;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         CompactCharArray compactCharArray = (CompactCharArray)object;
         int n = 0;
-        while (n < 256) {
+        while (n < 65536) {
             if (this.elementAt((char)n) != compactCharArray.elementAt((char)n)) {
                 return false;
             }
@@ -211,10 +211,10 @@ implements Cloneable {
 
     private void expand() {
         if (this.isCompact) {
-            char[] cArray = (char[])Array.newInstance(Character.TYPE, 256);
+            char[] cArray = (char[])Array.newInstance(Character.TYPE, 65536);
             this.hashes = (int[])Array.newInstance(Integer.TYPE, 2048);
             int n = 0;
-            while (n < 256) {
+            while (n < 65536) {
                 char c2;
                 cArray[n] = c2 = this.elementAt((char)n);
                 this.touchBlock(n >> 5, c2);

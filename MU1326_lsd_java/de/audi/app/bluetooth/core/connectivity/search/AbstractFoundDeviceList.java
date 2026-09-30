@@ -27,34 +27,29 @@ implements IFoundDeviceList {
         this.trustedDevices = iTrustedDeviceList;
     }
 
-    @Override
     public void add(DiscoveredDevice discoveredDevice) {
         EvoListRow evoListRow;
-        this.log.log(-2137614336, "AbstractFoundDeviceList#add(): %1, %2", (Object)discoveredDevice.getDeviceName(), (Object)discoveredDevice.getDeviceAddress());
+        this.log.log(10000000, "AbstractFoundDeviceList#add(): %1, %2", (Object)discoveredDevice.getDeviceName(), (Object)discoveredDevice.getDeviceAddress());
         if (this.map.put(discoveredDevice.getDeviceAddress(), discoveredDevice) == null && (evoListRow = this.getFoundDeviceRow(this.idCounter, discoveredDevice)) != null) {
             ++this.idCounter;
             this.addToList(evoListRow);
         }
     }
 
-    protected abstract EvoListRow getFoundDeviceRow(int n, DiscoveredDevice discoveredDevice) {
-    }
+    protected abstract EvoListRow getFoundDeviceRow(int var1, DiscoveredDevice var2);
 
-    protected abstract void addToList(EvoListRow evoListRow) {
-    }
+    protected abstract void addToList(EvoListRow var1);
 
     protected boolean isConnected(DiscoveredDevice discoveredDevice) {
         return this.trustedDevices != null && this.trustedDevices.isConnected(discoveredDevice.getDeviceAddress());
     }
 
-    @Override
     public void clear() {
         this.map.clear();
         this.listModel.removeAll();
         this.idCounter = 0;
     }
 
-    @Override
     public DiscoveredDevice getDevice(EvoListRow evoListRow) {
         return (DiscoveredDevice)this.map.get(evoListRow.getText(0));
     }

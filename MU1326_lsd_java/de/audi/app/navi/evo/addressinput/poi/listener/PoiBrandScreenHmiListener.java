@@ -25,17 +25,14 @@ implements BaseListModelListener {
         this.inputSequence = poiBrandScreenInputSequence;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         return this.inputSequence.getStartCommandList();
     }
 
-    @Override
     public void preparePreviewMap() {
         this.displayMultiplePois = true;
     }
 
-    @Override
     protected void registerAsListener() {
         this.env.getBaseListModel(PoiScreensEvo.getPoiBrandScreenBaseListModel()).setListener(this);
         this.env.getMenuModel(PoiScreensEvo.getPoiBrandScreenMenuModel()).setListener(this);
@@ -45,35 +42,30 @@ implements BaseListModelListener {
         return this.inputSequence;
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "PoiBrandScreenHmiListener#itemselected(%1, %2, %3)", (long)n, (long)n2, (long)n4);
-        if (n != -1977350656) {
-            this.logChannel.log(-2137614336, "PoiBrandScreenHmiListener#itemSelected: Unexpected model ID: %1", (long)n);
+        this.logChannel.log(10000000, "PoiBrandScreenHmiListener#itemselected(%1, %2, %3)", (long)n, (long)n2, (long)n4);
+        if (n != 402570) {
+            this.logChannel.log(10000000, "PoiBrandScreenHmiListener#itemSelected: Unexpected model ID: %1", (long)n);
             return;
         }
         LIValueListElement lIValueListElement = PoiScreensEvo.getLiValueListElementFromRow(evoListRow, n);
         this.poiManager.executePoiSelectionEvent(this.inputSequence.getListElementSelected(lIValueListElement), 601);
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiBrandScreenHmiListener#itemSelected: Selected element.data = %1", (Object)lIValueListElement.getData());
+            this.logChannel.log(100000000, "PoiBrandScreenHmiListener#itemSelected: Selected element.data = %1", (Object)lIValueListElement.getData());
         }
         this.env.fireModelEvent(n, n4);
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
         this.inputSequence.hidePreviewMap(this.previewMapInterface);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 }

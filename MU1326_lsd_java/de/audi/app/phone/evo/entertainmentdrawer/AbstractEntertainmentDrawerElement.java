@@ -14,7 +14,6 @@ extends AbstractPhoneComponent {
         super(iTelApplication, "App.Phone.EntertainmentDrawer");
     }
 
-    public abstract ModelGroup updateInternalModelValues(ModelGroup modelGroup, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    public abstract ModelGroup updateInternalModelValues(ModelGroup var1, IGlobalTelephoneStateStruct var2);
 }
 

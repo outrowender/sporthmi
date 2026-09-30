@@ -19,7 +19,6 @@ extends AddressBookDSIDefaultListener {
         this.appAdr = addressBookEvoApplication;
     }
 
-    @Override
     public void updateContextSpecificVisibility(boolean bl, int n) {
         this.log.log(ADBDbgUtils.getLLInfo(n), "AddressBookEvoDSIDefaultListener#updateContextSpecificVisibility(): showOnlyUsableContacts: %1, validFlag: %2", bl, (Object)ADBDbgUtils.dbgValidFlag(n));
         if (n == 1) {
@@ -30,7 +29,7 @@ extends AddressBookDSIDefaultListener {
                 this.appAdr.getADBTrufflesSearch().enableFiltering(bl);
                 this.appAdr.getADBTrufflesSearch().startSearch();
             }
-            this.appAdr.getHMIService().getChoiceModel(1538263552).setValue(bl ? 1 : 0);
+            this.appAdr.getHMIService().getChoiceModel(700507).setValue(bl ? 1 : 0);
         }
     }
 }

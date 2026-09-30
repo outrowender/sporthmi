@@ -25,10 +25,9 @@ implements IPoiClassScreenModelAccess {
         this.previewListModel = navigationEnv.getBaseListModel(n);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.logChannel.log(-2137614336, "PoiClassScreenModelAccess#onUpdateResultList");
-        this.env.getChoiceModel(18679296).setValue((int)l);
+        this.logChannel.log(10000000, "PoiClassScreenModelAccess#onUpdateResultList");
+        this.env.getChoiceModel(400641).setValue((int)l);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
             this.previewListModel.removeAll();
             return;
@@ -36,7 +35,7 @@ implements IPoiClassScreenModelAccess {
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = lIValueListElementArray.length;
         int n2 = this.previewListModel.getLength();
-        this.logChannel.log(-2137614336, "PoiClassScreenModelAccess#onUpdateResultList - previewlistlength: %1, currentListModelLength: %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "PoiClassScreenModelAccess#onUpdateResultList - previewlistlength: %1, currentListModelLength: %2", (long)n, (long)n2);
         try {
             for (int i2 = 0; i2 < n; ++i2) {
                 LIValueListElement lIValueListElement = lIValueListElementArray[i2];
@@ -51,7 +50,6 @@ implements IPoiClassScreenModelAccess {
         }
     }
 
-    @Override
     public void onStart() {
         this.previewListModel.removeAll();
     }

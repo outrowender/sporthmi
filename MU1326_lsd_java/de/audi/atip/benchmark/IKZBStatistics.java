@@ -7,15 +7,12 @@ import de.audi.atip.benchmark.IStatisticsInfoProvider;
 
 public interface IKZBStatistics
 extends IStatisticsInfoProvider {
-    public static final String FILE_NAME;
+    public static final String FILE_NAME = "KZBStatistics.csv";
 
-    default public void loadStart(int n) {
-    }
+    public void loadStart(int var1);
 
-    default public void loadEnd(String string, Object object, int n, boolean bl) {
-    }
+    public void loadEnd(String var1, Object var2, int var3, boolean var4);
 
-    default public String getStatisticsForScreen(int n) {
-    }
+    public String getStatisticsForScreen(int var1);
 }
 

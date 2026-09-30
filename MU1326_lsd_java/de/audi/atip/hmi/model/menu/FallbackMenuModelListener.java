@@ -12,7 +12,6 @@ implements MenuModelListener {
     private FallbackMenuModelListener() {
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
     }
 }

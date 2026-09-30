@@ -6,13 +6,10 @@ package de.audi.atip.testsupport;
 import de.audi.atip.testsupport.ITestSupportSession;
 
 public interface IOSDDataProvider {
-    default public String getName() {
-    }
+    public String getName();
 
-    default public String[] getData() {
-    }
+    public String[] getData();
 
-    default public void setTestSupport(ITestSupportSession iTestSupportSession) {
-    }
+    public void setTestSupport(ITestSupportSession var1);
 }
 

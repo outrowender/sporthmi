@@ -8,64 +8,44 @@ import org.dsi.ifc.picturestore.GeoPicture;
 import org.dsi.ifc.picturestore.PictureAttribute;
 
 public interface PictureStoreProviderListener {
-    default public void importPictureResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2) {
-    }
+    public void importPictureResult(int var1, ResourceLocator var2, ResourceLocator var3, int var4);
 
-    default public void pictureExists(ResourceLocator resourceLocator, boolean bl) {
-    }
+    public void pictureExists(ResourceLocator var1, boolean var2);
 
-    default public void freeSlots(int n, int n2) {
-    }
+    public void freeSlots(int var1, int var2);
 
-    default public void getReferencesResult(ResourceLocator resourceLocator, int[] nArray) {
-    }
+    public void getReferencesResult(ResourceLocator var1, int[] var2);
 
-    default public void deletedPictures(ResourceLocator[] resourceLocatorArray) {
-    }
+    public void deletedPictures(ResourceLocator[] var1);
 
-    default public void responseLRUPictures(int n, ResourceLocator[] resourceLocatorArray) {
-    }
+    public void responseLRUPictures(int var1, ResourceLocator[] var2);
 
-    default public void listResult(ResourceLocator[] resourceLocatorArray, int n) {
-    }
+    public void listResult(ResourceLocator[] var1, int var2);
 
-    default public void listForContextResult(int n, ResourceLocator[] resourceLocatorArray, int n2) {
-    }
+    public void listForContextResult(int var1, ResourceLocator[] var2, int var3);
 
-    default public void getPictureAttributesResult(ResourceLocator resourceLocator, PictureAttribute[] pictureAttributeArray, int n) {
-    }
+    public void getPictureAttributesResult(ResourceLocator var1, PictureAttribute[] var2, int var3);
 
-    default public void importPictureFromSourceResult(int n, ResourceLocator resourceLocator, ResourceLocator resourceLocator2, int n2) {
-    }
+    public void importPictureFromSourceResult(int var1, ResourceLocator var2, ResourceLocator var3, int var4);
 
-    default public void listForContextWithFilterResult(int n, ResourceLocator[] resourceLocatorArray, int n2) {
-    }
+    public void listForContextWithFilterResult(int var1, ResourceLocator[] var2, int var3);
 
-    default public void getRectanglePicturesGridResult(GeoPicture[] geoPictureArray) {
-    }
+    public void getRectanglePicturesGridResult(GeoPicture[] var1);
 
-    default public void getAvailableYearsResult(int[] nArray) {
-    }
+    public void getAvailableYearsResult(int[] var1);
 
-    default public void getAvailableMonthsResult(int[] nArray) {
-    }
+    public void getAvailableMonthsResult(int[] var1);
 
-    default public void createFilterSetResult(int n) {
-    }
+    public void createFilterSetResult(int var1);
 
-    default public void cloneFilterSetResult(int n, int n2) {
-    }
+    public void cloneFilterSetResult(int var1, int var2);
 
-    default public void resetToFactorySettingsResult(int n) {
-    }
+    public void resetToFactorySettingsResult(int var1);
 
-    default public void invalidData() {
-    }
+    public void invalidData();
 
-    default public void getAvailableFoldersResult(int n, String[] stringArray) {
-    }
+    public void getAvailableFoldersResult(int var1, String[] var2);
 
-    default public void countPicturesInContextResult(int n, int n2, int n3) {
-    }
+    public void countPicturesInContextResult(int var1, int var2, int var3);
 }
 

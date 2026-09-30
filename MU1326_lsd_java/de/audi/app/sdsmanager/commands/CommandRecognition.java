@@ -51,24 +51,23 @@ extends AbstractSpeechCommand {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute]", (Object)this.getName());
+        this.logger.log(10000000, "[%1#execute]", (Object)this.getName());
         boolean bl = false;
         Object object = this.mutex;
         synchronized (object) {
             if (this.recognitionStopped) {
-                this.logger.log(-2137614336, "[%1#execute] Recognition stopped. Ignore.", (Object)this.getName());
+                this.logger.log(10000000, "[%1#execute] Recognition stopped. Ignore.", (Object)this.getName());
                 bl = true;
             } else if (!this.speechRecHandler.startRecognition(this.beepType, this.recogMode)) {
-                this.logger.log(-2137614336, "[%1#execute] Recognition failed.", (Object)this.getName());
+                this.logger.log(10000000, "[%1#execute] Recognition failed.", (Object)this.getName());
                 bl = true;
             } else {
                 this.recognitionStarted = true;
             }
         }
         if (bl) {
-            this.logger.log(-2137614336, "[%1#execute] Finished, calling processingFinished!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#execute] Finished, calling processingFinished!", (Object)this.getName());
             this.processingFinished();
         }
     }
@@ -77,47 +76,46 @@ extends AbstractSpeechCommand {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public boolean stopRecognition() {
-        this.logger.log(-2137614336, "[%1#stopRecognition]", (Object)this.getName());
+        this.logger.log(10000000, "[%1#stopRecognition]", (Object)this.getName());
         boolean bl = false;
         Object object = this.mutex;
         synchronized (object) {
             this.recognitionStopped = true;
             if (!this.recognitionStarted) {
-                this.logger.log(-2137614336, "[%1#stopRecognition] Recognition not started!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#stopRecognition] Recognition not started!", (Object)this.getName());
                 bl = true;
             } else if (this.isAbortCompleted()) {
-                this.logger.log(-2137614336, "[%1#stopRecognition] Abort already completed!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#stopRecognition] Abort already completed!", (Object)this.getName());
                 bl = true;
             } else if (this.isAbortTriggered()) {
-                this.logger.log(-2137614336, "[%1#stopRecognition] Abort already triggered => NOP!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#stopRecognition] Abort already triggered => NOP!", (Object)this.getName());
             } else if (!this.speechRecHandler.abortRecognition()) {
-                this.logger.log(-2137614336, "[%1#stopRecognition] Abort not triggered and thus finished!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#stopRecognition] Abort not triggered and thus finished!", (Object)this.getName());
                 bl = true;
             } else {
-                this.logger.log(-2137614336, "[%1#stopRecognition] Abort triggered!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#stopRecognition] Abort triggered!", (Object)this.getName());
                 this.setAbortTriggered(true);
             }
         }
         if (bl) {
-            this.logger.log(-2137614336, "[%1#stopRecognition] Abort finished!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#stopRecognition] Abort finished!", (Object)this.getName());
             this.abortingFinished();
         }
         return !bl;
     }
 
-    @Override
     public long getTimeout() {
         return -1L;
     }
 
     private void abortingFinished() {
-        this.logger.log(-2137614336, "[%1#abortingFinished] called", (Object)this.getName());
+        this.logger.log(10000000, "[%1#abortingFinished] called", (Object)this.getName());
         this.processingFinished();
         this.sdsAppFactory.getSDSHandlerSystem().abortedCurrentRecognition();
     }
 
     private void processingFinished() {
-        this.logger.log(-2137614336, "[%1#processingFinished] called", (Object)this.getName());
+        this.logger.log(10000000, "[%1#processingFinished] called", (Object)this.getName());
         try {
             ((SystemStartRecognitionCommand)SDSUtils.getActiveSystemCall()).processingFinished();
         }
@@ -125,7 +123,7 @@ extends AbstractSpeechCommand {
             this.logger.log(10000, "[%1#processingFinished] Active command is no SystemStartRecognitionCommand!", (Object)this.getName());
         }
         catch (NullPointerException nullPointerException) {
-            this.logger.log(-1601830656, "[%1#processingFinished] NullpointerException. No command active!", (Object)this.getName());
+            this.logger.log(100000, "[%1#processingFinished] NullpointerException. No command active!", (Object)this.getName());
         }
         this.getCommandList().commandFinished();
     }
@@ -133,9 +131,8 @@ extends AbstractSpeechCommand {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void responseStartRecognition(int n) {
-        this.logger.log(-2137614336, "[%1#responseStartRecognition] replyCode=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#responseStartRecognition] replyCode=%2", (Object)this.getName(), (long)n);
         boolean bl = false;
         boolean bl2 = false;
         Object object = this.abortMutex;
@@ -145,26 +142,26 @@ extends AbstractSpeechCommand {
             if (bl) {
                 this.setAbortCompleted(true);
             }
-            this.logger.log(-2137614336, "[%1#responseStartRecognition] triggered=%2, completed=%3!", (Object)this.getName(), (Object)bl, (Object)bl2);
+            this.logger.log(10000000, "[%1#responseStartRecognition] triggered=%2, completed=%3!", (Object)this.getName(), (Object)bl, (Object)bl2);
         }
         if (bl2) {
-            this.logger.log(-2137614336, "[%1#responseStartRecognition] Abort completed, NOT calling waitForResults!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#responseStartRecognition] Abort completed, NOT calling waitForResults!", (Object)this.getName());
             this.abortingFinished();
             return;
         }
         if (bl) {
-            this.logger.log(-2137614336, "[%1#responseStartRecognition] Abort triggered, NOT calling waitForResults, waiting for responseAbort!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#responseStartRecognition] Abort triggered, NOT calling waitForResults, waiting for responseAbort!", (Object)this.getName());
             return;
         }
         if (SDSUtils.checkReplyCodeForError(n, this.logger)) {
-            this.logger.log(-1601830656, "[%1#responseStartRecognition] Error from DSI, sending ERROR!", (Object)this.getName());
+            this.logger.log(100000, "[%1#responseStartRecognition] Error from DSI, sending ERROR!", (Object)this.getName());
             this.sdsHandlerService.sendSpeechSMEvent(3001, false, false);
             this.processingFinished();
             return;
         }
-        this.logger.log(-2137614336, "[%1#responseStartRecognition] Calling waitForResults!", (Object)this.getName());
+        this.logger.log(10000000, "[%1#responseStartRecognition] Calling waitForResults!", (Object)this.getName());
         if (!this.speechRecHandler.waitForResults()) {
-            this.logger.log(-1601830656, "[%1#responseStartRecognition] waitForResults failed, sending ERROR!", (Object)this.getName());
+            this.logger.log(100000, "[%1#responseStartRecognition] waitForResults failed, sending ERROR!", (Object)this.getName());
             this.sdsHandlerService.sendSpeechSMEvent(3001, false, false);
             this.processingFinished();
         }
@@ -173,7 +170,6 @@ extends AbstractSpeechCommand {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void responseWaitForResults(int n, NBestList nBestList) {
         boolean bl = false;
         boolean bl2 = false;
@@ -184,12 +180,12 @@ extends AbstractSpeechCommand {
             this.setAbortCompleted(true);
         }
         if (bl2) {
-            this.logger.log(-2137614336, "[%1#responseWaitForResults] Abort completed!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#responseWaitForResults] Abort completed!", (Object)this.getName());
             this.abortingFinished();
             return;
         }
         if (bl) {
-            this.logger.log(-2137614336, "[%1#responseWaitForResults] Abort triggered, but not completed, awaiting responseAbort!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#responseWaitForResults] Abort triggered, but not completed, awaiting responseAbort!", (Object)this.getName());
             return;
         }
         int n2 = this.mapReplyCodeToSMEvent(n);
@@ -205,25 +201,25 @@ extends AbstractSpeechCommand {
     }
 
     private void handleEmptyResults() {
-        this.logger.log(-2137614336, "[%1#handleEmptyResults] called", (Object)this.getName());
+        this.logger.log(10000000, "[%1#handleEmptyResults] called", (Object)this.getName());
         if (!SDSUtils.isOnlineRecogActive(this.logger) && !SDSModelAccess.isMsgDictateActive()) {
-            this.logger.log(-1601830656, "[%1#handleEmptyResults] Online recognition NOT active, sending ERROR!", (Object)this.getName());
+            this.logger.log(100000, "[%1#handleEmptyResults] Online recognition NOT active, sending ERROR!", (Object)this.getName());
             this.sdsHandlerService.sendSpeechSMEvent(3001, false, false);
         }
     }
 
     private void handleInvalidEvents(int n) {
-        this.logger.log(-2137614336, "[%1#handleInvalidEvents] smEvent=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#handleInvalidEvents] smEvent=%2", (Object)this.getName(), (long)n);
         this.sdsHandlerService.sendSpeechSMEvent(n, false, false);
     }
 
     private void handleValidResults(NBestList nBestList) {
         if (this.handleEmptyEntry(nBestList.getEntries()[0])) {
-            this.logger.log(-1601830656, "[%1#handleValidResults] firstEntry with empty recognized string!", (Object)this.getName());
+            this.logger.log(100000, "[%1#handleValidResults] firstEntry with empty recognized string!", (Object)this.getName());
             return;
         }
         if (!this.nBestStorage.storeNBestList(nBestList)) {
-            this.logger.log(-2137614336, "[%1#handleValidResults] no entries stored.", (Object)this.getName());
+            this.logger.log(10000000, "[%1#handleValidResults] no entries stored.", (Object)this.getName());
             this.sdsHandlerService.sendSpeechSMEvent(2001, false, false);
             return;
         }
@@ -241,41 +237,40 @@ extends AbstractSpeechCommand {
         } else {
             this.sdsHandlerService.setOnlineRecogResultsInvalid(false);
         }
-        this.logger.log(-2137614336, "[%1#handleValidResults] Firing SM-event with ID %2 for ruleID %3!", (Object)this.getName(), (long)n2, (long)n);
+        this.logger.log(10000000, "[%1#handleValidResults] Firing SM-event with ID %2 for ruleID %3!", (Object)this.getName(), (long)n2, (long)n);
         this.sdsHandlerService.sendSpeechSMEvent(n2, true, false);
     }
 
-    @Override
     public void responseAbort(int n) {
-        this.logger.log(-2137614336, "[%1#responseAbort] replyCode=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#responseAbort] replyCode=%2", (Object)this.getName(), (long)n);
         if (!this.isAbortTriggered()) {
-            this.logger.log(-1601830656, "[%1#responseAbort] Abort not triggered => NOP!", (Object)this.getName());
+            this.logger.log(100000, "[%1#responseAbort] Abort not triggered => NOP!", (Object)this.getName());
             return;
         }
         if (!this.isAbortCompleted()) {
-            this.logger.log(-2137614336, "[%1#responseAbort] Abort not completed, awaiting responseStartRecognition or responseWaitForResults!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#responseAbort] Abort not completed, awaiting responseStartRecognition or responseWaitForResults!", (Object)this.getName());
             this.setAbortCompleted(true);
             return;
         }
-        this.logger.log(-2137614336, "[%1#responseAbort] Abort completed!", (Object)this.getName());
+        this.logger.log(10000000, "[%1#responseAbort] Abort completed!", (Object)this.getName());
         this.abortingFinished();
     }
 
     private int mapReplyCodeToSMEvent(int n) {
         if (SDSUtils.checkReplyCodeForError(n, this.logger)) {
-            this.logger.log(-1601830656, "[%1#mapReplyCodeToSMEvent] Error from DSI, returning ERROR!", (Object)this.getName());
+            this.logger.log(100000, "[%1#mapReplyCodeToSMEvent] Error from DSI, returning ERROR!", (Object)this.getName());
             return 3001;
         }
         if (SDSUtils.checkReplyCodeForNonSatisfyingRecognition(n, this.logger)) {
-            this.logger.log(-1601830656, "[%1#mapReplyCodeToSMEvent] Unsatisfying recognition from DSI, returning RECOG_FAILURE!", (Object)this.getName());
+            this.logger.log(100000, "[%1#mapReplyCodeToSMEvent] Unsatisfying recognition from DSI, returning RECOG_FAILURE!", (Object)this.getName());
             return 2001;
         }
         if (SDSUtils.checkReplyCodeForTimeout(n, this.logger)) {
-            this.logger.log(-1601830656, "[%1#mapReplyCodeToSMEvent] Timeout from DSI, returning TIMEOUT!", (Object)this.getName());
+            this.logger.log(100000, "[%1#mapReplyCodeToSMEvent] Timeout from DSI, returning TIMEOUT!", (Object)this.getName());
             return 2002;
         }
         if (n == 105) {
-            this.logger.log(-1601830656, "[%1#mapReplyCodeToSMEvent] Signal-to-noise-ratio too low, returning SIGNAL_TO_NOISE_RATIO_TOO_LOW!", (Object)this.getName());
+            this.logger.log(100000, "[%1#mapReplyCodeToSMEvent] Signal-to-noise-ratio too low, returning SIGNAL_TO_NOISE_RATIO_TOO_LOW!", (Object)this.getName());
             return 2003;
         }
         return 3000;
@@ -287,7 +282,7 @@ extends AbstractSpeechCommand {
 
     private boolean handleEmptyEntry(NBestListEntry nBestListEntry) {
         if (nBestListEntry == null) {
-            this.logger.log(-1601830656, "[%1#handleEmptyEntry] No entry given!", (Object)this.getName());
+            this.logger.log(100000, "[%1#handleEmptyEntry] No entry given!", (Object)this.getName());
             this.sdsHandlerService.sendSpeechSMEvent(3001, false, false);
             return true;
         }
@@ -296,11 +291,11 @@ extends AbstractSpeechCommand {
             return false;
         }
         if (SDSModelAccess.getPosttrainingActiveValue() == 1) {
-            this.logger.log(-2137614336, "[%1#handleEmptyEntry] Empty recognized string found, but posttraining active, sending OK!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#handleEmptyEntry] Empty recognized string found, but posttraining active, sending OK!", (Object)this.getName());
             this.sdsHandlerService.sendSpeechSMEvent(3000, false, false);
             return true;
         }
-        this.logger.log(-1601830656, "[%1#handleEmptyEntry] Ignoring empty recognized string!", (Object)this.getName());
+        this.logger.log(100000, "[%1#handleEmptyEntry] Ignoring empty recognized string!", (Object)this.getName());
         return false;
     }
 
@@ -344,9 +339,8 @@ extends AbstractSpeechCommand {
         }
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append("CommandRecognition@").append(this.hashCode()).toString();
+        return "CommandRecognition@" + this.hashCode();
     }
 
     /*

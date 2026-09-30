@@ -27,9 +27,8 @@ extends AbstractSystemCallCommand {
         this.listMode = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: listmode=%2", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: listmode=%2", (Object)this.getName(), (long)this.listMode);
         switch (this.listMode) {
             case 0: {
                 this.fillCommandDisambiguationList();
@@ -43,7 +42,7 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#execute: unhandled listmode!", (Object)this.getName());
+                this.logger.log(100000, "%1#execute: unhandled listmode!", (Object)this.getName());
                 this.sendResult(3001);
             }
         }

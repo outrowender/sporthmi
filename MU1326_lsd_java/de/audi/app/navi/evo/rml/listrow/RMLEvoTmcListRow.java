@@ -32,13 +32,12 @@ extends AbstractRMLListRow {
         super(rMLEvoTmcListRow);
     }
 
-    @Override
     protected void fillIcon() {
         IconCell iconCell;
         int n = RMLUtil.getIconTypeIndex(this.combinedRouteListElement, 2, 0);
         if (n != -1) {
             if (this.combinedRouteListElement.getIcons()[n] == null) {
-                this.logChannel.log(-1601830656, "RMLEvoTmcListRow#fillIcon() - getIcons()[iconIdx] is null iconIdx = %1", (long)n);
+                this.logChannel.log(100000, "RMLEvoTmcListRow#fillIcon() - getIcons()[iconIdx] is null iconIdx = %1", (long)n);
                 return;
             }
             NavRouteListDataIcon navRouteListDataIcon = this.combinedRouteListElement.getIcons()[n];
@@ -50,21 +49,18 @@ extends AbstractRMLListRow {
         this.setIconCell(3, iconCell);
     }
 
-    @Override
     public EvoListRow copy() {
         return new RMLEvoTmcListRow(this);
     }
 
-    @Override
     protected void fillDistance() {
         this.setText(2, Util.formatDistance((int)(this.combinedRouteListElement.getStartDistanceTraffic() - this.combinedRouteListElement.getEndDistanceTraffic()), 1));
     }
 
-    @Override
     protected void fillName() {
         if (RMLUtil.isOffroad(this.combinedRouteListElement)) {
             if (this.env.getRMLLogChannel().isDebug2()) {
-                this.env.getRMLLogChannel().log(14808325, "RMLEvoRoadSegmentListRow#fillName - road part is offroad. Fill with TextConstant");
+                this.env.getRMLLogChannel().log(100000000, "RMLEvoRoadSegmentListRow#fillName - road part is offroad. Fill with TextConstant");
             }
             this.setText(4, TextUtil.getOffRoadName());
         } else {
@@ -72,17 +68,14 @@ extends AbstractRMLListRow {
         }
     }
 
-    @Override
     protected void fillDetailsAllowed() {
         this.setInteger(5, 0);
     }
 
-    @Override
     protected void fillLayout() {
         this.setInteger(0, 1);
     }
 
-    @Override
     public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
     }
 }

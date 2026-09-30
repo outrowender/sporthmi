@@ -9,21 +9,16 @@ import de.audi.atip.hmi.modelaccess.AbstractListModelApp;
 
 public interface DynamicListModelApp
 extends AbstractListModelApp {
-    public static final int NO_THRESHOLD;
+    public static final int NO_THRESHOLD = -1;
 
-    default public void setListListener(DynamicListModelListener dynamicListModelListener) {
-    }
+    public void setListListener(DynamicListModelListener var1);
 
-    default public void fill(ListRow[] listRowArray, int n) {
-    }
+    public void fill(ListRow[] var1, int var2);
 
-    default public void setThreshold(int n, int n2) {
-    }
+    public void setThreshold(int var1, int var2);
 
-    default public void setSelected(ListRow listRow) {
-    }
+    public void setSelected(ListRow var1);
 
-    default public boolean updateRow(ListRow listRow) {
-    }
+    public boolean updateRow(ListRow var1);
 }
 

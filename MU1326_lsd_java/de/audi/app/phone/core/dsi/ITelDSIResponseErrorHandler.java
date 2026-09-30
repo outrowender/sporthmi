@@ -4,7 +4,6 @@
 package de.audi.app.phone.core.dsi;
 
 public interface ITelDSIResponseErrorHandler {
-    default public void handleResult(int n, int n2) {
-    }
+    public void handleResult(int var1, int var2);
 }
 

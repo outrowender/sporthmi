@@ -14,15 +14,15 @@ import java.lang.reflect.Method;
 
 class ProxyConstantPool
 implements ProxyConstants {
-    public static final int UTF8_INITIAL_SIZE;
-    public static final int STRING_INITIAL_SIZE;
-    public static final int FIELD_INITIAL_SIZE;
-    public static final int METHOD_INITIAL_SIZE;
-    public static final int INTERFACE_INITIAL_SIZE;
-    public static final int CLASS_INITIAL_SIZE;
-    public static final int NAMEANDTYPE_INITIAL_SIZE;
-    public static final int CONSTANTPOOL_INITIAL_SIZE;
-    public static final int CONSTANTPOOL_GROW_SIZE;
+    public static final int UTF8_INITIAL_SIZE = 50;
+    public static final int STRING_INITIAL_SIZE = 21;
+    public static final int FIELD_INITIAL_SIZE = 7;
+    public static final int METHOD_INITIAL_SIZE = 21;
+    public static final int INTERFACE_INITIAL_SIZE = 21;
+    public static final int CLASS_INITIAL_SIZE = 21;
+    public static final int NAMEANDTYPE_INITIAL_SIZE = 21;
+    public static final int CONSTANTPOOL_INITIAL_SIZE = 500;
+    public static final int CONSTANTPOOL_GROW_SIZE = 1000;
     public ProxyCharArrayCache UTF8Cache = new ProxyCharArrayCache(50);
     ProxyCharArrayCache stringCache = new ProxyCharArrayCache(21);
     ProxyCharArrayCache classNameCache = new ProxyCharArrayCache(21);
@@ -71,7 +71,7 @@ implements ProxyConstants {
                 }
                 ++n4;
             }
-            if (n2 >= -65536) {
+            if (n2 >= 65535) {
                 this.currentOffset = n3 - 1;
                 return -1;
             }
@@ -179,12 +179,12 @@ implements ProxyConstants {
                     }
                     ++n5;
                 }
-                if (n3 >= -65536) {
+                if (n3 >= 65535) {
                     this.currentOffset = n4 - 1;
                     return -1;
                 }
                 n2 = this.UTF8Cache.put(cArray, this.currentIndex++);
-                if (n3 > -65536) {
+                if (n3 > 65535) {
                     return 0;
                 }
                 this.poolContent[n4] = (byte)(n3 >> 8);

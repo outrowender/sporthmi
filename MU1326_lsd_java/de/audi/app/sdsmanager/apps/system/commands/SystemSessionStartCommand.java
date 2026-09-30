@@ -23,18 +23,17 @@ extends AbstractSystemCallCommand {
         this.nBestStorage = nBestStorageAccess;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute called", (Object)this.getName());
         boolean bl = this.sdsHandlerService.isSDSPaused();
         if (!bl) {
             this.nBestStorage.resetNBestListHistory();
             this.srHandler.startDialog();
         } else {
-            this.logger.log(-1601830656, "%1#execute: SDS paused, NOT starting dialog!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: SDS paused, NOT starting dialog!", (Object)this.getName());
         }
         if (this.sdsHandlerService.isSDSVolumeSettingActive()) {
-            this.logger.log(-2137614336, "%1#execute: Volume setting dialog is active, sending OK!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: Volume setting dialog is active, sending OK!", (Object)this.getName());
             this.sendResult(3000);
             return;
         }

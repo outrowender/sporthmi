@@ -4,22 +4,33 @@
 package de.audi.app.terminalmode.logging;
 
 import de.audi.app.terminalmode.ITerminalLogger;
+import de.audi.app.terminalmode.logging.ATIPMediaRouterServiceLoggingDecorator;
+import de.audi.app.terminalmode.logging.AudioDrawerContextLoggingDecorator;
+import de.audi.app.terminalmode.logging.BluetoothServiceLoggingDecorator;
+import de.audi.app.terminalmode.logging.CombiBAPServiceTerminalModeLoggingDecorator;
+import de.audi.app.terminalmode.logging.DSIAndroidAuto2LoggingDecorator;
+import de.audi.app.terminalmode.logging.DSICarlifeListenerLoggingDecorator;
+import de.audi.app.terminalmode.logging.DSICarlifeLoggingDecorator;
+import de.audi.app.terminalmode.logging.DSICarplayLoggingDecorator;
+import de.audi.app.terminalmode.logging.DSISmartphoneIntegrationLoggingDecorator;
+import de.audi.app.terminalmode.logging.HMIAudioServiceLoggingDecorator;
+import de.audi.app.terminalmode.logging.IAudioFocusManagerLoggingDecorator;
 import de.audi.app.terminalmode.logging.ILoggingDecoratorFactory;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$1;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$10;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$11;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$12;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$2;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$3;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$4;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$5;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$6;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$7;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$8;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$9;
-import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory$Factory;
+import de.audi.app.terminalmode.logging.ToneServiceLoggingDecorator;
+import de.audi.atip.audio.HMIAudioService;
+import de.audi.atip.audio.IAudioFocusManager;
+import de.audi.atip.interapp.IBluetoothService;
+import de.audi.atip.interapp.audio.ATIPMediaRouterService;
+import de.audi.atip.interapp.audio.ToneService;
+import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
+import de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceTerminalMode;
 import java.util.HashMap;
 import java.util.Map;
+import org.dsi.ifc.androidauto2.DSIAndroidAuto2;
+import org.dsi.ifc.carlife.DSICarlife;
+import org.dsi.ifc.carlife.DSICarlifeListener;
+import org.dsi.ifc.carplay.DSICarplay;
+import org.dsi.ifc.smartphoneintegration.DSISmartphoneIntegration;
 
 public class TerminalModeLoggingDecoratorFactory
 implements ILoggingDecoratorFactory {
@@ -41,43 +52,101 @@ implements ILoggingDecoratorFactory {
     public TerminalModeLoggingDecoratorFactory(ITerminalLogger iTerminalLogger) {
         this.logger = iTerminalLogger;
         this.wrapperFactories = new HashMap();
-        this.addFactory(class$org$dsi$ifc$smartphoneintegration$DSISmartphoneIntegration == null ? (class$org$dsi$ifc$smartphoneintegration$DSISmartphoneIntegration = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.smartphoneintegration.DSISmartphoneIntegration")) : class$org$dsi$ifc$smartphoneintegration$DSISmartphoneIntegration, new TerminalModeLoggingDecoratorFactory$1(this));
-        this.addFactory(class$org$dsi$ifc$carplay$DSICarplay == null ? (class$org$dsi$ifc$carplay$DSICarplay = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.carplay.DSICarplay")) : class$org$dsi$ifc$carplay$DSICarplay, new TerminalModeLoggingDecoratorFactory$2(this));
-        this.addFactory(class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService, new TerminalModeLoggingDecoratorFactory$3(this));
-        this.addFactory(class$de$audi$atip$interapp$audio$ToneService == null ? (class$de$audi$atip$interapp$audio$ToneService = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.audio.ToneService")) : class$de$audi$atip$interapp$audio$ToneService, new TerminalModeLoggingDecoratorFactory$4(this));
-        this.addFactory(class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContext")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext, new TerminalModeLoggingDecoratorFactory$5(this));
-        this.addFactory(class$de$audi$atip$interapp$audio$ATIPMediaRouterService == null ? (class$de$audi$atip$interapp$audio$ATIPMediaRouterService = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.audio.ATIPMediaRouterService")) : class$de$audi$atip$interapp$audio$ATIPMediaRouterService, new TerminalModeLoggingDecoratorFactory$6(this));
-        this.addFactory(class$de$audi$atip$audio$IAudioFocusManager == null ? (class$de$audi$atip$audio$IAudioFocusManager = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.audio.IAudioFocusManager")) : class$de$audi$atip$audio$IAudioFocusManager, new TerminalModeLoggingDecoratorFactory$7(this));
-        this.addFactory(class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceTerminalMode == null ? (class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceTerminalMode = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceTerminalMode")) : class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceTerminalMode, new TerminalModeLoggingDecoratorFactory$8(this));
-        this.addFactory(class$org$dsi$ifc$androidauto2$DSIAndroidAuto2 == null ? (class$org$dsi$ifc$androidauto2$DSIAndroidAuto2 = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.androidauto2.DSIAndroidAuto2")) : class$org$dsi$ifc$androidauto2$DSIAndroidAuto2, new TerminalModeLoggingDecoratorFactory$9(this));
-        this.addFactory(class$org$dsi$ifc$carlife$DSICarlife == null ? (class$org$dsi$ifc$carlife$DSICarlife = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.carlife.DSICarlife")) : class$org$dsi$ifc$carlife$DSICarlife, new TerminalModeLoggingDecoratorFactory$10(this));
-        this.addFactory(class$org$dsi$ifc$carlife$DSICarlifeListener == null ? (class$org$dsi$ifc$carlife$DSICarlifeListener = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.carlife.DSICarlifeListener")) : class$org$dsi$ifc$carlife$DSICarlifeListener, new TerminalModeLoggingDecoratorFactory$11(this));
-        this.addFactory(class$de$audi$atip$interapp$IBluetoothService == null ? (class$de$audi$atip$interapp$IBluetoothService = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.IBluetoothService")) : class$de$audi$atip$interapp$IBluetoothService, new TerminalModeLoggingDecoratorFactory$12(this));
+        this.addFactory(class$org$dsi$ifc$smartphoneintegration$DSISmartphoneIntegration == null ? (class$org$dsi$ifc$smartphoneintegration$DSISmartphoneIntegration = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.smartphoneintegration.DSISmartphoneIntegration")) : class$org$dsi$ifc$smartphoneintegration$DSISmartphoneIntegration, new Factory(){
+
+            public Object wrap(Object object) {
+                return new DSISmartphoneIntegrationLoggingDecorator((DSISmartphoneIntegration)object, TerminalModeLoggingDecoratorFactory.this.logger.dsi(), 1000000);
+            }
+        });
+        this.addFactory(class$org$dsi$ifc$carplay$DSICarplay == null ? (class$org$dsi$ifc$carplay$DSICarplay = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.carplay.DSICarplay")) : class$org$dsi$ifc$carplay$DSICarplay, new Factory(){
+
+            public Object wrap(Object object) {
+                return new DSICarplayLoggingDecorator((DSICarplay)object, TerminalModeLoggingDecoratorFactory.this.logger.dsi(), 1000000);
+            }
+        });
+        this.addFactory(class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService, new Factory(){
+
+            public Object wrap(Object object) {
+                return new HMIAudioServiceLoggingDecorator((HMIAudioService)object, TerminalModeLoggingDecoratorFactory.this.logger.audio(), 1000000);
+            }
+        });
+        this.addFactory(class$de$audi$atip$interapp$audio$ToneService == null ? (class$de$audi$atip$interapp$audio$ToneService = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.audio.ToneService")) : class$de$audi$atip$interapp$audio$ToneService, new Factory(){
+
+            public Object wrap(Object object) {
+                return new ToneServiceLoggingDecorator((ToneService)object, TerminalModeLoggingDecoratorFactory.this.logger.audio(), 1000000);
+            }
+        });
+        this.addFactory(class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContext")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext, new Factory(){
+
+            public Object wrap(Object object) {
+                return new AudioDrawerContextLoggingDecorator((AudioDrawerContext)object, TerminalModeLoggingDecoratorFactory.this.logger.main(), 1000000);
+            }
+        });
+        this.addFactory(class$de$audi$atip$interapp$audio$ATIPMediaRouterService == null ? (class$de$audi$atip$interapp$audio$ATIPMediaRouterService = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.audio.ATIPMediaRouterService")) : class$de$audi$atip$interapp$audio$ATIPMediaRouterService, new Factory(){
+
+            public Object wrap(Object object) {
+                return new ATIPMediaRouterServiceLoggingDecorator((ATIPMediaRouterService)object, TerminalModeLoggingDecoratorFactory.this.logger.audio(), 1000000);
+            }
+        });
+        this.addFactory(class$de$audi$atip$audio$IAudioFocusManager == null ? (class$de$audi$atip$audio$IAudioFocusManager = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.audio.IAudioFocusManager")) : class$de$audi$atip$audio$IAudioFocusManager, new Factory(){
+
+            public Object wrap(Object object) {
+                return new IAudioFocusManagerLoggingDecorator((IAudioFocusManager)object, TerminalModeLoggingDecoratorFactory.this.logger.audio(), 1000000);
+            }
+        });
+        this.addFactory(class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceTerminalMode == null ? (class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceTerminalMode = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceTerminalMode")) : class$de$audi$atip$interapp$combi$bap$audio$CombiBAPServiceTerminalMode, new Factory(){
+
+            public Object wrap(Object object) {
+                return new CombiBAPServiceTerminalModeLoggingDecorator((CombiBAPServiceTerminalMode)object, TerminalModeLoggingDecoratorFactory.this.logger.main(), 1000000);
+            }
+        });
+        this.addFactory(class$org$dsi$ifc$androidauto2$DSIAndroidAuto2 == null ? (class$org$dsi$ifc$androidauto2$DSIAndroidAuto2 = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.androidauto2.DSIAndroidAuto2")) : class$org$dsi$ifc$androidauto2$DSIAndroidAuto2, new Factory(){
+
+            public Object wrap(Object object) {
+                return new DSIAndroidAuto2LoggingDecorator((DSIAndroidAuto2)object, TerminalModeLoggingDecoratorFactory.this.logger.dsi(), 1000000);
+            }
+        });
+        this.addFactory(class$org$dsi$ifc$carlife$DSICarlife == null ? (class$org$dsi$ifc$carlife$DSICarlife = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.carlife.DSICarlife")) : class$org$dsi$ifc$carlife$DSICarlife, new Factory(){
+
+            public Object wrap(Object object) {
+                return new DSICarlifeLoggingDecorator((DSICarlife)object, TerminalModeLoggingDecoratorFactory.this.logger.dsi(), 1000000);
+            }
+        });
+        this.addFactory(class$org$dsi$ifc$carlife$DSICarlifeListener == null ? (class$org$dsi$ifc$carlife$DSICarlifeListener = TerminalModeLoggingDecoratorFactory.class$("org.dsi.ifc.carlife.DSICarlifeListener")) : class$org$dsi$ifc$carlife$DSICarlifeListener, new Factory(){
+
+            public Object wrap(Object object) {
+                return new DSICarlifeListenerLoggingDecorator((DSICarlifeListener)object, TerminalModeLoggingDecoratorFactory.this.logger.dsi(), 1000000);
+            }
+        });
+        this.addFactory(class$de$audi$atip$interapp$IBluetoothService == null ? (class$de$audi$atip$interapp$IBluetoothService = TerminalModeLoggingDecoratorFactory.class$("de.audi.atip.interapp.IBluetoothService")) : class$de$audi$atip$interapp$IBluetoothService, new Factory(){
+
+            public Object wrap(Object object) {
+                return new BluetoothServiceLoggingDecorator((IBluetoothService)object, TerminalModeLoggingDecoratorFactory.this.logger.main(), 1000000);
+            }
+        });
     }
 
-    private void addFactory(Class clazz, TerminalModeLoggingDecoratorFactory$Factory terminalModeLoggingDecoratorFactory$Factory) {
-        this.wrapperFactories.put(clazz.getName(), terminalModeLoggingDecoratorFactory$Factory);
-        this.wrapperFactories.put(clazz.toString(), terminalModeLoggingDecoratorFactory$Factory);
+    private void addFactory(Class clazz, Factory factory) {
+        this.wrapperFactories.put(clazz.getName(), factory);
+        this.wrapperFactories.put(clazz.toString(), factory);
     }
 
-    @Override
     public Object wrap(Class clazz, Object object) {
         return this.wrap(clazz.getName(), object);
     }
 
-    @Override
     public Object wrap(String string, Object object) {
-        TerminalModeLoggingDecoratorFactory$Factory terminalModeLoggingDecoratorFactory$Factory = (TerminalModeLoggingDecoratorFactory$Factory)this.wrapperFactories.get(string);
-        if (terminalModeLoggingDecoratorFactory$Factory == null) {
-            this.logger.main().log(14808325, "[TerminalModeLoggingDecoratorFactory.wrap] no logging wrapper for %1", (Object)string);
+        Factory factory = (Factory)this.wrapperFactories.get(string);
+        if (factory == null) {
+            this.logger.main().log(100000000, "[TerminalModeLoggingDecoratorFactory.wrap] no logging wrapper for %1", (Object)string);
             return object;
         }
         try {
-            this.logger.main().log(-2137614336, "[TerminalModeLoggingDecoratorFactory.wrap] found logging wrapper for %1", (Object)string);
-            return terminalModeLoggingDecoratorFactory$Factory.wrap(object);
+            this.logger.main().log(10000000, "[TerminalModeLoggingDecoratorFactory.wrap] found logging wrapper for %1", (Object)string);
+            return factory.wrap(object);
         }
         catch (Exception exception) {
-            this.logger.main().log(-1601830656, "[TerminalModeLoggingDecoratorFactory.wrap] Something went wrong while wrapping  %1 as %2!", object, (Object)string, (Object)exception);
+            this.logger.main().log(100000, "[TerminalModeLoggingDecoratorFactory.wrap] Something went wrong while wrapping  %1 as %2!", object, (Object)string, (Object)exception);
             return object;
         }
     }
@@ -91,8 +160,8 @@ implements ILoggingDecoratorFactory {
         }
     }
 
-    static /* synthetic */ ITerminalLogger access$000(TerminalModeLoggingDecoratorFactory terminalModeLoggingDecoratorFactory) {
-        return terminalModeLoggingDecoratorFactory.logger;
+    private static interface Factory {
+        public Object wrap(Object var1);
     }
 }
 

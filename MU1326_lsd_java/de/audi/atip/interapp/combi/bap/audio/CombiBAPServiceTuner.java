@@ -12,37 +12,26 @@ import de.audi.atip.interapp.combi.bap.audio.data.MuteState;
 
 public interface CombiBAPServiceTuner
 extends CombiBAPServiceAudio {
-    default public void updateReceptionListAutoUpdateInformation(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
-    }
+    public void updateReceptionListAutoUpdateInformation(boolean var1, boolean var2, boolean var3, boolean var4, boolean var5, boolean var6);
 
-    default public void updateMuteState(MuteState muteState) {
-    }
+    public void updateMuteState(MuteState var1);
 
-    default public void updateSourceListTuner(CombiBAPAudioSource[] combiBAPAudioSourceArray) {
-    }
+    public void updateSourceListTuner(CombiBAPAudioSource[] var1);
 
-    default public void updateReceptionList(int n, CombiBAPReceptionListEntry[] combiBAPReceptionListEntryArray) {
-    }
+    public void updateReceptionList(int var1, CombiBAPReceptionListEntry[] var2);
 
-    default public void startStationListUpdateResult(int n) {
-    }
+    public void startStationListUpdateResult(int var1);
 
-    default public void cancelStationListUpdateResult(int n) {
-    }
+    public void cancelStationListUpdateResult(int var1);
 
-    default public void updateAnnouncementInfo(int n, String string) {
-    }
+    public void updateAnnouncementInfo(int var1, String var2);
 
-    default public void cancelAnnouncementResult(int n) {
-    }
+    public void cancelAnnouncementResult(int var1);
 
-    default public void updatePresetList(CombiBAPPresetListEntry[] combiBAPPresetListEntryArray) {
-    }
+    public void updatePresetList(CombiBAPPresetListEntry[] var1);
 
-    default public void updateProgramStringLength(boolean bl, boolean bl2) {
-    }
+    public void updateProgramStringLength(boolean var1, boolean var2);
 
-    default public void updateCommonList(CombiBAPCommonListEntry[] combiBAPCommonListEntryArray) {
-    }
+    public void updateCommonList(CombiBAPCommonListEntry[] var1);
 }
 

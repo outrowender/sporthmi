@@ -23,12 +23,12 @@ import java.util.Map;
 
 public abstract class AbstractCarDiagnosis
 extends AbstractSwDiagnosis {
-    protected static final String KEYPREFIX_VIEWOPTIONS;
-    protected static final String KEY_MODELBANK;
-    protected static final String KEY_ALLVIEWOPTIONS;
-    protected static final String KEY_DSIATTRIBUTES;
-    protected static final String KEY_VEHICLESTATUS;
-    protected static final String KEY_MENUENTRIES;
+    protected static final String KEYPREFIX_VIEWOPTIONS = "ViewOptions - ";
+    protected static final String KEY_MODELBANK = "ModelBank";
+    protected static final String KEY_ALLVIEWOPTIONS = "ViewOptions";
+    protected static final String KEY_DSIATTRIBUTES = "DSIattributes";
+    protected static final String KEY_VEHICLESTATUS = "VehicleStatus";
+    protected static final String KEY_MENUENTRIES = "MenuEntries";
     protected Map diagnosisCommands;
     protected List componentIDs;
     protected ICarApplication application;
@@ -41,8 +41,7 @@ extends AbstractSwDiagnosis {
         this.createCommands();
     }
 
-    protected abstract void createCommands() {
-    }
+    protected abstract void createCommands();
 
     protected void addAllDiagnosisCommands(IDiagnosisCommandCollection iDiagnosisCommandCollection) {
         Collection collection = iDiagnosisCommandCollection.getDiagnosisCommands();
@@ -53,7 +52,6 @@ extends AbstractSwDiagnosis {
         }
     }
 
-    @Override
     public String[] getKeys() {
         Object[] objectArray;
         ArrayList arrayList = new ArrayList();
@@ -66,10 +64,10 @@ extends AbstractSwDiagnosis {
             this.componentNameToID.put(iCarComponent.getName(), objectArray);
             arrayList.add(string);
         }
-        arrayList.add("ViewOptions");
-        arrayList.add("DSIattributes");
-        arrayList.add("VehicleStatus");
-        arrayList.add("MenuEntries");
+        arrayList.add(KEY_ALLVIEWOPTIONS);
+        arrayList.add(KEY_DSIATTRIBUTES);
+        arrayList.add(KEY_VEHICLESTATUS);
+        arrayList.add(KEY_MENUENTRIES);
         objectArray2 = super.getKeys();
         arrayList.addAll(Arrays.asList(objectArray2));
         objectArray = new String[arrayList.size()];
@@ -79,12 +77,11 @@ extends AbstractSwDiagnosis {
 
     private String createViewOptionsKey(ICarComponent iCarComponent) {
         Buffer buffer = new Buffer();
-        buffer.append("ViewOptions - ");
+        buffer.append(KEYPREFIX_VIEWOPTIONS);
         buffer.append(iCarComponent.getName());
         return buffer.toString();
     }
 
-    @Override
     public String[] getCommands() {
         Iterator iterator = this.diagnosisCommands.keySet().iterator();
         String[] stringArray = new String[this.diagnosisCommands.keySet().size()];
@@ -100,14 +97,12 @@ extends AbstractSwDiagnosis {
         return stringArray3;
     }
 
-    @Override
     public Object getValue(String string) {
         Object object = null;
-        object = string.startsWith("ViewOptions - ") ? this.getViewOptions(string) : ("ViewOptions".equals(string) ? this.getAllViewOptions() : ("DSIattributes".equals(string) ? this.getDSIAttributes() : ("VehicleStatus".equals(string) ? this.getVehicleStatus() : ("MenuEntries".equals(string) ? this.getMenuEntries() : super.getValue(string)))));
+        object = string.startsWith(KEYPREFIX_VIEWOPTIONS) ? this.getViewOptions(string) : (KEY_ALLVIEWOPTIONS.equals(string) ? this.getAllViewOptions() : (KEY_DSIATTRIBUTES.equals(string) ? this.getDSIAttributes() : (KEY_VEHICLESTATUS.equals(string) ? this.getVehicleStatus() : (KEY_MENUENTRIES.equals(string) ? this.getMenuEntries() : super.getValue(string)))));
         return object;
     }
 
-    @Override
     public Object processNewCommand(String string, Object object) {
         Object object2;
         block7: {
@@ -141,7 +136,7 @@ extends AbstractSwDiagnosis {
     }
 
     private String getViewOptions(String string) {
-        String string2 = string.substring("ViewOptions - ".length());
+        String string2 = string.substring(KEYPREFIX_VIEWOPTIONS.length());
         int n = (Integer)this.componentNameToID.get(string2);
         return this.getViewOptionsString(n);
     }
@@ -171,7 +166,7 @@ extends AbstractSwDiagnosis {
             buffer.append('\n');
         } else {
             buffer.append("ViewOptions for component ");
-            buffer.append(super.getClass().getName());
+            buffer.append(iCarComponent.getClass().getName());
             buffer.append(":\n");
             buffer.append(iCarComponent.getCurrentViewOptions() != null ? this.formatViewOptionsLog(iCarComponent.getCurrentViewOptions()) : "null");
             buffer.append("\n\n");
@@ -240,7 +235,7 @@ extends AbstractSwDiagnosis {
                 continue;
             }
             buffer.append("Attributes for component ");
-            buffer.append(super.getClass().getName());
+            buffer.append(iCarComponent.getClass().getName());
             buffer.append(":\n");
             CarDSIAttributesSet[] carDSIAttributesSetArray = ((AbstractCarComponent)iCarComponent).getLifeAttributesSets();
             if (carDSIAttributesSetArray.length == 0) {

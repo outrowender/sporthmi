@@ -6,11 +6,11 @@ package de.audi.app.sdsmanager.testsupport;
 import de.audi.app.sdsmanager.common.Logger;
 import de.audi.app.sdsmanager.common.SDSUtils;
 import de.audi.app.sdsmanager.testsupport.SDSDebugChannelsEnum;
-import de.audi.app.sdsmanager.testsupport.SDSDebugHandler$DebugMessage;
 import de.audi.app.sdsmanager.testsupport.SDSDebugHandlerNotification;
 import de.audi.app.sdsmanager.testsupport.SDSDebugMsgQueueVisibleSizeEnum;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.testsupport.handler.TestSupportHandler;
+import de.esolutions.fw.util.commons.Buffer;
 import org.osgi.framework.BundleContext;
 
 public class SDSDebugHandler
@@ -18,7 +18,7 @@ extends TestSupportHandler {
     private static final LogChannel LC = Logger.getMainLog();
     private static final SDSDebugHandlerNotification SDS_HANDLER_NOTIF = new SDSDebugHandlerNotification();
     private static volatile SDSDebugHandler instance;
-    private static SDSDebugHandler$DebugMessage[] msgQueue;
+    private static DebugMessage[] msgQueue;
     private static int msgCounter;
     private static int msgQueueFilledSize;
     private static volatile SDSDebugMsgQueueVisibleSizeEnum msgQueueVisibleSize;
@@ -33,7 +33,7 @@ extends TestSupportHandler {
         }
         instance = new SDSDebugHandler(bundleContext, string);
         instance.init();
-        msgQueue = new SDSDebugHandler$DebugMessage[SDSDebugMsgQueueVisibleSizeEnum.getLargestSizeValue()];
+        msgQueue = new DebugMessage[SDSDebugMsgQueueVisibleSizeEnum.getLargestSizeValue()];
         msgQueueFilledSize = 0;
         msgCounter = 1;
         msgQueueVisibleSize = SDSDebugMsgQueueVisibleSizeEnum.MEDIUM;
@@ -69,7 +69,7 @@ extends TestSupportHandler {
             return;
         }
         System.arraycopy((Object)msgQueue, 1, (Object)msgQueue, 0, msgQueue.length - 1);
-        SDSDebugHandler.msgQueue[SDSDebugHandler.msgQueue.length - 1] = new SDSDebugHandler$DebugMessage(string, sDSDebugChannelsEnum, null);
+        SDSDebugHandler.msgQueue[SDSDebugHandler.msgQueue.length - 1] = new DebugMessage(string, sDSDebugChannelsEnum);
         if (msgQueueFilledSize < msgQueue.length) {
             ++msgQueueFilledSize;
         }
@@ -103,8 +103,21 @@ extends TestSupportHandler {
         instance.updateCommandList();
     }
 
-    static /* synthetic */ int access$008() {
-        return msgCounter++;
+    private static class DebugMessage {
+        private final SDSDebugChannelsEnum chl;
+        private final String msg;
+        private final String msgCounterStr;
+
+        private DebugMessage(String string, SDSDebugChannelsEnum sDSDebugChannelsEnum) {
+            this.msg = string == null ? "" : string;
+            this.chl = sDSDebugChannelsEnum == null ? SDSDebugChannelsEnum.DEFAULT : sDSDebugChannelsEnum;
+            this.msgCounterStr = Integer.toString(msgCounter++);
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer().append('[').append(this.msgCounterStr).append('|').append(this.chl.getChannelName()).append("] ").append(this.msg);
+            return buffer.toString();
+        }
     }
 }
 

@@ -7,7 +7,6 @@ import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
 import de.audi.app.phone.core.dsi.cmd.TelAbortNetworkRegistrationCmd;
-import de.audi.app.phone.core.dsi.cmd.TelNetworkRegistrationCmd$1;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
@@ -15,7 +14,7 @@ import de.audi.tghu.command.Monitor;
 
 public class TelNetworkRegistrationCmd
 extends AbstractTelDSIMECommand {
-    private static final long TIMEOUT;
+    private static final long TIMEOUT = 200000L;
     private final String telNumProviderName;
     private final int telRegMode;
     private volatile boolean abortedByUser;
@@ -27,51 +26,54 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelNetworkRegistrationCmd.schedule(commandListManager, this, "TelNetworkRegistrationCmd", new TelNetworkRegistrationCmd$1(this, this.logger, "TelNetworkRegistrationCmdError"), monitor);
+        TelNetworkRegistrationCmd.schedule(commandListManager, this, "TelNetworkRegistrationCmd", new Command(this.logger, "TelNetworkRegistrationCmdError"){
+
+            public void execute() {
+                if (!TelNetworkRegistrationCmd.this.abortedByUser) {
+                    this.logger.log(100000, "[TelNetworkRegistrationCmd.schedule().new Command() {...}#execute] Error.");
+                    if (TelNetworkRegistrationCmd.this.listener != null) {
+                        TelNetworkRegistrationCmd.this.listener.responseNetworkRegistration(65537, TelNetworkRegistrationCmd.this.terminalID);
+                    }
+                }
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
     public void setAbortedByUser(boolean bl) {
-        this.logger.log(-2137614336, "[TelNetworkRegistrationCmd#setAbortedByUser] abortedByUser=%1", bl);
+        this.logger.log(10000000, "[TelNetworkRegistrationCmd#setAbortedByUser] abortedByUser=%1", bl);
         this.abortedByUser = bl;
     }
 
-    @Override
     protected Command canceled() {
         if (this.abortedByUser) {
-            this.logger.log(1078071040, "[TelNetworkRegistrationCmd#canceled] aborted by user!! - returning abort command");
+            this.logger.log(1000000, "[TelNetworkRegistrationCmd#canceled] aborted by user!! - returning abort command");
             return new TelAbortNetworkRegistrationCmd(this.dsi, this.logger, this.telRegMode, this.listener);
         }
-        this.logger.log(-2137614336, "[TelNetworkRegistrationCmd#canceled] not aborted by user.");
+        this.logger.log(10000000, "[TelNetworkRegistrationCmd#canceled] not aborted by user.");
         return null;
     }
 
-    @Override
     public void execute() {
         if (this.isDSIAvailable()) {
-            this.logger.log(1078071040, "[TelNetworkRegistrationCmd#execute] telNumProviderName=%1, telRegMode=%2", (Object)this.telNumProviderName, (long)this.telRegMode);
+            this.logger.log(1000000, "[TelNetworkRegistrationCmd#execute] telNumProviderName=%1, telRegMode=%2", (Object)this.telNumProviderName, (long)this.telRegMode);
             this.dsi.requestNetworkRegistration(this.telNumProviderName, this.telRegMode);
         } else {
-            this.logger.log(-1601830656, "[TelNetworkRegistrationCmd#execute] DSITelephone is null!");
+            this.logger.log(100000, "[TelNetworkRegistrationCmd#execute] DSITelephone is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseNetworkRegistration(int n) {
-        this.logger.log(1078071040, "[TelNetworkRegistrationCmd#responseNetworkRegistration] result=%1", (long)n);
+        this.logger.log(1000000, "[TelNetworkRegistrationCmd#responseNetworkRegistration] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseNetworkRegistration(n, this.terminalID);
         }
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
-    }
-
-    static /* synthetic */ boolean access$000(TelNetworkRegistrationCmd telNetworkRegistrationCmd) {
-        return telNetworkRegistrationCmd.abortedByUser;
+        return 200000L;
     }
 }
 

@@ -11,31 +11,27 @@ import de.audi.tghu.navi.app.poi.poiwarning.PoiWarningModelAccess;
 public class PoiWarningModelAccessEvo
 extends PoiWarningModelAccess {
     private final IHMIServiceApp hmiService;
-    private static final int terminalId;
+    private static final int terminalId = 0;
 
     public PoiWarningModelAccessEvo(NavigationEnv navigationEnv, IconHandler iconHandler) {
         super(navigationEnv, iconHandler);
         this.hmiService = navigationEnv.getHMIService();
     }
 
-    @Override
     public void showPoiWarningMaxPopUp() {
-        this.hmiService.showPartialPopup(0, 907740672);
+        this.hmiService.showPartialPopup(0, 400182);
     }
 
-    @Override
     public void showPpoiWarningMaxPopUp() {
-        this.hmiService.showPartialPopup(0, 924517888);
+        this.hmiService.showPartialPopup(0, 400183);
     }
 
-    @Override
     public void showPoiApproachPopUp() {
-        this.hmiService.showPartialPopup(0, 974849536);
+        this.hmiService.showPartialPopup(0, 400186);
     }
 
-    @Override
     public void hideWarningPopUp() {
-        this.hmiService.removePartialPopup(0, 974849536);
+        this.hmiService.removePartialPopup(0, 400186);
     }
 }
 

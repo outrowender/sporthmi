@@ -8,207 +8,189 @@ import de.audi.app.phone.core.dsi.ITelTopology;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateListener;
 
 public interface IGlobalTelephoneState {
-    public static final int ROLE_UNKNOWN;
-    public static final int SCOPE_PRIMARY;
-    public static final int SCOPE_ASSOCIATED;
-    public static final int SCOPE_DATA;
-    public static final int SCOPE_GLOBAL;
-    public static final int ATTR_DEFAULT;
-    public static final int ATTR_GLOBAL_EMERGENCYNUMBERS;
-    public static final int ATTR_GLOBAL_NADTEMPERATURE;
-    public static final int ATTR_GLOBAL_NADMODE;
-    public static final int ATTR_GLOBAL_NEWMESSAGESAVAILABLE;
-    public static final int ATTR_GLOBAL_RINGTONE_MUTE_SETTING;
-    public static final int ATTR_GLOBAL_RINGTONE_MUTE_STATUS;
-    public static final int ATTR_GLOBAL_EUICCID;
-    public static final int ATTR_GLOBAL_ESIMMSISDN;
-    public static final int ATTR_GLOBAL_ESIMACTIVE;
-    public static final int ATTR_GLOBAL_ESIMB2BMODE;
-    public static final int ATTR_GLOBAL_SERVICENUMBERS;
-    public static final int ATTR_GLOBAL_ECALL_STATE;
-    public static final int ATTR_GLOBAL_TOPOLOGY;
-    public static final int ATTR_PRIMARY_DTMFTONEPLAYING;
-    public static final int ATTR_PRIMARY_SIMPINREQUIRED;
-    public static final int ATTR_PRIMARY_ACTIVATIONSTATE;
-    public static final int ATTR_PRIMARY_AUTOMATICPINENTRYACTIVE;
-    public static final int ATTR_PRIMARY_AUTOMATICREDIALACTIVE;
-    public static final int ATTR_PRIMARY_BATTERYCHARGELEVEL;
-    public static final int ATTR_PRIMARY_CALLDURATIONLIST;
-    public static final int ATTR_PRIMARY_CALLLIST;
-    public static final int ATTR_PRIMARY_CDMATHREEWAYCALLINGSETTING;
-    public static final int ATTR_PRIMARY_CRADLEPLUGINSTATE;
-    public static final int ATTR_PRIMARY_DISCONNECTREASON;
-    public static final int ATTR_PRIMARY_EMERGENCYCALLACTIVE;
-    public static final int ATTR_PRIMARY_ENHANCEDPRIVACYMODE;
-    public static final int ATTR_PRIMARY_HANDSFREEMODE;
-    public static final int ATTR_PRIMARY_LOCKSTATE;
-    public static final int ATTR_PRIMARY_MAILBOXCONTENT;
-    public static final int ATTR_PRIMARY_MICMUTESTATE;
-    public static final int ATTR_PRIMARY_PHONEINFORMATION;
-    public static final int ATTR_PRIMARY_NETWORKPROVIDER;
-    public static final int ATTR_PRIMARY_NETWORKTYPE;
-    public static final int ATTR_PRIMARY_PRIVACYMODE;
-    public static final int ATTR_PRIMARY_REGISTERSTATE;
-    public static final int ATTR_PRIMARY_SERVICECODETYPE;
-    public static final int ATTR_PRIMARY_SIGNALQUALITY;
-    public static final int ATTR_PRIMARY_SUPPSERVICERESPONSE;
-    public static final int ATTR_PRIMARY_SERVICEPROVIDER;
-    public static final int ATTR_PRIMARY_SIMALIASINFORMATION;
-    public static final int ATTR_PRIMARY_MICGAINLEVEL;
-    public static final int ATTR_PRIMARY_OPTIMIZATIONMODE;
-    public static final int ATTR_PRIMARY_OTHERSIMAVAILABLE;
-    public static final int ATTR_PRIMARY_WIDEBANDSPEECH;
-    public static final int ATTR_PRIMARY_PHONERINGTONE;
-    public static final int ATTR_PRIMARY_SAPUPGRADEACTIVE;
-    public static final int ATTR_PRIMARY_MPCALLSTATE;
-    public static final int ATTR_PRIMARY_CALLSTACKS_ISREVERTED;
-    public static final int ATTR_PRIMARY_CALLSTACKS_LASTANSWEREDNUMBERS;
-    public static final int ATTR_PRIMARY_CALLSTACKS_LASTDIALEDNUMBERS;
-    public static final int ATTR_PRIMARY_CALLSTACKS_MISSEDNUMBERS;
-    public static final int ATTR_PRIMARY_CALLSTACKS_COMBINEDCALLSTACKS;
-    public static final int ATTR_PRIMARY_CALLSTACKS_MEDATAVALIDITY;
-    public static final int ATTR_PRIMARY_CALLSTACKS_MISSEDCALLINDICATOR;
-    public static final int ATTR_PRIMARY_PHONEREMINDERSETTING;
-    public static final int ATTR_ASSOCIATED_DTMFTONEPLAYING;
-    public static final int ATTR_ASSOCIATED_SIMPINREQUIRED;
-    public static final int ATTR_ASSOCIATED_ACTIVATIONSTATE;
-    public static final int ATTR_ASSOCIATED_AUTOMATICPINENTRYACTIVE;
-    public static final int ATTR_ASSOCIATED_AUTOMATICREDIALACTIVE;
-    public static final int ATTR_ASSOCIATED_BATTERYCHARGELEVEL;
-    public static final int ATTR_ASSOCIATED_CALLDURATIONLIST;
-    public static final int ATTR_ASSOCIATED_CALLLIST;
-    public static final int ATTR_ASSOCIATED_CDMATHREEWAYCALLINGSETTING;
-    public static final int ATTR_ASSOCIATED_CRADLEPLUGINSTATE;
-    public static final int ATTR_ASSOCIATED_DISCONNECTREASON;
-    public static final int ATTR_ASSOCIATED_EMERGENCYCALLACTIVE;
-    public static final int ATTR_ASSOCIATED_ENHANCEDPRIVACYMODE;
-    public static final int ATTR_ASSOCIATED_HANDSFREEMODE;
-    public static final int ATTR_ASSOCIATED_LOCKSTATE;
-    public static final int ATTR_ASSOCIATED_MAILBOXCONTENT;
-    public static final int ATTR_ASSOCIATED_MICMUTESTATE;
-    public static final int ATTR_ASSOCIATED_PHONEINFORMATION;
-    public static final int ATTR_ASSOCIATED_NETWORKPROVIDER;
-    public static final int ATTR_ASSOCIATED_NETWORKTYPE;
-    public static final int ATTR_ASSOCIATED_PRIVACYMODE;
-    public static final int ATTR_ASSOCIATED_REGISTERSTATE;
-    public static final int ATTR_ASSOCIATED_SERVICECODETYPE;
-    public static final int ATTR_ASSOCIATED_SIGNALQUALITY;
-    public static final int ATTR_ASSOCIATED_SUPPSERVICERESPONSE;
-    public static final int ATTR_ASSOCIATED_SERVICEPROVIDER;
-    public static final int ATTR_ASSOCIATED_SIMALIASINFORMATION;
-    public static final int ATTR_ASSOCIATED_MICGAINLEVEL;
-    public static final int ATTR_ASSOCIATED_OPTIMIZATIONMODE;
-    public static final int ATTR_ASSOCIATED_OTHERSIMAVAILABLE;
-    public static final int ATTR_ASSOCIATED_WIDEBANDSPEECH;
-    public static final int ATTR_ASSOCIATED_PHONERINGTONE;
-    public static final int ATTR_ASSOCIATED_SAPUPGRADEACTIVE;
-    public static final int ATTR_ASSOCIATED_MPCALLSTATE;
-    public static final int ATTR_ASSOCIATED_CALLSTACKS_ISREVERTED;
-    public static final int ATTR_ASSOCIATED_CALLSTACKS_LASTANSWEREDNUMBERS;
-    public static final int ATTR_ASSOCIATED_CALLSTACKS_LASTDIALEDNUMBERS;
-    public static final int ATTR_ASSOCIATED_CALLSTACKS_MISSEDNUMBERS;
-    public static final int ATTR_ASSOCIATED_CALLSTACKS_COMBINEDCALLSTACKS;
-    public static final int ATTR_ASSOCIATED_CALLSTACKS_MEDATAVALIDITY;
-    public static final int ATTR_ASSOCIATED_CALLSTACKS_MISSEDCALLINDICATOR;
-    public static final int ATTR_ASSOCIATED_PHONEREMINDERSETTING;
-    public static final int ATTR_DATA_DTMFTONEPLAYING;
-    public static final int ATTR_DATA_SIMPINREQUIRED;
-    public static final int ATTR_DATA_ACTIVATIONSTATE;
-    public static final int ATTR_DATA_AUTOMATICPINENTRYACTIVE;
-    public static final int ATTR_DATA_AUTOMATICREDIALACTIVE;
-    public static final int ATTR_DATA_BATTERYCHARGELEVEL;
-    public static final int ATTR_DATA_CALLDURATIONLIST;
-    public static final int ATTR_DATA_CALLLIST;
-    public static final int ATTR_DATA_CDMATHREEWAYCALLINGSETTING;
-    public static final int ATTR_DATA_CRADLEPLUGINSTATE;
-    public static final int ATTR_DATA_DISCONNECTREASON;
-    public static final int ATTR_DATA_EMERGENCYCALLACTIVE;
-    public static final int ATTR_DATA_ENHANCEDPRIVACYMODE;
-    public static final int ATTR_DATA_HANDSFREEMODE;
-    public static final int ATTR_DATA_LOCKSTATE;
-    public static final int ATTR_DATA_MAILBOXCONTENT;
-    public static final int ATTR_DATA_MICMUTESTATE;
-    public static final int ATTR_DATA_PHONEINFORMATION;
-    public static final int ATTR_DATA_NETWORKPROVIDER;
-    public static final int ATTR_DATA_NETWORKTYPE;
-    public static final int ATTR_DATA_PRIVACYMODE;
-    public static final int ATTR_DATA_REGISTERSTATE;
-    public static final int ATTR_DATA_SERVICECODETYPE;
-    public static final int ATTR_DATA_SIGNALQUALITY;
-    public static final int ATTR_DATA_SUPPSERVICERESPONSE;
-    public static final int ATTR_DATA_SERVICEPROVIDER;
-    public static final int ATTR_DATA_SIMALIASINFORMATION;
-    public static final int ATTR_DATA_MICGAINLEVEL;
-    public static final int ATTR_DATA_OPTIMIZATIONMODE;
-    public static final int ATTR_DATA_OTHERSIMAVAILABLE;
-    public static final int ATTR_DATA_WIDEBANDSPEECH;
-    public static final int ATTR_DATA_PHONERINGTONE;
-    public static final int ATTR_DATA_SAPUPGRADEACTIVE;
-    public static final int ATTR_DATA_MPCALLSTATE;
-    public static final int ATTR_DATA_CALLSTACKS_ISREVERTED;
-    public static final int ATTR_DATA_CALLSTACKS_LASTANSWEREDNUMBERS;
-    public static final int ATTR_DATA_CALLSTACKS_LASTDIALEDNUMBERS;
-    public static final int ATTR_DATA_CALLSTACKS_MISSEDNUMBERS;
-    public static final int ATTR_DATA_CALLSTACKS_COMBINEDCALLSTACKS;
-    public static final int ATTR_DATA_CALLSTACKS_MEDATAVALIDITY;
-    public static final int ATTR_DATA_CALLSTACKS_MISSEDCALLINDICATOR;
-    public static final int ATTR_DATA_PHONEREMINDERSETTING;
-    public static final int NAD_USAGE_PRIMARY;
-    public static final int NAD_USAGE_ASSOCIATED;
-    public static final int NAD_USAGE_DATA;
+    public static final int ROLE_UNKNOWN = 0;
+    public static final int SCOPE_PRIMARY = 65536;
+    public static final int SCOPE_ASSOCIATED = 131072;
+    public static final int SCOPE_DATA = 196608;
+    public static final int SCOPE_GLOBAL = 262144;
+    public static final int ATTR_DEFAULT = 0;
+    public static final int ATTR_GLOBAL_EMERGENCYNUMBERS = 262145;
+    public static final int ATTR_GLOBAL_NADTEMPERATURE = 262146;
+    public static final int ATTR_GLOBAL_NADMODE = 262147;
+    public static final int ATTR_GLOBAL_NEWMESSAGESAVAILABLE = 262148;
+    public static final int ATTR_GLOBAL_RINGTONE_MUTE_SETTING = 262149;
+    public static final int ATTR_GLOBAL_RINGTONE_MUTE_STATUS = 262150;
+    public static final int ATTR_GLOBAL_EUICCID = 262151;
+    public static final int ATTR_GLOBAL_ESIMMSISDN = 262152;
+    public static final int ATTR_GLOBAL_ESIMACTIVE = 262153;
+    public static final int ATTR_GLOBAL_ESIMB2BMODE = 262154;
+    public static final int ATTR_GLOBAL_SERVICENUMBERS = 262155;
+    public static final int ATTR_GLOBAL_ECALL_STATE = 262156;
+    public static final int ATTR_GLOBAL_TOPOLOGY = 262157;
+    public static final int ATTR_PRIMARY_DTMFTONEPLAYING = 65537;
+    public static final int ATTR_PRIMARY_SIMPINREQUIRED = 65538;
+    public static final int ATTR_PRIMARY_ACTIVATIONSTATE = 65539;
+    public static final int ATTR_PRIMARY_AUTOMATICPINENTRYACTIVE = 65540;
+    public static final int ATTR_PRIMARY_AUTOMATICREDIALACTIVE = 65541;
+    public static final int ATTR_PRIMARY_BATTERYCHARGELEVEL = 65542;
+    public static final int ATTR_PRIMARY_CALLDURATIONLIST = 65543;
+    public static final int ATTR_PRIMARY_CALLLIST = 65544;
+    public static final int ATTR_PRIMARY_CDMATHREEWAYCALLINGSETTING = 65545;
+    public static final int ATTR_PRIMARY_CRADLEPLUGINSTATE = 65546;
+    public static final int ATTR_PRIMARY_DISCONNECTREASON = 65547;
+    public static final int ATTR_PRIMARY_EMERGENCYCALLACTIVE = 65548;
+    public static final int ATTR_PRIMARY_ENHANCEDPRIVACYMODE = 65549;
+    public static final int ATTR_PRIMARY_HANDSFREEMODE = 65550;
+    public static final int ATTR_PRIMARY_LOCKSTATE = 65551;
+    public static final int ATTR_PRIMARY_MAILBOXCONTENT = 65552;
+    public static final int ATTR_PRIMARY_MICMUTESTATE = 65553;
+    public static final int ATTR_PRIMARY_PHONEINFORMATION = 65554;
+    public static final int ATTR_PRIMARY_NETWORKPROVIDER = 65555;
+    public static final int ATTR_PRIMARY_NETWORKTYPE = 65556;
+    public static final int ATTR_PRIMARY_PRIVACYMODE = 65557;
+    public static final int ATTR_PRIMARY_REGISTERSTATE = 65558;
+    public static final int ATTR_PRIMARY_SERVICECODETYPE = 65559;
+    public static final int ATTR_PRIMARY_SIGNALQUALITY = 65561;
+    public static final int ATTR_PRIMARY_SUPPSERVICERESPONSE = 65562;
+    public static final int ATTR_PRIMARY_SERVICEPROVIDER = 65563;
+    public static final int ATTR_PRIMARY_SIMALIASINFORMATION = 65564;
+    public static final int ATTR_PRIMARY_MICGAINLEVEL = 65565;
+    public static final int ATTR_PRIMARY_OPTIMIZATIONMODE = 65566;
+    public static final int ATTR_PRIMARY_OTHERSIMAVAILABLE = 65567;
+    public static final int ATTR_PRIMARY_WIDEBANDSPEECH = 65568;
+    public static final int ATTR_PRIMARY_PHONERINGTONE = 65569;
+    public static final int ATTR_PRIMARY_SAPUPGRADEACTIVE = 65570;
+    public static final int ATTR_PRIMARY_MPCALLSTATE = 65571;
+    public static final int ATTR_PRIMARY_CALLSTACKS_ISREVERTED = 65572;
+    public static final int ATTR_PRIMARY_CALLSTACKS_LASTANSWEREDNUMBERS = 65573;
+    public static final int ATTR_PRIMARY_CALLSTACKS_LASTDIALEDNUMBERS = 65574;
+    public static final int ATTR_PRIMARY_CALLSTACKS_MISSEDNUMBERS = 65575;
+    public static final int ATTR_PRIMARY_CALLSTACKS_COMBINEDCALLSTACKS = 65576;
+    public static final int ATTR_PRIMARY_CALLSTACKS_MEDATAVALIDITY = 65577;
+    public static final int ATTR_PRIMARY_CALLSTACKS_MISSEDCALLINDICATOR = 65578;
+    public static final int ATTR_PRIMARY_PHONEREMINDERSETTING = 65579;
+    public static final int ATTR_ASSOCIATED_DTMFTONEPLAYING = 131073;
+    public static final int ATTR_ASSOCIATED_SIMPINREQUIRED = 131074;
+    public static final int ATTR_ASSOCIATED_ACTIVATIONSTATE = 131075;
+    public static final int ATTR_ASSOCIATED_AUTOMATICPINENTRYACTIVE = 131076;
+    public static final int ATTR_ASSOCIATED_AUTOMATICREDIALACTIVE = 131077;
+    public static final int ATTR_ASSOCIATED_BATTERYCHARGELEVEL = 131078;
+    public static final int ATTR_ASSOCIATED_CALLDURATIONLIST = 131079;
+    public static final int ATTR_ASSOCIATED_CALLLIST = 131080;
+    public static final int ATTR_ASSOCIATED_CDMATHREEWAYCALLINGSETTING = 131081;
+    public static final int ATTR_ASSOCIATED_CRADLEPLUGINSTATE = 131082;
+    public static final int ATTR_ASSOCIATED_DISCONNECTREASON = 131083;
+    public static final int ATTR_ASSOCIATED_EMERGENCYCALLACTIVE = 131084;
+    public static final int ATTR_ASSOCIATED_ENHANCEDPRIVACYMODE = 131085;
+    public static final int ATTR_ASSOCIATED_HANDSFREEMODE = 131086;
+    public static final int ATTR_ASSOCIATED_LOCKSTATE = 131087;
+    public static final int ATTR_ASSOCIATED_MAILBOXCONTENT = 131088;
+    public static final int ATTR_ASSOCIATED_MICMUTESTATE = 131089;
+    public static final int ATTR_ASSOCIATED_PHONEINFORMATION = 131090;
+    public static final int ATTR_ASSOCIATED_NETWORKPROVIDER = 131091;
+    public static final int ATTR_ASSOCIATED_NETWORKTYPE = 131092;
+    public static final int ATTR_ASSOCIATED_PRIVACYMODE = 131093;
+    public static final int ATTR_ASSOCIATED_REGISTERSTATE = 131094;
+    public static final int ATTR_ASSOCIATED_SERVICECODETYPE = 131095;
+    public static final int ATTR_ASSOCIATED_SIGNALQUALITY = 131097;
+    public static final int ATTR_ASSOCIATED_SUPPSERVICERESPONSE = 131098;
+    public static final int ATTR_ASSOCIATED_SERVICEPROVIDER = 131099;
+    public static final int ATTR_ASSOCIATED_SIMALIASINFORMATION = 131100;
+    public static final int ATTR_ASSOCIATED_MICGAINLEVEL = 131101;
+    public static final int ATTR_ASSOCIATED_OPTIMIZATIONMODE = 131102;
+    public static final int ATTR_ASSOCIATED_OTHERSIMAVAILABLE = 131103;
+    public static final int ATTR_ASSOCIATED_WIDEBANDSPEECH = 131104;
+    public static final int ATTR_ASSOCIATED_PHONERINGTONE = 131105;
+    public static final int ATTR_ASSOCIATED_SAPUPGRADEACTIVE = 131106;
+    public static final int ATTR_ASSOCIATED_MPCALLSTATE = 131107;
+    public static final int ATTR_ASSOCIATED_CALLSTACKS_ISREVERTED = 131108;
+    public static final int ATTR_ASSOCIATED_CALLSTACKS_LASTANSWEREDNUMBERS = 131109;
+    public static final int ATTR_ASSOCIATED_CALLSTACKS_LASTDIALEDNUMBERS = 131110;
+    public static final int ATTR_ASSOCIATED_CALLSTACKS_MISSEDNUMBERS = 131111;
+    public static final int ATTR_ASSOCIATED_CALLSTACKS_COMBINEDCALLSTACKS = 131112;
+    public static final int ATTR_ASSOCIATED_CALLSTACKS_MEDATAVALIDITY = 131113;
+    public static final int ATTR_ASSOCIATED_CALLSTACKS_MISSEDCALLINDICATOR = 131114;
+    public static final int ATTR_ASSOCIATED_PHONEREMINDERSETTING = 131115;
+    public static final int ATTR_DATA_DTMFTONEPLAYING = 196609;
+    public static final int ATTR_DATA_SIMPINREQUIRED = 196610;
+    public static final int ATTR_DATA_ACTIVATIONSTATE = 196611;
+    public static final int ATTR_DATA_AUTOMATICPINENTRYACTIVE = 196612;
+    public static final int ATTR_DATA_AUTOMATICREDIALACTIVE = 196613;
+    public static final int ATTR_DATA_BATTERYCHARGELEVEL = 196614;
+    public static final int ATTR_DATA_CALLDURATIONLIST = 196615;
+    public static final int ATTR_DATA_CALLLIST = 196616;
+    public static final int ATTR_DATA_CDMATHREEWAYCALLINGSETTING = 196617;
+    public static final int ATTR_DATA_CRADLEPLUGINSTATE = 196618;
+    public static final int ATTR_DATA_DISCONNECTREASON = 196619;
+    public static final int ATTR_DATA_EMERGENCYCALLACTIVE = 196620;
+    public static final int ATTR_DATA_ENHANCEDPRIVACYMODE = 196621;
+    public static final int ATTR_DATA_HANDSFREEMODE = 196622;
+    public static final int ATTR_DATA_LOCKSTATE = 196623;
+    public static final int ATTR_DATA_MAILBOXCONTENT = 196624;
+    public static final int ATTR_DATA_MICMUTESTATE = 196625;
+    public static final int ATTR_DATA_PHONEINFORMATION = 196626;
+    public static final int ATTR_DATA_NETWORKPROVIDER = 196627;
+    public static final int ATTR_DATA_NETWORKTYPE = 196628;
+    public static final int ATTR_DATA_PRIVACYMODE = 196629;
+    public static final int ATTR_DATA_REGISTERSTATE = 196630;
+    public static final int ATTR_DATA_SERVICECODETYPE = 196631;
+    public static final int ATTR_DATA_SIGNALQUALITY = 196633;
+    public static final int ATTR_DATA_SUPPSERVICERESPONSE = 196634;
+    public static final int ATTR_DATA_SERVICEPROVIDER = 196635;
+    public static final int ATTR_DATA_SIMALIASINFORMATION = 196636;
+    public static final int ATTR_DATA_MICGAINLEVEL = 196637;
+    public static final int ATTR_DATA_OPTIMIZATIONMODE = 196638;
+    public static final int ATTR_DATA_OTHERSIMAVAILABLE = 196639;
+    public static final int ATTR_DATA_WIDEBANDSPEECH = 196640;
+    public static final int ATTR_DATA_PHONERINGTONE = 196641;
+    public static final int ATTR_DATA_SAPUPGRADEACTIVE = 196642;
+    public static final int ATTR_DATA_MPCALLSTATE = 196643;
+    public static final int ATTR_DATA_CALLSTACKS_ISREVERTED = 196644;
+    public static final int ATTR_DATA_CALLSTACKS_LASTANSWEREDNUMBERS = 196645;
+    public static final int ATTR_DATA_CALLSTACKS_LASTDIALEDNUMBERS = 196646;
+    public static final int ATTR_DATA_CALLSTACKS_MISSEDNUMBERS = 196647;
+    public static final int ATTR_DATA_CALLSTACKS_COMBINEDCALLSTACKS = 196648;
+    public static final int ATTR_DATA_CALLSTACKS_MEDATAVALIDITY = 196649;
+    public static final int ATTR_DATA_CALLSTACKS_MISSEDCALLINDICATOR = 196650;
+    public static final int ATTR_DATA_PHONEREMINDERSETTING = 196651;
+    public static final int NAD_USAGE_PRIMARY = 0;
+    public static final int NAD_USAGE_ASSOCIATED = 1;
+    public static final int NAD_USAGE_DATA = 2;
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void removeListener(IGlobalTelephoneStateListener iGlobalTelephoneStateListener) {
-    }
+    public void removeListener(IGlobalTelephoneStateListener var1);
 
-    default public void registerListener(IGlobalTelephoneStateListener iGlobalTelephoneStateListener) {
-    }
+    public void registerListener(IGlobalTelephoneStateListener var1);
 
-    default public void updateNewMessagesAvailable(boolean bl, boolean bl2) {
-    }
+    public void updateNewMessagesAvailable(boolean var1, boolean var2);
 
-    default public void updateRingtoneMuteSetting(boolean bl) {
-    }
+    public void updateRingtoneMuteSetting(boolean var1);
 
-    default public void updateTopology(ITelTopology iTelTopology) {
-    }
+    public void updateTopology(ITelTopology var1);
 
-    default public void updateRingtoneMuteActive(boolean bl) {
-    }
+    public void updateRingtoneMuteActive(boolean var1);
 
-    default public void removeListenerForSpecificAttributeUpdate(int n, IGlobalTelephoneStateListener iGlobalTelephoneStateListener) {
-    }
+    public void removeListenerForSpecificAttributeUpdate(int var1, IGlobalTelephoneStateListener var2);
 
-    default public void registerListenerForSpecificAttributeUpdate(int n, IGlobalTelephoneStateListener iGlobalTelephoneStateListener) {
-    }
+    public void registerListenerForSpecificAttributeUpdate(int var1, IGlobalTelephoneStateListener var2);
 
-    default public void registerListenerForSpecificAttributeUpdate(int[] nArray, IGlobalTelephoneStateListener iGlobalTelephoneStateListener) {
-    }
+    public void registerListenerForSpecificAttributeUpdate(int[] var1, IGlobalTelephoneStateListener var2);
 
-    default public void removeListenerForSpecificAttributeUpdate(int[] nArray, IGlobalTelephoneStateListener iGlobalTelephoneStateListener) {
-    }
+    public void removeListenerForSpecificAttributeUpdate(int[] var1, IGlobalTelephoneStateListener var2);
 
-    default public void updateMEDevice(int n, int n2, ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState) {
-    }
+    public void updateMEDevice(int var1, int var2, ITelDSIMobileEquipmentDeviceState var3);
 
-    default public void setNadUsageData() {
-    }
+    public void setNadUsageData();
 
-    default public void setNadUsageAssociated() {
-    }
+    public void setNadUsageAssociated();
 
-    default public void setNadUsagePrimary() {
-    }
+    public void setNadUsagePrimary();
 
-    default public void setNadUsageUnknown() {
-    }
+    public void setNadUsageUnknown();
 
-    default public void setAcceptIncomingCallOnNonCallLeadingDevicePending(boolean bl) {
-    }
+    public void setAcceptIncomingCallOnNonCallLeadingDevicePending(boolean var1);
 }
 

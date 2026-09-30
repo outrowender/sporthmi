@@ -15,29 +15,24 @@ implements IActionProxyListener {
         super(iCarApplication);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(20, this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(20, this);
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
-        this.getLogChannel().log(1078071040, "[ContextComponentEvo#actionProxyCallPerformed] id='%1'", (long)n);
+        this.getLogChannel().log(1000000, "[ContextComponentEvo#actionProxyCallPerformed] id='%1'", (long)n);
         switch (n) {
             case 20: {
                 Integer n2 = (Integer)map.get("CONTEXT");
@@ -49,12 +44,11 @@ implements IActionProxyListener {
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[ContextComponentEvo#actionProxyCallPerformed] methodID not supported");
+                this.getLogChannel().log(100000, "[ContextComponentEvo#actionProxyCallPerformed] methodID not supported");
             }
         }
     }
 
-    @Override
     public int getID() {
         return 51;
     }

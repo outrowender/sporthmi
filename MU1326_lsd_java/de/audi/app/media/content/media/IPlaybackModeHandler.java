@@ -7,71 +7,50 @@ import de.audi.app.media.source.IActivationContext;
 import org.dsi.ifc.media.PlaybackMode;
 
 public interface IPlaybackModeHandler {
-    public static final int SCOPE_ALREADY_SET;
-    public static final int SCOPE_NOT_SUPPORTED;
-    public static final int SCOPE_SET_SUCCESSFUL;
+    public static final int SCOPE_ALREADY_SET = 1;
+    public static final int SCOPE_NOT_SUPPORTED = 2;
+    public static final int SCOPE_SET_SUCCESSFUL = 3;
 
-    default public void activate(IActivationContext iActivationContext) {
-    }
+    public void activate(IActivationContext var1);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public void updatePlaybackModeList(PlaybackMode[] playbackModeArray) {
-    }
+    public void updatePlaybackModeList(PlaybackMode[] var1);
 
-    default public void updatePlaymodesAvailable(boolean bl) {
-    }
+    public void updatePlaymodesAvailable(boolean var1);
 
-    default public boolean sendCurrentPlaybackMode() {
-    }
+    public boolean sendCurrentPlaybackMode();
 
-    default public void updateActivePlaybackMode(int n) {
-    }
+    public void updateActivePlaybackMode(int var1);
 
-    default public int getActiveRepeatScope() {
-    }
+    public int getActiveRepeatScope();
 
-    default public boolean isMix() {
-    }
+    public boolean isMix();
 
-    default public int setRepeatScope(int n, boolean bl) {
-    }
+    public int setRepeatScope(int var1, boolean var2);
 
-    default public int setRepeatTitle(boolean bl) {
-    }
+    public int setRepeatTitle(boolean var1);
 
-    default public void trackChanged() {
-    }
+    public void trackChanged();
 
-    default public boolean isRepeatOff() {
-    }
+    public boolean isRepeatOff();
 
-    default public void sendRepeatPlayview() {
-    }
+    public void sendRepeatPlayview();
 
-    default public boolean isRepeatMedium() {
-    }
+    public boolean isRepeatMedium();
 
-    default public boolean isRepeatDevice() {
-    }
+    public boolean isRepeatDevice();
 
-    default public boolean isRepeatSelection() {
-    }
+    public boolean isRepeatSelection();
 
-    default public boolean isRepeatTrack() {
-    }
+    public boolean isRepeatTrack();
 
-    default public void resetPlaybackMode() {
-    }
+    public void resetPlaybackMode();
 
-    default public void toggleRepeatMode() {
-    }
+    public void toggleRepeatMode();
 
-    default public void toggleMixMode() {
-    }
+    public void toggleMixMode();
 
-    default public void setResetRepeatTitleOnTrackChange(boolean bl) {
-    }
+    public void setResetRepeatTitleOnTrackChange(boolean var1);
 }
 

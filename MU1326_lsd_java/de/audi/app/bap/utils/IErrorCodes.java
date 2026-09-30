@@ -4,7 +4,6 @@
 package de.audi.app.bap.utils;
 
 public interface IErrorCodes {
-    default public String getDescription(int n) {
-    }
+    public String getDescription(int var1);
 }
 

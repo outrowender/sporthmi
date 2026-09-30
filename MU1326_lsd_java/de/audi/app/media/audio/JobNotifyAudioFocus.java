@@ -11,7 +11,7 @@ import java.util.List;
 
 public class JobNotifyAudioFocus
 implements Runnable {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobNotifyAudioFocus";
     private final List listeners;
     private final IMediaLogger logger;
     private final boolean hasAudioFocus;
@@ -22,7 +22,6 @@ implements Runnable {
         this.hasAudioFocus = bl;
     }
 
-    @Override
     public void run() {
         Iterator iterator = this.listeners.iterator();
         while (iterator.hasNext()) {
@@ -30,7 +29,7 @@ implements Runnable {
                 ((IAudioStateListener)iterator.next()).audioFocusChanged(this.hasAudioFocus);
             }
             catch (Exception exception) {
-                this.logger.audio().log(10000, "[%1.run]", (Object)"JobNotifyAudioFocus", (Throwable)exception);
+                this.logger.audio().log(10000, "[%1.run]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }

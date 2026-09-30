@@ -7,16 +7,15 @@ import de.audi.tghu.info.app.IInfoTextConstants;
 
 public class InfoTextConstantsImplEvo
 implements IInfoTextConstants {
-    @Override
     public int mapToVariant(int n) {
         int n2 = -1;
         switch (n) {
             case 0: {
-                n2 = 1554056960;
+                n2 = 500060;
                 break;
             }
             case 1: {
-                n2 = 1537279744;
+                n2 = 500059;
                 break;
             }
         }

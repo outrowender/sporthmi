@@ -35,7 +35,7 @@ public class NBestListResult {
     }
 
     public String toString() {
-        return new StringBuffer("NBestListResult(id=").append(this.grammarID).append(", confidence=").append(this.confidence).append(", result=").append(this.result).append(", nBestListSlots=").append(this.nBestListSlots).append(")").toString();
+        return "NBestListResult(id=" + this.grammarID + ", confidence=" + this.confidence + ", result=" + this.result + ", nBestListSlots=" + this.nBestListSlots + ")";
     }
 }
 

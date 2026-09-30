@@ -16,12 +16,10 @@ extends TelServiceListenerWrapper {
         this.sdsListener = iTelServiceSDSListener;
     }
 
-    @Override
     public void responseUnlockSIM(int n, int n2, LockStateStruct lockStateStruct) {
         this.sdsListener.unlockSIMResponse(this.mapResultCode(n));
     }
 
-    @Override
     public void responseSetMailboxContent(int n, int n2) {
         this.sdsListener.setMailboxResponse(this.mapResultCode(n));
     }

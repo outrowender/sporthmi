@@ -9,131 +9,88 @@ import de.audi.atip.interapp.AbstractSDSService;
 
 public interface SDSHandlerService
 extends AbstractSDSService {
-    default public void abortSDSSession(boolean bl) {
-    }
+    public void abortSDSSession(boolean var1);
 
-    default public void sendEvent(int n) {
-    }
+    public void sendEvent(int var1);
 
-    default public void sendDDSEvent(int n, int n2) {
-    }
+    public void sendDDSEvent(int var1, int var2);
 
-    default public void sendResumeEvent(boolean bl) {
-    }
+    public void sendResumeEvent(boolean var1);
 
-    default public void sendSpeechSMEvent(int n, boolean bl, boolean bl2) {
-    }
+    public void sendSpeechSMEvent(int var1, boolean var2, boolean var3);
 
-    default public void sendDDSSpeechSMEvent(int n) {
-    }
+    public void sendDDSSpeechSMEvent(int var1);
 
-    default public void sendResultEvent(int n) {
-    }
+    public void sendResultEvent(int var1);
 
-    default public void sendResultEvent(int n, boolean bl) {
-    }
+    public void sendResultEvent(int var1, boolean var2);
 
-    @Override
-    default public void sendResult(int n) {
-    }
+    public void sendResult(int var1);
 
-    default public boolean isSDSPaused() {
-    }
+    public boolean isSDSPaused();
 
-    default public boolean isSDSWaiting() {
-    }
+    public boolean isSDSWaiting();
 
-    default public boolean isExternalSDSRequested() {
-    }
+    public boolean isExternalSDSRequested();
 
-    default public void switchEntertainment(boolean bl) {
-    }
+    public void switchEntertainment(boolean var1);
 
-    default public boolean isPTTDisabled() {
-    }
+    public boolean isPTTDisabled();
 
-    default public int resetSelectedRow() {
-    }
+    public int resetSelectedRow();
 
-    default public int getSelectedRow() {
-    }
+    public int getSelectedRow();
 
-    default public void setSelectedRow(int n) {
-    }
+    public void setSelectedRow(int var1);
 
-    default public int getSelectedModel() {
-    }
+    public int getSelectedModel();
 
-    default public void setSelectedModel(int n) {
-    }
+    public void setSelectedModel(int var1);
 
-    default public boolean getDDSFlag() {
-    }
+    public boolean getDDSFlag();
 
-    default public void setDDSFlag(boolean bl) {
-    }
+    public void setDDSFlag(boolean var1);
 
-    default public void setSDSNumberDialingActive(boolean bl) {
-    }
+    public void setSDSNumberDialingActive(boolean var1);
 
-    default public void triggerPauseStateAbortTimer(boolean bl) {
-    }
+    public void triggerPauseStateAbortTimer(boolean var1);
 
-    default public void triggerWaitStateAbortTimer(boolean bl) {
-    }
+    public void triggerWaitStateAbortTimer(boolean var1);
 
-    default public boolean isSDSVolumeSettingActive() {
-    }
+    public boolean isSDSVolumeSettingActive();
 
-    default public void setSDSVolumeSettingActive(boolean bl) {
-    }
+    public void setSDSVolumeSettingActive(boolean var1);
 
-    default public void cancelTimers() {
-    }
+    public void cancelTimers();
 
-    default public void turnDDSWheel() {
-    }
+    public void turnDDSWheel();
 
-    default public void movedDDSJoystick(JoystickEvent joystickEvent) {
-    }
+    public void movedDDSJoystick(JoystickEvent var1);
 
-    default public boolean isBeepOn() {
-    }
+    public boolean isBeepOn();
 
-    default public boolean isExpertMode() {
-    }
+    public boolean isExpertMode();
 
-    default public boolean isQuickMode() {
-    }
+    public boolean isQuickMode();
 
-    default public boolean isCommandScreen() {
-    }
+    public boolean isCommandScreen();
 
-    default public boolean isVoiceBargeIn() {
-    }
+    public boolean isVoiceBargeIn();
 
-    default public void setAbortWaitingStateOnCorrection(boolean bl) {
-    }
+    public void setAbortWaitingStateOnCorrection(boolean var1);
 
-    default public boolean isAbortWaitingStateOnCorrection() {
-    }
+    public boolean isAbortWaitingStateOnCorrection();
 
-    default public void handleLeavingWaitingState() {
-    }
+    public void handleLeavingWaitingState();
 
-    default public void handleLeavingPauseState() {
-    }
+    public void handleLeavingPauseState();
 
-    default public void resetEventID() {
-    }
+    public void resetEventID();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 
-    default public boolean isOnlineRecogResultsInvalid() {
-    }
+    public boolean isOnlineRecogResultsInvalid();
 
-    default public void setOnlineRecogResultsInvalid(boolean bl) {
-    }
+    public void setOnlineRecogResultsInvalid(boolean var1);
 }
 

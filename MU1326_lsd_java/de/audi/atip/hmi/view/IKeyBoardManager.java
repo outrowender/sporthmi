@@ -6,46 +6,32 @@ package de.audi.atip.hmi.view;
 import de.esolutions.fw.util.commons.job.Job;
 
 public interface IKeyBoardManager {
-    default public Job fireKeyEvent(int n, long l, int n2, int n3) {
-    }
+    public Job fireKeyEvent(int var1, long var2, int var4, int var5);
 
-    default public Job fireKeyEvent(int n, long l, int n2, long l2, int n3) {
-    }
+    public Job fireKeyEvent(int var1, long var2, int var4, long var5, int var7);
 
-    default public void fireKeyEventDirectlyInEventDispatchThread(int n, long l, int n2, int n3) {
-    }
+    public void fireKeyEventDirectlyInEventDispatchThread(int var1, long var2, int var4, int var5);
 
-    default public Job fireJoyStickEvent(int n, long l, int n2, int n3, int n4) {
-    }
+    public Job fireJoyStickEvent(int var1, long var2, int var4, int var5, int var6);
 
-    default public Job fireWheelButtonEvent(int n, long l, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public Job fireWheelButtonEvent(int var1, long var2, int var4, int var5, int var6, int var7, int var8);
 
-    default public Job fireWheelButtonEvent(int n, long l, int n2, int n3, int n4, int n5) {
-    }
+    public Job fireWheelButtonEvent(int var1, long var2, int var4, int var5, int var6, int var7);
 
-    default public Job fireTouchEvent(int n, long l, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public Job fireTouchEvent(int var1, long var2, int var4, int var5, int var6, int var7, int var8);
 
-    default public Job fireTouchEvent(int n, long l, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9) {
-    }
+    public Job fireTouchEvent(int var1, long var2, int var4, int var5, int var6, int var7, int var8, int var9, int var10, int var11);
 
-    default public Job fireTouchEvent(int n, long l, int n2, int n3, int n4, int n5, boolean bl, int n6, int n7, int n8, int n9) {
-    }
+    public Job fireTouchEvent(int var1, long var2, int var4, int var5, int var6, int var7, boolean var8, int var9, int var10, int var11, int var12);
 
-    default public Job fireTouchEvent(int n, long l, int n2, int n3, int n4, String string, int[] nArray, int n5) {
-    }
+    public Job fireTouchEvent(int var1, long var2, int var4, int var5, int var6, String var7, int[] var8, int var9);
 
-    default public Job fireGestureEvent(int n, long l, int n2, int n3, int n4) {
-    }
+    public Job fireGestureEvent(int var1, long var2, int var4, int var5, int var6);
 
-    default public Job fireGestureEvent(int n, int n2, int n3, int n4, int n5, int n6, long l, int n7) {
-    }
+    public Job fireGestureEvent(int var1, int var2, int var3, int var4, int var5, int var6, long var7, int var9);
 
-    default public Job fireGestureEvent(int n, long l, int n2, int n3, String[] stringArray, int[] nArray, int n4) {
-    }
+    public Job fireGestureEvent(int var1, long var2, int var4, int var5, String[] var6, int[] var7, int var8);
 
-    default public Job fireProximityEvent(int n, int n2) {
-    }
+    public Job fireProximityEvent(int var1, int var2);
 }
 

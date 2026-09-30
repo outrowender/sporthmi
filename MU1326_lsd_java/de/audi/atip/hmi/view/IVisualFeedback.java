@@ -4,13 +4,10 @@
 package de.audi.atip.hmi.view;
 
 public interface IVisualFeedback {
-    default public void showTextFeedback(String string) {
-    }
+    public void showTextFeedback(String var1);
 
-    default public void showFullScreenFeedback() {
-    }
+    public void showFullScreenFeedback();
 
-    default public void hideFeedback() {
-    }
+    public void hideFeedback();
 }
 

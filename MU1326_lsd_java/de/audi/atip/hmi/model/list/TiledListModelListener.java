@@ -7,10 +7,8 @@ import de.audi.atip.hmi.model.list.BaseListModelListener;
 
 public interface TiledListModelListener
 extends BaseListModelListener {
-    default public void requestItems(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void requestItems(int var1, int var2, int var3, int var4, int var5);
 
-    default public void unrequestItems(int n, int n2, int n3, int n4) {
-    }
+    public void unrequestItems(int var1, int var2, int var3, int var4);
 }
 

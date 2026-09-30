@@ -4,9 +4,6 @@
 package com.microdoc.j9;
 
 import com.microdoc.j9.ThreadInfo;
-import com.microdoc.j9.Tools$1;
-import com.microdoc.j9.Tools$1$DDInfo;
-import com.microdoc.j9.Tools$2;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -17,14 +14,28 @@ import java.util.Hashtable;
 public class Tools {
     public static void init() {
         long l;
-        int n = Integer.getInteger("dumpPriority", 5);
-        Integer n2 = Integer.getInteger("dumpThreadOnPort");
+        final int n = Integer.getInteger("dumpPriority", 5);
+        final Integer n2 = Integer.getInteger("dumpThreadOnPort");
         if (n2 != null) {
-            new Tools$1(n, n2).start();
+            new Thread(){
+
+                public void run() {
+                    this.setName("Thread Dump - Socket listener");
+                    this.setPriority(n);
+                    Tools.runServerSocket(n2);
+                }
+            }.start();
         }
         if (0L != (l = Tools.getIntervalSetting("dumpThreads"))) {
             long l2 = Tools.getIntervalSetting("dumpThreadDelay");
-            new Tools$2(l, l2, n).start();
+            new IntervalThread(l, l2){
+
+                public void run() {
+                    this.setName("Thread Dump - Loop");
+                    this.setPriority(n);
+                    Tools.runThreadDumpLoop(this.fInterval, this.fInitialDelay, Integer.getInteger("deadlockDetection", -1));
+                }
+            }.start();
         }
     }
 
@@ -53,7 +64,21 @@ public class Tools {
 
     private static void searchForDeadlocks(ThreadInfo[] threadInfoArray, PrintStream printStream) {
         try {
-            Tools$1$DDInfo tools$1$DDInfo;
+            class DDInfo {
+                ThreadInfo fThreadInfo;
+                int fVisited = -1;
+                boolean fDeadlocked = false;
+
+                public DDInfo(ThreadInfo threadInfo) {
+                    this.fThreadInfo = threadInfo;
+                }
+
+                public boolean isBlocked() {
+                    int n = this.fThreadInfo.getStatus();
+                    return n == 1 || n == 2;
+                }
+            }
+            DDInfo dDInfo;
             ThreadInfo threadInfo;
             if (threadInfoArray == null) {
                 return;
@@ -62,46 +87,46 @@ public class Tools {
             int n = 0;
             while (n < threadInfoArray.length) {
                 ThreadInfo threadInfo2 = threadInfoArray[n];
-                hashtable.put(threadInfo2.getThread(), new Tools$1$DDInfo(threadInfo2));
+                hashtable.put(threadInfo2.getThread(), new DDInfo(threadInfo2));
                 ++n;
             }
             n = 0;
             int n2 = 0;
             while (n2 < threadInfoArray.length) {
                 threadInfo = threadInfoArray[n2];
-                tools$1$DDInfo = (Tools$1$DDInfo)hashtable.get(threadInfo.getThread());
-                if (tools$1$DDInfo.fVisited < 0) {
-                    tools$1$DDInfo.fVisited = n2;
-                    if (tools$1$DDInfo.isBlocked()) {
-                        Tools$1$DDInfo tools$1$DDInfo2;
-                        Thread thread = tools$1$DDInfo.fThreadInfo.getMonitorOwner();
+                dDInfo = (DDInfo)hashtable.get(threadInfo.getThread());
+                if (dDInfo.fVisited < 0) {
+                    dDInfo.fVisited = n2;
+                    if (dDInfo.isBlocked()) {
+                        DDInfo dDInfo2;
+                        Thread thread = dDInfo.fThreadInfo.getMonitorOwner();
                         while (thread != null) {
-                            tools$1$DDInfo2 = (Tools$1$DDInfo)hashtable.get(thread);
-                            if (tools$1$DDInfo2 == null) {
+                            dDInfo2 = (DDInfo)hashtable.get(thread);
+                            if (dDInfo2 == null) {
                                 if (thread == Thread.currentThread()) break;
                                 System.out.println("JVM WARNING: monitor owner thread not listed");
                                 System.out.println(new StringBuffer("             ").append(thread).toString());
                                 break;
                             }
-                            if (tools$1$DDInfo2.fDeadlocked || tools$1$DDInfo2.fVisited == n2) {
-                                tools$1$DDInfo.fDeadlocked = true;
+                            if (dDInfo2.fDeadlocked || dDInfo2.fVisited == n2) {
+                                dDInfo.fDeadlocked = true;
                                 break;
                             }
-                            if (!tools$1$DDInfo2.isBlocked()) {
-                                tools$1$DDInfo2.fVisited = n2;
+                            if (!dDInfo2.isBlocked()) {
+                                dDInfo2.fVisited = n2;
                                 break;
                             }
-                            if (tools$1$DDInfo2.fVisited >= 0 && tools$1$DDInfo2.fVisited < n2) break;
-                            tools$1$DDInfo2.fVisited = n2;
-                            thread = tools$1$DDInfo2.fThreadInfo.getMonitorOwner();
+                            if (dDInfo2.fVisited >= 0 && dDInfo2.fVisited < n2) break;
+                            dDInfo2.fVisited = n2;
+                            thread = dDInfo2.fThreadInfo.getMonitorOwner();
                         }
-                        if (tools$1$DDInfo.fDeadlocked) {
+                        if (dDInfo.fDeadlocked) {
                             ++n;
-                            tools$1$DDInfo2 = (Tools$1$DDInfo)hashtable.get(tools$1$DDInfo.fThreadInfo.getMonitorOwner());
-                            while (!tools$1$DDInfo2.fDeadlocked) {
-                                tools$1$DDInfo2.fDeadlocked = true;
+                            dDInfo2 = (DDInfo)hashtable.get(dDInfo.fThreadInfo.getMonitorOwner());
+                            while (!dDInfo2.fDeadlocked) {
+                                dDInfo2.fDeadlocked = true;
                                 ++n;
-                                tools$1$DDInfo2 = (Tools$1$DDInfo)hashtable.get(tools$1$DDInfo2.fThreadInfo.getMonitorOwner());
+                                dDInfo2 = (DDInfo)hashtable.get(dDInfo2.fThreadInfo.getMonitorOwner());
                             }
                         }
                     }
@@ -113,8 +138,8 @@ public class Tools {
                 n2 = 0;
                 while (n2 < threadInfoArray.length) {
                     threadInfo = threadInfoArray[n2];
-                    tools$1$DDInfo = (Tools$1$DDInfo)hashtable.get(threadInfo.getThread());
-                    if (tools$1$DDInfo.fDeadlocked) {
+                    dDInfo = (DDInfo)hashtable.get(threadInfo.getThread());
+                    if (dDInfo.fDeadlocked) {
                         System.out.println(threadInfo.toString());
                     }
                     ++n2;
@@ -129,7 +154,7 @@ public class Tools {
     private static long getIntervalSetting(String string) {
         Integer n = Integer.getInteger(string);
         if (n != null) {
-            return n.longValue() * 0;
+            return n.longValue() * 1000L;
         }
         Long l = Long.getLong(new StringBuffer(String.valueOf(string)).append("Ms").toString());
         if (l != null) {
@@ -173,8 +198,7 @@ public class Tools {
         }
     }
 
-    private static native ThreadInfo[] getThreadsInfo() {
-    }
+    private static native ThreadInfo[] getThreadsInfo();
 
     public static void dumpThreadsInfo(boolean bl, boolean bl2) {
         ThreadInfo[] threadInfoArray = Tools.getThreadsInfo();
@@ -190,12 +214,15 @@ public class Tools {
         Tools.dumpThreadsInfo(true, true);
     }
 
-    static /* synthetic */ void access$0(int n) {
-        Tools.runServerSocket(n);
-    }
+    private static class IntervalThread
+    extends Thread {
+        long fInterval;
+        long fInitialDelay;
 
-    static /* synthetic */ void access$1(long l, long l2, int n) {
-        Tools.runThreadDumpLoop(l, l2, n);
+        public IntervalThread(long l, long l2) {
+            this.fInterval = l;
+            this.fInitialDelay = l2;
+        }
     }
 }
 

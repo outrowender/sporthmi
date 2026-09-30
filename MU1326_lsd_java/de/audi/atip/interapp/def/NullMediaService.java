@@ -14,13 +14,11 @@ implements IMediaService {
         super(logChannel, "MediaService");
     }
 
-    @Override
     public int getTerminalID() {
         super.log();
         return 0;
     }
 
-    @Override
     public void activateSource(int n, int n2) {
         super.log();
     }

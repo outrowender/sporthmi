@@ -4,328 +4,251 @@
 package de.audi.atip.sysapp.carcoding;
 
 public interface Adaptation {
-    public static final byte RESET_FUNCTION_RADIO;
-    public static final byte RESET_FUNCTION_NAVIGATION;
-    public static final byte RESET_FUNCTION_AUDIO_MEDIA_OPTICAL;
-    public static final byte RESET_FUNCTION_VIDEO_MEDIA_OPTICAL;
-    public static final byte RESET_FUNCTION_DATA_MEDIA_OPTICAL;
-    public static final byte RESET_FUNCTION_USB_MEDIA;
-    public static final byte RESET_FUNCTION_SD_MEDIA;
-    public static final byte RESET_FUNCTION_WIRELESS_MEDIA;
-    public static final byte RESET_FUNCTION_HDD_MEDIA;
-    public static final byte RESET_FUNCTION_TV_MEDIA;
-    public static final byte RESET_FUNCTION_PHONE;
-    public static final byte RESET_FUNCTION_SOUND;
-    public static final byte RESET_FUNCTION_SETUP;
-    public static final byte RESET_FUNCTION_CAR_MENU;
-    public static final byte RESET_FUNCTION_ADDRESSBOOK;
-    public static final byte RESET_FUNCTION_NAVINFO_TRAFFIC;
-    public static final byte RESET_FUNCTION_BROWSER;
-    public static final int BLUETOOTH_DEACTIVATION_STATE_OFF;
-    public static final int BLUETOOTH_DEACTIVATION_STATE_ON;
-    public static final int BLUETOOTH_DEACTIVATION_STATE_NOT_AVAILABLE;
-    public static final byte BLUETOOTH_VISIBILITY_NOT_VISIBLE;
-    public static final byte BLUETOOTH_VISIBILITY_VISIBLE;
-    public static final byte BLUETOOTH_VISIBILITY_AUTOMATIC;
-    public static final byte BLUETOOTH_VISIBILITY_LIMITED;
-    public static final byte SUMMER_TIME_SHIFT_METHOD_NONE;
-    public static final byte SUMMER_TIME_SHIFT_METHOD_MANUEL;
-    public static final byte SUMMER_TIME_SHIFT_METHOD_CET;
-    public static final byte SUMMER_TIME_SHIFT_METHOD_USA;
-    public static final int MEDIA_COUNTRY_CODE_HMI_DEFAULT;
-    public static final int MEDIA_COUNTRY_CODE_HMI_JP;
-    public static final int MEDIA_COUNTRY_CODE_HMI_CN;
-    public static final int MEDIA_COUNTRY_CODE_HMI_KR;
-    public static final int MEDIA_COUNTRY_CODE_HMI_TW;
-    public static final int MEDIA_COUNTRY_CODE_HMI_HK;
-    public static final int MEDIA_COUNTRY_CODE_HMI_MO;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_FREE_TMC;
-    public static final int PAY_TMC_SET_AUDI_ONLINE_TRAFFIC_TMC_PRO;
-    public static final int PAY_TMC_SET_AUDI_ONLINE_TRAFFIC;
-    public static final int PAY_TMC_SET_VW_ONLINE_TRAFFIC_TMC_PRO;
-    public static final int PAY_TMC_SET_VW_ONLINE_TRAFFIC;
-    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC_TMC_PRO;
-    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC;
-    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC_WITHOUT_MEDIA_MOBILE;
-    public static final int PAY_TMC_SET_AUDI_ONLINE_TRAFFIC_TMC_PRO_INFO_BLUE;
-    public static final int PAY_TMC_SET_AUDI_ONLINE_TRAFFIC_INFO_BLUE;
-    public static final int PAY_TMC_SET_VW_ONLINE_TRAFFIC_TMC_PRO_INFO_BLUE;
-    public static final int PAY_TMC_SET_VW_ONLINE_TRAFFIC_INFO_BLUE;
-    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC_TMC_PRO_INFO_BLUE;
-    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC_INFO_BLUE;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_ITIS_INFO_BLUE_VIA_MICHELIN;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_TRAFFIC_MASTER_INFO_BLUE_VIA_MICHELIN;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_TRAFFIC_MASTER_INFO_BLUE_VIA_MICHELIN_RUSSIA_FREE_TMC;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_TRAFFIC_MASTER_INFO_BLUE_VIA_MICHELIN_RUSSIA_TMC_PRO;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_TRAFFIC_MASTER_INFO_BLUE_VIA_MICHELIN_FREE_DAB_TPEG;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_PAY_TMC_GER;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_PAY_TMC_FRANCE;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_PAY_TMC_UK;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_PAY_TMC_PT;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_FREE_TMC_SCALE;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_VW_PAY_TMC_ALL;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_INTELMATICS;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_ALTECH_NETSTAR;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_CHINA_CENNAVI;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_CHINA_AUTONAVI;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_NAR_SIRIUS_FREE_TMC;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_NAR_SIRIUS;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_NAR_CLEARCHANNEL_HD;
-    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_ONLY;
-    public static final int EMERGENCY_CALL_PRIVATE_MODE_DEACTIVATED;
-    public static final int EMERGENCY_CALL_PRIVATE_MODE_ACTIVATED;
-    public static final int EMERGENCY_CALL_PRIVATE_MODE_USER_DEFINED;
-    public static final int NAV_MAP_TRANSMISSION_MODE_OFF;
-    public static final int NAV_MAP_TRANSMISSION_MODE_MOST_HIGH;
-    public static final int NAV_MAP_TRANSMISSION_MODE_MOST_STREAMING;
-    public static final int NAV_MAP_TRANSMISSION_MODE_LVDS_FPK;
-    public static final int NAV_MAP_TRANSMISSION_MODE_LVDS_MMI_COMBI;
-    public static final int NAV_KDK_TRANSMISSION_MODE_OFF;
-    public static final int NAV_KDK_TRANSMISSION_MODE_MOST_HIGH;
-    public static final int NAV_KDK_TRANSMISSION_MODE_MOST_STREAMING;
-    public static final int NAV_KDK_TRANSMISSION_MODE_LVDS_FPK;
-    public static final int NAV_KDK_TRANSMISSION_MODE_LVDS_MMI_COMBI;
-    public static final int ESIM_SERVICE_DEPENDENT;
-    public static final int ESIM_NEVER;
-    public static final int ESIM_ALWAYS;
-    public static final byte ENGINE_TYPE_NOT_INSTALLED;
-    public static final byte ENGINE_TYPE_ELECTRIC;
-    public static final byte ENGINE_TYPE_UNKNOWN;
-    public static final byte ENGINE_TYPE_PETROL_DIESEL;
-    public static final byte ENGINE_TYPE_PETROL_GASOLINE;
-    public static final byte ENGINE_TYPE_GAS_CNG;
-    public static final byte ENGINE_TYPE_GAS_LPG;
-    public static final byte ENGINE_TYPE_VALUE_FROM_BAP;
-
-    default public int getPopupLanguageSelectionStatus() {
-    }
-
-    default public int getTestmodeVideoSpeedCutoffLimit() {
-    }
-
-    default public boolean isExternalMediumActivated() {
-    }
+    public static final byte RESET_FUNCTION_RADIO = 0;
+    public static final byte RESET_FUNCTION_NAVIGATION = 1;
+    public static final byte RESET_FUNCTION_AUDIO_MEDIA_OPTICAL = 2;
+    public static final byte RESET_FUNCTION_VIDEO_MEDIA_OPTICAL = 3;
+    public static final byte RESET_FUNCTION_DATA_MEDIA_OPTICAL = 4;
+    public static final byte RESET_FUNCTION_USB_MEDIA = 5;
+    public static final byte RESET_FUNCTION_SD_MEDIA = 6;
+    public static final byte RESET_FUNCTION_WIRELESS_MEDIA = 7;
+    public static final byte RESET_FUNCTION_HDD_MEDIA = 8;
+    public static final byte RESET_FUNCTION_TV_MEDIA = 9;
+    public static final byte RESET_FUNCTION_PHONE = 10;
+    public static final byte RESET_FUNCTION_SOUND = 11;
+    public static final byte RESET_FUNCTION_SETUP = 12;
+    public static final byte RESET_FUNCTION_CAR_MENU = 13;
+    public static final byte RESET_FUNCTION_ADDRESSBOOK = 14;
+    public static final byte RESET_FUNCTION_NAVINFO_TRAFFIC = 15;
+    public static final byte RESET_FUNCTION_BROWSER = 16;
+    public static final int BLUETOOTH_DEACTIVATION_STATE_OFF = 0;
+    public static final int BLUETOOTH_DEACTIVATION_STATE_ON = 1;
+    public static final int BLUETOOTH_DEACTIVATION_STATE_NOT_AVAILABLE = 255;
+    public static final byte BLUETOOTH_VISIBILITY_NOT_VISIBLE = 0;
+    public static final byte BLUETOOTH_VISIBILITY_VISIBLE = 1;
+    public static final byte BLUETOOTH_VISIBILITY_AUTOMATIC = 2;
+    public static final byte BLUETOOTH_VISIBILITY_LIMITED = 3;
+    public static final byte SUMMER_TIME_SHIFT_METHOD_NONE = 0;
+    public static final byte SUMMER_TIME_SHIFT_METHOD_MANUEL = 1;
+    public static final byte SUMMER_TIME_SHIFT_METHOD_CET = 2;
+    public static final byte SUMMER_TIME_SHIFT_METHOD_USA = 3;
+    public static final int MEDIA_COUNTRY_CODE_HMI_DEFAULT = 11565;
+    public static final int MEDIA_COUNTRY_CODE_HMI_JP = 19024;
+    public static final int MEDIA_COUNTRY_CODE_HMI_CN = 17230;
+    public static final int MEDIA_COUNTRY_CODE_HMI_KR = 19282;
+    public static final int MEDIA_COUNTRY_CODE_HMI_TW = 21591;
+    public static final int MEDIA_COUNTRY_CODE_HMI_HK = 18507;
+    public static final int MEDIA_COUNTRY_CODE_HMI_MO = 19791;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_FREE_TMC = 32768;
+    public static final int PAY_TMC_SET_AUDI_ONLINE_TRAFFIC_TMC_PRO = 32769;
+    public static final int PAY_TMC_SET_AUDI_ONLINE_TRAFFIC = 32770;
+    public static final int PAY_TMC_SET_VW_ONLINE_TRAFFIC_TMC_PRO = 32771;
+    public static final int PAY_TMC_SET_VW_ONLINE_TRAFFIC = 32772;
+    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC_TMC_PRO = 32773;
+    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC = 32774;
+    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC_WITHOUT_MEDIA_MOBILE = 32775;
+    public static final int PAY_TMC_SET_AUDI_ONLINE_TRAFFIC_TMC_PRO_INFO_BLUE = 32776;
+    public static final int PAY_TMC_SET_AUDI_ONLINE_TRAFFIC_INFO_BLUE = 32777;
+    public static final int PAY_TMC_SET_VW_ONLINE_TRAFFIC_TMC_PRO_INFO_BLUE = 32778;
+    public static final int PAY_TMC_SET_VW_ONLINE_TRAFFIC_INFO_BLUE = 32779;
+    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC_TMC_PRO_INFO_BLUE = 32780;
+    public static final int PAY_TMC_SET_BENTLEY_ONLINE_TRAFFIC_INFO_BLUE = 32781;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_ITIS_INFO_BLUE_VIA_MICHELIN = 32782;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_TRAFFIC_MASTER_INFO_BLUE_VIA_MICHELIN = 32783;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_TRAFFIC_MASTER_INFO_BLUE_VIA_MICHELIN_RUSSIA_FREE_TMC = 32784;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_TRAFFIC_MASTER_INFO_BLUE_VIA_MICHELIN_RUSSIA_TMC_PRO = 32785;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_TMC_PRO_TRAFFIC_MASTER_INFO_BLUE_VIA_MICHELIN_FREE_DAB_TPEG = 32786;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_PAY_TMC_GER = 32787;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_PAY_TMC_FRANCE = 32788;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_PAY_TMC_UK = 32789;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_PAY_TMC_PT = 32790;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_FREE_TMC_SCALE = 32793;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_VW_PAY_TMC_ALL = 33791;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_INTELMATICS = 33792;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_ALTECH_NETSTAR = 33793;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_CHINA_CENNAVI = 34048;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_CHINA_AUTONAVI = 34049;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_NAR_SIRIUS_FREE_TMC = 34304;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_NAR_SIRIUS = 34305;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_NAR_CLEARCHANNEL_HD = 34306;
+    public static final int PAY_TMC_SET_ONLINE_TRAFFIC_ONLY = 65533;
+    public static final int EMERGENCY_CALL_PRIVATE_MODE_DEACTIVATED = 0;
+    public static final int EMERGENCY_CALL_PRIVATE_MODE_ACTIVATED = 1;
+    public static final int EMERGENCY_CALL_PRIVATE_MODE_USER_DEFINED = 255;
+    public static final int NAV_MAP_TRANSMISSION_MODE_OFF = 0;
+    public static final int NAV_MAP_TRANSMISSION_MODE_MOST_HIGH = 1;
+    public static final int NAV_MAP_TRANSMISSION_MODE_MOST_STREAMING = 2;
+    public static final int NAV_MAP_TRANSMISSION_MODE_LVDS_FPK = 3;
+    public static final int NAV_MAP_TRANSMISSION_MODE_LVDS_MMI_COMBI = 4;
+    public static final int NAV_KDK_TRANSMISSION_MODE_OFF = 0;
+    public static final int NAV_KDK_TRANSMISSION_MODE_MOST_HIGH = 1;
+    public static final int NAV_KDK_TRANSMISSION_MODE_MOST_STREAMING = 2;
+    public static final int NAV_KDK_TRANSMISSION_MODE_LVDS_FPK = 3;
+    public static final int NAV_KDK_TRANSMISSION_MODE_LVDS_MMI_COMBI = 4;
+    public static final int ESIM_SERVICE_DEPENDENT = 0;
+    public static final int ESIM_NEVER = 1;
+    public static final int ESIM_ALWAYS = 2;
+    public static final byte ENGINE_TYPE_NOT_INSTALLED = 0;
+    public static final byte ENGINE_TYPE_ELECTRIC = 1;
+    public static final byte ENGINE_TYPE_UNKNOWN = 2;
+    public static final byte ENGINE_TYPE_PETROL_DIESEL = 3;
+    public static final byte ENGINE_TYPE_PETROL_GASOLINE = 4;
+    public static final byte ENGINE_TYPE_GAS_CNG = 5;
+    public static final byte ENGINE_TYPE_GAS_LPG = 6;
+    public static final byte ENGINE_TYPE_VALUE_FROM_BAP = 15;
 
-    default public boolean isOpticalMediumActivated() {
-    }
+    public int getPopupLanguageSelectionStatus();
 
-    default public boolean isResetToZeroValid(short s) {
-    }
+    public int getTestmodeVideoSpeedCutoffLimit();
 
-    default public int getBluetoothDeactivationState() {
-    }
+    public boolean isExternalMediumActivated();
 
-    default public boolean isBluetoothSniffModeActivated() {
-    }
+    public boolean isOpticalMediumActivated();
 
-    default public int getBluetoothVisibility() {
-    }
+    public boolean isResetToZeroValid(short var1);
 
-    default public int getDvdRegionCode() {
-    }
+    public int getBluetoothDeactivationState();
 
-    default public int getBlueRaySystemRegionCode() {
-    }
+    public boolean isBluetoothSniffModeActivated();
 
-    default public boolean isCdEjectButtonBlocked() {
-    }
+    public int getBluetoothVisibility();
 
-    default public boolean isDeveloperTestModeActivated() {
-    }
+    public int getDvdRegionCode();
 
-    default public int getEmergencyEstablishLinkAttempts() {
-    }
+    public int getBlueRaySystemRegionCode();
 
-    default public int getSummerTimeShiftMethod() {
-    }
+    public boolean isCdEjectButtonBlocked();
 
-    default public boolean isTelephoneActivated() {
-    }
+    public boolean isDeveloperTestModeActivated();
 
-    default public boolean isWlanModuleActivated() {
-    }
+    public int getEmergencyEstablishLinkAttempts();
 
-    default public boolean isVzaProOnAvailable() {
-    }
+    public int getSummerTimeShiftMethod();
 
-    default public boolean isOnlinePoiAvailable() {
-    }
+    public boolean isTelephoneActivated();
 
-    default public boolean isOnlinePoiVoiceAvailable() {
-    }
+    public boolean isWlanModuleActivated();
 
-    default public boolean isOnlinePortalBrowserServicesAvailable() {
-    }
+    public boolean isVzaProOnAvailable();
 
-    default public boolean isOnlineNaviGoogleEarthAvailable() {
-    }
+    public boolean isOnlinePoiAvailable();
 
-    default public boolean isOnlineStreetViewAvailable() {
-    }
+    public boolean isOnlinePoiVoiceAvailable();
 
-    default public boolean isWiFiHotspotAvailable() {
-    }
+    public boolean isOnlinePortalBrowserServicesAvailable();
 
-    default public boolean isMyAudiAvailable() {
-    }
+    public boolean isOnlineNaviGoogleEarthAvailable();
 
-    default public boolean isPictureNaviAvailable() {
-    }
+    public boolean isOnlineStreetViewAvailable();
 
-    default public boolean isOnlineDictationAvailable() {
-    }
+    public boolean isWiFiHotspotAvailable();
 
-    default public boolean isRemoteHmiAvailable() {
-    }
+    public boolean isMyAudiAvailable();
 
-    default public boolean isAdvancedRangeDisplayAvailable() {
-    }
+    public boolean isPictureNaviAvailable();
 
-    default public boolean isGracenoteOnlineCoverartsAvailable() {
-    }
+    public boolean isOnlineDictationAvailable();
 
-    default public boolean isGracenoteOnlineOtherAvailable() {
-    }
+    public boolean isRemoteHmiAvailable();
 
-    default public boolean isGracenoteLocalCoverartsAvailable() {
-    }
+    public boolean isAdvancedRangeDisplayAvailable();
 
-    default public boolean isGracenoteLocalOtherAvailable() {
-    }
+    public boolean isGracenoteOnlineCoverartsAvailable();
 
-    default public boolean isUPnPAvailable() {
-    }
+    public boolean isGracenoteOnlineOtherAvailable();
 
-    default public boolean isOPSinDashboardAvailable() {
-    }
+    public boolean isGracenoteLocalCoverartsAvailable();
 
-    default public int getMediaCountryCodeHmi() {
-    }
+    public boolean isGracenoteLocalOtherAvailable();
 
-    default public int getPayTmcSet() {
-    }
+    public boolean isUPnPAvailable();
 
-    default public boolean isPayTmcSetOnlineTrafficAvailable() {
-    }
+    public boolean isOPSinDashboardAvailable();
 
-    default public boolean isPayTmcSetTrafficAvailable() {
-    }
+    public int getMediaCountryCodeHmi();
 
-    default public int getEmergencyCallPrivateMode() {
-    }
+    public int getPayTmcSet();
 
-    default public boolean isSimCardModeSwitch() {
-    }
+    public boolean isPayTmcSetOnlineTrafficAvailable();
 
-    default public boolean isPhoneModuleOperationModeWithVoice() {
-    }
+    public boolean isPayTmcSetTrafficAvailable();
 
-    default public boolean isSupportOfThreewayCalling() {
-    }
+    public int getEmergencyCallPrivateMode();
 
-    default public boolean isDtmfWithoutActiveCall() {
-    }
+    public boolean isSimCardModeSwitch();
 
-    default public boolean isSupportForResponseAndHold() {
-    }
+    public boolean isPhoneModuleOperationModeWithVoice();
 
-    default public int getNavMapTransmissionMode() {
-    }
+    public boolean isSupportOfThreewayCalling();
 
-    default public int getNavKDKTransmissionMode() {
-    }
+    public boolean isDtmfWithoutActiveCall();
 
-    default public boolean isCoverartAvailable() {
-    }
+    public boolean isSupportForResponseAndHold();
 
-    default public boolean isStationartAvailable() {
-    }
+    public int getNavMapTransmissionMode();
 
-    default public boolean isCallPictureAvailable() {
-    }
+    public int getNavKDKTransmissionMode();
 
-    default public boolean isFastMOSTListAvailable() {
-    }
+    public boolean isCoverartAvailable();
 
-    default public boolean isTVAvailable() {
-    }
+    public boolean isStationartAvailable();
 
-    default public boolean isTpegAvailable() {
-    }
+    public boolean isCallPictureAvailable();
 
-    default public boolean isVzoAvailable() {
-    }
+    public boolean isFastMOSTListAvailable();
 
-    default public boolean isLGIAvailable() {
-    }
+    public boolean isTVAvailable();
 
-    default public boolean isProbeCarAvailable() {
-    }
+    public boolean isTpegAvailable();
 
-    default public boolean isOnlineMediaAvailable() {
-    }
+    public boolean isVzoAvailable();
 
-    default public boolean isProbeCarLGIAvailable() {
-    }
+    public boolean isLGIAvailable();
 
-    default public boolean isOperatorCallAvailable() {
-    }
+    public boolean isProbeCarAvailable();
 
-    default public int getRadioDatabaseRegion() {
-    }
+    public boolean isOnlineMediaAvailable();
 
-    default public boolean isUotAAvailable() {
-    }
+    public boolean isProbeCarLGIAvailable();
 
-    default public boolean isSupports2ndPhone() {
-    }
+    public boolean isOperatorCallAvailable();
 
-    default public int getESIMUUsage() {
-    }
+    public int getRadioDatabaseRegion();
 
-    default public boolean isAppleDIO() {
-    }
+    public boolean isUotAAvailable();
 
-    default public boolean isBaiduCarLife() {
-    }
+    public boolean isSupports2ndPhone();
 
-    default public boolean isGoogleGAL() {
-    }
+    public int getESIMUUsage();
 
-    default public boolean isSDISAvailable() {
-    }
+    public boolean isAppleDIO();
 
-    default public boolean isWLANClient() {
-    }
+    public boolean isBaiduCarLife();
 
-    default public boolean isBreakdownCallAvailable() {
-    }
+    public boolean isGoogleGAL();
 
-    default public boolean isPOICallAvailable() {
-    }
+    public boolean isSDISAvailable();
 
-    default public byte getPrimaryEngineType() {
-    }
+    public boolean isWLANClient();
 
-    default public byte getSecondaryEngineType() {
-    }
+    public boolean isBreakdownCallAvailable();
 
-    default public boolean isServiceDiscoveryAvailable() {
-    }
+    public boolean isPOICallAvailable();
 
-    default public boolean isVehicleReadinessSoundAvailable() {
-    }
+    public byte getPrimaryEngineType();
 
-    default public boolean isVehicleLeavingSoundAvailable() {
-    }
+    public byte getSecondaryEngineType();
 
-    default public boolean isAllowMessageEditing() {
-    }
+    public boolean isServiceDiscoveryAvailable();
 
-    default public boolean isPopupIfGpsIsInUse() {
-    }
+    public boolean isVehicleReadinessSoundAvailable();
 
-    default public boolean isMobileDeviceKeyProfile() {
-    }
+    public boolean isVehicleLeavingSoundAvailable();
+
+    public boolean isAllowMessageEditing();
+
+    public boolean isPopupIfGpsIsInUse();
+
+    public boolean isMobileDeviceKeyProfile();
 }
 

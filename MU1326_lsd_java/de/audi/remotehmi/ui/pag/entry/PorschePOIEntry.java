@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.remotehmi.ui.pag.entry;
 
@@ -70,7 +67,7 @@ implements DeepCloneable {
 
     public String toString() {
         Buffer buffer = new Buffer();
-        buffer.append(super.getClass().getName());
+        buffer.append(this.getClass().getName());
         buffer.append(" ]");
         return buffer.toString();
     }
@@ -89,7 +86,6 @@ implements DeepCloneable {
         return porschePOIEntry.poiName.equals(this.poiName);
     }
 
-    @Override
     public Object clone(boolean bl) {
         if (bl) {
             return new PorschePOIEntry(this.latitude, this.longitude, this.country, this.city, this.zipCode, this.street, this.housenumber, this.phoneNumber, this.poiName, this.line1, this.line2);

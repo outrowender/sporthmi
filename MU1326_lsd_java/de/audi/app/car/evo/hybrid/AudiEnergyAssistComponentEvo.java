@@ -12,15 +12,12 @@ extends AbstractAudiEnergyAssistComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 
-    @Override
     public int getID() {
         return 49;
     }

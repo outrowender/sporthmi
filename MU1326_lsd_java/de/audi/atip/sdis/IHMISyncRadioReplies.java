@@ -3,26 +3,28 @@
  */
 package de.audi.atip.sdis;
 
-import de.audi.atip.sdis.IHMISyncRadioReplies$RadioNameIdPair;
-import de.audi.atip.sdis.IHMISyncRadioReplies$RadioStationInfo;
-
 public interface IHMISyncRadioReplies {
-    default public void updateBandList(RadioNameIdPair[] radioNameIdPairArray) {
+    public void updateBandList(RadioNameIdPair[] var1);
+
+    public void updateActiveBand(int var1);
+
+    public void updateRadioStationList(RadioStationInfo[] var1);
+
+    public void updateActiveStation(int var1);
+
+    public void updateActiveStationInfo(String[] var1);
+
+    public void updateSlideshowInfo(String var1);
+
+    public static class RadioNameIdPair {
+        public int id;
+        public String name;
     }
 
-    default public void updateActiveBand(int n) {
-    }
-
-    default public void updateRadioStationList(RadioStationInfo[] radioStationInfoArray) {
-    }
-
-    default public void updateActiveStation(int n) {
-    }
-
-    default public void updateActiveStationInfo(String[] stringArray) {
-    }
-
-    default public void updateSlideshowInfo(String string) {
+    public static class RadioStationInfo {
+        public int id;
+        public String name;
+        public String info;
     }
 }
 

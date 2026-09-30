@@ -18,7 +18,6 @@ implements DumpInfoProvider {
         this.fw = iFrameworkAccess;
     }
 
-    @Override
     public String getName() {
         return "BundleInfos";
     }
@@ -50,30 +49,29 @@ implements DumpInfoProvider {
     public void printBundleInformation(Bundle bundle, PrintStream printStream) {
         Dictionary dictionary = bundle.getHeaders();
         ServiceReference[] serviceReferenceArray = null;
-        printStream.println(new StringBuffer().append("\n===== Bundle \"").append(dictionary.get("Bundle-Name")).append("\" =====").toString());
-        printStream.println(new StringBuffer().append("\tID: ").append(bundle.getBundleId()).toString());
-        printStream.println(new StringBuffer().append("\tState: ").append(this.getBundleState(bundle)).toString());
-        printStream.println(new StringBuffer().append("\tBundle-Activator:").append(dictionary.get("Bundle-Activator")).toString());
+        printStream.println("\n===== Bundle \"" + dictionary.get("Bundle-Name") + "\" =====");
+        printStream.println("\tID: " + bundle.getBundleId());
+        printStream.println("\tState: " + this.getBundleState(bundle));
+        printStream.println("\tBundle-Activator:" + dictionary.get("Bundle-Activator"));
         if (Boolean.getBoolean("DumpExtendedBundleInformation")) {
             int n;
             printStream.println("\tService References: ");
             serviceReferenceArray = bundle.getRegisteredServices();
             if (serviceReferenceArray != null) {
                 for (n = 0; n < serviceReferenceArray.length; ++n) {
-                    printStream.println(new StringBuffer().append("\t\t<- ").append(serviceReferenceArray[n].toString()).toString());
+                    printStream.println("\t\t<- " + serviceReferenceArray[n].toString());
                 }
             }
             printStream.println("\tServices In Use: ");
             serviceReferenceArray = bundle.getServicesInUse();
             if (serviceReferenceArray != null) {
                 for (n = 0; n < serviceReferenceArray.length; ++n) {
-                    printStream.println(new StringBuffer().append("\t\t-> ").append(serviceReferenceArray[n].toString()).toString());
+                    printStream.println("\t\t-> " + serviceReferenceArray[n].toString());
                 }
             }
         }
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         Bundle[] bundleArray = this.fw.getBundleCxt().getBundles();
         for (int i2 = 0; i2 < bundleArray.length; ++i2) {

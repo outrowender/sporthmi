@@ -14,7 +14,6 @@ implements IVolumeLockService {
         super(logChannel, "IVolumeLockService");
     }
 
-    @Override
     public boolean isActive(int n, int n2) {
         this.log("isActive");
         return false;

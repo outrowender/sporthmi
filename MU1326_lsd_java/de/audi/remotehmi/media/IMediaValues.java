@@ -4,102 +4,70 @@
 package de.audi.remotehmi.media;
 
 public interface IMediaValues {
-    public static final int NONE;
+    public static final int NONE = -1;
 
-    default public String getTimeLeftAsString() {
-    }
+    public String getTimeLeftAsString();
 
-    default public String getTimeTotalAsString() {
-    }
+    public String getTimeTotalAsString();
 
-    default public String getTimePlayingAsString() {
-    }
+    public String getTimePlayingAsString();
 
-    default public String getLine1Text() {
-    }
+    public String getLine1Text();
 
-    default public String getLine2Text() {
-    }
+    public String getLine2Text();
 
-    default public String getLine3Text() {
-    }
+    public String getLine3Text();
 
-    default public String getCover() {
-    }
+    public String getCover();
 
-    default public void setTrackId(String string) {
-    }
+    public void setTrackId(String var1);
 
-    default public String getTrackId() {
-    }
+    public String getTrackId();
 
-    default public void setLine1Text(String string) {
-    }
+    public void setLine1Text(String var1);
 
-    default public void setLine2Text(String string) {
-    }
+    public void setLine2Text(String var1);
 
-    default public void setLine3Text(String string) {
-    }
+    public void setLine3Text(String var1);
 
-    default public void setCover(String string) {
-    }
+    public void setCover(String var1);
 
-    default public void clearTimeValues() {
-    }
+    public void clearTimeValues();
 
-    default public void setGridListIndex(int n) {
-    }
+    public void setGridListIndex(int var1);
 
-    default public int getTimePlaying() {
-    }
+    public int getTimePlaying();
 
-    default public int getTimeTotal() {
-    }
+    public int getTimeTotal();
 
-    default public void setTimePlaying(int n) {
-    }
+    public void setTimePlaying(int var1);
 
-    default public void setTimeTotal(int n) {
-    }
+    public void setTimeTotal(int var1);
 
-    default public int getGridListIndex() {
-    }
+    public int getGridListIndex();
 
-    default public void setOriginalCover(String string) {
-    }
+    public void setOriginalCover(String var1);
 
-    default public String getOriginalCover() {
-    }
+    public String getOriginalCover();
 
-    default public int getOldTimeTotal() {
-    }
+    public int getOldTimeTotal();
 
-    default public int getOldTimePlaying() {
-    }
+    public int getOldTimePlaying();
 
-    default public String getTitle() {
-    }
+    public String getTitle();
 
-    default public String getGenre() {
-    }
+    public String getGenre();
 
-    default public String getAlbum() {
-    }
+    public String getAlbum();
 
-    default public String getStation() {
-    }
+    public String getStation();
 
-    default public String getArtist() {
-    }
+    public String getArtist();
 
-    default public void setTextInGivenOrder(String string, String string2, String string3) {
-    }
+    public void setTextInGivenOrder(String var1, String var2, String var3);
 
-    default public int[] getTextLineOrder() {
-    }
+    public int[] getTextLineOrder();
 
-    default public void setTextLineOrder(int[] nArray) {
-    }
+    public void setTextLineOrder(int[] var1);
 }
 

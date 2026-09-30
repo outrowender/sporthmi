@@ -6,13 +6,10 @@ package de.audi.app.car.common.sync;
 import de.audi.app.car.common.sync.IRangeModelSyncParameterAccess;
 
 public interface IRangeModelSyncListener {
-    default public void setDSIParameter(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
-    }
+    public void setDSIParameter(IRangeModelSyncParameterAccess var1);
 
-    default public void updateRangeModelByTurningRotary(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
-    }
+    public void updateRangeModelByTurningRotary(IRangeModelSyncParameterAccess var1);
 
-    default public void updateRangeModelByDSINotitification(IRangeModelSyncParameterAccess iRangeModelSyncParameterAccess) {
-    }
+    public void updateRangeModelByDSINotitification(IRangeModelSyncParameterAccess var1);
 }
 

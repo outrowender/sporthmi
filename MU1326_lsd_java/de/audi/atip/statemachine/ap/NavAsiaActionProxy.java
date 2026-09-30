@@ -7,7 +7,6 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface NavAsiaActionProxy
 extends ActionProxy {
-    default public void hkInfoPressed(int n) {
-    }
+    public void hkInfoPressed(int var1);
 }
 

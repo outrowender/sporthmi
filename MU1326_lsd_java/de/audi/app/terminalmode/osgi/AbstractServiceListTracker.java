@@ -3,12 +3,12 @@
  */
 package de.audi.app.terminalmode.osgi;
 
-import de.audi.app.terminalmode.osgi.AbstractServiceListTracker$PropertyDictonary;
 import de.audi.app.terminalmode.osgi.IServiceManager;
 import de.audi.app.terminalmode.osgi.IServiceTracker;
 import de.audi.atip.log.LogChannel;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import org.osgi.framework.ServiceReference;
@@ -16,7 +16,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public abstract class AbstractServiceListTracker
 implements ServiceTrackerCustomizer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractServiceListTracker";
     private final Object mutex = new Object();
     private final IServiceManager serviceManager;
     protected final LogChannel logger;
@@ -29,23 +29,19 @@ implements ServiceTrackerCustomizer {
         this.serviceTracker = iServiceManager.createServiceTracker(this.getTrackedServiceClass(), this);
     }
 
-    protected abstract Class getTrackedServiceClass() {
-    }
+    protected abstract Class getTrackedServiceClass();
 
-    protected abstract void serviceAdded(Object object) {
-    }
+    protected abstract void serviceAdded(Object var1);
 
-    protected abstract void serviceRemoved(Object object) {
-    }
+    protected abstract void serviceRemoved(Object var1);
 
-    protected abstract boolean checkServiceProperties(Dictionary dictionary) {
-    }
+    protected abstract boolean checkServiceProperties(Dictionary var1);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void init() {
-        this.logger.log(14808325, "[%1.init] [%2]", (Object)"AbstractServiceListTracker", (Object)this.getTrackedServiceClass().getName());
+        this.logger.log(100000000, "[%1.init] [%2]", (Object)LOGCLASS, (Object)this.getTrackedServiceClass().getName());
         Object object = this.mutex;
         synchronized (object) {
             this.foundServices = new ArrayList(0);
@@ -57,7 +53,7 @@ implements ServiceTrackerCustomizer {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit] [%2]", (Object)"AbstractServiceListTracker", (Object)this.getTrackedServiceClass().getName());
+        this.logger.log(1000000, "[%1.deinit] [%2]", (Object)LOGCLASS, (Object)this.getTrackedServiceClass().getName());
         this.serviceTracker.close();
         Object object = this.mutex;
         synchronized (object) {
@@ -78,9 +74,8 @@ implements ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        if (!this.checkServiceProperties(new AbstractServiceListTracker$PropertyDictonary(this, serviceReference))) {
+        if (!this.checkServiceProperties(new PropertyDictonary(serviceReference))) {
             return null;
         }
         Object object = this.serviceManager.getService(serviceReference);
@@ -88,7 +83,7 @@ implements ServiceTrackerCustomizer {
             this.serviceManager.releaseService(serviceReference);
             return null;
         }
-        this.logger.log(1078071040, "[%1.addingService] '%2'", (Object)"AbstractServiceListTracker", object);
+        this.logger.log(1000000, "[%1.addingService] '%2'", (Object)LOGCLASS, object);
         Object object2 = this.mutex;
         synchronized (object2) {
             ArrayList arrayList = new ArrayList(this.foundServices.size() + 1);
@@ -103,15 +98,14 @@ implements ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        if (!this.checkServiceProperties(new AbstractServiceListTracker$PropertyDictonary(this, serviceReference))) {
+        if (!this.checkServiceProperties(new PropertyDictonary(serviceReference))) {
             return;
         }
         if (object == null) {
             return;
         }
-        this.logger.log(1078071040, "[%1.removedService] '%2'", (Object)"AbstractServiceListTracker", object);
+        this.logger.log(1000000, "[%1.removedService] '%2'", (Object)LOGCLASS, object);
         this.serviceRemoved(object);
         this.serviceManager.releaseService(serviceReference);
         Object object2 = this.mutex;
@@ -122,8 +116,44 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
+    }
+
+    private class PropertyDictonary
+    extends Dictionary {
+        private final ServiceReference reference;
+
+        public PropertyDictonary(ServiceReference serviceReference) {
+            this.reference = serviceReference;
+        }
+
+        public int size() {
+            return this.reference.getPropertyKeys().length;
+        }
+
+        public Object remove(Object object) {
+            return null;
+        }
+
+        public Object put(Object object, Object object2) {
+            return null;
+        }
+
+        public Enumeration keys() {
+            return null;
+        }
+
+        public boolean isEmpty() {
+            return false;
+        }
+
+        public Object get(Object object) {
+            return this.reference.getProperty(object.toString());
+        }
+
+        public Enumeration elements() {
+            return null;
+        }
     }
 }
 

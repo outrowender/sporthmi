@@ -17,17 +17,14 @@ extends AbstractDataBrowseListJob {
         this.path = dataBrowserListLocator;
     }
 
-    @Override
     public String getName() {
         return "SELECT_PATH";
     }
 
-    @Override
     public void start() {
         this.getDataBrowserList().startBrowseListPathSelection(this.path);
     }
 
-    @Override
     public void browsePathSelectionFinished() {
         this.getExecutionContext().jobFinished();
     }

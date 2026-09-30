@@ -4,7 +4,7 @@
 package de.audi.app.car.common.util;
 
 public class ValueConverterCollection {
-    public static final int INVALID;
+    public static final int INVALID = -1;
 
     public static int convertTemperatureUnitHMI2DSI(int n) {
         int n2;

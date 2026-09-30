@@ -9,31 +9,22 @@ import de.audi.atip.hmi.modelaccess.RangeModel2DApp;
 
 public interface Range2DModelHandler
 extends ButtonModelHandler {
-    default public void updateOnAdjustment(int n, int n2) {
-    }
+    public void updateOnAdjustment(int var1, int var2);
 
-    default public RangeModel2DApp getRange2DModel() {
-    }
+    public RangeModel2DApp getRange2DModel();
 
-    default public Range2DModelEventBusiness getRange2DEventBusiness() {
-    }
+    public Range2DModelEventBusiness getRange2DEventBusiness();
 
-    default public void updateRangeModel2DLimits(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void updateRangeModel2DLimits(int var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void updateRangeModel2DLimitsX(int n, int n2, int n3) {
-    }
+    public void updateRangeModel2DLimitsX(int var1, int var2, int var3);
 
-    default public void updateRangeModel2DLimitsY(int n, int n2, int n3) {
-    }
+    public void updateRangeModel2DLimitsY(int var1, int var2, int var3);
 
-    default public void updateRange2DModelValue(int n, int n2) {
-    }
+    public void updateRange2DModelValue(int var1, int var2);
 
-    default public void updateRangeModelValueX(int n) {
-    }
+    public void updateRangeModelValueX(int var1);
 
-    default public void updateRangeModelValueY(int n) {
-    }
+    public void updateRangeModelValueY(int var1);
 }
 

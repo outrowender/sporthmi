@@ -6,85 +6,60 @@ package de.audi.app.car.core.aircondition.nozzle;
 import org.dsi.ifc.caraircondition.AirconNozzleListStyles;
 
 public interface IAirconNozzleState {
-    public static final int PROPERTY_AIRFLOW;
-    public static final int PROPERTY_POSITION_HORIZONTAL;
-    public static final int PROPERTY_POSITION_VERTICAL;
-    public static final int PROPERTY_STYLE;
-    public static final int NUMBER_OF_OPTIONS;
+    public static final int PROPERTY_AIRFLOW = 0;
+    public static final int PROPERTY_POSITION_HORIZONTAL = 1;
+    public static final int PROPERTY_POSITION_VERTICAL = 2;
+    public static final int PROPERTY_STYLE = 3;
+    public static final int NUMBER_OF_OPTIONS = 4;
 
-    default public int getUniqueID() {
-    }
+    public int getUniqueID();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public int getRow() {
-    }
+    public int getRow();
 
-    default public int getPos() {
-    }
+    public int getPos();
 
-    default public int getHorizontalLocation() {
-    }
+    public int getHorizontalLocation();
 
-    default public int getVerticalLocation() {
-    }
+    public int getVerticalLocation();
 
-    default public int getAirflow() {
-    }
+    public int getAirflow();
 
-    default public int getHorizontalPosition() {
-    }
+    public int getHorizontalPosition();
 
-    default public int getVerticalPosition() {
-    }
+    public int getVerticalPosition();
 
-    default public AirconNozzleListStyles getStyle() {
-    }
+    public AirconNozzleListStyles getStyle();
 
-    default public void setAirflow(int n) {
-    }
+    public void setAirflow(int var1);
 
-    default public void setAirflow(int n, boolean bl) {
-    }
+    public void setAirflow(int var1, boolean var2);
 
-    default public void setHorizontalPosition(int n) {
-    }
+    public void setHorizontalPosition(int var1);
 
-    default public void setHorizontalPosition(int n, boolean bl) {
-    }
+    public void setHorizontalPosition(int var1, boolean var2);
 
-    default public void setVerticalPosition(int n) {
-    }
+    public void setVerticalPosition(int var1);
 
-    default public void setVerticalPosition(int n, boolean bl) {
-    }
+    public void setVerticalPosition(int var1, boolean var2);
 
-    default public void setPosition(int n, int n2) {
-    }
+    public void setPosition(int var1, int var2);
 
-    default public void setPosition(int n, int n2, boolean bl) {
-    }
+    public void setPosition(int var1, int var2, boolean var3);
 
-    default public void setStyle(AirconNozzleListStyles airconNozzleListStyles) {
-    }
+    public void setStyle(AirconNozzleListStyles var1);
 
-    default public void setStyle(AirconNozzleListStyles airconNozzleListStyles, boolean bl) {
-    }
+    public void setStyle(AirconNozzleListStyles var1, boolean var2);
 
-    default public int getCurrentAirflow() {
-    }
+    public int getCurrentAirflow();
 
-    default public int getCurrentHorizontalPosition() {
-    }
+    public int getCurrentHorizontalPosition();
 
-    default public int getCurrentVerticalPosition() {
-    }
+    public int getCurrentVerticalPosition();
 
-    default public AirconNozzleListStyles getCurrentStyle() {
-    }
+    public AirconNozzleListStyles getCurrentStyle();
 
-    default public boolean isWaitingForAcknowledge(int n) {
-    }
+    public boolean isWaitingForAcknowledge(int var1);
 }
 

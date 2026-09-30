@@ -17,17 +17,14 @@ implements ProgressMap {
         this.reset();
     }
 
-    @Override
     public final void reset() {
         this.taskStatus = new boolean[this.taskNames == null ? 0 : this.taskNames.length];
     }
 
-    @Override
     public int getTaskCount() {
         return this.taskNames.length;
     }
 
-    @Override
     public int taskCompleted(int n, boolean bl) {
         if (0 <= n && n < this.taskNames.length) {
             this.taskStatus[n] = bl;
@@ -40,7 +37,6 @@ implements ProgressMap {
         return n2;
     }
 
-    @Override
     public String taskIDToString(int n) {
         if (0 <= n && n < this.taskNames.length) {
             return this.taskNames[n];

@@ -10,11 +10,10 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.CommandListInterceptor;
 import de.audi.tghu.command.CommandListJobQueue;
-import de.audi.tghu.command.CommandListManager$1;
-import de.audi.tghu.command.CommandListManager$2;
-import de.audi.tghu.command.CommandListManager$3;
 import de.audi.tghu.command.CommandListNull;
 import de.audi.tghu.command.ICommandListSupplier;
+import de.esolutions.fw.util.commons.job.BaseInterceptor;
+import de.esolutions.fw.util.commons.job.BaseJobFilter;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 import de.esolutions.fw.util.commons.job.IJobFilter;
 import de.esolutions.fw.util.commons.job.Job;
@@ -32,19 +31,55 @@ public class CommandListManager {
     private volatile boolean destroyed = false;
     private final Object incrementSyncCoutnerMutex = new Object();
 
-    public CommandListManager(String string, IFrameworkAccess iFrameworkAccess, LogChannel logChannel, ICommandListSupplier iCommandListSupplier, HMIModelApp hMIModelApp) {
+    public CommandListManager(String string, IFrameworkAccess iFrameworkAccess, final LogChannel logChannel, final ICommandListSupplier iCommandListSupplier, HMIModelApp hMIModelApp) {
         this.framework = iFrameworkAccess;
         this.log = logChannel;
         this.supplier = iCommandListSupplier;
         this.mediatorModel = hMIModelApp;
         this.queue = new CommandListJobQueue(logChannel, this);
-        this.queue.addFilter(new CommandListManager$1(this, logChannel));
+        this.queue.addFilter(new BaseJobFilter(){
+
+            public void enqueue(Job job, int n) {
+                CommandList commandList = (CommandList)job.getPayload();
+                logChannel.log(10000000, "CommandListQueue#enqueue( %1 ) ", (Object)commandList.getName());
+                commandList.prologue();
+                CommandListManager.this.countSyncCLenqueued(commandList, 1);
+                super.enqueue(job, n);
+            }
+        });
         if (iCommandListSupplier != null) {
-            this.dsiAvailableFilter = new CommandListManager$2(this, iCommandListSupplier, logChannel);
+            this.dsiAvailableFilter = new BaseJobFilter(){
+
+                public void enqueue(Job job, int n) {
+                    CommandList commandList = (CommandList)job.getPayload();
+                    if (!iCommandListSupplier.isDSIsAvailable(commandList)) {
+                        logChannel.log(100000, "CommandListQueue#enqueue() - commandlist dropped. DSI for %1 not ready!", (Object)iCommandListSupplier.getApplicationName(commandList));
+                    } else {
+                        super.enqueue(job, n);
+                    }
+                }
+            };
             this.queue.addFilter(this.dsiAvailableFilter);
         }
         this.dispatcher = iFrameworkAccess.getDispatcherManager().createDispatcher(string, new JobLogger(logChannel), this.queue, new CommandListInterceptor(logChannel, iCommandListSupplier), new Job(new CommandListNull(this)));
-        this.dispatcher.addInterceptor(new CommandListManager$3(this));
+        this.dispatcher.addInterceptor(new BaseInterceptor(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void execute(Job job) {
+                CommandList commandList = (CommandList)job.getPayload();
+                CommandListManager.this.countSyncCLenqueued(commandList, -1);
+                CommandListManager.this.setActiveCommandList(commandList);
+                try {
+                    super.execute(job);
+                }
+                finally {
+                    commandList.epilogue();
+                    CommandListManager.this.setActiveCommandList(null);
+                }
+            }
+        });
     }
 
     public final IFrameworkAccess getFramework() {
@@ -88,7 +123,7 @@ public class CommandListManager {
     }
 
     public final void destroy() {
-        this.getLogChannel().log(-2137614336, "CommandListManager#destroy()");
+        this.getLogChannel().log(10000000, "CommandListManager#destroy()");
         this.destroyed = true;
         this.queue.abortQueuedExecution("CommandListManager#destroy() called", "", null, false);
         if (this.active != null) {
@@ -103,7 +138,7 @@ public class CommandListManager {
 
     public final void execute(CommandList commandList) {
         if (this.destroyed) {
-            this.getLogChannel().log(-2137614336, "CommandListManager#execute(%1): discard it, CmdListManager is already destroyed!", (Object)commandList);
+            this.getLogChannel().log(10000000, "CommandListManager#execute(%1): discard it, CmdListManager is already destroyed!", (Object)commandList);
             commandList.stop("CmdListManager is destroyed!");
         } else {
             this.dispatcher.execute(commandList);
@@ -137,7 +172,7 @@ public class CommandListManager {
      */
     public void abortExecution(String string, Object object, boolean bl) {
         String string2 = this.supplier != null ? this.supplier.getApplicationName(null) : "UNKNOWN";
-        this.getLogChannel().log(-2137614336, "CommandListManager#abortExecution( %1, %2 )", (Object)string, (Object)string2);
+        this.getLogChannel().log(10000000, "CommandListManager#abortExecution( %1, %2 )", (Object)string, (Object)string2);
         this.getQueue().abortQueuedExecution(string, string2, object, bl);
         CommandList commandList = this.getActiveCommandList();
         if (commandList != null) {
@@ -155,17 +190,9 @@ public class CommandListManager {
             boolean bl3 = bl2 = !bl && object2 != null || bl && object2 == null;
         }
         if (bl2) {
-            this.getLogChannel().log(-2137614336, "CommandListManager#stopCommandList() - aborting list: %1", (Object)commandList);
+            this.getLogChannel().log(10000000, "CommandListManager#stopCommandList() - aborting list: %1", (Object)commandList);
             commandList.stop(string);
         }
-    }
-
-    static /* synthetic */ void access$000(CommandListManager commandListManager, CommandList commandList, int n) {
-        commandListManager.countSyncCLenqueued(commandList, n);
-    }
-
-    static /* synthetic */ void access$100(CommandListManager commandListManager, CommandList commandList) {
-        commandListManager.setActiveCommandList(commandList);
     }
 }
 

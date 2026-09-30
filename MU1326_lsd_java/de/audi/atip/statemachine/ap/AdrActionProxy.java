@@ -7,19 +7,14 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface AdrActionProxy
 extends ActionProxy {
-    default public void adrEnteredViaSpeech(int n, int n2) {
-    }
+    public void adrEnteredViaSpeech(int var1, int var2);
 
-    default public void adrState(int n, int n2) {
-    }
+    public void adrState(int var1, int var2);
 
-    default public void adrImportListHKReturn(int n) {
-    }
+    public void adrImportListHKReturn(int var1);
 
-    default public void adrEnterPreviewMapScreen(int n, int n2, int n3) {
-    }
+    public void adrEnterPreviewMapScreen(int var1, int var2, int var3);
 
-    default public void adrExitPreviewMapScreen(int n) {
-    }
+    public void adrExitPreviewMapScreen(int var1);
 }
 

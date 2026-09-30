@@ -15,7 +15,7 @@ public abstract class AbstractEtronComponent
 extends AbstractDSICarDrivingCharacteristicsAdapter
 implements ChoiceListener {
     public static final short[] CODING_ID = new short[]{17, 24};
-    protected static final String LOGCHANNEL_NAME;
+    protected static final String LOGCHANNEL_NAME = "App.Car.Charge.Etron";
     private final LogChannel logMSC;
     protected volatile CharismaViewOptions currViewOptions;
     private ChoiceModelApp selectedProfileChoiceModel;
@@ -26,12 +26,11 @@ implements ChoiceListener {
     }
 
     public AbstractEtronComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Charge.Etron");
-        this.selectedProfileChoiceModel = this.getChoiceModel(-2029248512);
+        super(iCarApplication, LOGCHANNEL_NAME);
+        this.selectedProfileChoiceModel = this.getChoiceModel(2100359);
         this.logMSC = iCarApplication.getFrameworkAccess().getLogChannel("App.Car.Charge.Etron.MSC");
     }
 
-    @Override
     public String getName() {
         return "Etron";
     }
@@ -40,12 +39,10 @@ implements ChoiceListener {
         return this.selectedProfileChoiceModel;
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{12}, new int[]{15, 28})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currViewOptions == null) {
             return "no view options received yet";
@@ -57,20 +54,17 @@ implements ChoiceListener {
         return this.currViewOptions;
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(-2029248512).setChoiceListener(this);
+        this.getChoiceModel(2100359).setChoiceListener(this);
     }
 
-    @Override
     protected void deinitModels() {
     }
 
     protected int getCharismaActiveOperationMode() {
-        return this.getChoiceModel(-2029248512).getValue();
+        return this.getChoiceModel(2100359).getValue();
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("itemSelected:", n, n2, true);
         switch (n) {
@@ -85,45 +79,38 @@ implements ChoiceListener {
     }
 
     private void switchEtronModeSelection(int n) {
-        this.logMSC.log(1078071040, "---> setCharismaActiveOperationMode(%1)", (long)n);
+        this.logMSC.log(1000000, "---> setCharismaActiveOperationMode(%1)", (long)n);
         this.getDSI().setCharismaActiveOperationMode(n);
     }
 
     protected boolean isChargeEtronSelectedModeChoiceItemID(int n) {
-        return -2029248512 == n;
+        return 2100359 == n;
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateCharismaActiveOperationMode(int n, int n2) {
         if (n2 == 1) {
-            this.getChoiceModel(-2029248512).setValue(n);
+            this.getChoiceModel(2100359).setValue(n);
         }
     }
 
-    @Override
     public void updateCharismaViewOptions(CharismaViewOptions charismaViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateCharismaViewOptions: charismaViewOptions=%1, valid=%2", (Object)(charismaViewOptions != null ? this.formatViewOptionsLog(charismaViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "updateCharismaViewOptions: charismaViewOptions=%1, valid=%2", (Object)(charismaViewOptions != null ? this.formatViewOptionsLog(charismaViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && charismaViewOptions != null) {
             this.currViewOptions = charismaViewOptions;
@@ -132,7 +119,6 @@ implements ChoiceListener {
         }
     }
 
-    protected abstract void updateMenuEntryVisibility(CharismaViewOptions charismaViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(CharismaViewOptions var1);
 }
 

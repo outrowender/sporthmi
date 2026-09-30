@@ -1,17 +1,14 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.remotehmi.ui.mib2.grid;
 
 import de.esolutions.fw.util.commons.Buffer;
 
 public class GeoPosition {
-    public static final double UNDEFINED_COORDINATE;
-    public static final int UNDEFINED_COORDINATE_WGS;
-    public static final GeoPosition UNDEFINED_POSITION;
+    public static final double UNDEFINED_COORDINATE = Double.MAX_VALUE;
+    public static final int UNDEFINED_COORDINATE_WGS = Integer.MIN_VALUE;
+    public static final GeoPosition UNDEFINED_POSITION = new GeoPosition(Double.MAX_VALUE, Double.MAX_VALUE);
     private final int MAX_LENGTH_FOR_DOUBLE_AS_STRING;
     private final double latitude;
     private final double longitude;
@@ -49,9 +46,9 @@ public class GeoPosition {
 
     public int hashCode() {
         int n = 1;
-        long l = Double.doubleToLongBits((double)this.latitude);
+        long l = Double.doubleToLongBits(this.latitude);
         n = 31 * n + (int)(l ^ l >>> 32);
-        l = Double.doubleToLongBits((double)this.longitude);
+        l = Double.doubleToLongBits(this.longitude);
         n = 31 * n + (int)(l ^ l >>> 32);
         return n;
     }
@@ -83,7 +80,7 @@ public class GeoPosition {
             return this.debugInfo;
         }
         Buffer buffer = new Buffer(49);
-        buffer.append(Double.toString((double)this.latitude)).append(c2).append(Double.toString((double)this.longitude));
+        buffer.append(Double.toString(this.latitude)).append(c2).append(Double.toString(this.longitude));
         this.debugInfo = buffer.toString();
         return this.debugInfo;
     }
@@ -92,10 +89,6 @@ public class GeoPosition {
         GeoPosition geoPosition = new GeoPosition(1.0, 2.0);
         GeoPosition geoPosition2 = new GeoPosition(3.0, 4.0);
         GeoPosition.equals(geoPosition, geoPosition2);
-    }
-
-    static {
-        UNDEFINED_POSITION = new GeoPosition(Double.MAX_VALUE, Double.MAX_VALUE);
     }
 }
 

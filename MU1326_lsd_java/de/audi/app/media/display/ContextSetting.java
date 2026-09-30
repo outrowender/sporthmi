@@ -6,7 +6,7 @@ package de.audi.app.media.display;
 import de.esolutions.fw.util.commons.Buffer;
 
 class ContextSetting {
-    public static final byte DEFAULT_VALUE;
+    public static final byte DEFAULT_VALUE = 0;
     private final byte context;
     private final byte color;
     private final byte contrast;

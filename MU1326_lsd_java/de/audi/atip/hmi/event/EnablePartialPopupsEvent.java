@@ -24,7 +24,7 @@ extends ATIPEvent {
     }
 
     public String toString() {
-        return new StringBuffer().append("EnablePartialPopupsEvent: status = ").append(this.status).toString();
+        return "EnablePartialPopupsEvent: status = " + this.status;
     }
 }
 

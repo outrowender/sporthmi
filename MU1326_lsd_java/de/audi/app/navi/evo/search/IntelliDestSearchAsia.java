@@ -19,12 +19,11 @@ extends IntelliDestSearch {
         super(intelliDestController, bundleContext, iFrameworkAccess, n, iVehicle, logChannel, navigationEnv, lastDestSearch);
     }
 
-    @Override
     public void updatePotentialConflict(int n, boolean bl, ConflictMatch conflictMatch, int n2) {
-        this.logChannel.log(-2137614336, "IntelliDestSearchAsia#updatePotentialConflict conflictMatch=%1, conflictMode=%2, isConflict=%3, queryId=%4", (Object)conflictMatch, (long)(this.conflictMode ? 1 : 0), (long)(bl ? 1 : 0));
+        this.logChannel.log(10000000, "IntelliDestSearchAsia#updatePotentialConflict conflictMatch=%1, conflictMode=%2, isConflict=%3, queryId=%4", (Object)conflictMatch, (long)(this.conflictMode ? 1 : 0), (long)(bl ? 1 : 0));
         int n3 = this.getLastQueryID();
         if (n != n3) {
-            this.logChannel.log(-2137614336, "IntelliDestSearch#updatePotentialConflict recveived conflict for queryId %1 but currentQuerryId is %2", (long)n, (long)n3);
+            this.logChannel.log(10000000, "IntelliDestSearch#updatePotentialConflict recveived conflict for queryId %1 but currentQuerryId is %2", (long)n, (long)n3);
             return;
         }
         if (bl && !this.conflictMode && conflictMatch.type == 2) {

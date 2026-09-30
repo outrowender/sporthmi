@@ -20,7 +20,6 @@ extends MenuEntry {
         this.acceptedIncludeMenuEntryIDs = nArray != null ? nArray : new int[0];
     }
 
-    @Override
     public void setChildren(IMenuEntry[] iMenuEntryArray) {
         this.logChannel.log(1000, "[%1('%2')#setChildren] tried to perform invalid action on slot menu entry", (Object)this.getType(), (Object)this);
     }
@@ -34,7 +33,7 @@ extends MenuEntry {
             string = "[%1('%2')#bindMenuEntry] link between virtual menu entries was established: %3('%4')";
         }
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, string, (Object)this.getType(), (Object)this, (Object)includeMenuEntry.getType(), (Object)includeMenuEntry);
+            this.logChannel.log(1000000, string, (Object)this.getType(), (Object)this, (Object)includeMenuEntry.getType(), (Object)includeMenuEntry);
         }
         return bl;
     }
@@ -51,16 +50,14 @@ extends MenuEntry {
         return this.getChildren() == null || this.getChildren().length < 1 || this.getChildren()[0] == null;
     }
 
-    @Override
     protected void setState(int n) {
         if (this.isEmptySlot()) {
             n = 1;
         }
-        this.logChannel.log(1078071040, "[%1('%2')#setState] state='%3'", (Object)this.getType(), (Object)this, (long)n);
+        this.logChannel.log(1000000, "[%1('%2')#setState] state='%3'", (Object)this.getType(), (Object)this, (long)n);
         this.state = n;
     }
 
-    @Override
     public boolean isRegistrable() {
         return false;
     }
@@ -71,14 +68,13 @@ extends MenuEntry {
             includeMenuEntry.setParent(null);
             super.setChildren(null);
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[%1('%2')#releaseMenuEntry] link between virtual menu entries was cut: released %3='%4'", (Object)this.getType(), (Object)this, (Object)includeMenuEntry.getType(), (Object)includeMenuEntry);
+                this.logChannel.log(1000000, "[%1('%2')#releaseMenuEntry] link between virtual menu entries was cut: released %3='%4'", (Object)this.getType(), (Object)this, (Object)includeMenuEntry.getType(), (Object)includeMenuEntry);
             }
             return true;
         }
         return false;
     }
 
-    @Override
     public MenuEntryType getType() {
         return MenuEntryType.SLOT_MENU_ENTRY;
     }

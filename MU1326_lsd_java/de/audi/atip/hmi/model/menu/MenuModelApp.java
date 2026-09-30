@@ -11,19 +11,14 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface MenuModelApp
 extends HMIModelApp {
-    default public void trigger(ModelTrigger modelTrigger) {
-    }
+    public void trigger(ModelTrigger var1);
 
-    default public WidgetFocusAdvice getAdvice() {
-    }
+    public WidgetFocusAdvice getAdvice();
 
-    default public void setFocusedItem(int n, FocusAdvice focusAdvice, long l) {
-    }
+    public void setFocusedItem(int var1, FocusAdvice var2, long var3);
 
-    default public void resetFocusedItem() {
-    }
+    public void resetFocusedItem();
 
-    default public void setListener(MenuModelListener menuModelListener) {
-    }
+    public void setListener(MenuModelListener var1);
 }
 

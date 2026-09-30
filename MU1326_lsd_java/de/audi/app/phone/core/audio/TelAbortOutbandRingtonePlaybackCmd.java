@@ -17,9 +17,8 @@ extends AbstractTelAudioCmd {
         this.ringTonePlayer = ringTonePlayer;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelAbortOutbandRingtonePlaybackCmd#execute] aborting playback.");
+        this.logger.log(1000000, "[TelAbortOutbandRingtonePlaybackCmd#execute] aborting playback.");
         this.ringTonePlayer.abort();
         this.getCommandList().commandFinished();
     }

@@ -8,7 +8,6 @@ import de.audi.atip.hmi.model.list.TiledListModelListener;
 
 public interface TiledListModelApp
 extends BaseListModelApp {
-    default public void setListener(TiledListModelListener tiledListModelListener) {
-    }
+    public void setListener(TiledListModelListener var1);
 }
 

@@ -20,22 +20,18 @@ implements CombiBAPServiceTerminalMode {
         super(combiModuleAudio);
     }
 
-    @Override
     protected int getAudioApplication() {
         return 3;
     }
 
-    @Override
     protected String getAudioApplicationName() {
         return "TerminalMode";
     }
 
-    @Override
     protected boolean isAudioApplicationInFocus() {
         return ((CombiModuleAudio)this.moduleFsg).getAudioApplicationFocusHandler().isTerminalModeInFocus();
     }
 
-    @Override
     public void updateActiveSource(int n, int n2, int n3, boolean bl, boolean bl2, int n4) {
         CombiBAPAudioSource combiBAPAudioSource = new CombiBAPAudioSource();
         combiBAPAudioSource.setSourceType(n);
@@ -48,16 +44,14 @@ implements CombiBAPServiceTerminalMode {
         this.updateActiveSource(combiBAPAudioSource, combiBAPAudioListStates);
     }
 
-    @Override
     public void updateSourceListTerminalMode(int[] nArray, CombiBAPAudioSource[][] combiBAPAudioSourceArray) {
-        this.logChannel.log(1078071040, "[AppConnectorTerminalMode#updateSourceListTerminalMode] called (specified sourceTypes)");
+        this.logChannel.log(1000000, "[AppConnectorTerminalMode#updateSourceListTerminalMode] called (specified sourceTypes)");
         BAPFunctionArrayFSG bAPFunctionArrayFSG = this.moduleFsg.getBAPFunctionArrayFSG(32);
         ((SourceListHandler)bAPFunctionArrayFSG.getArrayHandler()).updateSources(3, nArray, combiBAPAudioSourceArray);
     }
 
-    @Override
     public void updatePlayPosition(PlayPosition playPosition) {
-        this.logChannel.log(-2137614336, "[AppConnectorTerminalMode#updatePlayPosition] %1", (Object)playPosition);
+        this.logChannel.log(10000000, "[AppConnectorTerminalMode#updatePlayPosition] %1", (Object)playPosition);
         if (this.isAudioApplicationInFocus()) {
             PlayPosition_Status playPosition_Status = new PlayPosition_Status();
             playPosition_Status.timePosition = playPosition.getTimePosition().getTimeInSeconds();
@@ -65,7 +59,7 @@ implements CombiBAPServiceTerminalMode {
             playPosition_Status.attributes.variableBitRateActive = playPosition.isVariableBitRate();
             this.moduleFsg.getBAPFunctionPropertyFSG(52).sendStatusIfChanged(playPosition_Status);
         } else {
-            this.logChannel.log(-2137614336, "[AppConnectorTerminalMode#updatePlayPosition] application not in focus; don't send playPosition");
+            this.logChannel.log(10000000, "[AppConnectorTerminalMode#updatePlayPosition] application not in focus; don't send playPosition");
         }
     }
 }

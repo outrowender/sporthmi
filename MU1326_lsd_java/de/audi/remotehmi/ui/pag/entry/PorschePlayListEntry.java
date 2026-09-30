@@ -10,7 +10,7 @@ public class PorschePlayListEntry {
     public boolean isSelected;
 
     public String toString() {
-        return new StringBuffer().append("PorschePlayListEntry [id=").append(this.id).append(", title=").append(this.title).append(", additionalInfo=").append(this.additionalInfo).append(", isSelected=").append(this.isSelected).append("]").toString();
+        return "PorschePlayListEntry [id=" + this.id + ", title=" + this.title + ", additionalInfo=" + this.additionalInfo + ", isSelected=" + this.isSelected + "]";
     }
 
     public PorschePlayListEntry(String string, String string2, String string3, boolean bl) {

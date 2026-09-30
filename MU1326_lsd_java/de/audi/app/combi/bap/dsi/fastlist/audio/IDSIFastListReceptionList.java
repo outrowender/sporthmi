@@ -8,13 +8,10 @@ import org.dsi.ifc.kombifastlist.DataReceptionList;
 
 public interface IDSIFastListReceptionList
 extends IDSIFastListAudio {
-    default public void pushReceptionList(DataReceptionList[] dataReceptionListArray) {
-    }
+    public void pushReceptionList(DataReceptionList[] var1);
 
-    default public void pushCurrentListSizeReceptionList(int n) {
-    }
+    public void pushCurrentListSizeReceptionList(int var1);
 
-    default public void responseNotifyReceptionList(boolean bl) {
-    }
+    public void responseNotifyReceptionList(boolean var1);
 }
 

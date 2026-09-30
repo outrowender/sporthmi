@@ -13,28 +13,24 @@ extends AbstractPreSenseAwvComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(AWVViewOptions aWVViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1456994048, this.getMenuEntryVisibilityState(aWVViewOptions.getSystem()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1440216832, this.getMenuEntryVisibilityState(aWVViewOptions.getWarning()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-349566720, this.getMenuEntryVisibilityState(aWVViewOptions.getWarningTimegap()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600233, this.getMenuEntryVisibilityState(aWVViewOptions.getSystem()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600234, this.getMenuEntryVisibilityState(aWVViewOptions.getWarning()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600811, this.getMenuEntryVisibilityState(aWVViewOptions.getWarningTimegap()));
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1456994048, (short)3);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1440216832, (short)3);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-349566720, (short)3);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600233, (short)3);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600234, (short)3);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600811, (short)3);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1456994048);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1440216832);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-349566720);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600233);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600234);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600811);
     }
 
-    @Override
     public int getID() {
         return 37;
     }

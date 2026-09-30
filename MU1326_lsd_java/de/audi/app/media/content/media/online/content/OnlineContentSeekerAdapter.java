@@ -14,17 +14,14 @@ implements ISeeker {
         this.player = iMediaDSIPlayerController;
     }
 
-    @Override
     public boolean seek(boolean bl, int n) {
         return this.player.dsiSeek(bl, n);
     }
 
-    @Override
     public int getMaxSeekSpeed() {
         return 32;
     }
 
-    @Override
     public boolean isFixedSpeedSeeker() {
         return false;
     }

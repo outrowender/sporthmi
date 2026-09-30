@@ -25,14 +25,14 @@ import org.dsi.ifc.global.NavLocationWgs84;
 class Decorator {
     private ResourceLocatorModelApp imageModel;
     private ChoiceModelApp layoutModel;
-    private static final int LAYOUT_VALUE_INVISIBLE;
-    private static final int LAYOUT_VALUE_IMAGE;
-    private static final int LAYOUT_VALUE_MAP;
-    public static String[] layoutDescription;
-    public static final int TYPE_NONE;
-    public static final int TYPE_IMAGE;
-    public static final int TYPE_MAP;
-    public static String[] typeDescription;
+    private static final int LAYOUT_VALUE_INVISIBLE = 0;
+    private static final int LAYOUT_VALUE_IMAGE = 1;
+    private static final int LAYOUT_VALUE_MAP = 2;
+    public static String[] layoutDescription = new String[]{"invisible", "image", "map"};
+    public static final int TYPE_NONE = 0;
+    public static final int TYPE_IMAGE = 1;
+    public static final int TYPE_MAP = 2;
+    public static String[] typeDescription = new String[]{"none", "image", "map"};
     private String commonImageUrl;
     private GeoPosition commonMapPositionDegree;
     private int commonStyle;
@@ -46,9 +46,9 @@ class Decorator {
     private final int VARIANT_TT;
     private final int VARIANT_HIGH;
     private final int VARIANT_SCALE;
-    private static final int[] DEFAULT_RIGHT_OFFSET_NONE;
-    private static final int[] DEFAULT_RIGHT_OFFSET_MAP;
-    private static final int[] DEFAULT_RIGHT_OFFSET_IMAGE;
+    private static final int[] DEFAULT_RIGHT_OFFSET_NONE = new int[]{25, 25, 25};
+    private static final int[] DEFAULT_RIGHT_OFFSET_MAP = new int[]{25, 290, 25};
+    private static final int[] DEFAULT_RIGHT_OFFSET_IMAGE = new int[]{204, 245, 223};
     private int rightOffsetNone;
     private int rightOffsetMap;
     private int rightOffsetImage;
@@ -91,7 +91,7 @@ class Decorator {
             string2 = "list item specific";
         }
         this.imageModel.setResourceLocator(n2, string3);
-        this.logChannel.log(1078071040, "Decorator#setListItemImage: image decorator updated to %1 url='%2', id=%3", (Object)string2, (Object)string3, (long)n2);
+        this.logChannel.log(1000000, "Decorator#setListItemImage: image decorator updated to %1 url='%2', id=%3", (Object)string2, (Object)string3, (long)n2);
     }
 
     private void setListItemMap(GeoPosition geoPosition, int n, IReferencePoint iReferencePoint) {
@@ -101,7 +101,7 @@ class Decorator {
         GeoPosition geoPosition2;
         GeoPosition geoPosition3 = iReferencePoint == null ? GeoPosition.UNDEFINED_POSITION : iReferencePoint.getGeoLocation();
         String string2 = iReferencePoint == null ? "rrd" : iReferencePoint.getType();
-        this.logChannel.log(1078071040, "Decorator#setListItemMap: refPointLocation='%1', refPointType='%2'", (Object)geoPosition3, (Object)string2);
+        this.logChannel.log(1000000, "Decorator#setListItemMap: refPointLocation='%1', refPointType='%2'", (Object)geoPosition3, (Object)string2);
         GeoPosition geoPosition4 = null;
         NavLocationWgs84 navLocationWgs84 = null;
         String string3 = "NULL";
@@ -126,19 +126,19 @@ class Decorator {
             }
         }
         if (this.showCoordinatesAsText) {
-            this.debugLabelModel.setText(new StringBuffer().append(string3).append("(").append(layoutDescription[this.layoutModel.getValue()]).append(")").toString());
+            this.debugLabelModel.setText(string3 + "(" + layoutDescription[this.layoutModel.getValue()] + ")");
         }
         if (GeoPosition.equals(geoPosition4, this.previousPositionWgs84)) {
-            this.logChannel.log(1078071040, "Decorator#setListItemMap: update cancelled: old and new coordinates are the same.");
+            this.logChannel.log(1000000, "Decorator#setListItemMap: update cancelled: old and new coordinates are the same.");
             return;
         }
         this.previousPositionWgs84 = geoPosition4;
-        this.logChannel.log(1078071040, "Decorator#setListItemMap: setting %1 POI='%2' and style='%3' ", (Object)string, (Object)string3, (Object)Util.createInteger(n2));
+        this.logChannel.log(1000000, "Decorator#setListItemMap: setting %1 POI='%2' and style='%3' ", (Object)string, (Object)string3, (Object)Util.createInteger(n2));
         try {
             this.setPositionInMap(geoPosition3, string2, n2, navLocationWgs84);
         }
         catch (Exception exception) {
-            this.logChannel.log(-1601830656, "Decorator#setListItemMap: Exception %1", (Throwable)exception);
+            this.logChannel.log(100000, "Decorator#setListItemMap: Exception %1", (Throwable)exception);
         }
     }
 
@@ -149,10 +149,10 @@ class Decorator {
             navLocation.latitude = navLocationWgs84.latitude;
             navLocation.longitude = navLocationWgs84.longitude;
         }
-        this.logChannel.log(-2137614336, "Decorator#setPositionInMap: called for refPointLocation '%1', refPointType '%2', style '%3', poiPosition '%4'", (Object)geoPosition, (Object)string, (Object)new Integer(n), (Object)navLocation);
+        this.logChannel.log(10000000, "Decorator#setPositionInMap: called for refPointLocation '%1', refPointType '%2', style '%3', poiPosition '%4'", (Object)geoPosition, (Object)string, (Object)new Integer(n), (Object)navLocation);
         IPreviewMap iPreviewMap = this.naviComponent.getPreviewMap();
         if (iPreviewMap == null) {
-            this.logChannel.log(-1601830656, "Decorator#setPositionInMap: IPreviewMap instance is null");
+            this.logChannel.log(100000, "Decorator#setPositionInMap: IPreviewMap instance is null");
             return;
         }
         if (n != -1 && navLocation != null) {
@@ -190,7 +190,7 @@ class Decorator {
             }
             return;
         }
-        this.logChannel.log(-1601830656, "Decorator#setPositionInMap: no position in map set: unknown reference point type: %1, location=%2", (Object)string, (Object)navLocation2);
+        this.logChannel.log(100000, "Decorator#setPositionInMap: no position in map set: unknown reference point type: %1, location=%2", (Object)string, (Object)navLocation2);
     }
 
     private int correctStyleType(int n) {
@@ -217,7 +217,7 @@ class Decorator {
                 this.commonImageUrl = string;
             } else {
                 n = 0;
-                this.logChannel.log(-1601830656, "Decorator#storeTypeAndDefault: common decoratorUrl should not be empty.");
+                this.logChannel.log(100000, "Decorator#storeTypeAndDefault: common decoratorUrl should not be empty.");
             }
         } else if (hMIProperties.contains("decoratorMap")) {
             GeoPosition geoPosition;
@@ -227,7 +227,7 @@ class Decorator {
         } else {
             n = 0;
         }
-        this.logChannel.log(1078071040, "Decorator#storeTypeAndDefault: Using %1 decorator", (Object)typeDescription[n]);
+        this.logChannel.log(1000000, "Decorator#storeTypeAndDefault: Using %1 decorator", (Object)typeDescription[n]);
         this.decoratorType = n;
     }
 
@@ -248,7 +248,7 @@ class Decorator {
         if (bl && iGrid != null) {
             String string2 = iGrid.getCloneForMediaList().getMediaCells()[3].getStringValue();
             n = MediaUtilities.calculateIdFromAlbum(string2, -1);
-            this.logChannel.log(-2137614336, "Decorator#updateValues() system image %1 used for album '%2'.", (Object)new Integer(n), (Object)string2);
+            this.logChannel.log(10000000, "Decorator#updateValues() system image %1 used for album '%2'.", (Object)new Integer(n), (Object)string2);
         } else {
             n = -1;
         }
@@ -257,15 +257,15 @@ class Decorator {
 
     private void updateValues(String string, int n, GeoPosition geoPosition, IReferencePoint iReferencePoint, int n2) {
         if (this.decoratorType == 1) {
-            this.logChannel.log(1078071040, "Decorator#updateValues: updating image decorator: decoratorImage=%1", (Object)string);
+            this.logChannel.log(1000000, "Decorator#updateValues: updating image decorator: decoratorImage=%1", (Object)string);
             this.setListItemImage(string, n);
         } else if (this.decoratorType == 2) {
-            this.logChannel.log(1078071040, "Decorator#updateValues: updating map decorator: geoPosition=%1 decoratorStyle=%2 referencePoint=%3", (Object)geoPosition, (Object)Util.createInteger(n2), (Object)iReferencePoint);
+            this.logChannel.log(1000000, "Decorator#updateValues: updating map decorator: geoPosition=%1 decoratorStyle=%2 referencePoint=%3", (Object)geoPosition, (Object)Util.createInteger(n2), (Object)iReferencePoint);
             this.setListItemMap(geoPosition, n2, iReferencePoint);
         } else if (this.decoratorType == 0) {
-            this.logChannel.log(-1601830656, "Decorator#updateValues: no decorator type set");
+            this.logChannel.log(100000, "Decorator#updateValues: no decorator type set");
         } else {
-            this.logChannel.log(-1601830656, "Decorator#updateValues: Update cancelled: Unknown decoratorType=%1", (long)this.decoratorType);
+            this.logChannel.log(100000, "Decorator#updateValues: Update cancelled: Unknown decoratorType=%1", (long)this.decoratorType);
         }
     }
 
@@ -285,23 +285,23 @@ class Decorator {
             string = "auto";
         }
         if (!Properties.LAYOUTS.contains(string)) {
-            this.logChannel.log(-1601830656, "Decorator#setLayout: unknown layout '%1' given, using auto layout", (Object)string);
+            this.logChannel.log(100000, "Decorator#setLayout: unknown layout '%1' given, using auto layout", (Object)string);
             string = "auto";
         }
         boolean bl = hMIProperties.contains("decoratorUrl");
         boolean bl2 = hMIProperties.contains("decoratorMap");
-        this.logChannel.log(1078071040, "Decorator#setLayout: default decorators given: image=%1, map=%2", (Object)bl, (Object)bl2);
+        this.logChannel.log(1000000, "Decorator#setLayout: default decorators given: image=%1, map=%2", (Object)bl, (Object)bl2);
         int n = string.equals("full") ? (bl2 && this.variant == 0 ? 2 : 0) : (string.equals("decorator") ? (bl ? 1 : (bl2 && this.variant != 2 ? 2 : 0)) : (bl && this.variant == 1 ? 1 : (bl2 && this.variant != 2 ? 2 : 0)));
         this.layoutModel.setValue(n);
         int n2 = n == 0 ? this.rightOffsetNone : (n == 1 ? this.rightOffsetImage : this.rightOffsetMap);
         if (iGridList != null) {
             iGridList.setContentRightOffset(n2);
         }
-        this.logChannel.log(1078071040, "Decorator#setLayout: setting layout=%1, offset=%2 for layout mask=%3", (Object)layoutDescription[n], (Object)new Integer(n2), (Object)string);
+        this.logChannel.log(1000000, "Decorator#setLayout: setting layout=%1, offset=%2 for layout mask=%3", (Object)layoutDescription[n], (Object)new Integer(n2), (Object)string);
     }
 
     public void updateLayoutConstants(int n, int n2, int n3) {
-        this.logChannel.log(-1601830656, "Decorator#updateLayoutConstants: currently disabled, until actionProxy from Guide works in a way that it delivers different values for TT, High and Scale");
+        this.logChannel.log(100000, "Decorator#updateLayoutConstants: currently disabled, until actionProxy from Guide works in a way that it delivers different values for TT, High and Scale");
     }
 
     public boolean hideMapDecorator() {
@@ -327,14 +327,6 @@ class Decorator {
             return true;
         }
         return false;
-    }
-
-    static {
-        layoutDescription = new String[]{"invisible", "image", "map"};
-        typeDescription = new String[]{"none", "image", "map"};
-        DEFAULT_RIGHT_OFFSET_NONE = new int[]{25, 25, 25};
-        DEFAULT_RIGHT_OFFSET_MAP = new int[]{25, 290, 25};
-        DEFAULT_RIGHT_OFFSET_IMAGE = new int[]{204, 245, 223};
     }
 }
 

@@ -21,14 +21,14 @@ extends AbstractQueueJob {
     private final TransferController controller;
     private final MediaDSIRecorderControllerImpl mediaDSIRecorderController;
     private final AbstractMediaBrowser transferBrowser;
-    public static final int TRANSFERJOB_NULL;
-    public static final int TRANSFERJOB_SET_ENCODING_QUALITY;
-    public static final int TRANSFERJOB_ACTIVATE_SOURCE;
-    public static final int TRANSFERJOB_TRANSFERRING;
-    public static final int TRANSFERJOB_RESUME_TRANSFER;
-    public static final int TRANSFERJOB_ACTIVATION;
-    public static final int TRANSFERJOB_ABORT;
-    public static final int TRANSFERJOB_ABORT_BYSOURCE_REMOVED;
+    public static final int TRANSFERJOB_NULL = 0;
+    public static final int TRANSFERJOB_SET_ENCODING_QUALITY = 1;
+    public static final int TRANSFERJOB_ACTIVATE_SOURCE = 2;
+    public static final int TRANSFERJOB_TRANSFERRING = 3;
+    public static final int TRANSFERJOB_RESUME_TRANSFER = 4;
+    public static final int TRANSFERJOB_ACTIVATION = 5;
+    public static final int TRANSFERJOB_ABORT = 6;
+    public static final int TRANSFERJOB_ABORT_BYSOURCE_REMOVED = 7;
 
     public AbstractJobTransfer(LogChannel logChannel, TransferController transferController, MediaDSIRecorderControllerImpl mediaDSIRecorderControllerImpl, AbstractMediaBrowser abstractMediaBrowser) {
         this.controller = transferController;

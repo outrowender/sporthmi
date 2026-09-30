@@ -15,7 +15,7 @@ import org.dsi.ifc.media.DSIMediaPlayer;
 
 public class MediaDSIPlayerRequestListHandler
 extends AbstractQueuedRequestHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaDSIPlayerRequestListHandler";
     private PlayViewExceptionController exceptionController;
 
     public MediaDSIPlayerRequestListHandler(LogChannel logChannel, int n, PlayViewExceptionController playViewExceptionController) {
@@ -23,12 +23,10 @@ extends AbstractQueuedRequestHandler {
         this.exceptionController = playViewExceptionController;
     }
 
-    @Override
     protected String getLogClass() {
-        return "MediaDSIPlayerRequestListHandler";
+        return LOGCLASS;
     }
 
-    @Override
     protected final boolean sendRequest(IRequestParameter iRequestParameter, DSIBase dSIBase, int n) {
         try {
             RequestParameterList requestParameterList = (RequestParameterList)iRequestParameter;
@@ -36,7 +34,7 @@ extends AbstractQueuedRequestHandler {
                 Buffer buffer = new Buffer();
                 buffer.append("'").append(requestParameterList.getEntryID()).append("','").append(requestParameterList.getIndex()).append("','").append(requestParameterList.getCount()).append("','");
                 buffer.append(MediaUtils.getPlayViewClientIDToStr(requestParameterList.getClientID())).append("'");
-                this.getLogChannel().log(1078071040, "[%1.sendRequest] [%3] dsiMediaPlayer.requestPlayView(%2)", (Object)"MediaDSIPlayerRequestListHandler", (Object)buffer, (long)n);
+                this.getLogChannel().log(1000000, "[%1.sendRequest] [%3] dsiMediaPlayer.requestPlayView(%2)", (Object)LOGCLASS, (Object)buffer, (long)n);
             }
             if (!iRequestParameter.isRetry()) {
                 this.exceptionController.addRequest(requestParameterList.getEntryID(), requestParameterList.getIndex(), requestParameterList.getCount(), requestParameterList.getClientID());
@@ -45,7 +43,7 @@ extends AbstractQueuedRequestHandler {
             return true;
         }
         catch (Exception exception) {
-            this.getLogChannel().log(-1601830656, "[%1.sendRequest] Error on requesting list: %2", (Object)"MediaDSIPlayerRequestListHandler", (Throwable)exception);
+            this.getLogChannel().log(100000, "[%1.sendRequest] Error on requesting list: %2", (Object)LOGCLASS, (Throwable)exception);
             return false;
         }
     }

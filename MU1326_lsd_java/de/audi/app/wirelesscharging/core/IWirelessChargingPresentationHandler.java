@@ -4,25 +4,18 @@
 package de.audi.app.wirelesscharging.core;
 
 public interface IWirelessChargingPresentationHandler {
-    default public void updateStatusBar(int n) {
-    }
+    public void updateStatusBar(int var1);
 
-    default public void onWLCDeviceBeingCharged() {
-    }
+    public void onWLCDeviceBeingCharged();
 
-    default public void onForeignObjectDetected() {
-    }
+    public void onForeignObjectDetected();
 
-    default public void onRemindWLCDeviceStillInPhonebox() {
-    }
+    public void onRemindWLCDeviceStillInPhonebox();
 
-    default public void clearPresentation() {
-    }
+    public void clearPresentation();
 
-    default public void removeReminder() {
-    }
+    public void removeReminder();
 
-    default public void popupRemoved(int n, int n2) {
-    }
+    public void popupRemoved(int var1, int var2);
 }
 

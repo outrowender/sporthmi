@@ -7,19 +7,14 @@ import de.vw.mib.bap.requests.AbortResultMethod;
 import de.vw.mib.bap.requests.StartResultMethod;
 
 public interface IBAPMethodFSGIND {
-    default public void startResultIND(StartResultMethod startResultMethod) {
-    }
+    public void startResultIND(StartResultMethod var1);
 
-    default public void startIND(StartResultMethod startResultMethod) {
-    }
+    public void startIND(StartResultMethod var1);
 
-    default public void abortIND() {
-    }
+    public void abortIND();
 
-    default public void abortIND(AbortResultMethod abortResultMethod) {
-    }
+    public void abortIND(AbortResultMethod var1);
 
-    default public void processingCNF() {
-    }
+    public void processingCNF();
 }
 

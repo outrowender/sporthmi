@@ -13,9 +13,8 @@ extends EvoVehicleHmiListener {
         super(navigationEnv, favLocationVehicleHandler);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "EvoVehicleHmiListener#keyPressed( %1 )", (long)n);
+        this.logChannel.log(10000000, "EvoVehicleHmiListener#keyPressed( %1 )", (long)n);
         switch (n) {
             case 401504: {
                 this.vehicle.addToContact(n, n3);

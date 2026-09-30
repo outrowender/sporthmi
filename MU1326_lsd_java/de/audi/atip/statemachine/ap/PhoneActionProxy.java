@@ -7,109 +7,74 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface PhoneActionProxy
 extends ActionProxy {
-    default public void callDivertActivateLeft(int n) {
-    }
+    public void callDivertActivateLeft(int var1);
 
-    default public void hkBackNetworkSearch(int n) {
-    }
+    public void hkBackNetworkSearch(int var1);
 
-    default public void hkBackNetworkRegistration(int n) {
-    }
+    public void hkBackNetworkRegistration(int var1);
 
-    default public void numberSpellerEntered(int n) {
-    }
+    public void numberSpellerEntered(int var1);
 
-    default public void intellicallFullViewEntered(int n) {
-    }
+    public void intellicallFullViewEntered(int var1);
 
-    default public void telIntelliCallLeft(int n) {
-    }
+    public void telIntelliCallLeft(int var1);
 
-    default public void telIntelliCallEntered(int n) {
-    }
+    public void telIntelliCallEntered(int var1);
 
-    default public void HKTelPressed(int n) {
-    }
+    public void HKTelPressed(int var1);
 
-    default public void TelAppEntered(int n) {
-    }
+    public void TelAppEntered(int var1);
 
-    default public void TelAppLeft(int n) {
-    }
+    public void TelAppLeft(int var1);
 
-    default public void favoritesEntered(int n) {
-    }
+    public void favoritesEntered(int var1);
 
-    default public void adbEntered(int n) {
-    }
+    public void adbEntered(int var1);
 
-    default public void audiServiceEntered(int n) {
-    }
+    public void audiServiceEntered(int var1);
 
-    default public void smsEntered(int n) {
-    }
+    public void smsEntered(int var1);
 
-    default public void numberSpellerLeft(int n) {
-    }
+    public void numberSpellerLeft(int var1);
 
-    default public void intellicallReducedViewEntered(int n) {
-    }
+    public void intellicallReducedViewEntered(int var1);
 
-    default public void intellicallReducedViewLeft(int n) {
-    }
+    public void intellicallReducedViewLeft(int var1);
 
-    default public void intellicallFullViewLeft(int n) {
-    }
+    public void intellicallFullViewLeft(int var1);
 
-    default public void favoritesLeft(int n) {
-    }
+    public void favoritesLeft(int var1);
 
-    default public void callDivertActivateEntered(int n) {
-    }
+    public void callDivertActivateEntered(int var1);
 
-    default public void resetSearchResult(int n) {
-    }
+    public void resetSearchResult(int var1);
 
-    default public void switchToTelIncomingCallAccepted(int n) {
-    }
+    public void switchToTelIncomingCallAccepted(int var1);
 
-    default public void resetFavoriteSearchResult(int n) {
-    }
+    public void resetFavoriteSearchResult(int var1);
 
-    default public void popupTelephoneOptionsEntered(int n) {
-    }
+    public void popupTelephoneOptionsEntered(int var1);
 
-    default public void popupTelephoneOptionsLeft(int n) {
-    }
+    public void popupTelephoneOptionsLeft(int var1);
 
-    default public void telUnlockEntered(int n) {
-    }
+    public void telUnlockEntered(int var1);
 
-    default public void telUnlockLeft(int n) {
-    }
+    public void telUnlockLeft(int var1);
 
-    default public void clearNumberSpeller(int n) {
-    }
+    public void clearNumberSpeller(int var1);
 
-    default public void telOptSetupNetMainEntered(int n) {
-    }
+    public void telOptSetupNetMainEntered(int var1);
 
-    default public void telOptSetupNetMainLeft(int n) {
-    }
+    public void telOptSetupNetMainLeft(int var1);
 
-    default public void audiConnectNavigatorEntered(int n) {
-    }
+    public void audiConnectNavigatorEntered(int var1);
 
-    default public void phoneToneSetupEntered(int n) {
-    }
+    public void phoneToneSetupEntered(int var1);
 
-    default public void cancelRingingTone(int n) {
-    }
+    public void cancelRingingTone(int var1);
 
-    default public void epmSwitchToPreviousContext(int n) {
-    }
+    public void epmSwitchToPreviousContext(int var1);
 
-    default public void switchToTelOutgoingCall(int n) {
-    }
+    public void switchToTelOutgoingCall(int var1);
 }
 

@@ -3,13 +3,11 @@
  */
 package de.audi.app.sdsmanager.apps.navi;
 
-import de.audi.atip.interapp.NaviService$POISDSListEntry;
+import de.audi.atip.interapp.NaviService;
 
 public interface ISDSNaviPOIValueSettingCommand {
-    default public void responseSelectPOIByUID(byte by, NaviService$POISDSListEntry[] naviService$POISDSListEntryArray) {
-    }
+    public void responseSelectPOIByUID(byte var1, NaviService.POISDSListEntry[] var2);
 
-    default public void responseSelectPOIByListIndex(byte by) {
-    }
+    public void responseSelectPOIByListIndex(byte var1);
 }
 

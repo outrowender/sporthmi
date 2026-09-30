@@ -18,9 +18,8 @@ extends AbstractAddressInputScreenWorkFlowManagerKR {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 40502: {
                 this.createKRTownStreetScreenListElementSelectedWorkFlow(commandList);
@@ -34,7 +33,7 @@ extends AbstractAddressInputScreenWorkFlowManagerKR {
     }
 
     private void createKRTownStreetScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createKRTownStreetScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createKRTownStreetScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         int n = this.inputManager.getActiveSpellerContextId();
         if (n == 97) {
             commandList.add(new ReturnNavLocationToPOIOnlineSearchSequence(this.commandListFactory).getStartCommandList());

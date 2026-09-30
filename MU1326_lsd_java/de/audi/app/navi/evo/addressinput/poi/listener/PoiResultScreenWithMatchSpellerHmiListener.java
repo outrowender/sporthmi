@@ -6,7 +6,6 @@ package de.audi.app.navi.evo.addressinput.poi.listener;
 import de.audi.app.navi.evo.addressinput.poi.PoiManager;
 import de.audi.app.navi.evo.addressinput.poi.PoiScreensEvo;
 import de.audi.app.navi.evo.addressinput.poi.listener.AbstractPoiResultScreenEvoListener;
-import de.audi.app.navi.evo.addressinput.poi.listener.PoiResultScreenWithMatchSpellerHmiListener$1;
 import de.audi.atip.hmi.model.MatchSpellerListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.TiledListModelListener;
@@ -16,6 +15,7 @@ import de.audi.tghu.command.CommandList;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultScreenWithMatchSpellerInputSequence;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.navlocationextractor.AsyncNavLocationExtractor;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.navigation.LIValueListElement;
@@ -34,7 +34,6 @@ MatchSpellerListener {
         this.preparePreviewMapCommand = null;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         this.preparePreviewMap();
         return this.inputSequence.getStartCommandList();
@@ -49,12 +48,10 @@ MatchSpellerListener {
         return this.inputSequence.getStartCommandListByUID(n);
     }
 
-    @Override
     public void preparePreviewMap() {
         this.displayMultiplePois = true;
     }
 
-    @Override
     protected void registerAsListener() {
         this.matchSpellerModel = this.env.getMatchSpellerModel(PoiScreensEvo.getPoiResultScreenWithMatchSpellerSpellerModel());
         this.matchSpellerModel.setSpellerListener(this);
@@ -66,9 +63,8 @@ MatchSpellerListener {
         return this.inputSequence;
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.logChannel.log(-2137614336, "%1#textChanged() was invoked", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#textChanged() was invoked", (Object)this.CLASS_NAME);
         this.setSpellerStatusWaiting(n);
         if ("".equals(string)) {
             this.inputSequence.deleteAllCharacters();
@@ -79,30 +75,33 @@ MatchSpellerListener {
         }
     }
 
-    @Override
-    public void requestItems(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#requestItems - was called with requestID = %1, startIndex = %2, model = %3").toString(), (long)n3, (long)n, (long)n4);
-        PoiResultScreenWithMatchSpellerHmiListener$1 poiResultScreenWithMatchSpellerHmiListener$1 = new PoiResultScreenWithMatchSpellerHmiListener$1(this, "Update Preview Map", n4);
-        this.inputSequence.requestItems(n, n3, n2, poiResultScreenWithMatchSpellerHmiListener$1);
+    public void requestItems(int n, int n2, int n3, final int n4, int n5) {
+        this.logChannel.log(10000000, this.CLASS_NAME + "#requestItems - was called with requestID = %1, startIndex = %2, model = %3", (long)n3, (long)n, (long)n4);
+        NavCommand navCommand = new NavCommand("Update Preview Map"){
+
+            public void execute() {
+                PoiResultScreenWithMatchSpellerHmiListener.this.displayPoisInPreviewMap(n4);
+                this.getCommandList().commandFinished();
+            }
+        };
+        this.inputSequence.requestItems(n, n3, n2, navCommand);
         this.poiManager.restartRRDForCurrentContext();
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
         this.inputSequence.unrequestItems(n, n2);
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#commandPressed model=%2, index=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#commandPressed model=%2, index=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         if (n2 == 4711) {
             this.inputSequence.setSpellerOpen(true);
             if (this.preparePreviewMapCommand != null) {
-                this.logChannel.log(-2137614336, "%1#commandPressed - stop FocusPreviewMap", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#commandPressed - stop FocusPreviewMap", (Object)this.CLASS_NAME);
                 this.preparePreviewMapCommand.setHidePreviewMap(true);
                 this.preparePreviewMapCommand = null;
             } else {
-                this.logChannel.log(-2137614336, "%1#commandPressed - preparePreviewMapCommand is null", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#commandPressed - preparePreviewMapCommand is null", (Object)this.CLASS_NAME);
             }
             this.inputSequence.hidePreviewMap(this.previewMapInterface);
         } else if (n2 == 4712) {
@@ -111,21 +110,20 @@ MatchSpellerListener {
         }
     }
 
-    @Override
     protected void itemFocusedCallBack(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "%1#itemFocusedCallBack", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#itemFocusedCallBack", (Object)this.CLASS_NAME);
         this.inputSequence.onElementFocused(navLocation);
         if (navLocation == null || !navLocation.isPositionValid() || this.inputSequence.isSpellerOpen()) {
-            this.logChannel.log(-2137614336, "%1#itemFocusedCallBack hidePreviewMap", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#itemFocusedCallBack hidePreviewMap", (Object)this.CLASS_NAME);
             this.inputSequence.hidePreviewMap(this.previewMapInterface);
         } else {
-            this.logChannel.log(-2137614336, "%1#itemFocusedCallBack focusPreviewMap", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#itemFocusedCallBack focusPreviewMap", (Object)this.CLASS_NAME);
             this.inputSequence.focusPreviewMap(this.previewMapInterface, navLocation);
         }
     }
 
     protected void displayPoisInPreviewMap(int n) {
-        this.logChannel.log(-2137614336, "%1#displayPoisInPreviewMap model=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#displayPoisInPreviewMap model=%2", (Object)this.CLASS_NAME, (long)n);
         if (!this.inputSequence.isSpellerOpen()) {
             LIValueListElement[] lIValueListElementArray = new LIValueListElement[3];
             int n2 = 0;
@@ -162,9 +160,8 @@ MatchSpellerListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#itemFocused() - menuItemId: %1, model: %2, uniqueListRowID: %3").toString(), (long)n, (long)n2, l);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#itemFocused() - menuItemId: %1, model: %2, uniqueListRowID: %3", (long)n, (long)n2, l);
         this.previewMapComplete = false;
         if (l == -1L && !this.inputSequence.isSpellerOpen()) {
             this.displayPreviewMap(n2, this.inputSequence, PoiScreensEvo.getPoiResultScreenWithMatchSpellerTiledListModel());
@@ -172,38 +169,30 @@ MatchSpellerListener {
         this.currentlyFocusedListIndex = l;
     }
 
-    @Override
     public void updateResultsAvailable() {
         if (this.currentlyFocusedListIndex == -1L && !this.inputSequence.isSpellerOpen()) {
             this.displayPreviewMap(PoiScreensEvo.getPoiResultScreenWithMatchSpellerSpellerModel(), this.inputSequence, PoiScreensEvo.getPoiResultScreenWithMatchSpellerTiledListModel());
         }
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 }

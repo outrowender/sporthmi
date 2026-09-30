@@ -15,8 +15,8 @@ import org.osgi.framework.ServiceRegistration;
 public class TerminalModeActionProxyImpl
 implements TerminalModeActionProxy,
 ITerminalModeComponent {
-    private static final String LOGCLASS;
-    private static final Hashtable EMPTY_HASHTABLE;
+    private static final String LOGCLASS = "TerminalModeActionProxyImpl";
+    private static final Hashtable EMPTY_HASHTABLE = new Hashtable(0);
     private final LogChannel logger;
     private final IServiceManager serviceManager;
     private final IActionProxyDispatcher actionProxyDispatcher;
@@ -29,50 +29,43 @@ ITerminalModeComponent {
         this.actionProxyDispatcher = iContext.getActionProxyDispatcher();
     }
 
-    @Override
     public void init() {
-        this.logger.log(14808325, "[%1.init]", (Object)"TerminalModeActionProxyImpl");
+        this.logger.log(100000000, "[%1.init]", (Object)LOGCLASS);
         Hashtable hashtable = new Hashtable(3);
         hashtable.put("moduleID", new Integer(28));
         hashtable.put("LANG_COMPONENT_TYPE", "LANG_COMPONENT_HMI");
         this.apServiceRegistration = this.serviceManager.registerService(class$de$audi$atip$statemachine$ActionProxy == null ? (class$de$audi$atip$statemachine$ActionProxy = TerminalModeActionProxyImpl.class$("de.audi.atip.statemachine.ActionProxy")) : class$de$audi$atip$statemachine$ActionProxy, this, hashtable);
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"TerminalModeActionProxyImpl");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         if (this.apServiceRegistration != null) {
             this.apServiceRegistration.unregister();
         }
     }
 
-    @Override
     public void hmiActivatedTerminalMode(int n) {
-        this.logger.log(1078071040, "[%1.hmiActivatedTerminalMode]", (Object)"TerminalModeActionProxyImpl");
+        this.logger.log(1000000, "[%1.hmiActivatedTerminalMode]", (Object)LOGCLASS);
         this.actionProxyDispatcher.notifyActionProxyCall(1001, n, new Hashtable(0));
     }
 
-    @Override
     public void hmiDeactivatedTerminalMode(int n) {
-        this.logger.log(1078071040, "[%1.hmiDeactivatedTerminalMode]", (Object)"TerminalModeActionProxyImpl");
+        this.logger.log(1000000, "[%1.hmiDeactivatedTerminalMode]", (Object)LOGCLASS);
         this.actionProxyDispatcher.notifyActionProxyCall(1002, n, new Hashtable(0));
     }
 
-    @Override
     public void resetNewDeviceDetection(int n) {
-        this.logger.log(1078071040, "[%1.resetNewDeviceDetection]", (Object)"TerminalModeActionProxyImpl");
+        this.logger.log(1000000, "[%1.resetNewDeviceDetection]", (Object)LOGCLASS);
         this.actionProxyDispatcher.notifyActionProxyCall(1003, n, new Hashtable(0));
     }
 
-    @Override
     public void parkingActivatedTerminalMode(int n) {
-        this.logger.log(1078071040, "[%1.parkingActivatedTerminalMode]", (Object)"TerminalModeActionProxyImpl");
+        this.logger.log(1000000, "[%1.parkingActivatedTerminalMode]", (Object)LOGCLASS);
         this.actionProxyDispatcher.notifyActionProxyCall(1004, n, EMPTY_HASHTABLE);
     }
 
-    @Override
     public void parkingDeactivatedTerminalMode(int n) {
-        this.logger.log(1078071040, "[%1.parkingDeactivatedTerminalMode]", (Object)"TerminalModeActionProxyImpl");
+        this.logger.log(1000000, "[%1.parkingDeactivatedTerminalMode]", (Object)LOGCLASS);
         this.actionProxyDispatcher.notifyActionProxyCall(1005, n, EMPTY_HASHTABLE);
     }
 
@@ -83,10 +76,6 @@ ITerminalModeComponent {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        EMPTY_HASHTABLE = new Hashtable(0);
     }
 }
 

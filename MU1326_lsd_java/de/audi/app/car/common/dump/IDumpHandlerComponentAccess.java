@@ -4,7 +4,6 @@
 package de.audi.app.car.common.dump;
 
 public interface IDumpHandlerComponentAccess {
-    default public void updateData(String string, String string2) {
-    }
+    public void updateData(String var1, String var2);
 }
 

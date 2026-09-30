@@ -6,13 +6,10 @@ package de.audi.app.bluetooth.core.connectivity.trusted;
 import org.dsi.ifc.bluetooth.TrustedDevice;
 
 public interface ITrustedDeviceList {
-    default public boolean isConnected(String string) {
-    }
+    public boolean isConnected(String var1);
 
-    default public void removeAuthentication(String string) {
-    }
+    public void removeAuthentication(String var1);
 
-    default public TrustedDevice get(String string) {
-    }
+    public TrustedDevice get(String var1);
 }
 

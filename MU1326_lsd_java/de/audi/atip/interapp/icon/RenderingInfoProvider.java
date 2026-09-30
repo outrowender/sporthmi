@@ -5,57 +5,59 @@ package de.audi.atip.interapp.icon;
 
 import de.audi.atip.interapp.icon.ExtRenderingInfo;
 import de.audi.atip.interapp.icon.RenderingInfo;
-import de.audi.atip.interapp.icon.RenderingInfoProvider$PoiIconCallback;
-import de.audi.atip.interapp.icon.RenderingInfoProvider$SatelliteMapsLogoCallback;
-import de.audi.atip.interapp.icon.RenderingInfoProvider$TrafficSignCallback;
 
 public interface RenderingInfoProvider {
-    default public void getResourceIdForPoiIconAsync(int n, int n2, RenderingInfoProvider$PoiIconCallback renderingInfoProvider$PoiIconCallback) {
+    public void getResourceIdForPoiIconAsync(int var1, int var2, PoiIconCallback var3);
+
+    public void getResourceIdForTrafficSignAsync(int var1, int var2, TrafficSignCallback var3);
+
+    public RenderingInfo getResourceIdForTMCEventIcon(int var1, int var2);
+
+    public RenderingInfo getResourceIdForPOIIcon(int var1, int var2);
+
+    public void flushCacheForPOIIcon();
+
+    public ExtRenderingInfo getRenderingInformationForExitIcon(int var1, int var2);
+
+    public ExtRenderingInfo getRenderingInformationForRoadIcon(int var1, int var2);
+
+    public RenderingInfo getResourceIdForTargetIcon(int var1);
+
+    public RenderingInfo getResourceIdForTrafficRegulationIconWithSubindex(int var1, int var2, int var3);
+
+    public RenderingInfo getResourceIdForTrafficRegulationIcon(int var1, int var2);
+
+    public RenderingInfo getResourceIdForTrafficRegulationIcon(int var1, int var2, int var3);
+
+    public RenderingInfo getResourceIdForRoadClassIcon(int var1, int var2);
+
+    public RenderingInfo getResourceIdForAdditionalInfoIcon(int var1, int var2);
+
+    public RenderingInfo getResourceIdForCountryIcon(int var1);
+
+    public RenderingInfo resourceIdForPOIIconFromRawData(int var1, int var2);
+
+    public void setSatMapCallback(SatelliteMapsLogoCallback var1);
+
+    public static interface PoiIconCallback {
+        public void renderingInfoReceived(int var1, int var2, RenderingInfo var3);
     }
 
-    default public void getResourceIdForTrafficSignAsync(int n, int n2, RenderingInfoProvider$TrafficSignCallback renderingInfoProvider$TrafficSignCallback) {
+    public static interface TrafficSignCallback {
+        public void renderingInfoReceived(int var1, int var2, RenderingInfo var3);
     }
 
-    default public RenderingInfo getResourceIdForTMCEventIcon(int n, int n2) {
+    public static interface SatelliteMapsLogoCallback {
+        public void renderingInformationForSatelliteLogo(RenderingInfo var1);
     }
 
-    default public RenderingInfo getResourceIdForPOIIcon(int n, int n2) {
-    }
-
-    default public void flushCacheForPOIIcon() {
-    }
-
-    default public ExtRenderingInfo getRenderingInformationForExitIcon(int n, int n2) {
-    }
-
-    default public ExtRenderingInfo getRenderingInformationForRoadIcon(int n, int n2) {
-    }
-
-    default public RenderingInfo getResourceIdForTargetIcon(int n) {
-    }
-
-    default public RenderingInfo getResourceIdForTrafficRegulationIconWithSubindex(int n, int n2, int n3) {
-    }
-
-    default public RenderingInfo getResourceIdForTrafficRegulationIcon(int n, int n2) {
-    }
-
-    default public RenderingInfo getResourceIdForTrafficRegulationIcon(int n, int n2, int n3) {
-    }
-
-    default public RenderingInfo getResourceIdForRoadClassIcon(int n, int n2) {
-    }
-
-    default public RenderingInfo getResourceIdForAdditionalInfoIcon(int n, int n2) {
-    }
-
-    default public RenderingInfo getResourceIdForCountryIcon(int n) {
-    }
-
-    default public RenderingInfo resourceIdForPOIIconFromRawData(int n, int n2) {
-    }
-
-    default public void setSatMapCallback(RenderingInfoProvider$SatelliteMapsLogoCallback renderingInfoProvider$SatelliteMapsLogoCallback) {
+    public static interface SatelliteMapsLogoConstants {
+        public static final int SATELLITE_LOGO_STYLEREF_MAIN_COLORED = 204;
+        public static final int SATELLITE_LOGO_STYLEREF_COMBI_COLORED = 206;
+        public static final int RESOURCEID_SATELLITE_LOGO_MAIN_COLORED_NOT_YET_AVAILABLE = 0x60000001;
+        public static final int RESOURCEID_SATELLITE_LOGO_MAIN_COLORED = 0x60000011;
+        public static final int RESOURCEID_SATELLITE_LOGO_COMBI_COLORED = 1610612755;
+        public static final int RESOURCEID_SATELLITE_LOGO_COMBI_COLORED_NOT_YET_AVAILABLE = 0x60000003;
     }
 }
 

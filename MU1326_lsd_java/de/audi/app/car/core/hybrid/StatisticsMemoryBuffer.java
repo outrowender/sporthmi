@@ -6,7 +6,6 @@ package de.audi.app.car.core.hybrid;
 import de.audi.app.car.core.hybrid.HybridStatisticsTypeFactory;
 import de.audi.app.car.core.hybrid.IMemoryBuffer;
 import de.audi.app.car.core.hybrid.IMemoryBufferEntry;
-import de.audi.app.car.core.hybrid.StatisticsMemoryBuffer$1;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -62,13 +61,11 @@ implements IMemoryBuffer {
         return null;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
-    public synchronized boolean init(int n, int n2) {
+    public synchronized boolean init(int n, int n2) throws IllegalArgumentException, IllegalStateException {
         if (this.initialized) {
             throw new IllegalStateException("Buffer already initialized!");
         }
@@ -86,13 +83,11 @@ implements IMemoryBuffer {
         throw new IllegalArgumentException("Invalid entry type!");
     }
 
-    @Override
     public boolean isInitialized() {
         return this.initialized;
     }
 
-    @Override
-    public synchronized boolean reset() {
+    public synchronized boolean reset() throws IllegalStateException {
         if (this.initialized) {
             this.full = false;
             this.start = 0;
@@ -105,30 +100,25 @@ implements IMemoryBuffer {
         throw new IllegalStateException("Buffer not initialized!");
     }
 
-    @Override
     public int size() {
         int n = 0;
         n = this.end < this.start ? this.maxElements - this.start + this.end : (this.end == this.start ? (this.full ? this.maxElements : 0) : this.end - this.start);
         return n;
     }
 
-    @Override
     public int maxSize() {
         return this.maxElements;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.size() == 0;
     }
 
-    @Override
     public boolean isAtFullCapacity() {
         return this.size() == this.maxElements;
     }
 
-    @Override
-    public boolean enqueue(IMemoryBufferEntry iMemoryBufferEntry) {
+    public boolean enqueue(IMemoryBufferEntry iMemoryBufferEntry) throws IllegalStateException {
         if (this.initialized) {
             if (null == iMemoryBufferEntry) {
                 return false;
@@ -148,8 +138,7 @@ implements IMemoryBuffer {
         throw new IllegalStateException("Buffer not initialized!");
     }
 
-    @Override
-    public IMemoryBufferEntry dequeue() {
+    public IMemoryBufferEntry dequeue() throws NoSuchElementException, IllegalStateException {
         if (this.initialized) {
             if (this.isEmpty()) {
                 throw new NoSuchElementException("Buffer is empty!");
@@ -167,8 +156,7 @@ implements IMemoryBuffer {
         throw new IllegalStateException("Buffer not initialized!");
     }
 
-    @Override
-    public boolean update(IMemoryBufferEntry iMemoryBufferEntry) {
+    public boolean update(IMemoryBufferEntry iMemoryBufferEntry) throws IllegalStateException {
         if (this.initialized) {
             if (null == iMemoryBufferEntry) {
                 return false;
@@ -182,8 +170,7 @@ implements IMemoryBuffer {
         throw new IllegalStateException("Buffer not initialized!");
     }
 
-    @Override
-    public IMemoryBufferEntry get(int n) {
+    public IMemoryBufferEntry get(int n) throws NoSuchElementException, IllegalStateException {
         if (this.initialized) {
             int n2 = this.size();
             if (0 > n || n >= n2) {
@@ -195,13 +182,11 @@ implements IMemoryBuffer {
         throw new IllegalStateException("Buffer not initialized!");
     }
 
-    @Override
     public int getIndexOfLatest() {
         return this.size() - 1;
     }
 
-    @Override
-    public IMemoryBufferEntry[] toArray() {
+    public IMemoryBufferEntry[] toArray() throws IllegalStateException {
         if (this.initialized) {
             int n = this.maxSize();
             IMemoryBufferEntry[] iMemoryBufferEntryArray = new IMemoryBufferEntry[n];
@@ -229,10 +214,62 @@ implements IMemoryBuffer {
         throw new IllegalStateException("Buffer not initialized!");
     }
 
-    @Override
-    public Iterator iterator() {
+    public Iterator iterator() throws IllegalStateException {
         if (this.initialized) {
-            return new StatisticsMemoryBuffer$1(this);
+            return new Iterator(){
+                private int index;
+                private int lastReturnedIndex;
+                private boolean isFirst;
+                {
+                    this.index = StatisticsMemoryBuffer.this.start;
+                    this.lastReturnedIndex = -1;
+                    this.isFirst = StatisticsMemoryBuffer.this.full;
+                }
+
+                public boolean hasNext() {
+                    return this.isFirst || this.index != StatisticsMemoryBuffer.this.end;
+                }
+
+                public Object next() {
+                    if (!this.hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    this.isFirst = false;
+                    this.lastReturnedIndex = this.index;
+                    this.index = StatisticsMemoryBuffer.this.increment(this.index);
+                    return StatisticsMemoryBuffer.this.elements[this.lastReturnedIndex];
+                }
+
+                public void remove() {
+                    if (this.lastReturnedIndex == -1) {
+                        throw new IllegalStateException();
+                    }
+                    if (this.lastReturnedIndex == StatisticsMemoryBuffer.this.start) {
+                        StatisticsMemoryBuffer.this.dequeue();
+                        this.lastReturnedIndex = -1;
+                        return;
+                    }
+                    int n = this.lastReturnedIndex + 1;
+                    if (StatisticsMemoryBuffer.this.start < this.lastReturnedIndex && n < StatisticsMemoryBuffer.this.end) {
+                        System.arraycopy((Object)StatisticsMemoryBuffer.this.elements, n, (Object)StatisticsMemoryBuffer.this.elements, this.lastReturnedIndex, StatisticsMemoryBuffer.this.end - n);
+                    } else {
+                        while (n != StatisticsMemoryBuffer.this.end) {
+                            if (n >= StatisticsMemoryBuffer.this.maxElements) {
+                                ((StatisticsMemoryBuffer)StatisticsMemoryBuffer.this).elements[n - 1] = StatisticsMemoryBuffer.this.elements[0];
+                                n = 0;
+                                continue;
+                            }
+                            ((StatisticsMemoryBuffer)StatisticsMemoryBuffer.this).elements[((StatisticsMemoryBuffer)StatisticsMemoryBuffer.this).decrement((int)n)] = StatisticsMemoryBuffer.this.elements[n];
+                            n = StatisticsMemoryBuffer.this.increment(n);
+                        }
+                    }
+                    this.lastReturnedIndex = -1;
+                    StatisticsMemoryBuffer.this.end = StatisticsMemoryBuffer.this.decrement(StatisticsMemoryBuffer.this.end);
+                    ((StatisticsMemoryBuffer)StatisticsMemoryBuffer.this).elements[((StatisticsMemoryBuffer)StatisticsMemoryBuffer.this).end] = null;
+                    StatisticsMemoryBuffer.this.full = false;
+                    this.index = StatisticsMemoryBuffer.this.decrement(this.index);
+                }
+            };
         }
         throw new IllegalStateException("Buffer not initialized!");
     }
@@ -263,44 +300,6 @@ implements IMemoryBuffer {
             buffer.append("Buffer NOT initialized yet!");
         }
         return buffer.toString();
-    }
-
-    static /* synthetic */ int access$000(StatisticsMemoryBuffer statisticsMemoryBuffer) {
-        return statisticsMemoryBuffer.start;
-    }
-
-    static /* synthetic */ boolean access$100(StatisticsMemoryBuffer statisticsMemoryBuffer) {
-        return statisticsMemoryBuffer.full;
-    }
-
-    static /* synthetic */ int access$200(StatisticsMemoryBuffer statisticsMemoryBuffer) {
-        return statisticsMemoryBuffer.end;
-    }
-
-    static /* synthetic */ int access$300(StatisticsMemoryBuffer statisticsMemoryBuffer, int n) {
-        return statisticsMemoryBuffer.increment(n);
-    }
-
-    static /* synthetic */ IMemoryBufferEntry[] access$400(StatisticsMemoryBuffer statisticsMemoryBuffer) {
-        return statisticsMemoryBuffer.elements;
-    }
-
-    static /* synthetic */ int access$500(StatisticsMemoryBuffer statisticsMemoryBuffer) {
-        return statisticsMemoryBuffer.maxElements;
-    }
-
-    static /* synthetic */ int access$600(StatisticsMemoryBuffer statisticsMemoryBuffer, int n) {
-        return statisticsMemoryBuffer.decrement(n);
-    }
-
-    static /* synthetic */ int access$202(StatisticsMemoryBuffer statisticsMemoryBuffer, int n) {
-        statisticsMemoryBuffer.end = n;
-        return statisticsMemoryBuffer.end;
-    }
-
-    static /* synthetic */ boolean access$102(StatisticsMemoryBuffer statisticsMemoryBuffer, boolean bl) {
-        statisticsMemoryBuffer.full = bl;
-        return statisticsMemoryBuffer.full;
     }
 }
 

@@ -6,8 +6,8 @@ package de.audi.atip.interapp;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public class ADBSDSAddressDetails {
-    public static final int BUSINESS;
-    public static final int PRIVATE;
+    public static final int BUSINESS = 0;
+    public static final int PRIVATE = 1;
     private AdbEntry adbEntry;
     private int addressType;
 

@@ -6,8 +6,7 @@ package de.audi.app.navi.evo.online;
 import de.audi.app.navi.evo.online.RemoteHMIAppsDestinationListener;
 import de.audi.app.navi.evo.online.RemoteHMIAppsMapListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
-import de.audi.atip.interapp.NaviOnlineService$POIOnlineData;
-import de.audi.atip.interapp.NaviOnlineService$RrdData;
+import de.audi.atip.interapp.NaviOnlineService;
 import de.audi.atip.interapp.online.OnlineApplicationOtherContext;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
@@ -30,7 +29,7 @@ import org.dsi.ifc.online.PoiOnlineSearchValuelistElement;
 public class NaviOnlineServiceImplEvo
 extends NaviOnlineServiceImpl
 implements TimerListener {
-    public static final long AIR_DELAY;
+    public static final long AIR_DELAY = 5000L;
     private ArrayList airDistanceListEvo;
     private final RemoteHMIAppsMapListener remoteHMIAppsMapListener;
     private final RemoteHMIAppsDestinationListener remoteHMIAppsDestinationListener;
@@ -41,19 +40,18 @@ implements TimerListener {
         super(navigationEnv, logChannel, iVehicle, mapInterface, iRouteManager, operationManager, iCommandListFactory, iAddressInputForm, iRRDListener, iStartGuidanceToDestinationSequence, addSelectedDestinationAtIndexCommandListCreator);
         this.remoteHMIAppsDestinationListener = remoteHMIAppsDestinationListener;
         this.remoteHMIAppsMapListener = remoteHMIAppsMapListener;
-        this.updateAirdistanceTimer = new Timer("NaviOnlineServiceImplEvo", 5, null, this, 0, false);
-        this.numberOfMiniAppsModel = navigationEnv.getChoiceModel(-2128607744);
+        this.updateAirdistanceTimer = new Timer("NaviOnlineServiceImplEvo", 5, null, this, 5000L, false);
+        this.numberOfMiniAppsModel = navigationEnv.getChoiceModel(401537);
         this.numberOfMiniAppsModel.setValue(0);
         this.numberOfMiniAppsModel.setStatus(3);
     }
 
-    @Override
     public void sendRemoteHMIAppsUpdateToNaviAndMap(List list) {
         int n = list.size();
-        this.logChannel.log(-2137614336, "NaviOnlineServiceImplEvo#sendRemoteHMIAppsUpdateToNaviAndMap: Called with list size '%1'", (long)n);
+        this.logChannel.log(10000000, "NaviOnlineServiceImplEvo#sendRemoteHMIAppsUpdateToNaviAndMap: Called with list size '%1'", (long)n);
         this.numberOfMiniAppsModel.setValue(n);
         if (this.sameAsPreviousApps(list)) {
-            this.logChannel.log(-2137614336, "NaviOnlineServiceImplEvo#sendRemoteHMIAppsUpdateToNaviAndMap: new and old list are same so not updating");
+            this.logChannel.log(10000000, "NaviOnlineServiceImplEvo#sendRemoteHMIAppsUpdateToNaviAndMap: new and old list are same so not updating");
         } else {
             this.previousRemoteHMIApps = list;
             this.remoteHMIAppsDestinationListener.setMiniApps(list, RemoteHMIAppsDestinationListener.ONLINE_RIGHT_DRAWER_ENTRIES_MODELS_FOR_DESTINATION);
@@ -66,12 +64,12 @@ implements TimerListener {
     private boolean sameAsPreviousApps(List list) {
         int n;
         if (this.previousRemoteHMIApps == null) {
-            this.logChannel.log(-2137614336, "NaviOnlineServiceImplEvo#sameAsPreviousApps: no previous apps exist");
+            this.logChannel.log(10000000, "NaviOnlineServiceImplEvo#sameAsPreviousApps: no previous apps exist");
             return false;
         }
         int n2 = this.previousRemoteHMIApps.size();
         if (n2 != (n = list.size())) {
-            this.logChannel.log(-2137614336, "NaviOnlineServiceImplEvo#sameAsPreviousApps: number of apps different, previous list size = %1, new list size = %2", (long)n2, (long)n);
+            this.logChannel.log(10000000, "NaviOnlineServiceImplEvo#sameAsPreviousApps: number of apps different, previous list size = %1, new list size = %2", (long)n2, (long)n);
             return false;
         }
         for (int i2 = 0; i2 < n2; ++i2) {
@@ -83,19 +81,16 @@ implements TimerListener {
         return true;
     }
 
-    @Override
     public void sendMiniAppsDownloadError() {
-        this.logChannel.log(-2137614336, "NaviOnlineServiceImplEvo#sendMiniAppsDownloadError: Called");
+        this.logChannel.log(10000000, "NaviOnlineServiceImplEvo#sendMiniAppsDownloadError: Called");
         this.remoteHMIAppsDestinationListener.errorOccured();
     }
 
-    @Override
-    protected void overrideVariantSpecificPOIViewportValues(NaviOnlineService$POIOnlineData[] naviOnlineService$POIOnlineDataArray, PoiOnlineSearchValuelistElement[] poiOnlineSearchValuelistElementArray, int n) {
-        super.overrideVariantSpecificPOIViewportValues(naviOnlineService$POIOnlineDataArray, poiOnlineSearchValuelistElementArray, n);
-        poiOnlineSearchValuelistElementArray[n].name = naviOnlineService$POIOnlineDataArray[n].line0 != "" && naviOnlineService$POIOnlineDataArray[n].line1 != "" ? new StringBuffer().append(naviOnlineService$POIOnlineDataArray[n].line0).append("\n").append(naviOnlineService$POIOnlineDataArray[n].line1).toString() : naviOnlineService$POIOnlineDataArray[n].line0;
+    protected void overrideVariantSpecificPOIViewportValues(NaviOnlineService.POIOnlineData[] pOIOnlineDataArray, PoiOnlineSearchValuelistElement[] poiOnlineSearchValuelistElementArray, int n) {
+        super.overrideVariantSpecificPOIViewportValues(pOIOnlineDataArray, poiOnlineSearchValuelistElementArray, n);
+        poiOnlineSearchValuelistElementArray[n].name = pOIOnlineDataArray[n].line0 != "" && pOIOnlineDataArray[n].line1 != "" ? pOIOnlineDataArray[n].line0 + "\n" + pOIOnlineDataArray[n].line1 : pOIOnlineDataArray[n].line0;
     }
 
-    @Override
     public synchronized void swapModel(Object object, Object object2, Object object3, int n, int n2) {
         int n3 = this.swapModel(this.rrdRequestList, object, object2, object3);
         if (n3 > -1) {
@@ -111,9 +106,9 @@ implements TimerListener {
         }
         int n = arrayList.size();
         for (int i2 = 0; i2 < n; ++i2) {
-            NaviOnlineService$RrdData naviOnlineService$RrdData = (NaviOnlineService$RrdData)arrayList.get(i2);
-            if (naviOnlineService$RrdData.getModelContainer() != object || naviOnlineService$RrdData.getModel() != object2) continue;
-            naviOnlineService$RrdData.setModel(object3);
+            NaviOnlineService.RrdData rrdData = (NaviOnlineService.RrdData)arrayList.get(i2);
+            if (rrdData.getModelContainer() != object || rrdData.getModel() != object2) continue;
+            rrdData.setModel(object3);
             return i2;
         }
         return -1;

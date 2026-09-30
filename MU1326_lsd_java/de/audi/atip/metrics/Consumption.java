@@ -8,37 +8,37 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class Consumption
 extends AbstractMetrics {
-    public static final int L_PER_100KM;
-    public static final int MPG_US;
-    public static final int MPG_UK;
-    public static final int KM_PER_L;
-    public static final int KWHPM;
-    public static final int KWHP100KM;
-    public static final int KMPKWH;
-    public static final int MPKWH;
-    public static final int L_PER_H;
-    public static final int GAL_PER_H;
-    public static final int KG_PER_H;
-    public static final int KWH_PER_H;
-    private static final String TEXT_CONSUMPTION_KM_PER_LITER;
-    private static final String TEXT_CONSUMPTION_MILES_PER_GALLON;
-    private static final String TEXT_CONSUMPTION_LITER_PER_100KM;
-    private static final String TEXT_CONSUMPTION_KWHPM;
-    private static final String TEXT_CONSUMPTION_KWHP100KM;
-    private static final String TEXT_CONSUMPTION_KMPKWH;
-    private static final String TEXT_CONSUMPTION_MPKWH;
-    private static final String TEXT_CONSUMPTION_LITER_PER_HOUR;
-    private static final String TEXT_CONSUMPTION_GALLON_PER_HOUR;
-    private static final String TEXT_CONSUMPTION_KILOGRAM_PER_HOUR;
-    private static final String TEXT_CONSUMPTION_KILOWATTHOUR_PER_HOUR;
-    private static String TEXT_INVALID;
-    private static int systemUnit;
-    private static int systemUnitElektro;
-    public static final boolean REFERENCE_UNIT_PETROL;
-    public static final boolean REFERENCE_UNIT_ELEKTRO;
+    public static final int L_PER_100KM = 1;
+    public static final int MPG_US = 2;
+    public static final int MPG_UK = 3;
+    public static final int KM_PER_L = 4;
+    public static final int KWHPM = 5;
+    public static final int KWHP100KM = 6;
+    public static final int KMPKWH = 7;
+    public static final int MPKWH = 8;
+    public static final int L_PER_H = 9;
+    public static final int GAL_PER_H = 10;
+    public static final int KG_PER_H = 11;
+    public static final int KWH_PER_H = 12;
+    private static final String TEXT_CONSUMPTION_KM_PER_LITER = " km/l";
+    private static final String TEXT_CONSUMPTION_MILES_PER_GALLON = " mpg";
+    private static final String TEXT_CONSUMPTION_LITER_PER_100KM = " l/100km";
+    private static final String TEXT_CONSUMPTION_KWHPM = " kWh/mi";
+    private static final String TEXT_CONSUMPTION_KWHP100KM = " kWh/100km";
+    private static final String TEXT_CONSUMPTION_KMPKWH = " km/kWh";
+    private static final String TEXT_CONSUMPTION_MPKWH = " mi/kWh";
+    private static final String TEXT_CONSUMPTION_LITER_PER_HOUR = " l/h";
+    private static final String TEXT_CONSUMPTION_GALLON_PER_HOUR = " gal/h";
+    private static final String TEXT_CONSUMPTION_KILOGRAM_PER_HOUR = " kg/h";
+    private static final String TEXT_CONSUMPTION_KILOWATTHOUR_PER_HOUR = "kWh/h";
+    private static String TEXT_INVALID = "---";
+    private static int systemUnit = 1;
+    private static int systemUnitElektro = 6;
+    public static final boolean REFERENCE_UNIT_PETROL = true;
+    public static final boolean REFERENCE_UNIT_ELEKTRO = false;
     private boolean referenceUnit = true;
-    public static final int ZERO_VALUE_FORMAT_ZEROS;
-    public static final int ZERO_VALUE_FORMAT_MINUS;
+    public static final int ZERO_VALUE_FORMAT_ZEROS = 0;
+    public static final int ZERO_VALUE_FORMAT_MINUS = 1;
     private int zeroValueFormat;
     private int numberOfMajorPlacesMax;
 
@@ -109,18 +109,15 @@ extends AbstractMetrics {
         this.numberOfMajorPlacesMax = n;
     }
 
-    @Override
     public void setValue(float f2) {
         this.value = f2;
         this.importValue();
     }
 
-    @Override
     public float getValue() {
         return this.getValueInUnit(this.getReferenceUnit());
     }
 
-    @Override
     public float getValue(int n) {
         if (!Consumption.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -132,7 +129,6 @@ extends AbstractMetrics {
         return Consumption.convertData(this.value, this.unit, n);
     }
 
-    @Override
     public String format() {
         if (this.useInstanceUnit) {
             return this.format(this.unit);
@@ -140,7 +136,6 @@ extends AbstractMetrics {
         return this.format(this.getReferenceUnit());
     }
 
-    @Override
     public String format(int n) {
         if (!Consumption.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -159,7 +154,7 @@ extends AbstractMetrics {
         if (this.isMetricvalid()) {
             float f3 = f2;
             int n = (int)f3;
-            int n2 = (int)((double)Math.abs(f3 * 8257) + 0.5) - Math.abs(n * 10);
+            int n2 = (int)((double)Math.abs(f3 * 10.0f) + 0.5) - Math.abs(n * 10);
             if ((n += n2 / 10) == 0 && (n2 %= 10) == 0 && this.zeroValueFormat == 1) {
                 for (int i2 = 0; i2 < this.numberOfMajorPlacesMax; ++i2) {
                     buffer.append("-");
@@ -179,12 +174,10 @@ extends AbstractMetrics {
         buffer.append(string).append(n);
     }
 
-    @Override
     public String[] getStringValueAndUnit(int n) {
         return new String[]{this.getFormattedValue(n), this.getFormattedUnit(n)};
     }
 
-    @Override
     public String[] getStringValueAndUnit() {
         return this.getStringValueAndUnit(this.useInstanceUnit ? this.unit : this.getReferenceUnit());
     }
@@ -194,15 +187,15 @@ extends AbstractMetrics {
         if (string == null) {
             switch (n) {
                 case 8: {
-                    string = " km/l";
+                    string = TEXT_CONSUMPTION_KM_PER_LITER;
                     break;
                 }
                 case 10: {
-                    string = " mpg";
+                    string = TEXT_CONSUMPTION_MILES_PER_GALLON;
                     break;
                 }
                 case 9: {
-                    string = " l/100km";
+                    string = TEXT_CONSUMPTION_LITER_PER_100KM;
                     break;
                 }
                 case 11: 
@@ -223,35 +216,35 @@ extends AbstractMetrics {
                     break;
                 }
                 case 60: {
-                    string = " kWh/mi";
+                    string = TEXT_CONSUMPTION_KWHPM;
                     break;
                 }
                 case 61: {
-                    string = " kWh/100km";
+                    string = TEXT_CONSUMPTION_KWHP100KM;
                     break;
                 }
                 case 62: {
-                    string = " km/kWh";
+                    string = TEXT_CONSUMPTION_KMPKWH;
                     break;
                 }
                 case 63: {
-                    string = " mi/kWh";
+                    string = TEXT_CONSUMPTION_MPKWH;
                     break;
                 }
                 case 82: {
-                    string = " l/h";
+                    string = TEXT_CONSUMPTION_LITER_PER_HOUR;
                     break;
                 }
                 case 83: {
-                    string = " gal/h";
+                    string = TEXT_CONSUMPTION_GALLON_PER_HOUR;
                     break;
                 }
                 case 87: {
-                    string = " kg/h";
+                    string = TEXT_CONSUMPTION_KILOGRAM_PER_HOUR;
                     break;
                 }
                 case 88: {
-                    string = "kWh/h";
+                    string = TEXT_CONSUMPTION_KILOWATTHOUR_PER_HOUR;
                     break;
                 }
                 default: {
@@ -372,12 +365,10 @@ extends AbstractMetrics {
         return n;
     }
 
-    @Override
     public String getFormattedMetricUnit() {
         return this.getFormattedUnit(this.useInstanceUnit ? this.unit : this.getReferenceUnit());
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         if (!Consumption.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -386,12 +377,10 @@ extends AbstractMetrics {
         return null != string ? string.trim() : "";
     }
 
-    @Override
     public String getFormattedValue() {
         return this.getFormattedValue(this.useInstanceUnit ? this.unit : this.getReferenceUnit());
     }
 
-    @Override
     public String getFormattedValue(int n) {
         if (!this.isMetricvalid()) {
             return this.getInvalidText();
@@ -405,7 +394,6 @@ extends AbstractMetrics {
         return buffer.toString().trim();
     }
 
-    @Override
     public String getInvalidText() {
         return TEXT_INVALID;
     }
@@ -415,12 +403,6 @@ extends AbstractMetrics {
             return systemUnitElektro;
         }
         return systemUnit;
-    }
-
-    static {
-        TEXT_INVALID = "---";
-        systemUnit = 1;
-        systemUnitElektro = 6;
     }
 }
 

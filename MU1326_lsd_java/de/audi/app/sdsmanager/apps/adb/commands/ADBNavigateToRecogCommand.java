@@ -19,9 +19,8 @@ extends AbstractSystemCallCommand {
         this.destType = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: Setting navi destination type to %2!", (Object)this.getName(), (long)this.destType);
+        this.logger.log(10000000, "%1#execute: Setting navi destination type to %2!", (Object)this.getName(), (long)this.destType);
         SDSModelAccess.setNaviDestinationTypeModel(this.destType);
         this.processingFinished();
     }

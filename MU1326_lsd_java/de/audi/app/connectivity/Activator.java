@@ -24,7 +24,7 @@ import org.osgi.framework.BundleContext;
 public class Activator
 extends AbstractConnectivityActivator
 implements IEvoConnectivity {
-    private static final int IS_SERVICE_DISCOVERY_ON;
+    private static final int IS_SERVICE_DISCOVERY_ON = 0;
     private ConnectivityManager coma;
     private IEvoBluetoothApplication bluetooth;
     private DataApplication data;
@@ -33,7 +33,6 @@ implements IEvoConnectivity {
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
     static /* synthetic */ Class class$de$audi$atip$hmi$HMIApplication;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         boolean bl = this.isOn(4526, 0);
@@ -79,7 +78,6 @@ implements IEvoConnectivity {
         return this.isOn(n, 1);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.coma != null) {
             this.coma.deinit();
@@ -104,22 +102,18 @@ implements IEvoConnectivity {
         super.stop(bundleContext);
     }
 
-    @Override
     public IEvoBluetoothApplication getBluetooth() {
         return this.bluetooth;
     }
 
-    @Override
     public IConnectivityManager getConnectivityManager() {
         return this.coma;
     }
 
-    @Override
     public IDataApplication getData() {
         return this.data;
     }
 
-    @Override
     public IEvoWlanApplication getWlan() {
         return this.wlan;
     }

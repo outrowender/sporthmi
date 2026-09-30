@@ -4,7 +4,6 @@
 package de.audi.app.car.common.sdis.interapp;
 
 public interface ICarSDISService {
-    default public void sendData(Object object) {
-    }
+    public void sendData(Object var1);
 }
 

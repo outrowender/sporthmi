@@ -4,25 +4,18 @@
 package de.audi.app.media.evo.content.data.search.dsi;
 
 public interface IMediaSearchDataProviderListener {
-    default public void registerProviderSourceResult(boolean bl, int n) {
-    }
+    public void registerProviderSourceResult(boolean var1, int var2);
 
-    default public void activateProviderSource(int n) {
-    }
+    public void activateProviderSource(int var1);
 
-    default public void invalidateAllDataResult(boolean bl, int n) {
-    }
+    public void invalidateAllDataResult(boolean var1, int var2);
 
-    default public void provideData(int n, int n2, int n3) {
-    }
+    public void provideData(int var1, int var2, int var3);
 
-    default public void storeDataSetsResult(boolean bl, int n) {
-    }
+    public void storeDataSetsResult(boolean var1, int var2);
 
-    default public void deleteDataSetResult(boolean bl, int n, long l) {
-    }
+    public void deleteDataSetResult(boolean var1, int var2, long var3);
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3);
 }
 

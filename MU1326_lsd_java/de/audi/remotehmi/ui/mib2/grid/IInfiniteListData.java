@@ -4,42 +4,31 @@
 package de.audi.remotehmi.ui.mib2.grid;
 
 public interface IInfiniteListData {
-    public static final int REQUEST_ID_REMOTEHMI;
-    public static final int DEFAULT_PROXY_RANGE;
-    public static final int DEFAULT_MAX_ELEMENTS_IN_SCREEN;
-    public static final int DEFAULT_OVERLAP_SIZE;
+    public static final int REQUEST_ID_REMOTEHMI = Integer.MIN_VALUE;
+    public static final int DEFAULT_PROXY_RANGE = 5;
+    public static final int DEFAULT_MAX_ELEMENTS_IN_SCREEN = 10;
+    public static final int DEFAULT_OVERLAP_SIZE = 20;
 
-    default public int getTotalLength() {
-    }
+    public int getTotalLength();
 
-    default public void setTotalLength(int n) {
-    }
+    public void setTotalLength(int var1);
 
-    default public int getStartIndex() {
-    }
+    public int getStartIndex();
 
-    default public void setStartIndex(int n) {
-    }
+    public void setStartIndex(int var1);
 
-    default public int getProxyRange() {
-    }
+    public int getProxyRange();
 
-    default public void setProxyRange(int n) {
-    }
+    public void setProxyRange(int var1);
 
-    default public int getOverlapSize() {
-    }
+    public int getOverlapSize();
 
-    default public void setOverlapSize(int n) {
-    }
+    public void setOverlapSize(int var1);
 
-    default public int getMaxElementsInScreen() {
-    }
+    public int getMaxElementsInScreen();
 
-    default public void setMaxElementsInScreen(int n) {
-    }
+    public void setMaxElementsInScreen(int var1);
 
-    default public boolean isConsistent(int n) {
-    }
+    public boolean isConsistent(int var1);
 }
 

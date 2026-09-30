@@ -10,10 +10,10 @@ import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 
 public final class ModelAccess
 extends AbstractMessagingComponent {
-    public static final int OPERATION_IN_PROGRESS;
-    public static final int OPERATION_COMPLETED_OK;
-    public static final int OPERATION_COMPLETED_NOK;
-    public static final int OPERATION_FAILED;
+    public static final int OPERATION_IN_PROGRESS = 0;
+    public static final int OPERATION_COMPLETED_OK = 1;
+    public static final int OPERATION_COMPLETED_NOK = 2;
+    public static final int OPERATION_FAILED = 3;
 
     public ModelAccess(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
@@ -41,7 +41,7 @@ extends AbstractMessagingComponent {
             }
         }
         if (bl) {
-            this.log.log(-2137614336, "[ModelAccess#setWaitSyncChoice] choiceModelID = %1, setting WaitSyncMediator state: %2", (Object)Integer.toString(n), (Object)string);
+            this.log.log(10000000, "[ModelAccess#setWaitSyncChoice] choiceModelID = %1, setting WaitSyncMediator state: %2", (Object)Integer.toString(n), (Object)string);
             ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(n);
             choiceModelApp.setStatus(n2);
         }
@@ -84,7 +84,7 @@ extends AbstractMessagingComponent {
             }
         }
         if (bl) {
-            this.log.log(-2137614336, "[ModelAccess#setOperationStateChoice] choiceModelID = %1, setting operationState = %2", (Object)Integer.toString(n), (Object)string);
+            this.log.log(10000000, "[ModelAccess#setOperationStateChoice] choiceModelID = %1, setting operationState = %2", (Object)Integer.toString(n), (Object)string);
             ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(n);
             try {
                 choiceModelApp.beginTransaction();
@@ -134,7 +134,7 @@ extends AbstractMessagingComponent {
             }
         }
         if (bl) {
-            this.log.log(-2137614336, "[ModelAccess#setOperationStateChoiceUnbuffered] choiceModelID = %1, setting operationState = %2", (Object)Integer.toString(n), (Object)string);
+            this.log.log(10000000, "[ModelAccess#setOperationStateChoiceUnbuffered] choiceModelID = %1, setting operationState = %2", (Object)Integer.toString(n), (Object)string);
             ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(n);
             choiceModelApp.setStatus(n3);
             choiceModelApp.setValue(n4);

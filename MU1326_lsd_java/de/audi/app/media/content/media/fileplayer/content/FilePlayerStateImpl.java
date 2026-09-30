@@ -35,17 +35,14 @@ implements IFilePlayerState {
         this.activeSlot = null;
     }
 
-    @Override
     public FilePlayerSession getActiveSession() {
         return this.activeSession;
     }
 
-    @Override
     public void setActiveSession(FilePlayerSession filePlayerSession) {
         this.activeSession = filePlayerSession;
     }
 
-    @Override
     public Capabilities getCapabilitites() {
         return this.capabilities;
     }
@@ -54,7 +51,6 @@ implements IFilePlayerState {
         this.capabilities = capabilities;
     }
 
-    @Override
     public int getPlaybackState() {
         return this.playbackState;
     }
@@ -63,7 +59,6 @@ implements IFilePlayerState {
         this.playbackState = n;
     }
 
-    @Override
     public AudioState getAudioState() {
         return this.audioState;
     }
@@ -77,12 +72,10 @@ implements IFilePlayerState {
         this.repeatPlayMode = n2;
     }
 
-    @Override
     public int getNormalPlayMode() {
         return this.normalPlayMode;
     }
 
-    @Override
     public int getRepeatPlayMode() {
         return this.repeatPlayMode;
     }
@@ -91,12 +84,10 @@ implements IFilePlayerState {
         this.playmode = n;
     }
 
-    @Override
     public int getPlaybackMode() {
         return this.playmode;
     }
 
-    @Override
     public int getPlayerID() {
         return this.playerID;
     }
@@ -105,32 +96,26 @@ implements IFilePlayerState {
         this.playerID = n;
     }
 
-    @Override
     public void setVideoScaling(VideoScaling videoScaling) {
         this.videoScaling = videoScaling;
     }
 
-    @Override
     public VideoScaling getVideoScaling() {
         return this.videoScaling;
     }
 
-    @Override
     public boolean isOnPlayback() {
         return this.getPlaybackState() == 1 || this.getPlaybackState() == 5 || this.getPlaybackState() == 3 || this.getPlaybackState() == 9 || this.getPlaybackState() == 8 || this.getPlaybackState() == 7 || this.getPlaybackState() == 6;
     }
 
-    @Override
     public boolean isOnSeeking() {
         return this.getPlaybackState() == 9 || this.getPlaybackState() == 8 || this.getPlaybackState() == 7 || this.getPlaybackState() == 6;
     }
 
-    @Override
     public void setActiveSlot(ISourceSlot iSourceSlot) {
         this.activeSlot = iSourceSlot;
     }
 
-    @Override
     public ISourceSlot getActiveSlot() {
         return this.activeSlot;
     }

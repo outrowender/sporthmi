@@ -9,73 +9,50 @@ import de.audi.atip.interapp.bap.eni.data.Service;
 
 public interface BAPServiceENI
 extends BAPService {
-    default public void getDestinationList() {
-    }
+    public void getDestinationList();
 
-    default public void setDestinationListCapacity(int n) {
-    }
+    public void setDestinationListCapacity(int var1);
 
-    default public void deleteDestination(Destination destination) {
-    }
+    public void deleteDestination(Destination var1);
 
-    default public void remoteProcessUpdateUserList() {
-    }
+    public void remoteProcessUpdateUserList();
 
-    default public void remoteProcessDeleteUserList() {
-    }
+    public void remoteProcessDeleteUserList();
 
-    default public void remoteProcessPairMainUserUsingPairingCode(String string, String string2) {
-    }
+    public void remoteProcessPairMainUserUsingPairingCode(String var1, String var2);
 
-    default public void remoteProcessPairMainUserUsingVehiclePin(String string, String string2) {
-    }
+    public void remoteProcessPairMainUserUsingVehiclePin(String var1, String var2);
 
-    default public void remoteProcessConfirmExpirationWarningForService(Service service) {
-    }
+    public void remoteProcessConfirmExpirationWarningForService(Service var1);
 
-    default public void remoteProcessConfirmExpirationWarningForServices(Service[] serviceArray) {
-    }
+    public void remoteProcessConfirmExpirationWarningForServices(Service[] var1);
 
-    default public void remoteProcessConfirmExpirationWarningForAllServices() {
-    }
+    public void remoteProcessConfirmExpirationWarningForAllServices();
 
-    default public void remoteProcessTerminate() {
-    }
+    public void remoteProcessTerminate();
 
-    default public void getUserList() {
-    }
+    public void getUserList();
 
-    default public void getServiceList() {
-    }
+    public void getServiceList();
 
-    default public void enableService(Service service) {
-    }
+    public void enableService(Service var1);
 
-    default public void disableService(Service service) {
-    }
+    public void disableService(Service var1);
 
-    default public void getMonitorings() {
-    }
+    public void getMonitorings();
 
-    default public void enablePrivacyMode() {
-    }
+    public void enablePrivacyMode();
 
-    default public void disablePrivacyMode() {
-    }
+    public void disablePrivacyMode();
 
-    default public void remoteProcessPrivacyMode(boolean bl) {
-    }
+    public void remoteProcessPrivacyMode(boolean var1);
 
-    default public void remoteProcessSubmitChangesToBackend() {
-    }
+    public void remoteProcessSubmitChangesToBackend();
 
-    default public void remoteProcessGetMobileDeviceKeyCount() {
-    }
+    public void remoteProcessGetMobileDeviceKeyCount();
 
-    default public void remoteProcessGetVtan(String string) {
-    }
+    public void remoteProcessGetVtan(String var1);
 
-    default public boolean getPrivacyModeSupported() {
-    }
+    public boolean getPrivacyModeSupported();
 }
 

@@ -14,67 +14,46 @@ import de.audi.atip.sysapp.carcoding.LoadSpeedThreshold;
 import java.util.Date;
 
 public interface ISysApp {
-    default public void registerAppSystem(IAppSystem iAppSystem) {
-    }
+    public void registerAppSystem(IAppSystem var1);
 
-    default public IAppSystem getVariantAppSystem() {
-    }
+    public IAppSystem getVariantAppSystem();
 
-    default public Coding getDiagnosisCOD() {
-    }
+    public Coding getDiagnosisCOD();
 
-    default public Adaptation getAdaptationANP() {
-    }
+    public Adaptation getAdaptationANP();
 
-    default public LoadSpeedThreshold getSpeedThresholdUPDL() {
-    }
+    public LoadSpeedThreshold getSpeedThresholdUPDL();
 
-    default public CarFuncAdap getCarFuncAdaptation() {
-    }
+    public CarFuncAdap getCarFuncAdaptation();
 
-    default public void storeSysConstsForSWDLReboot() {
-    }
+    public void storeSysConstsForSWDLReboot();
 
-    default public boolean isRebootToSwdl() {
-    }
+    public boolean isRebootToSwdl();
 
-    default public boolean isEngineeringDownloadActive() {
-    }
+    public boolean isEngineeringDownloadActive();
 
-    default public boolean isCustomerDownloadActive() {
-    }
+    public boolean isCustomerDownloadActive();
 
-    default public void setEngineeringDownloadActive(boolean bl) {
-    }
+    public void setEngineeringDownloadActive(boolean var1);
 
-    default public void setCustomerDownloadActive(boolean bl) {
-    }
+    public void setCustomerDownloadActive(boolean var1);
 
-    default public long getAdjustedTime() {
-    }
+    public long getAdjustedTime();
 
-    default public boolean isClockAdjusted() {
-    }
+    public boolean isClockAdjusted();
 
-    default public void adjustClock(Date date) {
-    }
+    public void adjustClock(Date var1);
 
-    default public MetricsModelApp getClock() {
-    }
+    public MetricsModelApp getClock();
 
-    default public void registerSpeedThresholdListener(SpeedThresholdListener speedThresholdListener, int n) {
-    }
+    public void registerSpeedThresholdListener(SpeedThresholdListener var1, int var2);
 
-    default public void registerStandStillListener(IStandStillListener iStandStillListener) {
-    }
+    public void registerStandStillListener(IStandStillListener var1);
 
-    default public void unregisterStandStillListener(IStandStillListener iStandStillListener) {
-    }
+    public void unregisterStandStillListener(IStandStillListener var1);
 
-    default public void unregisterSpeedThresholdListener(SpeedThresholdListener speedThresholdListener) {
-    }
+    public void unregisterSpeedThresholdListener(SpeedThresholdListener var1);
 
-    default public boolean isStandstill() {
-    }
+    public boolean isStandstill();
 }
 

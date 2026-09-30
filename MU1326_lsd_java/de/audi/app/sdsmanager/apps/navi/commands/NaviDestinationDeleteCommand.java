@@ -18,16 +18,15 @@ extends AbstractSystemCallCommand {
         this.service = naviService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] called", (Object)this.getName());
+        this.logger.log(10000000, "[%1#execute] called", (Object)this.getName());
         this.service.reduceRouteToFinalDestination();
     }
 
     public void responseReduceRouteToFinalDestination(byte by) {
-        this.logger.log(-2137614336, "[%1#responseReduceRouteToFinalDestination] result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#responseReduceRouteToFinalDestination] result=%2", (Object)this.getName(), (long)by);
         int n = NaviSDSUtils.getGenericSDSResult(by);
-        this.logger.log(-2137614336, "[%1#responseReduceRouteToFinalDestination] sdsRes=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#responseReduceRouteToFinalDestination] sdsRes=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 }

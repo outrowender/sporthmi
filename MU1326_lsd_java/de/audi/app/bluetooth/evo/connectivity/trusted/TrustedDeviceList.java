@@ -25,10 +25,9 @@ BaseListModelListener {
     public TrustedDeviceList(IEvoBluetoothApplication iEvoBluetoothApplication) {
         super(iEvoBluetoothApplication);
         this.bluetoothApplication = iEvoBluetoothApplication;
-        this.list = this.getBaseListModel(-1155127808);
+        this.list = this.getBaseListModel(0x2626BB);
     }
 
-    @Override
     public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
         super.updateTrustedDevices(trustedDeviceArray, n);
         if (n == 1 && trustedDeviceArray != null) {
@@ -37,7 +36,6 @@ BaseListModelListener {
         }
     }
 
-    @Override
     public void showTrustedDevices(int n, boolean bl) {
         this.services = n;
         this.primary = bl;
@@ -51,9 +49,8 @@ BaseListModelListener {
         }
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.log.log(1078071040, "TrustedDeviceList#itemSelected(): %1", (Object)evoListRow);
+        this.log.log(1000000, "TrustedDeviceList#itemSelected(): %1", (Object)evoListRow);
         TrustedDevice trustedDevice = this.get(((TrustedDeviceListRow)evoListRow).getAddress());
         if (trustedDevice != null) {
             this.bluetoothApplication.getConnection().connectService(trustedDevice.getDeviceAddress(), this.services & trustedDevice.getOfferedServiceTypes(), trustedDevice.getDeviceName(), this.primary);
@@ -61,25 +58,20 @@ BaseListModelListener {
         }
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void init() {
         super.init();
         this.list.setListener(this);
     }
 
-    @Override
     public void deinit() {
         this.list.resetListener();
         super.deinit();

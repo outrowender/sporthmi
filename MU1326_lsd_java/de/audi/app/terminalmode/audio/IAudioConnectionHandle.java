@@ -3,20 +3,31 @@
  */
 package de.audi.app.terminalmode.audio;
 
-import de.audi.app.terminalmode.audio.IAudioConnectionHandle$IAudioConnectionListener;
 import de.audi.tghu.command.Command;
 
 public interface IAudioConnectionHandle {
-    default public Command createRequestCommand(boolean bl) {
-    }
+    public Command createRequestCommand(boolean var1);
 
-    default public Command createReleaseCommand() {
-    }
+    public Command createReleaseCommand();
 
-    default public void registerListener(IAudioConnectionHandle$IAudioConnectionListener iAudioConnectionHandle$IAudioConnectionListener) {
-    }
+    public void registerListener(IAudioConnectionListener var1);
 
-    default public void unregisterListener(IAudioConnectionHandle$IAudioConnectionListener iAudioConnectionHandle$IAudioConnectionListener) {
+    public void unregisterListener(IAudioConnectionListener var1);
+
+    public static interface IAudioConnectionListener {
+        public void onStart();
+
+        public void onResume();
+
+        public void onPause();
+
+        public void onPauseByMute();
+
+        public void onStopped();
+
+        public void onFadedIn();
+
+        public void onError();
     }
 }
 

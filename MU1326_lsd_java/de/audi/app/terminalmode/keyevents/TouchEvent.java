@@ -4,12 +4,12 @@
 package de.audi.app.terminalmode.keyevents;
 
 public class TouchEvent {
-    public static final int TOUCH_STATE_PRESSED;
-    public static final int TOUCH_STATE_RELEASED;
-    public static final int TOUCH_STATE_MOVED;
-    public static final int GESTURE_UNKNOWN;
-    public static final int GESTURE_ROTATE;
-    public static final int GESTURE_DRAG;
+    public static final int TOUCH_STATE_PRESSED = 0;
+    public static final int TOUCH_STATE_RELEASED = 1;
+    public static final int TOUCH_STATE_MOVED = 2;
+    public static final int GESTURE_UNKNOWN = 0;
+    public static final int GESTURE_ROTATE = 1;
+    public static final int GESTURE_DRAG = 2;
     private final int touchState;
     private final int startX;
     private final int startY;
@@ -67,7 +67,7 @@ public class TouchEvent {
     }
 
     public String toString() {
-        return new StringBuffer().append("TouchEvent [touchState=").append(this.touchState).append(", startX=").append(this.startX).append(", startY=").append(this.startY).append(", currentX=").append(this.currentX).append(", currentY=").append(this.currentY).append(", touchScreen=").append(this.touchScreen).append(", gesture=").append(this.gesture).append("]").toString();
+        return "TouchEvent [touchState=" + this.touchState + ", startX=" + this.startX + ", startY=" + this.startY + ", currentX=" + this.currentX + ", currentY=" + this.currentY + ", touchScreen=" + this.touchScreen + ", gesture=" + this.gesture + "]";
     }
 }
 

@@ -38,7 +38,7 @@ public class Util {
     }
 
     public static Long createLong(long l) {
-        if (l >= -127L && l <= 0) {
+        if (l >= -127L && l <= 128L) {
             return cachedLongs[(int)l + 127];
         }
         return new Long(l);

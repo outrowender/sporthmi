@@ -6,10 +6,8 @@ package de.audi.app.connectivity.manager;
 import de.audi.app.connectivity.manager.contents.IDeviceSelection;
 
 public interface ISelectionHandler {
-    default public void deviceSelected(IDeviceSelection iDeviceSelection, int n) {
-    }
+    public void deviceSelected(IDeviceSelection var1, int var2);
 
-    default public void connectNewDeviceSelected(int n) {
-    }
+    public void connectNewDeviceSelected(int var1);
 }
 

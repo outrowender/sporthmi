@@ -8,7 +8,6 @@ import de.audi.app.bap.fw.arrays.ArrayUtils;
 import de.audi.app.combi.bap.app.audio.AudioApplicationInFocusHandler;
 import de.audi.app.combi.bap.app.audio.CombiModuleAudio;
 import de.audi.app.combi.bap.app.audio.list.AbstractSourceListObserver;
-import de.audi.app.combi.bap.app.audio.list.SourceListHandler$1;
 import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPAudioSource;
 import de.audi.atip.interapp.combi.bap.data.CombiBAPArrayElement;
 import de.esolutions.fw.util.commons.Buffer;
@@ -16,6 +15,7 @@ import de.vw.mib.bap.generated.audiosd.serializer.ActiveSource_Status;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,12 +25,12 @@ import java.util.Set;
 
 public class SourceListHandler
 extends AbstractManagedListHandler {
-    private static final int SOURCE_POS_SOURCETYPE_MULTIPLIER;
-    private static final Integer[] SOURCES_ORDER;
-    private static final Set SOURCES_TUNER;
-    private static final Set SOURCES_MEDIA;
-    private static final Set SOURCES_TV;
-    private static final Set SOURCES_TERMINALMODE;
+    private static final int SOURCE_POS_SOURCETYPE_MULTIPLIER = 100;
+    private static final Integer[] SOURCES_ORDER = new Integer[]{new Integer(0), new Integer(36), new Integer(3), new Integer(4), new Integer(5), new Integer(1), new Integer(2), new Integer(25), new Integer(26), new Integer(17), new Integer(35), new Integer(20), new Integer(10), new Integer(6), new Integer(8), new Integer(11), new Integer(7), new Integer(18), new Integer(19), new Integer(15), new Integer(16), new Integer(13), new Integer(14), new Integer(21), new Integer(22), new Integer(27), new Integer(28), new Integer(12), new Integer(23), new Integer(24), new Integer(29), new Integer(30), new Integer(31), new Integer(33), new Integer(9), new Integer(32), new Integer(34), new Integer(37), new Integer(38), new Integer(39), new Integer(40)};
+    private static final Set SOURCES_TUNER = SourceListHandler.sourcesTuner();
+    private static final Set SOURCES_MEDIA = SourceListHandler.sourcesMedia();
+    private static final Set SOURCES_TV = SourceListHandler.sourcesTv();
+    private static final Set SOURCES_TERMINALMODE = SourceListHandler.sourcesTerminalMode();
     private final Map sourceTypeToAvailableSlotsMapping = new HashMap();
     private final CombiBAPAudioSource dummySDEmptySlot = new CombiBAPAudioSource(11, 0, 0, 0, "", 1);
     private final CombiBAPAudioSource dummyAMIEmptySlot;
@@ -124,7 +124,7 @@ extends AbstractManagedListHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void updateSources(int n, CombiBAPAudioSource[] combiBAPAudioSourceArray) {
-        this.logChannel.log(1078071040, "[SourceListHandler#updateSources] update %1 sources", (Object)AudioApplicationInFocusHandler.getAudioApplicationName(n));
+        this.logChannel.log(1000000, "[SourceListHandler#updateSources] update %1 sources", (Object)AudioApplicationInFocusHandler.getAudioApplicationName(n));
         this.clearAvailableSlotsMapping(n);
         Buffer buffer = new Buffer();
         for (int i2 = 0; i2 < combiBAPAudioSourceArray.length; ++i2) {
@@ -144,7 +144,7 @@ extends AbstractManagedListHandler {
                 continue;
             }
         }
-        this.logChannel.log(-2137614336, "[SourceListHandler#updateSources] %2 sources%1", (Object)buffer, (long)combiBAPAudioSourceArray.length);
+        this.logChannel.log(10000000, "[SourceListHandler#updateSources] %2 sources%1", (Object)buffer, (long)combiBAPAudioSourceArray.length);
         this.updateSourceList(n, this.getDisplayedSlots(this.retrieveActiveSource()));
     }
 
@@ -152,7 +152,7 @@ extends AbstractManagedListHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void updateSources(int n, int[] nArray, CombiBAPAudioSource[][] combiBAPAudioSourceArray) {
-        this.logChannel.log(1078071040, "[SourceListHandler#updateSources] update %1 sources", (Object)AudioApplicationInFocusHandler.getAudioApplicationName(n));
+        this.logChannel.log(1000000, "[SourceListHandler#updateSources] update %1 sources", (Object)AudioApplicationInFocusHandler.getAudioApplicationName(n));
         boolean bl = false;
         boolean bl2 = false;
         for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -188,7 +188,7 @@ extends AbstractManagedListHandler {
                     buffer.append(combiBAPAudioSourceArray[i2][n2]);
                 }
             }
-            this.logChannel.log(-2137614336, "[SourceListHandler#updateSources] slots of sourceType=%2%1", (Object)buffer, (long)nArray[i2]);
+            this.logChannel.log(10000000, "[SourceListHandler#updateSources] slots of sourceType=%2%1", (Object)buffer, (long)nArray[i2]);
             Map map = this.sourceTypeToAvailableSlotsMapping;
             synchronized (map) {
                 if (bl2 && !bl) {
@@ -200,11 +200,11 @@ extends AbstractManagedListHandler {
                     while (iterator.hasNext()) {
                         CombiBAPAudioSource combiBAPAudioSource = (CombiBAPAudioSource)iterator.next();
                         if (combiBAPAudioSource.getMediaType() != 0) {
-                            this.logChannel.log(-2137614336, "[SourceListHandler#updateSources] adding USB slot %1", (Object)combiBAPAudioSource);
+                            this.logChannel.log(10000000, "[SourceListHandler#updateSources] adding USB slot %1", (Object)combiBAPAudioSource);
                             arrayList.add(combiBAPAudioSource);
                             continue;
                         }
-                        this.logChannel.log(-2137614336, "[SourceListHandler#updateSources] NOT adding USB slot %1", (Object)combiBAPAudioSource);
+                        this.logChannel.log(10000000, "[SourceListHandler#updateSources] NOT adding USB slot %1", (Object)combiBAPAudioSource);
                     }
                     if (!arrayList.isEmpty()) {
                         this.sourceTypeToAvailableSlotsMapping.put(new Integer(nArray[i2]), arrayList);
@@ -265,7 +265,7 @@ extends AbstractManagedListHandler {
                 return SourceListHandler.integerArrayFromIntegerSet(SOURCES_TERMINALMODE);
             }
         }
-        this.logChannel.log(-2137614336, "[SourceListHandler#getSourceTypeOrderWithinApp] invalid applicationID=%1", (long)n);
+        this.logChannel.log(10000000, "[SourceListHandler#getSourceTypeOrderWithinApp] invalid applicationID=%1", (long)n);
         return new Integer[0];
     }
 
@@ -325,7 +325,7 @@ extends AbstractManagedListHandler {
                 arrayList.addAll(list);
             }
         }
-        this.logChannel.log(-2137614336, "[SourceListHandler#getDisplayedSlots] AUXConnected=%1, USBConnected=%2, iPodConnected=%3", bl, bl2, bl3);
+        this.logChannel.log(10000000, "[SourceListHandler#getDisplayedSlots] AUXConnected=%1, USBConnected=%2, iPodConnected=%3", bl, bl2, bl3);
         object3 = new Integer(15);
         object = this.sourceTypeToAvailableSlotsMapping;
         synchronized (object) {
@@ -334,10 +334,10 @@ extends AbstractManagedListHandler {
         if (object2.isEmpty() && !bl2) {
             object2 = new ArrayList(1);
             object2.add(this.dummyAMIEmptySlot);
-            this.logChannel.log(-2137614336, "[SourceListHandler#getDisplayedSlots] no AMI device connected");
+            this.logChannel.log(10000000, "[SourceListHandler#getDisplayedSlots] no AMI device connected");
         }
         arrayList.addAll((Collection)object2);
-        this.logChannel.log(-2137614336, "[SourceListHandler#getDisplayedSlots] list displayed slots:\n%1", (Object)ArrayUtils.printList(arrayList.toArray()));
+        this.logChannel.log(10000000, "[SourceListHandler#getDisplayedSlots] list displayed slots:\n%1", (Object)ArrayUtils.printList(arrayList.toArray()));
         return arrayList;
     }
 
@@ -374,10 +374,15 @@ extends AbstractManagedListHandler {
     }
 
     private void updateSourceList(int n, List list) {
-        this.logChannel.log(-2137614336, "[SourceListHandler#updateSourceList] called (applicationID=%1)", (long)n);
+        this.logChannel.log(10000000, "[SourceListHandler#updateSourceList] called (applicationID=%1)", (long)n);
         Object[] objectArray = new CombiBAPArrayElement[list.size()];
         list.toArray(objectArray);
-        Arrays.sort(objectArray, new SourceListHandler$1(this));
+        Arrays.sort(objectArray, new Comparator(){
+
+            public int compare(Object object, Object object2) {
+                return new Integer(((CombiBAPAudioSource)object).getPosID()).compareTo(new Integer(((CombiBAPAudioSource)object2).getPosID()));
+            }
+        });
         this.checkActiveSourceAdded((CombiBAPArrayElement[])objectArray);
         this.updateList((CombiBAPArrayElement[])objectArray);
     }
@@ -385,10 +390,10 @@ extends AbstractManagedListHandler {
     private void checkActiveSourceAdded(CombiBAPArrayElement[] combiBAPArrayElementArray) {
         CombiBAPAudioSource combiBAPAudioSource;
         if (this.activeSourceObserver != null && (combiBAPAudioSource = this.activeSourceObserver.getSourceToWaitFor()) != null) {
-            this.logChannel.log(-2137614336, "[SourceListHandler#checkActiveSourceAdded] activeSourceToWaitFor: %1", (Object)combiBAPAudioSource);
+            this.logChannel.log(10000000, "[SourceListHandler#checkActiveSourceAdded] activeSourceToWaitFor: %1", (Object)combiBAPAudioSource);
             CombiBAPAudioSource combiBAPAudioSource2 = (CombiBAPAudioSource)ArrayUtils.findElementByID(combiBAPArrayElementArray, SourceListHandler.createPosID(combiBAPAudioSource.getSourceType(), combiBAPAudioSource.getSourceId()));
             if (combiBAPAudioSource2 != null) {
-                this.logChannel.log(-2137614336, "[SourceListHandler#checkActiveSourceAdded] source is now available in source list. source: %1", (Object)combiBAPAudioSource2);
+                this.logChannel.log(10000000, "[SourceListHandler#checkActiveSourceAdded] source is now available in source list. source: %1", (Object)combiBAPAudioSource2);
                 this.activeSourceObserver.notifySourceAdded(combiBAPAudioSource2);
                 this.activeSourceObserver = null;
             }
@@ -432,26 +437,24 @@ extends AbstractManagedListHandler {
         return (CombiBAPAudioSource)ArrayUtils.findElementByID((CombiBAPArrayElement[])objectArray, SourceListHandler.createPosID(n, n2));
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
         super.getNextListPosForArbitraryIds(n, n2);
     }
 
-    @Override
     public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
         ((CombiModuleAudio)this.moduleFsg).getTunerService().getNextListPosResult(bl ? 0 : 1, n, n2, n3);
     }
 
     public CombiBAPAudioSource notifySourceChanged(int n, int n2, AbstractSourceListObserver abstractSourceListObserver) {
-        this.logChannel.log(-2137614336, "[SourceListHandler#notifySourceChanged] newSourceType=%2, newSourceId=%3, lastModeMedia=%1,", (Object)this.getLastModeMedia(), (long)n, (long)n2);
+        this.logChannel.log(10000000, "[SourceListHandler#notifySourceChanged] newSourceType=%2, newSourceId=%3, lastModeMedia=%1,", (Object)this.getLastModeMedia(), (long)n, (long)n2);
         CombiBAPAudioSource combiBAPAudioSource = this.getAudioSource(n, n2, true);
         if (combiBAPAudioSource == null) {
-            this.logChannel.log(-1601830656, "[SourceListHandler#notifySourceChanged] source is not in source list (sourceType=%1, sourceId=%2)", (long)n, (long)n2);
+            this.logChannel.log(100000, "[SourceListHandler#notifySourceChanged] source is not in source list (sourceType=%1, sourceId=%2)", (long)n, (long)n2);
             combiBAPAudioSource = new CombiBAPAudioSource(n, n2, 255, "");
             if (abstractSourceListObserver != null) {
                 abstractSourceListObserver.setSourceToWaitFor(combiBAPAudioSource);
                 this.activeSourceObserver = abstractSourceListObserver;
-                this.logChannel.log(-2137614336, "[SourceListHandler#notifySourceChanged] activeSourceObserver added");
+                this.logChannel.log(10000000, "[SourceListHandler#notifySourceChanged] activeSourceObserver added");
             }
         } else {
             this.activeSourceObserver = null;
@@ -481,14 +484,6 @@ extends AbstractManagedListHandler {
         synchronized (map) {
             this.lastModeMedia = combiBAPAudioSource;
         }
-    }
-
-    static {
-        SOURCES_ORDER = new Integer[]{new Integer(0), new Integer(36), new Integer(3), new Integer(4), new Integer(5), new Integer(1), new Integer(2), new Integer(25), new Integer(26), new Integer(17), new Integer(35), new Integer(20), new Integer(10), new Integer(6), new Integer(8), new Integer(11), new Integer(7), new Integer(18), new Integer(19), new Integer(15), new Integer(16), new Integer(13), new Integer(14), new Integer(21), new Integer(22), new Integer(27), new Integer(28), new Integer(12), new Integer(23), new Integer(24), new Integer(29), new Integer(30), new Integer(31), new Integer(33), new Integer(9), new Integer(32), new Integer(34), new Integer(37), new Integer(38), new Integer(39), new Integer(40)};
-        SOURCES_TUNER = SourceListHandler.sourcesTuner();
-        SOURCES_MEDIA = SourceListHandler.sourcesMedia();
-        SOURCES_TV = SourceListHandler.sourcesTv();
-        SOURCES_TERMINALMODE = SourceListHandler.sourcesTerminalMode();
     }
 }
 

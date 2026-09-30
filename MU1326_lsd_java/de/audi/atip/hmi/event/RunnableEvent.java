@@ -8,7 +8,7 @@ import de.audi.atip.hmi.event.ATIPEventListener;
 
 public class RunnableEvent
 extends ATIPEvent {
-    private static final int EVENT_ID;
+    private static final int EVENT_ID = 10501;
     private final boolean processBeforeFirstScreen;
     private final Runnable doRun;
 
@@ -26,7 +26,6 @@ extends ATIPEvent {
         return this.doRun;
     }
 
-    @Override
     public final void dispatch() {
         this.doRun.run();
     }
@@ -36,7 +35,7 @@ extends ATIPEvent {
     }
 
     public final String toString() {
-        return new StringBuffer().append("RunnableEvent(").append(this.doRun).append(')').toString();
+        return "RunnableEvent(" + this.doRun + ')';
     }
 }
 

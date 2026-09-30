@@ -4,11 +4,11 @@
 package de.audi.app.car.core.comfort;
 
 import de.audi.app.car.common.app.ICarApplication;
+import de.audi.app.car.common.power.IPowerEventListener;
 import de.audi.app.car.common.screenstate.IPopupStateListener;
 import de.audi.app.car.core.comfort.IUGDOComponent;
 import de.audi.app.car.core.comfort.IUGDOLearningHandler;
 import de.audi.app.car.core.comfort.IUGDOSynchronizationHandler;
-import de.audi.app.car.core.comfort.UGDOPopupHandler$PowerEventListener;
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
@@ -23,16 +23,16 @@ ButtonListener {
     protected final ICarApplication application;
     private final IUGDOLearningHandler learningHandler;
     private final IUGDOSynchronizationHandler syncHandler;
-    private UGDOPopupHandler$PowerEventListener powerEventListener;
-    protected static final short POPUP_NONE;
+    private PowerEventListener powerEventListener;
+    protected static final short POPUP_NONE = -1;
     protected volatile int currentVisiblePopup = -1;
     protected volatile UGDOContent requestedContent = new UGDOContent();
-    protected static final short REMOVE_REASON_NONE;
-    protected static final short REMOVE_REASON_CANCEL_USER;
-    protected static final short REMOVE_REASON_CANCEL_FSG;
-    protected static final short REMOVE_REASON_CANCEL_BUTTONPRESSED;
-    protected static final short REMOVE_REASON_HIGHER_PRIOR_POPUP;
-    protected static final short REMOVE_REASON_OTHER_UGDO_POPUP;
+    protected static final short REMOVE_REASON_NONE = 0;
+    protected static final short REMOVE_REASON_CANCEL_USER = 1;
+    protected static final short REMOVE_REASON_CANCEL_FSG = 2;
+    protected static final short REMOVE_REASON_CANCEL_BUTTONPRESSED = 3;
+    protected static final short REMOVE_REASON_HIGHER_PRIOR_POPUP = 4;
+    protected static final short REMOVE_REASON_OTHER_UGDO_POPUP = 5;
     protected volatile short removeReason = 0;
     protected volatile int currHardkey = 0;
     private final Object mutex = new Object();
@@ -45,18 +45,18 @@ ButtonListener {
         this.application = iCarApplication;
         this.learningHandler = iUGDOLearningHandler;
         this.syncHandler = iUGDOSynchronizationHandler;
-        this.powerEventListener = new UGDOPopupHandler$PowerEventListener(this, null);
+        this.powerEventListener = new PowerEventListener();
         iCarApplication.getPowerEventDispatcher().addPowerEventListener(this.powerEventListener);
     }
 
     public void init() {
-        this.application.getFrameworkAccess().getHmiServiceApp().getButtonModel(1932069120).setButtonListener(this);
-        this.application.getFrameworkAccess().getHmiServiceApp().getButtonModel(-936834816).setButtonListener(this);
+        this.application.getFrameworkAccess().getHmiServiceApp().getButtonModel(600435).setButtonListener(this);
+        this.application.getFrameworkAccess().getHmiServiceApp().getButtonModel(600520).setButtonListener(this);
     }
 
     public void deinit() {
-        this.application.getFrameworkAccess().getHmiServiceApp().getButtonModel(1932069120).resetListener();
-        this.application.getFrameworkAccess().getHmiServiceApp().getButtonModel(-936834816).resetListener();
+        this.application.getFrameworkAccess().getHmiServiceApp().getButtonModel(600435).resetListener();
+        this.application.getFrameworkAccess().getHmiServiceApp().getButtonModel(600520).resetListener();
         this.currentVisiblePopup = -1;
         this.requestedContent = new UGDOContent();
         this.removeReason = 0;
@@ -66,21 +66,20 @@ ButtonListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "[UGDOPopupHandler#keyPressed] modelID='%1'", (long)n);
+        this.logChannel.log(1000000, "[UGDOPopupHandler#keyPressed] modelID='%1'", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             switch (n) {
                 case 600435: {
-                    this.logChannel.log(1078071040, "[UGDOPopupHandler#keyPressed] user wants to start the learning process...");
+                    this.logChannel.log(1000000, "[UGDOPopupHandler#keyPressed] user wants to start the learning process...");
                     this.triggerUgdoMenuJump(true);
                     this.removePopupByUser();
                     this.setLearningSystemModel(2);
                     break;
                 }
                 case 600520: {
-                    this.logChannel.log(1078071040, "[UGDOPopupHandler#keyPressed] user wants to start the sync process...");
+                    this.logChannel.log(1000000, "[UGDOPopupHandler#keyPressed] user wants to start the sync process...");
                     this.triggerUgdoMenuJump(false);
                     this.removePopupByUser();
                     this.setLearningSystemModel(3);
@@ -91,18 +90,15 @@ ButtonListener {
     }
 
     private void setLearningSystemModel(int n) {
-        this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(1814628608).setValue(n);
+        this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(600428).setValue(n);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
@@ -111,7 +107,7 @@ ButtonListener {
 
     private void setHardkey(int n) {
         this.currHardkey = n;
-        this.application.getFrameworkAccess().getHmiServiceApp().getLabelModel(-970389248).setText(this.convertToRomanNumber(this.currHardkey));
+        this.application.getFrameworkAccess().getHmiServiceApp().getLabelModel(600518).setText(this.convertToRomanNumber(this.currHardkey));
     }
 
     private String convertToRomanNumber(int n) {
@@ -133,20 +129,20 @@ ButtonListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void requestUGDOPopup(UGDOContent uGDOContent) {
-        this.logChannel.log(1078071040, "[UGDOPopupHandler#requestUGDOContent] content: %1", (Object)uGDOContent);
+        this.logChannel.log(1000000, "[UGDOPopupHandler#requestUGDOContent] content: %1", (Object)uGDOContent);
         if (!this.contentCheckOK(uGDOContent)) {
             return;
         }
         Object object = this.mutex;
         synchronized (object) {
             if (this.isStandbyMode()) {
-                this.logChannel.log(1078071040, "[UGDOPopupHandler#requestUGDOContent] standby popup is visible -> refusing ugdo popup");
+                this.logChannel.log(1000000, "[UGDOPopupHandler#requestUGDOContent] standby popup is visible -> refusing ugdo popup");
                 this.refusePopupDisplay();
             } else {
                 switch (uGDOContent.getContent()) {
                     case 0: {
                         if (this.currentVisiblePopup == -1) break;
-                        this.logChannel.log(1078071040, "[UGDOPopupHandler#requestUGDOContent] UGDOCONTENT_IDLE, popup is visible: %1", (long)this.currentVisiblePopup);
+                        this.logChannel.log(1000000, "[UGDOPopupHandler#requestUGDOContent] UGDOCONTENT_IDLE, popup is visible: %1", (long)this.currentVisiblePopup);
                         this.removePopup(this.currentVisiblePopup, (short)2);
                         break;
                     }
@@ -186,7 +182,7 @@ ButtonListener {
                     break;
                 }
                 default: {
-                    this.logChannel.log(1078071040, "[UGDOPopupHandler#acknowledgeUGDOPopup] content not supported: %1", (long)uGDOContent.getContent());
+                    this.logChannel.log(1000000, "[UGDOPopupHandler#acknowledgeUGDOPopup] content not supported: %1", (long)uGDOContent.getContent());
                 }
             }
         }
@@ -206,7 +202,7 @@ ButtonListener {
                     break;
                 }
                 default: {
-                    this.logChannel.log(1078071040, "[UGDOPopupHandler#evaluateReason] content not supported: %1", (long)n);
+                    this.logChannel.log(1000000, "[UGDOPopupHandler#evaluateReason] content not supported: %1", (long)n);
                 }
             }
         }
@@ -215,10 +211,9 @@ ButtonListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPopupVisible(int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[UGDOPopupHandler#notifyPopupVisible] id='%1'", (Object)this.getPopupForLogging(n));
+            this.logChannel.log(1000000, "[UGDOPopupHandler#notifyPopupVisible] id='%1'", (Object)this.getPopupForLogging(n));
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -233,22 +228,21 @@ ButtonListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPopupHidden(int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[UGDOPopupHandler#notifyPopupHidden] id='%1' standby %2 hmiOnMute %3", (Object)this.getPopupForLogging(n), (Object)(this.powerEventListener.isInStandby() ? "true" : "false"), (Object)(this.powerEventListener.isHMIOnMute() ? "true" : "false"));
+            this.logChannel.log(1000000, "[UGDOPopupHandler#notifyPopupHidden] id='%1' standby %2 hmiOnMute %3", (Object)this.getPopupForLogging(n), (Object)(this.powerEventListener.isInStandby() ? "true" : "false"), (Object)(this.powerEventListener.isHMIOnMute() ? "true" : "false"));
         }
         Object object = this.mutex;
         synchronized (object) {
             if (this.isPopupExpectedContent(n, this.requestedContent.getContent())) {
                 if (!this.isStandbyPopupVisible()) {
-                    this.logChannel.log(1078071040, "[UGDOPopupHandler#notifyPopupHidden] id='%1' requestedContent='%2' ugdo popup hidden: other popup in display.", (Object)this.getPopupForLogging(n), (long)this.requestedContent.getContent());
+                    this.logChannel.log(1000000, "[UGDOPopupHandler#notifyPopupHidden] id='%1' requestedContent='%2' ugdo popup hidden: other popup in display.", (Object)this.getPopupForLogging(n), (long)this.requestedContent.getContent());
                     this.removePopup(n, (short)4);
                 } else {
-                    this.logChannel.log(1078071040, "[UGDOPopupHandler#notifyPopupHidden] **standby: show ugdo popup id='%1' requestedContent='%2' ***standby***", (Object)this.getPopupForLogging(n), (long)this.requestedContent.getContent());
+                    this.logChannel.log(1000000, "[UGDOPopupHandler#notifyPopupHidden] **standby: show ugdo popup id='%1' requestedContent='%2' ***standby***", (Object)this.getPopupForLogging(n), (long)this.requestedContent.getContent());
                 }
             } else {
-                this.logChannel.log(1078071040, "[UGDOPopupHandler#notifyPopupHidden] id='%1' requestedContent='%2' ugdo popup replaced by another ugdo popup.", (Object)this.getPopupForLogging(n), (long)this.requestedContent.getContent());
+                this.logChannel.log(1000000, "[UGDOPopupHandler#notifyPopupHidden] id='%1' requestedContent='%2' ugdo popup replaced by another ugdo popup.", (Object)this.getPopupForLogging(n), (long)this.requestedContent.getContent());
                 this.removePopup(n, (short)5);
             }
         }
@@ -269,10 +263,9 @@ ButtonListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPopupRemoved(int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[UGDOPopupHandler#notifyPopupRemoved] id='%1', currentRemoveReason='%2'", (Object)this.getPopupForLogging(n), (long)this.removeReason);
+            this.logChannel.log(1000000, "[UGDOPopupHandler#notifyPopupRemoved] id='%1', currentRemoveReason='%2'", (Object)this.getPopupForLogging(n), (long)this.removeReason);
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -285,17 +278,17 @@ ButtonListener {
     }
 
     protected void showPopupLearning() {
-        this.logChannel.log(1078071040, "[UGDOPopupHandler#showPopupLearning] called");
+        this.logChannel.log(1000000, "[UGDOPopupHandler#showPopupLearning] called");
         this.application.getFrameworkAccess().getHmiServiceApp().showPopup(this.ugdoComponent.getLearningHMIPopupID());
     }
 
     protected void showPopupSynchronize() {
-        this.logChannel.log(1078071040, "[UGDOPopupHandler#showPopupSynchronize] called");
+        this.logChannel.log(1000000, "[UGDOPopupHandler#showPopupSynchronize] called");
         this.application.getFrameworkAccess().getHmiServiceApp().showPopup(this.ugdoComponent.getSyncHMIPopupID());
     }
 
     protected void removePopup(int n, short s) {
-        this.logChannel.log(1078071040, "[UGDOPopupHandler#removePopup] called for ID='%1', reason='%2'", (long)n, (long)s);
+        this.logChannel.log(1000000, "[UGDOPopupHandler#removePopup] called for ID='%1', reason='%2'", (long)n, (long)s);
         this.removeReason = s;
         this.application.getFrameworkAccess().getHmiServiceApp().removePopup(n);
         if (this.removeReason == 4) {
@@ -306,35 +299,35 @@ ButtonListener {
     }
 
     protected void removePopupByUser() {
-        this.logChannel.log(1078071040, "[UGDOPopupHandler#removePopupByUser] called for ID='%1', reason='%2'", (long)this.currentVisiblePopup, 1L);
+        this.logChannel.log(1000000, "[UGDOPopupHandler#removePopupByUser] called for ID='%1', reason='%2'", (long)this.currentVisiblePopup, 1L);
         this.cancelPopupDisplayWithContent();
         this.removeReason = (short)3;
         this.application.getFrameworkAccess().getHmiServiceApp().removePopup(this.currentVisiblePopup);
     }
 
     protected void refusePopupDisplay() {
-        this.dsiLogChannel.log(1078071040, "[UGDOPopupHandler#refusePopupDisplay] ---> DSI.showUGDOPopup(): HMI can not display popup.");
+        this.dsiLogChannel.log(1000000, "[UGDOPopupHandler#refusePopupDisplay] ---> DSI.showUGDOPopup(): HMI can not display popup.");
         this.ugdoComponent.getDSICarComfort().showUGDOPopup(new UGDOContent());
     }
 
     private void cancelPopupDisplay() {
-        this.dsiLogChannel.log(1078071040, "[UGDOPopupHandler#cancelPopupDisplay] ---> DSI.cancelUGDOPopup() called (with default content)");
+        this.dsiLogChannel.log(1000000, "[UGDOPopupHandler#cancelPopupDisplay] ---> DSI.cancelUGDOPopup() called (with default content)");
         this.ugdoComponent.getDSICarComfort().cancelUGDOPopup(new UGDOContent());
     }
 
     protected void cancelPopupDisplayWithContent() {
-        this.dsiLogChannel.log(1078071040, "[UGDOPopupHandler#cancelPopupDisplayWithContent] ---> DSI.cancelUGDOPopup('%1') called", (Object)this.acknowledgeContent);
+        this.dsiLogChannel.log(1000000, "[UGDOPopupHandler#cancelPopupDisplayWithContent] ---> DSI.cancelUGDOPopup('%1') called", (Object)this.acknowledgeContent);
         this.ugdoComponent.getDSICarComfort().cancelUGDOPopup(this.acknowledgeContent);
     }
 
     protected void commitPopupDisplay() {
-        this.dsiLogChannel.log(1078071040, "[UGDOPopupHandler#notifyPopupVisible] ---> DSI.showUGDOPopup(%1) called", (Object)this.requestedContent);
+        this.dsiLogChannel.log(1000000, "[UGDOPopupHandler#notifyPopupVisible] ---> DSI.showUGDOPopup(%1) called", (Object)this.requestedContent);
         this.ugdoComponent.getDSICarComfort().showUGDOPopup(this.requestedContent);
     }
 
     private void triggerUgdoMenuJump(boolean bl) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[UGDOPopupHandler#triggerUgdoMenuJump] trigger jump to '%1'", (Object)(bl ? "Learning" : "Sync"));
+            this.logChannel.log(1000000, "[UGDOPopupHandler#triggerUgdoMenuJump] trigger jump to '%1'", (Object)(bl ? "Learning" : "Sync"));
         }
         ChoiceModelApp choiceModelApp = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(48);
         choiceModelApp.setStatus(bl ? 0 : 1);
@@ -343,11 +336,11 @@ ButtonListener {
 
     private boolean contentCheckOK(UGDOContent uGDOContent) {
         if (uGDOContent.getContent() != 0 && (uGDOContent.getHardkey() < 1 || uGDOContent.getHardkey() > 3)) {
-            this.logChannel.log(-1601830656, "[UGDOPopupHandler#contentCheckOK] hardkey is '%1'; 1-3 supported only; call will be ignored", (long)uGDOContent.getHardkey());
+            this.logChannel.log(100000, "[UGDOPopupHandler#contentCheckOK] hardkey is '%1'; 1-3 supported only; call will be ignored", (long)uGDOContent.getHardkey());
             return false;
         }
         if (uGDOContent.getContent() != 2 && uGDOContent.getContent() != 3 && uGDOContent.getContent() != 0 && uGDOContent.getContent() != 4) {
-            this.logChannel.log(-1601830656, "[UGDOPopupHandler#contentCheckOK] content '%1' not supported; call will be ignored", (long)uGDOContent.getContent());
+            this.logChannel.log(100000, "[UGDOPopupHandler#contentCheckOK] content '%1' not supported; call will be ignored", (long)uGDOContent.getContent());
             return false;
         }
         return true;
@@ -385,8 +378,63 @@ ButtonListener {
         if (n == this.ugdoComponent.getLearningHMIPopupID() && n2 == 2 || n == this.ugdoComponent.getLearningHMIPopupID() && n2 == 3 || n == this.ugdoComponent.getSyncHMIPopupID() && n2 == 4) {
             return true;
         }
-        this.logChannel.log(1078071040, "[UGDOPopupHandler#isPopupExpectedContent] expected popup '%2' (content) and received ID '%1' is not identical", (Object)this.getPopupForLogging(n), (Object)this.getContentForLogging(n2));
+        this.logChannel.log(1000000, "[UGDOPopupHandler#isPopupExpectedContent] expected popup '%2' (content) and received ID '%1' is not identical", (Object)this.getPopupForLogging(n), (Object)this.getContentForLogging(n2));
         return false;
+    }
+
+    private class PowerEventListener
+    implements IPowerEventListener {
+        private volatile boolean isInStandby;
+        private volatile boolean isHMIonMute;
+
+        private PowerEventListener() {
+        }
+
+        public void notifyPowerListenerOnEnterState(int n) {
+            UGDOPopupHandler.this.logChannel.log(1000000, "[UGDOPopupHandler#notifyPowerListenerOnEnterState] Powerevent: '%1'", (long)n);
+            switch (n) {
+                case 2: 
+                case 3: {
+                    this.isInStandby = true;
+                    break;
+                }
+                case 4: {
+                    this.isHMIonMute = true;
+                    break;
+                }
+            }
+        }
+
+        public void notifyPowerListenerOnExitState(int n) {
+            UGDOPopupHandler.this.logChannel.log(1000000, "[UGDOPopupHandler#notifyPowerListenerOnExitState] Powerevent: '%1'", (long)n);
+            switch (n) {
+                case 2: 
+                case 3: {
+                    this.isInStandby = false;
+                    break;
+                }
+                case 0: 
+                case 1: 
+                case 4: {
+                    this.isHMIonMute = false;
+                    break;
+                }
+            }
+        }
+
+        public void notifyPowerTriggerAction(int n) {
+        }
+
+        public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
+        }
+
+        public boolean isInStandby() {
+            return this.isInStandby;
+        }
+
+        public boolean isHMIOnMute() {
+            return this.isHMIonMute;
+        }
     }
 }
 

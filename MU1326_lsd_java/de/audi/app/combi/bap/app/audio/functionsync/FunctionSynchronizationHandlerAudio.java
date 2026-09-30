@@ -11,16 +11,16 @@ import de.vw.mib.bap.generated.audiosd.serializer.InfoStates_Status;
 
 public final class FunctionSynchronizationHandlerAudio
 extends AbstractFunctionSynchronizationHandler {
-    private static final String SYSTEM_PROPERTY_FUNCTION_SYNC_DISABLE_AUDIO;
+    private static final String SYSTEM_PROPERTY_FUNCTION_SYNC_DISABLE_AUDIO = "DisableClusterFunctionSyncAudio";
     private volatile InfoStates_Status infoStatesPending;
 
     public FunctionSynchronizationHandlerAudio(CombiModuleAudio combiModuleAudio) {
         super(combiModuleAudio);
-        this.functionSyncDisabled = Boolean.getBoolean("DisableClusterFunctionSyncAudio");
+        this.functionSyncDisabled = Boolean.getBoolean(SYSTEM_PROPERTY_FUNCTION_SYNC_DISABLE_AUDIO);
     }
 
     public void setInfoStatesPending(InfoStates_Status infoStates_Status) {
-        this.logChannel.log(-2137614336, "[FunctionSynchronizationHandlerAudio#setInfoStatesPending] pending=%1", (Object)infoStates_Status);
+        this.logChannel.log(10000000, "[FunctionSynchronizationHandlerAudio#setInfoStatesPending] pending=%1", (Object)infoStates_Status);
         this.infoStatesPending = infoStates_Status;
     }
 
@@ -36,9 +36,8 @@ extends AbstractFunctionSynchronizationHandler {
         return n == 0 || n == 1 || n == 2 || n == 3 || n == 4 || n == 7 || n == 8;
     }
 
-    @Override
     protected AbstractFunctionSynchronization createFunctionSync(int n) {
-        this.logChannel.log(-2137614336, "[FunctionSynchronizationHandlerAudio#createFunctionSync] create new functionSync of type %1", (long)n);
+        this.logChannel.log(10000000, "[FunctionSynchronizationHandlerAudio#createFunctionSync] create new functionSync of type %1", (long)n);
         return new FunctionSynchronizationAudio(this.moduleFsg, this, n);
     }
 

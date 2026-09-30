@@ -4,7 +4,6 @@
 package de.audi.app.messaging.core.indication;
 
 public interface INewMessageIndicationManagerObserver {
-    default public void indicateIndicationStateChanged(int n) {
-    }
+    public void indicateIndicationStateChanged(int var1);
 }
 

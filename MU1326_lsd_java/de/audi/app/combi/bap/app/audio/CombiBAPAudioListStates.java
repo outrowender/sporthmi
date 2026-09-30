@@ -59,7 +59,7 @@ public final class CombiBAPAudioListStates {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         CombiBAPAudioListStates combiBAPAudioListStates = (CombiBAPAudioListStates)object;

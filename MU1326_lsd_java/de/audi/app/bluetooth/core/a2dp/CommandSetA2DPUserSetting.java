@@ -23,14 +23,12 @@ extends AbstractBluetoothCommand {
         this.active = bl;
     }
 
-    @Override
     public void execute() {
         this.dsiBluetooth.requestSetA2DPUserSetting(this.active);
     }
 
-    @Override
     public void responseSetA2DPUserSetting(int n) {
-        this.logger.log(-2137614336, "CommandSetA2DPUserSetting#responseSetA2DPUserSetting(): result=%1", (long)n);
+        this.logger.log(10000000, "CommandSetA2DPUserSetting#responseSetA2DPUserSetting(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

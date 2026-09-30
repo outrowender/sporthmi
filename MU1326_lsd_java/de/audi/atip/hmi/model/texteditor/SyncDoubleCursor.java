@@ -7,7 +7,7 @@ import de.audi.atip.hmi.model.texteditor.DoubleCursor;
 
 public class SyncDoubleCursor {
     public static final int[] INVALID_DIM = new int[]{-1, -1};
-    public static final String INVALID_STR;
+    public static final String INVALID_STR = "";
     DoubleCursor m_cursor;
 
     public String[] getAlternatives() {
@@ -99,7 +99,7 @@ public class SyncDoubleCursor {
     }
 
     public String current() {
-        String string = "";
+        String string = INVALID_STR;
         string = this.m_cursor.current();
         return string;
     }

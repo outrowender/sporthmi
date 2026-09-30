@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.commands;
 
@@ -18,15 +15,14 @@ import de.audi.tghu.command.CommandList;
 
 public class HMIActivated
 extends AbstractStateHandlerCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "HMIActivated";
 
     public HMIActivated(IContext iContext, IStateHandler iStateHandler) {
-        super(iContext.getLogger().main(), "HMIActivated", iContext, iStateHandler);
+        super(iContext.getLogger().main(), LOGCLASS, iContext, iStateHandler);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"HMIActivated");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
         TMDevice tMDevice = this.context.getDeviceManager().getActiveDevice();
         if (null == tMDevice) {
             this.getCommandList().commandFinished();

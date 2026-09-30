@@ -7,61 +7,42 @@ import de.audi.atip.hmi.model.RangeListener;
 
 public interface VirtualButtonListener
 extends RangeListener {
-    default public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void touchPadPositionMoved(int var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void stickN(int n, int n2) {
-    }
+    public void stickN(int var1, int var2);
 
-    default public void stickNW(int n, int n2) {
-    }
+    public void stickNW(int var1, int var2);
 
-    default public void stickW(int n, int n2) {
-    }
+    public void stickW(int var1, int var2);
 
-    default public void stickSW(int n, int n2) {
-    }
+    public void stickSW(int var1, int var2);
 
-    default public void stickS(int n, int n2) {
-    }
+    public void stickS(int var1, int var2);
 
-    default public void stickSE(int n, int n2) {
-    }
+    public void stickSE(int var1, int var2);
 
-    default public void stickE(int n, int n2) {
-    }
+    public void stickE(int var1, int var2);
 
-    default public void stickNE(int n, int n2) {
-    }
+    public void stickNE(int var1, int var2);
 
-    default public void stickIdle(int n, int n2) {
-    }
+    public void stickIdle(int var1, int var2);
 
-    default public void touchScreenMoved(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void touchScreenMoved(int var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public void touchScreenPressed(int n, int n2, int n3, int n4) {
-    }
+    public void touchScreenPressed(int var1, int var2, int var3, int var4);
 
-    default public void touchScreenLongPressed(int n, int n2, int n3, int n4) {
-    }
+    public void touchScreenLongPressed(int var1, int var2, int var3, int var4);
 
-    default public void touchScreenReleased(int n, int n2, int n3, int n4) {
-    }
+    public void touchScreenReleased(int var1, int var2, int var3, int var4);
 
-    default public void touchScreenDoubleClick(int n, int n2, int n3, int n4) {
-    }
+    public void touchScreenDoubleClick(int var1, int var2, int var3, int var4);
 
-    default public void touchScreenPinch(int n, float f2, int n2, int n3, int n4) {
-    }
+    public void touchScreenPinch(int var1, float var2, int var3, int var4, int var5);
 
-    default public void touchScreenRotate(int n, short s, int n2) {
-    }
+    public void touchScreenRotate(int var1, short var2, int var3);
 
-    default public void touchPadReleased(int n, int n2, int n3) {
-    }
+    public void touchPadReleased(int var1, int var2, int var3);
 
-    default public void touchPadPressed(int n, int n2, int n3) {
-    }
+    public void touchPadPressed(int var1, int var2, int var3);
 }
 

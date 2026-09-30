@@ -6,16 +6,12 @@ package de.audi.atip.hmi.model;
 import de.audi.atip.hmi.model.DragAndDropListener;
 
 public interface IDragAndDropHandler {
-    default public int startDrag(int n, long l, int n2) {
-    }
+    public int startDrag(int var1, long var2, int var4);
 
-    default public void stopDrag(int n, long l, int n2, long l2) {
-    }
+    public void stopDrag(int var1, long var2, int var4, long var5);
 
-    default public void drop(int n, long l, int n2, long l2, int n3, int n4) {
-    }
+    public void drop(int var1, long var2, int var4, long var5, int var7, int var8);
 
-    default public void addListener(DragAndDropListener dragAndDropListener) {
-    }
+    public void addListener(DragAndDropListener var1);
 }
 

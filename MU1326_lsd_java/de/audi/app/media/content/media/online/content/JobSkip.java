@@ -9,7 +9,7 @@ import de.audi.atip.log.LogChannel;
 
 public class JobSkip
 extends AbstractOnlinePlayerJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobSkip";
     private final int count;
 
     public JobSkip(LogChannel logChannel, IOnlinePlayer iOnlinePlayer, int n) {
@@ -17,10 +17,9 @@ extends AbstractOnlinePlayerJob {
         this.count = n;
     }
 
-    @Override
     public void start() {
         if (!this.getPlayer().getState().isSkipSupported()) {
-            this.logger.log(1078071040, "[%1.start] Skip not supported.", (Object)"JobSkip");
+            this.logger.log(1000000, "[%1.start] Skip not supported.", (Object)LOGCLASS);
             this.getExecutionContext().jobFinished();
             return;
         }
@@ -31,19 +30,18 @@ extends AbstractOnlinePlayerJob {
             case 7: 
             case 8: 
             case 9: {
-                this.logger.log(1078071040, "[%1.start] Skip started.", (Object)"JobSkip");
+                this.logger.log(1000000, "[%1.start] Skip started.", (Object)LOGCLASS);
                 this.getPlayer().skip(this.count);
                 this.getExecutionContext().jobFinished();
                 break;
             }
             default: {
-                this.logger.log(1078071040, "[%1.start] Wrong state.", (Object)"JobSkip");
+                this.logger.log(1000000, "[%1.start] Wrong state.", (Object)LOGCLASS);
                 this.getExecutionContext().jobFinished();
             }
         }
     }
 
-    @Override
     public void onAudioSettingsChanged() {
         this.getPlayer().notifyAudioSettings();
     }

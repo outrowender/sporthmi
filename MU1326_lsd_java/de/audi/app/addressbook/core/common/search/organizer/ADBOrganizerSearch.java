@@ -13,43 +13,30 @@ import org.dsi.ifc.organizer.IndexInformation;
 
 public interface ADBOrganizerSearch
 extends ADBSearch {
-    default public EvoListRow[] createSearchListRows(DataSet[] dataSetArray) {
-    }
+    public EvoListRow[] createSearchListRows(DataSet[] var1);
 
-    default public void spellerResult(int n, DataSet[] dataSetArray, int n2, String string, String string2) {
-    }
+    public void spellerResult(int var1, DataSet[] var2, int var3, String var4, String var5);
 
-    default public int getCurrentSpellerHandle() {
-    }
+    public int getCurrentSpellerHandle();
 
-    default public void validateSpellerCharsResult(String string) {
-    }
+    public void validateSpellerCharsResult(String var1);
 
-    default public void setValidHanziChars(String string, int n) {
-    }
+    public void setValidHanziChars(String var1, int var2);
 
-    default public HMIModelApp getListSyncModel() {
-    }
+    public HMIModelApp getListSyncModel();
 
-    default public MatchspellerModelApp getSpellerModel() {
-    }
+    public MatchspellerModelApp getSpellerModel();
 
-    default public void refresh() {
-    }
+    public void refresh();
 
-    default public void refreshByEntryId(long l) {
-    }
+    public void refreshByEntryId(long var1);
 
-    default public void refreshFromStart() {
-    }
+    public void refreshFromStart();
 
-    default public void refreshByPosition() {
-    }
+    public void refreshByPosition();
 
-    default public void setRowOpenState(EvoListRow evoListRow, boolean bl, BaseListModelApp baseListModelApp) {
-    }
+    public void setRowOpenState(EvoListRow var1, boolean var2, BaseListModelApp var3);
 
-    default public void updateAlphabeticalIndex(IndexInformation[] indexInformationArray) {
-    }
+    public void updateAlphabeticalIndex(IndexInformation[] var1);
 }
 

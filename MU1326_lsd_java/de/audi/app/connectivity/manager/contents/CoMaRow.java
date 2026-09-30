@@ -11,29 +11,29 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 public class CoMaRow
 extends EvoListRow
 implements IDeviceSelection {
-    private static final int ENABLED;
-    private static final int DISABLED;
-    private static final int MAX_COLUMN_CONNECT_NEW_DEVICE;
-    private static final int MAX_COLUMN_CATEGORY;
-    private static final int MAX_COLUMN_DEVICE;
-    static final int COLUMN_RECORDSET;
-    private static final int COLUMN_ENABLED;
-    private static final int COLUMN_CATEGORY;
-    static final int COLUMN_NAME;
-    static final int COLUMN_PROPERTY_OBJECT;
-    private static final int COLUMN_DEVICETYPE;
-    static final int COLUMN_KEY;
-    private static final int COLUMN_CONNECTED;
-    private static final int COLUMN_PRIO_RECONNECT;
-    private static final int COLUMN_SMARTPHONE_INTEGRATIONTYPE;
-    private static final int COLUMN_INFOLINE_TEXT_DISABLED;
-    static final int RS_CATEGORY_CLOSED;
-    static final int RS_CATEGORY_OPEN;
-    static final int RS_DEVICE;
-    static final int RS_ACTION_CONNECT;
-    static final int RS_SMARTPHONE_INTEGRATION_DEVICE;
-    static final int INFOLINE_TEXT_DISABLED_WHILE_DRIVING;
-    static final int INFOLINE_TEXT_DISABLED_DEFAULT;
+    private static final int ENABLED = 1;
+    private static final int DISABLED = 0;
+    private static final int MAX_COLUMN_CONNECT_NEW_DEVICE = 11;
+    private static final int MAX_COLUMN_CATEGORY = 7;
+    private static final int MAX_COLUMN_DEVICE = 10;
+    static final int COLUMN_RECORDSET = 0;
+    private static final int COLUMN_ENABLED = 1;
+    private static final int COLUMN_CATEGORY = 2;
+    static final int COLUMN_NAME = 3;
+    static final int COLUMN_PROPERTY_OBJECT = 4;
+    private static final int COLUMN_DEVICETYPE = 5;
+    static final int COLUMN_KEY = 6;
+    private static final int COLUMN_CONNECTED = 7;
+    private static final int COLUMN_PRIO_RECONNECT = 8;
+    private static final int COLUMN_SMARTPHONE_INTEGRATIONTYPE = 9;
+    private static final int COLUMN_INFOLINE_TEXT_DISABLED = 10;
+    static final int RS_CATEGORY_CLOSED = 0;
+    static final int RS_CATEGORY_OPEN = 1;
+    static final int RS_DEVICE = 2;
+    static final int RS_ACTION_CONNECT = 3;
+    static final int RS_SMARTPHONE_INTEGRATION_DEVICE = 4;
+    static final int INFOLINE_TEXT_DISABLED_WHILE_DRIVING = 0;
+    static final int INFOLINE_TEXT_DISABLED_DEFAULT = -1;
 
     CoMaRow(int n, String string) {
         super(n, 7);
@@ -41,7 +41,7 @@ implements IDeviceSelection {
         this.setInteger(1, 1);
         this.setInteger(2, n);
         this.setText(3, string);
-        this.setInteger(5, 128);
+        this.setInteger(5, Integer.MIN_VALUE);
     }
 
     CoMaRow(int n) {
@@ -91,22 +91,18 @@ implements IDeviceSelection {
         this.setInteger(10, bl ? 0 : -1);
     }
 
-    @Override
     public int getType() {
         return this.getInteger(5);
     }
 
-    @Override
     public String getDeviceIdentifier() {
         return this.getText(6);
     }
 
-    @Override
     public String getName() {
         return this.getText(3);
     }
 
-    @Override
     public boolean isConnected() {
         return this.getInteger(7) == 1;
     }
@@ -115,7 +111,6 @@ implements IDeviceSelection {
         return this.getInteger(1) == 1;
     }
 
-    @Override
     public EvoListRow copy() {
         return new CoMaRow(this);
     }

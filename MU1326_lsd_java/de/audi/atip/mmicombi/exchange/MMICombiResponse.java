@@ -48,7 +48,6 @@ extends MMICombiDisplayExchangePacket {
         return this.originalRequest;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(48);
         stringBuffer.append("MMICombiResponse {");

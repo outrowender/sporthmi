@@ -1,17 +1,13 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
- *  de.audi.atip.utils.generics.Generics
  */
 package de.audi.app.terminalmode.smartphone.carlife;
 
 import de.audi.app.terminalmode.IContext;
 import de.audi.app.terminalmode.ITerminalModeComponent;
 import de.audi.app.terminalmode.dsi.carlife.DSICarlifeDefaultListener;
+import de.audi.app.terminalmode.smartphone.TMRequestModeChangeCallback;
 import de.audi.app.terminalmode.smartphone.carlife.ApplicationUpdate;
-import de.audi.app.terminalmode.smartphone.carlife.CarlifeDSIRequestModeHandler$1;
 import de.audi.app.terminalmode.smartphone.carlife.CarlifeListenerDistributor;
 import de.audi.app.terminalmode.smartphone.carlife.DSIMHIConstantsMapper;
 import de.audi.app.terminalmode.smartphone.carlife.ResourceUpdate;
@@ -30,7 +26,7 @@ import org.dsi.ifc.carlife.Resource;
 public class CarlifeDSIRequestModeHandler
 extends DSICarlifeDefaultListener
 implements ITerminalModeComponent {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CarlifeDSIEventMaanager";
     private final LogChannel logger;
     private final IStateHandler stateHandler;
     private final IContext context;
@@ -47,45 +43,38 @@ implements ITerminalModeComponent {
         carlifeListenerDistributor.addListener(new DSICarlifeListener[]{this});
     }
 
-    @Override
     public void init() {
     }
 
-    @Override
     public void deinit() {
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void requestModeChange(Resource[] resourceArray, AppState[] appStateArray) {
         if (!((Boolean)this.stateHandler.getServiceStartedProperty().get()).booleanValue()) {
-            this.logger.log(-1601830656, "[%1.requestModeChange] southside error: before STARTED", (Object)"CarlifeDSIEventMaanager");
+            this.logger.log(100000, "[%1.requestModeChange] southside error: before STARTED", (Object)LOGCLASS);
             TMState tMState = this.stateHandler.getCurrentState();
             this.dsiCarlife.responseModeChange(this.mapper.createResources(tMState), this.mapper.createAppStates(tMState));
             return;
         }
-        GCopyOnWriteList gCopyOnWriteList = Generics.newCopyOnWriteArrayList();
+        GCopyOnWriteList<ResourceUpdate> gCopyOnWriteList = Generics.newCopyOnWriteArrayList();
         for (int i2 = 0; i2 < resourceArray.length; ++i2) {
             de.audi.app.terminalmode.statemachine.Resource resource = this.mapper.mapResource(resourceArray[i2].getResourceID());
-            if (de.audi.app.terminalmode.statemachine.Resource.AUDIO_MEDIA.is(resource) && this.stateHandler.getCurrentState().getStateForResource(de.audi.app.terminalmode.statemachine.Resource.AUDIO_MEDIA).is(new ResourceState[]{ResourceState.PAUSED, ResourceState.PAUSED_BY_MUTE})) continue;
+            if (de.audi.app.terminalmode.statemachine.Resource.AUDIO_MEDIA.is(resource) && this.stateHandler.getCurrentState().getStateForResource(de.audi.app.terminalmode.statemachine.Resource.AUDIO_MEDIA).is((T[])new ResourceState[]{ResourceState.PAUSED, ResourceState.PAUSED_BY_MUTE})) continue;
             gCopyOnWriteList.add(new ResourceUpdate(this.mapper.mapResource(resourceArray[i2].getResourceID()), this.mapper.mapResourceOwner(resourceArray[i2].getOwner())));
         }
-        GCopyOnWriteList gCopyOnWriteList2 = Generics.newCopyOnWriteArrayList();
+        GCopyOnWriteList<ApplicationUpdate> gCopyOnWriteList2 = Generics.newCopyOnWriteArrayList();
         for (int i3 = 0; i3 < appStateArray.length; ++i3) {
             gCopyOnWriteList2.add(new ApplicationUpdate(this.mapper.mapApplication(appStateArray[i3].getAppStateID()), this.mapper.mapAppOwner(appStateArray[i3].getOwner())));
         }
-        this.context.getCommandListHelper().create().addSingle(new UpdateCarlifeModes(this.context, gCopyOnWriteList, gCopyOnWriteList2, this.stateHandler, new CarlifeDSIRequestModeHandler$1(this))).execute("CarlifeDSIEventMaanager.updateCarlifeModes");
-    }
+        this.context.getCommandListHelper().create().addSingle(new UpdateCarlifeModes(this.context, gCopyOnWriteList, gCopyOnWriteList2, this.stateHandler, new TMRequestModeChangeCallback(){
 
-    static /* synthetic */ DSIMHIConstantsMapper access$000(CarlifeDSIRequestModeHandler carlifeDSIRequestModeHandler) {
-        return carlifeDSIRequestModeHandler.mapper;
-    }
-
-    static /* synthetic */ DSICarlife access$100(CarlifeDSIRequestModeHandler carlifeDSIRequestModeHandler) {
-        return carlifeDSIRequestModeHandler.dsiCarlife;
+            public void modeChanged(TMState tMState) {
+                CarlifeDSIRequestModeHandler.this.dsiCarlife.responseModeChange(CarlifeDSIRequestModeHandler.this.mapper.createResources(tMState), CarlifeDSIRequestModeHandler.this.mapper.createAppStates(tMState));
+            }
+        })).execute("CarlifeDSIEventMaanager.updateCarlifeModes");
     }
 }
 

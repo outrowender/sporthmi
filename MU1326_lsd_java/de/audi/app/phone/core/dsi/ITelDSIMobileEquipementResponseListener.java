@@ -12,118 +12,80 @@ import org.dsi.ifc.telephoneng.SuppServiceResponseStruct;
 
 public interface ITelDSIMobileEquipementResponseListener
 extends DSIListener {
-    default public void responseAbortNetworkRegistration(int n) {
-    }
+    public void responseAbortNetworkRegistration(int var1);
 
-    default public void responseAbortNetworkSearch(int n) {
-    }
+    public void responseAbortNetworkSearch(int var1);
 
-    default public void responseAcceptCall(int n) {
-    }
+    public void responseAcceptCall(int var1);
 
-    default public void responseCallForward(CFResponseData[] cFResponseDataArray, int n) {
-    }
+    public void responseCallForward(CFResponseData[] var1, int var2);
 
-    default public void responseCallWaiting(int n, int n2) {
-    }
+    public void responseCallWaiting(int var1, int var2);
 
-    default public void responseChangeSIMCode(int n, int n2) {
-    }
+    public void responseChangeSIMCode(int var1, int var2);
 
-    default public void responseCLIR(int n, int n2, int n3) {
-    }
+    public void responseCLIR(int var1, int var2, int var3);
 
-    default public void responseDialNumber(int n, SuppServiceResponseStruct suppServiceResponseStruct) {
-    }
+    public void responseDialNumber(int var1, SuppServiceResponseStruct var2);
 
-    default public void responseHangupCall(int n) {
-    }
+    public void responseHangupCall(int var1);
 
-    default public void responseJoinCalls(int n) {
-    }
+    public void responseJoinCalls(int var1);
 
-    default public void responseNetworkRegistration(int n) {
-    }
+    public void responseNetworkRegistration(int var1);
 
-    default public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n) {
-    }
+    public void responseNetworkSearch(NetworkProvider[] var1, int var2);
 
-    default public void responseRestoreFactorySettings(int n) {
-    }
+    public void responseRestoreFactorySettings(int var1);
 
-    default public void responseSendDTMF(int n) {
-    }
+    public void responseSendDTMF(int var1);
 
-    default public void responseServiceCodeAbort(int n) {
-    }
+    public void responseServiceCodeAbort(int var1);
 
-    default public void responseSetAutomaticEmergencyCallActive(int n) {
-    }
+    public void responseSetAutomaticEmergencyCallActive(int var1);
 
-    default public void responseSetAutomaticPinEntryActive(int n) {
-    }
+    public void responseSetAutomaticPinEntryActive(int var1);
 
-    default public void responseSetAutomaticRedialActive(int n) {
-    }
+    public void responseSetAutomaticRedialActive(int var1);
 
-    default public void responseSetCDMAThreeWayCallingSetting(int n) {
-    }
+    public void responseSetCDMAThreeWayCallingSetting(int var1);
 
-    default public void responseSetESIMActive(int n) {
-    }
+    public void responseSetESIMActive(int var1);
 
-    default public void responseSetHandsFreeMode(int n) {
-    }
+    public void responseSetHandsFreeMode(int var1);
 
-    default public void responseSetMailboxContent(int n) {
-    }
+    public void responseSetMailboxContent(int var1);
 
-    default public void responseSetMICMuteState(int n) {
-    }
+    public void responseSetMICMuteState(int var1);
 
-    default public void responseSetNADMode(int n, int n2) {
-    }
+    public void responseSetNADMode(int var1, int var2);
 
-    default public void responseSetOptimizationMode(int n, int n2) {
-    }
+    public void responseSetOptimizationMode(int var1, int var2);
 
-    default public void responseSetPhoneReminderSetting(int n) {
-    }
+    public void responseSetPhoneReminderSetting(int var1);
 
-    default public void responseSetPhoneRingtone(int n) {
-    }
+    public void responseSetPhoneRingtone(int var1);
 
-    default public void responseSetPrivacyMode(int n) {
-    }
+    public void responseSetPrivacyMode(int var1);
 
-    default public void responseSIMPINRequired(int n) {
-    }
+    public void responseSIMPINRequired(int var1);
 
-    default public void responseSplitCall(int n) {
-    }
+    public void responseSplitCall(int var1);
 
-    default public void responseSwapCalls(int n) {
-    }
+    public void responseSwapCalls(int var1);
 
-    default public void responseTelPower(int n) {
-    }
+    public void responseTelPower(int var1);
 
-    default public void responseUnlockOtherSIM(int n) {
-    }
+    public void responseUnlockOtherSIM(int var1);
 
-    default public void responseUnlockSIM(int n) {
-    }
+    public void responseUnlockSIM(int var1);
 
-    default public void responseChangeTopology(int n) {
-    }
+    public void responseChangeTopology(int var1);
 
-    default public void updateServiceCodeType(ServiceCodeTypeStruct serviceCodeTypeStruct, int n) {
-    }
+    public void updateServiceCodeType(ServiceCodeTypeStruct var1, int var2);
 
-    default public void updateLockState(LockStateStruct lockStateStruct, int n) {
-    }
+    public void updateLockState(LockStateStruct var1, int var2);
 
-    default public void responseDialOperator(int n, SuppServiceResponseStruct suppServiceResponseStruct) {
-    }
+    public void responseDialOperator(int var1, SuppServiceResponseStruct var2);
 }
 

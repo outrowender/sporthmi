@@ -7,10 +7,10 @@ import de.audi.atip.hmi.model.texteditor.MLCursor;
 import de.audi.atip.hmi.modelaccess.ICopyTo;
 
 public class MLUtils {
-    public static final int WORD_TYPE_SPACE;
-    public static final int WORD_TYPE_DELIMITER;
-    public static final int WORD_TYPE_ALPHANUM;
-    public static final int WORD_TYPE_BREAK;
+    public static final int WORD_TYPE_SPACE = 0;
+    public static final int WORD_TYPE_DELIMITER = 1;
+    public static final int WORD_TYPE_ALPHANUM = 2;
+    public static final int WORD_TYPE_BREAK = 3;
 
     public static int getCharType(char c2) {
         int n = 1;
@@ -74,10 +74,10 @@ public class MLUtils {
     public static float specialRound(float f2) {
         float f3 = (float)Math.floor(f2);
         float f4 = (float)Math.ceil(f2);
-        if (Math.abs(f2 - f4) < 397922616) {
+        if (Math.abs(f2 - f4) < 1.0E-4f) {
             return f4;
         }
-        if (Math.abs(f2 - f3) < 397922616) {
+        if (Math.abs(f2 - f3) < 1.0E-4f) {
             return f3;
         }
         return f3;

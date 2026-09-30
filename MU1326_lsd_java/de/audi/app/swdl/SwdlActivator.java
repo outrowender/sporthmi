@@ -42,7 +42,6 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$base$ComponentStateListener;
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.swdlEnv = new SwdlEnv(this.getFramework(), new SwdlTextFactoryEvo());
@@ -107,7 +106,6 @@ implements ServiceTrackerCustomizer {
         this.registerService(new String[]{(class$de$audi$atip$statemachine$ActionProxy == null ? (class$de$audi$atip$statemachine$ActionProxy = SwdlActivator.class$("de.audi.atip.statemachine.ActionProxy")) : class$de$audi$atip$statemachine$ActionProxy).getName()}, (Object)this.abstractCustDownloadActionProxy, (Dictionary)hashtable2);
     }
 
-    @Override
     protected AbstractSwdlDiagnosisGateway getDiagnosisGateway() {
         if (null == this.swdlDiagnosisGateway) {
             this.swdlDiagnosisGateway = new SwdlDiagnosisGatewayEvo(this.swdlEnv, this.abstractSwdlJoinedDownloadState, this.abstractPopupManager, this.swdlDSIManager, this.abstractPopupManager.getId());

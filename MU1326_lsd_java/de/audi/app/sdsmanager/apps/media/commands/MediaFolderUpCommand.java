@@ -19,16 +19,15 @@ extends AbstractSystemCallCommand {
         this.mediaSDSService = iMediaSDSService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         this.mediaSDSService.folderUp();
     }
 
     public void sendFolderUpReply(int n) {
-        this.logger.log(-2137614336, "%1#sendFolderUpReply folderUpReply=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#sendFolderUpReply folderUpReply=%2!", (Object)this.getName(), (long)n);
         int n2 = SDSUtils.translate(n, this.results);
-        this.sendResult(n2 == 128 ? 20001 : n2);
+        this.sendResult(n2 == Integer.MIN_VALUE ? 20001 : n2);
     }
 }
 

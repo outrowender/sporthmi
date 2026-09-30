@@ -48,54 +48,44 @@ SDISConnectionStateListener {
         if (networkArray == null) {
             return;
         }
-        this.log.log(1078071040, "ComaWlanListener#updateTrustedWlanNetworks(): %1", (Object)StringUtils.toString(networkArray));
+        this.log.log(1000000, "ComaWlanListener#updateTrustedWlanNetworks(): %1", (Object)StringUtils.toString(networkArray));
         this.networks = networkArray;
         this.update();
     }
 
-    @Override
     public void updateMESlotInfo(ITelMESlotState iTelMESlotState, ITelMESlotState iTelMESlotState2, ITelMESlotState iTelMESlotState3) {
-        this.log.log(-2137614336, "ComaWlanListener#updateMESlotInfo(): %1", (Object)iTelMESlotState3);
+        this.log.log(10000000, "ComaWlanListener#updateMESlotInfo(): %1", (Object)iTelMESlotState3);
         this.isDataUsedByNAD = iTelMESlotState3 != null && iTelMESlotState3.isDevicePossiblyAvailable();
-        this.log.log(-2137614336, "ComaWlanListener#updateMESlotInfo(): %1", this.isDataUsedByNAD);
+        this.log.log(10000000, "ComaWlanListener#updateMESlotInfo(): %1", this.isDataUsedByNAD);
         this.update();
     }
 
-    @Override
     public void updatePhoneState(int n, int n2) {
     }
 
-    @Override
     public void updateESIMInfo(String string, String string2, boolean bl, boolean bl2) {
     }
 
-    @Override
     public void telAppEntered() {
     }
 
-    @Override
     public void telAppLeft() {
     }
 
-    @Override
     public void telUnlockEntered() {
     }
 
-    @Override
     public void telUnlockLeft() {
     }
 
-    @Override
     public void updateConnectedGatewayState(boolean bl) {
     }
 
-    @Override
     public void init() {
         this.registration = this.coma.getBundleContext().registerService((class$de$audi$atip$interapp$IConnectivityPhoneStateListener == null ? (class$de$audi$atip$interapp$IConnectivityPhoneStateListener = ComaWlanListener.class$("de.audi.atip.interapp.IConnectivityPhoneStateListener")) : class$de$audi$atip$interapp$IConnectivityPhoneStateListener).getName(), (Object)this, null);
         this.sdisConStateListenerRegistration = this.coma.getBundleContext().registerService((class$de$audi$atip$interapp$SDISConnectionStateListener == null ? (class$de$audi$atip$interapp$SDISConnectionStateListener = ComaWlanListener.class$("de.audi.atip.interapp.SDISConnectionStateListener")) : class$de$audi$atip$interapp$SDISConnectionStateListener).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         this.registration.unregister();
         this.registration = null;
@@ -103,9 +93,8 @@ SDISConnectionStateListener {
         this.sdisConStateListenerRegistration = null;
     }
 
-    @Override
     public void updateSdisConnected(boolean bl) {
-        this.log.log(1078071040, "ComaWlanListener#updateSdisConnected(): isSdis connected = %1", bl);
+        this.log.log(1000000, "ComaWlanListener#updateSdisConnected(): isSdis connected = %1", bl);
         this.isSdisConnected = bl;
         this.update();
     }

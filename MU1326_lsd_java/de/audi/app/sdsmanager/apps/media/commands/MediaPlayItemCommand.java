@@ -13,7 +13,7 @@ import de.audi.app.sdsmanager.nbest.IPicklistSlot;
 import de.audi.app.sdsmanager.nbest.NBestStorageAccess;
 import de.audi.app.sdsmanager.oneshot.OneshotHandler;
 import de.audi.app.sdsmanager.syscall.ISystemCallParameter;
-import de.audi.atip.interapp.NaviService$OneshotData;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.interapp.media.IMediaSDSService;
 import de.audi.atip.log.LogChannel;
 
@@ -35,12 +35,11 @@ implements IMediaPlayItemCommand {
         this.mediaSDSHandler = mediaSDSHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] called, listmode %2", (Object)this.getName(), (long)this.listmode);
+        this.logger.log(10000000, "[%1#execute] called, listmode %2", (Object)this.getName(), (long)this.listmode);
         long l = 0L;
         l = MediaSDSUtils.isOneshotListmode(this.listmode) ? this.getEntryIDForMultiSlot() : this.getEntryIDForSingleSlot();
-        this.logger.log(-2137614336, "[%1#execute] entryID for selection=%2!", (Object)this.getName(), l);
+        this.logger.log(10000000, "[%1#execute] entryID for selection=%2!", (Object)this.getName(), l);
         if (l == 0L) {
             this.sendResult(20001);
             return;
@@ -62,7 +61,7 @@ implements IMediaPlayItemCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "[%1#execute] unhandled listmode=%2", (Object)this.getName(), (long)this.listmode);
+                this.logger.log(100000, "[%1#execute] unhandled listmode=%2", (Object)this.getName(), (long)this.listmode);
                 return;
             }
         }
@@ -75,37 +74,35 @@ implements IMediaPlayItemCommand {
             n = 0;
         }
         if ((iPicklistSlot = this.nBestStorage.getSlotForPicklistElement(0, n, (byte)0, this.lastRecog)) == null) {
-            this.logger.log(-1601830656, "[%1#execute] Slot 0 for Picklist-Element at position %2 not found!", (Object)this.getName(), (long)n);
+            this.logger.log(100000, "[%1#execute] Slot 0 for Picklist-Element at position %2 not found!", (Object)this.getName(), (long)n);
             return 0L;
         }
         return iPicklistSlot.getObjID();
     }
 
     private long getEntryIDForMultiSlot() {
-        NaviService$OneshotData naviService$OneshotData = this.getMediaItemFromOneshot();
-        if (naviService$OneshotData == null || naviService$OneshotData.getObjId() == -1L) {
+        NaviService.OneshotData oneshotData = this.getMediaItemFromOneshot();
+        if (oneshotData == null || oneshotData.getObjId() == -1L) {
             return 0L;
         }
-        this.logger.log(-1601830656, "[%1#getEntryIDForMultiSlot] Selected item: %2 (%3)!", (Object)this.getName(), (Object)naviService$OneshotData.getText(), naviService$OneshotData.getObjId());
-        return naviService$OneshotData.getObjId();
+        this.logger.log(100000, "[%1#getEntryIDForMultiSlot] Selected item: %2 (%3)!", (Object)this.getName(), (Object)oneshotData.getText(), oneshotData.getObjId());
+        return oneshotData.getObjId();
     }
 
-    private NaviService$OneshotData getMediaItemFromOneshot() {
+    private NaviService.OneshotData getMediaItemFromOneshot() {
         OneshotHandler oneshotHandler = this.mediaSDSHandler.getOneshotHandler();
-        NaviService$OneshotData naviService$OneshotData = null;
-        for (int i2 = 2; i2 >= 0 && (naviService$OneshotData = oneshotHandler.getOneshotData(i2)).getText().equals(""); --i2) {
+        NaviService.OneshotData oneshotData = null;
+        for (int i2 = 2; i2 >= 0 && (oneshotData = oneshotHandler.getOneshotData(i2)).getText().equals(""); --i2) {
         }
-        return naviService$OneshotData;
+        return oneshotData;
     }
 
-    @Override
     protected void handleSDSLineNumbering() {
         SDSUtils.updateSDSNumbers(false);
     }
 
-    @Override
     public void playItemResult(byte by) {
-        this.logger.log(-2137614336, "[%1#playItemResult] successful=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#playItemResult] successful=%2", (Object)this.getName(), (long)by);
         this.sendResult(by == 0 ? 20000 : 20001);
     }
 }

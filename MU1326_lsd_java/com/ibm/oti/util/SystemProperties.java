@@ -6,7 +6,6 @@ package com.ibm.oti.util;
 import java.util.Hashtable;
 
 public interface SystemProperties {
-    default public void extendSystemProperties(Hashtable hashtable) {
-    }
+    public void extendSystemProperties(Hashtable var1);
 }
 

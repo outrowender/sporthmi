@@ -18,9 +18,8 @@ extends AbstractADBCommand {
         this.speedDialIDs = lArray;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "TelADBDeleteSpecificSpeedDialFavoritesCommand#execute()");
+        this.logger.log(1000000, "TelADBDeleteSpecificSpeedDialFavoritesCommand#execute()");
         boolean bl = this.adbDSIAccess.deleteEntries(this.speedDialIDs, 4, 0);
         if (!bl) {
             this.logger.log(10000, "TelADBDeleteSpecificSpeedDialFavoritesCommand#execute(): dsi call was not successful, finishing command.");
@@ -28,9 +27,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void deleteEntriesResult(int n) {
-        this.logger.log(1078071040, "TelADBDeleteSpecificSpeedDialFavoritesCommand#deleteEntriesResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "TelADBDeleteSpecificSpeedDialFavoritesCommand#deleteEntriesResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

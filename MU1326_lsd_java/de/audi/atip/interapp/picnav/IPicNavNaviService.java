@@ -9,112 +9,76 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface IPicNavNaviService {
-    default public void initInterface(ListModelApp listModelApp, ListModelApp listModelApp2) {
-    }
+    public void initInterface(ListModelApp var1, ListModelApp var2);
 
-    default public void createPicNavLocation(NavLocation navLocation, ResourceLocator resourceLocator) {
-    }
+    public void createPicNavLocation(NavLocation var1, ResourceLocator var2);
 
-    default public void tagPicNavLocationAsImplicit(NavLocation navLocation) {
-    }
+    public void tagPicNavLocationAsImplicit(NavLocation var1);
 
-    default public boolean isPicNavLocation(NavLocation navLocation) {
-    }
+    public boolean isPicNavLocation(NavLocation var1);
 
-    default public void focusPreviewMapOnSingleEvent(NavLocation navLocation) {
-    }
+    public void focusPreviewMapOnSingleEvent(NavLocation var1);
 
-    default public void focusPreviewMapOnMultipleEvents(NavLocation[] navLocationArray) {
-    }
+    public void focusPreviewMapOnMultipleEvents(NavLocation[] var1);
 
-    default public boolean isImplicitNavLocation(NavLocation navLocation) {
-    }
+    public boolean isImplicitNavLocation(NavLocation var1);
 
-    default public void addToFavorites(NavLocation navLocation, String string) {
-    }
+    public void addToFavorites(NavLocation var1, String var2);
 
-    default public ResourceLocator getPictureFromPicNavLocation(NavLocation navLocation) {
-    }
+    public ResourceLocator getPictureFromPicNavLocation(NavLocation var1);
 
-    default public boolean isPositionValid(NavLocation navLocation) {
-    }
+    public boolean isPositionValid(NavLocation var1);
 
-    default public boolean isMapFrozen() {
-    }
+    public boolean isMapFrozen();
 
-    default public boolean isGoogleActive() {
-    }
+    public boolean isGoogleActive();
 
-    default public String getStreetForPicNavLocation(NavLocation navLocation) {
-    }
+    public String getStreetForPicNavLocation(NavLocation var1);
 
-    default public String getCityForPicNavLocation(NavLocation navLocation) {
-    }
+    public String getCityForPicNavLocation(NavLocation var1);
 
-    default public String getCountryForPicNavLocation(NavLocation navLocation) {
-    }
+    public String getCountryForPicNavLocation(NavLocation var1);
 
-    default public void resolveLocation(String string, String string2, ResourceLocator resourceLocator) {
-    }
+    public void resolveLocation(String var1, String var2, ResourceLocator var3);
 
-    default public void prepareStartRouteGuidance() {
-    }
+    public void prepareStartRouteGuidance();
 
-    default public void startRouteGuidance(NavLocation navLocation, boolean bl) {
-    }
+    public void startRouteGuidance(NavLocation var1, boolean var2);
 
-    default public void addAsStopOver(NavLocation navLocation) {
-    }
+    public void addAsStopOver(NavLocation var1);
 
-    default public void showPictureMap(NavLocation navLocation) {
-    }
+    public void showPictureMap(NavLocation var1);
 
-    default public void hidePictureMap() {
-    }
+    public void hidePictureMap();
 
-    default public String getPicNavDistance(NavLocation navLocation) {
-    }
+    public String getPicNavDistance(NavLocation var1);
 
-    default public void showPictureNavLocationOnMap(NavLocation navLocation, int n, ResourceLocator resourceLocator, boolean bl) {
-    }
+    public void showPictureNavLocationOnMap(NavLocation var1, int var2, ResourceLocator var3, boolean var4);
 
-    default public void resetEditInputMode() {
-    }
+    public void resetEditInputMode();
 
-    default public void handlePicNavCurrentState(NavLocation navLocation, LogChannel logChannel) {
-    }
+    public void handlePicNavCurrentState(NavLocation var1, LogChannel var2);
 
-    default public void handlePicNavMapCurrentState(NavLocation navLocation, LogChannel logChannel) {
-    }
+    public void handlePicNavMapCurrentState(NavLocation var1, LogChannel var2);
 
-    default public NavLocation getCCP() {
-    }
+    public NavLocation getCCP();
 
-    default public int computeAirDistanceToCCP(int n, int n2) {
-    }
+    public int computeAirDistanceToCCP(int var1, int var2);
 
-    default public double[] getDistanceCoordinatesFromLocation(NavLocation navLocation, int n) {
-    }
+    public double[] getDistanceCoordinatesFromLocation(NavLocation var1, int var2);
 
-    default public NavLocation getFinalDestination() {
-    }
+    public NavLocation getFinalDestination();
 
-    default public int getADBActiveProfile() {
-    }
+    public int getADBActiveProfile();
 
-    default public void startStoringAddress(NavLocation navLocation) {
-    }
+    public void startStoringAddress(NavLocation var1);
 
-    default public void parkingNearDestination(NavLocation navLocation) {
-    }
+    public void parkingNearDestination(NavLocation var1);
 
-    default public void addToADB(NavLocation navLocation) {
-    }
+    public void addToADB(NavLocation var1);
 
-    default public void showDestinationInMap(NavLocation navLocation) {
-    }
+    public void showDestinationInMap(NavLocation var1);
 
-    default public void enterPreviewMapScreen() {
-    }
+    public void enterPreviewMapScreen();
 }
 

@@ -32,7 +32,6 @@ extends TelDialNumberCmd {
         this.adbPhoneDataCount = n2;
     }
 
-    @Override
     public void execute() {
         if (this.dsi != null) {
             if (this.logger.isInfo()) {
@@ -60,12 +59,12 @@ extends TelDialNumberCmd {
                 buffer.append(", ");
                 buffer.append("adbPhoneDataCount=");
                 buffer.append(this.adbPhoneDataCount);
-                this.logger.log(1078071040, "[TelDialNumberFromADBEntryCmd#execute] %1", (Object)buffer);
+                this.logger.log(1000000, "[TelDialNumberFromADBEntryCmd#execute] %1", (Object)buffer);
             }
             if (this.isDSIAvailable()) {
                 this.dsi.dialNumberFromDBEntry(this.telNumber, this.telDBEntryId, this.telDBName, this.telPhoneType, this.telEntryType, this.telDBPicture, this.telDBPhoneNumberIndex, this.adbPhoneDataCount);
             } else {
-                this.logger.log(-1601830656, "[TelDialNumberFromADBEntryCmd#execute] dsi is null!");
+                this.logger.log(100000, "[TelDialNumberFromADBEntryCmd#execute] dsi is null!");
                 this.getCommandList().commandFinished();
             }
         }

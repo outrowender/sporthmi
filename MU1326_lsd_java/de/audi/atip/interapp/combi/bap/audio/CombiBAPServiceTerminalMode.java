@@ -9,10 +9,8 @@ import de.audi.atip.interapp.combi.bap.audio.data.PlayPosition;
 
 public interface CombiBAPServiceTerminalMode
 extends CombiBAPServiceAudio {
-    default public void updateSourceListTerminalMode(int[] nArray, CombiBAPAudioSource[][] combiBAPAudioSourceArray) {
-    }
+    public void updateSourceListTerminalMode(int[] var1, CombiBAPAudioSource[][] var2);
 
-    default public void updatePlayPosition(PlayPosition playPosition) {
-    }
+    public void updatePlayPosition(PlayPosition var1);
 }
 

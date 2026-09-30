@@ -27,23 +27,19 @@ implements SMSyncTarget {
         this.syncTargetManager = syncTargetManager;
     }
 
-    @Override
     public void activate(SyncTargetProcessor syncTargetProcessor) {
         this.active = true;
         this.activated(syncTargetProcessor);
     }
 
-    @Override
     public void deactivate() {
         this.active = false;
     }
 
-    @Override
     public boolean isActive() {
         return this.active;
     }
 
-    @Override
     public void resetTrigger() {
         this.triggered = false;
     }
@@ -56,7 +52,6 @@ implements SMSyncTarget {
         this.triggered = true;
     }
 
-    @Override
     public boolean triggerSync(SyncTargetProcessor syncTargetProcessor, int n) {
         if (this.syncEventID != n) {
             return false;
@@ -64,10 +59,8 @@ implements SMSyncTarget {
         return this.execute(syncTargetProcessor);
     }
 
-    public abstract boolean execute(SyncTargetProcessor syncTargetProcessor) {
-    }
+    public abstract boolean execute(SyncTargetProcessor var1);
 
-    public abstract void activated(SyncTargetProcessor syncTargetProcessor) {
-    }
+    public abstract void activated(SyncTargetProcessor var1);
 }
 

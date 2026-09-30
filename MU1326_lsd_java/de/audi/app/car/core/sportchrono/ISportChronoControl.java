@@ -4,10 +4,8 @@
 package de.audi.app.car.core.sportchrono;
 
 public interface ISportChronoControl {
-    default public void controlToggleStartStop() {
-    }
+    public void controlToggleStartStop();
 
-    default public void controlSetNewLap() {
-    }
+    public void controlSetNewLap();
 }
 

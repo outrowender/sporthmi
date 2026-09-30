@@ -6,37 +6,28 @@ package de.audi.atip.interapp.displaymanager;
 import de.audi.atip.interapp.displaymanager.IDisplayManagerServiceListener;
 
 public interface IDisplayManagerService {
-    public static final int RATIO_4_3;
-    public static final int RATIO_16_9;
-    public static final int RATIO_15_9;
-    public static final int RATIO_47_20;
-    public static final int RATIO_ZOOM;
+    public static final int RATIO_4_3 = 0;
+    public static final int RATIO_16_9 = 1;
+    public static final int RATIO_15_9 = 2;
+    public static final int RATIO_47_20 = 3;
+    public static final int RATIO_ZOOM = 4;
 
-    default public void activateComponent(int n, IDisplayManagerServiceListener iDisplayManagerServiceListener) {
-    }
+    public void activateComponent(int var1, IDisplayManagerServiceListener var2);
 
-    default public void deactivateComponent(int n, IDisplayManagerServiceListener iDisplayManagerServiceListener) {
-    }
+    public void deactivateComponent(int var1, IDisplayManagerServiceListener var2);
 
-    default public void activateComponent(int n) {
-    }
+    public void activateComponent(int var1);
 
-    default public void deactivateComponent(int n) {
-    }
+    public void deactivateComponent(int var1);
 
-    default public void activateComponentRVC(int n) {
-    }
+    public void activateComponentRVC(int var1);
 
-    default public void deactivateComponentRVC(int n) {
-    }
+    public void deactivateComponentRVC(int var1);
 
-    default public void setCropping(int n, int n2, int n3, int n4, IDisplayManagerServiceListener iDisplayManagerServiceListener) {
-    }
+    public void setCropping(int var1, int var2, int var3, int var4, IDisplayManagerServiceListener var5);
 
-    default public void setCropping(int n, int n2, int n3, int n4, int n5, int n6, IDisplayManagerServiceListener iDisplayManagerServiceListener) {
-    }
+    public void setCropping(int var1, int var2, int var3, int var4, int var5, int var6, IDisplayManagerServiceListener var7);
 
-    default public int getCurrentDisplayable() {
-    }
+    public int getCurrentDisplayable();
 }
 

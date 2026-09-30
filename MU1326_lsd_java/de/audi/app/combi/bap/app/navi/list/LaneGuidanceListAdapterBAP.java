@@ -26,14 +26,12 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 24, laneGuidanceHandler);
     }
 
-    @Override
     protected void sendStatusRequest(GetArrayIndication getArrayIndication, CombiBAPArrayElement[] combiBAPArrayElementArray, StatusArray statusArray) {
         LaneGuidance_StatusArray laneGuidance_StatusArray = (LaneGuidance_StatusArray)statusArray;
         laneGuidance_StatusArray.laneGuidanceOnOff = ((LaneGuidanceHandler)this.listHandler).isLaneGuidanceEnabled() ? 1 : 0;
         super.sendStatusRequest(getArrayIndication, combiBAPArrayElementArray, laneGuidance_StatusArray);
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[0] || blArray[1] || blArray[2];
         boolean bl2 = blArray[0] || blArray[1];
@@ -45,7 +43,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPNaviLaneGuidanceData.getRecordAddress(false, bl, bl2, bl3, bl4, bl5, bl6, bl7);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         LaneGuidance_LaneGuidance laneGuidance_LaneGuidance = new LaneGuidance_LaneGuidance(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPNaviLaneGuidanceData) {
@@ -59,26 +56,23 @@ extends AbstractListAdapterBAP {
             laneGuidance_LaneGuidance.laneDescription = combiBAPNaviLaneGuidanceData.getLaneDescription();
             laneGuidance_LaneGuidance.guidanceInfo = combiBAPNaviLaneGuidanceData.getGuidanceInfo();
         } else {
-            this.logChannel.log(10000, "[LaneGuidanceListAdapterBAP#convertLaneGuidanceData] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPNaviLaneGuidanceData == null ? (class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPNaviLaneGuidanceData = LaneGuidanceListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviLaneGuidanceData")) : class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPNaviLaneGuidanceData).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[LaneGuidanceListAdapterBAP#convertLaneGuidanceData] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPNaviLaneGuidanceData == null ? (class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPNaviLaneGuidanceData = LaneGuidanceListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviLaneGuidanceData")) : class$de$audi$atip$interapp$combi$bap$navi$data$CombiBAPNaviLaneGuidanceData).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return laneGuidance_LaneGuidance;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         LaneGuidance_LaneGuidance laneGuidance_LaneGuidance = new LaneGuidance_LaneGuidance(arrayHeader);
         laneGuidance_LaneGuidance.setPos(n);
         return laneGuidance_LaneGuidance;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         LaneGuidance_ChangedArray laneGuidance_ChangedArray = new LaneGuidance_ChangedArray();
         laneGuidance_ChangedArray.laneGuidanceOnOff = ((LaneGuidanceHandler)this.listHandler).isLaneGuidanceEnabled() ? 1 : 0;
         return laneGuidance_ChangedArray;
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new LaneGuidance_StatusArray();
     }

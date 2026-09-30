@@ -20,7 +20,6 @@ extends Provider {
         super(n, n2);
     }
 
-    @Override
     final void destroyKey(Key key) {
         if (key instanceof CL3BasedKey) {
             CL3BasedKey cL3BasedKey = (CL3BasedKey)key;
@@ -29,8 +28,7 @@ extends Provider {
         }
     }
 
-    @Override
-    final void cryptInit(Key key, int n, int n2, byte[] byArray) {
+    final void cryptInit(Key key, int n, int n2, byte[] byArray) throws IOException {
         if (!(key instanceof CL3BasedKey)) {
             throw new IOException(Msg.getString("K01fa"));
         }
@@ -45,8 +43,7 @@ extends Provider {
         System.arraycopy((Object)byArray, 0, (Object)this.iv, 0, this.getIVLength());
     }
 
-    @Override
-    byte[] cryptUpdate(Key key, byte[] byArray, int n, int n2, boolean bl) {
+    byte[] cryptUpdate(Key key, byte[] byArray, int n, int n2, boolean bl) throws IOException {
         if (!(key instanceof CL3BasedKey)) {
             throw new IOException(Msg.getString("K01fa"));
         }
@@ -60,7 +57,7 @@ extends Provider {
         return n == 4 || n == 3 || n == 2;
     }
 
-    final byte[] encryptImpl(CL3BasedKey cL3BasedKey, byte[] byArray, int n, int n2, boolean bl) {
+    final byte[] encryptImpl(CL3BasedKey cL3BasedKey, byte[] byArray, int n, int n2, boolean bl) throws IOException {
         int n3 = n2 / this.getBlockLength();
         int n4 = n2 % this.getBlockLength();
         int n5 = n3 * this.getBlockLength();
@@ -89,10 +86,9 @@ extends Provider {
         return byArray2;
     }
 
-    abstract void cl3Call(CL3Key cL3Key, int n, byte[] byArray, int n2, byte[] byArray2, int n3, byte[] byArray3, int n4, int n5) {
-    }
+    abstract void cl3Call(CL3Key var1, int var2, byte[] var3, int var4, byte[] var5, int var6, byte[] var7, int var8, int var9);
 
-    final byte[] decryptImpl(CL3BasedKey cL3BasedKey, byte[] byArray, int n, int n2, boolean bl) {
+    final byte[] decryptImpl(CL3BasedKey cL3BasedKey, byte[] byArray, int n, int n2, boolean bl) throws IOException {
         if (n2 % this.getBlockLength() != 0) {
             throw new IOException(Msg.getString("K0170"));
         }
@@ -125,8 +121,6 @@ extends Provider {
         return byArray2;
     }
 
-    @Override
-    public abstract Key createKey(byte[] byArray) {
-    }
+    public abstract Key createKey(byte[] var1) throws IOException;
 }
 

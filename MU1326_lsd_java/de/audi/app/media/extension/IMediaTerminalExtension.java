@@ -7,15 +7,12 @@ import de.audi.app.media.IMediaTerminal;
 import de.audi.app.media.extension.IContentProvider;
 
 public interface IMediaTerminalExtension {
-    public static final String SERVICE_PROPERTY_TERMINALID;
+    public static final String SERVICE_PROPERTY_TERMINALID = "TERMINALID";
 
-    default public void initExtension(IMediaTerminal iMediaTerminal) {
-    }
+    public void initExtension(IMediaTerminal var1);
 
-    default public void deinitExtension() {
-    }
+    public void deinitExtension();
 
-    default public IContentProvider getContentProvider() {
-    }
+    public IContentProvider getContentProvider();
 }
 

@@ -5,9 +5,8 @@ package de.audi.app.messaging.evo.statusbar;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.indication.INewMessageIndicationManagerObserver;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
-import de.audi.app.messaging.evo.statusbar.StatusBarManager$NewMessageIndicationManagerObserver;
-import de.audi.atip.log.LogChannel;
 
 public final class StatusBarManager
 extends AbstractMessagingComponent {
@@ -15,17 +14,16 @@ extends AbstractMessagingComponent {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        abstractMsgApplication.getNewMessageIndicationManager().addObserver(new StatusBarManager$NewMessageIndicationManagerObserver(this, null));
+        abstractMsgApplication.getNewMessageIndicationManager().addObserver(new NewMessageIndicationManagerObserver());
     }
 
     private synchronized void setStatusBarIcons() {
         boolean bl = this.msgApp.getNewMessageIndicationManager().isMemoryDepleted();
         boolean bl2 = this.msgApp.getNewMessageIndicationManager().newMessagesAvailable();
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[StatusBarManager#setStatusBarIcons] newMessageAvailable = %1, memoryDepleted = %2", (Object)String.valueOf(bl2), (Object)String.valueOf(bl));
+            this.log.log(1000000, "[StatusBarManager#setStatusBarIcons] newMessageAvailable = %1, memoryDepleted = %2", (Object)String.valueOf(bl2), (Object)String.valueOf(bl));
         }
         int n = bl2 ? 1 : 0;
         this.framework.getHmiServiceApp().getChoiceModel(4447).setValue(n);
@@ -33,12 +31,15 @@ extends AbstractMessagingComponent {
         this.framework.getHmiServiceApp().getChoiceModel(4446).setValue(n2);
     }
 
-    static /* synthetic */ LogChannel access$100(StatusBarManager statusBarManager) {
-        return statusBarManager.log;
-    }
+    private class NewMessageIndicationManagerObserver
+    implements INewMessageIndicationManagerObserver {
+        private NewMessageIndicationManagerObserver() {
+        }
 
-    static /* synthetic */ void access$200(StatusBarManager statusBarManager) {
-        statusBarManager.setStatusBarIcons();
+        public void indicateIndicationStateChanged(int n) {
+            StatusBarManager.this.log.log(10000000, "[StatusBarManager#indicateIndicationStateChanged] stateAspect = %1", (long)n);
+            StatusBarManager.this.setStatusBarIcons();
+        }
     }
 }
 

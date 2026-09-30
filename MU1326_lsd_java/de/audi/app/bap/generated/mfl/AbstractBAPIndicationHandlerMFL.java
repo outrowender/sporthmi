@@ -24,7 +24,6 @@ extends AbstractBAPIndicationHandlerFSG {
         super(abstractBAPModuleFSG, logChannel);
     }
 
-    @Override
     public void processIndicationStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, StartResultMethod startResultMethod) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             case 20: {
@@ -37,7 +36,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             case 20: {
@@ -50,7 +48,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationSet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             default: 
@@ -58,7 +55,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerMFL#processIndicationSet not implemented for fctID=%1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             case 16: {
@@ -71,7 +67,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAck(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, AckProperty ackProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             case 17: {
@@ -84,7 +79,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAckArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, BAPArray bAPArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -92,7 +86,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerMFL#processIndicationAck not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -100,7 +93,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerMFL#processIndicationSetArray not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -108,16 +100,12 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerMFL#processIndicationSetGetArray not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    protected abstract void processInstrumentClusterFunctionsSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, InstrumentClusterFunctions_SetGet instrumentClusterFunctions_SetGet) {
-    }
+    protected abstract void processInstrumentClusterFunctionsSetGet(BAPFunctionPropertyFSG var1, InstrumentClusterFunctions_SetGet var2);
 
-    protected abstract void processKeyConfigurationAck(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, KeyConfiguration_Ack keyConfiguration_Ack) {
-    }
+    protected abstract void processKeyConfigurationAck(BAPFunctionPropertyFSG var1, KeyConfiguration_Ack var2);
 
-    protected abstract void processPuActionAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processPuActionAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processPuActionStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, PU_Action_StartResult pU_Action_StartResult) {
-    }
+    protected abstract void processPuActionStartResult(BAPFunctionMethodFSG var1, PU_Action_StartResult var2);
 }
 

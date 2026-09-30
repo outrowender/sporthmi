@@ -23,9 +23,8 @@ extends AbstractSystemCallCommand {
         this.sdsPopupHelper = iSDSPopupHelper;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         this.dictationHandler.setStopRequested(true);
         this.sdsPopupHelper.triggerHapticalPopup(77, false);
         this.sdsPopupHelper.triggerHapticalPopup(76, false);
@@ -34,9 +33,9 @@ extends AbstractSystemCallCommand {
     }
 
     public void responseStopDictation(int n) {
-        this.logger.log(-2137614336, "%1#responseStopDictation: result=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseStopDictation: result=%2", (Object)this.getName(), (long)n);
         this.dictationHandler.setStopRequested(false);
-        this.sendResult(n == 0 ? -131858176 : -115080960);
+        this.sendResult(n == 0 ? 75000 : 75001);
     }
 }
 

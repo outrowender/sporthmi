@@ -29,20 +29,19 @@ implements GeoCoordinates {
         this.adbInterAppService2 = aDBInterAppService;
     }
 
-    @Override
     public NavLocation extractGeoCoordinates(int n, int n2, NavigationEnv navigationEnv) {
-        this.logChannel.log(-2137614336, "GeoCoordinatesADB#extractGeoCoordinates: Called with targetModelID '%1' and targetRow '%2'", (long)n, (long)n2);
+        this.logChannel.log(10000000, "GeoCoordinatesADB#extractGeoCoordinates: Called with targetModelID '%1' and targetRow '%2'", (long)n, (long)n2);
         BaseListModelApp baseListModelApp = navigationEnv.getHMIService().getBaseListModel(n);
         EvoListRow evoListRow = baseListModelApp.getRow(n2);
         ADBRemoteHMIService aDBRemoteHMIService = this.adbRemoteHMIService2;
         if (aDBRemoteHMIService == null) {
-            this.logChannel.log(-1601830656, "GeoCoordinatesADB#extractGeoCoordinates: ADBRemoteHMIService is null");
+            this.logChannel.log(100000, "GeoCoordinatesADB#extractGeoCoordinates: ADBRemoteHMIService is null");
             return null;
         }
         ADBRemoteHMIAddress aDBRemoteHMIAddress = aDBRemoteHMIService.getAddress(evoListRow);
         NavLocation navLocation = null;
         if (aDBRemoteHMIAddress == null) {
-            this.logChannel.log(-1601830656, "GeoCoordinatesADB#extractGeoCoordinates: ADBRemoteHMIAddress retrieved is null");
+            this.logChannel.log(100000, "GeoCoordinatesADB#extractGeoCoordinates: ADBRemoteHMIAddress retrieved is null");
             return null;
         }
         byte[] byArray = aDBRemoteHMIAddress.getNavLocation();

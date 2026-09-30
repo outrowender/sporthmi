@@ -11,19 +11,19 @@ import java.text.DecimalFormat;
 public class GeoMetric
 extends AbstractMetrics
 implements GeoConstants {
-    private static final String TEXT_SEPARATOR_COORDINATES_DIRECTION;
-    private static final String TEXT_UNIT_SECONDS_AFTER_COMMA;
-    private static final String TEXT_UNIT_SECONDS;
-    private static final String TEXT_UNIT_MINUTES;
-    private static final String TEXT_UNIT_DEGREE;
-    private static final String TEXT_DIRECTION_SOUTH;
-    private static final String TEXT_DIRECTION_NORTH;
-    private static final String TEXT_DIRECTION_WEST;
-    private static final String TEXT_DIRECTION_EAST;
-    private static final String TEXT_SEPARATOR_LATITUDE_LONGITUDE;
-    private static final String TEXT_INVALID;
-    public static final int MODE_LATITUDE_ONLY;
-    public static final int MODE_LONGTITUDE_ONLY;
+    private static final String TEXT_SEPARATOR_COORDINATES_DIRECTION = " ";
+    private static final String TEXT_UNIT_SECONDS_AFTER_COMMA = "\"";
+    private static final String TEXT_UNIT_SECONDS = ".";
+    private static final String TEXT_UNIT_MINUTES = "'";
+    private static final String TEXT_UNIT_DEGREE = "\u00b0";
+    private static final String TEXT_DIRECTION_SOUTH = "S";
+    private static final String TEXT_DIRECTION_NORTH = "N";
+    private static final String TEXT_DIRECTION_WEST = "W";
+    private static final String TEXT_DIRECTION_EAST = "E";
+    private static final String TEXT_SEPARATOR_LATITUDE_LONGITUDE = ", ";
+    private static final String TEXT_INVALID = "---";
+    public static final int MODE_LATITUDE_ONLY = 20;
+    public static final int MODE_LONGTITUDE_ONLY = 21;
     private int[][] geoValues;
     final DecimalFormat decimalFormat000 = new DecimalFormat("000");
     final DecimalFormat decimalFormat00 = new DecimalFormat("00");
@@ -56,7 +56,7 @@ implements GeoConstants {
     }
 
     private GeoMetric(int[][] nArray) {
-        super(32959, -1);
+        super(-1.0f, -1);
         this.geoValues = this.checkValues(nArray) ? nArray : new int[2][5];
     }
 
@@ -79,7 +79,7 @@ implements GeoConstants {
         int n5 = this.geoValues[n][3];
         int n6 = this.geoValues[n][4];
         double d2 = (double)n4 + (double)n5 / Math.pow(10.0, 1.0);
-        int n7 = n2 * 0x600BB600 + n3 * -1190657280 + (int)(d2 * 3314.0);
+        int n7 = n2 * 0xB60B60 + n3 * 198841 + (int)(d2 * 3314.0);
         return n7 * n6;
     }
 
@@ -100,7 +100,6 @@ implements GeoConstants {
         return this.format();
     }
 
-    @Override
     public String format(int n) {
         return this.format();
     }
@@ -115,7 +114,6 @@ implements GeoConstants {
         return this.format();
     }
 
-    @Override
     public String format() {
         return new Buffer().append(this.formatLatitude()).append(GeoMetric.getText(50)).append(this.formatLongitude()).toString();
     }
@@ -159,17 +157,14 @@ implements GeoConstants {
         return n2 == 1 ? GeoMetric.getText(47) : GeoMetric.getText(46);
     }
 
-    @Override
     public float getValue() {
         throw new UnsupportedOperationException("getValue() unsupported for GeoMetric! Use getGeoValues()");
     }
 
-    @Override
     public float getValue(int n) {
         throw new UnsupportedOperationException("getValue() unsupported for GeoMetric! Use getGeoValues()");
     }
 
-    @Override
     public void setValue(float f2) {
         throw new UnsupportedOperationException("getValue() unsupported for GeoMetric! Use setGeoValues(..)");
     }
@@ -182,12 +177,12 @@ implements GeoConstants {
         if (nArray != null && nArray.length == 5) {
             int n4 = n3 < 0 ? -1 : 1;
             n3 = Math.abs(n3);
-            nArray[0] = n3 / 0x600BB600;
-            nArray[1] = (n3 %= 0x600BB600) / -1190657280;
+            nArray[0] = n3 / 0xB60B60;
+            nArray[1] = (n3 %= 0xB60B60) / 198841;
             if (nArray[1] == 60) {
                 nArray[1] = 59;
             }
-            double d2 = (double)(n3 %= -1190657280) / 3314.0;
+            double d2 = (double)(n3 %= 198841) / 3314.0;
             double d3 = Math.pow(10.0, n2);
             d2 = (double)Math.round(d2 * d3) / d3;
             int n5 = (int)d2;
@@ -229,43 +224,43 @@ implements GeoConstants {
         if (string == null) {
             switch (n) {
                 case 41: {
-                    string = " ";
+                    string = TEXT_SEPARATOR_COORDINATES_DIRECTION;
                     break;
                 }
                 case 42: {
-                    string = "\"";
+                    string = TEXT_UNIT_SECONDS_AFTER_COMMA;
                     break;
                 }
                 case 43: {
-                    string = ".";
+                    string = TEXT_UNIT_SECONDS;
                     break;
                 }
                 case 44: {
-                    string = "'";
+                    string = TEXT_UNIT_MINUTES;
                     break;
                 }
                 case 45: {
-                    string = "\u00b0";
+                    string = TEXT_UNIT_DEGREE;
                     break;
                 }
                 case 46: {
-                    string = "S";
+                    string = TEXT_DIRECTION_SOUTH;
                     break;
                 }
                 case 47: {
-                    string = "N";
+                    string = TEXT_DIRECTION_NORTH;
                     break;
                 }
                 case 48: {
-                    string = "W";
+                    string = TEXT_DIRECTION_WEST;
                     break;
                 }
                 case 49: {
-                    string = "E";
+                    string = TEXT_DIRECTION_EAST;
                     break;
                 }
                 case 50: {
-                    string = ", ";
+                    string = TEXT_SEPARATOR_LATITUDE_LONGITUDE;
                     break;
                 }
                 default: {
@@ -276,29 +271,24 @@ implements GeoConstants {
         return string;
     }
 
-    @Override
     public String getFormattedMetricUnit() {
         return this.format();
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         return this.format();
     }
 
-    @Override
     public String getFormattedValue() {
         return this.isMetricvalid() ? this.format() : this.getInvalidText();
     }
 
-    @Override
     public String getFormattedValue(int n) {
         return this.getFormattedValue();
     }
 
-    @Override
     public String getInvalidText() {
-        return "---";
+        return TEXT_INVALID;
     }
 }
 

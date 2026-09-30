@@ -20,13 +20,12 @@ implements ISDISCarInfoDistributor {
         this.sdisBase = sDISCarManager.getSDISBase();
     }
 
-    @Override
     public void init(HashMap hashMap) {
         if (hashMap.isEmpty()) {
-            this.logChannel.log(1078071040, "init: no stored values.");
+            this.logChannel.log(1000000, "init: no stored values.");
             return;
         }
-        this.logChannel.log(1078071040, "init: send updates for stored values (%1)", (long)hashMap.size());
+        this.logChannel.log(1000000, "init: send updates for stored values (%1)", (long)hashMap.size());
         Iterator iterator = hashMap.keySet().iterator();
         while (iterator.hasNext()) {
             Object object = iterator.next();
@@ -39,24 +38,20 @@ implements ISDISCarInfoDistributor {
     public void deinit() {
     }
 
-    @Override
     public void sendContent(int n, Object object) {
-        this.logChannel.log(1078071040, "sendContent: send content: %1 ", (long)n);
+        this.logChannel.log(1000000, "sendContent: send content: %1 ", (long)n);
         this.sdisBase.getDsiAsiHandler().updateValue(n, object);
     }
 
-    @Override
     public void serviceAvailable(Object object) {
         if (object instanceof ISDISCarInfoDistributor) {
-            this.logChannel.log(1078071040, "serviceAvailable CAR SDIS service found");
+            this.logChannel.log(1000000, "serviceAvailable CAR SDIS service found");
         }
     }
 
-    @Override
     public void serviceRemoved() {
     }
 
-    @Override
     public String[] getTrackedServiceClazzName() {
         return null;
     }

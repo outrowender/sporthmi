@@ -9,50 +9,42 @@ import de.audi.app.car.common.comp.CarDSIAttributesSet;
 
 public abstract class AbstractContextComponent
 extends AbstractCarComponent {
-    private static final String LOGCHANNEL_NAME;
+    private static final String LOGCHANNEL_NAME = "App.Car.Context";
 
     public AbstractContextComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Context");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
     protected void setCarContext(int n) {
-        this.getChoiceModel(-1960048384).setValue(n);
+        this.getChoiceModel(601227).setValue(n);
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[0];
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return "component does not use view options";
     }
 
-    @Override
     public String getName() {
         return "ContextComponent";
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     public String getDSIListenerClassName() {
         return null;
     }
 
-    @Override
     public String getDSIClassName() {
         return null;
     }
 
-    @Override
     public boolean isUsingDSI() {
         return false;
     }

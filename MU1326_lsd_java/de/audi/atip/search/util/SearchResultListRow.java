@@ -8,9 +8,9 @@ import org.dsi.ifc.search.SearchResult;
 
 public abstract class SearchResultListRow
 extends EvoListRow {
-    public static final int NODE_TYPE_SIMPLE;
-    public static final int NODE_TYPE_PARENT;
-    public static final int NODE_TYPE_CHILD;
+    public static final int NODE_TYPE_SIMPLE = 0;
+    public static final int NODE_TYPE_PARENT = 1;
+    public static final int NODE_TYPE_CHILD = 2;
     private final SearchResult searchResult;
     private int nodeType;
     private boolean isOpen;
@@ -30,9 +30,7 @@ extends EvoListRow {
         this.childrenCount = searchResultListRow.childrenCount;
     }
 
-    @Override
-    public abstract EvoListRow copy() {
-    }
+    public abstract EvoListRow copy();
 
     public SearchResult getSearchResult() {
         return this.searchResult;

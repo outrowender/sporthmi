@@ -15,7 +15,7 @@ import org.dsi.ifc.asiatrafficinfomenu.ResourceInformation;
 public class EvoTrafficMiniMapView
 extends AbstractTrafficMiniMapView
 implements TimerListener {
-    private static final long TIMER_DEFAULT_DELAY;
+    private static final long TIMER_DEFAULT_DELAY = 10000L;
     private final INaviAudioHandler naviAudioHandler;
     private IFrameworkAccess framework;
     private LogChannel logger;
@@ -26,22 +26,20 @@ implements TimerListener {
         this.framework = iFrameworkAccess;
         this.naviAudioHandler = iNaviAudioHandler;
         this.logger = logChannel;
-        this.showTimer = new Timer("EvoTrafficMiniMapView#Timer", 0, true, this);
+        this.showTimer = new Timer("EvoTrafficMiniMapView#Timer", 10000L, true, this);
         this.init();
     }
 
-    @Override
     public void initModels() {
-        this.choiceModelImageID = this.framework.getHMIService().getChoiceModel(-1306393088);
-        this.choiceModelSettingEnebled = this.framework.getHMIService().getChoiceModel(-1105066496);
-        this.choiceModelPopupControl = this.framework.getHMIService().getChoiceModel(-81656320);
+        this.choiceModelImageID = this.framework.getHMIService().getChoiceModel(402098);
+        this.choiceModelSettingEnebled = this.framework.getHMIService().getChoiceModel(402110);
+        this.choiceModelPopupControl = this.framework.getHMIService().getChoiceModel(402171);
     }
 
-    @Override
     public boolean displayMiniMap(ResourceInformation resourceInformation) {
-        this.logger.log(1078071040, "EvoTrafficMiniMapView#displayMiniMap resourceInformation=%1", (Object)resourceInformation);
+        this.logger.log(1000000, "EvoTrafficMiniMapView#displayMiniMap resourceInformation=%1", (Object)resourceInformation);
         boolean bl = super.displayMiniMap(resourceInformation);
-        this.logger.log(1078071040, "EvoTrafficMiniMapView#displayMiniMap displayed=%1", bl);
+        this.logger.log(1000000, "EvoTrafficMiniMapView#displayMiniMap displayed=%1", bl);
         if (bl) {
             this.naviAudioHandler.requestBeepTone(120, 14);
             this.showTimer.restart();
@@ -49,19 +47,16 @@ implements TimerListener {
         return bl;
     }
 
-    @Override
     public void hideMiniMap() {
-        this.logger.log(1078071040, "EvoTrafficMiniMapView#hideMiniMap");
+        this.logger.log(1000000, "EvoTrafficMiniMapView#hideMiniMap");
         super.hideMiniMap();
         this.showTimer.cancel();
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         this.hideMiniMap();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 

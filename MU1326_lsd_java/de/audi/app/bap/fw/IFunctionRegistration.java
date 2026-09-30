@@ -7,19 +7,14 @@ import de.audi.app.bap.fw.functiontypes.IBAPFunction;
 import java.util.List;
 
 public interface IFunctionRegistration {
-    default public IBAPFunction getBAPFunction(int n) {
-    }
+    public IBAPFunction getBAPFunction(int var1);
 
-    default public List getAllProperties() {
-    }
+    public List getAllProperties();
 
-    default public List getAllMethods() {
-    }
+    public List getAllMethods();
 
-    default public List getAllArrays() {
-    }
+    public List getAllArrays();
 
-    default public void resetBAPFunctions() {
-    }
+    public void resetBAPFunctions();
 }
 

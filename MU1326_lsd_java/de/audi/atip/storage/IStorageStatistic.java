@@ -4,7 +4,6 @@
 package de.audi.atip.storage;
 
 public interface IStorageStatistic {
-    default public void setTime2Wait4DSI(long l) {
-    }
+    public void setTime2Wait4DSI(long var1);
 }
 

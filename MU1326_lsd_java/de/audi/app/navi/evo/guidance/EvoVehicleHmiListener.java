@@ -22,13 +22,12 @@ implements ButtonListener {
     }
 
     private void setupListeners() {
-        this.env.getButtonModel(0x60200600).setButtonListener(this);
-        this.env.getButtonModel(1629488640).setButtonListener(this);
+        this.env.getButtonModel(401504).setButtonListener(this);
+        this.env.getButtonModel(401505).setButtonListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "EvoVehicleHmiListener#keyPressed( %1 )", (long)n);
+        this.logChannel.log(10000000, "EvoVehicleHmiListener#keyPressed( %1 )", (long)n);
         switch (n) {
             case 401504: {
                 this.vehicle.addToContact(n, n3);
@@ -46,15 +45,12 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

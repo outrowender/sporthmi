@@ -15,10 +15,8 @@ public abstract class AbstractCondition {
     public AbstractCondition() {
     }
 
-    public abstract int[] getModelIds() {
-    }
+    public abstract int[] getModelIds();
 
-    public abstract boolean evaluate(int n) {
-    }
+    public abstract boolean evaluate(int var1);
 }
 

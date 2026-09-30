@@ -7,16 +7,16 @@ import de.audi.atip.interapp.combi.bap.data.CombiBAPArrayElement;
 
 public abstract class AbstractCombiBAPReceptionListEntry
 implements CombiBAPArrayElement {
-    public static final int ATTRIBUTE_AVAILABLE;
-    public static final int ATTRIBUTE_DVB_SERVICE_CORRUPTED;
-    public static final int ATTRIBUTE_DAB_PRIMARY_SERVICE_CONTAINS_SECONDARY_SERVICES;
-    public static final int ATTRIBUTE_DAB_PRIMARY_SERVICE_CORRUPTED;
-    public static final int ATTRIBUTE_DAB_SERVICE_FM_LINKED;
-    public static final int ATTRIBUTE_TP_AVAILABLE;
-    public static final int ATTRIBUTE_TMC_AVAILABLE;
-    public static final int ATTRIBUTE_SDARS_STATION_SUBSCRIBED_OR_NOT_AN_SDARS_STATION;
-    public static final int ATTRIBUTE_DAB_SERVICE_LINKED_TO_ONLINE_RADIO;
-    public static final int ATTRIBUTE_FM_LINKED_TO_ONLINE_RADIO;
+    public static final int ATTRIBUTE_AVAILABLE = 1;
+    public static final int ATTRIBUTE_DVB_SERVICE_CORRUPTED = 2;
+    public static final int ATTRIBUTE_DAB_PRIMARY_SERVICE_CONTAINS_SECONDARY_SERVICES = 4;
+    public static final int ATTRIBUTE_DAB_PRIMARY_SERVICE_CORRUPTED = 8;
+    public static final int ATTRIBUTE_DAB_SERVICE_FM_LINKED = 16;
+    public static final int ATTRIBUTE_TP_AVAILABLE = 32;
+    public static final int ATTRIBUTE_TMC_AVAILABLE = 64;
+    public static final int ATTRIBUTE_SDARS_STATION_SUBSCRIBED_OR_NOT_AN_SDARS_STATION = 128;
+    public static final int ATTRIBUTE_DAB_SERVICE_LINKED_TO_ONLINE_RADIO = 256;
+    public static final int ATTRIBUTE_FM_LINKED_TO_ONLINE_RADIO = 512;
     protected int posID;
     protected int attributes;
     protected int presetID;
@@ -35,7 +35,6 @@ implements CombiBAPArrayElement {
         this.pictureURL = string3;
     }
 
-    @Override
     public int getPosID() {
         return this.posID;
     }

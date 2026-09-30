@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.audio;
 
 public interface AmplifierListener {
-    default public void updateAmplifier(int n) {
-    }
+    public void updateAmplifier(int var1);
 }
 

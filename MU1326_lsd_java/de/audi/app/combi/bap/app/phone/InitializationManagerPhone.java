@@ -9,11 +9,10 @@ import de.audi.app.bap.fw.AbstractBAPModuleInitializationManagerFSG;
 import de.audi.app.bap.fw.functiontypes.BAPFunctionDataListener;
 import de.audi.app.bap.fw.functiontypes.BAPFunctionPropertyFSG;
 import de.audi.app.bap.utils.LSGIDs;
-import de.audi.app.combi.bap.app.phone.InitializationManagerPhone$1;
 import de.audi.app.combi.bap.fw.AbstractCombiModule;
-import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
 import de.vw.mib.bap.generated.telephone.serializer.FSG_OperationState_Status;
+import edu.emory.mathcs.backport.java.util.concurrent.Callable;
 import edu.emory.mathcs.backport.java.util.concurrent.Executors;
 import edu.emory.mathcs.backport.java.util.concurrent.ScheduledExecutorService;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
@@ -24,7 +23,7 @@ implements BAPFunctionDataListener {
     private int appStateAddressbook = 0;
     private int appStateMessaging = 0;
     private int appStateConnectivity = 0;
-    private static final int CALL_STATE_TO_OP_STATE_TIME_WINDOW_MS;
+    private static final int CALL_STATE_TO_OP_STATE_TIME_WINDOW_MS = 100;
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     protected final BAPFunctionPropertyFSG callStateFunction;
 
@@ -33,26 +32,24 @@ implements BAPFunctionDataListener {
         this.callStateFunction = bAPFunctionPropertyFSG2;
     }
 
-    @Override
     protected void updateOperationStateBAP(int n) {
         int n2 = this.getBapStackState() == 0 ? 2 : n;
-        this.logChannel.log(1078071040, "[InitializationManagerPhone#updateOperationStateBAP] new operation state of LSG=%1 is %2", (Object)LSGIDs.getDescription(this.module.getLSGID()), (Object)InitializationManagerPhone.getOpStateString(n2));
+        this.logChannel.log(1000000, "[InitializationManagerPhone#updateOperationStateBAP] new operation state of LSG=%1 is %2", (Object)LSGIDs.getDescription(this.module.getLSGID()), (Object)InitializationManagerPhone.getOpStateString(n2));
         if (this.setFSGOperationStateValue(n2) || this.fsgOperationStateFunction.isStatusRequestTransmissionPending() || !this.fsgOperationStateFunction.isDataValid()) {
-            this.logChannel.log(1078071040, "[InitializationManagerPhone#updateOperationStateBAP] callState.transmissionPending=%1", this.callStateFunction.isStatusRequestTransmissionPending());
+            this.logChannel.log(1000000, "[InitializationManagerPhone#updateOperationStateBAP] callState.transmissionPending=%1", this.callStateFunction.isStatusRequestTransmissionPending());
             if (this.callStateFunction.isStatusRequestTransmissionPending() && n2 == 1) {
-                this.logChannel.log(1078071040, "[InitializationManagerPhone#updateOperationStateBAP] wait for callState to finish");
+                this.logChannel.log(1000000, "[InitializationManagerPhone#updateOperationStateBAP] wait for callState to finish");
                 this.callStateFunction.addDataListener(this);
             } else {
                 this.fsgOperationStateFunction.resendLastStatus();
             }
         } else {
-            this.logChannel.log(-2137614336, "[InitializationManagerPhone#updateOperationStateBAP] operation state of LSG=%1 is not updated", (Object)LSGIDs.getDescription(this.module.getLSGID()));
+            this.logChannel.log(10000000, "[InitializationManagerPhone#updateOperationStateBAP] operation state of LSG=%1 is not updated", (Object)LSGIDs.getDescription(this.module.getLSGID()));
         }
     }
 
-    @Override
     public void appStateChanged(String string, int n) {
-        this.logChannel.log(14808325, "[InitializationManagerPhone#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
+        this.logChannel.log(100000000, "[InitializationManagerPhone#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
         if ("Phone".equals(string)) {
             this.processAppStateChanged(n);
         }
@@ -67,7 +64,6 @@ implements BAPFunctionDataListener {
         }
     }
 
-    @Override
     public String appStatesToString() {
         Buffer buffer = new Buffer();
         buffer.append("appStatePhone = ");
@@ -82,7 +78,6 @@ implements BAPFunctionDataListener {
         return buffer.toString();
     }
 
-    @Override
     public boolean setFSGOperationStateValue(int n) {
         int n2;
         switch (n) {
@@ -115,34 +110,29 @@ implements BAPFunctionDataListener {
         return false;
     }
 
-    @Override
     public boolean isOpStateNormalOperation() {
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)this.fsgOperationStateFunction.getLastStatus();
         return fSG_OperationState_Status.op_State == 0;
     }
 
-    @Override
     public void notifyDataValidChanged(int n, boolean bl) {
         if (n == this.callStateFunction.getFctID()) {
-            this.executor.schedule(new InitializationManagerPhone$1(this), (long)0, TimeUnit.MILLISECONDS);
+            this.executor.schedule(new Callable(){
+
+                public Object call() {
+                    InitializationManagerPhone.this.logChannel.log(1000000, "[InitializationManagerPhone#notifyDataValidChanged] call state transmission not pending; resend op state");
+                    InitializationManagerPhone.this.fsgOperationStateFunction.resendLastStatus();
+                    return null;
+                }
+            }, 100L, TimeUnit.MILLISECONDS);
             this.callStateFunction.removeDataListener(this);
         }
     }
 
-    @Override
     public void notifyDataChanged(int n) {
     }
 
-    @Override
     public void notifyDataUpdatedNoChange(int n) {
-    }
-
-    static /* synthetic */ LogChannel access$000(InitializationManagerPhone initializationManagerPhone) {
-        return initializationManagerPhone.logChannel;
-    }
-
-    static /* synthetic */ BAPFunctionPropertyFSG access$100(InitializationManagerPhone initializationManagerPhone) {
-        return initializationManagerPhone.fsgOperationStateFunction;
     }
 }
 

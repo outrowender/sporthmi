@@ -10,40 +10,33 @@ import de.vw.mib.bap.requests.StatusProperty;
 
 public final class FunctionListEcall
 extends AbstractFunctionListASG {
-    @Override
     protected int getMinModuleSpecificFctID() {
         return 16;
     }
 
-    @Override
     protected int getMaxFctID() {
         return 31;
     }
 
-    @Override
     public int getGetAllFctID() {
         return 1;
     }
 
-    @Override
     public int getBAPConfigBAPFctID() {
         return 2;
     }
 
-    @Override
     public int getFctListBAPFctID() {
         return 3;
     }
 
-    @Override
     public int getOperationStateBAPFctID() {
         return 15;
     }
 
-    @Override
     public void setFunctionListConfiguration(StatusProperty statusProperty) {
         if (statusProperty instanceof FunctionList_Status) {
-            this.moduleAsg.getLogChannel().log(1078071040, "[FunctionListEcall#setFunctionListConfiguration] %1", (Object)statusProperty);
+            this.moduleAsg.getLogChannel().log(1000000, "[FunctionListEcall#setFunctionListConfiguration] %1", (Object)statusProperty);
             FunctionList_FctList functionList_FctList = ((FunctionList_Status)statusProperty).fctList;
             this.functionSupported[1] = true;
             this.functionSupported[2] = true;

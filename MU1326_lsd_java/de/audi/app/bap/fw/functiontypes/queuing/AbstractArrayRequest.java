@@ -25,7 +25,6 @@ extends AbstractRequest {
         return this.expectedTransactionId;
     }
 
-    public abstract boolean responseIsExpected() {
-    }
+    public abstract boolean responseIsExpected();
 }
 

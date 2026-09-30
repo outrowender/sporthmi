@@ -20,9 +20,9 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 public abstract class AbstractSMMActivator
 extends AbstractActivator
 implements ServiceTrackerCustomizer {
-    private static final boolean DEBUG_MODE;
-    private static final Object SMM_INFO_LOCK;
-    private static SMMInfoProvider smmInfo;
+    private static final boolean DEBUG_MODE = false;
+    private static final Object SMM_INFO_LOCK = new Object();
+    private static SMMInfoProvider smmInfo = null;
     private ServiceTracker apTracker;
     protected int[] reqActionProxies;
     protected SMModule[] smmList;
@@ -32,8 +32,7 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
     static /* synthetic */ Class class$de$audi$atip$statemachine$SMModule;
 
-    public abstract void init() {
-    }
+    public abstract void init();
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
@@ -48,7 +47,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.initSMMInfoProvider();
@@ -80,7 +78,6 @@ implements ServiceTrackerCustomizer {
         smmInfo.addSMMInfo(this.getName(), "after registering services");
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         for (int i2 = 0; i2 < this.smmSvcRegList.length; ++i2) {
             if (this.smmSvcRegList[i2] == null) continue;
@@ -101,7 +98,6 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         smmInfo.addSMMInfo(this.getName(), "  before adding service");
         Object object = serviceReference.getProperty("moduleID");
@@ -133,11 +129,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         int n = (Integer)serviceReference.getProperty("moduleID");
         for (int i2 = 0; this.smmList != null && i2 < this.smmList.length; ++i2) {
@@ -158,11 +152,6 @@ implements ServiceTrackerCustomizer {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        SMM_INFO_LOCK = new Object();
-        smmInfo = null;
     }
 }
 

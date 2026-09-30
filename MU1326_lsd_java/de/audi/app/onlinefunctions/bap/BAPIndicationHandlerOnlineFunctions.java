@@ -16,12 +16,10 @@ extends AbstractBAPIndicationHandlerOnlineFunctions {
         super(abstractBAPModuleFSG, abstractBAPModuleFSG.getLogChannel());
     }
 
-    @Override
     public GetArrayIndication evaluateGetArrayIndication(int n, GetArray getArray) {
         return null;
     }
 
-    @Override
     protected void processFsgControlSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, FSG_Control_SetGet fSG_Control_SetGet) {
     }
 }

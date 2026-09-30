@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.audio;
 
 public interface IVolumeLockService {
-    default public boolean isActive(int n, int n2) {
-    }
+    public boolean isActive(int var1, int var2);
 }
 

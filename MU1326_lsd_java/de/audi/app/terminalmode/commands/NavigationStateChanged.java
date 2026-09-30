@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.commands;
 
@@ -17,17 +14,16 @@ import de.audi.tghu.command.CommandList;
 
 public class NavigationStateChanged
 extends AbstractStateHandlerCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NavigationStateChanged";
     private final boolean routeGuidanceRunning;
 
     public NavigationStateChanged(IContext iContext, boolean bl, IStateHandler iStateHandler) {
-        super(iContext.getLogger().main(), "NavigationStateChanged", iContext, iStateHandler);
+        super(iContext.getLogger().main(), LOGCLASS, iContext, iStateHandler);
         this.routeGuidanceRunning = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"NavigationStateChanged");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
         TMState tMState = this.stateHandler.getCurrentState();
         ApplicationOwner applicationOwner = tMState.getOwnerForApplication(Application.NAVI);
         if (this.routeGuidanceRunning) {

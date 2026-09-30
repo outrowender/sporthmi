@@ -6,10 +6,8 @@ package de.audi.app.phone.core.bluetooth;
 import de.audi.app.phone.core.bluetooth.ITelBluetoothListener;
 
 public interface ITelBluetoothHandler {
-    default public void addBluetoothListener(ITelBluetoothListener iTelBluetoothListener) {
-    }
+    public void addBluetoothListener(ITelBluetoothListener var1);
 
-    default public void removeBluetoothListener(ITelBluetoothListener iTelBluetoothListener) {
-    }
+    public void removeBluetoothListener(ITelBluetoothListener var1);
 }
 

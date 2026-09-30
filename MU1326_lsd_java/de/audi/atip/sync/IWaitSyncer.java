@@ -4,19 +4,14 @@
 package de.audi.atip.sync;
 
 public interface IWaitSyncer {
-    default public boolean isTriggered() {
-    }
+    public boolean isTriggered();
 
-    default public boolean isWaiting() {
-    }
+    public boolean isWaiting();
 
-    default public void waitForTrigger() {
-    }
+    public void waitForTrigger();
 
-    default public void trigger() {
-    }
+    public void trigger();
 
-    default public void cancel() {
-    }
+    public void cancel();
 }
 

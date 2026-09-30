@@ -22,14 +22,14 @@ extends AbstractMediaTerminalComponent
 implements PowerEventListener,
 IMediaDisplayManagerListener,
 IActionProxyListener {
-    private static final String LOGCLASS;
-    public static final byte CONTEXT_NONE;
-    public static final byte CONTEXT_DVD_VIDEO;
-    public static final byte CONTEXT_FILE_VIDEO;
-    public static final byte CONTEXT_AUX_VIDEOSTREAM;
-    public static final byte CONTEXT_TV;
-    public static final byte CONTEXT_AV1;
-    public static final byte CONTEXT_AV2;
+    private static final String LOGCLASS = "DisplaySettingManager";
+    public static final byte CONTEXT_NONE = -1;
+    public static final byte CONTEXT_DVD_VIDEO = 0;
+    public static final byte CONTEXT_FILE_VIDEO = 1;
+    public static final byte CONTEXT_AUX_VIDEOSTREAM = 2;
+    public static final byte CONTEXT_TV = 3;
+    public static final byte CONTEXT_AV1 = 4;
+    public static final byte CONTEXT_AV2 = 5;
     private final DisplaySettingsHMIHandler hmiHandler;
     private final IDSIDisplayManagerController dsiController;
     private volatile byte activeContext = (byte)-1;
@@ -45,7 +45,7 @@ IActionProxyListener {
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"DisplaySettingManager");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.hmiHandler.init();
         this.dsiController.init();
         this.dsiController.startDSI();
@@ -55,7 +55,7 @@ IActionProxyListener {
     }
 
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"DisplaySettingManager");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.getTerminal().removeActionProxyListener(this);
         this.dsiController.setDisplayManagerListener(null);
         this.dsiController.deinit();
@@ -65,12 +65,12 @@ IActionProxyListener {
 
     public void setActiveContext(byte by, int n) {
         if (by == this.activeContext) {
-            this.logger.main().log(1078071040, "[%1.setActiveContext] Already active.", (Object)"DisplaySettingManager");
+            this.logger.main().log(1000000, "[%1.setActiveContext] Already active.", (Object)LOGCLASS);
             return;
         }
         this.activeContext = by;
         if (by == -1) {
-            this.logger.main().log(1078071040, "[%1.setActiveContext] CONTEXT_NONE. ", (Object)"DisplaySettingManager");
+            this.logger.main().log(1000000, "[%1.setActiveContext] CONTEXT_NONE. ", (Object)LOGCLASS);
             this.activeDisplayContext = 0;
             this.activeDisplayable = -1;
             this.enableVideoOverlay(false);
@@ -78,9 +78,9 @@ IActionProxyListener {
         }
         this.activeDisplayContext = n;
         this.activeDisplayable = this.getVideoDisplayable(n);
-        this.logger.main().log(1078071040, "[%1.setActiveContext] '%2' (displayable='%3'). ", (Object)"DisplaySettingManager", (Object)DisplaySettingManager.getVideoContextStr(by), (long)this.activeDisplayable);
+        this.logger.main().log(1000000, "[%1.setActiveContext] '%2' (displayable='%3'). ", (Object)LOGCLASS, (Object)DisplaySettingManager.getVideoContextStr(by), (long)this.activeDisplayable);
         ContextSetting contextSetting = new ContextSetting(this.activeContext, this.getTerminal().getMediaPersistence().getStorage().loadByteArray(DisplaySettingManager.getAddress(this.activeContext)));
-        this.logger.main().log(1078071040, "[%1.setActiveContext] Restore '%2'.", (Object)"DisplaySettingManager", (Object)contextSetting);
+        this.logger.main().log(1000000, "[%1.setActiveContext] Restore '%2'.", (Object)LOGCLASS, (Object)contextSetting);
         this.setContextValues(contextSetting);
         this.enableVideoOverlay(true);
     }
@@ -88,7 +88,7 @@ IActionProxyListener {
     private int getVideoDisplayable(int n) {
         int[] nArray = this.getTerminal().getFramework().getHMIService().getDisplayManager().getDisplayables(n);
         if (nArray == null) {
-            this.logger.main().log(1078071040, "[%1.getVideoDisplayable] No displayables.", (Object)"DisplaySettingManager");
+            this.logger.main().log(1000000, "[%1.getVideoDisplayable] No displayables.", (Object)LOGCLASS);
             return -1;
         }
         for (int i2 = 0; i2 < nArray.length; ++i2) {
@@ -123,12 +123,12 @@ IActionProxyListener {
     }
 
     public void setNTSCMode(boolean bl) {
-        this.logger.main().log(1078071040, "[%2.setNTSCMode] '%1'", bl, (Object)"DisplaySettingManager");
+        this.logger.main().log(1000000, "[%2.setNTSCMode] '%1'", bl, (Object)LOGCLASS);
         this.hmiHandler.setTintMode(bl);
     }
 
     public void resetSettings(byte by, boolean bl) {
-        this.logger.main().log(1078071040, "[%1.resetSettings] '%2'.", (Object)"DisplaySettingManager", (Object)DisplaySettingManager.getVideoContextStr(by));
+        this.logger.main().log(1000000, "[%1.resetSettings] '%2'.", (Object)LOGCLASS, (Object)DisplaySettingManager.getVideoContextStr(by));
         ContextSetting contextSetting = new ContextSetting(by);
         this.getTerminal().getMediaPersistence().getStorage().persistByteArray(DisplaySettingManager.getAddress(by), contextSetting.getDataArray());
         if (bl) {
@@ -144,26 +144,26 @@ IActionProxyListener {
     }
 
     public void enableVideoOverlay(boolean bl) {
-        this.getChoiceModel(1947140864).setValue(bl ? this.activeDisplayContext : 0);
+        this.getChoiceModel(200564).setValue(bl ? this.activeDisplayContext : 0);
     }
 
     public void setBrightness(int n) {
-        this.logger.main().log(1078071040, "[%1.setBrightness] '%2'", (Object)"DisplaySettingManager", (long)n);
+        this.logger.main().log(1000000, "[%1.setBrightness] '%2'", (Object)LOGCLASS, (long)n);
         this.dsiController.setBrightness(this.getActiveDisplayable(), n);
     }
 
     public void setColor(int n) {
-        this.logger.main().log(1078071040, "[%1.setColor] '%2'", (Object)"DisplaySettingManager", (long)n);
+        this.logger.main().log(1000000, "[%1.setColor] '%2'", (Object)LOGCLASS, (long)n);
         this.dsiController.setColor(this.getActiveDisplayable(), n);
     }
 
     public void setContrast(int n) {
-        this.logger.main().log(1078071040, "[%1.setContrast] '%2'", (Object)"DisplaySettingManager", (long)n);
+        this.logger.main().log(1000000, "[%1.setContrast] '%2'", (Object)LOGCLASS, (long)n);
         this.dsiController.setContrast(this.getActiveDisplayable(), n);
     }
 
     public void setTint(int n) {
-        this.logger.main().log(1078071040, "[%1.setTint] '%2'", (Object)"DisplaySettingManager", (long)n);
+        this.logger.main().log(1000000, "[%1.setTint] '%2'", (Object)LOGCLASS, (long)n);
         this.dsiController.setTint(this.getActiveDisplayable(), n);
     }
 
@@ -171,77 +171,68 @@ IActionProxyListener {
         return this.activeDisplayable;
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
         if (n != 2) {
             return;
         }
         if (!this.hmiHandler.haveSettingsChanged()) {
-            this.logger.main().log(1078071040, "[%1.notifyPowerListenerOnEnterState] Settings not changed. ", (Object)"DisplaySettingManager");
+            this.logger.main().log(1000000, "[%1.notifyPowerListenerOnEnterState] Settings not changed. ", (Object)LOGCLASS);
             return;
         }
-        this.logger.main().log(-2137614336, "[%1.notifyPowerListenerOnEnterState] Saving settings. ", (Object)"DisplaySettingManager");
+        this.logger.main().log(10000000, "[%1.notifyPowerListenerOnEnterState] Saving settings. ", (Object)LOGCLASS);
         this.hmiHandler.resetDSIUpdateState();
         ContextSetting contextSetting = new ContextSetting(this.activeContext, (byte)this.hmiHandler.getColor(), (byte)this.hmiHandler.getContrast(), (byte)this.hmiHandler.getBrightness(), (byte)this.hmiHandler.getTint());
         this.getTerminal().getMediaPersistence().getStorage().persistByteArray(DisplaySettingManager.getAddress(this.activeContext), contextSetting.getDataArray());
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
     }
 
-    @Override
     public void updateBrigthness(int n, int n2) {
         if (n != this.getActiveDisplayable()) {
             return;
         }
-        this.logger.main().log(1078071040, "[%1.updateBrigthness] '%2'", (Object)"DisplaySettingManager", (long)n2);
+        this.logger.main().log(1000000, "[%1.updateBrigthness] '%2'", (Object)LOGCLASS, (long)n2);
         this.hmiHandler.setBrightness(n2);
     }
 
-    @Override
     public void updateContrast(int n, int n2) {
         if (n != this.getActiveDisplayable()) {
             return;
         }
-        this.logger.main().log(1078071040, "[%1.updateContrast] '%2'", (Object)"DisplaySettingManager", (long)n2);
+        this.logger.main().log(1000000, "[%1.updateContrast] '%2'", (Object)LOGCLASS, (long)n2);
         this.hmiHandler.setContrast(n2);
     }
 
-    @Override
     public void updateColor(int n, int n2) {
         if (n != this.getActiveDisplayable()) {
             return;
         }
-        this.logger.main().log(1078071040, "[%1.updateColor] '%2'", (Object)"DisplaySettingManager", (long)n2);
+        this.logger.main().log(1000000, "[%1.updateColor] '%2'", (Object)LOGCLASS, (long)n2);
         this.hmiHandler.setColor(n2);
     }
 
-    @Override
     public void updateTint(int n, int n2) {
         if (n != this.getActiveDisplayable()) {
             return;
         }
-        this.logger.main().log(1078071040, "[%1.updateTint] '%2'", (Object)"DisplaySettingManager", (long)n2);
+        this.logger.main().log(1000000, "[%1.updateTint] '%2'", (Object)LOGCLASS, (long)n2);
         this.hmiHandler.setTint(n2);
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (n != 1009) {
             return;
         }
         Integer n2 = (Integer)map.get("SETTING");
         if (n2 == null) {
-            this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed] No setting.", (Object)"DisplaySettingManager");
+            this.logger.main().log(1000000, "[%1.actionProxyCallPerformed] No setting.", (Object)LOGCLASS);
             return;
         }
         this.hmiHandler.resetDSIUpdateState();
@@ -275,7 +266,7 @@ IActionProxyListener {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("DisplaySettingManager").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 

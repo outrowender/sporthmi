@@ -8,31 +8,22 @@ import de.audi.atip.interapp.bap.eni.data.RemoteProcessState;
 import de.vw.mib.bap.datatypes.BAPEntity;
 
 public interface IBAPFunction {
-    default public int getFctID() {
-    }
+    public int getFctID();
 
-    default public String getFctIDDescription() {
-    }
+    public String getFctIDDescription();
 
-    default public String getLSGIDDescription() {
-    }
+    public String getLSGIDDescription();
 
-    default public BAPEntity getIndicationSerializer(int n) {
-    }
+    public BAPEntity getIndicationSerializer(int var1);
 
-    default public void processAcknowledge(int n) {
-    }
+    public void processAcknowledge(int var1);
 
-    default public void processIndication(int n, BAPIndicationData bAPIndicationData) {
-    }
+    public void processIndication(int var1, BAPIndicationData var2);
 
-    default public void processIndicationError(int n) {
-    }
+    public void processIndicationError(int var1);
 
-    default public void reset() {
-    }
+    public void reset();
 
-    default public void onRemoteProcessState(RemoteProcessState remoteProcessState) {
-    }
+    public void onRemoteProcessState(RemoteProcessState var1);
 }
 

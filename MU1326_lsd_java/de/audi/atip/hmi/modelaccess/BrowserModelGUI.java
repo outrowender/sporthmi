@@ -7,46 +7,32 @@ import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 
 public interface BrowserModelGUI
 extends HMIModelGUI {
-    default public void keyPressed(int n, int n2) {
-    }
+    public void keyPressed(int var1, int var2);
 
-    default public void keyReleased(int n, int n2) {
-    }
+    public void keyReleased(int var1, int var2);
 
-    default public void keyTyped(int n, int n2) {
-    }
+    public void keyTyped(int var1, int var2);
 
-    default public void decrement(int n, int n2) {
-    }
+    public void decrement(int var1, int var2);
 
-    default public void increment(int n, int n2) {
-    }
+    public void increment(int var1, int var2);
 
-    default public void moveNW(int n, int n2) {
-    }
+    public void moveNW(int var1, int var2);
 
-    default public void moveN(int n, int n2) {
-    }
+    public void moveN(int var1, int var2);
 
-    default public void moveNE(int n, int n2) {
-    }
+    public void moveNE(int var1, int var2);
 
-    default public void moveE(int n, int n2) {
-    }
+    public void moveE(int var1, int var2);
 
-    default public void moveSE(int n, int n2) {
-    }
+    public void moveSE(int var1, int var2);
 
-    default public void moveS(int n, int n2) {
-    }
+    public void moveS(int var1, int var2);
 
-    default public void moveSW(int n, int n2) {
-    }
+    public void moveSW(int var1, int var2);
 
-    default public void moveW(int n, int n2) {
-    }
+    public void moveW(int var1, int var2);
 
-    default public void moveMiddle(int n) {
-    }
+    public void moveMiddle(int var1);
 }
 

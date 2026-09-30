@@ -21,7 +21,6 @@ extends AbstractTelPopupHandler {
         super(iTelApplication, string, n);
     }
 
-    @Override
     protected String getPopupName(int n) {
         return (String)popupNameMap.get(n);
     }

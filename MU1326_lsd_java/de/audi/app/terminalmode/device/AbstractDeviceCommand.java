@@ -24,7 +24,6 @@ implements IActiveDeviceStateListener {
         this.deviceManager = iDeviceManager;
     }
 
-    @Override
     public void abort() {
         this.deviceManager.removeActiveDeviceListener(this);
         super.abort();

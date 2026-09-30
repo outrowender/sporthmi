@@ -28,23 +28,20 @@ ServiceTrackerCustomizer {
         super(iEcallApplication, string);
     }
 
-    @Override
     public void init() {
         this.getApplication().getEcallStateManager().registerListener(this);
         this.telEcallStateListenerTracker = new EcallServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$phone$ITelEcallStateListener == null ? (class$de$audi$atip$interapp$phone$ITelEcallStateListener = TelEcallStateListenerHandler.class$("de.audi.atip.interapp.phone.ITelEcallStateListener")) : class$de$audi$atip$interapp$phone$ITelEcallStateListener).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.telEcallStateListenerTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getEcallStateManager().removeListener(this);
         this.telEcallStateListenerTracker.closeTracker();
         this.telEcallStateListenerTracker = null;
     }
 
-    @Override
     public void updateGlobalEcallStateProperty(int n, IEcallStateStruct iEcallStateStruct) {
-        this.log.log(-2137614336, "TelEcallStateListenerHandler#updateGlobalEcallStateProperty(): globalEcallState=%1", (Object)iEcallStateStruct);
+        this.log.log(10000000, "TelEcallStateListenerHandler#updateGlobalEcallStateProperty(): globalEcallState=%1", (Object)iEcallStateStruct);
         EcallState ecallState = new EcallState(iEcallStateStruct);
         switch (n) {
             case 4: {
@@ -66,10 +63,9 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
-        this.log.log(-2137614336, "BAPServiceEcallListenerClusterHandler#addingService(): service: %1", object);
+        this.log.log(10000000, "BAPServiceEcallListenerClusterHandler#addingService(): service: %1", object);
         if (object instanceof ITelEcallStateListener) {
             this.telEcallStateListeners.add(object);
             return object;
@@ -78,11 +74,9 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof ITelEcallStateListener) {
             this.getApplication().getBundleContext().ungetService(serviceReference);

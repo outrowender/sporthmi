@@ -6,19 +6,14 @@ package de.audi.atip.interapp;
 import org.dsi.ifc.global.NavLocation;
 
 public interface NaviSDSPOIOnlineServiceListener {
-    default public void updatePOIOnlineSearchResults(byte by, String string, String[] stringArray) {
-    }
+    public void updatePOIOnlineSearchResults(byte var1, String var2, String[] var3);
 
-    default public void poiOnlineSetSearchAreaResult(byte by) {
-    }
+    public void poiOnlineSetSearchAreaResult(byte var1);
 
-    default public void poiOnlineSearchDidYouMeanResult(byte by) {
-    }
+    public void poiOnlineSearchDidYouMeanResult(byte var1);
 
-    default public void setSuggestions(boolean bl) {
-    }
+    public void setSuggestions(boolean var1);
 
-    default public void responseSelectDestination(NavLocation navLocation) {
-    }
+    public void responseSelectDestination(NavLocation var1);
 }
 

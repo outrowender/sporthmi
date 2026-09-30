@@ -14,7 +14,7 @@ extends AbstractTel1BAPMethodHandler {
     }
 
     void resetMissedCallsIndicator() {
-        this.log.log(1078071040, "[TelBAPMethodResetMissedCallsIndicator#resetMissedCallsIndicator]");
+        this.log.log(1000000, "[TelBAPMethodResetMissedCallsIndicator#resetMissedCallsIndicator]");
         this.getApplication().getTelephoneDSIAccess().resetMissedCallIndicator(1);
     }
 }

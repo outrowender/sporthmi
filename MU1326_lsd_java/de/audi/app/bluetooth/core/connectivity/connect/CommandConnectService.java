@@ -10,7 +10,7 @@ import org.dsi.ifc.bluetooth.DSIBluetooth;
 
 final class CommandConnectService
 extends AbstractCommandRequestPasskeyResponse {
-    private static final int TIMEOUT;
+    private static final int TIMEOUT = 300000;
     private final IBluetoothApplication bluetoothApplication;
     private final int service;
     private final int deviceRole;
@@ -28,37 +28,32 @@ extends AbstractCommandRequestPasskeyResponse {
         this.bluetoothApplication = iBluetoothApplication;
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 300000L;
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.requestConnectService(this.deviceAddress, this.service, this.deviceRole);
         } else {
-            this.logger.log(-1601830656, "CommandConnectService#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandConnectService#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void abort() {
         this.bluetoothApplication.getBondingState().updateBondingResult(4);
         this.bluetoothApplication.getBondingState().updateBondingState(0);
     }
 
-    @Override
     protected void pairingFinished() {
-        this.logger.log(-2137614336, "CommandConnectService#pairingFinished()");
+        this.logger.log(10000000, "CommandConnectService#pairingFinished()");
         this.bluetoothApplication.getBondingState().updateBondingState(1);
     }
 
-    @Override
     public void responseConnectService(String string, String string2, int n, int n2, int n3) {
         if (n3 == 0) {
-            this.logger.log(1078071040, "CommandConnectService#responseConnectService(): result=%1", (long)n3);
+            this.logger.log(1000000, "CommandConnectService#responseConnectService(): result=%1", (long)n3);
         } else {
             this.logger.log(10000, "CommandConnectService#responseConnectService(): result=%1", (long)n3);
         }
@@ -70,15 +65,14 @@ extends AbstractCommandRequestPasskeyResponse {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.abortConnectService(this.deviceAddress);
         } else {
-            this.logger.log(-1601830656, "CommandConnectService#abortConnectService(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandConnectService#abortConnectService(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void responseAbortConnectService(int n) {
         if (n == 0) {
-            this.logger.log(1078071040, "CommandConnectService#responseAbortConnectService(): result=%1", (long)n);
+            this.logger.log(1000000, "CommandConnectService#responseAbortConnectService(): result=%1", (long)n);
         } else {
             this.logger.log(10000, "CommandConnectService#responseAbortConnectService(): result=%1", (long)n);
         }

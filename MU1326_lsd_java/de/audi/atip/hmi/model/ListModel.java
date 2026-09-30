@@ -33,7 +33,6 @@ ListModelGUI {
         super(n, n2);
     }
 
-    @Override
     public void resetListener() {
         this.listListener = DUMMY_LISTENER;
     }
@@ -41,7 +40,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(1000);
         buffer.append(super.dumpContent());
@@ -69,7 +67,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         Object object = this.mutex;
         synchronized (object) {
@@ -84,7 +81,6 @@ ListModelGUI {
         }
     }
 
-    @Override
     public int getModelType() {
         return 4;
     }
@@ -92,7 +88,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isEmpty() {
         Object object = this.mutex;
         synchronized (object) {
@@ -100,15 +95,13 @@ ListModelGUI {
         }
     }
 
-    @Override
     public Class getColumnType(int n) {
-        return ListRow.getColumnType(super.getClass());
+        return ListRow.getColumnType(this.getCell(0, n).getClass());
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getLength() {
         Object object = this.mutex;
         synchronized (object) {
@@ -116,12 +109,10 @@ ListModelGUI {
         }
     }
 
-    @Override
     public int getLengthOnTransaction() {
         throw new IllegalStateException();
     }
 
-    @Override
     public ListCell getCell(int n, int n2) {
         return this.getRow(n).getCell(n2);
     }
@@ -129,7 +120,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getMaxColumns() {
         Object object = this.mutex;
         synchronized (object) {
@@ -140,7 +130,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getMaxRows() {
         Object object = this.mutex;
         synchronized (object) {
@@ -148,14 +137,13 @@ ListModelGUI {
         }
     }
 
-    @Override
     public boolean getRow(int n, ListCell[] listCellArray) {
         BaseListRow baseListRow = null;
         try {
             baseListRow = this.getRow(n);
         }
         catch (Exception exception) {
-            this.lc.log(1078071040, "(%1) [ListModel.getRow] %2", (long)this.id, (Throwable)exception);
+            this.lc.log(1000000, "(%1) [ListModel.getRow] %2", (long)this.id, (Throwable)exception);
             return false;
         }
         try {
@@ -174,18 +162,16 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public BaseListRow getRow(int n) {
         Object object = this.mutex;
         synchronized (object) {
             if (n < 0 || n >= this.list.size()) {
-                throw new ModelException((HMIModel)this, new StringBuffer().append(" Given index ").append(n).append(" is out of range!").toString());
+                throw new ModelException((HMIModel)this, " Given index " + n + " is out of range!");
             }
             return (BaseListRow)this.list.get(n);
         }
     }
 
-    @Override
     public BaseListRow getRowOnTransaction(int n) {
         throw new IllegalStateException();
     }
@@ -193,7 +179,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getSelected() {
         Object object = this.mutex;
         synchronized (object) {
@@ -204,7 +189,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setCell(int n, int n2, ListCell listCell) {
         Object object = this.mutex;
         synchronized (object) {
@@ -214,7 +198,6 @@ ListModelGUI {
         this.fireModelUpdateEvent(10, n, n2);
     }
 
-    @Override
     public void setListListener(ListListener listListener) {
         this.listListener = listListener != null ? listListener : DUMMY_LISTENER;
     }
@@ -222,10 +205,9 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void setMaxColumns(int n) {
         if (n <= 0) {
-            throw new ModelException((HMIModel)this, new StringBuffer().append("Max columns can't be set to ").append(n).toString());
+            throw new ModelException((HMIModel)this, "Max columns can't be set to " + n);
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -236,10 +218,9 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void setMaxRows(int n) {
         if (n < 0) {
-            throw new ModelException((HMIModel)this, new StringBuffer().append("Max rows can't be set to ").append(n).toString());
+            throw new ModelException((HMIModel)this, "Max rows can't be set to " + n);
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -249,12 +230,10 @@ ListModelGUI {
         this.fireModelUpdateEvent(5, n);
     }
 
-    @Override
     public void setRow(int n, ListCell listCell) {
         this.setRow(n, new ListCell[]{listCell});
     }
 
-    @Override
     public void setRow(int n, ListCell[] listCellArray) {
         this.setRow(n, new BaseListRow(listCellArray));
     }
@@ -262,13 +241,12 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setRow(int n, BaseListRow baseListRow) {
         this.checkColumnCount(baseListRow);
         Object object = this.mutex;
         synchronized (object) {
             if (n < 0 || n >= this.list.size()) {
-                throw new ModelException((HMIModel)this, new StringBuffer().append("Invalid row ").append(n).toString());
+                throw new ModelException((HMIModel)this, "Invalid row " + n);
             }
             this.list.set(n, baseListRow);
             this.stateChanged();
@@ -279,10 +257,9 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setSelected(int n) {
         if (n < -1) {
-            throw new ModelException((HMIModel)this, new StringBuffer().append("Invalid selection ").append(n).toString());
+            throw new ModelException((HMIModel)this, "Invalid selection " + n);
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -292,12 +269,10 @@ ListModelGUI {
         this.fireModelUpdateEvent(1, n);
     }
 
-    @Override
     public void addRow(ListCell listCell) {
         this.addRow(new ListCell[]{listCell});
     }
 
-    @Override
     public void addRow(ListCell[] listCellArray) {
         this.addRow(new BaseListRow(listCellArray));
     }
@@ -305,7 +280,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addRow(BaseListRow baseListRow) {
         int n;
         this.checkColumnCount(baseListRow);
@@ -321,7 +295,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
         Object object = this.mutex;
         synchronized (object) {
@@ -331,12 +304,10 @@ ListModelGUI {
         this.fireModelUpdateEvent(6);
     }
 
-    @Override
     public void insertRow(int n, ListCell listCell) {
         this.insertRow(n, new ListCell[]{listCell});
     }
 
-    @Override
     public void insertRow(int n, ListCell[] listCellArray) {
         this.insertRow(n, new BaseListRow(listCellArray));
     }
@@ -344,13 +315,12 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void insertRow(int n, BaseListRow baseListRow) {
         this.checkColumnCount(baseListRow);
         Object object = this.mutex;
         synchronized (object) {
             if (n < 0 || n > this.list.size()) {
-                throw new ModelException((HMIModel)this, new StringBuffer().append("Invalid index ").append(n).toString());
+                throw new ModelException((HMIModel)this, "Invalid index " + n);
             }
             this.list.add(n, baseListRow);
             this.stateChanged();
@@ -361,7 +331,6 @@ ListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeRow(int n) {
         boolean bl = false;
         Object object = this.mutex;
@@ -377,7 +346,6 @@ ListModelGUI {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3) {
         if (n >= -1 && n < this.getLength()) {
             try {
@@ -389,7 +357,6 @@ ListModelGUI {
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3) {
         if (n >= 0 && n < this.getLength()) {
             try {
@@ -401,7 +368,6 @@ ListModelGUI {
         }
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3) {
         if (n >= 0 && n < this.getLength()) {
             try {
@@ -415,7 +381,7 @@ ListModelGUI {
 
     private void checkColumnCount(BaseListRow baseListRow) {
         if (this.overallCols != baseListRow.getColumnCount()) {
-            throw new ModelException((HMIModel)this, new StringBuffer().append(baseListRow).append(" doesn't match #expectedCols:").append(baseListRow.getColumnCount()).toString());
+            throw new ModelException((HMIModel)this, baseListRow + " doesn't match #expectedCols:" + baseListRow.getColumnCount());
         }
     }
 }

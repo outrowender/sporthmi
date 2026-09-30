@@ -109,11 +109,11 @@ public final class Component {
             for (n3 = 0; n3 < n2; ++n3) {
                 BundleToken bundleToken = new BundleToken(new ConfigPathQuery(configValue.getArrayValue(n3)));
                 if (bundleToken.isPcSimOnly() && !Component.checkMode(n, 2)) {
-                    this.lc.log(1078071040, "Component.parseBundleTokens(deviceMode:%1): skip PCSIM bundle '%2'", (Object)AppStateManager.deviceModeToString(n), (Object)bundleToken.getName());
+                    this.lc.log(1000000, "Component.parseBundleTokens(deviceMode:%1): skip PCSIM bundle '%2'", (Object)AppStateManager.deviceModeToString(n), (Object)bundleToken.getName());
                     continue;
                 }
                 if (bundleToken.isDevelopmentOnly() && !Component.checkMode(n, 1)) {
-                    this.lc.log(1078071040, "Component.parseBundleTokens(deviceMode:%1): skip DEVELOPMENT bundle '%2'", (Object)AppStateManager.deviceModeToString(n), (Object)bundleToken.getName());
+                    this.lc.log(1000000, "Component.parseBundleTokens(deviceMode:%1): skip DEVELOPMENT bundle '%2'", (Object)AppStateManager.deviceModeToString(n), (Object)bundleToken.getName());
                     continue;
                 }
                 arrayList.add(bundleToken);

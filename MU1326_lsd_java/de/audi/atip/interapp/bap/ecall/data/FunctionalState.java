@@ -3,15 +3,13 @@
  */
 package de.audi.atip.interapp.bap.ecall.data;
 
-import de.audi.atip.interapp.bap.ecall.data.FunctionalState$Builder;
-
 public final class FunctionalState {
     private final boolean audioFunctional;
     private final boolean audioUplinkFunctional;
     private final boolean audioDownlinkFunctional;
 
-    public static FunctionalState$Builder builder() {
-        return new FunctionalState$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private FunctionalState(boolean bl, boolean bl2, boolean bl3) {
@@ -39,7 +37,7 @@ public final class FunctionalState {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         FunctionalState functionalState = (FunctionalState)object;
@@ -62,6 +60,31 @@ public final class FunctionalState {
 
     public String toString() {
         return new StringBuffer().append("FunctionalState [audioFullyFunctional=").append(this.audioFunctional).append(", audioUplinkFunctional=").append(this.audioUplinkFunctional).append(", audioDownlinkFullyFunctional=").append(this.audioDownlinkFunctional).append("]").toString();
+    }
+
+    public static final class Builder {
+        private boolean audioFunctional;
+        private boolean audioUplinkFunctional;
+        private boolean audioDownlinkFunctional;
+
+        public Builder setAudioFunctional(boolean bl) {
+            this.audioFunctional = bl;
+            return this;
+        }
+
+        public Builder setAudioUplinkFunctional(boolean bl) {
+            this.audioUplinkFunctional = bl;
+            return this;
+        }
+
+        public Builder setAudioDownlinkFunctional(boolean bl) {
+            this.audioDownlinkFunctional = bl;
+            return this;
+        }
+
+        public FunctionalState build() {
+            return new FunctionalState(this.audioFunctional, this.audioUplinkFunctional, this.audioDownlinkFunctional);
+        }
     }
 }
 

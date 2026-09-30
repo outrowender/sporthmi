@@ -4,8 +4,6 @@
 package de.audi.atip.hmi;
 
 import de.audi.atip.base.IFrameworkAccess;
-import de.audi.atip.hmi.AbstractWindow$NativeWindowUpdater;
-import de.audi.atip.hmi.AbstractWindow$RepaintEvent;
 import de.audi.atip.hmi.HMIService;
 import de.audi.atip.hmi.HMITerminal;
 import de.audi.atip.hmi.IRootWindow;
@@ -55,10 +53,10 @@ import java.util.zip.ZipOutputStream;
 
 public abstract class AbstractWindow
 implements IRootWindow {
-    private static final String PRAEFIX_SCREEN;
-    private static final String PRAEFIX_POPIN;
-    protected static final boolean ENABLE_MULTI_OS_SUPPORT;
-    private static final boolean BENCHMARK;
+    private static final String PRAEFIX_SCREEN = "screen_";
+    private static final String PRAEFIX_POPIN = "popin_";
+    protected static final boolean ENABLE_MULTI_OS_SUPPORT = true;
+    private static final boolean BENCHMARK = false;
     protected final LogChannel logHMIServiceHMI;
     protected final LogChannel logDiashow;
     protected final LogChannel logATIPEvent;
@@ -105,35 +103,30 @@ implements IRootWindow {
 
     protected void startNativeWindowUpdater(int n) {
         if (this.isRepaintTerminal()) {
-            this.nativeWindowUpdaterThread = new Thread(new AbstractWindow$NativeWindowUpdater(this, n));
+            this.nativeWindowUpdaterThread = new Thread(new NativeWindowUpdater(this, n));
             this.nativeWindowUpdaterThread.start();
-            AbstractWindow$NativeWindowUpdater.startUpdating();
+            NativeWindowUpdater.startUpdating();
         }
     }
 
-    protected abstract void paintGUI() {
-    }
+    protected abstract void paintGUI();
 
     protected HMIService getHMIService() {
         return this.framework.getHMIService();
     }
 
-    @Override
     public void addHardkeyListener(KeyListener keyListener) {
         this.hardkeyListeners.addElement(keyListener);
     }
 
-    @Override
     public void add(IScreenData iScreenData, Screen screen) {
         this.currentScreen = screen;
     }
 
-    @Override
     public void remove(Screen screen) {
         this.currentScreen = null;
     }
 
-    @Override
     public Screen getCurrentScreen() {
         if (this.terminalID == 1) {
             return this.getFwHMI().getCurrentlyActiveCombiScreen();
@@ -152,7 +145,7 @@ implements IRootWindow {
     protected void processSDSEventOnScreens(ATIPEvent aTIPEvent) {
         Screen screen;
         if (this.currentScreen != null) {
-            this.logATIPEvent.log(-2137614336, "RootWindow: sending %1 to current screen", (Object)aTIPEvent);
+            this.logATIPEvent.log(10000000, "RootWindow: sending %1 to current screen", (Object)aTIPEvent);
             this.currentScreen.processSDSEvent((SDSEvent)aTIPEvent);
         }
         if (this.terminalID == 1 && this.framework.isShowDDP2Combi() && (screen = this.getCurrentScreen()) != null) {
@@ -162,7 +155,7 @@ implements IRootWindow {
 
     protected void processAsyncBitmapEventOnScreens(ATIPEvent aTIPEvent) {
         if (this.currentScreen != null) {
-            this.logATIPEvent.log(-2137614336, "RootWindow: sending %1 to current screen", (Object)aTIPEvent);
+            this.logATIPEvent.log(10000000, "RootWindow: sending %1 to current screen", (Object)aTIPEvent);
             this.currentScreen.bitmapLoaded((AsyncBitmapEvent)aTIPEvent);
         }
     }
@@ -172,7 +165,7 @@ implements IRootWindow {
             this.processModelUpdateEvent((ModelUpdateEvent)aTIPEvent);
         } else if (aTIPEvent instanceof StateMachineEvent) {
             try {
-                this.logATIPEvent.log(-2137614336, "RootWindow: sending %1 to smInterpreter", (Object)aTIPEvent);
+                this.logATIPEvent.log(10000000, "RootWindow: sending %1 to smInterpreter", (Object)aTIPEvent);
                 this.getFramework().getSMInterpreter().processEvent((StateMachineEvent)aTIPEvent);
             }
             catch (Throwable throwable) {
@@ -235,18 +228,18 @@ implements IRootWindow {
 
     protected void processModelUpdateEventOnScreens(ModelUpdateEvent modelUpdateEvent) {
         if (this.currentScreen != null) {
-            this.logATIPEvent.log(-2137614336, "RootWindow: sending %1 to current screen", (Object)modelUpdateEvent);
+            this.logATIPEvent.log(10000000, "RootWindow: sending %1 to current screen", (Object)modelUpdateEvent);
             this.currentScreen.processModelUpdateEvent(modelUpdateEvent);
         }
     }
 
     protected void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
         if (this.getTerminalID() == 1) {
-            this.logATIPEvent.log(1078071040, "IRootWindowImpl[%1]#processEventImpl: CLUSTER - Processing allowed for ModelUpdateEvent with terminalID == %2.", (long)this.getTerminalID(), (long)modelUpdateEvent.getTerminalID());
+            this.logATIPEvent.log(1000000, "IRootWindowImpl[%1]#processEventImpl: CLUSTER - Processing allowed for ModelUpdateEvent with terminalID == %2.", (long)this.getTerminalID(), (long)modelUpdateEvent.getTerminalID());
         } else if (modelUpdateEvent.getTerminalID() == -1 || modelUpdateEvent.getTerminalID() == this.getTerminalID()) {
-            this.logATIPEvent.log(1078071040, "IRootWindowImpl[%1]#processEventImpl: Processing allowed for ModelUpdateEvent with terminalID == %2.", (long)this.getTerminalID(), (long)modelUpdateEvent.getTerminalID());
+            this.logATIPEvent.log(1000000, "IRootWindowImpl[%1]#processEventImpl: Processing allowed for ModelUpdateEvent with terminalID == %2.", (long)this.getTerminalID(), (long)modelUpdateEvent.getTerminalID());
         } else {
-            this.logATIPEvent.log(1078071040, "IRootWindowImpl[%1]#processEventImpl: ModelUpdateEvent with terminalID == %2 ignored", (long)this.getTerminalID(), (long)modelUpdateEvent.getTerminalID());
+            this.logATIPEvent.log(1000000, "IRootWindowImpl[%1]#processEventImpl: ModelUpdateEvent with terminalID == %2 ignored", (long)this.getTerminalID(), (long)modelUpdateEvent.getTerminalID());
             return;
         }
         if (this.getTerminalID() == 1 && this.framework.isShowDDP2Combi()) {
@@ -257,12 +250,12 @@ implements IRootWindow {
                     screenArray[i2].processModelUpdateEvent(modelUpdateEvent);
                 }
             } else {
-                this.logATIPEvent.log(1078071040, "IRootWindowImpl[%1]#processEventImpl: No currently active combi screen => event ignored", (long)this.getTerminalID());
+                this.logATIPEvent.log(1000000, "IRootWindowImpl[%1]#processEventImpl: No currently active combi screen => event ignored", (long)this.getTerminalID());
             }
         } else {
             this.processModelUpdateEventOnScreens(modelUpdateEvent);
         }
-        this.logATIPEvent.log(-2137614336, "RootWindow: sending %1 to smInterpreter", (Object)modelUpdateEvent);
+        this.logATIPEvent.log(10000000, "RootWindow: sending %1 to smInterpreter", (Object)modelUpdateEvent);
         this.getFramework().getSMInterpreter().processUpdate(modelUpdateEvent);
     }
 
@@ -274,11 +267,10 @@ implements IRootWindow {
         }
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
-        this.logATIPEvent.log(-2137614336, "RootWindow.processEvent: event = %1", (Object)aTIPEvent);
+        this.logATIPEvent.log(10000000, "RootWindow.processEvent: event = %1", (Object)aTIPEvent);
         if (aTIPEvent.getID() == 10801) {
-            this.logRepaintCause.log(-2137614336, "AbstractWindow#processEvent: update native window");
+            this.logRepaintCause.log(10000000, "AbstractWindow#processEvent: update native window");
             this.updateNativeWindow();
             return;
         }
@@ -305,16 +297,15 @@ implements IRootWindow {
                 }
             } else if (aTIPEvent instanceof VRAMEvent) {
                 IGUIManager iGUIManager = this.getFramework().getHMITerminalRegistry().getTerminal(this.getTerminalID()).getGUIManager();
-                this.framework.getLogChannel("Ext.JavaHeap").log(-1601830656, "Video memory used: %1", (Object)iGUIManager.getVRAMStatus());
-                this.framework.getLogChannel("Ext.JavaHeap").log(-1601830656, "RAM memory used: %1", (Object)iGUIManager.getRAMStatus());
+                this.framework.getLogChannel("Ext.JavaHeap").log(100000, "Video memory used: %1", (Object)iGUIManager.getVRAMStatus());
+                this.framework.getLogChannel("Ext.JavaHeap").log(100000, "RAM memory used: %1", (Object)iGUIManager.getRAMStatus());
             } else {
                 this.processEventImpl(aTIPEvent);
             }
         }
     }
 
-    protected abstract void writeBMPPixelData(int[] nArray, int n, int n2, OutputStream outputStream) {
-    }
+    protected abstract void writeBMPPixelData(int[] var1, int var2, int var3, OutputStream var4) throws IOException;
 
     protected void updateNativeWindow() {
         HMITerminal hMITerminal = this.getFramework().getHMITerminalRegistry().getTerminal(this.terminalID);
@@ -348,13 +339,13 @@ implements IRootWindow {
         iGUIManager.swapBuffers();
         if (this.pixelBuffer == null) {
             if (this.framework.getScreenRes() == 0) {
-                this.pixelBuffer = new int[0x770100];
+                this.pixelBuffer = new int[96000];
             } else if (this.framework.getScreenRes() == 1) {
-                this.pixelBuffer = new int[14419200];
+                this.pixelBuffer = new int[384000];
             } else if (this.framework.getScreenRes() == 2) {
-                this.pixelBuffer = new int[0x800700];
+                this.pixelBuffer = new int[491520];
             } else if (this.framework.getScreenRes() == 4) {
-                this.pixelBuffer = this.framework.isEvoHighMMIKombi() ? new int[-1058534656] : new int[-2132997376];
+                this.pixelBuffer = this.framework.isEvoHighMMIKombi() ? new int[780480] : new int[777600];
             } else {
                 this.logDiashow.log(10000, "IRootWindowImpl#saveScreenshot() - screen res not supported");
                 return;
@@ -364,8 +355,8 @@ implements IRootWindow {
         if (bl3) {
             this.saveScreenShotToClipboard(this.pixelBuffer);
         } else {
-            this.logDiashow.log(-2137614336, "IRootWindowImpl#saveScreenshot() - time for reading pixel buffer (ms): %1", this.getFramework().getMonotonicTime() - l);
-            String string3 = bl ? "popin_" : "screen_";
+            this.logDiashow.log(10000000, "IRootWindowImpl#saveScreenshot() - time for reading pixel buffer (ms): %1", this.getFramework().getMonotonicTime() - l);
+            String string3 = bl ? PRAEFIX_POPIN : PRAEFIX_SCREEN;
             long l2 = this.getFramework().getMonotonicTime();
             File file = new File(string);
             file.mkdirs();
@@ -394,7 +385,7 @@ implements IRootWindow {
                 outputStream = new BufferedOutputStream(new FileOutputStream(buffer.toString()), 16384);
                 if (bl2) {
                     outputStream = new ZipOutputStream(outputStream);
-                    ((ZipOutputStream)outputStream).putNextEntry(new ZipEntry(new StringBuffer().append(string3).append(n).append(".bmp").toString()));
+                    ((ZipOutputStream)outputStream).putNextEntry(new ZipEntry(string3 + n + ".bmp"));
                 }
                 if (this.framework.getScreenRes() == 0) {
                     n3 = 400;
@@ -433,8 +424,8 @@ implements IRootWindow {
                     }
                 }
             }
-            this.logDiashow.log(-2137614336, "IRootWindowImpl#saveScreenshot() - time for saving (ms): %1", this.getFramework().getMonotonicTime() - l2);
-            this.logDiashow.log(-2137614336, "IRootWindowImpl#saveScreenshot() - time for overall process (ms): %1", this.getFramework().getMonotonicTime() - l);
+            this.logDiashow.log(10000000, "IRootWindowImpl#saveScreenshot() - time for saving (ms): %1", this.getFramework().getMonotonicTime() - l2);
+            this.logDiashow.log(10000000, "IRootWindowImpl#saveScreenshot() - time for overall process (ms): %1", this.getFramework().getMonotonicTime() - l);
         }
     }
 
@@ -468,12 +459,58 @@ implements IRootWindow {
         if (this.getHMIService() != null) {
             EventDispatcher eventDispatcher = this.getHMIService().getEventDispatcher();
             if (eventDispatcher != null) {
-                eventDispatcher.postEvent(new AbstractWindow$RepaintEvent((ATIPEventListener)this, null));
+                eventDispatcher.postEvent(new RepaintEvent((ATIPEventListener)this));
             } else {
-                this.logRepaintCause.log(-1601830656, "AbstractWindow#postRepaintEvent: could not post event because no eventdispatcher available");
+                this.logRepaintCause.log(100000, "AbstractWindow#postRepaintEvent: could not post event because no eventdispatcher available");
             }
         } else {
-            this.logRepaintCause.log(-1601830656, "AbstractWindow#postRepaintEvent: could not post event because no hmiservice available");
+            this.logRepaintCause.log(100000, "AbstractWindow#postRepaintEvent: could not post event because no hmiservice available");
+        }
+    }
+
+    protected static class RepaintEvent
+    extends ATIPEvent {
+        private static final int EVENT_ID = 10801;
+
+        private RepaintEvent(ATIPEventListener aTIPEventListener) {
+            super(aTIPEventListener, 10801);
+        }
+    }
+
+    protected static class NativeWindowUpdater
+    implements Runnable {
+        private static boolean doUpdate = false;
+        private final boolean working;
+        private AbstractWindow window;
+        private int timerIntervall = 400;
+
+        public NativeWindowUpdater(AbstractWindow abstractWindow, int n) {
+            this.working = true;
+            this.window = abstractWindow;
+            this.timerIntervall = n;
+        }
+
+        public static void startUpdating() {
+            doUpdate = true;
+        }
+
+        public void run() {
+            try {
+                Thread.sleep(3000L);
+            }
+            catch (InterruptedException interruptedException) {
+                Thread.interrupted();
+            }
+            while (true) {
+                try {
+                    Thread.sleep(this.timerIntervall);
+                }
+                catch (InterruptedException interruptedException) {
+                    Thread.interrupted();
+                }
+                if (!doUpdate) continue;
+                this.window.postRepaintEvent();
+            }
         }
     }
 }

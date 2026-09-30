@@ -19,21 +19,18 @@ extends AbstractEvoMatchspellerModelAccess {
         super(navigationEnv, n, n2, iAddressInputFormModelAccessHelper);
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
         super.onElementSelected(navLocation);
-        this.env.getChoiceModel(-1172634112).setValue(0);
+        this.env.getChoiceModel(400314).setValue(0);
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
-        this.env.getChoiceModel(-1172634112).setValue(1);
+        this.env.getChoiceModel(400314).setValue(1);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         LIValueListElement[] lIValueListElementArray;
-        this.logChannel.log(-2137614336, "%1#onUpdateResultList - matchCount=%2, currentInput=%3, fullMatch=%4", (Object)this.CLASS_NAME, (Object)new StringBuffer().append("").append(l).toString(), (Object)string, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#onUpdateResultList - matchCount=%2, currentInput=%3, fullMatch=%4", (Object)this.CLASS_NAME, (Object)("" + l), (Object)string, (Object)Boolean.toString(bl));
         int n3 = Util.isEmpty(string) ? 0 : 1;
         LIValueListElement[] lIValueListElementArray2 = lIValueListElementArray = Util.isListValid(lIValueList) ? lIValueList.getList() : new LIValueListElement[]{};
         if (Util.isEmpty(string)) {
@@ -42,7 +39,7 @@ extends AbstractEvoMatchspellerModelAccess {
         this.previewListModelApp.setLength((int)l);
         EvoListRow[] evoListRowArray = new AddressInputLIValueListElementListRow[lIValueListElementArray.length];
         for (int i2 = 0; i2 < lIValueListElementArray.length; ++i2) {
-            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 160082217);
+            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 698976777);
         }
         this.previewListModelApp.setRows(n, n2, evoListRowArray);
         this.matchSpellerModelApp.setMatchCount((int)l, n3);

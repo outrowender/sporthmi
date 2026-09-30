@@ -4,7 +4,6 @@
 package de.audi.app.messaging.core.setup;
 
 public interface ISetupManagerObserver {
-    default public void indicateConfigurationChanged() {
-    }
+    public void indicateConfigurationChanged();
 }
 

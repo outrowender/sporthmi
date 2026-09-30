@@ -7,49 +7,34 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface TunerActionProxy
 extends ActionProxy {
-    default public void hmiActivatedTuner(int n) {
-    }
+    public void hmiActivatedTuner(int var1);
 
-    default public void hmiDeactivatedTuner(int n) {
-    }
+    public void hmiDeactivatedTuner(int var1);
 
-    default public void tunerTempBandChangeEntered(int n) {
-    }
+    public void tunerTempBandChangeEntered(int var1);
 
-    default public void tunerTempBandChangeLeft(int n) {
-    }
+    public void tunerTempBandChangeLeft(int var1);
 
-    default public void taVolumeAdjustmentActivated(int n) {
-    }
+    public void taVolumeAdjustmentActivated(int var1);
 
-    default public void taVolumeAdjustmentDeactivated(int n) {
-    }
+    public void taVolumeAdjustmentDeactivated(int var1);
 
-    default public void tunerManualTuneLeft(int n) {
-    }
+    public void tunerManualTuneLeft(int var1);
 
-    default public void tunerSeekLeft(int n) {
-    }
+    public void tunerSeekLeft(int var1);
 
-    default public void tunerManualTuneEntered(int n) {
-    }
+    public void tunerManualTuneEntered(int var1);
 
-    default public void tunerListUpdateLeft(int n) {
-    }
+    public void tunerListUpdateLeft(int var1);
 
-    default public void tunerFavoritesEntered(int n) {
-    }
+    public void tunerFavoritesEntered(int var1);
 
-    default public void tunerGuidedStoreLeft(int n) {
-    }
+    public void tunerGuidedStoreLeft(int var1);
 
-    default public void tunerFavoritesLeft(int n) {
-    }
+    public void tunerFavoritesLeft(int var1);
 
-    default public void tunerAbortScan(int n) {
-    }
+    public void tunerAbortScan(int var1);
 
-    default public void tunerSDARSManageAlertsLeft(int n) {
-    }
+    public void tunerSDARSManageAlertsLeft(int var1);
 }
 

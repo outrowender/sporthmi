@@ -11,31 +11,22 @@ import de.audi.atip.sysapp.carcoding.LoadSpeedThreshold;
 import de.audi.atip.sysapp.carcoding.SperrFlags;
 
 public interface ICodingReader {
-    default public CarFuncAdap getCarFuncAdaptation() {
-    }
+    public CarFuncAdap getCarFuncAdaptation();
 
-    default public Adaptation getAdaptationANP() {
-    }
+    public Adaptation getAdaptationANP();
 
-    default public LoadSpeedThreshold getSpeedThresholdUPDL() {
-    }
+    public LoadSpeedThreshold getSpeedThresholdUPDL();
 
-    default public Coding getCarCoding() {
-    }
+    public Coding getCarCoding();
 
-    default public SperrFlags getSperrFlags() {
-    }
+    public SperrFlags getSperrFlags();
 
-    default public String dumpCarData() {
-    }
+    public String dumpCarData();
 
-    default public IVariantInfo getVariantInfo() {
-    }
+    public IVariantInfo getVariantInfo();
 
-    default public void storeSwdlCopy() {
-    }
+    public void storeSwdlCopy();
 
-    default public void clearSwdlCopy() {
-    }
+    public void clearSwdlCopy();
 }
 

@@ -23,26 +23,25 @@ implements IJoystickBlock {
         this.hmi = hMIService;
     }
 
-    @Override
     public void execute() {
         int n;
         String string = SDSModelAccess.getSlotModelStrings()[0];
-        this.logger.log(-2137614336, "%1#execute: lineNumberStr=%2", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "%1#execute: lineNumberStr=%2", (Object)this.getName(), (Object)string);
         try {
             n = Integer.parseInt(string);
         }
         catch (Exception exception) {
-            this.logger.log(-1601830656, "%1#execute: Exception for lineNumberStr %2: %3!", (Object)this.getName(), (Object)string, (Object)exception.getMessage());
+            this.logger.log(100000, "%1#execute: Exception for lineNumberStr %2: %3!", (Object)this.getName(), (Object)string, (Object)exception.getMessage());
             this.sendResult(10005);
             return;
         }
         int[] nArray = new int[]{10008, 10006, 10005};
-        this.logger.log(-2137614336, "%1#execute: Setting lineNumber %2 with answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: Setting lineNumber %2 with answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)n);
         this.hmi.fireSDSEvent(1, 5, n, nArray);
     }
 
     public void sdsListLineDataGet(int n) {
-        this.logger.log(-2137614336, "%1#sdsListLineDataGet: absLine=%2 (0-indexed)", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#sdsListLineDataGet: absLine=%2 (0-indexed)", (Object)this.getName(), (long)n);
         this.nBestStorage.resetPicklistsWithHistory();
         this.nBestStorage.setLastRecogLine(true, n);
         this.sendResult(10008);

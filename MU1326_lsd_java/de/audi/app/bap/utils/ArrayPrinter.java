@@ -26,7 +26,7 @@ public final class ArrayPrinter {
                 buffer.append("array is empty");
             }
             for (int i2 = 0; i2 < this.array.length; ++i2) {
-                buffer.append(new StringBuffer().append(i2).append(": ").toString());
+                buffer.append(i2 + ": ");
                 buffer.append(this.array[i2].toString());
                 buffer.append("\n");
             }

@@ -5,7 +5,7 @@ package de.audi.atip.activator;
 
 public class FrameworkException
 extends RuntimeException {
-    static final long serialVersionUID;
+    static final long serialVersionUID = 20100805L;
 
     public FrameworkException(String string) {
         super(string);

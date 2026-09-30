@@ -17,13 +17,12 @@ extends AbstractSystemCallCommand {
         this.service = naviService;
     }
 
-    @Override
     public void execute() {
         int n = 3000;
         if (this.service.isRouteGuidancePossible()) {
-            this.logger.log(-2137614336, "[%1#execute] Navigable route or destination available!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#execute] Navigable route or destination available!", (Object)this.getName());
         } else {
-            this.logger.log(-1601830656, "[%1#execute] No navigable destinations found!", (Object)this.getName());
+            this.logger.log(100000, "[%1#execute] No navigable destinations found!", (Object)this.getName());
             n = 3001;
         }
         this.sendResult(n);

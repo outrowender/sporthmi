@@ -6,13 +6,15 @@ package de.audi.app.car.core.service;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
 import de.audi.app.car.common.service.AbstractDSICarVehicleStatesAdapter;
-import de.audi.app.car.core.service.AbstractDrivingSchoolComponent$DrvSchoolEventObserverNullFilter;
 import de.audi.app.car.core.service.IDrivingSchoolDisplay;
+import de.audi.atip.hmi.event.KeyEvent;
 import de.audi.atip.hmi.model.ChoiceListener;
 import de.audi.atip.metrics.Speed;
 import de.audi.atip.timer.Timer;
 import de.audi.atip.timer.TimerListener;
 import de.esolutions.fw.util.commons.Buffer;
+import de.esolutions.fw.util.commons.job.BaseJobFilter;
+import de.esolutions.fw.util.commons.job.Job;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequent;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoHighFrequentViewOptions;
 import org.dsi.ifc.carvehiclestates.DynamicVehicleInfoMidFrequent;
@@ -26,33 +28,30 @@ extends AbstractDSICarVehicleStatesAdapter
 implements ChoiceListener,
 IDrivingSchoolDisplay,
 TimerListener {
-    private static final String LOGCHANNEL_NAME;
-    private static final String[] BLINKING_STATE_LOG;
+    private static final String LOGCHANNEL_NAME = "App.Car.DrvSchool";
+    private static final String[] BLINKING_STATE_LOG = new String[]{"BLINKINGSTATE_NOBLINKING", "BLINKINGSTATE_LEFTBLINKING", "BLINKINGSTATE_RIGHTBLINKING", "BLINKINGSTATE_LEFTRIGHTBLINKING"};
     protected volatile CarViewOption currViewOptionSystem;
     protected volatile CarViewOption currViewOptionBlinker;
     protected volatile CarViewOption currViewOptionSpeed;
-    protected volatile Timer timer = new Timer("DrvSchoolTimer", 5, this.getLogChannel(), this, 0, true);
-    private static final int TIMER_DELAY;
+    protected volatile Timer timer = new Timer("DrvSchoolTimer", 5, this.getLogChannel(), this, 8000L, true);
+    private static final int TIMER_DELAY = 8000;
     protected volatile boolean drvSchoolMode;
 
     public AbstractDrivingSchoolComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.DrvSchool");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     public void init() {
         super.init();
         this.handleDriveSchoolMode(this.getApplication().getFrameworkAccess().getStorageMgr().getBoolean(1006, 40, false) ? 1 : 0);
-        AbstractDrivingSchoolComponent$DrvSchoolEventObserverNullFilter abstractDrivingSchoolComponent$DrvSchoolEventObserverNullFilter = new AbstractDrivingSchoolComponent$DrvSchoolEventObserverNullFilter(this);
-        this.getApplication().getFrameworkAccess().getHMIService().getEventDispatcherAdmin().addEventFilter(abstractDrivingSchoolComponent$DrvSchoolEventObserverNullFilter);
+        DrvSchoolEventObserverNullFilter drvSchoolEventObserverNullFilter = new DrvSchoolEventObserverNullFilter();
+        this.getApplication().getFrameworkAccess().getHMIService().getEventDispatcherAdmin().addEventFilter(drvSchoolEventObserverNullFilter);
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{11}, new int[0]), new CarDSIAttributesSet(1, new int[]{12}, new int[]{14}), new CarDSIAttributesSet(2, new int[]{13}, new int[]{15})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         Buffer buffer = new Buffer();
         buffer.append("DrvSchoolSystem: ").append(this.currViewOptionSystem).append('\n');
@@ -61,78 +60,67 @@ TimerListener {
         return buffer.toString();
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(942344448).setChoiceListener(this);
+        this.getChoiceModel(600888).setChoiceListener(this);
     }
 
-    @Override
     protected void deinitModels() {
-        this.getChoiceModel(942344448).resetListener();
+        this.getChoiceModel(600888).resetListener();
     }
 
-    @Override
     public void updateVehicleInfoViewOptions(VehicleInfoViewOptions vehicleInfoViewOptions, int n) {
         if (n == 1) {
-            this.getLogChannel().log(1078071040, "updateVehicleInfoViewOptions(%1)", (Object)vehicleInfoViewOptions);
+            this.getLogChannel().log(1000000, "updateVehicleInfoViewOptions(%1)", (Object)vehicleInfoViewOptions);
             this.currViewOptionSystem = vehicleInfoViewOptions.getDrvSchoolSystem();
             this.updateMenuEntryVisibilitySystem(this.currViewOptionSystem);
             this.primaryAttributeReceived(0, 11);
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions dynamicVehicleInfoMidFrequentViewOptions, int n) {
         if (n == 1) {
             this.currViewOptionBlinker = dynamicVehicleInfoMidFrequentViewOptions.getBlinkingState();
-            this.getLogChannel().log(1078071040, "updateDynamicVehicleInfoMidFrequentViewOptions( blinkingState: %1) ", (Object)dynamicVehicleInfoMidFrequentViewOptions.getBlinkingState());
+            this.getLogChannel().log(1000000, "updateDynamicVehicleInfoMidFrequentViewOptions( blinkingState: %1) ", (Object)dynamicVehicleInfoMidFrequentViewOptions.getBlinkingState());
             this.updateMenuEntryVisibilityBlinker(this.currViewOptionBlinker);
             this.primaryAttributeReceived(2, 13);
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions, int n) {
         if (n == 1) {
             this.currViewOptionSpeed = dynamicVehicleInfoHighFrequentViewOptions.getVehicleSpeed();
-            this.getLogChannel().log(1078071040, "updateDynamicVehicleInfoHighFrequentViewOptions(vehicleSpeed: %1)", (Object)this.currViewOptionSpeed);
+            this.getLogChannel().log(1000000, "updateDynamicVehicleInfoHighFrequentViewOptions(vehicleSpeed: %1)", (Object)this.currViewOptionSpeed);
             this.updateMenuEntryVisibilitySpeed(this.currViewOptionSpeed);
             this.primaryAttributeReceived(1, 12);
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
         if (n == 1) {
             int n2 = dynamicVehicleInfoMidFrequent.getBlinkingState();
-            this.getLogChannel().log(1078071040, "updateDynamicVehicleInfoMidFrequent(%2) state: %1", (Object)BLINKING_STATE_LOG[n2], (long)n2);
-            this.getChoiceModel(908790016).setValue(n2);
+            this.getLogChannel().log(1000000, "updateDynamicVehicleInfoMidFrequent(%2) state: %1", (Object)BLINKING_STATE_LOG[n2], (long)n2);
+            this.getChoiceModel(600886).setValue(n2);
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent, int n) {
         if (n == 1) {
             int n2 = dynamicVehicleInfoHighFrequent.getEngineSpeed();
-            this.getLogChannel().log(1078071040, "updateDynamicVehicleInfoHighFrequent(%1)", (long)n2);
+            this.getLogChannel().log(1000000, "updateDynamicVehicleInfoHighFrequent(%1)", (long)n2);
             CarBCSpeed carBCSpeed = dynamicVehicleInfoHighFrequent.getVehicleSpeed();
             int n3 = carBCSpeed.getSpeedUnit() == 0 ? 1 : 2;
             Speed speed = new Speed(carBCSpeed.getSpeedValue(), n3);
             speed.setUseInstanceUnit(true);
-            this.getMetricsModel(975898880).setMetric(speed);
+            this.getMetricsModel(600890).setMetric(speed);
         }
     }
 
-    protected abstract void updateMenuEntryVisibilitySystem(CarViewOption carViewOption) {
-    }
+    protected abstract void updateMenuEntryVisibilitySystem(CarViewOption var1);
 
-    protected abstract void updateMenuEntryVisibilityBlinker(CarViewOption carViewOption) {
-    }
+    protected abstract void updateMenuEntryVisibilityBlinker(CarViewOption var1);
 
-    protected abstract void updateMenuEntryVisibilitySpeed(CarViewOption carViewOption) {
-    }
+    protected abstract void updateMenuEntryVisibilitySpeed(CarViewOption var1);
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("itemSelected:", n, n2, true);
         switch (n) {
@@ -149,8 +137,8 @@ TimerListener {
     public synchronized void handleDriveSchoolMode(int n) {
         this.drvSchoolMode = n == 1;
         this.getApplication().getFrameworkAccess().getStorageMgr().setBoolean(1006, 40, this.drvSchoolMode);
-        this.getLogChannel().log(-2137614336, "handleDriveSchoolMode itemID %2 --> %1", this.drvSchoolMode, (long)n);
-        this.getChoiceModel(942344448).setValue(n);
+        this.getLogChannel().log(10000000, "handleDriveSchoolMode itemID %2 --> %1", this.drvSchoolMode, (long)n);
+        this.getChoiceModel(600888).setValue(n);
         if (this.drvSchoolMode) {
             this.timer.restart();
         } else {
@@ -158,46 +146,47 @@ TimerListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public String getName() {
         return "Driving School Mode";
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         this.activateDisplay();
     }
 
-    static /* synthetic */ ICarApplication access$000(AbstractDrivingSchoolComponent abstractDrivingSchoolComponent) {
-        return abstractDrivingSchoolComponent.getApplication();
-    }
-
-    static {
-        BLINKING_STATE_LOG = new String[]{"BLINKINGSTATE_NOBLINKING", "BLINKINGSTATE_LEFTBLINKING", "BLINKINGSTATE_RIGHTBLINKING", "BLINKINGSTATE_LEFTRIGHTBLINKING"};
+    public class DrvSchoolEventObserverNullFilter
+    extends BaseJobFilter {
+        public void enqueue(Job job, int n) {
+            super.enqueue(job, n);
+            if (AbstractDrivingSchoolComponent.this.drvSchoolMode && job.getPayload() instanceof KeyEvent) {
+                KeyEvent keyEvent = (KeyEvent)job.getPayload();
+                AbstractDrivingSchoolComponent.this.getLogChannel().log(10000000, "%1: event %2", (Object)"DrvSchoolEventObserverNullFilter.enqueue", (Object)keyEvent);
+                boolean bl = AbstractDrivingSchoolComponent.this.getApplication().getFrameworkAccess().getHMIService().getEventDispatcherAdmin().isUserInteraction(keyEvent);
+                if (bl) {
+                    AbstractDrivingSchoolComponent.this.getLogChannel().log(10000000, "%1: user interaction - restarting Timer!", (Object)"DrvSchoolEventObserverNullFilter.enqueue");
+                    AbstractDrivingSchoolComponent.this.deactivateDisplay();
+                    AbstractDrivingSchoolComponent.this.timer.restart();
+                }
+            }
+        }
     }
 }
 

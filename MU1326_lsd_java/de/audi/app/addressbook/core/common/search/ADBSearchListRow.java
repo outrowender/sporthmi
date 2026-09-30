@@ -7,7 +7,6 @@ import de.audi.app.addressbook.core.common.ADBListRow;
 
 public interface ADBSearchListRow
 extends ADBListRow {
-    default public int getPhoneCount() {
-    }
+    public int getPhoneCount();
 }
 
